@@ -56,12 +56,16 @@ class _ClubWidgetState extends State<ClubWidget> {
 
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ClubPage(
-                      club: widget.club,
-                    )));
+        if (widget.club.admin ||
+            widget.club.inClub ||
+            widget.club.privacy == 0) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ClubPage(
+                        club: widget.club,
+                      )));
+        }
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -121,9 +125,11 @@ class _ClubWidgetState extends State<ClubWidget> {
                                           })
                                     : widget.club.requested
                                         ? setState(() {
+                                            removeJoinRequest(widget.club);
                                             widget.club.requested = false;
                                           })
                                         : setState(() {
+                                            requestToJoin(widget.club);
                                             widget.club.requested = true;
                                           });
                       },

@@ -156,8 +156,8 @@ class _CoursePageState extends State<CoursePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          MembersListPage(members: widget.course.memberList)));
+                      builder: (context) => MembersListPage(
+                          members: widget.course.memberList, isCourse: true)));
             },
           ),
           IconButton(

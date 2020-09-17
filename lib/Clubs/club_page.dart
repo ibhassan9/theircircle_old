@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Clubs/join_requests_list.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Courses/members_list_page.dart';
 import 'package:unify/Home/PostWidget.dart';
@@ -152,6 +153,20 @@ class _ClubPageState extends State<ClubPage> {
               showAddDialog();
             },
           ),
+          Visibility(
+            visible: widget.club.admin,
+            child: IconButton(
+              icon: Icon(Icons.group_add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => JoinRequestsListPage(
+                              club: widget.club,
+                            )));
+              },
+            ),
+          ),
           IconButton(
             icon: Icon(Icons.group),
             onPressed: () {
@@ -159,7 +174,10 @@ class _ClubPageState extends State<ClubPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => MembersListPage(
-                          members: widget.club.memberList, club: widget.club)));
+                            members: widget.club.memberList,
+                            club: widget.club,
+                            isCourse: false,
+                          )));
             },
           ),
           IconButton(

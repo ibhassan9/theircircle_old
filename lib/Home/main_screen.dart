@@ -272,9 +272,7 @@ class _MainScreenState extends State<MainScreen> {
                 Icons.settings,
                 color: Colors.deepPurple,
               ),
-              onPressed: () async {
-                await updateMemberList();
-              },
+              onPressed: () async {},
             ),
             IconButton(
               icon: Icon(Icons.exit_to_app, color: Colors.deepPurple),

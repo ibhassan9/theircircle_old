@@ -66,6 +66,32 @@ Future<List<Course>> fetchCourses() async {
   return c;
 }
 
+Future<bool> joinCourse(Course course) async {
+  var uniKey = checkUniversity();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("courses")
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(course.id)
+      .child('memberList')
+      .child(firebaseAuth.currentUser.uid);
+  await db.set(firebaseAuth.currentUser.uid);
+  return true;
+}
+
+Future<bool> leaveCourse(Course course) async {
+  var uniKey = checkUniversity();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("courses")
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(course.id)
+      .child('memberList')
+      .child(firebaseAuth.currentUser.uid);
+  await db.remove();
+  return true;
+}
+
 bool inCourse(Course course) {
   var uid = firebaseAuth.currentUser.uid;
   var memberList = course.memberList;

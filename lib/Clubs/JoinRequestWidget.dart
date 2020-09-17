@@ -4,18 +4,17 @@ import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 
-class MemberWidget extends StatefulWidget {
+class JoinRequestWidget extends StatefulWidget {
   final PostUser user;
   final Club club;
-  final bool isCourse;
 
-  MemberWidget({Key key, this.user, this.club, this.isCourse});
+  JoinRequestWidget({Key key, this.user, this.club});
 
   @override
-  _MemberWidgetState createState() => _MemberWidgetState();
+  _JoinRequestWidgetState createState() => _JoinRequestWidgetState();
 }
 
-class _MemberWidgetState extends State<MemberWidget> {
+class _JoinRequestWidgetState extends State<JoinRequestWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -54,17 +53,29 @@ class _MemberWidgetState extends State<MemberWidget> {
                       ],
                     ),
                   ),
-                  widget.isCourse == false
-                      ? widget.user.id == widget.club.adminId
-                          ? Text("ADMIN",
-                              style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.deepPurple),
-                              ))
-                          : SizedBox()
-                      : SizedBox(),
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Text("ACCEPT",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.blue),
+                            )),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text("DENY",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.red),
+                            ))
+                      ],
+                    ),
+                  )
                 ]),
             Divider(),
           ])),

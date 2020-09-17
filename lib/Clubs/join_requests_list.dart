@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Clubs/JoinRequestWidget.dart';
 import 'package:unify/Courses/MemberWidget.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 
-class MembersListPage extends StatefulWidget {
-  final List<PostUser> members;
+class JoinRequestsListPage extends StatefulWidget {
   final Club club;
   final Course course;
-  final bool isCourse;
 
-  MembersListPage(
-      {Key key, this.members, this.club, this.course, this.isCourse});
+  JoinRequestsListPage({Key key, this.club, this.course});
 
   @override
-  _MembersListPageState createState() => _MembersListPageState();
+  _JoinRequestsListPageState createState() => _JoinRequestsListPageState();
 }
 
-class _MembersListPageState extends State<MembersListPage> {
+class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            widget.isCourse
-                ? "${widget.course.name} Members"
-                : "${widget.club.name} Members",
+            "Requests",
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 17,
@@ -43,11 +39,12 @@ class _MembersListPageState extends State<MembersListPage> {
         body: Stack(
           children: <Widget>[
             ListView.builder(
-              itemCount: widget.members != null ? widget.members.length : 0,
+              itemCount: widget.club.joinRequests != null
+                  ? widget.club.joinRequests.length
+                  : 0,
               itemBuilder: (context, index) {
-                var user = widget.members[index];
-                return MemberWidget(
-                    user: user, club: widget.club, isCourse: widget.isCourse);
+                var user = widget.club.joinRequests[index];
+                return JoinRequestWidget(user: user, club: widget.club);
               },
             ),
           ],
