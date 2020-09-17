@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>166076642241-q90bkfiok37srsfk752t5h69dm01qq17.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.166076642241-q90bkfiok37srsfk752t5h69dm01qq17</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD9v_yoKa9eWmOk2FnlB9DdCQMk5UEm7XA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>166076642241</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.unify.app</string>
+	<key>PROJECT_ID</key>
+	<string>unifyapp-67728</string>
+	<key>STORAGE_BUCKET</key>
+	<string>unifyapp-67728.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:166076642241:ios:ea28df1c3b98c6215e7540</string>
+	<key>DATABASE_URL</key>
+	<string>https://unifyapp-67728.firebaseio.com</string>
+</dict>
+</plist>
