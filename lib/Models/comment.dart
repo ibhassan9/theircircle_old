@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart' as c;
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
@@ -24,6 +26,10 @@ var coursepostDBUofT =
     FirebaseDatabase.instance.reference().child('courseposts').child('UofT');
 var coursepostDBYorkU =
     FirebaseDatabase.instance.reference().child('courseposts').child('YorkU');
+var clubpostDBUofT =
+    FirebaseDatabase.instance.reference().child('clubposts').child('UofT');
+var clubpostDBYorkU =
+    FirebaseDatabase.instance.reference().child('clubposts').child('YorkU');
 
 Future<List<Comment>> fetchComments(Post post) async {
   List<Comment> c = List<Comment>();
@@ -46,9 +52,10 @@ Future<List<Comment>> fetchComments(Post post) async {
   return c;
 }
 
-Future<bool> postComment(Comment comment, Post post, c.Course course) async {
+Future<bool> postComment(
+    Comment comment, Post post, c.Course course, Club club) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
-  var uniKey = checkUniversity();
+  var uniKey = Constants.checkUniversity();
   var key = commentsDB.child(post.id).push();
   final Map<String, dynamic> data = {
     "content": comment.content,
@@ -60,22 +67,35 @@ Future<bool> postComment(Comment comment, Post post, c.Course course) async {
   await key.set(data);
   DataSnapshot snap;
 
-  course != null
+  club != null
       ? uniKey == 0
-          ? snap = await coursepostDBUofT
-              .child(course.id)
+          ? snap = await clubpostDBUofT
+              .child(club.id)
               .child(post.id)
               .child("commentCount")
               .once()
-          : snap = await coursepostDBYorkU
-              .child(course.id)
+          : snap = await clubpostDBYorkU
+              .child(club.id)
               .child(post.id)
               .child("commentCount")
               .once()
-      : uniKey == 0
-          ? snap = await postDBUofT.child(post.id).child("commentCount").once()
-          : snap =
-              await postDBYorkU.child(post.id).child("commentCount").once();
+      : course != null
+          ? uniKey == 0
+              ? snap = await coursepostDBUofT
+                  .child(course.id)
+                  .child(post.id)
+                  .child("commentCount")
+                  .once()
+              : snap = await coursepostDBYorkU
+                  .child(course.id)
+                  .child(post.id)
+                  .child("commentCount")
+                  .once()
+          : uniKey == 0
+              ? snap =
+                  await postDBUofT.child(post.id).child("commentCount").once()
+              : snap =
+                  await postDBYorkU.child(post.id).child("commentCount").once();
 
   var countValue = snap.value + 1;
 
@@ -83,19 +103,29 @@ Future<bool> postComment(Comment comment, Post post, c.Course course) async {
     "commentCount": countValue,
   };
 
-  course != null
+  club != null
       ? uniKey == 0
-          ? await coursepostDBUofT
-              .child(course.id)
+          ? await clubpostDBUofT
+              .child(club.id)
               .child(post.id)
               .update(commentCount)
-          : await coursepostDBYorkU
-              .child(course.id)
+          : await clubpostDBYorkU
+              .child(club.id)
               .child(post.id)
               .update(commentCount)
-      : uniKey == 0
-          ? await postDBUofT.child(post.id).update(commentCount)
-          : await postDBYorkU.child(post.id).update(commentCount);
+      : course != null
+          ? uniKey == 0
+              ? await coursepostDBUofT
+                  .child(course.id)
+                  .child(post.id)
+                  .update(commentCount)
+              : await coursepostDBYorkU
+                  .child(course.id)
+                  .child(post.id)
+                  .update(commentCount)
+          : uniKey == 0
+              ? await postDBUofT.child(post.id).update(commentCount)
+              : await postDBYorkU.child(post.id).update(commentCount);
 
   DataSnapshot ds = await key.once();
   if (ds.value != null) {

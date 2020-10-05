@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Courses/course_page.dart';
@@ -66,91 +67,115 @@ class _CourseWidgetState extends State<CourseWidget> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          height: 150,
+          height: 110,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.deepPurple),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Row(
               children: <Widget>[
-                Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
                   children: <Widget>[
-                    Text(
-                      widget.course.code,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
+                    IconButton(
+                      icon: Icon(AntDesign.team, color: Colors.black),
+                      onPressed: () {},
                     ),
                     Text(
-                      widget.course.name,
+                      "${widget.course.memberCount}",
                       style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
-                    )
+                    ),
                   ],
-                )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Join Group",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
+                ),
+                Container(width: 3.0, color: color()),
+                SizedBox(
+                  width: 15.0,
+                ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.comment, color: Colors.white),
-                            onPressed: () {},
-                          ),
                           Text(
-                            "${widget.course.postCount}",
+                            widget.course.code,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                             ),
                           ),
-                          IconButton(
-                            icon: Icon(Icons.group, color: Colors.white),
-                            onPressed: () {},
-                          ),
+                          Divider(),
                           Text(
-                            "${widget.course.memberCount}",
+                            widget.course.name,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                            maxLines: null,
+                          )
+                        ],
+                      )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () async {
+                              if (widget.course.inCourse) {
+                                setState(() {
+                                  widget.course.inCourse = false;
+                                  widget.course.memberCount -= 1;
+                                });
+                                await leaveCourse(widget.course);
+                              } else {
+                                var res = await joinCourse(widget.course);
+                                if (res) {
+                                  setState(() {
+                                    widget.course.inCourse = true;
+                                    widget.course.memberCount += 1;
+                                  });
+                                }
+                              }
+                            },
+                            child: Text(
+                              status(),
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.lightBlue),
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                    )
-                  ],
-                )
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  String status() {
+    if (widget.course.inCourse) {
+      return 'Leave Course';
+    } else {
+      return 'Join Course';
+    }
   }
 }

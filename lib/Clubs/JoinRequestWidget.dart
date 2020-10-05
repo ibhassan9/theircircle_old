@@ -15,6 +15,8 @@ class JoinRequestWidget extends StatefulWidget {
 }
 
 class _JoinRequestWidgetState extends State<JoinRequestWidget> {
+  bool rejected = false;
+  bool accepted = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,7 +33,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                     child: Row(
                       children: <Widget>[
                         CircleAvatar(
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor: Colors.deepOrange,
                           child: Text(
                             widget.user.name[0].toUpperCase(),
                             style: GoogleFonts.quicksand(
@@ -54,27 +56,61 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                     ),
                   ),
                   Container(
-                    child: Row(
-                      children: <Widget>[
-                        Text("ACCEPT",
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.blue),
-                            )),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text("DENY",
+                    child: rejected == false
+                        ? accepted == false
+                            ? Row(
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () async {
+                                      await acceptUserToClub(
+                                          widget.user, widget.club);
+                                      setState(() {
+                                        accepted = true;
+                                      });
+                                    },
+                                    child: Text("ACCEPT",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.blue),
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      await removeUserFromRequests(
+                                          widget.club, widget.user);
+                                      setState(() {
+                                        rejected = true;
+                                      });
+                                    },
+                                    child: Text("DENY",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.red),
+                                        )),
+                                  )
+                                ],
+                              )
+                            : Text("ACCEPTED",
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.blue),
+                                ))
+                        : Text("DENIED",
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.red),
-                            ))
-                      ],
-                    ),
+                            )),
                   )
                 ]),
             Divider(),

@@ -7,7 +7,12 @@ import 'package:unify/Screens/Signup/components/background.dart';
 import 'package:unify/Screens/Signup/signup_screen.dart';
 import 'package:unify/components/rounded_button.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

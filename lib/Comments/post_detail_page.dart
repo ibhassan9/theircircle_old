@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Comments/CommentWidget.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/club.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
@@ -10,8 +12,10 @@ import 'package:timeago/timeago.dart' as timeago;
 class PostDetailPage extends StatefulWidget {
   final Post post;
   final Course course;
+  final Club club;
 
-  PostDetailPage({Key key, this.post, this.course}) : super(key: key);
+  PostDetailPage({Key key, this.post, this.course, this.club})
+      : super(key: key);
   @override
   _PostDetailPageState createState() => _PostDetailPageState();
 }
@@ -34,15 +38,12 @@ class _PostDetailPageState extends State<PostDetailPage> {
         height: 70,
         decoration: BoxDecoration(
             color: Colors.white,
-            border: Border(top: BorderSide(color: Colors.grey.shade300))),
+            border: Border(top: BorderSide(color: Colors.grey.shade200))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.deepPurple,
-              ),
               Flexible(
                   child: TextField(
                 controller: commentController,
@@ -64,13 +65,19 @@ class _PostDetailPageState extends State<PostDetailPage> {
               )),
               IconButton(
                 icon: Icon(
-                  Icons.send,
+                  AntDesign.arrowright,
                   color: Colors.black,
                 ),
                 onPressed: () async {
+                  if (commentController.text.isEmpty) {
+                    return;
+                  }
                   Comment comment = Comment(content: commentController.text);
-                  var res = await postComment(comment, widget.post,
-                      widget.course == null ? null : widget.course);
+                  var res = await postComment(
+                      comment,
+                      widget.post,
+                      widget.course == null ? null : widget.course,
+                      widget.club == null ? null : widget.club);
                   if (res) {
                     commentController.clear();
                   } else {}
@@ -86,6 +93,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        brightness: Brightness.light,
         title: Text(
           "Comments",
           style: GoogleFonts.quicksand(
@@ -96,7 +104,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
         backgroundColor: Colors.white,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
-        brightness: Brightness.light,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

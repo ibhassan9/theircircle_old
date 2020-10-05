@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:custom_switch/custom_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
@@ -22,7 +24,8 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>
+    with AutomaticKeepAliveClientMixin {
   PageController _pageController;
   TextEditingController contentController = TextEditingController();
   TextEditingController clubNameController = TextEditingController();
@@ -34,11 +37,12 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _pages, keepPage: false);
+    _pageController = PageController(initialPage: _pages, keepPage: true);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     String title() {
       switch (_pages) {
         case 0:
@@ -196,7 +200,10 @@ class _MainScreenState extends State<MainScreen> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                           child: Container(
-                              height: 150, child: Image(image: imag.image)),
+                              height: 150,
+                              child: Image(
+                                image: imag.image,
+                              )),
                         )),
                 TextField(
                   controller: contentController,
@@ -236,10 +243,10 @@ class _MainScreenState extends State<MainScreen> {
 
             var result = imag != null ? await createPost(post) : true;
             // check if result is true
-            print(result);
 
             setState(() {});
             contentController.clear();
+            updateKeepAlive();
           })
         ..show();
     }
@@ -247,7 +254,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          brightness: Brightness.light,
           title: Text(
             title(),
             style: GoogleFonts.quicksand(
@@ -299,23 +305,31 @@ class _MainScreenState extends State<MainScreen> {
             HomePage()
           ],
         ),
-        bottomNavigationBar: Container(
-          height: kBottomNavigationBarHeight + 35,
-          child: CurvedNavigationBar(
-            key: _bottomNavigationKey,
-            color: Colors.blueAccent,
-            buttonBackgroundColor: Colors.blueAccent,
-            backgroundColor: Colors.white,
-            items: [
-              Icon(Icons.home, size: 30, color: Colors.white),
-              Icon(Icons.search, size: 30, color: Colors.white),
-              Icon(Icons.shopping_cart, size: 30, color: Colors.white),
-              Icon(Icons.account_circle, size: 30, color: Colors.white),
-            ],
-            onTap: (index) {
-              _pageController.jumpToPage(index);
-            },
-          ),
+        bottomNavigationBar: CustomNavigationBar(
+          currentIndex: _pages,
+          iconSize: 30.0,
+          selectedColor: Colors.black,
+          strokeColor: Colors.white,
+          unSelectedColor: Colors.grey[400],
+          backgroundColor: Colors.white,
+          items: [
+            CustomNavigationBarItem(icon: Icons.gesture),
+            CustomNavigationBarItem(
+              icon: Icons.search,
+            ),
+            CustomNavigationBarItem(
+              icon: Icons.group_work,
+            ),
+            CustomNavigationBarItem(
+              icon: Icons.person_pin,
+            ),
+          ],
+          onTap: (index) {
+            setState(() {
+              _pages = index;
+            });
+            _pageController.jumpToPage(index);
+          },
         ));
   }
 
@@ -329,9 +343,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void onPageChanged(int page) {
-    final CurvedNavigationBarState navBarState =
-        _bottomNavigationKey.currentState;
-    navBarState.setPage(page);
     setState(() {
       this._pages = page;
     });
@@ -343,4 +354,7 @@ class _MainScreenState extends State<MainScreen> {
     navBarState.setPage(page);
     _pageController.jumpToPage(page);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

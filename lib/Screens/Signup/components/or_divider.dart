@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 
-class OrDivider extends StatelessWidget {
+class OrDivider extends StatefulWidget {
+  @override
+  _OrDividerState createState() => _OrDividerState();
+}
+
+class _OrDividerState extends State<OrDivider> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

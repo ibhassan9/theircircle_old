@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
 
 class CommentWidget extends StatefulWidget {
@@ -28,12 +29,17 @@ class _CommentWidgetState extends State<CommentWidget> {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        widget.comment.username,
+                        widget.comment.userId == firebaseAuth.currentUser.uid
+                            ? "You"
+                            : widget.comment.username,
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: Colors.black),
+                              color: widget.comment.userId ==
+                                      firebaseAuth.currentUser.uid
+                                  ? Colors.black
+                                  : Constants.color()),
                         ),
                       )
                     ],
@@ -45,7 +51,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     textStyle: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: Colors.grey.shade400),
+                        color: Colors.grey),
                   ),
                 )
               ],

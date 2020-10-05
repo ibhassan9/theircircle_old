@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 
-class AlreadyHaveAnAccountCheck extends StatelessWidget {
+class AlreadyHaveAnAccountCheck extends StatefulWidget {
   final bool login;
   final Function press;
   const AlreadyHaveAnAccountCheck({
@@ -12,12 +12,20 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _AlreadyHaveAnAccountCheckState createState() =>
+      _AlreadyHaveAnAccountCheckState();
+}
+
+class _AlreadyHaveAnAccountCheckState extends State<AlreadyHaveAnAccountCheck> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          login ? "Don’t have an Account ? " : "Already have an Account ? ",
+          widget.login
+              ? "Don’t have an Account ? "
+              : "Already have an Account ? ",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 16,
@@ -26,9 +34,9 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: press,
+          onTap: widget.press,
           child: Text(
-            login ? "Sign Up" : "Sign In",
+            widget.login ? "Sign Up" : "Sign In",
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 16,

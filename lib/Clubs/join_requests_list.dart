@@ -22,6 +22,7 @@ class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          brightness: Brightness.dark,
           title: Text(
             "Requests",
             style: GoogleFonts.quicksand(
@@ -31,22 +32,40 @@ class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
                   color: Colors.white),
             ),
           ),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.deepOrange,
           elevation: 0.0,
           iconTheme: IconThemeData(color: Colors.white),
-          brightness: Brightness.dark,
         ),
         body: Stack(
           children: <Widget>[
-            ListView.builder(
-              itemCount: widget.club.joinRequests != null
-                  ? widget.club.joinRequests.length
-                  : 0,
-              itemBuilder: (context, index) {
-                var user = widget.club.joinRequests[index];
-                return JoinRequestWidget(user: user, club: widget.club);
+            // ListView.builder(
+            //   itemCount: widget.club.joinRequests != null
+            //       ? widget.club.joinRequests.length
+            //       : 0,
+            //   itemBuilder: (context, index) {
+            //     var user = widget.club.joinRequests[index];
+            //     return JoinRequestWidget(user: user, club: widget.club);
+            //   },
+            // ),
+            FutureBuilder(
+              future: getJoinRequests(widget.club),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount:
+                          snapshot.data != null ? snapshot.data.length : 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        PostUser user = snapshot.data[index];
+                        return JoinRequestWidget(user: user, club: widget.club);
+                      });
+                } else {
+                  return Container();
+                }
               },
-            ),
+            )
           ],
         ));
   }

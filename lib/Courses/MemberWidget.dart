@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
@@ -8,14 +10,17 @@ class MemberWidget extends StatefulWidget {
   final PostUser user;
   final Club club;
   final bool isCourse;
+  final Function delete;
 
-  MemberWidget({Key key, this.user, this.club, this.isCourse});
+  MemberWidget({Key key, this.user, this.club, this.isCourse, this.delete});
 
   @override
   _MemberWidgetState createState() => _MemberWidgetState();
 }
 
 class _MemberWidgetState extends State<MemberWidget> {
+  final FirebaseAuth _fAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,23 +37,26 @@ class _MemberWidgetState extends State<MemberWidget> {
                     child: Row(
                       children: <Widget>[
                         CircleAvatar(
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor: Colors.deepOrange,
                           child: Text(
                             widget.user.name[0].toUpperCase(),
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.white),
                             ),
                           ),
                         ),
                         SizedBox(width: 10.0),
-                        Text(widget.user.name,
+                        Text(
+                            _fAuth.currentUser.uid == widget.user.id
+                                ? 'You'
+                                : widget.user.name,
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.black),
                             ))
                       ],
@@ -60,11 +68,22 @@ class _MemberWidgetState extends State<MemberWidget> {
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.deepPurple),
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.deepOrange),
                               ))
                           : SizedBox()
                       : SizedBox(),
+                  widget.isCourse == false
+                      ? Visibility(
+                          visible:
+                              _fAuth.currentUser.uid == widget.club.adminId &&
+                                  _fAuth.currentUser.uid != widget.user.id,
+                          child: InkWell(
+                              onTap: () {
+                                widget.delete();
+                              },
+                              child: Icon(AntDesign.delete, size: 15.0)))
+                      : SizedBox()
                 ]),
             Divider(),
           ])),

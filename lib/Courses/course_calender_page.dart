@@ -6,12 +6,14 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:unify/Courses/AssignmentWidget.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/assignment.dart';
+import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CourseCalendarPage extends StatefulWidget {
   final Course course;
-  CourseCalendarPage({Key key, this.course}) : super(key: key);
+  final Club club;
+  CourseCalendarPage({Key key, this.course, this.club}) : super(key: key);
 
   @override
   _CourseCalendarPage createState() => _CourseCalendarPage();
@@ -53,7 +55,9 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.purple),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.lightBlue),
         ),
         weekendStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
@@ -67,9 +71,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
         ),
         formatButtonTextStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey.shade500),
+              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
         ),
       ),
       calendarStyle: CalendarStyle(
@@ -122,7 +124,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Assignment Due Date: ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
+                  "${widget.course != null ? 'Assignment Due Date:' : 'Event Date:'} ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
@@ -141,7 +143,9 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     disabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: "Assignment Title..."),
+                    hintText: widget.course != null
+                        ? "Assignment Title..."
+                        : "Event Title"),
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
@@ -159,7 +163,9 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     disabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: "Assignment Description..."),
+                    hintText: widget.course != null
+                        ? "Assignment Description..."
+                        : "Event Description"),
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
@@ -177,7 +183,8 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     disabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: "Time Due..."),
+                    hintText:
+                        widget.course != null ? "Time Due..." : "When is it?"),
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
@@ -194,8 +201,11 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                 timeDue: timeDueController.text);
             String formattedDate =
                 DateFormat('yyyy-MM-dd').format(dateTimeSelected);
-            var res = await createAssignment(
-                assignment, widget.course, formattedDate);
+            var res = widget.course != null
+                ? await createAssignment(
+                    assignment, widget.course, formattedDate)
+                : await createEventReminder(
+                    assignment, widget.club, formattedDate);
             if (res) {
             } else {}
             titleController.clear();
@@ -207,18 +217,21 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        brightness: Brightness.light,
         title: Text(
-          "${widget.course.code} Calendar",
+          widget.course != null
+              ? "${widget.course.code} Calendar"
+              : "${widget.club.name} Calendar",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 17, fontWeight: FontWeight.w700, color: Colors.white),
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
         ),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.white,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.white),
-        brightness: Brightness.dark,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Stack(children: [
         ListView(
@@ -229,19 +242,21 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                 showAddDialog();
               },
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Container(
-                  height: 60,
+                  height: 50,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.deepPurple),
+                      borderRadius: BorderRadius.circular(3.0),
+                      color: Colors.deepOrange),
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.add, color: Colors.white),
                         Text(
-                          "Add reminder for ${widget.course.code}",
+                          widget.course != null
+                              ? "Create note for ${widget.course.code}"
+                              : "Create note for ${widget.club.name}",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
@@ -257,7 +272,9 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
               ),
             ),
             FutureBuilder(
-              future: fetchAssignments(dateTimeSelected, widget.course),
+              future: widget.course != null
+                  ? fetchAssignments(dateTimeSelected, widget.course)
+                  : fetchEventReminders(dateTimeSelected, widget.club),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -267,12 +284,23 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     itemCount: snapshot.data != null ? snapshot.data.length : 0,
                     itemBuilder: (BuildContext context, int index) {
                       Assignment assignment = snapshot.data[index];
+
+                      Function delete = () async {
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(dateTimeSelected);
+                        var res = await deleteAssignment(widget.club,
+                            widget.course, assignment, formattedDate);
+                        if (res) {
+                          setState(() {});
+                        }
+                      };
                       var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
                           assignment.timeStamp);
                       return AssignmentWidget(
-                        assignment: assignment,
-                        timeAgo: timeago.format(timeAgo),
-                      );
+                          club: widget.club,
+                          assignment: assignment,
+                          timeAgo: timeago.format(timeAgo),
+                          delete: delete);
                     },
                   );
                 } else {

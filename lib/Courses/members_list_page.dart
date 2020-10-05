@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Courses/MemberWidget.dart';
 import 'package:unify/Models/club.dart';
-import 'package:unify/Models/course.dart';
+import 'package:unify/Models/course.dart' as cour;
 import 'package:unify/Models/user.dart';
 
 class MembersListPage extends StatefulWidget {
   final List<PostUser> members;
   final Club club;
-  final Course course;
+  final cour.Course course;
   final bool isCourse;
 
   MembersListPage(
@@ -24,33 +24,84 @@ class _MembersListPageState extends State<MembersListPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          brightness: Brightness.light,
           title: Text(
             widget.isCourse
-                ? "${widget.course.name} Members"
+                ? "${widget.course.code} Members"
                 : "${widget.club.name} Members",
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
             ),
           ),
-          backgroundColor: Colors.deepPurple,
-          elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.white),
-          brightness: Brightness.dark,
+          backgroundColor: Colors.white,
+          elevation: 0.7,
+          iconTheme: IconThemeData(color: Colors.black),
         ),
-        body: Stack(
-          children: <Widget>[
-            ListView.builder(
-              itemCount: widget.members != null ? widget.members.length : 0,
-              itemBuilder: (context, index) {
-                var user = widget.members[index];
-                return MemberWidget(
-                    user: user, club: widget.club, isCourse: widget.isCourse);
-              },
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Stack(
+            children: <Widget>[
+              FutureBuilder(
+                future: cour.fetchMemberList(widget.course, widget.club),
+                builder: (context, snap) {
+                  if (snap.connectionState == ConnectionState.waiting)
+                    return Center(
+                        child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    ));
+                  else if (snap.hasData)
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: snap.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var user = snap.data[index];
+                        return MemberWidget(
+                            user: user,
+                            club: widget.club,
+                            isCourse: widget.isCourse);
+                      },
+                    );
+                  else if (snap.hasError)
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: widget.members.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var user = widget.members[index];
+                        if (widget.club != null) {
+                          Function delete = () async {
+                            var res =
+                                await removeUserFromClub(widget.club, user);
+                            if (res) {
+                              setState(() {});
+                            }
+                          };
+                          return MemberWidget(
+                            user: user,
+                            club: widget.club,
+                            isCourse: widget.isCourse,
+                            delete: delete,
+                          );
+                        } else {
+                          return MemberWidget(
+                              user: user,
+                              club: widget.club,
+                              isCourse: widget.isCourse);
+                        }
+                      },
+                    );
+                  else
+                    return Text('None');
+                },
+              )
+            ],
+          ),
         ));
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Courses/members_list_page.dart';
@@ -10,6 +11,7 @@ import 'package:unify/Models/course.dart';
 import 'package:unify/Courses/course_calender_page.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:unify/PostPage.dart';
 
 class CoursePage extends StatefulWidget {
   final Course course;
@@ -23,190 +25,131 @@ class CoursePage extends StatefulWidget {
 class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController contentController = TextEditingController();
-
-    showAddDialog() {
-      Image imag;
-      File f;
-      AwesomeDialog(
-          context: context,
-          animType: AnimType.SCALE,
-          dialogType: DialogType.NO_HEADER,
-          body: StatefulBuilder(builder: (context, setState) {
-            return Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Create New Post",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                imag == null
-                    ? Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                        child: Container(
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(5.0)),
-                          child: Center(
-                            child: IconButton(
-                              icon: Icon(Icons.image,
-                                  color: Colors.grey.shade600),
-                              onPressed: () async {
-                                var res = await getImage();
-                                if (res.isNotEmpty) {
-                                  var image = res[0] as Image;
-                                  var file = res[1] as File;
-                                  setState(() {
-                                    imag = image;
-                                    f = file;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                          child: Container(
-                              height: 150, child: Image(image: imag.image)),
-                        )),
-                TextField(
-                  controller: contentController,
-                  maxLines: null,
-                  decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Where is the Davis?"),
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
-                ),
-              ],
-            );
-          }),
-          btnOkColor: Colors.deepPurple,
-          btnOkOnPress: () async {
-            var post = Post(
-              content: contentController.text,
-              isAnonymous: false,
-            );
-
-            var res = imag == null
-                ? await createCoursePost(post, widget.course)
-                : await uploadImageToStorage(f);
-            // res is a boolean if imag is null - string if image available
-
-            imag != null ? post.imgUrl = res : post.imgUrl = null;
-
-            var result = await createCoursePost(post, widget.course);
-            // check if result is true
-
-            setState(() {});
-            contentController.clear();
-          })
-        ..show();
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        brightness: Brightness.light,
         title: Text(
           widget.course.code,
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 17, fontWeight: FontWeight.w700, color: Colors.white),
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
         ),
-        backgroundColor: Colors.deepPurple,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.white),
-        brightness: Brightness.dark,
+        backgroundColor: Colors.white,
+        elevation: 0.7,
+        iconTheme: IconThemeData(color: Colors.black),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              showAddDialog();
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.group),
+            icon: Icon(AntDesign.plus),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MembersListPage(
-                          members: widget.course.memberList, isCourse: true)));
+                      builder: (context) => PostPage(
+                            course: widget.course,
+                          ))).then((value) {
+                setState(() {});
+              });
             },
           ),
           IconButton(
-            icon: Icon(Icons.calendar_today),
+            icon: Icon(AntDesign.team),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          CourseCalendarPage(course: widget.course)));
+                    builder: (context) => MembersListPage(
+                        members: widget.course.memberList,
+                        isCourse: true,
+                        course: widget.course),
+                  ));
+            },
+          ),
+          IconButton(
+            icon: Icon(AntDesign.calendar),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CourseCalendarPage(
+                          course: widget.course, club: null)));
             },
           )
         ],
       ),
-      body: Stack(
-        children: <Widget>[
-          ListView(
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              FutureBuilder(
-                future: fetchCoursePosts(widget.course),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount:
-                          snapshot.data != null ? snapshot.data.length : 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        Post post = snapshot.data[index];
-                        var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
-                            post.timeStamp);
-                        return PostWidget(
-                            post: post,
-                            timeAgo: timeago.format(timeAgo),
-                            course: widget.course);
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ],
-          )
-        ],
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Stack(
+          children: <Widget>[
+            ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                FutureBuilder(
+                  future: fetchCoursePosts(widget.course),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount:
+                            snapshot.data != null ? snapshot.data.length : 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          Post post = snapshot.data[index];
+                          var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
+                              post.timeStamp);
+                          Function f = () async {
+                            var res =
+                                await deletePost(post.id, widget.course, null);
+                            Navigator.pop(context);
+                            if (res) {
+                              setState(() {});
+                              previewMessage("Post Deleted", context);
+                            } else {
+                              previewMessage("Error deleting post!", context);
+                            }
+                          };
+                          return PostWidget(
+                              post: post,
+                              timeAgo: timeago.format(timeAgo),
+                              course: widget.course,
+                              deletePost: f);
+                        },
+                      );
+                    } else {
+                      return Container(
+                        height: MediaQuery.of(context).size.height / 1.4,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.face,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 10),
+                              Text("There are no posts :(",
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
       ),
       // bottomNavigationBar: Padding(
       //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 20.0),
@@ -228,5 +171,9 @@ class _CoursePageState extends State<CoursePage> {
       //   ),
       // ),
     );
+  }
+
+  Future<Null> refresh() async {
+    this.setState(() {});
   }
 }

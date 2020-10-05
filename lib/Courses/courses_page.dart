@@ -9,19 +9,36 @@ class CoursesPage extends StatefulWidget {
 }
 
 class _CoursesPageState extends State<CoursesPage> {
+  bool didload = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        elevation: 0.5,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          "Courses",
+          style: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
-      body: Stack(
-        children: <Widget>[
-          ListView(
-            shrinkWrap: true,
-            physics: AlwaysScrollableScrollPhysics(),
-            children: <Widget>[
-              Container(
-                child: TextField(
-                  decoration: new InputDecoration(
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Stack(
+          children: <Widget>[
+            ListView(
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              children: <Widget>[
+                Container(
+                  child: TextField(
+                    decoration: new InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -29,55 +46,124 @@ class _CoursesPageState extends State<CoursesPage> {
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Search Courses..."),
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                      hintText: "Search Courses...",
+                      hintStyle: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
                   ),
                 ),
-              ),
-              FutureBuilder(
-                future: fetchCourses(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount:
-                          snapshot.data != null ? snapshot.data.length : 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        Course course = snapshot.data[index];
-                        return CourseWidget(course: course);
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              // ListView.builder(
-              //   physics: NeverScrollableScrollPhysics(),
-              //   shrinkWrap: true,
-              //   scrollDirection: Axis.vertical,
-              //   itemCount: 7,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return CourseWidget(
-              //       id: 0,
-              //       code: "CSC437",
-              //       memberCount: 5,
-              //       postCount: 25,
-              //       isJoined: false,
-              //       name: "Computer Science Theory",
-              //     );
-              //   },
-              // )
-            ],
-          )
-        ],
+                didload == true
+                    ? FutureBuilder(
+                        future: fetchCourses(),
+                        builder: (context, snap) {
+                          if (snap.connectionState == ConnectionState.waiting)
+                            return Center(
+                                child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                            ));
+                          else if (snap.hasData)
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  snap.data != null ? snap.data.length : 0,
+                              itemBuilder: (BuildContext context, int index) {
+                                Course course = snap.data[index];
+                                return Column(
+                                  children: <Widget>[
+                                    CourseWidget(course: course),
+                                    Divider(),
+                                  ],
+                                );
+                              },
+                            );
+                          else if (snap.hasError)
+                            return Container(
+                              height: MediaQuery.of(context).size.height / 1.4,
+                              child: Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.face,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text("Error loading courses :(",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            );
+                          else
+                            return Container(
+                              height: MediaQuery.of(context).size.height / 1.4,
+                              child: Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.face,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text("There are no courses :(",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            );
+                        })
+                    : Container(),
+              ],
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  Future<Null> refresh() async {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          didload = true;
+        });
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

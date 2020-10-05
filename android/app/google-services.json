@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "166076642241",
+    "firebase_url": "https://unifyapp-67728.firebaseio.com",
+    "project_id": "unifyapp-67728",
+    "storage_bucket": "unifyapp-67728.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166076642241:android:f9fb9c9c9160a86f5e7540",
+        "android_client_info": {
+          "package_name": "com.schoolapp.unify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166076642241-3j9l91ie35r6tp4uihdrccv8thsukpcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM9geLUxo2O7P7Smy8LTTQp02AuUTt4XM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166076642241-3j9l91ie35r6tp4uihdrccv8thsukpcb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "166076642241-q90bkfiok37srsfk752t5h69dm01qq17.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.unify.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

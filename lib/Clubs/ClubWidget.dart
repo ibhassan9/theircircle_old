@@ -1,197 +1,235 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Clubs/club_page.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 
 class ClubWidget extends StatefulWidget {
   final Club club;
+  final Function delete;
 
-  ClubWidget({Key key, @required this.club}) : super(key: key);
+  ClubWidget({Key key, @required this.club, @required this.delete})
+      : super(key: key);
 
   @override
   _ClubWidgetState createState() => _ClubWidgetState();
 }
 
 class _ClubWidgetState extends State<ClubWidget> {
+  final FirebaseAuth _fAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    Color color() {
-      Random random = new Random();
-      int index = random.nextInt(6);
-      switch (index) {
-        case 1:
-          {
-            return Colors.deepOrangeAccent;
-          }
-          break;
-        case 2:
-          {
-            return Colors.deepPurpleAccent;
-          }
-          break;
-        case 3:
-          {
-            return Colors.blueAccent;
-          }
-          break;
-        case 4:
-          {
-            return Colors.purpleAccent;
-          }
-          break;
-        case 5:
-          {
-            return Colors.redAccent;
-          }
-          break;
-        default:
-          {
-            return Colors.indigoAccent;
-          }
-          break;
-      }
-    }
-
     return InkWell(
-      onTap: () {
-        if (widget.club.admin ||
-            widget.club.inClub ||
-            widget.club.privacy == 0) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ClubPage(
-                        club: widget.club,
-                      )));
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          height: 150,
-          decoration: BoxDecoration(
+        onTap: () {
+          if (widget.club.admin ||
+              widget.club.inClub ||
+              widget.club.privacy == 0) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ClubPage(
+                          club: widget.club,
+                        )));
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            height: 105,
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: widget.club.admin ? Colors.indigo : Colors.blue),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      widget.club.name,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
+              child: Row(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(AntDesign.team, color: Colors.black),
+                        onPressed: () {},
                       ),
-                    ),
-                    Text(
-                      widget.club.description,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    )
-                  ],
-                )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        widget.club.admin
-                            ? setState(() {})
-                            : widget.club.inClub
-                                ? setState(() {
-                                    widget.club.inClub = false;
-                                  })
-                                : widget.club.privacy == 0
-                                    ? widget.club.requested
-                                        ? setState(() {
-                                            widget.club.requested = false;
-                                          })
-                                        : setState(() {
-                                            widget.club.inClub = true;
-                                          })
-                                    : widget.club.requested
-                                        ? setState(() {
-                                            removeJoinRequest(widget.club);
-                                            widget.club.requested = false;
-                                          })
-                                        : setState(() {
-                                            requestToJoin(widget.club);
-                                            widget.club.requested = true;
-                                          });
-                      },
-                      child: Text(
-                        widget.club.admin
-                            ? "Created by you"
-                            : widget.club.inClub
-                                ? "Leave Club"
-                                : widget.club.privacy == 0
-                                    ? widget.club.requested
-                                        ? "Awaiting Approval"
-                                        : "Join Club"
-                                    : widget.club.requested
-                                        ? "Awaiting Approval"
-                                        : "Request to Join Club",
+                      Text(
+                        "${widget.club.memberCount}",
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
                         ),
                       ),
+                    ],
+                  ),
+                  Container(width: 3.0, color: Constants.color()),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.club.name,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                                Visibility(
+                                    visible: _fAuth.currentUser.uid ==
+                                        widget.club.adminId,
+                                    child: InkWell(
+                                        onTap: () {
+                                          final act = CupertinoActionSheet(
+                                            title: Text(
+                                              "PROCEED?",
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                            message: Text(
+                                              "Are you sure you want to delete this club?",
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                  child: Text(
+                                                    "YES",
+                                                    style:
+                                                        GoogleFonts.quicksand(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.black),
+                                                  ),
+                                                  onPressed: () {
+                                                    widget.delete();
+                                                  }),
+                                              CupertinoActionSheetAction(
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style:
+                                                        GoogleFonts.quicksand(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.red),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  }),
+                                            ],
+                                          );
+                                          showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  act);
+                                        },
+                                        child:
+                                            Icon(AntDesign.delete, size: 15.0)))
+                              ],
+                            ),
+                            Divider(),
+                            Text(
+                              widget.club.description,
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                              maxLines: null,
+                            )
+                          ],
+                        )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () async {
+                                if (widget.club.admin) {
+                                } else if (widget.club.inClub) {
+                                  setState(() {
+                                    widget.club.inClub = false;
+                                    widget.club.memberCount -= 1;
+                                  });
+                                  await leaveClub(widget.club);
+                                } else if (widget.club.privacy == 0) {
+                                  await joinClub(widget.club);
+                                  setState(() {
+                                    widget.club.inClub = true;
+                                    widget.club.memberCount += 1;
+                                  });
+                                } else if (widget.club.privacy == 1) {
+                                  if (widget.club.requested) {
+                                    setState(() {
+                                      widget.club.requested = false;
+                                    });
+                                    await removeJoinRequest(widget.club);
+                                  } else {
+                                    setState(() {
+                                      widget.club.requested = true;
+                                    });
+                                    await requestToJoin(widget.club);
+                                  }
+                                }
+                              },
+                              child: Text(
+                                status(),
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.lightBlue),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.comment, color: Colors.white),
-                            onPressed: () {},
-                          ),
-                          Text(
-                            "${widget.club.postCount}",
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.group, color: Colors.white),
-                            onPressed: () {},
-                          ),
-                          Text(
-                            "${widget.club.memberCount}",
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
+  }
+
+  String status() {
+    if (widget.club.admin) {
+      return 'Created by you';
+    } else if (widget.club.inClub) {
+      return 'Leave Club';
+    } else if (widget.club.privacy == 0) {
+      return 'Join Club';
+    } else {
+      if (widget.club.requested) {
+        return 'Awaiting Approval';
+      } else {
+        return 'Request to Join';
+      }
+    }
   }
 }

@@ -11,12 +11,17 @@ import 'package:unify/components/rounded_input_field.dart';
 import 'package:unify/components/rounded_password_field.dart';
 import 'package:unify/Models/user.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -53,6 +58,9 @@ class Body extends StatelessWidget {
               press: () async {
                 await registerUser(nameController.text, emailController.text,
                     passwordController.text, context);
+                nameController.clear();
+                emailController.clear();
+                passwordController.clear();
               },
             ),
             OrDivider(),

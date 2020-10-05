@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/components/text_field_container.dart';
 
-class RoundedInputField extends StatelessWidget {
+class RoundedInputField extends StatefulWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
@@ -17,22 +17,31 @@ class RoundedInputField extends StatelessWidget {
       : super(key: key);
 
   @override
+  _RoundedInputFieldState createState() => _RoundedInputFieldState();
+}
+
+class _RoundedInputFieldState extends State<RoundedInputField> {
+  @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        controller: controller,
+        controller: widget.controller,
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        onChanged: onChanged,
+        onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
           icon: Icon(
-            icon,
+            widget.icon,
             color: kPrimaryColor,
           ),
-          hintText: hintText,
+          hintText: widget.hintText,
+          hintStyle: GoogleFonts.quicksand(
+            textStyle: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+          ),
           border: InputBorder.none,
         ),
       ),

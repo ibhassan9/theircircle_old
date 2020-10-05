@@ -1,15 +1,25 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Courses/course_page.dart';
+import 'package:unify/Models/club.dart';
 
 class AssignmentWidget extends StatefulWidget {
   final Assignment assignment;
   final String timeAgo;
+  final Club club;
+  final Function delete;
 
-  AssignmentWidget({Key key, @required this.assignment, @required this.timeAgo})
+  AssignmentWidget(
+      {Key key,
+      @required this.assignment,
+      @required this.timeAgo,
+      @required this.club,
+      @required this.delete})
       : super(key: key);
 
   @override
@@ -17,6 +27,8 @@ class AssignmentWidget extends StatefulWidget {
 }
 
 class _AssignmentWidgetState extends State<AssignmentWidget> {
+  final FirebaseAuth _fAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     Color color() {
@@ -58,78 +70,97 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
 
     return InkWell(
       onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0), color: color()),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
-            child: Wrap(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                    child: Column(
+      child: Container(
+        height: 148,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(width: 3.0, color: color()),
+              SizedBox(width: 15.0),
+              Flexible(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      "Upcoming",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Text(
-                      widget.assignment.title,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Text(
-                      widget.assignment.description,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                  ],
-                )),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Due: 11:59 PM",
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
+                    Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Created By: " +
+                                  (_fAuth.currentUser.uid ==
+                                          widget.assignment.userId
+                                      ? 'You'
+                                      : widget.assignment.createdBy),
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                            Visibility(
+                              visible: _fAuth.currentUser.uid ==
+                                      widget.assignment.userId ||
+                                  _fAuth.currentUser.uid == widget.club.adminId,
+                              child: InkWell(
+                                onTap: () {
+                                  widget.delete();
+                                },
+                                child: Icon(AntDesign.delete, size: 15),
+                              ),
+                            )
+                          ],
                         ),
+                        Divider(),
+                        Text(
+                          widget.assignment.title,
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                        ),
+                        Divider(),
+                        Text(
+                          widget.assignment.description,
+                          style: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                        ),
+                        Divider(),
+                      ],
+                    )),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Due: " + widget.assignment.timeDue,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

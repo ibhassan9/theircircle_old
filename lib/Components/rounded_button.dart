@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 
-class RoundedButton extends StatelessWidget {
+class RoundedButton extends StatefulWidget {
   final String text;
   final Function press;
   final Color color, textColor;
@@ -15,6 +15,11 @@ class RoundedButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _RoundedButtonState createState() => _RoundedButtonState();
+}
+
+class _RoundedButtonState extends State<RoundedButton> {
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
@@ -24,13 +29,15 @@ class RoundedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(29),
         child: FlatButton(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-          color: color,
-          onPressed: press,
+          color: widget.color,
+          onPressed: widget.press,
           child: Text(
-            text,
+            widget.text,
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w500, color: textColor),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: widget.textColor),
             ),
           ),
         ),
