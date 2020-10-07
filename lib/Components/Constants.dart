@@ -14,6 +14,7 @@ class Constants {
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
   static String username = "noreplyunifyapp@gmail.com";
   static String password = "chelseafc00";
+  static String dummyDescription = "Insert Bio Here...";
 
   static int checkUniversity() {
     var userEmail = fAuth.currentUser.email;

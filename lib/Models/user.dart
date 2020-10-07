@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,8 +23,20 @@ class PostUser {
   String email;
   String name;
   String verified;
+  int courseCount;
+  int clubCount;
+  String bio;
+  String profileImgUrl;
 
-  PostUser({this.id, this.email, this.name, this.verified});
+  PostUser(
+      {this.id,
+      this.email,
+      this.name,
+      this.verified,
+      this.courseCount,
+      this.clubCount,
+      this.bio,
+      this.profileImgUrl});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -146,7 +164,11 @@ Future<PostUser> getUser(String id) async {
       id: id,
       name: value['name'],
       email: value['email'],
-      verified: value['verification']);
+      verified: value['verification'],
+      courseCount: value['courses'] != null ? value['courses'].length : 0,
+      clubCount: value['clubs'] != null ? value['clubs'].length : 0,
+      bio: value['bio'] != null ? value['bio'] : "",
+      profileImgUrl: value['profileImgUrl']);
 }
 
 Future<List<PostUser>> allUsers() async {
@@ -230,4 +252,212 @@ int verificationCode() {
     next *= 10;
   }
   return next.toInt();
+}
+
+Future<String> uploadImageToStorage(File file) async {
+  try {
+    final DateTime now = DateTime.now();
+    final int millSeconds = now.millisecondsSinceEpoch;
+    final String month = now.month.toString();
+    final String date = now.day.toString();
+    final String storageId = (millSeconds.toString());
+    final String today = ('$month-$date');
+
+    StorageReference ref = FirebaseStorage.instance
+        .ref()
+        .child("files")
+        .child(today)
+        .child(storageId);
+    StorageUploadTask uploadTask = ref.putFile(file);
+
+    var snapShot = await uploadTask.onComplete;
+
+    var url = await snapShot.ref.getDownloadURL();
+    var urlString = url.toString();
+
+    return urlString;
+  } catch (error) {
+    return "error";
+  }
+}
+
+Future<List> getImageString() async {
+  try {
+    final DateTime now = DateTime.now();
+    final int millSeconds = now.millisecondsSinceEpoch;
+    final String month = now.month.toString();
+    final String date = now.day.toString();
+    final String storageId = (millSeconds.toString());
+    final String today = ('$month-$date');
+
+    final picker = ImagePicker();
+
+    final f = await picker.getImage(source: ImageSource.gallery);
+    var image = Image.file(File(f.path));
+
+    StorageReference ref = FirebaseStorage.instance
+        .ref()
+        .child("files")
+        .child(today)
+        .child(storageId);
+    var file = File(f.path);
+    StorageUploadTask uploadTask = ref.putFile(file);
+
+    var snapShot = await uploadTask.onComplete;
+
+    var url = await snapShot.ref.getDownloadURL();
+
+    List lst = [url, image];
+
+    return lst;
+  } catch (error) {
+    return [];
+  }
+}
+
+Future<List> getImage() async {
+  final picker = ImagePicker();
+
+  final f =
+      await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+  var image = Image.file(File(f.path));
+  List lst = [image, File(f.path)];
+  return lst;
+}
+
+Future<bool> updateProfile(String url, String bio) async {
+  var uid = firebaseAuth.currentUser.uid;
+  var uniKey = Constants.checkUniversity();
+  if (url == null) {
+    var biodb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('bio');
+    await biodb.set(bio).catchError((onErr) {
+      return false;
+    });
+    return true;
+  } else {
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('profileImgUrl');
+    var biodb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('bio');
+    await db.set(url).catchError((err) async {
+      await biodb.set(bio).catchError((onErr) {
+        return false;
+      });
+      return false;
+    });
+    return true;
+  }
+}
+
+showProfile(PostUser user, BuildContext c) {
+  AwesomeDialog(
+      context: c,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.NO_HEADER,
+      body: StatefulBuilder(builder: (context, setState) {
+        return Stack(
+          children: [
+            ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              physics: AlwaysScrollableScrollPhysics(),
+              children: [
+                user.profileImgUrl == null
+                    ? CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 50.0,
+                        child: Icon(FlutterIcons.user_ant, color: Colors.white))
+                    : Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.network(
+                            user.profileImgUrl,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                    valueColor:
+                                        new AlwaysStoppedAnimation<Color>(
+                                            Colors.grey.shade600),
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                SizedBox(height: 10.0),
+                Center(
+                    child: Text(
+                  user.name == null ? "" : user.name,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                )),
+                SizedBox(height: 5.0),
+                Center(
+                    child: Text(
+                  user.bio == null ? "" : user.bio,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                )),
+                SizedBox(height: 5.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                        child: Icon(FlutterIcons.linkedin_faw,
+                            color: Colors.blue)),
+                    InkWell(
+                        child: Icon(FlutterIcons.instagram_faw,
+                            color: Colors.purple)),
+                    InkWell(
+                        child: Icon(FlutterIcons.snapchat_ghost_faw,
+                            color: Colors.black)),
+                  ],
+                ),
+                SizedBox(height: 10.0),
+              ],
+            )
+          ],
+        );
+      }),
+      btnOkColor: Colors.deepOrange,
+      btnOk: null)
+    ..show();
 }

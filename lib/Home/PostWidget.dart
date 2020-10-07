@@ -8,6 +8,7 @@ import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Comments/post_detail_page.dart';
+import 'package:unify/Models/user.dart';
 
 class PostWidget extends StatefulWidget {
   final Post post;
@@ -332,5 +333,9 @@ class _PostWidgetState extends State<PostWidget> {
         ],
       ),
     );
+  }
+
+  Future<PostUser> user() async {
+    return await getUser(widget.post.userId);
   }
 }

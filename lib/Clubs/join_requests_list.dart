@@ -22,19 +22,19 @@ class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           title: Text(
             "Requests",
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
             ),
           ),
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: Colors.white,
           elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.black),
         ),
         body: Stack(
           children: <Widget>[

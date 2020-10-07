@@ -67,6 +67,10 @@ Future<List<Club>> fetchClubs() async {
       club.memberList = [admin];
     }
 
+    if (value['joinRequests'] != null) {
+      club.joinRequests = await getOldJoinRequests(value['joinRequests']);
+    } else {}
+
     club.memberCount = club.memberList.length;
 
     club.inClub = inClub(club);
@@ -78,17 +82,27 @@ Future<List<Club>> fetchClubs() async {
   return c;
 }
 
-// Future<List<PostUser>> getJoinRequests(Map<dynamic, dynamic> requests) async {
-//   var db = FirebaseDatabase.instance.reference().child('users');
-//   List<PostUser> p = [];
-//   for (var value in requests.values) {
-//     DataSnapshot s = await db.child(value).once();
-//     Map<dynamic, dynamic> v = s.value;
-//     var user = PostUser(id: s.key, email: v['email'], name: v['name']);
-//     p.add(user);
-//   }
-//   return p;
-// }
+Future<List<PostUser>> getOldJoinRequests(
+    Map<dynamic, dynamic> requests) async {
+  var uniKey = Constants.checkUniversity();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  List<PostUser> p = [];
+  for (var value in requests.values) {
+    DataSnapshot s = await db.child(value).once();
+    Map<dynamic, dynamic> v = s.value;
+    var user = PostUser(
+        id: s.key,
+        email: v['email'],
+        name: v['name'],
+        bio: v['bio'],
+        profileImgUrl: v['profileImgUrl']);
+    p.add(user);
+  }
+  return p;
+}
 
 Future<bool> removeUserFromClub(Club club, PostUser user) async {
   var uniKey = Constants.checkUniversity();
@@ -125,6 +139,7 @@ Future<List<PostUser>> getJoinRequests(Club club) async {
 
   DataSnapshot s = await db.once();
   Map<dynamic, dynamic> values = s.value;
+  print('getting requests');
   for (var value in values.values) {
     var id = value;
     DataSnapshot us =
@@ -227,6 +242,7 @@ bool isRequested(Club club) {
   if (joinRequests == null || joinRequests.length == 0) {
     return false;
   }
+  print(joinRequests);
   if ((joinRequests.singleWhere((it) => it.id == uid, orElse: () => null)) !=
       null) {
     return true;

@@ -25,68 +25,70 @@ class _MemberWidgetState extends State<MemberWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0), color: Colors.white),
-          child: Wrap(children: <Widget>[
-            Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundColor: Colors.deepOrange,
-                          child: Text(
-                            widget.user.name[0].toUpperCase(),
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Text(
-                            _fAuth.currentUser.uid == widget.user.id
-                                ? 'You'
-                                : widget.user.name,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black),
-                            ))
-                      ],
-                    ),
-                  ),
-                  widget.isCourse == false
-                      ? widget.user.id == widget.club.adminId
-                          ? Text("ADMIN",
+      child: InkWell(
+        onTap: () {
+          showProfile(widget.user, context);
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+            child: Wrap(children: <Widget>[
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundColor: Colors.deepOrange,
+                            child: Text(
+                              widget.user.name[0].toUpperCase(),
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.deepOrange),
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                              _fAuth.currentUser.uid == widget.user.id
+                                  ? 'You'
+                                  : widget.user.name,
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
                               ))
-                          : SizedBox()
-                      : SizedBox(),
-                  widget.isCourse == false
-                      ? Visibility(
-                          visible:
-                              _fAuth.currentUser.uid == widget.club.adminId &&
-                                  _fAuth.currentUser.uid != widget.user.id,
-                          child: InkWell(
-                              onTap: () {
-                                widget.delete();
-                              },
-                              child: Icon(AntDesign.delete, size: 15.0)))
-                      : SizedBox()
-                ]),
-            Divider(),
-          ])),
+                        ],
+                      ),
+                    ),
+                    widget.isCourse == false
+                        ? widget.user.id == widget.club.adminId
+                            ? Text("Admin",
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.deepOrange),
+                                ))
+                            : Visibility(
+                                visible: _fAuth.currentUser.uid ==
+                                        widget.club.adminId &&
+                                    _fAuth.currentUser.uid != widget.user.id,
+                                child: InkWell(
+                                    onTap: () {
+                                      widget.delete();
+                                    },
+                                    child: Icon(AntDesign.close, size: 20.0)))
+                        : SizedBox(),
+                  ]),
+              Divider(),
+            ])),
+      ),
     );
   }
 }

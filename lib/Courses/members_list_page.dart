@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Courses/MemberWidget.dart';
@@ -60,10 +61,21 @@ class _MembersListPageState extends State<MembersListPage> {
                       itemCount: snap.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         var user = snap.data[index];
-                        return MemberWidget(
-                            user: user,
-                            club: widget.club,
-                            isCourse: widget.isCourse);
+                        Function delete = () {
+                          showRemove(user);
+                        };
+                        if (widget.club != null) {
+                          return MemberWidget(
+                              user: user,
+                              club: widget.club,
+                              isCourse: widget.isCourse,
+                              delete: delete);
+                        } else {
+                          return MemberWidget(
+                              user: user,
+                              club: widget.club,
+                              isCourse: widget.isCourse);
+                        }
                       },
                     );
                   else if (snap.hasError)
@@ -75,12 +87,8 @@ class _MembersListPageState extends State<MembersListPage> {
                       itemBuilder: (BuildContext context, int index) {
                         var user = widget.members[index];
                         if (widget.club != null) {
-                          Function delete = () async {
-                            var res =
-                                await removeUserFromClub(widget.club, user);
-                            if (res) {
-                              setState(() {});
-                            }
+                          Function delete = () {
+                            showRemove(user);
                           };
                           return MemberWidget(
                             user: user,
@@ -103,5 +111,47 @@ class _MembersListPageState extends State<MembersListPage> {
             ],
           ),
         ));
+  }
+
+  showRemove(PostUser user) {
+    final act = CupertinoActionSheet(
+      title: Text(
+        "PROCEED?",
+        style: GoogleFonts.quicksand(
+            fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black),
+      ),
+      message: Text(
+        "Are you sure you want to remove ${user.name} from your club?",
+        style: GoogleFonts.quicksand(
+            fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black),
+      ),
+      actions: [
+        CupertinoActionSheetAction(
+            child: Text(
+              "YES",
+              style: GoogleFonts.quicksand(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+            onPressed: () async {
+              var res = await removeUserFromClub(widget.club, user);
+              if (res) {
+                setState(() {});
+              }
+            }),
+        CupertinoActionSheetAction(
+            child: Text(
+              "Cancel",
+              style: GoogleFonts.quicksand(
+                  fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ],
+    );
+    showCupertinoModalPopup(
+        context: context, builder: (BuildContext context) => act);
   }
 }

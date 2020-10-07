@@ -30,13 +30,15 @@ class _WebPageState extends State<WebPage> {
           brightness: Brightness.light,
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
-          centerTitle: false,
+          centerTitle: true,
           elevation: 0.0,
           title: Text(
-            isLoading ? "Loading Newspage..." : widget.title,
+            isLoading
+                ? "Loading Newspage..."
+                : widget.title.replaceAll("     ", ""),
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
-                  fontSize: 15,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Colors.black),
             ),

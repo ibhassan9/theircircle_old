@@ -21,100 +21,105 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0), color: Colors.white),
-          child: Wrap(children: <Widget>[
-            Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundColor: Colors.deepOrange,
-                          child: Text(
-                            widget.user.name[0].toUpperCase(),
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
+      child: InkWell(
+        onTap: () {
+          showProfile(widget.user, context);
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+            child: Wrap(children: <Widget>[
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundColor: Colors.deepOrange,
+                            child: Text(
+                              widget.user.name[0].toUpperCase(),
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Text(widget.user.name,
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black),
-                            ))
-                      ],
+                          SizedBox(width: 10.0),
+                          Text(widget.user.name,
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ))
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    child: rejected == false
-                        ? accepted == false
-                            ? Row(
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () async {
-                                      await acceptUserToClub(
-                                          widget.user, widget.club);
-                                      setState(() {
-                                        accepted = true;
-                                      });
-                                    },
-                                    child: Text("ACCEPT",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.blue),
-                                        )),
-                                  ),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      await removeUserFromRequests(
-                                          widget.club, widget.user);
-                                      setState(() {
-                                        rejected = true;
-                                      });
-                                    },
-                                    child: Text("DENY",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.red),
-                                        )),
-                                  )
-                                ],
-                              )
-                            : Text("ACCEPTED",
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.blue),
-                                ))
-                        : Text("DENIED",
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.red),
-                            )),
-                  )
-                ]),
-            Divider(),
-          ])),
+                    Container(
+                      child: rejected == false
+                          ? accepted == false
+                              ? Row(
+                                  children: <Widget>[
+                                    InkWell(
+                                      onTap: () async {
+                                        await acceptUserToClub(
+                                            widget.user, widget.club);
+                                        setState(() {
+                                          accepted = true;
+                                        });
+                                      },
+                                      child: Text("ACCEPT",
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.blue),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        await removeUserFromRequests(
+                                            widget.club, widget.user);
+                                        setState(() {
+                                          rejected = true;
+                                        });
+                                      },
+                                      child: Text("DENY",
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.red),
+                                          )),
+                                    )
+                                  ],
+                                )
+                              : Text("ACCEPTED",
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.blue),
+                                  ))
+                          : Text("DENIED",
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.red),
+                              )),
+                    )
+                  ]),
+              Divider(),
+            ])),
+      ),
     );
   }
 }

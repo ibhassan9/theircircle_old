@@ -10,16 +10,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:unify/Clubs/clubs_page.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Courses/courses_page.dart';
 import 'package:unify/Home/PostWidget.dart';
 import 'package:unify/MenuWidget.dart';
 import 'package:unify/Models/news.dart';
 import 'package:unify/Models/post.dart';
-import 'package:unify/Models/user.dart';
+import 'package:unify/Models/user.dart' as u;
 import 'package:unify/NewsView.dart';
 import 'package:unify/NewsWidget.dart';
 import 'package:unify/PostPage.dart';
 import 'package:unify/Screens/Welcome/welcome_screen.dart';
+import 'package:unify/UserPage.dart';
 import 'package:unify/UserWidget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/WebPage.dart';
@@ -33,60 +35,229 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   TextEditingController contentController = TextEditingController();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  TextEditingController bioController = TextEditingController();
   var name = "";
   var uni;
+  u.PostUser user;
   Future<List<News>> _future;
 
   @override
   Widget build(BuildContext context) {
-    showProfile() {
+    showProfile(u.PostUser me) {
+      bool object_avail = user != null;
+      Image imag;
+      File f;
       AwesomeDialog(
           context: context,
           animType: AnimType.SCALE,
           dialogType: DialogType.NO_HEADER,
           body: StatefulBuilder(builder: (context, setState) {
-            return Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Update Name",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
+            return object_avail
+                ? Stack(
+                    children: [
+                      ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        children: [
+                          me.profileImgUrl == null
+                              ? me.id == firebaseAuth.currentUser.uid
+                                  ? imag != null
+                                      ? CircleAvatar(child: imag, radius: 50.0)
+                                      : CircleAvatar(
+                                          backgroundColor: Colors.grey,
+                                          radius: 50.0,
+                                          child: InkWell(
+                                              onTap: () async {
+                                                var res = await u.getImage();
+                                                if (res.isNotEmpty) {
+                                                  var image = res[0] as Image;
+                                                  var file = res[1] as File;
+                                                  setState(() {
+                                                    imag = image;
+                                                    f = file;
+                                                  });
+                                                }
+                                              },
+                                              child: Icon(
+                                                  FlutterIcons.picture_ant,
+                                                  color: Colors.white)))
+                                  : CircleAvatar(
+                                      backgroundColor: Colors.grey,
+                                      radius: 50.0,
+                                      child: Icon(FlutterIcons.user_ant,
+                                          color: Colors.white))
+                              : Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.network(
+                                      me.profileImgUrl,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2.0,
+                                              valueColor:
+                                                  new AlwaysStoppedAnimation<
+                                                          Color>(
+                                                      Colors.grey.shade600),
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes
+                                                  : null,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                          SizedBox(height: 10.0),
+                          Center(
+                              child: Text(
+                            me.name == null ? "" : me.name,
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                          )),
+                          SizedBox(height: 5.0),
+                          Center(
+                              child: me.id == firebaseAuth.currentUser.uid
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, right: 10.0),
+                                      child: TextField(
+                                        controller: bioController,
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                            errorBorder: InputBorder.none,
+                                            disabledBorder: InputBorder.none,
+                                            hintText:
+                                                me.bio == null || me.bio.isEmpty
+                                                    ? Constants.dummyDescription
+                                                    : me.bio,
+                                            hintStyle: GoogleFonts.quicksand(
+                                              textStyle: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey.shade700),
+                                            )),
+                                        maxLines: null,
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey.shade700),
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      me.bio == null ? "" : me.bio,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                    )),
+                          SizedBox(height: 5.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              InkWell(
+                                  child: Icon(FlutterIcons.linkedin_faw,
+                                      color: Colors.blue)),
+                              InkWell(
+                                  child: Icon(FlutterIcons.instagram_faw,
+                                      color: Colors.purple)),
+                              InkWell(
+                                  child: Icon(FlutterIcons.snapchat_ghost_faw,
+                                      color: Colors.black)),
+                            ],
+                          ),
+                          SizedBox(height: 30.0),
+                          Divider(),
+                          SizedBox(height: 10.0),
+                          Visibility(
+                            visible: me.id == firebaseAuth.currentUser.uid,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0, top: 15.0),
+                              child: InkWell(
+                                onTap: () async {
+                                  if (imag == null) {
+                                    // just update bio
+                                    var res = me.bio != bioController.text
+                                        ? await u.updateProfile(
+                                            null, bioController.text)
+                                        : false;
+                                    if (res) {
+                                      setState(() {});
+                                    }
+                                  } else {
+                                    // image available, upload image
+                                    var url = await uploadImageToStorage(f);
+                                    var res = await u.updateProfile(
+                                        url, bioController.text);
+                                    if (res) {
+                                      setState(() {});
+                                    }
+                                  }
+                                  await getUserData();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: Colors.purple,
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Center(
+                                    child: Text(
+                                      "Update Profile",
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                : Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1.5,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  maxLines: null,
-                  decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: name.isEmpty ? "" : name),
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
-                ),
-              ],
-            );
+                  );
           }),
           btnOkColor: Colors.deepOrange,
-          btnOkOnPress: () async {
-            // update profile information
-          })
+          btnOk: null)
         ..show();
     }
 
@@ -123,25 +294,18 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         actions: <Widget>[
-          // IconButton(
-          //   icon: Icon(AntDesign.book, color: Colors.black, size: 20),
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => CoursesPage()),
-          //     );
-          //   },
-          // ),
-          // IconButton(
-          //   icon: Icon(AntDesign.Trophy, color: Colors.black, size: 20),
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => ClubsPage()),
-          //     );
-          //   },
-          // ),
-
+          IconButton(
+            icon: Icon(AntDesign.user, color: Colors.black),
+            onPressed: () {
+              if (user == null) {
+                u.PostUser dummyUser =
+                    u.PostUser(bio: "", id: "", name: "", verified: "");
+                showProfile(dummyUser);
+              } else {
+                showProfile(user);
+              }
+            },
+          ),
           IconButton(
             icon: Icon(AntDesign.setting, color: Colors.black),
             onPressed: () {},
@@ -290,7 +454,7 @@ class _MainPageState extends State<MainPage> {
                                   child: Container(
                                     height: 150,
                                     child: FutureBuilder(
-                                        future: myCampusUsers(),
+                                        future: u.myCampusUsers(),
                                         builder: (context, snap) {
                                           if (snap.hasData) {
                                             return ListView.builder(
@@ -304,9 +468,13 @@ class _MainPageState extends State<MainPage> {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int i) {
-                                                PostUser user = snap.data[i];
+                                                u.PostUser user = snap.data[i];
+                                                Function f = () {
+                                                  showProfile(user);
+                                                };
                                                 return UserWidget(
                                                   user: user,
+                                                  show: f,
                                                 );
                                               },
                                             );
@@ -394,9 +562,12 @@ class _MainPageState extends State<MainPage> {
     // prefs.getInt('uni');
     var _name = prefs.getString('name');
     var _uni = prefs.getInt('uni');
+    var id = firebaseAuth.currentUser.uid;
+    var _user = await u.getUser(id);
     setState(() {
       name = _name;
       uni = _uni;
+      user = _user;
     });
   }
 }

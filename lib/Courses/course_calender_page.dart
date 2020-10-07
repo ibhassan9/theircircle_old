@@ -194,6 +194,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
               ),
             ],
           ),
+          btnOkColor: Colors.deepOrange,
           btnOkOnPress: () async {
             var assignment = Assignment(
                 title: titleController.text,
