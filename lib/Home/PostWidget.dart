@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Courses/course_page.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Comments/post_detail_page.dart';
 import 'package:unify/Models/user.dart';
@@ -287,7 +288,46 @@ class _PostWidgetState extends State<PostWidget> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Icon(AntDesign.hearto, color: Colors.grey, size: 20),
+                          InkWell(
+                              onTap: () async {
+                                if (widget.post.isLiked) {
+                                  var res = await unlike(
+                                      widget.post, widget.club, widget.course);
+                                  if (res) {
+                                    widget.post.isLiked = false;
+                                    widget.post.likeCount -= 1;
+                                    setState(() {});
+                                  }
+                                } else {
+                                  var user = await getUser(widget.post.userId);
+                                  var token = user.device_token;
+                                  if (user.id != firebaseAuth.currentUser.uid) {
+                                    if (widget.club == null &&
+                                        widget.course == null) {
+                                      await sendPush(
+                                          0, token, widget.post.content);
+                                    } else if (widget.club != null) {
+                                      await sendPushClub(widget.club, 0, token,
+                                          widget.post.content);
+                                    } else {
+                                      await sendPushCourse(widget.course, 0,
+                                          token, widget.post.content);
+                                    }
+                                  }
+                                  var res = await like(
+                                      widget.post, widget.club, widget.course);
+                                  if (res) {
+                                    widget.post.isLiked = true;
+                                    widget.post.likeCount += 1;
+                                    setState(() {});
+                                  }
+                                }
+                              },
+                              child: Icon(FlutterIcons.like_sli,
+                                  color: widget.post.isLiked
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  size: 20)),
                           SizedBox(width: 10.0),
                           Container(
                             margin: EdgeInsets.only(left: 3.0),

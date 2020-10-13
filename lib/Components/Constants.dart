@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color(0xFF6F35A5);
@@ -15,6 +16,9 @@ class Constants {
   static String username = "noreplyunifyapp@gmail.com";
   static String password = "chelseafc00";
   static String dummyDescription = "Insert Bio Here...";
+  static String serverToken =
+      'AAAAJqrwc8E:APA91bH4aq4iUxbsFitrRD4jV_tQcwIFw1PJTiCqgzX1rQ_MtORMEPmG-Q5On0Ip7xoDtp7ceptPNa0avlsHTXZq_0H3lswJU73chkVjw-GDkLkd3jDNGiwWscY4z0fE4j6T0tdCy7x8';
+  static FirebaseMessaging fm = FirebaseMessaging();
 
   static int checkUniversity() {
     var userEmail = fAuth.currentUser.email;

@@ -56,6 +56,15 @@ class _BodyState extends State<Body> {
             RoundedButton(
               text: "SIGNUP",
               press: () async {
+                final snackBar = SnackBar(
+                    content: Text('Creating your account. Please wait.',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        )));
+                Scaffold.of(context).showSnackBar(snackBar);
                 await registerUser(nameController.text, emailController.text,
                     passwordController.text, context);
                 nameController.clear();

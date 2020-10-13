@@ -4,9 +4,11 @@ import 'dart:math';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mailer/mailer.dart';
@@ -27,6 +29,9 @@ class PostUser {
   int clubCount;
   String bio;
   String profileImgUrl;
+  String device_token;
+  bool appear;
+  int status; // 1 = banned
 
   PostUser(
       {this.id,
@@ -36,7 +41,10 @@ class PostUser {
       this.courseCount,
       this.clubCount,
       this.bio,
-      this.profileImgUrl});
+      this.profileImgUrl,
+      this.device_token,
+      this.appear,
+      this.status});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -44,11 +52,37 @@ DatabaseReference usersDBref =
     FirebaseDatabase.instance.reference().child('users');
 
 Future signInUser(String email, String password, BuildContext context) async {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  await _firebaseMessaging.setAutoInitEnabled(true);
+  await _firebaseMessaging.deleteInstanceID();
+  var token = await _firebaseMessaging.getToken();
   await firebaseAuth
       .signInWithEmailAndPassword(email: email, password: password)
       .then((result) async {
     var uni = Constants.checkUniversity();
     PostUser _user = await getUser(result.user.uid);
+    if (_user.status == 1) {
+      final snackBar = SnackBar(
+          content: Text('This account is temporarily banned.',
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              )));
+      Scaffold.of(context).showSnackBar(snackBar);
+      return;
+    }
+    var uid = firebaseAuth.currentUser.uid;
+    var uniKey = Constants.checkUniversity();
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('device_token')
+        .set(token);
+    await db;
     if (_user.verified != "verified") {
       var code = await sendVerificationCode(email);
       if (code == 0) {
@@ -72,22 +106,15 @@ Future signInUser(String email, String password, BuildContext context) async {
           context, MaterialPageRoute(builder: (context) => MainPage()));
     }
   }).catchError((err) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(err.toString()),
-            actions: [
-              FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+    final snackBar = SnackBar(
+        content: Text(err.toString().trim(),
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            )));
+    Scaffold.of(context).showSnackBar(snackBar);
   });
 }
 
@@ -114,13 +141,23 @@ Future registerUser(
         });
     return;
   }
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   var uniKey = checkUniversityWithEmail(email);
+  var token = await _firebaseMessaging.getToken();
   await firebaseAuth
       .createUserWithEmailAndPassword(email: email, password: password)
       .then((result) async {
     int code = await sendVerificationCode(email);
-    usersDBref.child(uniKey == 0 ? 'UofT' : 'YorkU').child(result.user.uid).set(
-        {"email": email, "name": name, "verification": code}).then((res) async {
+    usersDBref
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(result.user.uid)
+        .set({
+      "email": email,
+      "name": name,
+      "verification": code,
+      "device_token": token,
+      "appear": true,
+    }).then((res) async {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -160,7 +197,7 @@ Future<PostUser> getUser(String id) async {
       .child(id);
   var snapshot = await userDB.once();
   Map<dynamic, dynamic> value = snapshot.value;
-  return PostUser(
+  var user = PostUser(
       id: id,
       name: value['name'],
       email: value['email'],
@@ -168,7 +205,12 @@ Future<PostUser> getUser(String id) async {
       courseCount: value['courses'] != null ? value['courses'].length : 0,
       clubCount: value['clubs'] != null ? value['clubs'].length : 0,
       bio: value['bio'] != null ? value['bio'] : "",
-      profileImgUrl: value['profileImgUrl']);
+      profileImgUrl: value['profileImgUrl'],
+      device_token: value['device_token'],
+      appear: value['appear'],
+      status: value['status'] != null ? value['status'] : 0);
+  print(user);
+  return user;
 }
 
 Future<List<PostUser>> allUsers() async {
@@ -181,7 +223,6 @@ Future<List<PostUser>> allUsers() async {
 
   for (var key in values.keys) {
     var value = values[key];
-    // var user = PostUser(id: '', name: value['name'], email: value['email']);
     PostUser user =
         PostUser(id: key, name: value['name'], email: value['email']);
     p.add(user);
@@ -204,13 +245,28 @@ Future<List<PostUser>> myCampusUsers() async {
 
   for (var key in values.keys) {
     var value = values[key];
-    // var user = PostUser(id: '', name: value['name'], email: value['email']);
-    PostUser user =
-        PostUser(id: key, name: value['name'], email: value['email']);
-    p.add(user);
+    if (value['appear'] == true) {
+      PostUser user =
+          PostUser(id: key, name: value['name'], email: value['email']);
+      p.add(user);
+    }
   }
 
   return p;
+}
+
+Future<bool> changeAppear(bool appear) async {
+  var uniKey = Constants.checkUniversity();
+  var userDB = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(firebaseAuth.currentUser.uid)
+      .child('appear');
+  userDB.set(appear).catchError((err) {
+    return false;
+  });
+  return true;
 }
 
 Future<int> sendVerificationCode(String email) async {

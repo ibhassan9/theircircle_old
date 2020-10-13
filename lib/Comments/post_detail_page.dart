@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,8 +7,10 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:unify/Models/user.dart';
 
 class PostDetailPage extends StatefulWidget {
   final Post post;
@@ -21,6 +24,8 @@ class PostDetailPage extends StatefulWidget {
 }
 
 class _PostDetailPageState extends State<PostDetailPage> {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     TextEditingController commentController = TextEditingController();
@@ -79,6 +84,19 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       widget.course == null ? null : widget.course,
                       widget.club == null ? null : widget.club);
                   if (res) {
+                    var user = await getUser(widget.post.userId);
+                    var token = user.device_token;
+                    if (user.id != firebaseAuth.currentUser.uid) {
+                      if (widget.club == null && widget.course == null) {
+                        await sendPush(1, token, comment.content);
+                      } else if (widget.club != null) {
+                        await sendPushClub(
+                            widget.club, 1, token, comment.content);
+                      } else {
+                        await sendPushCourse(
+                            widget.course, 1, token, comment.content);
+                      }
+                    }
                     commentController.clear();
                   } else {}
                   setState(() {});
@@ -98,7 +116,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
           "Comments",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 17, fontWeight: FontWeight.w700, color: Colors.black),
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
         ),
         backgroundColor: Colors.white,

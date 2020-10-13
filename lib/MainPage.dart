@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ import 'package:unify/Courses/courses_page.dart';
 import 'package:unify/Home/PostWidget.dart';
 import 'package:unify/MenuWidget.dart';
 import 'package:unify/Models/news.dart';
+import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart' as u;
 import 'package:unify/NewsView.dart';
@@ -197,6 +199,37 @@ class _MainPageState extends State<MainPage> {
                             ],
                           ),
                           SizedBox(height: 30.0),
+                          InkWell(
+                            onTap: () async {
+                              var appear = user.appear ? false : true;
+                              var res = await u.changeAppear(appear);
+                              if (res) {
+                                setState(() {
+                                  user.appear = appear;
+                                });
+                              }
+                            },
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                      user.appear == false
+                                          ? FlutterIcons.eye_ant
+                                          : FlutterIcons.eye_off_fea,
+                                      color: Colors.blue,
+                                      size: 20.0),
+                                  SizedBox(width: 5.0),
+                                  Text(
+                                      user.appear
+                                          ? "Hide in Students on Unify"
+                                          : "Appear in Students on Unify",
+                                      style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.blue)))
+                                ]),
+                          ),
                           Divider(),
                           SizedBox(height: 10.0),
                           Visibility(
@@ -551,6 +584,29 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     getUserData();
     _future = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      print(token);
+    });
   }
 
   Future<Null> refresh() async {

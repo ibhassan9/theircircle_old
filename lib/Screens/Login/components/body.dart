@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Screens/Signup/components/background.dart';
 import 'package:unify/Screens/Signup/signup_screen.dart';
@@ -21,6 +22,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -56,6 +58,15 @@ class _BodyState extends State<Body> {
             RoundedButton(
               text: "LOGIN",
               press: () async {
+                final snackBar = SnackBar(
+                    content: Text('Logging you in. Please wait.',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        )));
+                Scaffold.of(context).showSnackBar(snackBar);
                 await signInUser(
                     emailController.text, passwordController.text, context);
                 emailController.clear();

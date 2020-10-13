@@ -14,6 +14,13 @@ class ClubsPage extends StatefulWidget {
 class _ClubsPageState extends State<ClubsPage> {
   TextEditingController clubNameController = TextEditingController();
   TextEditingController clubDescriptionController = TextEditingController();
+  TextEditingController searchingController = TextEditingController();
+
+  List<Club> clubs = List<Club>();
+  List<Club> searchedClubs = List<Club>();
+  bool isSearching = false;
+
+  Future<List<Club>> _future;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +169,26 @@ class _ClubsPageState extends State<ClubsPage> {
               children: <Widget>[
                 Container(
                   child: TextField(
+                    controller: searchingController,
+                    onChanged: (value) {
+                      searchedClubs = [];
+                      if (value.isEmpty) {
+                        setState(() {
+                          searchedClubs = [];
+                        });
+                      } else {
+                        value = value.toLowerCase();
+                        for (var club in clubs) {
+                          if (club.name.toLowerCase().contains(value)) {
+                            if (searchedClubs.contains(club)) {
+                            } else {
+                              searchedClubs.add(club);
+                            }
+                          }
+                        }
+                        setState(() {});
+                      }
+                    },
                     decoration: new InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -179,87 +206,112 @@ class _ClubsPageState extends State<ClubsPage> {
                     ),
                   ),
                 ),
-                FutureBuilder(
-                    future: fetchClubs(),
-                    builder: (context, snap) {
-                      if (snap.connectionState == ConnectionState.waiting)
-                        return Center(
-                            child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                        ));
-                      else if (snap.hasData)
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: snap.data != null ? snap.data.length : 0,
-                          itemBuilder: (BuildContext context, int index) {
-                            Club club = snap.data[index];
+                searchedClubs.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount:
+                            searchedClubs != null ? searchedClubs.length : 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          Club club = searchedClubs[index];
+                          Function delete = () async {
+                            var res = await deleteClub(club);
+                            if (res) {
+                              setState(() {});
+                            }
+                          };
 
-                            Function delete = () async {
-                              var res = await deleteClub(club);
-                              if (res) {
-                                setState(() {});
-                              }
-                            };
+                          return Column(
+                            children: <Widget>[
+                              ClubWidget(club: club, delete: delete),
+                              Divider(),
+                            ],
+                          );
+                        },
+                      )
+                    : FutureBuilder(
+                        future: _future,
+                        builder: (context, snap) {
+                          if (snap.connectionState == ConnectionState.waiting)
+                            return Center(
+                                child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                            ));
+                          else if (snap.hasData)
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  snap.data != null ? snap.data.length : 0,
+                              itemBuilder: (BuildContext context, int index) {
+                                Club club = snap.data[index];
+                                clubs.add(club);
+                                Function delete = () async {
+                                  var res = await deleteClub(club);
+                                  if (res) {
+                                    setState(() {});
+                                  }
+                                };
 
-                            return Column(
-                              children: <Widget>[
-                                ClubWidget(club: club, delete: delete),
-                                Divider(),
-                              ],
+                                return Column(
+                                  children: <Widget>[
+                                    ClubWidget(club: club, delete: delete),
+                                    Divider(),
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        );
-                      else if (snap.hasError)
-                        return Container(
-                          height: MediaQuery.of(context).size.height / 1.4,
-                          child: Center(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.face,
-                                  color: Colors.grey,
+                          else if (snap.hasError)
+                            return Container(
+                              height: MediaQuery.of(context).size.height / 1.4,
+                              child: Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.face,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text("Cannot find any clubs :(",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey),
+                                        )),
+                                  ],
                                 ),
-                                SizedBox(width: 10),
-                                Text("Cannot find any clubs :(",
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        );
-                      else
-                        return Container(
-                          height: MediaQuery.of(context).size.height / 1.4,
-                          child: Center(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.face,
-                                  color: Colors.grey,
+                              ),
+                            );
+                          else
+                            return Container(
+                              height: MediaQuery.of(context).size.height / 1.4,
+                              child: Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.face,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text("There are no clubs :(",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey),
+                                        )),
+                                  ],
                                 ),
-                                SizedBox(width: 10),
-                                Text("There are no clubs :(",
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        );
-                    }),
+                              ),
+                            );
+                        }),
               ],
             )
           ],
@@ -271,10 +323,20 @@ class _ClubsPageState extends State<ClubsPage> {
   @override
   void initState() {
     super.initState();
+    _future = fetchClubs();
+    getData();
+  }
+
+  getData() async {
+    clubs = await fetchClubs();
+    print(clubs);
   }
 
   Future<Null> refresh() async {
-    this.setState(() {});
+    await getData();
+    this.setState(() {
+      _future = fetchClubs();
+    });
   }
 
   @override

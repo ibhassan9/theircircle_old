@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Clubs/club_page.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
+import 'package:unify/Models/notification.dart';
+import 'package:unify/Models/user.dart';
 
 class ClubWidget extends StatefulWidget {
   final Club club;
@@ -177,6 +179,9 @@ class _ClubWidgetState extends State<ClubWidget> {
                                   await leaveClub(widget.club);
                                 } else if (widget.club.privacy == 0) {
                                   await joinClub(widget.club);
+                                  var user = await getUser(widget.club.adminId);
+                                  var token = user.device_token;
+                                  await sendPushClub(widget.club, 6, token, "");
                                   setState(() {
                                     widget.club.inClub = true;
                                     widget.club.memberCount += 1;
@@ -192,6 +197,11 @@ class _ClubWidgetState extends State<ClubWidget> {
                                       widget.club.requested = true;
                                     });
                                     await requestToJoin(widget.club);
+                                    var user =
+                                        await getUser(widget.club.adminId);
+                                    var token = user.device_token;
+                                    await sendPushClub(
+                                        widget.club, 5, token, "");
                                   }
                                 }
                               },

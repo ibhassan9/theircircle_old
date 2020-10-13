@@ -78,13 +78,30 @@ class _VerificationPageState extends State<VerificationPage> {
                 onCompleted: (String value) async {
                   if (value == widget.code.toString()) {
                     // do something
-                    print("Code is correct");
+                    final snackBar = SnackBar(
+                        content: Text('Your account is verified! Logging in.',
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            )));
+                    Scaffold.of(context).showSnackBar(snackBar);
                     var result = await updateVerification(widget.uid);
                     if (result) {
                       await signInUser(widget.email, widget.password, context);
                     }
                   } else {
-                    print("Code is wrong");
+                    final snackBar = SnackBar(
+                        content:
+                            Text('Sorry! The code is wrong please try again.',
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                )));
+                    Scaffold.of(context).showSnackBar(snackBar);
                   }
                 },
                 onEditing: (bool value) {

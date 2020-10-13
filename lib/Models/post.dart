@@ -51,6 +51,9 @@ class Post {
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+var postsDB = FirebaseDatabase.instance.reference().child('posts');
+
 var postDBrefUofT =
     FirebaseDatabase.instance.reference().child('posts').child('UofT');
 var postDBrefYork =
@@ -78,50 +81,27 @@ var clubDBYorkU =
 Future<bool> createPost(Post post) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
-  if (uniKey == 0) {
-    var key = postDBrefUofT.push();
-    final Map<String, dynamic> data = {
-      "userId": firebaseAuth.currentUser.uid,
-      "name": user.name,
-      "content": post.content,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch,
-      "isAnonymous": post.isAnonymous,
-      "courseId": post.courseId,
-      "likeCount": 0,
-      "commentCount": 0,
-      "imgUrl": post.imgUrl
-    };
 
-    await key.set(data);
-    DataSnapshot ds = await key.once();
-    if (ds.value != null) {
-      return true;
-    } else {
-      return false;
-    }
+  var db = postsDB.child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var key = db.push();
+  final Map<String, dynamic> data = {
+    "userId": firebaseAuth.currentUser.uid,
+    "name": user.name,
+    "content": post.content,
+    "timeStamp": DateTime.now().millisecondsSinceEpoch,
+    "isAnonymous": post.isAnonymous,
+    "courseId": post.courseId,
+    "likeCount": 0,
+    "commentCount": 0,
+    "imgUrl": post.imgUrl
+  };
+
+  await key.set(data);
+  DataSnapshot ds = await key.once();
+  if (ds.value != null) {
+    return true;
   } else {
-    var key = postDBrefYork.push();
-    final Map<String, dynamic> data = {
-      "userId": firebaseAuth.currentUser.uid,
-      "name": user.name,
-      "content": post.content,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch,
-      "isAnonymous": post.isAnonymous,
-      "courseId": post.courseId,
-      "likeCount": 0,
-      "commentCount": 0,
-      "imgUrl": post.imgUrl
-    };
-
-    //TODO:- Fix Push Random Key
-
-    await key.set(data);
-    DataSnapshot ds = await key.once();
-    if (ds.value != null) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }
 
@@ -145,7 +125,7 @@ Future<List<Post>> fetchPosts() async {
         timeStamp: value['timeStamp'],
         isAnonymous: value['isAnonymous'],
         courseId: value['courseId'],
-        likeCount: value['likeCount'],
+        likeCount: value['likes'] != null ? value['likes'].length : 0,
         commentCount: value['commentCount'],
         comments: value['comments'],
         imgUrl: value['imgUrl'],
@@ -153,10 +133,26 @@ Future<List<Post>> fetchPosts() async {
         questionTwo: value['questionTwo'],
         questionOneLikeCount: value['questionOneLikeCount'],
         questionTwoLikeCount: value['questionTwoLikeCount']);
+
+    if (value['likes'] != null) {
+      var liked = checkIsLiked(value['likes']);
+      post.isLiked = liked;
+    } else {
+      post.isLiked = false;
+    }
     p.add(post);
   });
   p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   return p;
+}
+
+bool checkIsLiked(Map<dynamic, dynamic> likes) {
+  for (var value in likes.values) {
+    if (value == firebaseAuth.currentUser.uid) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Future<bool> createCoursePost(Post post, Course course) async {
@@ -173,7 +169,6 @@ Future<bool> createCoursePost(Post post, Course course) async {
     "timeStamp": DateTime.now().millisecondsSinceEpoch,
     "isAnonymous": post.isAnonymous,
     "courseId": post.courseId,
-    "likeCount": 0,
     "commentCount": 0,
     "imgUrl": post.imgUrl
   };
@@ -214,7 +209,6 @@ Future<bool> createClubPost(Post post, Club club) async {
     "timeStamp": DateTime.now().millisecondsSinceEpoch,
     "isAnonymous": post.isAnonymous,
     "courseId": post.courseId,
-    "likeCount": 0,
     "commentCount": 0,
     "imgUrl": post.imgUrl
   };
@@ -350,7 +344,9 @@ Future<bool> deletePost(String postId, Course course, Club club) async {
       .reference()
       .child(course == null && club == null
           ? 'posts'
-          : course == null ? 'clubposts' : 'courseposts')
+          : course == null
+              ? 'clubposts'
+              : 'courseposts')
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(postId);
   await db.remove().catchError((err) {
@@ -387,7 +383,7 @@ Future<List<Post>> fetchCoursePosts(Course course) async {
         timeStamp: value['timeStamp'],
         isAnonymous: value['isAnonymous'],
         courseId: value['courseId'],
-        likeCount: value['likeCount'],
+        likeCount: value['likes'] != null ? value['likes'].length : 0,
         commentCount: value['commentCount'],
         comments: value['comments'],
         imgUrl: value['imgUrl'],
@@ -395,10 +391,102 @@ Future<List<Post>> fetchCoursePosts(Course course) async {
         questionTwo: value['questionTwo'],
         questionOneLikeCount: value['questionOneLikeCount'],
         questionTwoLikeCount: value['questionTwoLikeCount']);
+    if (value['likes'] != null) {
+      var liked = checkIsLiked(value['likes']);
+      post.isLiked = liked;
+    } else {
+      post.isLiked = false;
+    }
     p.add(post);
   });
   p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   return p;
+}
+
+Future<bool> like(Post post, Club club, Course course) async {
+  var uniKey = Constants.checkUniversity();
+
+  club == null && course == null
+      ? await FirebaseDatabase.instance
+          .reference()
+          .child('posts')
+          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(post.id)
+          .child('likes')
+          .child(firebaseAuth.currentUser.uid)
+          .set(firebaseAuth.currentUser.uid)
+          .catchError((err) {
+          return false;
+        })
+      : club != null
+          ? await FirebaseDatabase.instance
+              .reference()
+              .child('clubposts')
+              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(club.id)
+              .child(post.id)
+              .child('likes')
+              .child(firebaseAuth.currentUser.uid)
+              .set(firebaseAuth.currentUser.uid)
+              .catchError((err) {
+              return false;
+            })
+          : await FirebaseDatabase.instance
+              .reference()
+              .child('courseposts')
+              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(course.id)
+              .child(post.id)
+              .child('likes')
+              .child(firebaseAuth.currentUser.uid)
+              .set(firebaseAuth.currentUser.uid)
+              .catchError((err) {
+              return false;
+            });
+  return true;
+}
+
+Future<bool> unlike(Post post, Club club, Course course) async {
+  var uniKey = Constants.checkUniversity();
+
+  club == null && course == null
+      ? await FirebaseDatabase.instance
+          .reference()
+          .child('posts')
+          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(post.id)
+          .child('likes')
+          .child(firebaseAuth.currentUser.uid)
+          .remove()
+          .catchError((err) {
+          return false;
+        })
+      : club != null
+          ? await FirebaseDatabase.instance
+              .reference()
+              .child('clubposts')
+              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(club.id)
+              .child(post.id)
+              .child('likes')
+              .child(firebaseAuth.currentUser.uid)
+              .remove()
+              .catchError((err) {
+              return false;
+            })
+          : await FirebaseDatabase.instance
+              .reference()
+              .child('courseposts')
+              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(course.id)
+              .child(post.id)
+              .child('likes')
+              .child(firebaseAuth.currentUser.uid)
+              .remove()
+              .catchError((err) {
+              return false;
+            });
+  return true;
 }
 
 Future<List<Post>> fetchClubPosts(Club club) async {
@@ -429,7 +517,7 @@ Future<List<Post>> fetchClubPosts(Club club) async {
         timeStamp: value['timeStamp'],
         isAnonymous: value['isAnonymous'],
         courseId: value['courseId'],
-        likeCount: value['likeCount'],
+        likeCount: value['likes'] != null ? value['likes'].length : 0,
         commentCount: value['commentCount'],
         comments: value['comments'],
         imgUrl: value['imgUrl'],
@@ -437,6 +525,12 @@ Future<List<Post>> fetchClubPosts(Club club) async {
         questionTwo: value['questionTwo'],
         questionOneLikeCount: value['questionOneLikeCount'],
         questionTwoLikeCount: value['questionTwoLikeCount']);
+    if (value['likes'] != null) {
+      var liked = checkIsLiked(value['likes']);
+      post.isLiked = liked;
+    } else {
+      post.isLiked = false;
+    }
     p.add(post);
   });
   p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));

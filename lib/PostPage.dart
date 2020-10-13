@@ -130,16 +130,22 @@ class _PostPageState extends State<PostPage> {
                       });
                     }
                   },
-                  child: Text(
-                    isAnonymous == false
-                        ? "Posting as yourself"
-                        : "Posting Anonymously",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey),
-                    ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.lock, color: Colors.blue, size: 15.0),
+                      SizedBox(width: 5.0),
+                      Text(
+                        isAnonymous == false
+                            ? "Posting as yourself"
+                            : "Posting Anonymously",
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue),
+                        ),
+                      ),
+                    ],
                   ),
                 )),
                 Row(
