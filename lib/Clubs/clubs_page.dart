@@ -19,6 +19,7 @@ class _ClubsPageState extends State<ClubsPage> {
   List<Club> clubs = List<Club>();
   List<Club> searchedClubs = List<Club>();
   bool isSearching = false;
+  String filter;
 
   Future<List<Club>> _future;
 
@@ -171,23 +172,26 @@ class _ClubsPageState extends State<ClubsPage> {
                   child: TextField(
                     controller: searchingController,
                     onChanged: (value) {
-                      searchedClubs = [];
-                      if (value.isEmpty) {
-                        setState(() {
-                          searchedClubs = [];
-                        });
-                      } else {
-                        value = value.toLowerCase();
-                        for (var club in clubs) {
-                          if (club.name.toLowerCase().contains(value)) {
-                            if (searchedClubs.contains(club)) {
-                            } else {
-                              searchedClubs.add(club);
-                            }
-                          }
-                        }
-                        setState(() {});
-                      }
+                      setState(() {
+                        filter = value;
+                      });
+                      // searchedClubs = [];
+                      // if (value.isEmpty) {
+                      //   setState(() {
+                      //     searchedClubs = [];
+                      //   });
+                      // } else {
+                      //   value = value.toLowerCase();
+                      //   for (var club in clubs) {
+                      //     if (club.name.toLowerCase().contains(value)) {
+                      //       if (searchedClubs.contains(club)) {
+                      //       } else {
+                      //         searchedClubs.add(club);
+                      //       }
+                      //     }
+                      //   }
+                      //   setState(() {});
+                      // }
                     },
                     decoration: new InputDecoration(
                         border: InputBorder.none,
@@ -247,7 +251,6 @@ class _ClubsPageState extends State<ClubsPage> {
                                   snap.data != null ? snap.data.length : 0,
                               itemBuilder: (BuildContext context, int index) {
                                 Club club = snap.data[index];
-                                clubs.add(club);
                                 Function delete = () async {
                                   var res = await deleteClub(club);
                                   if (res) {
@@ -255,12 +258,26 @@ class _ClubsPageState extends State<ClubsPage> {
                                   }
                                 };
 
-                                return Column(
-                                  children: <Widget>[
-                                    ClubWidget(club: club, delete: delete),
-                                    Divider(),
-                                  ],
-                                );
+                                return filter == null || filter.trim() == ""
+                                    ? Column(
+                                        children: <Widget>[
+                                          ClubWidget(
+                                              club: club, delete: delete),
+                                          Divider(),
+                                        ],
+                                      )
+                                    : club.name
+                                            .toLowerCase()
+                                            .trim()
+                                            .contains(filter.trim())
+                                        ? Column(
+                                            children: <Widget>[
+                                              ClubWidget(
+                                                  club: club, delete: delete),
+                                              Divider(),
+                                            ],
+                                          )
+                                        : new Container();
                               },
                             );
                           else if (snap.hasError)

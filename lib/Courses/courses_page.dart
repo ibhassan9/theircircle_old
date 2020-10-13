@@ -10,6 +10,8 @@ class CoursesPage extends StatefulWidget {
 
 class _CoursesPageState extends State<CoursesPage> {
   bool didload = false;
+  String filter;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +40,11 @@ class _CoursesPageState extends State<CoursesPage> {
               children: <Widget>[
                 Container(
                   child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        filter = value;
+                      });
+                    },
                     decoration: new InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
@@ -80,12 +87,28 @@ class _CoursesPageState extends State<CoursesPage> {
                                   snap.data != null ? snap.data.length : 0,
                               itemBuilder: (BuildContext context, int index) {
                                 Course course = snap.data[index];
-                                return Column(
-                                  children: <Widget>[
-                                    CourseWidget(course: course),
-                                    Divider(),
-                                  ],
-                                );
+                                return filter == null || filter.trim() == ""
+                                    ? Column(
+                                        children: <Widget>[
+                                          CourseWidget(course: course),
+                                          Divider(),
+                                        ],
+                                      )
+                                    : course.name
+                                                .toLowerCase()
+                                                .trim()
+                                                .contains(filter.trim()) ||
+                                            course.code
+                                                .toLowerCase()
+                                                .trim()
+                                                .contains(filter.trim())
+                                        ? Column(
+                                            children: <Widget>[
+                                              CourseWidget(course: course),
+                                              Divider(),
+                                            ],
+                                          )
+                                        : new Container();
                               },
                             );
                           else if (snap.hasError)

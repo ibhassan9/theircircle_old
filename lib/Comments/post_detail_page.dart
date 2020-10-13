@@ -130,7 +130,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
             ListView(
               children: <Widget>[
                 FutureBuilder(
-                  future: fetchComments(widget.post),
+                  future:
+                      fetchComments(widget.post, widget.course, widget.club),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -149,7 +150,29 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         },
                       );
                     } else {
-                      return Container();
+                      return Container(
+                        height: MediaQuery.of(context).size.height / 1.4,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.face,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 10),
+                              Text("There are no comments :(",
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),

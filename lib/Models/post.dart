@@ -23,7 +23,7 @@ class Post {
   String courseId;
   int likeCount;
   int commentCount;
-  List comments;
+  Map<dynamic, dynamic> comments;
   String imgUrl;
   String questionOne;
   String questionTwo;
@@ -126,13 +126,13 @@ Future<List<Post>> fetchPosts() async {
         isAnonymous: value['isAnonymous'],
         courseId: value['courseId'],
         likeCount: value['likes'] != null ? value['likes'].length : 0,
-        commentCount: value['commentCount'],
-        comments: value['comments'],
-        imgUrl: value['imgUrl'],
-        questionOne: value['questionOne'],
-        questionTwo: value['questionTwo'],
-        questionOneLikeCount: value['questionOneLikeCount'],
-        questionTwoLikeCount: value['questionTwoLikeCount']);
+        imgUrl: value['imgUrl']);
+
+    if (value['comments'] != null) {
+      post.commentCount = value['comments'].length;
+    } else {
+      post.commentCount = 0;
+    }
 
     if (value['likes'] != null) {
       var liked = checkIsLiked(value['likes']);
@@ -384,13 +384,14 @@ Future<List<Post>> fetchCoursePosts(Course course) async {
         isAnonymous: value['isAnonymous'],
         courseId: value['courseId'],
         likeCount: value['likes'] != null ? value['likes'].length : 0,
-        commentCount: value['commentCount'],
-        comments: value['comments'],
-        imgUrl: value['imgUrl'],
-        questionOne: value['questionOne'],
-        questionTwo: value['questionTwo'],
-        questionOneLikeCount: value['questionOneLikeCount'],
-        questionTwoLikeCount: value['questionTwoLikeCount']);
+        imgUrl: value['imgUrl']);
+
+    if (value['comments'] != null) {
+      post.commentCount = value['comments'].length;
+    } else {
+      post.commentCount = 0;
+    }
+
     if (value['likes'] != null) {
       var liked = checkIsLiked(value['likes']);
       post.isLiked = liked;
@@ -518,13 +519,14 @@ Future<List<Post>> fetchClubPosts(Club club) async {
         isAnonymous: value['isAnonymous'],
         courseId: value['courseId'],
         likeCount: value['likes'] != null ? value['likes'].length : 0,
-        commentCount: value['commentCount'],
-        comments: value['comments'],
-        imgUrl: value['imgUrl'],
-        questionOne: value['questionOne'],
-        questionTwo: value['questionTwo'],
-        questionOneLikeCount: value['questionOneLikeCount'],
-        questionTwoLikeCount: value['questionTwoLikeCount']);
+        imgUrl: value['imgUrl']);
+
+    if (value['comments'] != null) {
+      post.commentCount = value['comments'].length;
+    } else {
+      post.commentCount = 0;
+    }
+
     if (value['likes'] != null) {
       var liked = checkIsLiked(value['likes']);
       post.isLiked = liked;
