@@ -23,6 +23,8 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
+  int sortBy = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,8 +89,33 @@ class _CoursePageState extends State<CoursePage> {
                 SizedBox(
                   height: 10,
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (sortBy == 0) {
+                          sortBy = 1;
+                        } else {
+                          sortBy = 0;
+                        }
+                      });
+                    },
+                    child: Center(
+                      child: Text(
+                        "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 FutureBuilder(
-                  future: fetchCoursePosts(widget.course),
+                  future: fetchCoursePosts(widget.course, sortBy),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(

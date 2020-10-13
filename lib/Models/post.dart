@@ -105,7 +105,7 @@ Future<bool> createPost(Post post) async {
   }
 }
 
-Future<List<Post>> fetchPosts() async {
+Future<List<Post>> fetchPosts(int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();
   var db = uniKey == 0
@@ -142,7 +142,13 @@ Future<List<Post>> fetchPosts() async {
     }
     p.add(post);
   });
-  p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  if (sortBy == 0) {
+    p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  } else {
+    p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
+        .toString()
+        .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+  }
   return p;
 }
 
@@ -355,7 +361,7 @@ Future<bool> deletePost(String postId, Course course, Club club) async {
   return true;
 }
 
-Future<List<Post>> fetchCoursePosts(Course course) async {
+Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();
   var db = uniKey == 0
@@ -400,7 +406,13 @@ Future<List<Post>> fetchCoursePosts(Course course) async {
     }
     p.add(post);
   });
-  p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  if (sortBy == 0) {
+    p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  } else {
+    p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
+        .toString()
+        .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+  }
   return p;
 }
 
@@ -490,7 +502,7 @@ Future<bool> unlike(Post post, Club club, Course course) async {
   return true;
 }
 
-Future<List<Post>> fetchClubPosts(Club club) async {
+Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();
   var db = uniKey == 0
@@ -535,6 +547,13 @@ Future<List<Post>> fetchClubPosts(Club club) async {
     }
     p.add(post);
   });
-  p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+
+  if (sortBy == 0) {
+    p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  } else {
+    p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
+        .toString()
+        .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+  }
   return p;
 }

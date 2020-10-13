@@ -58,7 +58,7 @@ class _CoursesPageState extends State<CoursesPage> {
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: Colors.grey.shade600),
                       ),
                     ),
                     style: GoogleFonts.quicksand(

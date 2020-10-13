@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Clubs/join_requests_list.dart';
 import 'package:unify/Courses/MemberWidget.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart' as cour;
@@ -37,6 +39,22 @@ class _MembersListPageState extends State<MembersListPage> {
                   color: Colors.black),
             ),
           ),
+          actions: [
+            Visibility(
+              visible: widget.club != null ? widget.club.admin : false,
+              child: IconButton(
+                icon: Icon(AntDesign.addusergroup),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => JoinRequestsListPage(
+                                club: widget.club,
+                              )));
+                },
+              ),
+            ),
+          ],
           backgroundColor: Colors.white,
           elevation: 0.7,
           iconTheme: IconThemeData(color: Colors.black),

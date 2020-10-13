@@ -80,6 +80,7 @@ Future<List<Course>> fetchCourses() async {
     course.inCourse = inCourse(course);
     c.add(course);
   }
+  c.sort((a, b) => b.inCourse.toString().compareTo(a.inCourse.toString()));
   return c;
 }
 

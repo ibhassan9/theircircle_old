@@ -43,6 +43,7 @@ class _MainPageState extends State<MainPage> {
   var uni;
   u.PostUser user;
   Future<List<News>> _future;
+  int sortBy = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -199,36 +200,39 @@ class _MainPageState extends State<MainPage> {
                             ],
                           ),
                           SizedBox(height: 30.0),
-                          InkWell(
-                            onTap: () async {
-                              var appear = user.appear ? false : true;
-                              var res = await u.changeAppear(appear);
-                              if (res) {
-                                setState(() {
-                                  user.appear = appear;
-                                });
-                              }
-                            },
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                      user.appear == false
-                                          ? FlutterIcons.eye_ant
-                                          : FlutterIcons.eye_off_fea,
-                                      color: Colors.blue,
-                                      size: 20.0),
-                                  SizedBox(width: 5.0),
-                                  Text(
-                                      user.appear
-                                          ? "Hide in Students on Unify"
-                                          : "Appear in Students on Unify",
-                                      style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.blue)))
-                                ]),
+                          Visibility(
+                            visible: user.id == me.id,
+                            child: InkWell(
+                              onTap: () async {
+                                var appear = user.appear ? false : true;
+                                var res = await u.changeAppear(appear);
+                                if (res) {
+                                  setState(() {
+                                    user.appear = appear;
+                                  });
+                                }
+                              },
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                        user.appear == false
+                                            ? FlutterIcons.eye_ant
+                                            : FlutterIcons.eye_off_fea,
+                                        color: Colors.blue,
+                                        size: 20.0),
+                                    SizedBox(width: 5.0),
+                                    Text(
+                                        user.appear
+                                            ? "Hide from 'Students on Unify'"
+                                            : "Appear on 'Students on Unify'",
+                                        style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.blue)))
+                                  ]),
+                            ),
                           ),
                           Divider(),
                           SizedBox(height: 10.0),
@@ -425,19 +429,44 @@ class _MainPageState extends State<MainPage> {
               Divider(),
               Padding(
                 padding: const EdgeInsets.all(15),
-                child: Text(
-                  "Campus Feed",
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Campus Feed",
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (sortBy == 0) {
+                            sortBy = 1;
+                          } else {
+                            sortBy = 0;
+                          }
+                        });
+                      },
+                      child: Text(
+                        "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade600),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Divider(),
               FutureBuilder(
-                  future: fetchPosts(),
+                  future: fetchPosts(sortBy),
                   builder: (context, snap) {
                     if (snap.connectionState == ConnectionState.waiting) {
                       return Center(

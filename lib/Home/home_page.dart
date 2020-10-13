@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
             FutureBuilder(
-              future: fetchPosts(),
+              future: fetchPosts(0),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(

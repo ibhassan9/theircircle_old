@@ -128,7 +128,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "${widget.course != null ? 'Assignment Due Date:' : 'Event Date:'} ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
+                  "${widget.course != null ? 'Date:' : 'Date:'} ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
@@ -148,8 +148,8 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: widget.course != null
-                        ? "Assignment Title..."
-                        : "Event Title"),
+                        ? "Title. Eg: Study session"
+                        : "Title. Eg: Lunch meeting"),
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
@@ -168,8 +168,8 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: widget.course != null
-                        ? "Assignment Description..."
-                        : "Event Description"),
+                        ? "Description..."
+                        : "Description..."),
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
@@ -188,7 +188,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText:
-                        widget.course != null ? "Time Due..." : "When is it?"),
+                        widget.course != null ? "When is it?" : "When is it?"),
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,

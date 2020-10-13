@@ -25,6 +25,8 @@ class ClubPage extends StatefulWidget {
 }
 
 class _ClubPageState extends State<ClubPage> {
+  int sortBy = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,22 +57,8 @@ class _ClubPageState extends State<ClubPage> {
               });
             },
           ),
-          Visibility(
-            visible: widget.club.admin,
-            child: IconButton(
-              icon: Icon(AntDesign.addusergroup),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => JoinRequestsListPage(
-                              club: widget.club,
-                            )));
-              },
-            ),
-          ),
           IconButton(
-            icon: Icon(AntDesign.user),
+            icon: Icon(AntDesign.team),
             onPressed: () {
               Navigator.push(
                   context,
@@ -105,8 +93,33 @@ class _ClubPageState extends State<ClubPage> {
                 SizedBox(
                   height: 10,
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (sortBy == 0) {
+                          sortBy = 1;
+                        } else {
+                          sortBy = 0;
+                        }
+                      });
+                    },
+                    child: Center(
+                      child: Text(
+                        "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 FutureBuilder(
-                  future: fetchClubPosts(widget.club),
+                  future: fetchClubPosts(widget.club, sortBy),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(

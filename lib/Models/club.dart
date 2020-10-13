@@ -78,6 +78,7 @@ Future<List<Club>> fetchClubs() async {
 
     c.add(club);
   }
+  c.sort((a, b) => b.inClub.toString().compareTo(a.inClub.toString()));
 
   return c;
 }

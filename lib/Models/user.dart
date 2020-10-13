@@ -251,7 +251,7 @@ Future<List<PostUser>> myCampusUsers() async {
       p.add(user);
     }
   }
-
+  p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
   return p;
 }
 

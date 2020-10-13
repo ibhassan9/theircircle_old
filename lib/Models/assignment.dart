@@ -169,7 +169,7 @@ Future<bool> deleteAssignment(
       .child(course != null ? course.id : club.id)
       .child(dateTime)
       .child(a.id);
-  await assignmentDB.remove().catchError(() {
+  await assignmentDB.remove().catchError((err) {
     return false;
   });
   return true;

@@ -20,7 +20,7 @@ Future<Null> sendPush(int nID, String token, String text) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
 
-  var res = await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -41,7 +41,6 @@ Future<Null> sendPush(int nID, String token, String text) async {
           'to': token,
         },
       ));
-  print(json.decode(res.body)['results']);
 }
 
 Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
@@ -80,7 +79,7 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
       break;
   }
 
-  var res = await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -96,7 +95,6 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
           'to': token,
         },
       ));
-  print(json.decode(res.body)['results']);
 }
 
 Future<Null> sendPushCourse(
@@ -124,7 +122,7 @@ Future<Null> sendPushCourse(
       break;
   }
 
-  var res = await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -140,5 +138,4 @@ Future<Null> sendPushCourse(
           'to': token,
         },
       ));
-  print(json.decode(res.body)['results']);
 }
