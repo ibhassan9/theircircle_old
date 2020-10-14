@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toast/toast.dart';
 import 'package:unify/Models/user.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -78,30 +79,13 @@ class _VerificationPageState extends State<VerificationPage> {
                 onCompleted: (String value) async {
                   if (value == widget.code.toString()) {
                     // do something
-                    final snackBar = SnackBar(
-                        content: Text('Your account is verified! Logging in.',
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            )));
-                    Scaffold.of(context).showSnackBar(snackBar);
+                    showCorrect();
                     var result = await updateVerification(widget.uid);
                     if (result) {
                       await signInUser(widget.email, widget.password, context);
                     }
                   } else {
-                    final snackBar = SnackBar(
-                        content:
-                            Text('Sorry! The code is wrong please try again.',
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white),
-                                )));
-                    Scaffold.of(context).showSnackBar(snackBar);
+                    showWrong();
                   }
                 },
                 onEditing: (bool value) {
@@ -116,5 +100,22 @@ class _VerificationPageState extends State<VerificationPage> {
         ),
       ),
     );
+  }
+
+  showCorrect() {
+    Toast.show("Code entered is correct. Please wait.", context);
+  }
+
+  showWrong() {
+    // final snackBar = SnackBar(
+    //     content: Text('Sorry! The code is wrong please try again.',
+    //         style: GoogleFonts.quicksand(
+    //           textStyle: TextStyle(
+    //               fontSize: 15,
+    //               fontWeight: FontWeight.w500,
+    //               color: Colors.white),
+    //         )));
+    // Scaffold.of(context).showSnackBar(snackBar);
+    Toast.show("Code entered is wrong. Please try again!", context);
   }
 }

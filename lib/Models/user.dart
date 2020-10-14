@@ -24,7 +24,7 @@ class PostUser {
   String id;
   String email;
   String name;
-  String verified;
+  int verified;
   int courseCount;
   int clubCount;
   String bio;
@@ -83,7 +83,16 @@ Future signInUser(String email, String password, BuildContext context) async {
         .child('device_token')
         .set(token);
     await db;
-    if (_user.verified != "verified") {
+    if (_user.verified != 1) {
+      final snackBar = SnackBar(
+          content: Text('Please wait...',
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              )));
+      Scaffold.of(context).showSnackBar(snackBar);
       var code = await sendVerificationCode(email);
       if (code == 0) {
         print("Error retreiving code...");
@@ -107,7 +116,7 @@ Future signInUser(String email, String password, BuildContext context) async {
     }
   }).catchError((err) {
     final snackBar = SnackBar(
-        content: Text(err.toString().trim(),
+        content: Text('Problem logging in. Please try again.',
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 15,
@@ -122,23 +131,15 @@ Future registerUser(
     String name, String email, String password, BuildContext context) async {
   if (email.contains(new RegExp(r'yorku', caseSensitive: false)) == false &&
       email.contains(new RegExp(r'utoronto', caseSensitive: false)) == false) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content:
-                Text("Please sign up using your university email address."),
-            actions: [
-              FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+    final snackBar = SnackBar(
+        content: Text('Please use your university email to sign up.',
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            )));
+    Scaffold.of(context).showSnackBar(snackBar);
     return;
   }
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -169,22 +170,16 @@ Future registerUser(
       );
     });
   }).catchError((err) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(err.toString()),
-            actions: [
-              FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+    final snackBar = SnackBar(
+        content:
+            Text('Problem creating account / email might already be in use.',
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                )));
+    Scaffold.of(context).showSnackBar(snackBar);
   });
 }
 
@@ -296,7 +291,7 @@ Future<bool> updateVerification(String uid) async {
       .child('users')
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(uid);
-  Map<String, dynamic> value = {"verification": "verified"};
+  Map<String, dynamic> value = {"verification": 1};
   await db.update(value);
   return true;
 }

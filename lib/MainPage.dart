@@ -336,7 +336,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () {
               if (user == null) {
                 u.PostUser dummyUser =
-                    u.PostUser(bio: "", id: "", name: "", verified: "");
+                    u.PostUser(bio: "", id: "", name: "", verified: 1);
                 showProfile(dummyUser);
               } else {
                 showProfile(user);
