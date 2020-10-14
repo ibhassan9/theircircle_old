@@ -6,11 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unify/AppTheme.dart';
 import 'package:unify/MainPage.dart';
+import 'package:unify/Models/user.dart';
 import 'package:unify/Screens/Welcome/welcome_screen.dart';
 
+PostUser user;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  user = await getUser(firebaseAuth.currentUser.uid);
   runApp(MyApp());
 }
 
@@ -20,9 +23,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Unify',
       debugShowCheckedModeBanner: false,
-      home: firebaseAuth.currentUser != null ? MainPage() : WelcomeScreen(),
+      home:
+          firebaseAuth.currentUser != null && user != null && user.verified == 1
+              ? MainPage()
+              : WelcomeScreen(),
     );
   }
 }
