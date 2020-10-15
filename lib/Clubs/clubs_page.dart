@@ -109,7 +109,6 @@ class _ClubsPageState extends State<ClubsPage> {
                               setState(() {
                                 switchVal = val;
                               });
-                              print(switchVal);
                             })
                       ]),
                 )
@@ -126,7 +125,9 @@ class _ClubsPageState extends State<ClubsPage> {
             var result = await createClub(club);
 
             if (result) {
-              setState(() {});
+              setState(() {
+                _future = fetchClubs();
+              });
               clubNameController.clear();
               clubDescriptionController.clear();
             } else {
@@ -220,6 +221,7 @@ class _ClubsPageState extends State<ClubsPage> {
                         itemBuilder: (BuildContext context, int index) {
                           Club club = searchedClubs[index];
                           Function delete = () async {
+                            Navigator.pop(context);
                             var res = await deleteClub(club);
                             if (res) {
                               setState(() {});
@@ -235,7 +237,7 @@ class _ClubsPageState extends State<ClubsPage> {
                         },
                       )
                     : FutureBuilder(
-                        future: _future,
+                        future: fetchClubs(),
                         builder: (context, snap) {
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
@@ -252,10 +254,9 @@ class _ClubsPageState extends State<ClubsPage> {
                               itemBuilder: (BuildContext context, int index) {
                                 Club club = snap.data[index];
                                 Function delete = () async {
-                                  var res = await deleteClub(club);
-                                  if (res) {
-                                    setState(() {});
-                                  }
+                                  Navigator.pop(context);
+                                  await deleteClub(club);
+                                  setState(() {});
                                 };
 
                                 return filter == null || filter.trim() == ""
@@ -340,20 +341,10 @@ class _ClubsPageState extends State<ClubsPage> {
   @override
   void initState() {
     super.initState();
-    _future = fetchClubs();
-    getData();
-  }
-
-  getData() async {
-    clubs = await fetchClubs();
-    print(clubs);
   }
 
   Future<Null> refresh() async {
-    await getData();
-    this.setState(() {
-      _future = fetchClubs();
-    });
+    this.setState(() {});
   }
 
   @override

@@ -56,7 +56,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
-                          onPressed: () {}),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
                       CupertinoActionSheetAction(
                           child: Text(
                             "Cancel",

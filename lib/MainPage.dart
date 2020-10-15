@@ -39,6 +39,10 @@ class _MainPageState extends State<MainPage> {
   TextEditingController contentController = TextEditingController();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController bioController = TextEditingController();
+  TextEditingController snapchatController = TextEditingController();
+  TextEditingController linkedinController = TextEditingController();
+  TextEditingController instagramController = TextEditingController();
+
   var name = "";
   var uni;
   u.PostUser user;
@@ -73,18 +77,17 @@ class _MainPageState extends State<MainPage> {
                                           radius: 50.0,
                                           child: InkWell(
                                               onTap: () async {
-                                                var res = await u.getImage();
-                                                if (res.isNotEmpty) {
-                                                  var image = res[0] as Image;
-                                                  var file = res[1] as File;
-                                                  setState(() {
-                                                    imag = image;
-                                                    f = file;
-                                                  });
-                                                }
+                                                // var res = await u.getImage();
+                                                // if (res.isNotEmpty) {
+                                                //   var image = res[0] as Image;
+                                                //   var file = res[1] as File;
+                                                //   setState(() {
+                                                //     imag = image;
+                                                //     f = file;
+                                                //   });
+                                                // }
                                               },
-                                              child: Icon(
-                                                  FlutterIcons.picture_ant,
+                                              child: Icon(FlutterIcons.user_ant,
                                                   color: Colors.white)))
                                   : CircleAvatar(
                                       backgroundColor: Colors.grey,
@@ -185,21 +188,21 @@ class _MainPageState extends State<MainPage> {
                                       ),
                                     )),
                           SizedBox(height: 5.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                  child: Icon(FlutterIcons.linkedin_faw,
-                                      color: Colors.blue)),
-                              InkWell(
-                                  child: Icon(FlutterIcons.instagram_faw,
-                                      color: Colors.purple)),
-                              InkWell(
-                                  child: Icon(FlutterIcons.snapchat_ghost_faw,
-                                      color: Colors.black)),
-                            ],
-                          ),
-                          SizedBox(height: 30.0),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   children: [
+                          //     InkWell(
+                          //         child: Icon(FlutterIcons.linkedin_faw,
+                          //             color: Colors.blue)),
+                          //     InkWell(
+                          //         child: Icon(FlutterIcons.instagram_faw,
+                          //             color: Colors.purple)),
+                          //     InkWell(
+                          //         child: Icon(FlutterIcons.snapchat_ghost_faw,
+                          //             color: Colors.black)),
+                          //   ],
+                          // ),
+                          // SizedBox(height: 30.0),
                           Visibility(
                             visible: user.id == me.id,
                             child: InkWell(
@@ -236,6 +239,127 @@ class _MainPageState extends State<MainPage> {
                           ),
                           Divider(),
                           SizedBox(height: 10.0),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0),
+                                child: TextField(
+                                  enabled:
+                                      me.id == firebaseAuth.currentUser.uid,
+                                  controller: snapchatController,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                          FlutterIcons.snapchat_ghost_faw,
+                                          color: Colors.black),
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      hintText: me.snapchatHandle == null ||
+                                              me.snapchatHandle.isEmpty
+                                          ? me.id ==
+                                                  firebaseAuth.currentUser.uid
+                                              ? "Insert Snapchat Handle"
+                                              : "Snapchat Handle Unavailable"
+                                          : me.snapchatHandle,
+                                      hintStyle: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade700),
+                                      )),
+                                  maxLines: null,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey.shade700),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0),
+                                child: TextField(
+                                  enabled:
+                                      me.id == firebaseAuth.currentUser.uid,
+                                  controller: instagramController,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                          FlutterIcons.instagram_faw,
+                                          color: Colors.purple),
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      hintText: me.instagramHandle == null ||
+                                              me.instagramHandle.isEmpty
+                                          ? me.id ==
+                                                  firebaseAuth.currentUser.uid
+                                              ? "Insert Instagram Handle"
+                                              : "Instagram Handle Unavailable"
+                                          : me.instagramHandle,
+                                      hintStyle: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade700),
+                                      )),
+                                  maxLines: null,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey.shade700),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0),
+                                child: TextField(
+                                  enabled:
+                                      me.id == firebaseAuth.currentUser.uid,
+                                  controller: linkedinController,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                          FlutterIcons.linkedin_faw,
+                                          color: Colors.blue),
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      hintText: me.linkedinHandle == null ||
+                                              me.linkedinHandle.isEmpty
+                                          ? me.id ==
+                                                  firebaseAuth.currentUser.uid
+                                              ? "Insert LinkedIn Handle"
+                                              : "LinkedIn Handle Unavailable"
+                                          : me.linkedinHandle,
+                                      hintStyle: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade700),
+                                      )),
+                                  maxLines: null,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey.shade700),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                           Visibility(
                             visible: me.id == firebaseAuth.currentUser.uid,
                             child: Padding(
@@ -245,21 +369,37 @@ class _MainPageState extends State<MainPage> {
                                 onTap: () async {
                                   if (imag == null) {
                                     // just update bio
-                                    var res = me.bio != bioController.text
-                                        ? await u.updateProfile(
-                                            null, bioController.text)
-                                        : false;
+                                    var res = await u.updateProfile(
+                                        null,
+                                        bioController.text,
+                                        snapchatController.text,
+                                        linkedinController.text,
+                                        instagramController.text);
+                                    Navigator.pop(context);
                                     if (res) {
                                       setState(() {});
                                     }
+                                    bioController.clear();
+                                    snapchatController.clear();
+                                    linkedinController.clear();
+                                    instagramController.clear();
                                   } else {
                                     // image available, upload image
                                     var url = await uploadImageToStorage(f);
                                     var res = await u.updateProfile(
-                                        url, bioController.text);
+                                        url,
+                                        bioController.text,
+                                        snapchatController.text,
+                                        linkedinController.text,
+                                        instagramController.text);
+                                    Navigator.pop(context);
                                     if (res) {
                                       setState(() {});
                                     }
+                                    bioController.clear();
+                                    snapchatController.clear();
+                                    linkedinController.clear();
+                                    instagramController.clear();
                                   }
                                   await getUserData();
                                 },
@@ -343,10 +483,10 @@ class _MainPageState extends State<MainPage> {
               }
             },
           ),
-          IconButton(
-            icon: Icon(AntDesign.setting, color: Colors.black),
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: Icon(AntDesign.setting, color: Colors.black),
+          //   onPressed: () {},
+          // ),
           IconButton(
             icon: Icon(AntDesign.logout, color: Colors.black, size: 20),
             onPressed: () async {
@@ -518,7 +658,8 @@ class _MainPageState extends State<MainPage> {
                                     child: FutureBuilder(
                                         future: u.myCampusUsers(),
                                         builder: (context, snap) {
-                                          if (snap.hasData) {
+                                          if (snap.hasData &&
+                                              snap.data.length != 0) {
                                             return ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
@@ -541,7 +682,17 @@ class _MainPageState extends State<MainPage> {
                                               },
                                             );
                                           } else {
-                                            return Container();
+                                            return Center(
+                                              child: Text(
+                                                  "No students here yet :(",
+                                                  style: GoogleFonts.quicksand(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey),
+                                                  )),
+                                            );
                                           }
                                         }),
                                   ),
@@ -611,30 +762,22 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    getUserData();
-    _future = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+    getUserData().then((value) {
+      _future = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+    });
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
+      onMessage: (Map<String, dynamic> message) async {},
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(
             sound: true, badge: true, alert: true, provisional: true));
     _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
+        .listen((IosNotificationSettings settings) {});
     _firebaseMessaging.getToken().then((String token) {
       assert(token != null);
-      print(token);
     });
   }
 
@@ -643,6 +786,10 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<Null> getUserData() async {
+    await Constants.fm.requestNotificationPermissions(
+      const IosNotificationSettings(
+          sound: true, badge: true, alert: true, provisional: false),
+    );
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.getInt('uni');
     var _name = prefs.getString('name');

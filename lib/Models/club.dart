@@ -140,7 +140,6 @@ Future<List<PostUser>> getJoinRequests(Club club) async {
 
   DataSnapshot s = await db.once();
   Map<dynamic, dynamic> values = s.value;
-  print('getting requests');
   for (var value in values.values) {
     var id = value;
     DataSnapshot us =
@@ -243,7 +242,6 @@ bool isRequested(Club club) {
   if (joinRequests == null || joinRequests.length == 0) {
     return false;
   }
-  print(joinRequests);
   if ((joinRequests.singleWhere((it) => it.id == uid, orElse: () => null)) !=
       null) {
     return true;
@@ -298,14 +296,14 @@ Future<bool> deleteClub(Club club) async {
       .child("clubs")
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(club.id);
-  await db.remove().catchError(() {
+  await db.remove().catchError((err) {
     return false;
   });
   var assignmentDB = FirebaseDatabase.instance
       .reference()
       .child('eventreminders')
       .child(club.id);
-  await assignmentDB.remove().catchError(() {
+  await assignmentDB.remove().catchError((err) {
     return false;
   });
   return true;

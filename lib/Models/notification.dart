@@ -9,14 +9,9 @@ import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-String title = "UNIFY";
+String title = "TheirCircle";
 
 Future<Null> sendPush(int nID, String token, String text) async {
-  await Constants.fm.requestNotificationPermissions(
-    const IosNotificationSettings(
-        sound: true, badge: true, alert: true, provisional: false),
-  );
-
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
 
@@ -31,7 +26,7 @@ Future<Null> sendPush(int nID, String token, String text) async {
             'body': nID == 0
                 ? "${me.name} liked your post: $text"
                 : "${me.name} commented on your post: $text",
-            'title': 'Unify'
+            'title': 'TheirCircle'
           },
           'priority': 'high',
           'data': <String, dynamic>{

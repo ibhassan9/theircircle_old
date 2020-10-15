@@ -34,6 +34,15 @@ int checkUniversityWithEmail(String email) {
   }
 }
 
+Future<Null> requestCourse(String code) async {
+  var uniKey = Constants.checkUniversity();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('courserequests')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  await db.push().set(code);
+}
+
 Future<Null> createCourse(String code, String name) async {
   var uniKey = Constants.checkUniversity();
   var db = FirebaseDatabase.instance
