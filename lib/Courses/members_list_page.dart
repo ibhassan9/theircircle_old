@@ -157,6 +157,7 @@ class _MembersListPageState extends State<MembersListPage> {
               if (res) {
                 setState(() {});
               }
+              Navigator.pop(context);
             }),
         CupertinoActionSheetAction(
             child: Text(

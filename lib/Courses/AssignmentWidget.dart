@@ -71,13 +71,12 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
     return InkWell(
       onTap: () {},
       child: Container(
-        height: 148,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(width: 3.0, color: color()),
+              Container(height: 100, width: 3.0, color: color()),
               SizedBox(width: 15.0),
               Flexible(
                 child: Column(

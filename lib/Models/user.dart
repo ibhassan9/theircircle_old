@@ -32,6 +32,9 @@ class PostUser {
   String device_token;
   bool appear;
   int status; // 1 = banned
+  String snapchatHandle;
+  String linkedinHandle;
+  String instagramHandle;
 
   PostUser(
       {this.id,
@@ -44,7 +47,10 @@ class PostUser {
       this.profileImgUrl,
       this.device_token,
       this.appear,
-      this.status});
+      this.status,
+      this.snapchatHandle,
+      this.linkedinHandle,
+      this.instagramHandle});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -95,7 +101,7 @@ Future signInUser(String email, String password, BuildContext context) async {
       Scaffold.of(context).showSnackBar(snackBar);
       var code = await sendVerificationCode(email);
       if (code == 0) {
-        print("Error retreiving code...");
+        print("error code");
         return;
       }
       Navigator.push(
@@ -115,6 +121,7 @@ Future signInUser(String email, String password, BuildContext context) async {
           context, MaterialPageRoute(builder: (context) => MainPage()));
     }
   }).catchError((err) {
+    print(err.toString());
     final snackBar = SnackBar(
         content: Text('Problem logging in. Please try again.',
             style: GoogleFonts.quicksand(
@@ -203,8 +210,13 @@ Future<PostUser> getUser(String id) async {
       profileImgUrl: value['profileImgUrl'],
       device_token: value['device_token'],
       appear: value['appear'],
-      status: value['status'] != null ? value['status'] : 0);
-  print(user);
+      status: value['status'] != null ? value['status'] : 0,
+      snapchatHandle:
+          value['snapchatHandle'] != null ? value['snapchatHandle'] : "",
+      instagramHandle:
+          value['instagramHandle'] != null ? value['instagramHandle'] : "",
+      linkedinHandle:
+          value['linkedinHandle'] != null ? value['linkedinHandle'] : "");
   return user;
 }
 
@@ -218,8 +230,24 @@ Future<List<PostUser>> allUsers() async {
 
   for (var key in values.keys) {
     var value = values[key];
-    PostUser user =
-        PostUser(id: key, name: value['name'], email: value['email']);
+    PostUser user = PostUser(
+        id: key,
+        name: value['name'],
+        email: value['email'],
+        verified: value['verification'],
+        courseCount: value['courses'] != null ? value['courses'].length : 0,
+        clubCount: value['clubs'] != null ? value['clubs'].length : 0,
+        bio: value['bio'] != null ? value['bio'] : "",
+        profileImgUrl: value['profileImgUrl'],
+        device_token: value['device_token'],
+        appear: value['appear'],
+        status: value['status'] != null ? value['status'] : 0,
+        snapchatHandle:
+            value['snapchatHandle'] != null ? value['snapchatHandle'] : "",
+        instagramHandle:
+            value['instagramHandle'] != null ? value['instagramHandle'] : "",
+        linkedinHandle:
+            value['linkedinHandle'] != null ? value['linkedinHandle'] : "");
     p.add(user);
   }
 
@@ -241,8 +269,24 @@ Future<List<PostUser>> myCampusUsers() async {
   for (var key in values.keys) {
     var value = values[key];
     if (value['appear'] == true) {
-      PostUser user =
-          PostUser(id: key, name: value['name'], email: value['email']);
+      PostUser user = PostUser(
+          id: key,
+          name: value['name'],
+          email: value['email'],
+          verified: value['verification'],
+          courseCount: value['courses'] != null ? value['courses'].length : 0,
+          clubCount: value['clubs'] != null ? value['clubs'].length : 0,
+          bio: value['bio'] != null ? value['bio'] : "",
+          profileImgUrl: value['profileImgUrl'],
+          device_token: value['device_token'],
+          appear: value['appear'],
+          status: value['status'] != null ? value['status'] : 0,
+          snapchatHandle:
+              value['snapchatHandle'] != null ? value['snapchatHandle'] : "",
+          instagramHandle:
+              value['instagramHandle'] != null ? value['instagramHandle'] : "",
+          linkedinHandle:
+              value['linkedinHandle'] != null ? value['linkedinHandle'] : "");
       p.add(user);
     }
   }
@@ -376,7 +420,8 @@ Future<List> getImage() async {
   return lst;
 }
 
-Future<bool> updateProfile(String url, String bio) async {
+Future<bool> updateProfile(String url, String bio, String snap, String linkedin,
+    String instagram) async {
   var uid = firebaseAuth.currentUser.uid;
   var uniKey = Constants.checkUniversity();
   if (url == null) {
@@ -386,9 +431,28 @@ Future<bool> updateProfile(String url, String bio) async {
         .child(uniKey == 0 ? 'UofT' : 'YorkU')
         .child(uid)
         .child('bio');
-    await biodb.set(bio).catchError((onErr) {
-      return false;
-    });
+    var snapdb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('snapchatHandle');
+    var igdb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('instagramHandle');
+    var linkedindb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('linkedinHandle');
+    await biodb.set(bio);
+    await igdb.set(instagram);
+    await snapdb.set(snap);
+    await linkedindb.set(linkedin);
     return true;
   } else {
     var db = FirebaseDatabase.instance
@@ -403,12 +467,29 @@ Future<bool> updateProfile(String url, String bio) async {
         .child(uniKey == 0 ? 'UofT' : 'YorkU')
         .child(uid)
         .child('bio');
-    await db.set(url).catchError((err) async {
-      await biodb.set(bio).catchError((onErr) {
-        return false;
-      });
-      return false;
-    });
+    var snapdb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('snapchatHandle');
+    var igdb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('instagramHandle');
+    var linkedindb = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uid)
+        .child('linkedinHandle');
+    await db.set(url);
+    await biodb.set(bio);
+    await igdb.set(instagram);
+    await snapdb.set(snap);
+    await linkedindb.set(linkedin);
     return true;
   }
 }

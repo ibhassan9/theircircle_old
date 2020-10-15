@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Courses/course_page.dart';
 import 'package:unify/Models/club.dart';
@@ -10,6 +11,8 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Comments/post_detail_page.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/WebPage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostWidget extends StatefulWidget {
   final Post post;
@@ -151,7 +154,9 @@ class _PostWidgetState extends State<PostWidget> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: widget.deletePost),
+                                          onPressed: () {
+                                            widget.deletePost();
+                                          }),
                                       CupertinoActionSheetAction(
                                           child: Text(
                                             "Cancel",
@@ -173,7 +178,10 @@ class _PostWidgetState extends State<PostWidget> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showSnackBar();
+                                          }),
                                       CupertinoActionSheetAction(
                                           child: Text(
                                             "It's abusive or harmful",
@@ -182,7 +190,10 @@ class _PostWidgetState extends State<PostWidget> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showSnackBar();
+                                          }),
                                       CupertinoActionSheetAction(
                                           child: Text(
                                             "It expresses intentions of self-harm or suicide",
@@ -191,7 +202,10 @@ class _PostWidgetState extends State<PostWidget> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showSnackBar();
+                                          }),
                                       CupertinoActionSheetAction(
                                           child: Text(
                                             "It promotes sexual/inappropriate content",
@@ -200,7 +214,10 @@ class _PostWidgetState extends State<PostWidget> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showSnackBar();
+                                          }),
                                       CupertinoActionSheetAction(
                                           child: Text(
                                             "Cancel",
@@ -230,15 +247,22 @@ class _PostWidgetState extends State<PostWidget> {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    widget.post.content,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
-                ),
+                    margin: EdgeInsets.only(top: 5.0),
+                    child: SelectableLinkify(
+                      onOpen: (link) async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WebPage(
+                                    title: link.text, selectedUrl: link.url)));
+                      },
+                      text: widget.post.content,
+                      style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                      linkStyle: TextStyle(color: Colors.red),
+                    )),
                 widget.post.imgUrl != null
                     ? Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -377,5 +401,17 @@ class _PostWidgetState extends State<PostWidget> {
 
   Future<PostUser> user() async {
     return await getUser(widget.post.userId);
+  }
+
+  showSnackBar() {
+    final snackBar = SnackBar(
+        content: Text('Your report has been received.',
+            style: GoogleFonts.quicksand(
+              textStyle: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            )));
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }

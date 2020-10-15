@@ -23,7 +23,7 @@ class _BodyState extends State<Body> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "WELCOME TO UNIFY",
+              "Welcome To TheirCircle",
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontSize: 16,

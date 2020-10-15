@@ -27,7 +27,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Unify requires access to photo library</string>
+	<string>TheirCircle requires access to photo library</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -24,7 +24,6 @@ class _WebPageState extends State<WebPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedUrl);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.light,

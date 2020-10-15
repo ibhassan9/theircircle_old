@@ -184,35 +184,35 @@ class _UserPageState extends State<UserPage> {
                     SizedBox(height: 5.0),
                     Divider(),
                     SizedBox(height: 10.0),
-                    Visibility(
-                      visible: user.id == firebaseAuth.currentUser.uid,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, right: 10.0, top: 15.0),
-                        child: InkWell(
-                          onTap: () async {
-                            await update();
-                          },
-                          child: Container(
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.purple,
-                                borderRadius: BorderRadius.circular(5.0)),
-                            child: Center(
-                              child: Text(
-                                "Update Profile",
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Visibility(
+                    //   visible: user.id == firebaseAuth.currentUser.uid,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(
+                    //         left: 10.0, right: 10.0, top: 15.0),
+                    //     child: InkWell(
+                    //       onTap: () async {
+                    //         await update();
+                    //       },
+                    //       child: Container(
+                    //         height: 40,
+                    //         decoration: BoxDecoration(
+                    //             color: Colors.purple,
+                    //             borderRadius: BorderRadius.circular(5.0)),
+                    //         child: Center(
+                    //           child: Text(
+                    //             "Update Profile",
+                    //             style: GoogleFonts.quicksand(
+                    //               textStyle: TextStyle(
+                    //                   fontSize: 15,
+                    //                   fontWeight: FontWeight.w500,
+                    //                   color: Colors.white),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 )
               ],
@@ -231,24 +231,24 @@ class _UserPageState extends State<UserPage> {
     getUserData();
   }
 
-  Future<Null> update() async {
-    if (imag == null) {
-      // just update bio
-      var res = user.bio != bioController.text
-          ? await updateProfile(null, bioController.text)
-          : false;
-      if (res) {
-        setState(() {});
-      }
-    } else {
-      // image available, upload image
-      var url = await uploadImageToStorage(f);
-      var res = await updateProfile(url, bioController.text);
-      if (res) {
-        setState(() {});
-      }
-    }
-  }
+  // Future<Null> update() async {
+  //   if (imag == null) {
+  //     // just update bio
+  //     var res = user.bio != bioController.text
+  //         ? await updateProfile(null, bioController.text)
+  //         : false;
+  //     if (res) {
+  //       setState(() {});
+  //     }
+  //   } else {
+  //     // image available, upload image
+  //     var url = await uploadImageToStorage(f);
+  //     var res = await updateProfile(url, bioController.text);
+  //     if (res) {
+  //       setState(() {});
+  //     }
+  //   }
+  // }
 
   Future<Null> getUserData() async {
     PostUser _user = widget.userId == null
