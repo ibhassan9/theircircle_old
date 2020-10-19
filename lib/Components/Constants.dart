@@ -19,7 +19,10 @@ class Constants {
   static String serverToken =
       'AAAAJqrwc8E:APA91bH4aq4iUxbsFitrRD4jV_tQcwIFw1PJTiCqgzX1rQ_MtORMEPmG-Q5On0Ip7xoDtp7ceptPNa0avlsHTXZq_0H3lswJU73chkVjw-GDkLkd3jDNGiwWscY4z0fE4j6T0tdCy7x8';
   static FirebaseMessaging fm = FirebaseMessaging();
-  static String t_and_c = "";
+  static String t_and_c =
+      "http://www.theircircleapp.com/terms_and_conditions.html";
+  static String privacy_policy =
+      "http://www.theircircleapp.com/privacy_policy.html";
 
   static int checkUniversity() {
     var userEmail = fAuth.currentUser.email;

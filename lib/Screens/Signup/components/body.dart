@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,7 @@ import 'package:unify/components/rounded_button.dart';
 import 'package:unify/components/rounded_input_field.dart';
 import 'package:unify/components/rounded_password_field.dart';
 import 'package:unify/Models/user.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -75,23 +77,45 @@ class _BodyState extends State<Body> {
               },
             ),
             Center(
-                child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebPage(
-                          title: "Terms and Conditions",
-                          selectedUrl: Constants.t_and_c)),
-                );
-              },
-              child: Text('By signing up you agree to our terms and conditions',
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  )),
+                child: Padding(
+              padding: const EdgeInsets.only(left: 40, right: 40),
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 10, color: Colors.black),
+                  children: <TextSpan>[
+                    TextSpan(text: "By signing up you agree to our "),
+                    TextSpan(
+                        text: "Terms and Conditions",
+                        style: TextStyle(fontSize: 10, color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => WebPage(
+                            //           title: "Terms and Conditions",
+                            //           selectedUrl: Constants.t_and_c)),
+                            // );
+                            launch(Constants.t_and_c);
+                          }),
+                    TextSpan(text: " and have read our "),
+                    TextSpan(
+                        text: "Privacy Policy",
+                        style: TextStyle(fontSize: 10, color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => WebPage(
+                            //           title: "Terms and Conditions",
+                            //           selectedUrl: Constants.privacy_policy)),
+                            // );
+                            launch(Constants.privacy_policy);
+                          }),
+                  ],
+                ),
+              ),
             )),
             OrDivider(),
             AlreadyHaveAnAccountCheck(
