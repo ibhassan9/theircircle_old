@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Screens/Login/login_screen.dart';
 import 'package:unify/Screens/Signup/components/background.dart';
 import 'package:unify/Screens/Signup/components/or_divider.dart';
 import 'package:unify/Screens/Signup/components/social_icon.dart';
+import 'package:unify/WebPage.dart';
 import 'package:unify/components/already_have_an_account_acheck.dart';
 import 'package:unify/components/rounded_button.dart';
 import 'package:unify/components/rounded_input_field.dart';
@@ -72,6 +74,25 @@ class _BodyState extends State<Body> {
                 passwordController.clear();
               },
             ),
+            Center(
+                child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WebPage(
+                          title: "Terms and Conditions",
+                          selectedUrl: Constants.t_and_c)),
+                );
+              },
+              child: Text('By signing up you agree to our terms and conditions',
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  )),
+            )),
             OrDivider(),
             AlreadyHaveAnAccountCheck(
               login: false,
