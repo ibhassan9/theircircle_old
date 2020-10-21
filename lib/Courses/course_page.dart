@@ -11,6 +11,7 @@ import 'package:unify/Models/course.dart';
 import 'package:unify/Courses/course_calender_page.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:unify/Models/user.dart';
 import 'package:unify/PostPage.dart';
 
 class CoursePage extends StatefulWidget {
@@ -139,11 +140,30 @@ class _CoursePageState extends State<CoursePage> {
                               previewMessage("Error deleting post!", context);
                             }
                           };
+                          Function b = () async {
+                            var res = await block(post.userId);
+                            Navigator.pop(context);
+                            if (res) {
+                              setState(() {});
+                              previewMessage("User blocked.", context);
+                            }
+                          };
+
+                          Function h = () async {
+                            var res = await hidePost(post.id);
+                            Navigator.pop(context);
+                            if (res) {
+                              setState(() {});
+                              previewMessage("Post hidden from feed.", context);
+                            }
+                          };
                           return PostWidget(
                               post: post,
                               timeAgo: timeago.format(timeAgo),
                               course: widget.course,
-                              deletePost: f);
+                              deletePost: f,
+                              block: b,
+                              hide: h);
                         },
                       );
                     } else {

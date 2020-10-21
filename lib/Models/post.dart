@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
@@ -114,8 +115,13 @@ Future<List<Post>> fetchPosts(int sortBy) async {
       : FirebaseDatabase.instance.reference().child("posts").child('YorkU');
 
   var snapshot = await db.once();
+  var blockList = await getBlocks();
+  var hiddenList = await getHiddenList();
 
   Map<dynamic, dynamic> values = snapshot.value;
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var filters = prefs.getStringList('filters');
 
   values.forEach((key, value) {
     var post = Post(
@@ -141,8 +147,26 @@ Future<List<Post>> fetchPosts(int sortBy) async {
     } else {
       post.isLiked = false;
     }
-    p.add(post);
+
+    var i = 0;
+
+    if (post.userId != firebaseAuth.currentUser.uid) {
+      if (filters != null) {
+        for (var filter in filters) {
+          if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+            i += 1;
+          }
+        }
+      }
+    }
+
+    if (i == 0 &&
+        blockList.contains(post.userId) == false &&
+        hiddenList.contains(post.id) == false) {
+      p.add(post);
+    }
   });
+
   if (sortBy == 0) {
     p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   } else {
@@ -378,8 +402,13 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
           .child(course.id);
 
   var snapshot = await db.once();
+  var blockList = await getBlocks();
+  var hiddenList = await getHiddenList();
 
   Map<dynamic, dynamic> values = snapshot.value;
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var filters = prefs.getStringList('filters');
 
   values.forEach((key, value) {
     var post = Post(
@@ -405,7 +434,22 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
     } else {
       post.isLiked = false;
     }
-    p.add(post);
+
+    var i = 0;
+
+    if (post.userId != firebaseAuth.currentUser.uid) {
+      for (var filter in filters) {
+        if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+          i += 1;
+        }
+      }
+    }
+
+    if (i == 0 &&
+        blockList.contains(post.userId) == false &&
+        hiddenList.contains(post.id) == false) {
+      p.add(post);
+    }
   });
   if (sortBy == 0) {
     p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
@@ -415,6 +459,62 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
         .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
   }
   return p;
+}
+
+Future<List<String>> getHiddenList() async {
+  var uniKey = Constants.checkUniversity();
+  var uid = firebaseAuth.currentUser.uid;
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uid)
+      .child('hiddenposts');
+  var snapshot = await db.once();
+
+  List<String> hiddenList = [];
+
+  if (snapshot.value != null) {
+    Map<dynamic, dynamic> values = snapshot.value;
+
+    for (var key in values.keys) {
+      hiddenList.add(key);
+    }
+  }
+
+  return hiddenList;
+}
+
+Future<bool> hidePost(String postId) async {
+  var uniKey = Constants.checkUniversity();
+  var uid = firebaseAuth.currentUser.uid;
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uid)
+      .child('hiddenposts')
+      .child(postId);
+  await db.set(postId).catchError((onError) {
+    return false;
+  });
+  return true;
+}
+
+Future<bool> unhidePost(String postId) async {
+  var uniKey = Constants.checkUniversity();
+  var uid = firebaseAuth.currentUser.uid;
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uid)
+      .child('hiddenposts')
+      .child(postId);
+  await db.remove().catchError((err) {
+    return false;
+  });
+  return true;
 }
 
 Future<bool> like(Post post, Club club, Course course) async {
@@ -519,8 +619,12 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
           .child(club.id);
 
   var snapshot = await db.once();
+  var blockList = await getBlocks();
+  var hiddenList = await getHiddenList();
 
   Map<dynamic, dynamic> values = snapshot.value;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var filters = prefs.getStringList('filters');
 
   values.forEach((key, value) {
     var post = Post(
@@ -546,7 +650,22 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
     } else {
       post.isLiked = false;
     }
-    p.add(post);
+
+    var i = 0;
+
+    if (post.userId != firebaseAuth.currentUser.uid) {
+      for (var filter in filters) {
+        if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+          i += 1;
+        }
+      }
+    }
+
+    if (i == 0 &&
+        blockList.contains(post.userId) == false &&
+        hiddenList.contains(post.id) == false) {
+      p.add(post);
+    }
   });
 
   if (sortBy == 0) {

@@ -23,7 +23,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          showProfile(widget.user, context);
+          showProfile(widget.user, context, null, null, null, null);
         },
         child: Container(
             decoration: BoxDecoration(

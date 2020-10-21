@@ -20,6 +20,10 @@ class MemberWidget extends StatefulWidget {
 
 class _MemberWidgetState extends State<MemberWidget> {
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
+  TextEditingController bioC = TextEditingController();
+  TextEditingController sC = TextEditingController();
+  TextEditingController igC = TextEditingController();
+  TextEditingController lC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class _MemberWidgetState extends State<MemberWidget> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          showProfile(widget.user, context);
+          showProfile(widget.user, context, bioC, sC, igC, lC);
         },
         child: Container(
             decoration: BoxDecoration(

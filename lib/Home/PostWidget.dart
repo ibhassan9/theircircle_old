@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Courses/course_page.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
@@ -20,6 +21,8 @@ class PostWidget extends StatefulWidget {
   final Course course;
   final Club club;
   final Function deletePost;
+  final Function block;
+  final Function hide;
 
   PostWidget(
       {Key key,
@@ -27,7 +30,9 @@ class PostWidget extends StatefulWidget {
       this.timeAgo,
       this.course,
       this.club,
-      this.deletePost})
+      this.deletePost,
+      this.block,
+      this.hide})
       : super(key: key);
 
   @override
@@ -37,6 +42,10 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   bool isLiked = false;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  TextEditingController bioC = TextEditingController();
+  TextEditingController sC = TextEditingController();
+  TextEditingController igC = TextEditingController();
+  TextEditingController lC = TextEditingController();
 
   Widget build(BuildContext context) {
     return InkWell(
@@ -61,10 +70,22 @@ class _PostWidgetState extends State<PostWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CircleAvatar(
-                    child: widget.post.isAnonymous
-                        ? Icon(AntDesign.ellipsis1)
-                        : Text(widget.post.username.substring(0, 1)),
+                  InkWell(
+                    onTap: () async {
+                      var user = await getUser(widget.post.userId);
+                      if (widget.post.userId != fAuth.currentUser.uid) {
+                        if (widget.post.isAnonymous == false) {
+                          showProfile(user, context, bioC, sC, igC, lC);
+                        }
+                      } else {
+                        showProfile(user, context, bioC, sC, igC, lC);
+                      }
+                    },
+                    child: CircleAvatar(
+                      child: widget.post.isAnonymous
+                          ? Icon(AntDesign.ellipsis1)
+                          : Text(widget.post.username.substring(0, 1)),
+                    ),
                   ),
                   _postContent(),
                 ],
@@ -143,106 +164,214 @@ class _PostWidgetState extends State<PostWidget> {
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
-                          actions:
-                              widget.post.userId == firebaseAuth.currentUser.uid
-                                  ? [
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "Delete Post",
+                          actions: widget.post.userId ==
+                                  firebaseAuth.currentUser.uid
+                              ? [
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Delete Post",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        widget.deletePost();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Cancel",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ]
+                              : [
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It's suspicious or spam",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It's abusive or harmful",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It expresses intentions of self-harm or suicide",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It promotes sexual/inappropriate content",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Hide this post.",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        final act = CupertinoActionSheet(
+                                          title: Text(
+                                            "PROCEED?",
                                             style: GoogleFonts.quicksand(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {
-                                            widget.deletePost();
-                                          }),
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "Cancel",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.red),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          }),
-                                    ]
-                                  : [
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "It's suspicious or spam",
+                                          message: Text(
+                                            "Are you sure you want to hide this post?",
                                             style: GoogleFonts.quicksand(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            showSnackBar();
-                                          }),
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "It's abusive or harmful",
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                                child: Text(
+                                                  "YES",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                                onPressed: () async {
+                                                  await widget.hide();
+                                                }),
+                                            CupertinoActionSheetAction(
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.red),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ],
+                                        );
+                                        showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                act);
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Block this user",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        final act = CupertinoActionSheet(
+                                          title: Text(
+                                            "PROCEED?",
                                             style: GoogleFonts.quicksand(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            showSnackBar();
-                                          }),
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "It expresses intentions of self-harm or suicide",
+                                          message: Text(
+                                            "Are you sure you want to block this user?",
                                             style: GoogleFonts.quicksand(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            showSnackBar();
-                                          }),
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "It promotes sexual/inappropriate content",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            showSnackBar();
-                                          }),
-                                      CupertinoActionSheetAction(
-                                          child: Text(
-                                            "Cancel",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.red),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          }),
-                                    ],
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                                child: Text(
+                                                  "YES",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                                onPressed: () async {
+                                                  await widget.block();
+                                                }),
+                                            CupertinoActionSheetAction(
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.red),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ],
+                                        );
+                                        showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                act);
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Cancel",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ],
                         );
                         showCupertinoModalPopup(
                             context: context,
                             builder: (BuildContext context) => act);
                       },
-                      child: Text(
-                          widget.post.userId == firebaseAuth.currentUser.uid
-                              ? "OPTIONS"
-                              : "REPORT",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.grey)),
+                      child: Icon(FlutterIcons.more_horiz_mdi,
+                          color: Colors.black),
                     )
                   ],
                 ),
