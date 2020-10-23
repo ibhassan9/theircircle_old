@@ -23,6 +23,8 @@ class Constants {
       "http://www.theircircleapp.com/terms_and_conditions.html";
   static String privacy_policy =
       "http://www.theircircleapp.com/privacy_policy.html";
+  static String dummyImageUrl =
+      'https://hdwallpaperim.com/wp-content/uploads/2017/09/07/468584-One-Punch_Man-Saitama-748x421.jpg';
 
   static int checkUniversity() {
     var userEmail = fAuth.currentUser.email;

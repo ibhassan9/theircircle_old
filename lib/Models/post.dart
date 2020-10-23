@@ -371,18 +371,50 @@ Future<List> getImageString() async {
 
 Future<bool> deletePost(String postId, Course course, Club club) async {
   var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
+  var postdb = FirebaseDatabase.instance
       .reference()
-      .child(course == null && club == null
-          ? 'posts'
-          : course == null
-              ? 'clubposts'
-              : 'courseposts')
+      .child('posts')
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(postId);
-  await db.remove().catchError((err) {
-    return false;
-  });
+  var coursedb = course != null
+      ? FirebaseDatabase.instance
+          .reference()
+          .child('courseposts')
+          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(course.id)
+          .child(postId)
+      : null;
+  var clubdb = club != null
+      ? FirebaseDatabase.instance
+          .reference()
+          .child('clubposts')
+          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(club.id)
+          .child(postId)
+      : null;
+  // var db = FirebaseDatabase.instance
+  //     .reference()
+  //     .child(course == null && club == null
+  //         ? 'posts'
+  //         : course == null
+  //             ? 'clubposts'
+  //             : 'courseposts')
+  //     .child(uniKey == 0 ? 'UofT' : 'YorkU')
+  //     .child(postId);
+  // await db.remove().catchError((err) {
+  //   return false;
+  // });
+  course == null && club == null
+      ? await postdb.remove().catchError((onError) {
+          return false;
+        })
+      : course == null
+          ? await clubdb.remove().catchError((onError) {
+              return false;
+            })
+          : await coursedb.remove().catchError((onError) {
+              return false;
+            });
   return true;
 }
 

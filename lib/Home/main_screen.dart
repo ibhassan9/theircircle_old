@@ -11,11 +11,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
-import 'package:unify/Screens/Welcome/welcome_screen.dart';
-import 'package:unify/BuyNSell/buynsell_page.dart';
+import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
+import 'package:unify/pages/buynsell_page.dart';
 import 'package:unify/Models/club.dart';
-import 'package:unify/Clubs/clubs_page.dart';
-import 'package:unify/Courses/courses_page.dart';
+import 'package:unify/pages/clubs_page.dart';
+import 'package:unify/pages/courses_page.dart';
 import 'package:unify/Home/home_page.dart';
 import 'package:unify/Models/post.dart';
 

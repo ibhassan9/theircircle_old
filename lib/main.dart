@@ -5,10 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:unify/AppTheme.dart';
-import 'package:unify/MainPage.dart';
+import 'package:unify/Components/AppTheme.dart';
+import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/Screens/Welcome/welcome_screen.dart';
+import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

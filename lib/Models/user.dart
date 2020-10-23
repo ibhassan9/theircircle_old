@@ -15,10 +15,10 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
-import 'package:unify/MainPage.dart';
+import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
-import 'package:unify/VerificationPage.dart';
+import 'package:unify/pages/VerificationPage.dart';
 
 class PostUser {
   String id;
