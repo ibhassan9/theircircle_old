@@ -70,7 +70,7 @@ Future<List<Comment>> fetchComments(
         timeStamp: value['timeStamp']);
     c.add(comment);
   });
-  c.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  c.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
   return c;
 }
 
@@ -113,73 +113,4 @@ Future<bool> postComment(
   });
 
   return true;
-
-  // DataSnapshot snap;
-
-  // club != null
-  //     ? uniKey == 0
-  //         ? snap = await clubpostDBUofT
-  //             .child(club.id)
-  //             .child(post.id)
-  //             .child("commentCount")
-  //             .once()
-  //         : snap = await clubpostDBYorkU
-  //             .child(club.id)
-  //             .child(post.id)
-  //             .child("commentCount")
-  //             .once()
-  //     : course != null
-  //         ? uniKey == 0
-  //             ? snap = await coursepostDBUofT
-  //                 .child(course.id)
-  //                 .child(post.id)
-  //                 .child("commentCount")
-  //                 .once()
-  //             : snap = await coursepostDBYorkU
-  //                 .child(course.id)
-  //                 .child(post.id)
-  //                 .child("commentCount")
-  //                 .once()
-  //         : uniKey == 0
-  //             ? snap =
-  //                 await postDBUofT.child(post.id).child("commentCount").once()
-  //             : snap =
-  //                 await postDBYorkU.child(post.id).child("commentCount").once();
-
-  // var countValue = snap.value + 1;
-
-  // final Map<String, dynamic> commentCount = {
-  //   "commentCount": countValue,
-  // };
-
-  // club != null
-  //     ? uniKey == 0
-  //         ? await clubpostDBUofT
-  //             .child(club.id)
-  //             .child(post.id)
-  //             .update(commentCount)
-  //         : await clubpostDBYorkU
-  //             .child(club.id)
-  //             .child(post.id)
-  //             .update(commentCount)
-  //     : course != null
-  //         ? uniKey == 0
-  //             ? await coursepostDBUofT
-  //                 .child(course.id)
-  //                 .child(post.id)
-  //                 .update(commentCount)
-  //             : await coursepostDBYorkU
-  //                 .child(course.id)
-  //                 .child(post.id)
-  //                 .update(commentCount)
-  //         : uniKey == 0
-  //             ? await postDBUofT.child(post.id).update(commentCount)
-  //             : await postDBYorkU.child(post.id).update(commentCount);
-
-  // DataSnapshot ds = await key.once();
-  // if (ds.value != null) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
 }

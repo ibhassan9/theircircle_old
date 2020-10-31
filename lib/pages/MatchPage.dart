@@ -1,9 +1,11 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/match.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/MatchedOverlay.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/widgets/MatchWidget.dart';
 
@@ -14,6 +16,8 @@ class MatchPage extends StatefulWidget {
 
 class _MatchPageState extends State<MatchPage> {
   CardController controller = CardController();
+  ConfettiController _controllerCenter =
+      ConfettiController(duration: const Duration(seconds: 10));
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +27,10 @@ class _MatchPageState extends State<MatchPage> {
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(FlutterIcons.user_ant, color: Colors.pink),
-          onPressed: () {},
+          icon: Icon(FlutterIcons.left_ant, color: Colors.pink),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,6 +69,23 @@ class _MatchPageState extends State<MatchPage> {
         elevation: 0.0,
       ),
       body: Stack(children: [
+        Align(
+          alignment: Alignment.center,
+          child: ConfettiWidget(
+            confettiController: _controllerCenter,
+            blastDirectionality: BlastDirectionality
+                .explosive, // don't specify a direction, blast randomly
+            shouldLoop:
+                false, // start again as soon as the animation is finished
+            colors: const [
+              Colors.green,
+              Colors.blue,
+              Colors.pink,
+              Colors.orange,
+              Colors.purple
+            ], // manually specify the colors to be used
+          ),
+        ),
         Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +107,7 @@ class _MatchPageState extends State<MatchPage> {
           Container(
             height: MediaQuery.of(context).size.height / 1.5,
             child: FutureBuilder(
-                future: myCampusUsers(),
+                future: peopleList(),
                 builder: (context, snap) {
                   if (snap.connectionState == ConnectionState.waiting)
                     return Center(
@@ -125,10 +148,9 @@ class _MatchPageState extends State<MatchPage> {
                           PostUser user = snap.data[index];
                           bool isMatch = await swipeRight(user.id);
                           if (isMatch) {
-                            print('This is a match! Congrats');
-                          } else {
-                            print('This isn\'t a match. Sorry!');
-                          }
+                            Navigator.of(context)
+                                .push(MatchedOverlay(user: user));
+                          } else {}
                         }
                       },
                     );
@@ -143,12 +165,12 @@ class _MatchPageState extends State<MatchPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 3,
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1)
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //       blurRadius: 3,
+                //       color: Colors.grey.shade400,
+                //       spreadRadius: 1)
+                // ],
               ),
               child: InkWell(
                 onTap: () {
@@ -161,17 +183,17 @@ class _MatchPageState extends State<MatchPage> {
                 ),
               ),
             ),
-            SizedBox(width: 20.0),
+            SizedBox(width: 40.0),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 3,
-                      color: Colors.grey.shade400,
-                      spreadRadius: 1)
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //       blurRadius: 3,
+                //       color: Colors.grey.shade400,
+                //       spreadRadius: 1)
+                // ],
               ),
               child: InkWell(
                 onTap: () {
@@ -188,6 +210,13 @@ class _MatchPageState extends State<MatchPage> {
         ]),
       ]),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controllerCenter.dispose();
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/course_page.dart';
@@ -46,6 +47,7 @@ class _PostWidgetState extends State<PostWidget> {
   TextEditingController sC = TextEditingController();
   TextEditingController igC = TextEditingController();
   TextEditingController lC = TextEditingController();
+  String imgUrl = '';
 
   Widget build(BuildContext context) {
     return InkWell(
@@ -81,11 +83,52 @@ class _PostWidgetState extends State<PostWidget> {
                         showProfile(user, context, bioC, sC, igC, lC);
                       }
                     },
-                    child: CircleAvatar(
-                      child: widget.post.isAnonymous
-                          ? Icon(AntDesign.ellipsis1)
-                          : Text(widget.post.username.substring(0, 1)),
-                    ),
+                    // child: CircleAvatar(
+                    //   child: widget.post.isAnonymous
+                    //       ? Icon(AntDesign.ellipsis1)
+                    //       : Text(widget.post.username.substring(0, 1)),
+                    // ),
+
+                    child: widget.post.isAnonymous
+                        ? CircleAvatar(child: Icon(AntDesign.ellipsis1))
+                        : imgUrl == null || imgUrl == ''
+                            ? CircleAvatar(
+                                child:
+                                    Text(widget.post.username.substring(0, 1)))
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.network(
+                                  imgUrl,
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  Colors.grey.shade600),
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes
+                                              : null,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                   ),
                   _postContent(),
                 ],
@@ -446,36 +489,50 @@ class _PostWidgetState extends State<PostWidget> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200,
                             color: Colors.grey.shade300,
-                            child: Image.network(
-                              widget.post.imgUrl,
-                              width: MediaQuery.of(context).size.width,
-                              height: 200,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return SizedBox(
-                                  height: 200,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.0,
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              Colors.grey.shade600),
-                                      value: loadingProgress
-                                                  .expectedTotalBytes !=
-                                              null
-                                          ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes
-                                          : null,
-                                    ),
+                            child: FullScreenWidget(
+                              backgroundColor: Colors.brown,
+                              child: Center(
+                                child: Hero(
+                                  tag: widget.post.id,
+                                  child: Image.network(
+                                    widget.post.imgUrl,
+                                    width: MediaQuery.of(context).size.width,
+                                    height:
+                                        MediaQuery.of(context).size.height / 2,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return SizedBox(
+                                        height: 200,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2.0,
+                                            valueColor:
+                                                new AlwaysStoppedAnimation<
+                                                        Color>(
+                                                    Colors.grey.shade600),
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes
+                                                : null,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -590,5 +647,15 @@ class _PostWidgetState extends State<PostWidget> {
                   color: Colors.white),
             )));
     Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser(widget.post.userId).then((value) {
+      imgUrl = value.profileImgUrl;
+      setState(() {});
+    });
   }
 }

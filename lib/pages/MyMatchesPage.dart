@@ -75,31 +75,33 @@ class _MyMatchesPageState extends State<MyMatchesPage> {
                         physics: AlwaysScrollableScrollPhysics(),
                         itemCount: snap.data != null ? snap.data.length : 0,
                         itemBuilder: (BuildContext context, int index) {
-                          PostUser user = snap.data[index];
-                          return MyMatchWidget(user: user);
+                          print(snap.data[index]);
+                          Match match = snap.data[index];
+                          return MyMatchWidget(
+                              user: match.user, chatId: match.chatId);
                         },
                       );
                     else if (snap.hasError)
                       return Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.face,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 10),
-                              Text("You have no matches :(",
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
-                                  )),
-                            ],
-                          ),
-                        );
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.face,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 10),
+                            Text("You have no matches :(",
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey),
+                                )),
+                          ],
+                        ),
+                      );
                     else
                       return Container(
                         height: MediaQuery.of(context).size.height / 1.4,
@@ -138,15 +140,74 @@ class _MyMatchesPageState extends State<MyMatchesPage> {
                         color: Colors.black),
                   )),
             ),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: 7,
-              itemBuilder: (BuildContext context, int index) {
-                return MyConversationWidget();
-              },
-            ),
+            FutureBuilder(
+                future: getConvoList(),
+                builder: (context, snap) {
+                  if (snap.connectionState == ConnectionState.waiting)
+                    return Center(
+                        child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    ));
+                  else if (snap.hasData)
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snap.data != null ? snap.data.length : 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        Match match = snap.data[index];
+                        return MyConversationWidget(
+                            user: match.user,
+                            lastMessage: match.lastMessage,
+                            chatId: match.chatId);
+                      },
+                    );
+                  else if (snap.hasError)
+                    return Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.face,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(width: 10),
+                          Text("You haven't started any conversations yet :(",
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey),
+                              )),
+                        ],
+                      ),
+                    );
+                  else
+                    return Container(
+                      height: MediaQuery.of(context).size.height / 1.4,
+                      child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.face,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 10),
+                            Text("You haven't started any conversations yet :(",
+                                style: GoogleFonts.quicksand(
+                                  textStyle: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey),
+                                )),
+                          ],
+                        ),
+                      ),
+                    );
+                }),
           ])
         ],
       ),

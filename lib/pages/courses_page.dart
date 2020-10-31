@@ -86,12 +86,35 @@ class _CoursesPageState extends State<CoursesPage> {
         elevation: 0.5,
         iconTheme: IconThemeData(color: Colors.black),
         actions: [
-          InkWell(
-              onTap: () {
-                addCourseDialog();
-              },
-              child: Icon(FlutterIcons.create_mdi, color: Colors.black)),
-          SizedBox(width: 10.0)
+          FlatButton(
+            child: Text(
+              "Request a course",
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
+              ),
+            ),
+            onPressed: () {
+              addCourseDialog();
+            },
+          ),
+          // InkWell(
+          //   onTap: () {
+          //     addCourseDialog();
+          //   },
+          //   child: Text(
+          //     "Request a course",
+          //     style: GoogleFonts.quicksand(
+          //       textStyle: TextStyle(
+          //           fontSize: 15,
+          //           fontWeight: FontWeight.w500,
+          //           color: Colors.black),
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(width: 10.0)
         ],
         title: Text(
           "Courses",

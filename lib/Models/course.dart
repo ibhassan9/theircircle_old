@@ -45,10 +45,8 @@ Future<Null> requestCourse(String code) async {
 
 Future<Null> createCourse(String code, String name) async {
   var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('courses')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child('courses').child('YorkU');
   var key = db.push();
   Map<String, dynamic> data = {
     'code': code,

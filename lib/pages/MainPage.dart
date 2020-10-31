@@ -595,6 +595,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<Null> refresh() async {
+    getUserData().then((value) {
+      _future = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+    });
     this.setState(() {});
   }
 

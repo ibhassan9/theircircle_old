@@ -28,6 +28,7 @@ class _CoursePageState extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.course.id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

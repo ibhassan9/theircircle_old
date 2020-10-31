@@ -1,11 +1,59 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/message.dart';
 import 'package:unify/Models/user.dart';
+
+class Match {
+  PostUser user;
+  String chatId;
+  String lastMessage;
+
+  Match({this.user, this.chatId});
+}
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 Future<bool> swipeRight(String otherUID) async {
+  var uniKey = Constants.checkUniversity();
+  var myUID = firebaseAuth.currentUser.uid;
+  var uniqueId = myUID + otherUID;
+  var mydb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(myUID)
+      .child('matches');
+  var otherdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(otherUID)
+      .child('matches')
+      .child(myUID);
+
+  //TODO:- update my match list with uniqueId;
+
+  // add user to my match list
+  await mydb.child(otherUID).set(otherUID);
+
+  // checking if my id is available in that users match list
+  var isMatched = await checkIfMatched(otherUID);
+
+  if (isMatched == false) {
+    //TODO:- update my match list with uniqueId;
+    await mydb.child(otherUID).set(uniqueId);
+  } else {
+    //TODO:- check that users chatId and set it in my matches
+    DataSnapshot s = await otherdb.once();
+    String value = s.value;
+    await mydb.child(otherUID).set(value);
+  }
+
+  return isMatched;
+}
+
+Future<List<dynamic>> fetchMyLikes() async {
   var uniKey = Constants.checkUniversity();
   var myUID = firebaseAuth.currentUser.uid;
   var mydb = FirebaseDatabase.instance
@@ -14,19 +62,22 @@ Future<bool> swipeRight(String otherUID) async {
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(myUID)
       .child('matches');
-
-  // add user to my match list
-  await mydb.child(otherUID).set(otherUID);
-
-  // checking if my id is available in that users match list
-  var isMatched = await checkIfMatched(otherUID);
-  return isMatched;
+  DataSnapshot snap = await mydb.once();
+  var likes = [];
+  if (snap.value != null) {
+    Map<dynamic, dynamic> values = snap.value;
+    for (var key in values.keys) {
+      likes.add(key);
+    }
+    return likes;
+  }
+  return likes;
 }
 
-Future<List<PostUser>> fetchMatches() async {
+Future<List<Match>> fetchMatches() async {
   var uniKey = Constants.checkUniversity();
   var myUID = firebaseAuth.currentUser.uid;
-  List<PostUser> matches = [];
+  List<Match> matches = [];
   var mydb = FirebaseDatabase.instance
       .reference()
       .child('users')
@@ -41,7 +92,8 @@ Future<List<PostUser>> fetchMatches() async {
       var user = await getUser(key);
       var isMatched = await checkIfMatched(key);
       if (isMatched) {
-        matches.add(user);
+        Match m = Match(user: user, chatId: values[key]);
+        matches.add(m);
       }
     }
     return matches;
@@ -68,4 +120,20 @@ Future<bool> checkIfMatched(String uid) async {
     // matched
     return true;
   }
+}
+
+Future<List<Match>> getConvoList() async {
+  var matches = await fetchMatches();
+  List<Match> convos = [];
+  for (var match in matches) {
+    PostUser user = match.user;
+    String chatId = match.chatId;
+    var messages = await fetchMessages(chatId);
+    var lastMessage = messages.last.messageText;
+    if (user.id != chatId) {
+      match.lastMessage = lastMessage;
+      convos.add(match);
+    }
+  }
+  return convos;
 }
