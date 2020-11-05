@@ -11,13 +11,16 @@ class CoursesPage extends StatefulWidget {
   _CoursesPageState createState() => _CoursesPageState();
 }
 
-class _CoursesPageState extends State<CoursesPage> {
+class _CoursesPageState extends State<CoursesPage>
+    with AutomaticKeepAliveClientMixin {
   bool didload = false;
   String filter;
   TextEditingController titleController = TextEditingController();
+  Future<List<Course>> _courseFuture;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     addCourseDialog() {
       bool switchVal = false;
       AwesomeDialog(
@@ -166,7 +169,7 @@ class _CoursesPageState extends State<CoursesPage> {
                 ),
                 didload == true
                     ? FutureBuilder(
-                        future: fetchCourses(),
+                        future: _courseFuture,
                         builder: (context, snap) {
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
@@ -264,7 +267,9 @@ class _CoursesPageState extends State<CoursesPage> {
   }
 
   Future<Null> refresh() async {
-    setState(() {});
+    setState(() {
+      _courseFuture = fetchCourses();
+    });
   }
 
   @override
@@ -272,6 +277,7 @@ class _CoursesPageState extends State<CoursesPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 200), () {
+        _courseFuture = fetchCourses();
         setState(() {
           didload = true;
         });
@@ -283,4 +289,7 @@ class _CoursesPageState extends State<CoursesPage> {
   void dispose() {
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

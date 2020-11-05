@@ -17,13 +17,18 @@ class JoinRequestWidget extends StatefulWidget {
 class _JoinRequestWidgetState extends State<JoinRequestWidget> {
   bool rejected = false;
   bool accepted = false;
+  TextEditingController bioController = TextEditingController();
+  TextEditingController snapchatController = TextEditingController();
+  TextEditingController linkedinController = TextEditingController();
+  TextEditingController instagramController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          showProfile(widget.user, context, null, null, null, null);
+          showProfile(widget.user, context, bioController, snapchatController,
+              instagramController, linkedinController, null, null);
         },
         child: Container(
             decoration: BoxDecoration(
@@ -121,5 +126,15 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
             ])),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    bioController.dispose();
+    snapchatController.dispose();
+    instagramController.dispose();
+    linkedinController.dispose();
   }
 }

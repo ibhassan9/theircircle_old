@@ -107,6 +107,13 @@ Future<List<PostUser>> getOldJoinRequests(
 
 Future<bool> removeUserFromClub(Club club, PostUser user) async {
   var uniKey = Constants.checkUniversity();
+  var userdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(user.id)
+      .child('myclubs')
+      .child(club.id);
   var db = FirebaseDatabase.instance
       .reference()
       .child('clubs')
@@ -114,6 +121,7 @@ Future<bool> removeUserFromClub(Club club, PostUser user) async {
       .child(club.id)
       .child('memberList')
       .child(user.id);
+  await userdb.remove();
   await db.remove().catchError(() {
     return false;
   });
@@ -212,11 +220,19 @@ Future<bool> removeUserFromRequests(Club club, PostUser user) async {
 
 Future<bool> acceptUserToClub(PostUser user, Club club) async {
   var uniKey = Constants.checkUniversity();
+  var userdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(user.id)
+      .child('myclubs')
+      .child(club.id);
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(club.id);
+  await userdb.set(club.id);
   await db.child('memberList').child(user.id).set(user.id);
   await removeUserFromRequests(club, user);
   return true;
@@ -285,6 +301,14 @@ Future<bool> joinClub(Club club) async {
       .child("clubs")
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(club.id);
+  var userdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uid)
+      .child('myclubs')
+      .child(club.id);
+  await userdb.set(club.id);
   await db.child('memberList').child(uid).set(uid);
   return true;
 }
@@ -312,11 +336,19 @@ Future<bool> deleteClub(Club club) async {
 Future<bool> leaveClub(Club club) async {
   var uniKey = Constants.checkUniversity();
   var uid = firebaseAuth.currentUser.uid;
+  var userdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uid)
+      .child('myclubs')
+      .child(club.id);
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(club.id);
   await db.child('memberList').child(uid).remove();
+  await userdb.remove();
   return true;
 }

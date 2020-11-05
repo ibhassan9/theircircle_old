@@ -25,22 +25,20 @@ class PostDetailPage extends StatefulWidget {
 
 class _PostDetailPageState extends State<PostDetailPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController commentController = TextEditingController();
-
     @override
     void dispose() {
-      commentController.dispose();
       super.dispose();
+      commentController.dispose();
     }
 
     Padding commentBox = Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: 70,
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border(top: BorderSide(color: Colors.grey.shade200))),
@@ -51,6 +49,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
             children: <Widget>[
               Flexible(
                   child: TextField(
+                maxLines: null,
+                textInputAction: TextInputAction.done,
                 controller: commentController,
                 decoration: new InputDecoration(
                     border: InputBorder.none,

@@ -9,19 +9,20 @@ class ChatBubbleLeft extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Bubble(
+      shadowColor: Colors.transparent,
       margin: BubbleEdges.fromLTRB(
-          10.0, 10.0, MediaQuery.of(context).size.width / 4, 10.0),
+          10.0, 10.0, MediaQuery.of(context).size.width / 4, 0.0),
       alignment: Alignment.centerLeft,
       nip: BubbleNip.leftTop,
       nipWidth: 10,
       nipHeight: 10,
       nipRadius: 5,
       stick: true,
-      color: Colors.pink,
+      color: Colors.grey.shade200,
       child: Text(msg.messageText,
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
           )),
     );
   }

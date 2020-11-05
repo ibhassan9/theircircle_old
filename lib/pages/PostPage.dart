@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/text_field_container.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
@@ -29,112 +30,6 @@ class _PostPageState extends State<PostPage> {
   Image imag;
   File f;
   bool isPosting = false;
-
-  termsDialog() {
-    AwesomeDialog(
-      context: context,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.NO_HEADER,
-      body: StatefulBuilder(builder: (context, setState) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "You must agree to these terms before posting.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              FlatButton(
-                color: Colors.blue,
-                child: Text(
-                  "I agree to these terms.",
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ),
-                onPressed: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setBool('isFirst', true);
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(height: 10.0),
-            ],
-          ),
-        );
-      }),
-    )..show();
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -387,7 +282,7 @@ class _PostPageState extends State<PostPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var yes = prefs.getBool('isFirst');
     if (yes == null) {
-      termsDialog();
+      Constants.termsDialog(context);
       return true;
     } else {
       return false;

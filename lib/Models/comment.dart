@@ -62,15 +62,17 @@ Future<List<Comment>> fetchComments(
 
   Map<dynamic, dynamic> values = snapshot.value;
 
-  values.forEach((key, value) {
-    var comment = Comment(
-        content: value['content'],
-        username: value['username'],
-        userId: value['userId'],
-        timeStamp: value['timeStamp']);
-    c.add(comment);
-  });
-  c.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+  if (snapshot.value != null) {
+    values.forEach((key, value) {
+      var comment = Comment(
+          content: value['content'],
+          username: value['username'],
+          userId: value['userId'],
+          timeStamp: value['timeStamp']);
+      c.add(comment);
+    });
+    c.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+  }
   return c;
 }
 

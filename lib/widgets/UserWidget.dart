@@ -56,7 +56,7 @@ class _UserWidgetState extends State<UserWidget> {
                   widget.user.name,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
-                        fontSize: widget.user.name.length > 16 ? 12 : 13,
+                        fontSize: widget.user.name.length > 16 ? 11 : 13,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
                   ),

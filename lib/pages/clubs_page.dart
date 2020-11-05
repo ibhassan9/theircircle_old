@@ -11,7 +11,8 @@ class ClubsPage extends StatefulWidget {
   _ClubsPageState createState() => _ClubsPageState();
 }
 
-class _ClubsPageState extends State<ClubsPage> {
+class _ClubsPageState extends State<ClubsPage>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController clubNameController = TextEditingController();
   TextEditingController clubDescriptionController = TextEditingController();
   TextEditingController searchingController = TextEditingController();
@@ -21,10 +22,11 @@ class _ClubsPageState extends State<ClubsPage> {
   bool isSearching = false;
   String filter;
 
-  Future<List<Club>> _future;
+  Future<List<Club>> _clubFuture;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     addClubDialog() {
       bool switchVal = false;
       AwesomeDialog(
@@ -126,7 +128,7 @@ class _ClubsPageState extends State<ClubsPage> {
 
             if (result) {
               setState(() {
-                _future = fetchClubs();
+                _clubFuture = fetchClubs();
               });
               clubNameController.clear();
               clubDescriptionController.clear();
@@ -176,23 +178,6 @@ class _ClubsPageState extends State<ClubsPage> {
                       setState(() {
                         filter = value;
                       });
-                      // searchedClubs = [];
-                      // if (value.isEmpty) {
-                      //   setState(() {
-                      //     searchedClubs = [];
-                      //   });
-                      // } else {
-                      //   value = value.toLowerCase();
-                      //   for (var club in clubs) {
-                      //     if (club.name.toLowerCase().contains(value)) {
-                      //       if (searchedClubs.contains(club)) {
-                      //       } else {
-                      //         searchedClubs.add(club);
-                      //       }
-                      //     }
-                      //   }
-                      //   setState(() {});
-                      // }
                     },
                     decoration: new InputDecoration(
                         border: InputBorder.none,
@@ -224,7 +209,9 @@ class _ClubsPageState extends State<ClubsPage> {
                             Navigator.pop(context);
                             var res = await deleteClub(club);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                _clubFuture = fetchClubs();
+                              });
                             }
                           };
 
@@ -237,7 +224,7 @@ class _ClubsPageState extends State<ClubsPage> {
                         },
                       )
                     : FutureBuilder(
-                        future: fetchClubs(),
+                        future: _clubFuture,
                         builder: (context, snap) {
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
@@ -339,10 +326,13 @@ class _ClubsPageState extends State<ClubsPage> {
   @override
   void initState() {
     super.initState();
+    _clubFuture = fetchClubs();
   }
 
   Future<Null> refresh() async {
-    this.setState(() {});
+    this.setState(() {
+      _clubFuture = fetchClubs();
+    });
   }
 
   @override
@@ -351,4 +341,7 @@ class _ClubsPageState extends State<ClubsPage> {
     clubNameController.dispose();
     clubDescriptionController.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

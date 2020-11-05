@@ -9,6 +9,7 @@ import 'package:unify/Models/message.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/ChatBubbleLeft.dart';
 import 'package:unify/widgets/ChatBubbleRight.dart';
+import 'package:unify/widgets/SayHiWidget.dart';
 
 class ChatPage extends StatefulWidget {
   final PostUser receiver;
@@ -20,50 +21,61 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController chatController = TextEditingController();
   var uniKey = Constants.checkUniversity();
   var myID = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance.reference().child('chats');
+  TextEditingController bioController = TextEditingController();
+  TextEditingController snapchatController = TextEditingController();
+  TextEditingController linkedinController = TextEditingController();
+  TextEditingController instagramController = TextEditingController();
+  Stream<Event> myChat;
+  bool seen = false;
 
   Widget build(BuildContext context) {
-    var chats = db.child(uniKey == 0 ? 'UofT' : 'YorkU').child(widget.chatId);
-    print(myID.length < widget.receiver.id.length);
+    super.build(context);
     Padding chatBox = Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: 70,
         decoration: BoxDecoration(
-            color: Colors.white,
             border: Border(top: BorderSide(color: Colors.grey.shade200))),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Flexible(
-                  child: TextField(
-                controller: chatController,
-                decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: "Insert message here"),
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                  child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.blueGrey.shade50,
+                    borderRadius: BorderRadius.circular(20.0)),
+                child: TextField(
+                  textInputAction: TextInputAction.done,
+                  maxLines: null,
+                  controller: chatController,
+                  decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: "Insert message here"),
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
                 ),
               )),
               IconButton(
                 icon: Icon(
-                  AntDesign.arrowright,
+                  FlutterIcons.send_mdi,
                   color: Colors.black,
                 ),
                 onPressed: () async {
@@ -88,89 +100,111 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.pink),
+        centerTitle: false,
+        iconTheme: IconThemeData(color: Colors.black87),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               widget.receiver.name,
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.poppins(
                 textStyle: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87),
               ),
             ),
-            Text(
-              "Meet & Make New Friends",
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-              ),
-            ),
+            // Text(
+            //   "Meet & Make New Friends",
+            //   style: GoogleFonts.quicksand(
+            //     textStyle: TextStyle(
+            //         fontSize: 12,
+            //         fontWeight: FontWeight.w500,
+            //         color: Colors.black),
+            //   ),
+            // ),
           ],
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FlutterIcons.flag_faw, color: Colors.pink),
+            icon: Icon(FlutterIcons.user_alt_faw5s, color: Colors.black87),
             onPressed: () {
-              // TODO:- unmatch
+              showProfile(
+                  widget.receiver,
+                  context,
+                  bioController,
+                  snapchatController,
+                  instagramController,
+                  linkedinController,
+                  null,
+                  null,
+                  isFromChat: true);
             },
           ),
         ],
-        elevation: 1.0,
+        elevation: 0.5,
       ),
-      body: Stack(children: [
-        ListView(
-          children: [
-            StreamBuilder(
-              stream: chats.onValue,
-              builder: (context, snap) {
-                if (snap.hasData &&
-                    !snap.hasError &&
-                    snap.data.snapshot.value != null) {
-                  Map data = snap.data.snapshot.value;
-                  List<Message> messages = [];
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onPanDown: (_) {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Stack(children: [
+          ListView(
+            children: [
+              StreamBuilder(
+                stream: myChat,
+                builder: (context, snap) {
+                  if (snap.hasData &&
+                      !snap.hasError &&
+                      snap.data.snapshot.value != null) {
+                    Map data = snap.data.snapshot.value;
+                    List<Message> messages = [];
+                    for (var key in data.keys) {
+                      Message msg = Message(
+                          id: key,
+                          messageText: data[key]['messageText'],
+                          receiverId: data[key]['receiverId'],
+                          senderId: data[key]['senderId'],
+                          timestamp: data[key]['timeStamp']);
+                      messages.add(msg);
+                    }
 
-                  for (var key in data.keys) {
-                    Message msg = Message(
-                        id: key,
-                        messageText: data[key]['messageText'],
-                        receiverId: data[key]['receiverId'],
-                        senderId: data[key]['senderId'],
-                        timestamp: data[key]['timeStamp']);
-                    messages.add(msg);
-                  }
+                    messages.sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
-                  messages.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      Message msg = messages[index];
-                      if (msg.senderId == myID) {
-                        return ChatBubbleRight(
-                          msg: msg,
-                        );
-                      } else {
-                        return ChatBubbleLeft(msg: msg);
+                    if (messages.isNotEmpty) {
+                      if (seen == false) {
+                        seen = true;
+                        setSeen(widget.receiver.id);
                       }
-                    },
-                  );
-                } else
-                  return Center(child: Text("No data"));
-              },
-            ),
-          ],
-        )
-      ]),
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        Message msg = messages[index];
+                        if (msg.senderId == myID) {
+                          return ChatBubbleRight(
+                            msg: msg,
+                          );
+                        } else {
+                          return ChatBubbleLeft(msg: msg);
+                        }
+                      },
+                    );
+                  } else
+                    return Center(
+                        child: SayHiWidget(receiver: widget.receiver));
+                },
+              ),
+            ],
+          )
+        ]),
+      ),
       bottomNavigationBar: Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0), child: chatBox),
+          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0), child: chatBox),
     );
   }
 
@@ -178,6 +212,8 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    var chats = db.child(uniKey == 0 ? 'UofT' : 'YorkU').child(widget.chatId);
+    myChat = chats.onValue;
   }
 
   @override
@@ -186,4 +222,7 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
     chatController.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

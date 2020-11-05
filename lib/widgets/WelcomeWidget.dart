@@ -49,7 +49,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                     ],
                   )),
                   CircleAvatar(
-                    backgroundColor: Colors.deepOrange,
+                    backgroundColor: Colors.purple,
                     child: Text(
                       name.isNotEmpty ? name.substring(0, 1).toString() : "",
                       style: GoogleFonts.quicksand(

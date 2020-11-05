@@ -146,11 +146,11 @@ class _MatchPageState extends State<MatchPage> {
                         /// Get orientation & index of swiped card!
                         if (orientation == CardSwipeOrientation.RIGHT) {
                           PostUser user = snap.data[index];
-                          bool isMatch = await swipeRight(user.id);
-                          if (isMatch) {
-                            Navigator.of(context)
-                                .push(MatchedOverlay(user: user));
-                          } else {}
+                          //bool isMatch = await swipeRight(user.id);
+                          // if (isMatch) {
+                          //   Navigator.of(context)
+                          //       .push(MatchedOverlay(user: user));
+                          // } else {}
                         }
                       },
                     );

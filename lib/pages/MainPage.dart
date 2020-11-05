@@ -17,6 +17,7 @@ import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/courses_page.dart';
 import 'package:unify/pages/FilterPage.dart';
+import 'package:unify/widgets/CalendarWidget.dart';
 import 'package:unify/widgets/PostWidget.dart';
 import 'package:unify/Widgets/MenuWidget.dart';
 import 'package:unify/Models/news.dart';
@@ -39,7 +40,8 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController contentController = TextEditingController();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController bioController = TextEditingController();
@@ -50,127 +52,14 @@ class _MainPageState extends State<MainPage> {
   var name = "";
   var uni;
   u.PostUser user;
-  Future<List<News>> _future;
+  Future<List<News>> _newsFuture;
+  Future<List<Post>> _postFuture;
+  Future<List<u.PostUser>> _userFuture;
   int sortBy = 0;
-
-  termsDialog() {
-    AwesomeDialog(
-      context: context,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.NO_HEADER,
-      body: StatefulBuilder(builder: (context, setState) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Welcome to TheirCircle",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "You must agree to these terms before posting.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              FlatButton(
-                color: Colors.blue,
-                child: Text(
-                  "I agree to these terms.",
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ),
-                onPressed: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setBool('isFirst', true);
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(height: 10.0),
-            ],
-          ),
-        );
-      }),
-    )..show();
-  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -220,10 +109,47 @@ class _MainPageState extends State<MainPage> {
               if (user == null) {
                 u.PostUser dummyUser =
                     u.PostUser(bio: "", id: "", name: "", verified: 1);
-                u.showProfile(dummyUser, context, null, null, null, null);
+                u.showProfile(
+                    dummyUser,
+                    context,
+                    bioController,
+                    snapchatController,
+                    instagramController,
+                    linkedinController,
+                    null,
+                    null);
               } else {
+                Function a = () async {
+                  var res = await u.updateProfile(
+                      null,
+                      bioController.text,
+                      snapchatController.text,
+                      linkedinController.text,
+                      instagramController.text);
+                  Navigator.pop(context);
+                  if (res) {
+                    var id = firebaseAuth.currentUser.uid;
+                    await u.getUser(id).then((value) {
+                      setState(() {
+                        user = value;
+                      });
+                    });
+                  }
+                  bioController.clear();
+                  snapchatController.clear();
+                  linkedinController.clear();
+                  instagramController.clear();
+                };
+                Function b = () async {
+                  var id = firebaseAuth.currentUser.uid;
+                  await u.getUser(id).then((value) {
+                    setState(() {
+                      user = value;
+                    });
+                  });
+                };
                 u.showProfile(user, context, bioController, snapchatController,
-                    instagramController, linkedinController);
+                    instagramController, linkedinController, a, b);
               }
             },
           ),
@@ -300,7 +226,8 @@ class _MainPageState extends State<MainPage> {
           ListView(
             children: <Widget>[
               WelcomeWidget(),
-              MenuWidget(),
+              //CalendarWidget(),
+              //MenuWidget(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                 child: Text(
@@ -318,7 +245,7 @@ class _MainPageState extends State<MainPage> {
                 child: Container(
                   height: 100,
                   child: FutureBuilder(
-                      future: _future,
+                      future: _newsFuture,
                       builder: (context, snap) {
                         if (snap.connectionState == ConnectionState.waiting)
                           return Center(
@@ -396,7 +323,7 @@ class _MainPageState extends State<MainPage> {
               ),
               Divider(),
               FutureBuilder(
-                  future: fetchPosts(sortBy),
+                  future: _postFuture,
                   builder: (context, snap) {
                     if (snap.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -463,7 +390,7 @@ class _MainPageState extends State<MainPage> {
                                   child: Container(
                                     height: 150,
                                     child: FutureBuilder(
-                                        future: u.myCampusUsers(),
+                                        future: _userFuture,
                                         builder: (context, snap) {
                                           if (snap.hasData &&
                                               snap.data.length != 0) {
@@ -480,8 +407,15 @@ class _MainPageState extends State<MainPage> {
                                                       int i) {
                                                 u.PostUser user = snap.data[i];
                                                 Function f = () {
-                                                  u.showProfile(user, context,
-                                                      null, null, null, null);
+                                                  u.showProfile(
+                                                      user,
+                                                      context,
+                                                      bioController,
+                                                      snapchatController,
+                                                      instagramController,
+                                                      linkedinController,
+                                                      null,
+                                                      null);
                                                 };
                                                 return UserWidget(
                                                   user: user,
@@ -508,7 +442,7 @@ class _MainPageState extends State<MainPage> {
                                 Container(
                                   height: 10.0,
                                   width: MediaQuery.of(context).size.width,
-                                  color: Colors.grey.shade50,
+                                  color: Colors.blueGrey.shade50,
                                 ),
                                 PostWidget(
                                     post: post,
@@ -557,7 +491,7 @@ class _MainPageState extends State<MainPage> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.purple,
         child: Icon(Entypo.pencil, color: Colors.white),
         onPressed: () async {
           Navigator.push(
@@ -575,7 +509,9 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     getUserData().then((value) {
-      _future = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+      _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+      _postFuture = fetchPosts(sortBy);
+      _userFuture = u.myCampusUsers();
     });
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
@@ -596,7 +532,9 @@ class _MainPageState extends State<MainPage> {
 
   Future<Null> refresh() async {
     getUserData().then((value) {
-      _future = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+      _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+      _postFuture = fetchPosts(sortBy);
+      _userFuture = u.myCampusUsers();
     });
     this.setState(() {});
   }
@@ -605,7 +543,7 @@ class _MainPageState extends State<MainPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var yes = prefs.getBool('isFirst');
     if (yes == null) {
-      termsDialog();
+      Constants.termsDialog(context);
       return true;
     } else {
       return false;
@@ -629,4 +567,7 @@ class _MainPageState extends State<MainPage> {
       user = _user;
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

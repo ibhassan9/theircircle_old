@@ -15,7 +15,10 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/assignment.dart';
+import 'package:unify/Models/club.dart';
 import 'package:unify/Models/match.dart';
+import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
@@ -306,6 +309,49 @@ Future<List<PostUser>> peopleList() async {
   return p;
 }
 
+Future<Map<String, List<Assignment>>> fetchAllMyAssignments(
+    DateTime date) async {
+  Map<String, List<Assignment>> assignments = {};
+  List<Course> myCourses = [];
+  List<Club> myClubs = [];
+  // Fetch courses i'm in
+  List<Course> courses = await fetchCourses();
+  // Fetch clubs i'm in
+  List<Club> clubs = await fetchClubs();
+
+  if (courses != null || courses.isNotEmpty) {
+    for (var course in courses) {
+      if (course.inCourse) {
+        myCourses.add(course);
+      }
+    }
+  }
+
+  if (clubs != null || clubs.isNotEmpty) {
+    for (var club in clubs) {
+      if (club.inClub) {
+        myClubs.add(club);
+      }
+    }
+  }
+
+  if (myCourses != null || myCourses.isNotEmpty) {
+    for (var course in myCourses) {
+      List<Assignment> assignment = await fetchAssignments(date, course);
+      assignments[course.name] = assignment;
+    }
+  }
+
+  if (myClubs != null || myClubs.isNotEmpty) {
+    for (var club in myClubs) {
+      List<Assignment> reminder = await fetchEventReminders(date, club);
+      assignments[club.name] = reminder;
+    }
+  }
+
+  return assignments;
+}
+
 Future<List<PostUser>> myCampusUsers() async {
   var uniKey = Constants.checkUniversity();
   var userDB = FirebaseDatabase.instance
@@ -344,7 +390,6 @@ Future<List<PostUser>> myCampusUsers() async {
       p.add(user);
     }
   }
-  p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
   return p;
 }
 
@@ -628,7 +673,10 @@ showProfile(
     TextEditingController bioController,
     TextEditingController snapchatController,
     TextEditingController instagramController,
-    TextEditingController linkedinController) async {
+    TextEditingController linkedinController,
+    Function a,
+    Function b,
+    {bool isFromChat = false}) async {
   var user = await getUser(firebaseAuth.currentUser.uid);
   bool object_avail = true;
   Image imag;
@@ -784,7 +832,11 @@ showProfile(
                                         left: 10.0, right: 10.0),
                                     child: TextField(
                                       textInputAction: TextInputAction.done,
-                                      controller: bioController,
+                                      controller: bioController
+                                        ..text =
+                                            me.bio == null || me.bio.isEmpty
+                                                ? ""
+                                                : me.bio,
                                       textAlign: TextAlign.center,
                                       decoration: InputDecoration(
                                           border: InputBorder.none,
@@ -812,15 +864,18 @@ showProfile(
                                     ),
                                   )
                                 : Text(
-                                    me.bio == null ? "" : me.bio,
+                                    me.bio == null
+                                        ? "No bio available"
+                                        : me.bio,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black),
                                     ),
                                   )),
+                        SizedBox(height: 10.0),
                         Center(
                             child: me.id == firebaseAuth.currentUser.uid
                                 ? Container()
@@ -843,9 +898,11 @@ showProfile(
                                       }
                                     },
                                     child: Text(
-                                        me.isBlocked
-                                            ? 'Unblock this user'
-                                            : 'Block this user',
+                                        me.isBlocked != null
+                                            ? me.isBlocked
+                                                ? 'Unblock this user'
+                                                : 'Block this user'
+                                            : '',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
@@ -899,7 +956,13 @@ showProfile(
                               child: TextField(
                                 enabled: me.id == firebaseAuth.currentUser.uid,
                                 textInputAction: TextInputAction.done,
-                                controller: snapchatController,
+                                controller: snapchatController
+                                  ..text = me.snapchatHandle == null ||
+                                          me.snapchatHandle.isEmpty
+                                      ? me.id == firebaseAuth.currentUser.uid
+                                          ? ""
+                                          : "Snapchat Handle Unavailable"
+                                      : me.snapchatHandle,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(
@@ -937,7 +1000,13 @@ showProfile(
                               child: TextField(
                                 enabled: me.id == firebaseAuth.currentUser.uid,
                                 textInputAction: TextInputAction.done,
-                                controller: instagramController,
+                                controller: instagramController
+                                  ..text = me.instagramHandle == null ||
+                                          me.instagramHandle.isEmpty
+                                      ? me.id == firebaseAuth.currentUser.uid
+                                          ? ""
+                                          : "Instagram Handle Unavailable"
+                                      : me.instagramHandle,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(FlutterIcons.instagram_faw,
@@ -974,7 +1043,13 @@ showProfile(
                               child: TextField(
                                 enabled: me.id == firebaseAuth.currentUser.uid,
                                 textInputAction: TextInputAction.done,
-                                controller: linkedinController,
+                                controller: linkedinController
+                                  ..text = me.linkedinHandle == null ||
+                                          me.linkedinHandle.isEmpty
+                                      ? me.id == firebaseAuth.currentUser.uid
+                                          ? ""
+                                          : "LinkedIn Handle Unavailable"
+                                      : me.linkedinHandle,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(FlutterIcons.linkedin_faw,
@@ -1008,6 +1083,55 @@ showProfile(
                           ],
                         ),
                         Visibility(
+                          visible: me.id != firebaseAuth.currentUser.uid &&
+                              isFromChat == false,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                var myID = firebaseAuth.currentUser.uid;
+                                var peerId = me.id;
+                                var chatId = '';
+                                if (myID.hashCode <= peerId.hashCode) {
+                                  chatId = '$myID-$peerId';
+                                } else {
+                                  chatId = '$peerId-$myID';
+                                }
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChatPage(
+                                            receiver: me, chatId: chatId)));
+                              },
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.purple,
+                                    borderRadius: BorderRadius.circular(5.0)),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(FlutterIcons.send_faw,
+                                          color: Colors.white, size: 15.0),
+                                      SizedBox(width: 10.0),
+                                      Text(
+                                        "Send a message",
+                                        style: GoogleFonts.quicksand(
+                                          textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Visibility(
                           visible: me.id == firebaseAuth.currentUser.uid,
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -1016,20 +1140,7 @@ showProfile(
                               onTap: () async {
                                 if (imag == null) {
                                   // just update bio
-                                  var res = await updateProfile(
-                                      null,
-                                      bioController.text,
-                                      snapchatController.text,
-                                      linkedinController.text,
-                                      instagramController.text);
-                                  Navigator.pop(context);
-                                  if (res) {
-                                    setState(() {});
-                                  }
-                                  bioController.clear();
-                                  snapchatController.clear();
-                                  linkedinController.clear();
-                                  instagramController.clear();
+                                  a();
                                 } else {
                                   // image available, upload image
                                   var url = await uploadImageToStorage(f);
@@ -1041,7 +1152,7 @@ showProfile(
                                       instagramController.text);
                                   Navigator.pop(context);
                                   if (res) {
-                                    setState(() {});
+                                    b();
                                   }
                                   bioController.clear();
                                   snapchatController.clear();

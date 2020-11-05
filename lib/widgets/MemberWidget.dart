@@ -31,7 +31,7 @@ class _MemberWidgetState extends State<MemberWidget> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          showProfile(widget.user, context, bioC, sC, igC, lC);
+          showProfile(widget.user, context, bioC, sC, igC, lC, null, null);
         },
         child: Container(
             decoration: BoxDecoration(

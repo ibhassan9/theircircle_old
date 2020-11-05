@@ -62,18 +62,20 @@ Future<List<Assignment>> fetchAssignments(DateTime _date, Course course) async {
 
   Map<dynamic, dynamic> values = snapshot.value;
 
-  values.forEach((key, value) {
-    var assignment = Assignment(
-        id: key,
-        title: value['title'],
-        description: value['description'],
-        createdBy: value['createdBy'],
-        timeDue: value['timeDue'],
-        timeStamp: value['timeStamp'],
-        userId: value['userId']);
-    a.add(assignment);
-  });
-  a.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  if (snapshot.value != null) {
+    values.forEach((key, value) {
+      var assignment = Assignment(
+          id: key,
+          title: value['title'],
+          description: value['description'],
+          createdBy: value['createdBy'],
+          timeDue: value['timeDue'],
+          timeStamp: value['timeStamp'],
+          userId: value['userId']);
+      a.add(assignment);
+    });
+    a.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  }
   return a;
 }
 
@@ -99,18 +101,21 @@ Future<List<Assignment>> fetchEventReminders(DateTime _date, Club club) async {
 
   Map<dynamic, dynamic> values = snapshot.value;
 
-  values.forEach((key, value) {
-    var assignment = Assignment(
-        id: key,
-        title: value['title'],
-        description: value['description'],
-        createdBy: value['createdBy'],
-        timeDue: value['timeDue'],
-        timeStamp: value['timeStamp'],
-        userId: value['userId']);
-    a.add(assignment);
-  });
-  a.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  if (snapshot.value != null) {
+    values.forEach((key, value) {
+      var assignment = Assignment(
+          id: key,
+          title: value['title'],
+          description: value['description'],
+          createdBy: value['createdBy'],
+          timeDue: value['timeDue'],
+          timeStamp: value['timeStamp'],
+          userId: value['userId']);
+      a.add(assignment);
+    });
+    a.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  }
+
   return a;
 }
 

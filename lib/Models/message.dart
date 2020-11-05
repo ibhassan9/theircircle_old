@@ -60,6 +60,20 @@ Future<bool> sendMessage(
       .child('chats')
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(chatId);
+  var userdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(myID)
+      .child('chats')
+      .child(receiverId);
+  var peerdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(receiverId)
+      .child('chats')
+      .child(myID);
   var key = db.push();
   final Map<String, dynamic> data = {
     "messageText": messageText,
@@ -70,5 +84,40 @@ Future<bool> sendMessage(
   await key.set(data).catchError((err) {
     return false;
   });
+  await userdb.set({
+    'lastMessage': messageText,
+    'timestamp': DateTime.now().millisecondsSinceEpoch,
+    'senderId': myID,
+    'seen': true
+  });
+  await peerdb.set({
+    'lastMessage': messageText,
+    'timestamp': DateTime.now().millisecondsSinceEpoch,
+    'senderId': myID,
+    'seen': false
+  });
   return true;
+}
+
+Future<Null> setSeen(String peerId) async {
+  var uniKey = Constants.checkUniversity();
+  var myID = firebaseAuth.currentUser.uid;
+  var userdb = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(myID)
+      .child('chats')
+      .child(peerId);
+  await userdb.child('seen').set(true);
+}
+
+Future<List<Message>> fetchChatMessage(String peerId) async {
+  var myID = firebaseAuth.currentUser.uid;
+  var chatId = '';
+  if (myID.hashCode <= peerId.hashCode) {
+    chatId = '$myID-$peerId';
+  } else {
+    chatId = '$peerId-$myID';
+  }
 }

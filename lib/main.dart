@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unify/Components/AppTheme.dart';
+import 'package:unify/Home/main_screen.dart';
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TheirCircle',
       debugShowCheckedModeBanner: false,
-      home: firebaseAuth.currentUser != null ? MainPage() : WelcomeScreen(),
+      home: firebaseAuth.currentUser != null ? MainScreen() : WelcomeScreen(),
     );
   }
 }
