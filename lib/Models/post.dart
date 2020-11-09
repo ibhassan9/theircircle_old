@@ -469,10 +469,12 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
 
     var i = 0;
 
-    if (post.userId != firebaseAuth.currentUser.uid) {
-      for (var filter in filters) {
-        if (post.content.toLowerCase().contains(filter.toLowerCase())) {
-          i += 1;
+    if (filters != null) {
+      if (post.userId != firebaseAuth.currentUser.uid) {
+        for (var filter in filters) {
+          if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+            i += 1;
+          }
         }
       }
     }
@@ -658,6 +660,8 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var filters = prefs.getStringList('filters');
 
+  print('test');
+
   values.forEach((key, value) {
     var post = Post(
         id: key,
@@ -685,10 +689,12 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
 
     var i = 0;
 
-    if (post.userId != firebaseAuth.currentUser.uid) {
-      for (var filter in filters) {
-        if (post.content.toLowerCase().contains(filter.toLowerCase())) {
-          i += 1;
+    if (filters != null) {
+      if (post.userId != firebaseAuth.currentUser.uid) {
+        for (var filter in filters) {
+          if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+            i += 1;
+          }
         }
       }
     }

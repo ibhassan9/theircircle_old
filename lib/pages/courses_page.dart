@@ -119,12 +119,32 @@ class _CoursesPageState extends State<CoursesPage>
           // ),
           // SizedBox(width: 10.0)
         ],
-        title: Text(
-          "Courses",
-          style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
-          ),
+        title: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Courses",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+                Text(
+                  "Engage with your peers",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       backgroundColor: Colors.white,

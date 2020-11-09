@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/FilterPage.dart';
@@ -71,31 +72,39 @@ class _MainScreenState extends State<MainScreen>
             MyMatchesPage()
           ],
         ),
-        bottomNavigationBar: CustomNavigationBar(
-          currentIndex: _pages,
-          iconSize: 25.0,
-          selectedColor: Colors.black,
-          strokeColor: Colors.white,
-          unSelectedColor: Colors.grey[400],
-          backgroundColor: Colors.white,
-          items: [
-            CustomNavigationBarItem(icon: FlutterIcons.feed_faw),
-            CustomNavigationBarItem(
-              icon: AntDesign.book,
-            ),
-            CustomNavigationBarItem(
-              icon: AntDesign.Trophy,
-            ),
-            CustomNavigationBarItem(
-              icon: FlutterIcons.chat_ent,
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              _pages = index;
-            });
-            _pageController.jumpToPage(index);
-          },
+        bottomNavigationBar: Container(
+          height: kBottomNavigationBarHeight + 30,
+          child: CurvedNavigationBar(
+            key: _bottomNavigationKey,
+            //animationCurve: Curves.easeOutCirc,
+            backgroundColor: Colors.white,
+            color: Colors.deepPurpleAccent,
+            items: [
+              Icon(
+                FlutterIcons.circle_notch_faw5s,
+                color: Colors.white,
+              ),
+              Icon(
+                AntDesign.book,
+                color: Colors.white,
+              ),
+              Icon(
+                AntDesign.Trophy,
+                color: Colors.white,
+              ),
+              Icon(
+                FlutterIcons.chat_bubble_outline_mdi,
+                color: Colors.white,
+              ),
+            ],
+            onTap: (index) {
+              _pageController.jumpToPage(index);
+              // final CurvedNavigationBarState navBarState =
+              //     _bottomNavigationKey.currentState;
+              // navBarState.setPage(index);
+              // _pageController.jumpToPage(index);
+            },
+          ),
         ));
   }
 
@@ -107,6 +116,9 @@ class _MainScreenState extends State<MainScreen>
   }
 
   void onPageChanged(int page) {
+    final CurvedNavigationBarState navBarState =
+        _bottomNavigationKey.currentState;
+    navBarState.setPage(page);
     setState(() {
       this._pages = page;
     });

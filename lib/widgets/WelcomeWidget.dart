@@ -45,11 +45,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                               fontWeight: FontWeight.w500,
                               color: Colors.black),
                         ),
-                      )
+                      ),
                     ],
                   )),
                   CircleAvatar(
-                    backgroundColor: Colors.purple,
+                    backgroundColor: Colors.deepPurpleAccent,
                     child: Text(
                       name.isNotEmpty ? name.substring(0, 1).toString() : "",
                       style: GoogleFonts.quicksand(

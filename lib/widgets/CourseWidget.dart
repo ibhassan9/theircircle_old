@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/pages/course_page.dart';
+import 'package:unify/Components/Constants.dart';
 
 class CourseWidget extends StatefulWidget {
   final Course course;
@@ -16,45 +17,9 @@ class CourseWidget extends StatefulWidget {
 }
 
 class _CourseWidgetState extends State<CourseWidget> {
+  Color color;
   @override
   Widget build(BuildContext context) {
-    Color color() {
-      Random random = new Random();
-      int index = random.nextInt(6);
-      switch (index) {
-        case 1:
-          {
-            return Colors.deepOrangeAccent;
-          }
-          break;
-        case 2:
-          {
-            return Colors.deepPurpleAccent;
-          }
-          break;
-        case 3:
-          {
-            return Colors.blueAccent;
-          }
-          break;
-        case 4:
-          {
-            return Colors.purpleAccent;
-          }
-          break;
-        case 5:
-          {
-            return Colors.redAccent;
-          }
-          break;
-        default:
-          {
-            return Colors.indigoAccent;
-          }
-          break;
-      }
-    }
-
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -92,7 +57,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                     ),
                   ],
                 ),
-                Container(width: 3.0, color: color()),
+                Container(width: 3.0, color: color),
                 SizedBox(
                   width: 15.0,
                 ),
@@ -177,5 +142,12 @@ class _CourseWidgetState extends State<CourseWidget> {
     } else {
       return 'Join Course';
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    color = Constants.color();
   }
 }

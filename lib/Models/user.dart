@@ -15,6 +15,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Home/main_screen.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/match.dart';
@@ -124,7 +125,7 @@ Future signInUser(String email, String password, BuildContext context) async {
       prefs.setString('name', _user.name);
       Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MainPage()));
+          context, MaterialPageRoute(builder: (context) => MainScreen()));
     }
   }).catchError((err) {
     print(err.toString());
@@ -936,8 +937,8 @@ showProfile(
                                   SizedBox(width: 5.0),
                                   Text(
                                       user.appear
-                                          ? "Hide from 'Students on Unify'"
-                                          : "Appear on 'Students on Unify'",
+                                          ? "Hide from 'Students on TheirCircle'"
+                                          : "Appear on 'Students on TheirCircle'",
                                       style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontSize: 13,

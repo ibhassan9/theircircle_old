@@ -15,6 +15,7 @@ class UserWidget extends StatefulWidget {
 }
 
 class _UserWidgetState extends State<UserWidget> {
+  Color color;
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -26,7 +27,7 @@ class _UserWidgetState extends State<UserWidget> {
           height: 150,
           width: 100,
           decoration: BoxDecoration(
-            color: Constants.color(),
+            color: color,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -68,5 +69,12 @@ class _UserWidgetState extends State<UserWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    color = Constants.color();
   }
 }

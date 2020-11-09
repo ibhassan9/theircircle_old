@@ -69,6 +69,7 @@ dependencies:
   quiver: ^2.1.4+1
   full_screen_image: ^1.0.2
   cached_network_image: ^2.3.3
+  share: ^0.6.5+4
 
 flutter_icons:
   android: "launcher_icon"

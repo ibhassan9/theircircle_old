@@ -24,6 +24,7 @@ class ClubWidget extends StatefulWidget {
 
 class _ClubWidgetState extends State<ClubWidget> {
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
+  Color color;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -67,7 +68,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                       ),
                     ],
                   ),
-                  Container(width: 3.0, color: Constants.color()),
+                  Container(width: 3.0, color: color),
                   SizedBox(
                     width: 15.0,
                   ),
@@ -241,5 +242,12 @@ class _ClubWidgetState extends State<ClubWidget> {
         return 'Request to Join';
       }
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    color = Constants.color();
   }
 }

@@ -11,13 +11,15 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
+import 'package:unify/widgets/CommentPostWidget.dart';
 
 class PostDetailPage extends StatefulWidget {
   final Post post;
   final Course course;
   final Club club;
+  final String timeAgo;
 
-  PostDetailPage({Key key, this.post, this.course, this.club})
+  PostDetailPage({Key key, this.post, this.course, this.club, this.timeAgo})
       : super(key: key);
   @override
   _PostDetailPageState createState() => _PostDetailPageState();
@@ -26,6 +28,7 @@ class PostDetailPage extends StatefulWidget {
 class _PostDetailPageState extends State<PostDetailPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
+  Future<List<Comment>> commentFuture;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +102,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     }
                     commentController.clear();
                   } else {}
-                  setState(() {});
+                  if (this.mounted) {
+                    setState(() {});
+                  }
                 },
               )
             ],
@@ -123,58 +128,66 @@ class _PostDetailPageState extends State<PostDetailPage> {
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
+      body: RefreshIndicator(
+        onRefresh: refresh,
         child: Stack(
           children: <Widget>[
             ListView(
               children: <Widget>[
-                FutureBuilder(
-                  future:
-                      fetchComments(widget.post, widget.course, widget.club),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount:
-                            snapshot.data != null ? snapshot.data.length : 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          Comment comment = snapshot.data[index];
-                          var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
-                              comment.timeStamp);
-                          return CommentWidget(
-                              comment: comment,
-                              timeAgo: timeago.format(timeAgo));
-                        },
-                      );
-                    } else {
-                      return Container(
-                        height: MediaQuery.of(context).size.height / 1.4,
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.face,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 10),
-                              Text("There are no comments :(",
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
-                                  )),
-                            ],
+                CommentPostWidget(
+                    post: widget.post,
+                    course: widget.course,
+                    club: widget.club,
+                    timeAgo: widget.timeAgo),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: FutureBuilder(
+                    future: commentFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount:
+                              snapshot.data != null ? snapshot.data.length : 0,
+                          itemBuilder: (BuildContext context, int index) {
+                            Comment comment = snapshot.data[index];
+                            var timeAgo =
+                                new DateTime.fromMillisecondsSinceEpoch(
+                                    comment.timeStamp);
+                            return CommentWidget(
+                                comment: comment,
+                                timeAgo: timeago.format(timeAgo));
+                          },
+                        );
+                      } else {
+                        return Container(
+                          height: MediaQuery.of(context).size.height / 1.4,
+                          child: Center(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.face,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(width: 10),
+                                Text("There are no comments :(",
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey),
+                                    )),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }
-                  },
+                        );
+                      }
+                    },
+                  ),
                 ),
               ],
             )
@@ -185,5 +198,18 @@ class _PostDetailPageState extends State<PostDetailPage> {
           padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
           child: commentBox),
     );
+  }
+
+  Future<Null> refresh() async {
+    this.setState(() {
+      commentFuture = fetchComments(widget.post, widget.course, widget.club);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    commentFuture = fetchComments(widget.post, widget.course, widget.club);
   }
 }

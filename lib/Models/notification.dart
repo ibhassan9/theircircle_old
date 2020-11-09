@@ -76,6 +76,31 @@ Future<Null> sendPush(int nID, String token, String text) async {
       ));
 }
 
+Future<Null> sendPushChat(String token, String text) async {
+  var uid = firebaseAuth.currentUser.uid;
+  var me = await getUser(uid);
+
+  await http.post('https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=${Constants.serverToken}',
+      },
+      body: json.encode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': "$text",
+            'title': '${me.name}'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'status': 'done'
+          },
+          'to': token,
+        },
+      ));
+}
+
 Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
   var body = "";
 

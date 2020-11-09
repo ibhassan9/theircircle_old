@@ -144,6 +144,7 @@ class _FilterPageState extends State<FilterPage> {
     setState(() {
       filters = filterList;
     });
+    filterController.clear();
   }
 
   Future<Null> removeFilter(String text) async {
@@ -154,5 +155,12 @@ class _FilterPageState extends State<FilterPage> {
     setState(() {
       filters = filterList;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    filterController.dispose();
   }
 }

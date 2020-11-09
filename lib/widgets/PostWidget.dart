@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/pages/course_page.dart';
@@ -60,7 +61,8 @@ class _PostWidgetState extends State<PostWidget> {
                 builder: (context) => PostDetailPage(
                     post: widget.post,
                     course: widget.course,
-                    club: widget.club)));
+                    club: widget.club,
+                    timeAgo: widget.timeAgo)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -92,10 +94,10 @@ class _PostWidgetState extends State<PostWidget> {
                           ? CircleAvatar(
                               child: Icon(AntDesign.ellipsis1,
                                   color: Colors.white),
-                              backgroundColor: Colors.purple)
+                              backgroundColor: Colors.deepPurpleAccent)
                           : imgUrl == null || imgUrl == ''
                               ? CircleAvatar(
-                                  backgroundColor: Colors.purple,
+                                  backgroundColor: Colors.deepPurpleAccent,
                                   child: Text(
                                       widget.post.username.substring(0, 1),
                                       style: TextStyle(color: Colors.white)))
@@ -150,7 +152,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 fontWeight: FontWeight.w700,
                                 color: widget.post.userId ==
                                         firebaseAuth.currentUser.uid
-                                    ? Colors.purple
+                                    ? Colors.deepPurpleAccent
                                     : Colors.black),
                           ),
                           SizedBox(height: 2.5),
@@ -623,22 +625,36 @@ class _PostWidgetState extends State<PostWidget> {
                         )
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Icon(AntDesign.sharealt,
-                            color: Colors.grey.shade400, size: 20),
-                        SizedBox(width: 10.0),
-                        Container(
-                          margin: EdgeInsets.only(left: 3.0),
-                          child: Text(
-                            "Share",
-                            style: GoogleFonts.quicksand(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey),
-                          ),
-                        )
-                      ],
+                    InkWell(
+                      onTap: () async {
+                        final RenderBox box = context.findRenderObject();
+                        var title = widget.post.isAnonymous
+                            ? "Anonymous: "
+                            : "${widget.post.username}: ";
+                        var content =
+                            title + widget.post.content + " - TheirCircle";
+                        await Share.share(content,
+                            subject: "TheirCircle",
+                            sharePositionOrigin:
+                                box.localToGlobal(Offset.zero) & box.size);
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(AntDesign.sharealt,
+                              color: Colors.grey.shade400, size: 20),
+                          SizedBox(width: 10.0),
+                          Container(
+                            margin: EdgeInsets.only(left: 3.0),
+                            child: Text(
+                              "Share",
+                              style: GoogleFonts.quicksand(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -654,7 +670,7 @@ class _PostWidgetState extends State<PostWidget> {
                         style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: Colors.purple),
+                            color: Colors.deepPurpleAccent),
                       ),
                     )
                   : SizedBox(),
@@ -667,7 +683,7 @@ class _PostWidgetState extends State<PostWidget> {
                           Container(
                             height: 20.0,
                             width: 3.0,
-                            color: Colors.purple,
+                            color: Colors.deepPurpleAccent,
                           ),
                           SizedBox(width: 10.0),
                           Text(comment.content,

@@ -147,12 +147,32 @@ class _ClubsPageState extends State<ClubsPage>
         centerTitle: false,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "Clubs",
-          style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
-          ),
+        title: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Clubs",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+                Text(
+                  "Start or join a club!",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         actions: <Widget>[
           IconButton(

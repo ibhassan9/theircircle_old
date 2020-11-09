@@ -31,7 +31,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(FlutterIcons.send_mdi, color: Colors.black),
+              icon: Icon(FlutterIcons.new_message_ent, color: Colors.black),
               onPressed: () {
                 Navigator.push(
                         context,
@@ -42,30 +42,34 @@ class _MyMatchesPageState extends State<MyMatchesPage>
         ],
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        elevation: 1.0,
+        elevation: 0.0,
         centerTitle: false,
         iconTheme: IconThemeData(color: Colors.pink),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        title: Row(
           children: [
-            Text(
-              "Chat",
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Chat",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+                Text(
+                  "Start a conversation!",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+              ],
             ),
-            // Text(
-            //   "Meet & Make New Friends",
-            //   style: GoogleFonts.quicksand(
-            //     textStyle: TextStyle(
-            //         fontSize: 12,
-            //         fontWeight: FontWeight.w500,
-            //         color: Colors.black),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -198,13 +202,37 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                         lastMessageSenderId: lastMessageSenderId);
                     chats.add(match);
                   }
+                } else {
+                  return Container(
+                    height: MediaQuery.of(context).size.height / 1.4,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            FlutterIcons.chat_ent,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(height: 10),
+                          Text("Your chat list is empty",
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey),
+                              )),
+                        ],
+                      ),
+                    ),
+                  );
                 }
                 chats.sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
                 return FutureBuilder(
                   future: users(chats),
                   builder: (_, s) {
-                    if (snap.hasData) {
+                    if (snap.hasData && snap.data != null) {
                       return ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
@@ -354,10 +382,15 @@ class _MyMatchesPageState extends State<MyMatchesPage>
   }
 
   Future<List<PostUser>> users(List<Match> chats) async {
+    var blocks = await getBlocks();
     List<PostUser> p = [];
     for (var chat in chats) {
       PostUser user = await getUser(chat.peerId);
-      p.add(user);
+      if (blocks.contains(user.id)) {
+        // blocked
+      } else {
+        p.add(user);
+      }
     }
     return p;
   }

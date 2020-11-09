@@ -6,13 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:timeago/timeago.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
-import 'package:unify/Models/user.dart';
+import 'package:unify/Models/notification.dart';
+import 'package:unify/Models/user.dart' as u;
 import 'package:unify/widgets/ChatBubbleLeft.dart';
 import 'package:unify/widgets/ChatBubbleRight.dart';
 import 'package:unify/widgets/SayHiWidget.dart';
 
 class ChatPage extends StatefulWidget {
-  final PostUser receiver;
+  final u.PostUser receiver;
   final String chatId;
   ChatPage({Key key, @required this.receiver, @required this.chatId})
       : super(key: key);
@@ -85,6 +86,8 @@ class _ChatPageState extends State<ChatPage>
                   var res = await sendMessage(
                       chatController.text, widget.receiver.id, widget.chatId);
                   if (res) {
+                    await sendPushChat(
+                        widget.receiver.device_token, chatController.text);
                     chatController.clear();
                   }
                 },
@@ -129,7 +132,7 @@ class _ChatPageState extends State<ChatPage>
           IconButton(
             icon: Icon(FlutterIcons.user_alt_faw5s, color: Colors.black87),
             onPressed: () {
-              showProfile(
+              u.showProfile(
                   widget.receiver,
                   context,
                   bioController,

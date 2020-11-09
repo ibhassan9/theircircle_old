@@ -99,7 +99,9 @@ class _MainPageState extends State<MainPage>
               Navigator.push(context,
                       MaterialPageRoute(builder: (context) => FilterPage()))
                   .then((value) {
-                setState(() {});
+                setState(() {
+                  _postFuture = fetchPosts(sortBy);
+                });
               });
             },
           ),
@@ -375,7 +377,7 @@ class _MainPageState extends State<MainPage>
                                 Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
-                                    "Students on Unify",
+                                    "Students on TheirCircle",
                                     style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                           fontSize: 16,
@@ -491,14 +493,16 @@ class _MainPageState extends State<MainPage>
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.deepPurpleAccent,
         child: Icon(Entypo.pencil, color: Colors.white),
         onPressed: () async {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => PostPage()),
           ).then((value) {
-            setState(() {});
+            setState(() {
+              _postFuture = fetchPosts(sortBy);
+            });
           });
         },
       ),
