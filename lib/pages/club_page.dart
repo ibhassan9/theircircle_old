@@ -27,6 +27,7 @@ class ClubPage extends StatefulWidget {
 
 class _ClubPageState extends State<ClubPage> {
   int sortBy = 0;
+  Future<List<Post>> clubFuture;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,9 @@ class _ClubPageState extends State<ClubPage> {
                       builder: (context) => PostPage(
                             club: widget.club,
                           ))).then((value) {
-                setState(() {});
+                setState(() {
+                  clubFuture = fetchClubPosts(widget.club, sortBy);
+                });
               });
             },
           ),
@@ -104,6 +107,7 @@ class _ClubPageState extends State<ClubPage> {
                         } else {
                           sortBy = 0;
                         }
+                        clubFuture = fetchClubPosts(widget.club, sortBy);
                       });
                     },
                     child: Center(
@@ -120,7 +124,7 @@ class _ClubPageState extends State<ClubPage> {
                   ),
                 ),
                 FutureBuilder(
-                  future: fetchClubPosts(widget.club, sortBy),
+                  future: clubFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -138,7 +142,10 @@ class _ClubPageState extends State<ClubPage> {
                                 await deletePost(post.id, null, widget.club);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                clubFuture =
+                                    fetchClubPosts(widget.club, sortBy);
+                              });
                               previewMessage("Post Deleted", context);
                             } else {
                               previewMessage("Error deleting post!", context);
@@ -149,7 +156,10 @@ class _ClubPageState extends State<ClubPage> {
                             var res = await block(post.userId);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                clubFuture =
+                                    fetchClubPosts(widget.club, sortBy);
+                              });
                               previewMessage("User blocked.", context);
                             }
                           };
@@ -158,7 +168,10 @@ class _ClubPageState extends State<ClubPage> {
                             var res = await hidePost(post.id);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                clubFuture =
+                                    fetchClubPosts(widget.club, sortBy);
+                              });
                               previewMessage("Post hidden from feed.", context);
                             }
                           };
@@ -208,6 +221,15 @@ class _ClubPageState extends State<ClubPage> {
   }
 
   Future<Null> refresh() async {
-    this.setState(() {});
+    this.setState(() {
+      clubFuture = fetchClubPosts(widget.club, sortBy);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    clubFuture = fetchClubPosts(widget.club, sortBy);
   }
 }

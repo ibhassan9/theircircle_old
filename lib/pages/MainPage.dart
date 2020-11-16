@@ -13,6 +13,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:unify/pages/CameraScreen.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/courses_page.dart';
@@ -33,6 +34,7 @@ import 'package:unify/Widgets/UserWidget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/pages/WebPage.dart';
 import 'package:unify/Widgets/WelcomeWidget.dart';
+import 'package:unify/widgets/TodaysQuestionWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MainPage extends StatefulWidget {
@@ -93,6 +95,13 @@ class _MainPageState extends State<MainPage>
           ],
         ),
         actions: <Widget>[
+          // IconButton(
+          //   icon: Icon(FlutterIcons.camera_outline_mco, color: Colors.black),
+          //   onPressed: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => CameraScreen()));
+          //   },
+          // ),
           IconButton(
             icon: Icon(AntDesign.filter, color: Colors.black),
             onPressed: () {
@@ -228,8 +237,13 @@ class _MainPageState extends State<MainPage>
           ListView(
             children: <Widget>[
               WelcomeWidget(),
-              //CalendarWidget(),
-              //MenuWidget(),
+              TodaysQuestionWidget(
+                refresh: () {
+                  setState(() {
+                    _postFuture = fetchPosts(sortBy);
+                  });
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                 child: Text(
@@ -308,6 +322,7 @@ class _MainPageState extends State<MainPage>
                           } else {
                             sortBy = 0;
                           }
+                          _postFuture = fetchPosts(sortBy);
                         });
                       },
                       child: Text(
@@ -345,7 +360,9 @@ class _MainPageState extends State<MainPage>
                             var res = await deletePost(post.id, null, null);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                _postFuture = fetchPosts(sortBy);
+                              });
                               previewMessage("Post Deleted", context);
                             } else {
                               previewMessage("Error deleting post!", context);
@@ -355,7 +372,9 @@ class _MainPageState extends State<MainPage>
                             var res = await u.block(post.userId);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                _postFuture = fetchPosts(sortBy);
+                              });
                               previewMessage("User blocked.", context);
                             }
                           };
@@ -364,7 +383,9 @@ class _MainPageState extends State<MainPage>
                             var res = await hidePost(post.id);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                _postFuture = fetchPosts(sortBy);
+                              });
                               previewMessage("Post hidden from feed.", context);
                             }
                           };

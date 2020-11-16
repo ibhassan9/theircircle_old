@@ -26,6 +26,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>TheirCircle would like to use your camera to detect text for your notes!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>TheirCircle requires access to photo library so you can enrich your posts and add a profile picture</string>
 	<key>UIBackgroundModes</key>

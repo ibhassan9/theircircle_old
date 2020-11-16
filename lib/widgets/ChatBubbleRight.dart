@@ -18,7 +18,7 @@ class ChatBubbleRight extends StatelessWidget {
       nipHeight: 10,
       nipRadius: 5,
       stick: true,
-      color: Colors.blue,
+      color: Colors.deepPurpleAccent,
       child: Text(msg.messageText,
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(

@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
+import 'package:unify/pages/PollResultsPage.dart';
 import 'package:unify/pages/course_page.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
@@ -26,6 +27,7 @@ class PostWidget extends StatefulWidget {
   final Function deletePost;
   final Function block;
   final Function hide;
+  final bool fromComments;
 
   PostWidget(
       {Key key,
@@ -35,7 +37,8 @@ class PostWidget extends StatefulWidget {
       this.club,
       this.deletePost,
       this.block,
-      this.hide})
+      this.hide,
+      this.fromComments = false})
       : super(key: key);
 
   @override
@@ -50,11 +53,22 @@ class _PostWidgetState extends State<PostWidget> {
   TextEditingController igC = TextEditingController();
   TextEditingController lC = TextEditingController();
   String imgUrl = '';
+  String token = '';
   Comment comment;
+  double containerWidth = 50.0;
+  Color textColor = Colors.white;
+  Color option1Color = Colors.deepPurpleAccent;
+  Color option2Color = Colors.blueAccent;
+  Color outsideOptionColor = Colors.blueGrey[200];
+  double width1;
+  double width2;
 
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if (widget.fromComments) {
+          return;
+        }
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -141,19 +155,35 @@ class _PostWidgetState extends State<PostWidget> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.post.userId == firebaseAuth.currentUser.uid
-                                ? "YOU"
-                                : widget.post.isAnonymous
-                                    ? "Anonymous"
-                                    : widget.post.username,
-                            style: GoogleFonts.quicksand(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: widget.post.userId ==
+                          Row(
+                            children: [
+                              Text(
+                                widget.post.userId ==
                                         firebaseAuth.currentUser.uid
-                                    ? Colors.deepPurpleAccent
-                                    : Colors.black),
+                                    ? "You"
+                                    : widget.post.isAnonymous
+                                        ? "Anonymous"
+                                        : widget.post.username,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: widget.post.userId ==
+                                            firebaseAuth.currentUser.uid
+                                        ? Colors.deepPurpleAccent
+                                        : Colors.black),
+                              ),
+                              SizedBox(width: 4.0),
+                              Visibility(
+                                visible: widget.post.tcQuestion != null,
+                                child: Text(
+                                  'answered a question!',
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.deepPurpleAccent),
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 2.5),
                           Text(
@@ -165,49 +195,172 @@ class _PostWidgetState extends State<PostWidget> {
                           ),
                         ])
                   ])),
-                  InkWell(
-                    onTap: () {
-                      final act = CupertinoActionSheet(
-                        title: Text(
-                          widget.post.userId == firebaseAuth.currentUser.uid
-                              ? "OPTIONS"
-                              : "REPORT",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                        message: Text(
-                          widget.post.userId == firebaseAuth.currentUser.uid
-                              ? "What would you like to do?"
-                              : "What is the issue?",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                        actions: widget.post.userId ==
-                                firebaseAuth.currentUser.uid
-                            ? [
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "Delete Post",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      final act = CupertinoActionSheet(
+                  Visibility(
+                    visible: !widget.fromComments,
+                    child: InkWell(
+                      onTap: () {
+                        final act = CupertinoActionSheet(
+                          title: Text(
+                            widget.post.userId == firebaseAuth.currentUser.uid
+                                ? "OPTIONS"
+                                : "REPORT",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          message: Text(
+                            widget.post.userId == firebaseAuth.currentUser.uid
+                                ? "What would you like to do?"
+                                : "What is the issue?",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          actions: widget.post.userId ==
+                                  firebaseAuth.currentUser.uid
+                              ? [
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Delete Post",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        final act = CupertinoActionSheet(
+                                            title: Text(
+                                              'Delete Post',
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                            message: Text(
+                                              'Are you sure you want to delete this post?',
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                  child: Text(
+                                                    "YES",
+                                                    style:
+                                                        GoogleFonts.quicksand(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.black),
+                                                  ),
+                                                  onPressed: () {
+                                                    widget.deletePost();
+                                                    Navigator.pop(context);
+                                                  }),
+                                              CupertinoActionSheetAction(
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style:
+                                                        GoogleFonts.quicksand(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.red),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  }),
+                                            ]);
+                                        showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                act);
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Cancel",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ]
+                              : [
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It's suspicious or spam",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It's abusive or harmful",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It expresses intentions of self-harm or suicide",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "It promotes sexual/inappropriate content",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showSnackBar();
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Hide this post.",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        final act = CupertinoActionSheet(
                                           title: Text(
-                                            'Delete Post',
+                                            "PROCEED?",
                                             style: GoogleFonts.quicksand(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black),
                                           ),
                                           message: Text(
-                                            'Are you sure you want to delete this post?',
+                                            "Are you sure you want to hide this post?",
                                             style: GoogleFonts.quicksand(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
@@ -223,9 +376,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                           FontWeight.w500,
                                                       color: Colors.black),
                                                 ),
-                                                onPressed: () {
-                                                  widget.deletePost();
-                                                  Navigator.pop(context);
+                                                onPressed: () async {
+                                                  await widget.hide();
                                                 }),
                                             CupertinoActionSheetAction(
                                                 child: Text(
@@ -239,202 +391,90 @@ class _PostWidgetState extends State<PostWidget> {
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 }),
-                                          ]);
-                                      showCupertinoModalPopup(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              act);
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "Cancel",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.red),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }),
-                              ]
-                            : [
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "It's suspicious or spam",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      showSnackBar();
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "It's abusive or harmful",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      showSnackBar();
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "It expresses intentions of self-harm or suicide",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      showSnackBar();
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "It promotes sexual/inappropriate content",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      showSnackBar();
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "Hide this post.",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.red),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      final act = CupertinoActionSheet(
-                                        title: Text(
-                                          "PROCEED?",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        ),
-                                        message: Text(
-                                          "Are you sure you want to hide this post?",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        ),
-                                        actions: [
-                                          CupertinoActionSheetAction(
-                                              child: Text(
-                                                "YES",
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
-                                              ),
-                                              onPressed: () async {
-                                                await widget.hide();
-                                              }),
-                                          CupertinoActionSheetAction(
-                                              child: Text(
-                                                "Cancel",
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.red),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }),
-                                        ],
-                                      );
-                                      showCupertinoModalPopup(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              act);
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "Block this user",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.red),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      final act = CupertinoActionSheet(
-                                        title: Text(
-                                          "PROCEED?",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        ),
-                                        message: Text(
-                                          "Are you sure you want to block this user?",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        ),
-                                        actions: [
-                                          CupertinoActionSheetAction(
-                                              child: Text(
-                                                "YES",
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
-                                              ),
-                                              onPressed: () async {
-                                                await widget.block();
-                                              }),
-                                          CupertinoActionSheetAction(
-                                              child: Text(
-                                                "Cancel",
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.red),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              }),
-                                        ],
-                                      );
-                                      showCupertinoModalPopup(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              act);
-                                    }),
-                                CupertinoActionSheetAction(
-                                    child: Text(
-                                      "Cancel",
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.red),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }),
-                              ],
-                      );
-                      showCupertinoModalPopup(
-                          context: context,
-                          builder: (BuildContext context) => act);
-                    },
-                    child:
-                        Icon(FlutterIcons.more_horiz_mdi, color: Colors.black),
+                                          ],
+                                        );
+                                        showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                act);
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Block this user",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        final act = CupertinoActionSheet(
+                                          title: Text(
+                                            "PROCEED?",
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                          message: Text(
+                                            "Are you sure you want to block this user?",
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                                child: Text(
+                                                  "YES",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                                onPressed: () async {
+                                                  await widget.block();
+                                                }),
+                                            CupertinoActionSheetAction(
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.red),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ],
+                                        );
+                                        showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                act);
+                                      }),
+                                  CupertinoActionSheetAction(
+                                      child: Text(
+                                        "Cancel",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                        );
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) => act);
+                      },
+                      child: Icon(FlutterIcons.more_horiz_mdi,
+                          color: Colors.black),
+                    ),
                   ),
                 ],
               ),
@@ -463,21 +503,274 @@ class _PostWidgetState extends State<PostWidget> {
               // ends here
               Container(
                   margin: EdgeInsets.only(top: 5.0),
-                  child: SelectableLinkify(
-                    onOpen: (link) async {
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      widget.post.tcQuestion != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Text(
+                                widget.post.tcQuestion,
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.pink,
+                                ),
+                              ))
+                          : Container(),
+                      SelectableLinkify(
+                        onOpen: (link) async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WebPage(
+                                      title: link.text,
+                                      selectedUrl: link.url)));
+                        },
+                        text: widget.post.content,
+                        style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                        linkStyle: TextStyle(color: Colors.red),
+                      ),
+                      widget.post.questionOne != null &&
+                              widget.post.questionTwo != null
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 10.0),
+                                  InkWell(
+                                    onTap: () async {
+                                      if (widget.post.isVoted) {
+                                        return;
+                                      }
+                                      sendPushPoll(token,
+                                          "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}");
+                                      // TODO: - Vote first option
+                                      setState(() {
+                                        widget.post.isVoted = true;
+                                        widget.post.whichOption = 1;
+                                        widget.post.questionOneLikeCount += 1;
+                                      });
+                                      width1 =
+                                          MediaQuery.of(context).size.width *
+                                              widthPercentage(1);
+                                      width2 =
+                                          MediaQuery.of(context).size.width *
+                                              widthPercentage(2);
+                                      await vote(widget.post, widget.club,
+                                          widget.course, 1);
+                                    },
+                                    child: Stack(
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      children: [
+                                        Container(
+                                          height: containerWidth,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                              color: outsideOptionColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0)),
+                                        ),
+                                        AnimatedContainer(
+                                          duration: Duration(seconds: 1),
+                                          height: containerWidth,
+                                          width: widget.post.isVoted
+                                              ? width1 != null
+                                                  ? width1
+                                                  : MediaQuery.of(context)
+                                                      .size
+                                                      .width
+                                              : MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          decoration: BoxDecoration(
+                                              color: option1Color,
+                                              borderRadius: widthPercentage(
+                                                          1) ==
+                                                      1.0
+                                                  ? BorderRadius.circular(5.0)
+                                                  : BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(5.0),
+                                                      bottomLeft:
+                                                          Radius.circular(
+                                                              5.0))),
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            widget.post.isVoted
+                                                ? widget.post.questionOne +
+                                                    " (" +
+                                                    (widthPercentage(1) * 100)
+                                                        .toInt()
+                                                        .toString() +
+                                                    "%)"
+                                                : widget.post.questionOne,
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                color: textColor),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  InkWell(
+                                    onTap: () async {
+                                      if (widget.post.isVoted) {
+                                        return;
+                                      }
+
+                                      sendPushPoll(token,
+                                          "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}");
+                                      // TODO: - Vote second option
+                                      setState(() {
+                                        widget.post.isVoted = true;
+                                        widget.post.whichOption = 2;
+                                        widget.post.questionTwoLikeCount += 1;
+                                      });
+                                      width1 =
+                                          MediaQuery.of(context).size.width *
+                                              widthPercentage(1);
+                                      width2 =
+                                          MediaQuery.of(context).size.width *
+                                              widthPercentage(2);
+                                      await vote(widget.post, widget.club,
+                                          widget.course, 2);
+                                    },
+                                    child: Stack(
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      children: [
+                                        Container(
+                                          height: containerWidth,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                              color: outsideOptionColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0)),
+                                        ),
+                                        AnimatedContainer(
+                                          duration: Duration(seconds: 1),
+                                          height: containerWidth,
+                                          width: widget.post.isVoted
+                                              ? width2 != null
+                                                  ? width2
+                                                  : MediaQuery.of(context)
+                                                      .size
+                                                      .width
+                                              : MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          decoration: BoxDecoration(
+                                              color: option2Color,
+                                              borderRadius: widthPercentage(
+                                                          2) ==
+                                                      1.0
+                                                  ? BorderRadius.circular(5.0)
+                                                  : BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(5.0),
+                                                      bottomLeft:
+                                                          Radius.circular(
+                                                              5.0))),
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            widget.post.isVoted
+                                                ? widget.post.questionTwo +
+                                                    " (" +
+                                                    (widthPercentage(2) * 100)
+                                                        .toInt()
+                                                        .toString() +
+                                                    "%)"
+                                                : widget.post.questionTwo,
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                color: textColor),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container()
+                    ],
+                  )),
+              Visibility(
+                visible: widget.post.isVoted && widget.post.whichOption != 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    children: [
+                      Icon(FlutterIcons.vote_mco, color: Colors.blueGrey),
+                      SizedBox(width: 5.0),
+                      Text(
+                        widget.post.whichOption == 1
+                            ? 'You voted: ${widget.post.questionOne}'
+                            : 'You voted: ${widget.post.questionTwo}',
+                        style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.blueGrey),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.post.userId == firebaseAuth.currentUser.uid &&
+                    widget.post.questionOne != null &&
+                    widget.post.questionTwo != null &&
+                    widget.post.questionOneLikeCount != null &&
+                    widget.post.questionTwoLikeCount != null &&
+                    (widget.post.questionOneLikeCount +
+                            widget.post.questionTwoLikeCount) >
+                        0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: InkWell(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => WebPage(
-                                  title: link.text, selectedUrl: link.url)));
+                              builder: (context) => PollResultsPage(
+                                  votes: widget.post.votes,
+                                  questionOne: widget.post.questionOne,
+                                  questionTwo: widget.post.questionTwo)));
                     },
-                    text: widget.post.content,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                    linkStyle: TextStyle(color: Colors.red),
-                  )),
+                    child: Row(
+                      children: [
+                        Icon(FlutterIcons.poll_faw5s, color: Colors.blueGrey),
+                        SizedBox(width: 5.0),
+                        Text(
+                          pollCount() == 1
+                              ? 'View Poll Results (' +
+                                  pollCount().toString() +
+                                  ' vote)'
+                              : 'View Poll Results (' +
+                                  pollCount().toString() +
+                                  ' votes)',
+                          style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blueGrey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               widget.post.imgUrl != null
                   ? Padding(
                       padding: const EdgeInsets.only(top: 10.0),
@@ -660,12 +953,12 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ),
               SizedBox(height: 15.0),
-              comment != null
+              comment != null && !widget.fromComments
                   ? Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
                         comment.userId == firebaseAuth.currentUser.uid
-                            ? "YOU"
+                            ? "You"
                             : comment.username,
                         style: GoogleFonts.quicksand(
                             fontSize: 13,
@@ -674,9 +967,9 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                     )
                   : SizedBox(),
-              comment != null
+              comment != null && !widget.fromComments
                   ? Container(
-                      height: 50.0,
+                      height: 50,
                       child: Row(
                         children: [
                           SizedBox(width: 20.0),
@@ -686,11 +979,15 @@ class _PostWidgetState extends State<PostWidget> {
                             color: Colors.deepPurpleAccent,
                           ),
                           SizedBox(width: 10.0),
-                          Text(comment.content,
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black))
+                          Flexible(
+                            child: Text(comment.content,
+                                maxLines: null,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          )
                         ],
                       ),
                     )
@@ -724,6 +1021,16 @@ class _PostWidgetState extends State<PostWidget> {
     super.initState();
     getUser(widget.post.userId).then((value) {
       imgUrl = value.profileImgUrl;
+      token = value.device_token;
+      setState(() {
+        if (widget.post.isVoted) {
+          width1 = MediaQuery.of(context).size.width * widthPercentage(1);
+          width2 = MediaQuery.of(context).size.width * widthPercentage(2);
+        } else {
+          width1 = MediaQuery.of(context).size.width;
+          width2 = MediaQuery.of(context).size.width;
+        }
+      });
       fetchComments(widget.post, widget.course, widget.club).then((value) {
         if (value.length > 0 && value != null) {
           Comment c = value.last;
@@ -735,6 +1042,28 @@ class _PostWidgetState extends State<PostWidget> {
         }
       });
     });
+    // setState(() {
+    //   width1 = MediaQuery.of(context).size.width;
+    //   width2 = MediaQuery.of(context).size.width;
+    // });
+  }
+
+  double widthPercentage(int option) {
+    int q1Count = widget.post.questionOneLikeCount;
+    int q2Count = widget.post.questionTwoLikeCount;
+
+    int val = option == 1 ? q1Count : q2Count;
+    double percentage = val / (q1Count + q2Count);
+    print(percentage);
+    return percentage;
+  }
+
+  int pollCount() {
+    if (widget.post.questionOneLikeCount == null ||
+        widget.post.questionTwoLikeCount == null) {
+      return 0;
+    }
+    return widget.post.questionOneLikeCount + widget.post.questionTwoLikeCount;
   }
 
   @override

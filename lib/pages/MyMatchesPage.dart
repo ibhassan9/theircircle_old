@@ -31,7 +31,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(FlutterIcons.new_message_ent, color: Colors.black),
+              icon: Icon(FlutterIcons.create_mdi, color: Colors.black),
               onPressed: () {
                 Navigator.push(
                         context,

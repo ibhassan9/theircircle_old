@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:polls/polls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/text_field_container.dart';
@@ -24,12 +25,19 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   TextEditingController contentController = TextEditingController();
+  TextEditingController pollOptionOneController = TextEditingController();
+  TextEditingController pollOptionTwoController = TextEditingController();
 
   int clength = 300;
+  int poll1length = 30;
+  int poll2length = 30;
   bool isAnonymous = false;
   Image imag;
   File f;
   bool isPosting = false;
+  bool pollVisible = false;
+  String pollButtonText = "Poll time? Create one!";
+  String title = "What's on your mind?";
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +114,7 @@ class _PostPageState extends State<PostPage> {
                 disabledBorder: InputBorder.none,
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                hintText: "What's on your mind?"),
+                hintText: title),
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 16,
@@ -115,6 +123,72 @@ class _PostPageState extends State<PostPage> {
             ),
           ),
           Divider(),
+          Visibility(
+            visible: pollVisible,
+            child: TextField(
+              controller: pollOptionOneController,
+              maxLines: null,
+              onChanged: (value) {
+                var newLength = 30 - value.length;
+                setState(() {
+                  poll1length = newLength;
+                });
+              },
+              decoration: new InputDecoration(
+                  suffix: Text(
+                    poll1length.toString(),
+                    style: TextStyle(
+                        color: poll1length < 0 ? Colors.red : Colors.grey),
+                  ),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  hintText: "Insert Option 1..."),
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: pollVisible,
+            child: TextField(
+              controller: pollOptionTwoController,
+              maxLines: null,
+              onChanged: (value) {
+                var newLength = 30 - value.length;
+                setState(() {
+                  poll2length = newLength;
+                });
+              },
+              decoration: new InputDecoration(
+                  suffix: Text(
+                    poll2length.toString(),
+                    style: TextStyle(
+                        color: poll2length < 0 ? Colors.red : Colors.grey),
+                  ),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  hintText: "Insert Option 2..."),
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
             child: Row(
@@ -154,7 +228,7 @@ class _PostPageState extends State<PostPage> {
                 Row(
                   children: [
                     IconButton(
-                        icon: Icon(AntDesign.picture, color: Colors.deepOrange),
+                        icon: Icon(AntDesign.picture, color: Colors.deepPurple),
                         onPressed: () async {
                           var res = await getImage();
                           if (res.isNotEmpty) {
@@ -174,18 +248,28 @@ class _PostPageState extends State<PostPage> {
                             child: CircularProgressIndicator(
                               strokeWidth: 3.0,
                               valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Colors.deepOrange),
+                                  Colors.deepPurple),
                             ),
                           ))
                         : IconButton(
                             icon: Icon(AntDesign.arrowright,
-                                color: Colors.deepOrange),
+                                color: Colors.deepPurple),
                             onPressed: () async {
                               var first = await isFirstLaunch();
                               if (first) {
                                 return;
                               }
                               if (contentController.text.isEmpty) {
+                                return;
+                              }
+                              if (pollVisible &&
+                                      pollOptionOneController.text.isEmpty ||
+                                  pollOptionTwoController.text.isEmpty) {
+                                return;
+                              }
+                              if (clength < 0 ||
+                                  poll1length < 0 ||
+                                  poll2length < 0) {
                                 return;
                               }
                               if (imag != null && f != null) {
@@ -238,6 +322,41 @@ class _PostPageState extends State<PostPage> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
+            child: InkWell(
+              onTap: () {
+                if (pollVisible) {
+                  setState(() {
+                    pollVisible = false;
+                    pollButtonText = "Poll time? Create one!";
+                    title = "What's on your mind?";
+                  });
+                } else {
+                  setState(() {
+                    pollVisible = true;
+                    pollButtonText = "Remove Poll";
+                    title = "Insert Poll Title...";
+                  });
+                }
+              },
+              child: Container(
+                height: 50.0,
+                color: Colors.deepPurpleAccent,
+                child: Center(
+                  child: Text(
+                    pollButtonText,
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -247,10 +366,22 @@ class _PostPageState extends State<PostPage> {
     setState(() {
       isPosting = true;
     });
-    var post = Post(
-      content: contentController.text,
-      isAnonymous: isAnonymous,
-    );
+
+    Post post;
+    if (pollVisible) {
+      post = Post(
+          content: contentController.text,
+          isAnonymous: isAnonymous,
+          questionOne: pollOptionOneController.text,
+          questionOneLikeCount: 0,
+          questionTwo: pollOptionTwoController.text,
+          questionTwoLikeCount: 0);
+    } else {
+      post = Post(
+        content: contentController.text,
+        isAnonymous: isAnonymous,
+      );
+    }
 
     var res = imag == null
         ? widget.course == null && widget.club == null
@@ -273,8 +404,12 @@ class _PostPageState extends State<PostPage> {
 
     setState(() {
       clength = 300;
+      poll1length = 30;
+      poll2length = 30;
     });
     contentController.clear();
+    pollOptionOneController.clear();
+    pollOptionTwoController.clear();
     return result;
   }
 
@@ -287,5 +422,14 @@ class _PostPageState extends State<PostPage> {
     } else {
       return false;
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    contentController.dispose();
+    pollOptionOneController.dispose();
+    pollOptionTwoController.dispose();
   }
 }

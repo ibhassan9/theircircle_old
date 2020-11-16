@@ -12,6 +12,7 @@ import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/CommentPostWidget.dart';
+import 'package:unify/widgets/PostWidget.dart';
 
 class PostDetailPage extends StatefulWidget {
   final Post post;
@@ -103,7 +104,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     commentController.clear();
                   } else {}
                   if (this.mounted) {
-                    setState(() {});
+                    setState(() {
+                      commentFuture = fetchComments(
+                          widget.post, widget.course, widget.club);
+                    });
                   }
                 },
               )
@@ -134,7 +138,31 @@ class _PostDetailPageState extends State<PostDetailPage> {
           children: <Widget>[
             ListView(
               children: <Widget>[
-                CommentPostWidget(
+                PostWidget(
+                    hide: () async {
+                      var res = await hidePost(widget.post.id);
+                      Navigator.pop(context);
+                      if (res) {
+                        previewMessage("Post hidden from feed.", context);
+                      }
+                    },
+                    block: () async {
+                      var res = await block(widget.post.userId);
+                      Navigator.pop(context);
+                      if (res) {
+                        previewMessage("User blocked.", context);
+                      }
+                    },
+                    deletePost: () async {
+                      var res = await deletePost(widget.post.id, null, null);
+                      Navigator.pop(context);
+                      if (res) {
+                        previewMessage("Post Deleted", context);
+                      } else {
+                        previewMessage("Error deleting post!", context);
+                      }
+                    },
+                    fromComments: true,
                     post: widget.post,
                     course: widget.course,
                     club: widget.club,

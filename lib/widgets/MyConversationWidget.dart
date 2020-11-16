@@ -113,39 +113,38 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                         )));
           },
           child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            width: MediaQuery.of(context).size.width,
+            child: Wrap(
+              alignment: WrapAlignment.start,
               children: [
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
+                Row(
                   children: [
                     widget.peer != null
                         ? widget.peer.profileImgUrl == null
                             ? ClipRRect(
-                                borderRadius: BorderRadius.circular(70),
+                                borderRadius: BorderRadius.circular(50),
                                 child: Container(
-                                  width: 70,
-                                  height: 70,
-                                  color: Colors.grey,
+                                  width: 50,
+                                  height: 50,
+                                  color: Colors.deepPurpleAccent,
                                   child:
                                       Icon(AntDesign.user, color: Colors.white),
                                 ),
                               )
                             : ClipRRect(
-                                borderRadius: BorderRadius.circular(70),
+                                borderRadius: BorderRadius.circular(50),
                                 child: Image.network(
                                   widget.peer.profileImgUrl,
-                                  width: 70,
-                                  height: 70,
+                                  width: 50,
+                                  height: 50,
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
                                       ImageChunkEvent loadingProgress) {
                                     if (loadingProgress == null) return child;
                                     return SizedBox(
-                                      height: 70,
-                                      width: 70,
+                                      height: 50,
+                                      width: 50,
                                       child: Center(
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2.0,
@@ -168,62 +167,81 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                               )
                         : SizedBox(),
                     SizedBox(width: 15.0),
-                    widget.peer != null
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.peer.name,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black),
-                                  )),
-                              SizedBox(height: 5.0),
-                              Row(
+                    Flexible(
+                      child: Container(
+                        child: widget.peer != null
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  widget.lastMessageSenderId != widget.peer.id
-                                      ? Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10.0),
-                                          child: Text('You:',
-                                              style: GoogleFonts.quicksand(
-                                                textStyle: TextStyle(
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w500,
-                                                    color:
-                                                        Colors.grey.shade600),
-                                              )),
-                                        )
-                                      : Container(),
-                                  Text(widget.lastMessage,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey.shade600),
-                                      )),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(widget.peer.name,
+                                            style: GoogleFonts.quicksand(
+                                              textStyle: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.black),
+                                            )),
+                                        Text(widget.timeAgo,
+                                            style: GoogleFonts.quicksand(
+                                              textStyle: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  Row(
+                                    children: [
+                                      widget.lastMessageSenderId !=
+                                              widget.peer.id
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5.0),
+                                              child: Text('You:',
+                                                  style: GoogleFonts.quicksand(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .grey.shade600),
+                                                  )),
+                                            )
+                                          : Container(),
+                                      Flexible(
+                                        child: Text(widget.lastMessage,
+                                            maxLines: null,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.quicksand(
+                                              textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey.shade600),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
                                 ],
-                              ),
-                              SizedBox(height: 5.0),
-                              Text(widget.timeAgo,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
-                                  )),
-                            ],
-                          )
-                        : SizedBox(),
+                              )
+                            : SizedBox(),
+                      ),
+                    ),
+                    Visibility(
+                        visible: widget.seen == false,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: CircleAvatar(
+                              radius: 4.0, backgroundColor: Colors.blue),
+                        )),
                   ],
                 ),
-                Visibility(
-                    visible: widget.seen == false,
-                    child: CircleAvatar(
-                        radius: 4.0, backgroundColor: Colors.blue)),
               ],
             ),
           ),

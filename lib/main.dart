@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,10 +12,13 @@ import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 
+List<CameraDescription> cameras = [];
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseDatabase.instance.setPersistenceEnabled(false);
+  //cameras = await availableCameras();
   runApp(MyApp());
 }
 

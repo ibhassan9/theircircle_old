@@ -5,16 +5,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 
-class SearchUserWidget extends StatefulWidget {
+class PollResultWidget extends StatefulWidget {
   final PostUser peer;
   final Function show;
-  SearchUserWidget({Key key, @required this.peer, @required this.show})
+  final String question;
+  PollResultWidget(
+      {Key key,
+      @required this.peer,
+      @required this.show,
+      @required this.question})
       : super(key: key);
   @override
-  _SearchUserWidgetState createState() => _SearchUserWidgetState();
+  _PollResultWidgetState createState() => _PollResultWidgetState();
 }
 
-class _SearchUserWidgetState extends State<SearchUserWidget> {
+class _PollResultWidgetState extends State<PollResultWidget> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
@@ -37,8 +42,8 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(70),
                             child: Container(
-                              width: 70,
-                              height: 70,
+                              width: 40,
+                              height: 40,
                               color: Colors.grey,
                               child: Icon(AntDesign.user, color: Colors.white),
                             ),
@@ -47,16 +52,16 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                             borderRadius: BorderRadius.circular(70),
                             child: Image.network(
                               widget.peer.profileImgUrl,
-                              width: 70,
-                              height: 70,
+                              width: 40,
+                              height: 40,
                               fit: BoxFit.cover,
                               loadingBuilder: (BuildContext context,
                                   Widget child,
                                   ImageChunkEvent loadingProgress) {
                                 if (loadingProgress == null) return child;
                                 return SizedBox(
-                                  height: 70,
-                                  width: 70,
+                                  height: 40,
+                                  width: 40,
                                   child: Center(
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2.0,
@@ -87,12 +92,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                   fontWeight: FontWeight.w700,
                                   color: Colors.black),
                             )),
-                        Text(
-                            widget.peer.bio != null
-                                ? widget.peer.bio.isNotEmpty
-                                    ? widget.peer.bio
-                                    : "No bio available."
-                                : "No bio available.",
+                        Text('Voted: ' + widget.question,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.quicksand(
@@ -124,9 +124,9 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 )));
                   },
                   child: CircleAvatar(
-                      backgroundColor: Colors.purple,
-                      child:
-                          Icon(FlutterIcons.message_mdi, color: Colors.white)),
+                      backgroundColor: Colors.white,
+                      child: Icon(FlutterIcons.message_mdi,
+                          color: Colors.deepPurpleAccent)),
                 )
               ],
             )

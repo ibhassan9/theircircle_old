@@ -1,0 +1,158 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/club.dart';
+import 'package:unify/Models/course.dart';
+import 'package:unify/Models/post.dart';
+
+class TodaysQuestionPage extends StatefulWidget {
+  final Club club;
+  final Course course;
+  TodaysQuestionPage({Key key, this.club, this.course});
+  @override
+  _TodaysQuestionPageState createState() => _TodaysQuestionPageState();
+}
+
+class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
+  TextEditingController contentController = TextEditingController();
+  String title = "Tell us about it here...";
+  int clength = 300;
+
+  bool isPosting = false;
+  String tcQuestion = "What's the funniest thing that happened to you today?";
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        brightness: Brightness.dark,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.pink, Colors.deepPurpleAccent]),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(FlutterIcons.md_happy_ion, color: Colors.white, size: 30.0),
+              SizedBox(height: 15.0),
+              Text(tcQuestion,
+                  textAlign: TextAlign.center,
+                  maxLines: null,
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white),
+                  )),
+              SizedBox(height: 10.0),
+              TextField(
+                controller: contentController,
+                textAlign: TextAlign.center,
+                maxLines: null,
+                onChanged: (value) {
+                  var newLength = 300 - value.length;
+                  setState(() {
+                    clength = newLength;
+                  });
+                },
+                decoration: new InputDecoration(
+                    suffix: Text(
+                      clength.toString(),
+                      style: TextStyle(
+                          color: clength < 0 ? Colors.red : Colors.white),
+                    ),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
+                    hintStyle: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                    hintText: title),
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ),
+              SizedBox(height: 30.0),
+              InkWell(
+                onTap: () async {
+                  if (isPosting) {
+                    return;
+                  }
+                  if (contentController.text.isEmpty || clength < 0) {
+                    return;
+                  }
+
+                  setState(() {
+                    isPosting = true;
+                  });
+
+                  var res = await post();
+                  if (res) {
+                    setState(() {
+                      isPosting = false;
+                    });
+                    Navigator.pop(context);
+                  }
+                },
+                child: CircleAvatar(
+                    radius: 25.0,
+                    backgroundColor: Colors.white,
+                    child: isPosting
+                        ? CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.deepPurpleAccent),
+                          )
+                        : Icon(FlutterIcons.send_mdi,
+                            color: Colors.deepPurpleAccent)),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<bool> post() async {
+    var post = Post(content: contentController.text, tcQuestion: tcQuestion);
+
+    var res = widget.course == null && widget.club == null
+        ? await createPost(post)
+        : widget.club != null
+            ? await createClubPost(post, widget.club)
+            : await createCoursePost(post, widget.course);
+
+    setState(() {
+      clength = 300;
+    });
+    contentController.clear();
+    return res;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    contentController.dispose();
+  }
+}

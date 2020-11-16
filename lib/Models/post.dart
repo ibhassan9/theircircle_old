@@ -32,6 +32,10 @@ class Post {
   int questionOneLikeCount;
   int questionTwoLikeCount;
   bool isLiked;
+  Map<dynamic, dynamic> votes;
+  bool isVoted;
+  int whichOption;
+  String tcQuestion;
 
   Post(
       {this.id,
@@ -49,7 +53,11 @@ class Post {
       this.questionTwo,
       this.questionOneLikeCount,
       this.questionTwoLikeCount,
-      this.isLiked});
+      this.isLiked,
+      this.votes,
+      this.isVoted,
+      this.whichOption,
+      this.tcQuestion});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -98,6 +106,17 @@ Future<bool> createPost(Post post) async {
     "imgUrl": post.imgUrl
   };
 
+  if (post.questionOne != null && post.questionTwo != null) {
+    data['questionOne'] = post.questionOne;
+    data['questionTwo'] = post.questionTwo;
+    data['questionOneLikeCount'] = 0;
+    data['questionTwoLikeCount'] = 0;
+  }
+
+  if (post.tcQuestion != null) {
+    data['tcQuestion'] = post.tcQuestion;
+  }
+
   await key.set(data);
   DataSnapshot ds = await key.once();
   if (ds.value != null) {
@@ -130,7 +149,8 @@ Future<List<Post>> fetchPosts(int sortBy) async {
         username: value['name'],
         content: value['content'],
         timeStamp: value['timeStamp'],
-        isAnonymous: value['isAnonymous'],
+        isAnonymous:
+            value['isAnonymous'] != null ? value['isAnonymous'] : false,
         courseId: value['courseId'],
         likeCount: value['likes'] != null ? value['likes'].length : 0,
         imgUrl: value['imgUrl']);
@@ -141,11 +161,43 @@ Future<List<Post>> fetchPosts(int sortBy) async {
       post.commentCount = 0;
     }
 
+    if (value['questionOne'] != null && value['questionTwo'] != null) {
+      if (value['votes'] != null) {
+        List<int> voteCounts = getVotes(value['votes']);
+        post.questionOneLikeCount = voteCounts[0];
+        post.questionTwoLikeCount = voteCounts[1];
+      } else {
+        post.questionOneLikeCount = 0;
+        post.questionTwoLikeCount = 0;
+      }
+      post.questionOne = value['questionOne'];
+      post.questionTwo = value['questionTwo'];
+    }
+
+    if (value['votes'] != null) {
+      var voted = checkIsVoted(value['votes']);
+      post.votes = value['votes'];
+      post.isVoted = voted;
+      print(post.isVoted);
+      if (voted) {
+        int option = whichOption(value['votes']);
+        if (option != 0) {
+          post.whichOption = option;
+        }
+      }
+    } else {
+      post.isVoted = false;
+    }
+
     if (value['likes'] != null) {
       var liked = checkIsLiked(value['likes']);
       post.isLiked = liked;
     } else {
       post.isLiked = false;
+    }
+
+    if (value['tcQuestion'] != null) {
+      post.tcQuestion = value['tcQuestion'];
     }
 
     var i = 0;
@@ -177,8 +229,40 @@ Future<List<Post>> fetchPosts(int sortBy) async {
   return p;
 }
 
+List<int> getVotes(Map<dynamic, dynamic> votes) {
+  int questionOneLikeCount = 0;
+  int questionTwoLikeCount = 0;
+  for (var value in votes.values) {
+    if (value == 1) {
+      questionOneLikeCount += 1;
+    } else {
+      questionTwoLikeCount += 1;
+    }
+  }
+  return [questionOneLikeCount, questionTwoLikeCount];
+}
+
+int whichOption(Map<dynamic, dynamic> votes) {
+  int val = 0;
+  for (var value in votes.keys) {
+    if (value == firebaseAuth.currentUser.uid) {
+      val = votes[value];
+    }
+  }
+  return val;
+}
+
 bool checkIsLiked(Map<dynamic, dynamic> likes) {
   for (var value in likes.values) {
+    if (value == firebaseAuth.currentUser.uid) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool checkIsVoted(Map<dynamic, dynamic> votes) {
+  for (var value in votes.keys) {
     if (value == firebaseAuth.currentUser.uid) {
       return true;
     }
@@ -203,6 +287,17 @@ Future<bool> createCoursePost(Post post, Course course) async {
     "commentCount": 0,
     "imgUrl": post.imgUrl
   };
+
+  if (post.questionOne != null && post.questionTwo != null) {
+    data['questionOne'] = post.questionOne;
+    data['questionTwo'] = post.questionTwo;
+    data['questionOneLikeCount'] = 0;
+    data['questionTwoLikeCount'] = 0;
+  }
+
+  if (post.tcQuestion != null) {
+    data['tcQuestion'] = post.tcQuestion;
+  }
 
   await key.set(data);
 
@@ -243,6 +338,17 @@ Future<bool> createClubPost(Post post, Club club) async {
     "commentCount": 0,
     "imgUrl": post.imgUrl
   };
+
+  if (post.questionOne != null && post.questionTwo != null) {
+    data['questionOne'] = post.questionOne;
+    data['questionTwo'] = post.questionTwo;
+    data['questionOneLikeCount'] = 0;
+    data['questionTwoLikeCount'] = 0;
+  }
+
+  if (post.tcQuestion != null) {
+    data['tcQuestion'] = post.tcQuestion;
+  }
 
   await key.set(data);
 
@@ -449,7 +555,8 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
         username: value['name'],
         content: value['content'],
         timeStamp: value['timeStamp'],
-        isAnonymous: value['isAnonymous'],
+        isAnonymous:
+            value['isAnonymous'] != null ? value['isAnonymous'] : false,
         courseId: value['courseId'],
         likeCount: value['likes'] != null ? value['likes'].length : 0,
         imgUrl: value['imgUrl']);
@@ -460,11 +567,42 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
       post.commentCount = 0;
     }
 
+    if (value['questionOne'] != null && value['questionTwo'] != null) {
+      if (value['votes'] != null) {
+        List<int> voteCounts = getVotes(value['votes']);
+        post.questionOneLikeCount = voteCounts[0];
+        post.questionTwoLikeCount = voteCounts[1];
+      } else {
+        post.questionOneLikeCount = 0;
+        post.questionTwoLikeCount = 0;
+      }
+      post.questionOne = value['questionOne'];
+      post.questionTwo = value['questionTwo'];
+    }
+
+    if (value['votes'] != null) {
+      var voted = checkIsVoted(value['votes']);
+      post.votes = value['votes'];
+      post.isVoted = voted;
+      if (voted) {
+        int option = whichOption(value['votes']);
+        if (option != 0) {
+          post.whichOption = option;
+        }
+      }
+    } else {
+      post.isVoted = false;
+    }
+
     if (value['likes'] != null) {
       var liked = checkIsLiked(value['likes']);
       post.isLiked = liked;
     } else {
       post.isLiked = false;
+    }
+
+    if (value['tcQuestion'] != null) {
+      post.tcQuestion = value['tcQuestion'];
     }
 
     var i = 0;
@@ -594,6 +732,49 @@ Future<bool> like(Post post, Club club, Course course) async {
   return true;
 }
 
+Future<bool> vote(Post post, Club club, Course course, int option) async {
+  var uniKey = Constants.checkUniversity();
+
+  club == null && course == null
+      ? await FirebaseDatabase.instance
+          .reference()
+          .child('posts')
+          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(post.id)
+          .child('votes')
+          .child(firebaseAuth.currentUser.uid)
+          .set(option)
+          .catchError((err) {
+          return false;
+        })
+      : club != null
+          ? await FirebaseDatabase.instance
+              .reference()
+              .child('clubposts')
+              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(club.id)
+              .child(post.id)
+              .child('votes')
+              .child(firebaseAuth.currentUser.uid)
+              .set(option)
+              .catchError((err) {
+              return false;
+            })
+          : await FirebaseDatabase.instance
+              .reference()
+              .child('courseposts')
+              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(course.id)
+              .child(post.id)
+              .child('votes')
+              .child(firebaseAuth.currentUser.uid)
+              .set(option)
+              .catchError((err) {
+              return false;
+            });
+  return true;
+}
+
 Future<bool> unlike(Post post, Club club, Course course) async {
   var uniKey = Constants.checkUniversity();
 
@@ -669,7 +850,8 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
         username: value['name'],
         content: value['content'],
         timeStamp: value['timeStamp'],
-        isAnonymous: value['isAnonymous'],
+        isAnonymous:
+            value['isAnonymous'] != null ? value['isAnonymous'] : false,
         courseId: value['courseId'],
         likeCount: value['likes'] != null ? value['likes'].length : 0,
         imgUrl: value['imgUrl']);
@@ -680,11 +862,43 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
       post.commentCount = 0;
     }
 
+    if (value['questionOne'] != null && value['questionTwo'] != null) {
+      if (value['votes'] != null) {
+        List<int> voteCounts = getVotes(value['votes']);
+        post.questionOneLikeCount = voteCounts[0];
+        post.questionTwoLikeCount = voteCounts[1];
+      } else {
+        post.questionOneLikeCount = 0;
+        post.questionTwoLikeCount = 0;
+      }
+      post.questionOne = value['questionOne'];
+      post.questionTwo = value['questionTwo'];
+    }
+
+    if (value['votes'] != null) {
+      var voted = checkIsVoted(value['votes']);
+      post.votes = value['votes'];
+      post.isVoted = voted;
+      print(post.isVoted);
+      if (voted) {
+        int option = whichOption(value['votes']);
+        if (option != 0) {
+          post.whichOption = option;
+        }
+      }
+    } else {
+      post.isVoted = false;
+    }
+
     if (value['likes'] != null) {
       var liked = checkIsLiked(value['likes']);
       post.isLiked = liked;
     } else {
       post.isLiked = false;
+    }
+
+    if (value['tcQuestion'] != null) {
+      post.tcQuestion = value['tcQuestion'];
     }
 
     var i = 0;

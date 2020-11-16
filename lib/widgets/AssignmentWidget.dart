@@ -106,8 +106,13 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                             ),
                             Visibility(
                               visible: _fAuth.currentUser.uid ==
-                                      widget.assignment.userId ||
-                                  _fAuth.currentUser.uid == widget.club.adminId,
+                                          widget.assignment.userId ||
+                                      widget.club != null
+                                  ? widget.club.adminId == null
+                                      ? false
+                                      : _fAuth.currentUser.uid ==
+                                          widget.club.adminId
+                                  : false,
                               child: InkWell(
                                 onTap: () {
                                   final act = CupertinoActionSheet(

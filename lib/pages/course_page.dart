@@ -25,6 +25,7 @@ class CoursePage extends StatefulWidget {
 
 class _CoursePageState extends State<CoursePage> {
   int sortBy = 0;
+  Future<List<Post>> courseFuture;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,9 @@ class _CoursePageState extends State<CoursePage> {
                       builder: (context) => PostPage(
                             course: widget.course,
                           ))).then((value) {
-                setState(() {});
+                setState(() {
+                  courseFuture = fetchCoursePosts(widget.course, sortBy);
+                });
               });
             },
           ),
@@ -101,6 +104,7 @@ class _CoursePageState extends State<CoursePage> {
                         } else {
                           sortBy = 0;
                         }
+                        courseFuture = fetchCoursePosts(widget.course, sortBy);
                       });
                     },
                     child: Center(
@@ -117,7 +121,7 @@ class _CoursePageState extends State<CoursePage> {
                   ),
                 ),
                 FutureBuilder(
-                  future: fetchCoursePosts(widget.course, sortBy),
+                  future: courseFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -135,7 +139,10 @@ class _CoursePageState extends State<CoursePage> {
                                 await deletePost(post.id, widget.course, null);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                courseFuture =
+                                    fetchCoursePosts(widget.course, sortBy);
+                              });
                               previewMessage("Post Deleted", context);
                             } else {
                               previewMessage("Error deleting post!", context);
@@ -145,7 +152,10 @@ class _CoursePageState extends State<CoursePage> {
                             var res = await block(post.userId);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                courseFuture =
+                                    fetchCoursePosts(widget.course, sortBy);
+                              });
                               previewMessage("User blocked.", context);
                             }
                           };
@@ -154,7 +164,10 @@ class _CoursePageState extends State<CoursePage> {
                             var res = await hidePost(post.id);
                             Navigator.pop(context);
                             if (res) {
-                              setState(() {});
+                              setState(() {
+                                courseFuture =
+                                    fetchCoursePosts(widget.course, sortBy);
+                              });
                               previewMessage("Post hidden from feed.", context);
                             }
                           };
@@ -222,6 +235,15 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   Future<Null> refresh() async {
-    this.setState(() {});
+    this.setState(() {
+      courseFuture = fetchCoursePosts(widget.course, sortBy);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    courseFuture = fetchCoursePosts(widget.course, sortBy);
   }
 }
