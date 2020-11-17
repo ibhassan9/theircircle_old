@@ -8,7 +8,8 @@ import 'package:unify/Models/post.dart';
 class TodaysQuestionPage extends StatefulWidget {
   final Club club;
   final Course course;
-  TodaysQuestionPage({Key key, this.club, this.course});
+  final String question;
+  TodaysQuestionPage({Key key, this.club, this.course, this.question});
   @override
   _TodaysQuestionPageState createState() => _TodaysQuestionPageState();
 }
@@ -19,7 +20,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
   int clength = 300;
 
   bool isPosting = false;
-  String tcQuestion = "What's the funniest thing that happened to you today?";
+  bool isAnonymous = false;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,93 +40,147 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: [
-              Icon(FlutterIcons.md_happy_ion, color: Colors.white, size: 30.0),
-              SizedBox(height: 15.0),
-              Text(tcQuestion,
-                  textAlign: TextAlign.center,
-                  maxLines: null,
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),
-                  )),
-              SizedBox(height: 10.0),
-              TextField(
-                controller: contentController,
-                textAlign: TextAlign.center,
-                maxLines: null,
-                onChanged: (value) {
-                  var newLength = 300 - value.length;
-                  setState(() {
-                    clength = newLength;
-                  });
-                },
-                decoration: new InputDecoration(
-                    suffix: Text(
-                      clength.toString(),
-                      style: TextStyle(
-                          color: clength < 0 ? Colors.red : Colors.white),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Note: This will be is a public post',
+                        textAlign: TextAlign.center,
+                        maxLines: null,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white),
+                        )),
+                    Divider(color: Colors.white, thickness: 2.0),
+                    SizedBox(height: 40.0),
+                    Icon(FlutterIcons.md_happy_ion,
+                        color: Colors.white, size: 30.0),
+                    SizedBox(height: 15.0),
+                    Text(widget.question,
+                        textAlign: TextAlign.center,
+                        maxLines: null,
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white),
+                        )),
+                    SizedBox(height: 10.0),
+                    TextField(
+                      textInputAction: TextInputAction.done,
+                      controller: contentController,
+                      textAlign: TextAlign.center,
+                      maxLines: null,
+                      onChanged: (value) {
+                        var newLength = 300 - value.length;
+                        setState(() {
+                          clength = newLength;
+                        });
+                      },
+                      decoration: new InputDecoration(
+                          suffix: Text(
+                            clength.toString(),
+                            style: TextStyle(
+                                color: clength < 0 ? Colors.red : Colors.white),
+                          ),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: 15, bottom: 11, top: 11, right: 15),
+                          hintStyle: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                          hintText: title),
+                      style: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
                     ),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        left: 15, bottom: 11, top: 11, right: 15),
-                    hintStyle: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                    SizedBox(height: 30.0),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (isAnonymous) {
+                            isAnonymous = false;
+                          } else {
+                            isAnonymous = true;
+                          }
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                              isAnonymous == false
+                                  ? FlutterIcons.visibility_off_mdi
+                                  : FlutterIcons.visibility_mdi,
+                              size: 20,
+                              color: Colors.white),
+                          SizedBox(width: 5.0),
+                          Text(
+                              isAnonymous
+                                  ? 'Post as yourself'
+                                  : 'Post Anonymously',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                textStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              )),
+                        ],
+                      ),
                     ),
-                    hintText: title),
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
+                    SizedBox(height: 30.0),
+                    InkWell(
+                      onTap: () async {
+                        if (isPosting) {
+                          return;
+                        }
+                        if (contentController.text.isEmpty || clength < 0) {
+                          return;
+                        }
+
+                        setState(() {
+                          isPosting = true;
+                        });
+
+                        var res = await post();
+                        if (res) {
+                          setState(() {
+                            isPosting = false;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Colors.white,
+                          child: isPosting
+                              ? CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                  valueColor: new AlwaysStoppedAnimation<Color>(
+                                      Colors.deepPurpleAccent),
+                                )
+                              : Icon(FlutterIcons.send_mdi,
+                                  color: Colors.deepPurpleAccent)),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(height: 30.0),
-              InkWell(
-                onTap: () async {
-                  if (isPosting) {
-                    return;
-                  }
-                  if (contentController.text.isEmpty || clength < 0) {
-                    return;
-                  }
-
-                  setState(() {
-                    isPosting = true;
-                  });
-
-                  var res = await post();
-                  if (res) {
-                    setState(() {
-                      isPosting = false;
-                    });
-                    Navigator.pop(context);
-                  }
-                },
-                child: CircleAvatar(
-                    radius: 25.0,
-                    backgroundColor: Colors.white,
-                    child: isPosting
-                        ? CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.deepPurpleAccent),
-                          )
-                        : Icon(FlutterIcons.send_mdi,
-                            color: Colors.deepPurpleAccent)),
-              )
             ],
           ),
         ),
@@ -134,7 +189,10 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
   }
 
   Future<bool> post() async {
-    var post = Post(content: contentController.text, tcQuestion: tcQuestion);
+    var post = Post(
+        content: contentController.text,
+        tcQuestion: widget.question,
+        isAnonymous: isAnonymous);
 
     var res = widget.course == null && widget.club == null
         ? await createPost(post)

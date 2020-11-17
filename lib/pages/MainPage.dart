@@ -57,6 +57,7 @@ class _MainPageState extends State<MainPage>
   Future<List<News>> _newsFuture;
   Future<List<Post>> _postFuture;
   Future<List<u.PostUser>> _userFuture;
+  Future<String> _questionFuture;
   int sortBy = 0;
 
   @override
@@ -237,13 +238,22 @@ class _MainPageState extends State<MainPage>
           ListView(
             children: <Widget>[
               WelcomeWidget(),
-              TodaysQuestionWidget(
-                refresh: () {
-                  setState(() {
-                    _postFuture = fetchPosts(sortBy);
-                  });
-                },
-              ),
+              FutureBuilder(
+                  future: _questionFuture,
+                  builder: (context, snap) {
+                    if (snap.hasData && snap.data != null) {
+                      return TodaysQuestionWidget(
+                        question: snap.data,
+                        refresh: () {
+                          setState(() {
+                            _postFuture = fetchPosts(sortBy);
+                          });
+                        },
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                 child: Text(
@@ -293,9 +303,9 @@ class _MainPageState extends State<MainPage>
                             },
                           );
                         else if (snap.hasError)
-                          return Text("ERROR: ${snap.error}");
+                          return Container();
                         else
-                          return Text('None');
+                          return Container();
                       }),
                 ),
               ),
@@ -537,6 +547,7 @@ class _MainPageState extends State<MainPage>
       _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
+      _questionFuture = fetchQuestion();
     });
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
@@ -560,6 +571,7 @@ class _MainPageState extends State<MainPage>
       _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
+      _questionFuture = fetchQuestion();
     });
     this.setState(() {});
   }

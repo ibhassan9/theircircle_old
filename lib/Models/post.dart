@@ -126,6 +126,15 @@ Future<bool> createPost(Post post) async {
   }
 }
 
+Future<String> fetchQuestion() async {
+  var db = FirebaseDatabase.instance.reference().child("question");
+  var snapshot = await db.once().catchError((onError) {
+    print(onError.toString());
+  });
+  print(snapshot.value);
+  return snapshot.value;
+}
+
 Future<List<Post>> fetchPosts(int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();

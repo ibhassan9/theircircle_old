@@ -5,7 +5,9 @@ import 'package:unify/pages/TodaysQuestionPage.dart';
 
 class TodaysQuestionWidget extends StatefulWidget {
   final Function refresh;
-  TodaysQuestionWidget({Key key, this.refresh}) : super(key: key);
+  final String question;
+  TodaysQuestionWidget({Key key, this.refresh, this.question})
+      : super(key: key);
   @override
   _TodaysQuestionWidgetState createState() => _TodaysQuestionWidgetState();
 }
@@ -16,8 +18,11 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TodaysQuestionPage()))
+          Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TodaysQuestionPage(question: widget.question)))
               .then((value) {
             widget.refresh();
           });
