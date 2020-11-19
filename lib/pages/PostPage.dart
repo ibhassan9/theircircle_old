@@ -43,18 +43,20 @@ class _PostPageState extends State<PostPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        brightness: Brightness.light,
+        backgroundColor: Theme.of(context).backgroundColor,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+        brightness: Theme.of(context).brightness,
         title: Text(
           "Add New Post",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: ListView(
         children: [
           imag != null
@@ -119,7 +121,7 @@ class _PostPageState extends State<PostPage> {
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: Theme.of(context).accentColor),
             ),
           ),
           Divider(),
@@ -152,7 +154,7 @@ class _PostPageState extends State<PostPage> {
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
           ),
@@ -185,7 +187,7 @@ class _PostPageState extends State<PostPage> {
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
           ),

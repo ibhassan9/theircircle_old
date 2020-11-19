@@ -32,19 +32,21 @@ class _ClubPageState extends State<ClubPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
+        brightness: Theme.of(context).brightness,
         title: Text(
           widget.club.name,
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.7,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: <Widget>[
           IconButton(
             icon: Icon(AntDesign.plus),
@@ -195,7 +197,7 @@ class _ClubPageState extends State<ClubPage> {
                             children: <Widget>[
                               Icon(
                                 Icons.face,
-                                color: Colors.grey,
+                                color: Theme.of(context).accentColor,
                               ),
                               SizedBox(width: 10),
                               Text("There are no posts :(",
@@ -203,7 +205,7 @@ class _ClubPageState extends State<ClubPage> {
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
+                                        color: Theme.of(context).accentColor),
                                   )),
                             ],
                           ),

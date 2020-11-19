@@ -20,13 +20,12 @@ class _FilterPageState extends State<FilterPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: false,
         elevation: 0.5,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: [
           IconButton(
               icon: Icon(FlutterIcons.report_mdi),
@@ -40,7 +39,9 @@ class _FilterPageState extends State<FilterPage> {
           "Filters",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
       ),
@@ -68,13 +69,13 @@ class _FilterPageState extends State<FilterPage> {
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                   )),
                   IconButton(
                     icon: Icon(
                       FlutterIcons.add_mdi,
-                      color: Colors.black,
+                      color: Theme.of(context).accentColor,
                     ),
                     onPressed: () async {
                       if (filterController.text.isEmpty) {

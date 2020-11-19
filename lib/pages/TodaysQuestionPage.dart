@@ -123,17 +123,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                              isAnonymous == false
-                                  ? FlutterIcons.visibility_off_mdi
-                                  : FlutterIcons.visibility_mdi,
-                              size: 20,
-                              color: Colors.white),
-                          SizedBox(width: 5.0),
-                          Text(
-                              isAnonymous
-                                  ? 'Post as yourself'
-                                  : 'Post Anonymously',
+                          Text('Post Anonymously',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
@@ -141,6 +131,13 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white),
                               )),
+                          SizedBox(width: 5.0),
+                          Icon(
+                              isAnonymous == false
+                                  ? FlutterIcons.md_radio_button_off_ion
+                                  : FlutterIcons.md_radio_button_on_ion,
+                              size: 20,
+                              color: Colors.white),
                         ],
                       ),
                     ),

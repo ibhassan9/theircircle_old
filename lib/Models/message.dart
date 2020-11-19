@@ -27,14 +27,10 @@ Future<List<Message>> fetchMessages(String chatId) async {
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(chatId);
 
-  print('chat id');
-  print(chatId);
-
   DataSnapshot snap = await db.once();
   List<Message> messages = [];
 
   if (snap.value != null) {
-    print('snap isnt empty');
     Map<dynamic, dynamic> values = snap.value;
     for (var key in values.keys) {
       Message msg = Message(
@@ -43,7 +39,6 @@ Future<List<Message>> fetchMessages(String chatId) async {
           receiverId: values[key]['receiverId'],
           senderId: values[key]['senderId'],
           timestamp: values[key]['timeStamp']);
-      print(msg);
       messages.add(msg);
     }
     messages.sort((a, b) => a.timestamp.compareTo(b.timestamp));

@@ -38,14 +38,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                       style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                     message: Text(
                       "Are you sure you want to delete this comment?",
                       style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                     actions: [
                       CupertinoActionSheetAction(
@@ -54,7 +54,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                             style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black),
+                                color: Theme.of(context).accentColor),
                           ),
                           onPressed: () {
                             Navigator.pop(context);
@@ -99,7 +99,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                 fontWeight: FontWeight.w700,
                                 color: widget.comment.userId ==
                                         firebaseAuth.currentUser.uid
-                                    ? Colors.black
+                                    ? Theme.of(context).accentColor
                                     : Constants.color()),
                           ),
                         )
@@ -112,7 +112,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: Colors.grey),
+                          color: Theme.of(context).accentColor),
                     ),
                   )
                 ],
@@ -126,7 +126,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               ),
             ),

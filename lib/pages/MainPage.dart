@@ -11,8 +11,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:unify/Components/theme.dart';
+import 'package:unify/Components/theme_notifier.dart';
 import 'package:unify/pages/CameraScreen.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/Components/Constants.dart';
@@ -60,13 +63,16 @@ class _MainPageState extends State<MainPage>
   Future<String> _questionFuture;
   int sortBy = 0;
 
+  var _darkTheme = true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    _darkTheme = (themeNotifier.getTheme() == darkTheme);
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: false,
         title: Row(
           children: [
@@ -79,7 +85,7 @@ class _MainPageState extends State<MainPage>
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 Text(
@@ -88,7 +94,7 @@ class _MainPageState extends State<MainPage>
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ],
@@ -96,15 +102,18 @@ class _MainPageState extends State<MainPage>
           ],
         ),
         actions: <Widget>[
-          // IconButton(
-          //   icon: Icon(FlutterIcons.camera_outline_mco, color: Colors.black),
-          //   onPressed: () {
-          //     Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => CameraScreen()));
-          //   },
-          // ),
           IconButton(
-            icon: Icon(AntDesign.filter, color: Colors.black),
+            icon: Icon(FlutterIcons.theme_light_dark_mco,
+                color: Theme.of(context).accentColor),
+            onPressed: () {
+              setState(() {
+                _darkTheme = _darkTheme == true ? false : true;
+              });
+              onThemeChanged(_darkTheme, themeNotifier);
+            },
+          ),
+          IconButton(
+            icon: Icon(AntDesign.filter, color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(context,
                       MaterialPageRoute(builder: (context) => FilterPage()))
@@ -116,7 +125,7 @@ class _MainPageState extends State<MainPage>
             },
           ),
           IconButton(
-            icon: Icon(AntDesign.user, color: Colors.black),
+            icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
             onPressed: () {
               if (user == null) {
                 u.PostUser dummyUser =
@@ -166,11 +175,12 @@ class _MainPageState extends State<MainPage>
             },
           ),
           // IconButton(
-          //   icon: Icon(AntDesign.setting, color: Colors.black),
+          //   icon: Icon(AntDesign.setting, color:  Theme.of(context).accentColor),
           //   onPressed: () {},
           // ),
           IconButton(
-            icon: Icon(AntDesign.logout, color: Colors.black, size: 20),
+            icon: Icon(AntDesign.logout,
+                color: Theme.of(context).accentColor, size: 20),
             onPressed: () async {
               final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
               final act = CupertinoActionSheet(
@@ -179,14 +189,14 @@ class _MainPageState extends State<MainPage>
                     style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                   message: Text(
                     'Are you sure you want to logout?',
                     style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                   actions: [
                     CupertinoActionSheetAction(
@@ -195,7 +205,7 @@ class _MainPageState extends State<MainPage>
                           style: GoogleFonts.quicksand(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black),
+                              color: Theme.of(context).accentColor),
                         ),
                         onPressed: () async {
                           await _firebaseAuth.signOut().then((value) async {
@@ -231,7 +241,7 @@ class _MainPageState extends State<MainPage>
         ],
         elevation: 0.0,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
         onRefresh: refresh,
         child: Stack(children: [
@@ -262,7 +272,7 @@ class _MainPageState extends State<MainPage>
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ),
@@ -276,6 +286,8 @@ class _MainPageState extends State<MainPage>
                         if (snap.connectionState == ConnectionState.waiting)
                           return Center(
                               child: CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).accentColor),
                             strokeWidth: 2.0,
                           ));
                         else if (snap.hasData)
@@ -321,7 +333,7 @@ class _MainPageState extends State<MainPage>
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                     InkWell(
@@ -355,6 +367,8 @@ class _MainPageState extends State<MainPage>
                     if (snap.connectionState == ConnectionState.waiting) {
                       return Center(
                           child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).accentColor),
                         strokeWidth: 2.0,
                       ));
                     } else if (snap.hasData) {
@@ -413,7 +427,7 @@ class _MainPageState extends State<MainPage>
                                       textStyle: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.black),
+                                          color: Theme.of(context).accentColor),
                                     ),
                                   ),
                                 ),
@@ -475,7 +489,7 @@ class _MainPageState extends State<MainPage>
                                 Container(
                                   height: 10.0,
                                   width: MediaQuery.of(context).size.width,
-                                  color: Colors.blueGrey.shade50,
+                                  color: Theme.of(context).dividerColor,
                                 ),
                                 PostWidget(
                                     post: post,
@@ -585,6 +599,14 @@ class _MainPageState extends State<MainPage>
     } else {
       return false;
     }
+  }
+
+  void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
+    (value)
+        ? themeNotifier.setTheme(darkTheme)
+        : themeNotifier.setTheme(lightTheme);
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool('darkMode', value);
   }
 
   Future<Null> getUserData() async {

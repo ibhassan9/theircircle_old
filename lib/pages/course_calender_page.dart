@@ -72,29 +72,41 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
       headerStyle: HeaderStyle(
         titleTextStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         formatButtonTextStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
       ),
       calendarStyle: CalendarStyle(
         weekdayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         weekendStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         holidayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         outsideHolidayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         selectedStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
@@ -102,7 +114,9 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
         ),
         todayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         outsideStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
@@ -134,7 +148,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ),
@@ -155,7 +169,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               ),
               TextField(
@@ -175,7 +189,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               ),
               TextField(
@@ -194,7 +208,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               ),
             ],
@@ -245,21 +259,23 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
+        brightness: Theme.of(context).brightness,
         title: Text(
           widget.course != null
               ? "${widget.course.code} Calendar"
               : "${widget.club.name} Calendar",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       ),
       body: Stack(children: [
         ListView(

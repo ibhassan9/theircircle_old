@@ -25,9 +25,9 @@ class _MembersListPageState extends State<MembersListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          brightness: Brightness.light,
+          brightness: Theme.of(context).brightness,
           title: Text(
             widget.isCourse
                 ? "${widget.course.code} Members"
@@ -36,14 +36,15 @@ class _MembersListPageState extends State<MembersListPage> {
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: Theme.of(context).accentColor),
             ),
           ),
           actions: [
             Visibility(
               visible: widget.club != null ? widget.club.admin : false,
               child: IconButton(
-                icon: Icon(AntDesign.addusergroup),
+                icon: Icon(AntDesign.addusergroup,
+                    color: Theme.of(context).accentColor),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -55,9 +56,9 @@ class _MembersListPageState extends State<MembersListPage> {
               ),
             ),
           ],
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.7,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 10.0),
@@ -69,6 +70,8 @@ class _MembersListPageState extends State<MembersListPage> {
                   if (snap.connectionState == ConnectionState.waiting)
                     return Center(
                         child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).accentColor),
                       strokeWidth: 2.0,
                     ));
                   else if (snap.hasData)
@@ -136,12 +139,16 @@ class _MembersListPageState extends State<MembersListPage> {
       title: Text(
         "PROCEED?",
         style: GoogleFonts.quicksand(
-            fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black),
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
       message: Text(
         "Are you sure you want to remove ${user.name} from your club?",
         style: GoogleFonts.quicksand(
-            fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black),
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
       actions: [
         CupertinoActionSheetAction(
@@ -150,7 +157,7 @@ class _MembersListPageState extends State<MembersListPage> {
               style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: Theme.of(context).accentColor),
             ),
             onPressed: () async {
               var res = await removeUserFromClub(widget.club, user);

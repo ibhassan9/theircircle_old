@@ -26,9 +26,8 @@ class _WebPageState extends State<WebPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Theme.of(context).backgroundColor,
+          iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           centerTitle: true,
           elevation: 0.0,
           title: Text(
@@ -39,7 +38,7 @@ class _WebPageState extends State<WebPage> {
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: Theme.of(context).accentColor),
             ),
           ),
         ),

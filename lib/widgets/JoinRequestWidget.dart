@@ -32,7 +32,8 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
         },
         child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+                borderRadius: BorderRadius.circular(10.0),
+                color: Theme.of(context).backgroundColor),
             child: Wrap(children: <Widget>[
               Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +60,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black),
+                                    color: Theme.of(context).accentColor),
                               ))
                         ],
                       ),

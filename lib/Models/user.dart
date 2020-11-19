@@ -76,12 +76,13 @@ Future signInUser(String email, String password, BuildContext context) async {
     PostUser _user = await getUser(result.user.uid);
     if (_user.status == 1) {
       final snackBar = SnackBar(
+          backgroundColor: Theme.of(context).backgroundColor,
           content: Text('This account is temporarily banned.',
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white),
+                    color: Theme.of(context).accentColor),
               )));
       Scaffold.of(context).showSnackBar(snackBar);
       return;
@@ -98,17 +99,17 @@ Future signInUser(String email, String password, BuildContext context) async {
     await db;
     if (_user.verified != 1) {
       final snackBar = SnackBar(
+          backgroundColor: Theme.of(context).backgroundColor,
           content: Text('Please wait...',
               style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white),
+                    color: Theme.of(context).accentColor),
               )));
       Scaffold.of(context).showSnackBar(snackBar);
       var code = await sendVerificationCode(email);
       if (code == 0) {
-        print("error code");
         return;
       }
       Navigator.push(
@@ -128,14 +129,14 @@ Future signInUser(String email, String password, BuildContext context) async {
           context, MaterialPageRoute(builder: (context) => MainScreen()));
     }
   }).catchError((err) {
-    print(err.toString());
     final snackBar = SnackBar(
+        backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Problem logging in. Please try again.',
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white),
+                  color: Theme.of(context).accentColor),
             )));
     Scaffold.of(context).showSnackBar(snackBar);
   });
@@ -146,12 +147,13 @@ Future registerUser(
   if (email.contains(new RegExp(r'yorku', caseSensitive: false)) == false &&
       email.contains(new RegExp(r'utoronto', caseSensitive: false)) == false) {
     final snackBar = SnackBar(
+        backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Please use your university email to sign up.',
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white),
+                  color: Theme.of(context).accentColor),
             )));
     Scaffold.of(context).showSnackBar(snackBar);
     return;
@@ -185,13 +187,14 @@ Future registerUser(
     });
   }).catchError((err) {
     final snackBar = SnackBar(
+        backgroundColor: Theme.of(context).backgroundColor,
         content:
             Text('Problem creating account / email might already be in use.',
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white),
+                      color: Theme.of(context).accentColor),
                 )));
     Scaffold.of(context).showSnackBar(snackBar);
   });
@@ -822,7 +825,7 @@ showProfile(
                             textStyle: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black),
+                                color: Theme.of(context).accentColor),
                           ),
                         )),
                         SizedBox(height: 5.0),
@@ -873,7 +876,7 @@ showProfile(
                                       textStyle: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.black),
+                                          color: Theme.of(context).accentColor),
                                     ),
                                   )),
                         SizedBox(height: 10.0),
@@ -984,14 +987,14 @@ showProfile(
                                       textStyle: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.grey.shade700),
+                                          color: Theme.of(context).accentColor),
                                     )),
                                 maxLines: null,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey.shade700),
+                                      color: Theme.of(context).accentColor),
                                 ),
                               ),
                             ),
@@ -1027,14 +1030,14 @@ showProfile(
                                       textStyle: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.grey.shade700),
+                                          color: Theme.of(context).accentColor),
                                     )),
                                 maxLines: null,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey.shade700),
+                                      color: Theme.of(context).accentColor),
                                 ),
                               ),
                             ),
@@ -1070,14 +1073,14 @@ showProfile(
                                       textStyle: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.grey.shade700),
+                                          color: Theme.of(context).accentColor),
                                     )),
                                 maxLines: null,
                                 style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey.shade700),
+                                      color: Theme.of(context).accentColor),
                                 ),
                               ),
                             )
@@ -1188,6 +1191,8 @@ showProfile(
               )
             : Center(
                 child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).accentColor),
                   strokeWidth: 1.5,
                 ),
               );

@@ -25,7 +25,7 @@ class _OrDividerState extends State<OrDivider> {
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: kPrimaryColor),
+                    color: Theme.of(context).accentColor),
               ),
             ),
           ),

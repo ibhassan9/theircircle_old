@@ -18,6 +18,7 @@ class _BackgroundState extends State<Background> {
     return Container(
       height: size.height,
       width: double.infinity,
+      color: Theme.of(context).backgroundColor,
       // Here i can use size.width but use double.infinity because both work as a same
       child: Stack(
         alignment: Alignment.center,

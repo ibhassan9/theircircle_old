@@ -108,10 +108,7 @@ class _CameraScreenState extends State<CameraScreen> {
     VisionText visionText = await textRecognizer.processImage(visionImage);
     for (TextBlock block in visionText.blocks) {
       for (TextLine line in block.lines) {
-        for (TextElement word in line.elements) {
-          print('this is word');
-          print(word);
-        }
+        for (TextElement word in line.elements) {}
       }
     }
   }

@@ -571,12 +571,13 @@ class _CommentPostWidgetState extends State<CommentPostWidget> {
 
   showSnackBar() {
     final snackBar = SnackBar(
+        backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Your report has been received.',
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white),
+                  color: Theme.of(context).accentColor),
             )));
     Scaffold.of(context).showSnackBar(snackBar);
   }
@@ -587,7 +588,6 @@ class _CommentPostWidgetState extends State<CommentPostWidget> {
 
     int val = option == 1 ? q1Count : q2Count;
     double percentage = val / (q1Count + q2Count);
-    print(percentage);
     return percentage;
   }
 

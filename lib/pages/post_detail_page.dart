@@ -44,8 +44,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(top: BorderSide(color: Colors.grey.shade200))),
+            color: Theme.of(context).backgroundColor,
+            border:
+                Border(top: BorderSide(color: Theme.of(context).dividerColor))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
           child: Row(
@@ -69,13 +70,13 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               )),
               IconButton(
                 icon: Icon(
                   AntDesign.arrowright,
-                  color: Colors.black,
+                  color: Theme.of(context).accentColor,
                 ),
                 onPressed: () async {
                   if (commentController.text.isEmpty) {
@@ -118,19 +119,20 @@ class _PostDetailPageState extends State<PostDetailPage> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
         title: Text(
           "Comments",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       ),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -199,7 +201,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                               children: <Widget>[
                                 Icon(
                                   Icons.face,
-                                  color: Colors.grey,
+                                  color: Theme.of(context).accentColor,
                                 ),
                                 SizedBox(width: 10),
                                 Text("There are no comments :(",
@@ -207,7 +209,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                       textStyle: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.grey),
+                                          color: Theme.of(context).accentColor),
                                     )),
                               ],
                             ),

@@ -38,7 +38,7 @@ class _CoursesPageState extends State<CoursesPage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                   ),
                 ),
@@ -62,7 +62,7 @@ class _CoursesPageState extends State<CoursesPage>
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ],
@@ -83,8 +83,8 @@ class _CoursesPageState extends State<CoursesPage>
 
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        brightness: Theme.of(context).brightness,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: false,
         elevation: 0.5,
         iconTheme: IconThemeData(color: Colors.black),
@@ -96,7 +96,7 @@ class _CoursesPageState extends State<CoursesPage>
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
             onPressed: () {
@@ -130,7 +130,7 @@ class _CoursesPageState extends State<CoursesPage>
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 Text(
@@ -139,7 +139,7 @@ class _CoursesPageState extends State<CoursesPage>
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ],
@@ -147,7 +147,7 @@ class _CoursesPageState extends State<CoursesPage>
           ],
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
         onRefresh: refresh,
         child: Stack(
@@ -176,14 +176,14 @@ class _CoursesPageState extends State<CoursesPage>
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.grey.shade600),
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                   ),
                 ),
@@ -194,6 +194,8 @@ class _CoursesPageState extends State<CoursesPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).accentColor),
                               strokeWidth: 2.0,
                             ));
                           else if (snap.hasData)
@@ -238,7 +240,7 @@ class _CoursesPageState extends State<CoursesPage>
                                   children: <Widget>[
                                     Icon(
                                       Icons.face,
-                                      color: Colors.grey,
+                                      color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any courses :(",
@@ -246,7 +248,8 @@ class _CoursesPageState extends State<CoursesPage>
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              color: Colors.grey),
+                                              color: Theme.of(context)
+                                                  .accentColor),
                                         )),
                                   ],
                                 ),
@@ -262,7 +265,7 @@ class _CoursesPageState extends State<CoursesPage>
                                   children: <Widget>[
                                     Icon(
                                       Icons.face,
-                                      color: Colors.grey,
+                                      color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no courses :(",
@@ -270,7 +273,8 @@ class _CoursesPageState extends State<CoursesPage>
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              color: Colors.grey),
+                                              color: Theme.of(context)
+                                                  .accentColor),
                                         )),
                                   ],
                                 ),

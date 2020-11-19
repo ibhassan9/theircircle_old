@@ -77,7 +77,7 @@ class _MainScreenState extends State<MainScreen>
           child: CurvedNavigationBar(
             key: _bottomNavigationKey,
             //animationCurve: Curves.easeOutCirc,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).backgroundColor,
             color: Colors.deepPurpleAccent,
             items: [
               Icon(

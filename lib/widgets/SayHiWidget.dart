@@ -25,7 +25,7 @@ class _SayHiWidgetState extends State<SayHiWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(FlutterIcons.nature_people_mdi,
-                  color: Colors.black, size: 40),
+                  color: Theme.of(context).accentColor, size: 40),
               SizedBox(height: 15.0),
               Text(
                   "You could say something like: What's your favourite memory in school?",
@@ -34,7 +34,7 @@ class _SayHiWidgetState extends State<SayHiWidget>
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black)))
+                          color: Theme.of(context).accentColor)))
             ],
           ),
         ),

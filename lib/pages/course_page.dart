@@ -29,24 +29,25 @@ class _CoursePageState extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.course.id);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
+        brightness: Theme.of(context).brightness,
         title: Text(
           widget.course.code,
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.7,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: <Widget>[
           IconButton(
-            icon: Icon(AntDesign.plus),
+            icon: Icon(AntDesign.plus, color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(
                   context,
@@ -61,7 +62,7 @@ class _CoursePageState extends State<CoursePage> {
             },
           ),
           IconButton(
-            icon: Icon(AntDesign.team),
+            icon: Icon(AntDesign.team, color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(
                   context,
@@ -74,7 +75,8 @@ class _CoursePageState extends State<CoursePage> {
             },
           ),
           IconButton(
-            icon: Icon(AntDesign.calendar),
+            icon:
+                Icon(AntDesign.calendar, color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(
                   context,
@@ -190,7 +192,7 @@ class _CoursePageState extends State<CoursePage> {
                             children: <Widget>[
                               Icon(
                                 Icons.face,
-                                color: Colors.grey,
+                                color: Theme.of(context).accentColor,
                               ),
                               SizedBox(width: 10),
                               Text("There are no posts :(",
@@ -198,7 +200,7 @@ class _CoursePageState extends State<CoursePage> {
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
+                                        color: Theme.of(context).accentColor),
                                   )),
                             ],
                           ),

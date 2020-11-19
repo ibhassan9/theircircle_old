@@ -54,7 +54,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                   Column(
                     children: <Widget>[
                       IconButton(
-                        icon: Icon(AntDesign.team, color: Colors.black),
+                        icon: Icon(AntDesign.team,
+                            color: Theme.of(context).accentColor),
                         onPressed: () {},
                       ),
                       Text(
@@ -63,7 +64,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black),
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],
@@ -90,7 +91,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                     textStyle: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black),
+                                        color: Theme.of(context).accentColor),
                                   ),
                                 ),
                                 Visibility(
@@ -104,14 +105,16 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               style: GoogleFonts.quicksand(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             ),
                                             message: Text(
                                               "Are you sure you want to delete this club?",
                                               style: GoogleFonts.quicksand(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             ),
                                             actions: [
                                               CupertinoActionSheetAction(
@@ -122,8 +125,9 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.w500,
-                                                            color:
-                                                                Colors.black),
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .accentColor),
                                                   ),
                                                   onPressed: () {
                                                     widget.delete();
@@ -159,7 +163,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black),
+                                    color: Theme.of(context).accentColor),
                               ),
                               maxLines: null,
                             )

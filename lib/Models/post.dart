@@ -128,10 +128,7 @@ Future<bool> createPost(Post post) async {
 
 Future<String> fetchQuestion() async {
   var db = FirebaseDatabase.instance.reference().child("question");
-  var snapshot = await db.once().catchError((onError) {
-    print(onError.toString());
-  });
-  print(snapshot.value);
+  var snapshot = await db.once().catchError((onError) {});
   return snapshot.value;
 }
 
@@ -187,7 +184,6 @@ Future<List<Post>> fetchPosts(int sortBy) async {
       var voted = checkIsVoted(value['votes']);
       post.votes = value['votes'];
       post.isVoted = voted;
-      print(post.isVoted);
       if (voted) {
         int option = whichOption(value['votes']);
         if (option != 0) {
@@ -850,8 +846,6 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var filters = prefs.getStringList('filters');
 
-  print('test');
-
   values.forEach((key, value) {
     var post = Post(
         id: key,
@@ -888,7 +882,6 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
       var voted = checkIsVoted(value['votes']);
       post.votes = value['votes'];
       post.isVoted = voted;
-      print(post.isVoted);
       if (voted) {
         int option = whichOption(value['votes']);
         if (option != 0) {

@@ -35,7 +35,8 @@ class _MemberWidgetState extends State<MemberWidget> {
         },
         child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+                borderRadius: BorderRadius.circular(10.0),
+                color: Theme.of(context).backgroundColor),
             child: Wrap(children: <Widget>[
               Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +66,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black),
+                                    color: Theme.of(context).accentColor),
                               ))
                         ],
                       ),
@@ -87,7 +88,9 @@ class _MemberWidgetState extends State<MemberWidget> {
                                     onTap: () {
                                       widget.delete();
                                     },
-                                    child: Icon(AntDesign.close, size: 20.0)))
+                                    child: Icon(AntDesign.close,
+                                        color: Theme.of(context).accentColor,
+                                        size: 20.0)))
                         : SizedBox(),
                   ]),
               Divider(),

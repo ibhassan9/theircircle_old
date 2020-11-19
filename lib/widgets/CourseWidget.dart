@@ -43,7 +43,8 @@ class _CourseWidgetState extends State<CourseWidget> {
                 Column(
                   children: <Widget>[
                     IconButton(
-                      icon: Icon(AntDesign.team, color: Colors.black),
+                      icon: Icon(AntDesign.team,
+                          color: Theme.of(context).accentColor),
                       onPressed: () {},
                     ),
                     Text(
@@ -52,7 +53,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                         textStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                   ],
@@ -76,7 +77,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             ),
                           ),
                           Divider(),
@@ -86,7 +87,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             ),
                             maxLines: null,
                           )

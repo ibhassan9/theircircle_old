@@ -21,7 +21,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           dateTimeSelected = dt;
         });
         var assignments = await fetchAllMyAssignments(dt);
-        print(assignments);
       },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(

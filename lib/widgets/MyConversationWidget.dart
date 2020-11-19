@@ -50,7 +50,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
       secondaryActions: <Widget>[
         IconSlideAction(
           caption: 'Delete',
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           icon: FlutterIcons.delete_ant,
           closeOnTap: true,
           onTap: () {
@@ -60,14 +60,14 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
               message: Text(
                 "Are you sure you want to delete this chat? This will not clear the conversation.",
                 style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
               actions: [
                 CupertinoActionSheetAction(
@@ -76,7 +76,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                       style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                     onPressed: () {
                       removeChat(widget.peerId);
@@ -184,14 +184,16 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               textStyle: TextStyle(
                                                   fontSize: 17,
                                                   fontWeight: FontWeight.w700,
-                                                  color: Colors.black),
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             )),
                                         Text(widget.timeAgo,
                                             style: GoogleFonts.quicksand(
                                               textStyle: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.grey),
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             )),
                                       ],
                                     ),
@@ -210,8 +212,8 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w500,
-                                                        color: Colors
-                                                            .grey.shade600),
+                                                        color: Theme.of(context)
+                                                            .accentColor),
                                                   )),
                                             )
                                           : Container(),
@@ -223,7 +225,8 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               textStyle: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.grey.shade600),
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             )),
                                       ),
                                     ],

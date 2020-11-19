@@ -18,6 +18,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
       padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
       child: Container(
           height: 60,
+          color: Theme.of(context).backgroundColor,
           child: Column(
             children: [
               Row(
@@ -34,7 +35,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black),
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                       Text(
@@ -43,7 +44,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black),
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],

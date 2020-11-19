@@ -101,7 +101,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black),
+                                    color: Theme.of(context).accentColor),
                               ),
                             ),
                             Visibility(
@@ -121,14 +121,16 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                         style: GoogleFonts.quicksand(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.black),
+                                            color:
+                                                Theme.of(context).accentColor),
                                       ),
                                       message: Text(
                                         'Are you sure you want to delete this?',
                                         style: GoogleFonts.quicksand(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.black),
+                                            color:
+                                                Theme.of(context).accentColor),
                                       ),
                                       actions: [
                                         CupertinoActionSheetAction(
@@ -137,7 +139,8 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                               style: GoogleFonts.quicksand(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             ),
                                             onPressed: () async {
                                               widget.delete();
@@ -171,7 +174,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black),
+                                color: Theme.of(context).accentColor),
                           ),
                         ),
                         Divider(),
@@ -181,7 +184,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black),
+                                color: Theme.of(context).accentColor),
                           ),
                         ),
                         Divider(),
@@ -198,7 +201,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             ),
                           ),
                         ],

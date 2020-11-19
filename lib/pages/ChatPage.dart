@@ -42,7 +42,9 @@ class _ChatPageState extends State<ChatPage>
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.grey.shade200))),
+            color: Theme.of(context).backgroundColor,
+            border:
+                Border(top: BorderSide(color: Theme.of(context).dividerColor))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Row(
@@ -51,33 +53,40 @@ class _ChatPageState extends State<ChatPage>
               Flexible(
                   child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.blueGrey.shade50,
+                    color: Theme.of(context).dividerColor,
                     borderRadius: BorderRadius.circular(20.0)),
                 child: TextField(
                   textInputAction: TextInputAction.done,
                   maxLines: null,
                   controller: chatController,
                   decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Insert message here"),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
+                    hintText: "Insert message here",
+                    hintStyle: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    ),
+                  ),
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               )),
               IconButton(
                 icon: Icon(
                   FlutterIcons.send_mdi,
-                  color: Colors.black,
+                  color: Theme.of(context).accentColor,
                 ),
                 onPressed: () async {
                   if (chatController.text.isEmpty) {
@@ -99,12 +108,12 @@ class _ChatPageState extends State<ChatPage>
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        brightness: Theme.of(context).brightness,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: false,
-        iconTheme: IconThemeData(color: Colors.black87),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -114,7 +123,7 @@ class _ChatPageState extends State<ChatPage>
                 textStyle: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black87),
+                    color: Theme.of(context).accentColor),
               ),
             ),
             // Text(
@@ -130,7 +139,8 @@ class _ChatPageState extends State<ChatPage>
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FlutterIcons.user_alt_faw5s, color: Colors.black87),
+            icon: Icon(FlutterIcons.user_alt_faw5s,
+                color: Theme.of(context).accentColor),
             onPressed: () {
               u.showProfile(
                   widget.receiver,

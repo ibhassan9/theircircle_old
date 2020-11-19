@@ -37,7 +37,7 @@ class _BodyState extends State<Body> {
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
             SizedBox(height: size.height * 0.03),
@@ -59,12 +59,13 @@ class _BodyState extends State<Body> {
               text: "LOGIN",
               press: () async {
                 final snackBar = SnackBar(
+                    backgroundColor: Theme.of(context).backgroundColor,
                     content: Text('Logging you in. Please wait.',
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white),
+                              color: Theme.of(context).accentColor),
                         )));
                 Scaffold.of(context).showSnackBar(snackBar);
                 await signInUser(

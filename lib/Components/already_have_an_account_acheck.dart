@@ -30,7 +30,7 @@ class _AlreadyHaveAnAccountCheckState extends State<AlreadyHaveAnAccountCheck> {
             textStyle: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: kPrimaryColor),
+                color: Theme.of(context).accentColor),
           ),
         ),
         GestureDetector(
@@ -41,7 +41,7 @@ class _AlreadyHaveAnAccountCheckState extends State<AlreadyHaveAnAccountCheck> {
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: kPrimaryColor),
+                  color: Theme.of(context).accentColor),
             ),
           ),
         )

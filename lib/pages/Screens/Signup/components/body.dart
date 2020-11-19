@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
             SizedBox(height: size.height * 0.03),
@@ -61,12 +61,13 @@ class _BodyState extends State<Body> {
               text: "SIGNUP",
               press: () async {
                 final snackBar = SnackBar(
+                    backgroundColor: Theme.of(context).backgroundColor,
                     content: Text('Creating your account. Please wait.',
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white),
+                              color: Theme.of(context).accentColor),
                         )));
                 Scaffold.of(context).showSnackBar(snackBar);
                 await registerUser(nameController.text, emailController.text,
@@ -81,7 +82,8 @@ class _BodyState extends State<Body> {
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: RichText(
                 text: TextSpan(
-                  style: TextStyle(fontSize: 10, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 10, color: Theme.of(context).accentColor),
                   children: <TextSpan>[
                     TextSpan(text: "By signing up you agree to our "),
                     TextSpan(

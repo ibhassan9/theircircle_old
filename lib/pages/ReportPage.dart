@@ -17,18 +17,19 @@ class _ReportPageState extends State<ReportPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        brightness: Brightness.light,
+        backgroundColor: Theme.of(context).backgroundColor,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Report an issue or a complaint",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: ListView(
         children: [
           Container(),
@@ -59,7 +60,7 @@ class _ReportPageState extends State<ReportPage> {
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: Theme.of(context).accentColor),
             ),
           ),
           Divider(),

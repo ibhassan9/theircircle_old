@@ -13,10 +13,10 @@ class FilterWidget extends StatefulWidget {
 class _FilterWidgetState extends State<FilterWidget> {
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0.0, 10.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
       child: Container(
         height: 20,
-        color: Colors.white,
+        color: Theme.of(context).backgroundColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,14 +27,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
-            IconButton(
-                icon: Icon(AntDesign.close, color: Colors.red, size: 20.0),
-                onPressed: () {
+            InkWell(
+                onTap: () {
                   widget.remove();
-                })
+                },
+                child: Icon(AntDesign.close, color: Colors.red, size: 20.0)),
           ],
         ),
       ),

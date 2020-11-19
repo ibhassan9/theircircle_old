@@ -20,21 +20,21 @@ class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          brightness: Brightness.light,
+          brightness: Theme.of(context).brightness,
           title: Text(
             "Requests",
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  color: Theme.of(context).accentColor),
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         ),
         body: Stack(
           children: <Widget>[

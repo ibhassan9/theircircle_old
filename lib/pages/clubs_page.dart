@@ -44,7 +44,7 @@ class _ClubsPageState extends State<ClubsPage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                   ),
                 ),
@@ -67,7 +67,7 @@ class _ClubsPageState extends State<ClubsPage>
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 TextField(
@@ -86,7 +86,7 @@ class _ClubsPageState extends State<ClubsPage>
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 Padding(
@@ -140,13 +140,13 @@ class _ClubsPageState extends State<ClubsPage>
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        brightness: Theme.of(context).brightness,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: false,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Row(
           children: [
             Column(
@@ -158,7 +158,7 @@ class _ClubsPageState extends State<ClubsPage>
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 Text(
@@ -167,7 +167,7 @@ class _ClubsPageState extends State<ClubsPage>
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ],
@@ -176,7 +176,7 @@ class _ClubsPageState extends State<ClubsPage>
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add, color: Colors.black),
+            icon: Icon(Icons.add, color: Theme.of(context).accentColor),
             onPressed: () {
               addClubDialog();
             },
@@ -200,19 +200,26 @@ class _ClubsPageState extends State<ClubsPage>
                       });
                     },
                     decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                            left: 15, bottom: 11, top: 11, right: 15),
-                        hintText: "Search Clubs..."),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: "Search Clubs...",
+                      hintStyle: GoogleFonts.quicksand(
+                        textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
+                      ),
+                    ),
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).accentColor),
                     ),
                   ),
                 ),
@@ -249,6 +256,8 @@ class _ClubsPageState extends State<ClubsPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).accentColor),
                               strokeWidth: 2.0,
                             ));
                           else if (snap.hasData)
@@ -296,7 +305,7 @@ class _ClubsPageState extends State<ClubsPage>
                                   children: <Widget>[
                                     Icon(
                                       Icons.face,
-                                      color: Colors.grey,
+                                      color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any clubs :(",
@@ -304,7 +313,8 @@ class _ClubsPageState extends State<ClubsPage>
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              color: Colors.grey),
+                                              color: Theme.of(context)
+                                                  .accentColor),
                                         )),
                                   ],
                                 ),
@@ -320,7 +330,7 @@ class _ClubsPageState extends State<ClubsPage>
                                   children: <Widget>[
                                     Icon(
                                       Icons.face,
-                                      color: Colors.grey,
+                                      color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no clubs :(",
@@ -328,7 +338,8 @@ class _ClubsPageState extends State<ClubsPage>
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              color: Colors.grey),
+                                              color: Theme.of(context)
+                                                  .accentColor),
                                         )),
                                   ],
                                 ),

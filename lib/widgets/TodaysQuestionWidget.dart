@@ -18,6 +18,9 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20.0),
       child: InkWell(
         onTap: () {
+          if (widget.question == null) {
+            return;
+          }
           Navigator.push(
                   context,
                   MaterialPageRoute(

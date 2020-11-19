@@ -27,11 +27,12 @@ class _MyMatchesPageState extends State<MyMatchesPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(FlutterIcons.create_mdi, color: Colors.black),
+              icon: Icon(FlutterIcons.create_mdi,
+                  color: Theme.of(context).accentColor),
               onPressed: () {
                 Navigator.push(
                         context,
@@ -40,11 +41,11 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                     .then((value) {});
               })
         ],
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        brightness: Theme.of(context).brightness,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
         centerTitle: false,
-        iconTheme: IconThemeData(color: Colors.pink),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Row(
           children: [
             Column(
@@ -56,7 +57,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 Text(
@@ -65,7 +66,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ],
@@ -285,7 +286,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                             children: <Widget>[
                               Icon(
                                 Icons.chat,
-                                color: Colors.grey,
+                                color: Theme.of(context).accentColor,
                               ),
                               SizedBox(width: 10),
                               Text("Your chat list is empty :(",
@@ -293,7 +294,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
+                                        color: Theme.of(context).accentColor),
                                   )),
                             ],
                           ),
