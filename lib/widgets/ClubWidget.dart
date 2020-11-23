@@ -85,13 +85,17 @@ class _ClubWidgetState extends State<ClubWidget> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  widget.club.name,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context).accentColor),
+                                Flexible(
+                                  child: Text(
+                                    widget.club.name,
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).accentColor),
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
                                 ),
                                 Visibility(
@@ -165,7 +169,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
                               ),
-                              maxLines: null,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             )
                           ],
                         )),

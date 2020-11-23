@@ -39,6 +39,7 @@ import 'package:unify/pages/WebPage.dart';
 import 'package:unify/Widgets/WelcomeWidget.dart';
 import 'package:unify/widgets/TodaysQuestionWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -68,8 +69,8 @@ class _MainPageState extends State<MainPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    _darkTheme = (themeNotifier.getTheme() == darkTheme);
+    //final themeNotifier = Provider.of<ThemeNotifier>(context);
+    //_darkTheme = (themeNotifier.getTheme() == darkTheme);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -102,16 +103,16 @@ class _MainPageState extends State<MainPage>
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(FlutterIcons.theme_light_dark_mco,
-                color: Theme.of(context).accentColor),
-            onPressed: () {
-              setState(() {
-                _darkTheme = _darkTheme == true ? false : true;
-              });
-              onThemeChanged(_darkTheme, themeNotifier);
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(FlutterIcons.theme_light_dark_mco,
+          //       color: Theme.of(context).accentColor),
+          //   onPressed: () {
+          //     setState(() {
+          //       _darkTheme = _darkTheme == true ? false : true;
+          //     });
+          //     //onThemeChanged(_darkTheme, themeNotifier);
+          //   },
+          // ),
           IconButton(
             icon: Icon(AntDesign.filter, color: Theme.of(context).accentColor),
             onPressed: () {
@@ -300,13 +301,19 @@ class _MainPageState extends State<MainPage>
                               News news = snap.data[index];
                               return InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WebPage(
-                                            title: news.title,
-                                            selectedUrl: news.url)),
+                                  showMaterialModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => WebPage(
+                                        title: news.title,
+                                        selectedUrl: news.url),
                                   );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => WebPage(
+                                  //           title: news.title,
+                                  //           selectedUrl: news.url)),
+                                  // );
                                 },
                                 child: NewsWidget(
                                   news: news,
@@ -541,6 +548,7 @@ class _MainPageState extends State<MainPage>
         backgroundColor: Colors.deepPurpleAccent,
         child: Icon(Entypo.pencil, color: Colors.white),
         onPressed: () async {
+          //await sendNewQuestionToAll();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => PostPage()),

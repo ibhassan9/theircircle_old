@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:http/http.dart' as http;
@@ -124,6 +125,56 @@ Future<Null> sendPushPoll(String token, String text) async {
           'to': token,
         },
       ));
+}
+
+Future<Null> send(String token) async {
+  await http.post('https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=${Constants.serverToken}',
+      },
+      body: json.encode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': "We have a new question available for you!",
+            'title': 'TheirCircle'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'status': 'done'
+          },
+          'to': token,
+        },
+      ));
+}
+
+Future<Null> sendNewQuestionToAll() async {
+  List<String> tokenIds = [];
+  var user1db =
+      FirebaseDatabase.instance.reference().child('users').child('UofT');
+  var user2db =
+      FirebaseDatabase.instance.reference().child('users').child('YorkU');
+
+  DataSnapshot user1snap = await user1db.once();
+  DataSnapshot user2snap = await user2db.once();
+
+  Map<dynamic, dynamic> users1 = user1snap.value;
+  Map<dynamic, dynamic> users2 = user2snap.value;
+
+  for (var value in users1.values) {
+    var token = value['device_token'];
+    tokenIds.add(token);
+  }
+
+  for (var value in users2.values) {
+    var token = value['device_token'];
+    tokenIds.add(token);
+  }
+
+  for (var token in tokenIds) {
+    await send(token);
+  }
 }
 
 Future<Null> sendPushClub(Club club, int nID, String token, String text) async {

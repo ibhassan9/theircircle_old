@@ -69,12 +69,11 @@ dependencies:
   full_screen_image: ^1.0.2
   cached_network_image: ^2.3.3
   share: ^0.6.5+4
-  firebase_ml_vision: ^0.9.9
-  camera: ^0.5.8+11
   path_provider: ^1.6.24
   polls: ^0.2.2
   toggle_switch: ^0.1.8
   adaptive_theme: ^1.1.0
+  modal_bottom_sheet: ^1.0.0+1
 
 flutter_icons:
   android: "launcher_icon"

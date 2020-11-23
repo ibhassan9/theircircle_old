@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,23 +13,22 @@ import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 
-List<CameraDescription> cameras = [];
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseDatabase.instance.setPersistenceEnabled(false);
   //cameras = await availableCameras();
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]).then((_) {
-    SharedPreferences.getInstance().then((prefs) {
-      var darkModeOn = prefs.getBool('darkMode') ?? true;
-      runApp(
-        ChangeNotifierProvider<ThemeNotifier>(
-          create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
-          child: MyApp(),
-        ),
-      );
-    });
+    // SharedPreferences.getInstance().then((prefs) {
+    //   var darkModeOn = prefs.getBool('darkMode') ?? false;
+    //   runApp(
+    //     ChangeNotifierProvider<ThemeNotifier>(
+    //       create: (_) => ThemeNotifier(darkModeOn ? darkTheme : lightTheme),
+    //       child: MyApp(),
+    //     ),
+    //   );
+    // });
+    runApp(MyApp());
   });
   // runApp(MyApp());
 }
@@ -40,10 +38,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    //final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       title: 'TheirCircle',
-      theme: themeNotifier.getTheme(),
+      theme: ThemeData(
+          splashColor: Colors.white,
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.white,
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          accentColor: Colors.black,
+          accentIconTheme: IconThemeData(color: Colors.white),
+          dividerColor: Colors.blueGrey.shade50,
+          appBarTheme: AppBarTheme(brightness: Brightness.light),
+          shadowColor: Colors.deepPurpleAccent[100],
+          cardColor: Colors.blueAccent[100]),
+      darkTheme: ThemeData(
+          splashColor: Color.fromRGBO(36, 35, 49, 1.0),
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.black,
+          brightness: Brightness.dark,
+          backgroundColor: Color.fromRGBO(36, 35, 49, 1.0),
+          accentColor: Colors.white,
+          accentIconTheme: IconThemeData(color: Colors.black),
+          dividerColor: Colors.black12,
+          appBarTheme: AppBarTheme(brightness: Brightness.dark),
+          shadowColor: Colors.deepPurpleAccent,
+          cardColor: Colors.blueAccent),
       debugShowCheckedModeBanner: false,
       home: firebaseAuth.currentUser != null ? MainScreen() : WelcomeScreen(),
     );

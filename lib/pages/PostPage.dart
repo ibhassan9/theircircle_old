@@ -266,7 +266,8 @@ class _PostPageState extends State<PostPage> {
                               }
                               if (pollVisible &&
                                       pollOptionOneController.text.isEmpty ||
-                                  pollOptionTwoController.text.isEmpty) {
+                                  pollVisible &&
+                                      pollOptionTwoController.text.isEmpty) {
                                 return;
                               }
                               if (clength < 0 ||

@@ -562,7 +562,6 @@ class _PostWidgetState extends State<PostWidget> {
                                       }
                                       sendPushPoll(token,
                                           "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}");
-                                      // TODO: - Vote first option
                                       setState(() {
                                         widget.post.isVoted = true;
                                         widget.post.whichOption = 1;
@@ -603,7 +602,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                   .size
                                                   .width,
                                           decoration: BoxDecoration(
-                                              color: option1Color,
+                                              color:
+                                                  Theme.of(context).shadowColor,
                                               borderRadius: widthPercentage(
                                                           1) ==
                                                       1.0
@@ -685,7 +685,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                   .size
                                                   .width,
                                           decoration: BoxDecoration(
-                                              color: option2Color,
+                                              color:
+                                                  Theme.of(context).cardColor,
                                               borderRadius: widthPercentage(
                                                           2) ==
                                                       1.0
