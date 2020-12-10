@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/ProfilePage.dart';
 
 class JoinRequestWidget extends StatefulWidget {
   final PostUser user;
@@ -27,8 +28,13 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          showProfile(widget.user, context, bioController, snapchatController,
-              instagramController, linkedinController, null, null);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ProfilePage(user: widget.user, heroTag: widget.user.id)));
+          //showProfile(widget.user, context, bioController, snapchatController,
+          //instagramController, linkedinController, null, null);
         },
         child: Container(
             decoration: BoxDecoration(
@@ -46,7 +52,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                             backgroundColor: Colors.deepOrange,
                             child: Text(
                               widget.user.name[0].toUpperCase(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -56,7 +62,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                           ),
                           SizedBox(width: 10.0),
                           Text(widget.user.name,
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -79,7 +85,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                         });
                                       },
                                       child: Text("ACCEPT",
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.manjari(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -98,7 +104,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                         });
                                       },
                                       child: Text("DENY",
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.manjari(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -108,14 +114,14 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                   ],
                                 )
                               : Text("ACCEPTED",
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.manjari(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.blue),
                                   ))
                           : Text("DENIED",
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

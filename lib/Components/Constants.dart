@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const kPrimaryColor = Color(0xFF6F35A5);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
 FirebaseAuth fAuth = FirebaseAuth.instance;
+const LIVE_APP_ID = "8e02ac84a0d14ee2a4f798c674d1a573";
 
 class Constants {
   static String text =
@@ -27,7 +28,7 @@ class Constants {
   static String privacy_policy =
       "http://www.theircircleapp.com/privacy_policy.html";
   static String dummyImageUrl =
-      'https://hdwallpaperim.com/wp-content/uploads/2017/09/07/468584-One-Punch_Man-Saitama-748x421.jpg';
+      'https://www.publicdomainpictures.net/pictures/240000/velka/beautiful-girl-in-the-park-smiling.jpg';
 
   static termsDialog(BuildContext context) {
     AwesomeDialog(
@@ -41,7 +42,7 @@ class Constants {
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -51,7 +52,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -61,7 +62,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -71,7 +72,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -81,7 +82,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -91,7 +92,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -101,7 +102,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -111,7 +112,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -123,7 +124,7 @@ class Constants {
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -190,4 +191,160 @@ class Constants {
         break;
     }
   }
+
+  static Map<String, dynamic> interests = {
+    "Advertising": [],
+    "Agriculture": [],
+    "Architecture": [],
+    "Aviation": [],
+    "Banking": ["Investment banking", "Online banking", "Retail banking"],
+    "Business": [],
+    "Construction": [],
+    "Design": ["Fashion design", "Graphic design", "Interior design"],
+    "Economics": [],
+    "Engineering": [],
+    "Entrepreneurship": [],
+    "Health care": [],
+    "Higher education": [],
+    "Management": [],
+    "Marketing": [],
+    "Nursing": [],
+    "Online": [
+      "Digital marketing",
+      "Display advertising",
+      "Email marketing",
+      "Online advertising",
+      "Search engine optimization",
+      "Social media",
+      "Social media marketing",
+      "Web design",
+      "Web development",
+      "Web hosting"
+    ],
+    "Personal finance": [
+      "Credit cards",
+      "Insurance",
+      "Investment",
+      "Mortgage loans"
+    ],
+    "Real estate": [],
+    "Retail": [],
+    "Sales": [],
+    "Science": [],
+    "Small business": [],
+    "Games": [],
+    // sublist starts
+    "Action games": [],
+    "Board games": [],
+    "Browser games": [],
+    "Card games": [],
+    "Casino games": [],
+    "First-person shooter games": [],
+    "Gambling": [],
+    "Multiplayer online games": [],
+    "Multiplayer online role-playing games": [],
+    "Online games": [],
+    "Online poker": [],
+    "Puzzle video games": [],
+    "Racing games": [],
+    "Role-playing games": [],
+    "Shooter games": [],
+    "Simulation games": [],
+    "Sports games": [],
+    "Strategy games": [],
+    "Video games": [],
+    "Word games": [],
+    //sublist ends
+    "Live events": [],
+    //sublist starts
+    "Ballet": [],
+    "Bars": [],
+    "Concerts": [],
+    "Dancehalls": [],
+    "Music festivals": [],
+    "Nightclubs": [],
+    "Parties": [],
+    "Plays": [],
+    "Theatre": [],
+    //sublist ends
+    "Movies": [],
+    //sublist starts
+    "Action movies": [],
+    "Animated movies": [],
+    "Anime movies": [],
+    "Bollywood movies": [],
+    "Comedy movies": [],
+    "Documentary movies": [],
+    "Drama movies": [],
+    "Fantasy movies": [],
+    "Horror movies": [],
+    "Musical theatre": [],
+    "Science fiction movies": [],
+    "Thriller movies": [],
+    //sublist ends
+    "Music": [
+      "Blues music",
+      "Classical music",
+      "Country music",
+      "Dance music",
+      "Electronic music",
+      "Gospel music",
+      "Heavy metal music",
+      "Hip hop music",
+      "Jazz music",
+      "Music videos",
+      "Pop music",
+      "Rhythm and blues music",
+      "Rock music"
+    ],
+    "Reading": [],
+    //sublist starts
+    "Books": [],
+    "Comics": [],
+    "E-books": [],
+    "Fiction books": [],
+    "Literature": [],
+    "Magazines": [],
+    "Manga": [],
+    "Mystery fiction": [],
+    "Newspapers": [],
+    "Non-fiction books": [],
+    "Romance novels": [],
+    //sublist ends
+    "Bodybuilding": [],
+    "Meditation": [],
+    "Physical exercise": [],
+    "Physical fitness": [],
+    "Running": [],
+    "Weight training": [],
+    "Yoga": [],
+    "Arts and music": [],
+    //sublist starts
+    "Acting": [],
+    "Crafts": [],
+    "Dance": [],
+    "Drawing": [],
+    "Drums": [],
+    "Fine art": [],
+    "Guitar": [],
+    "Painting": [],
+    "Performing arts": [],
+    "Photography": [],
+    "Sculpture": [],
+    "Singing": [],
+    "Writing": [],
+    //sublist ends
+    "Politics and social issues": [
+      "Charity and causes",
+      "Community issues",
+      "Environmentalism",
+      "Law",
+      "Military",
+      "Politics",
+      "Religion",
+      "Sustainability",
+      "Veterans",
+      "Volunteering"
+    ]
+  };
 }

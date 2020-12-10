@@ -3,61 +3,76 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Models/match.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/MatchedOverlay.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
+import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/widgets/MatchWidget.dart';
+import 'package:unify/widgets/MatchWidgetPersonal.dart';
 
 class MatchPage extends StatefulWidget {
   @override
   _MatchPageState createState() => _MatchPageState();
 }
 
-class _MatchPageState extends State<MatchPage> {
+class _MatchPageState extends State<MatchPage>
+    with AutomaticKeepAliveClientMixin {
   CardController controller = CardController();
   ConfettiController _controllerCenter =
       ConfettiController(duration: const Duration(seconds: 10));
+  int currentIndex = 0;
+  List<PostUser> currentUsers = [];
+  Future<List<PostUser>> _students;
+  PostUser _user;
 
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(FlutterIcons.left_ant, color: Colors.pink),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        centerTitle: false,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Find & Match",
-              style: GoogleFonts.quicksand(
+              "Network",
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
             Text(
-              "Meet & Make New Friends",
-              style: GoogleFonts.quicksand(
+              "Expand your horizon",
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                    color: Theme.of(context).accentColor),
               ),
             ),
           ],
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FlutterIcons.kiss_wink_heart_faw5s, color: Colors.pink),
+            icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
+            onPressed: () {
+              if (_user == null) {
+                return;
+              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          MyProfilePage(user: _user, heroTag: _user.id)));
+            },
+          ),
+          IconButton(
+            icon: Icon(FlutterIcons.chat_bubble_mdi,
+                color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(
                 context,
@@ -87,127 +102,129 @@ class _MatchPageState extends State<MatchPage> {
           ),
         ),
         Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 5.0),
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(FlutterIcons.sad_cry_faw5, color: Colors.grey),
-            SizedBox(height: 10.0),
-            Text(
-              'The feed is empty now! Come back later.',
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey),
-              ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    child: FutureBuilder(
+                        future: _students,
+                        builder: (context, snap) {
+                          if (snap.connectionState == ConnectionState.waiting)
+                            return Center(
+                                child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                            ));
+                          else if (snap.hasData) {
+                            currentUsers = snap.data;
+                            return TinderSwapCard(
+                              swipeUp: false,
+                              swipeDown: false,
+                              animDuration: 200,
+                              orientation: AmassOrientation.BOTTOM,
+                              swipeEdgeVertical: 10.0,
+                              totalNum: snap.data.length,
+                              stackNum: 4,
+                              swipeEdge: 4.0,
+                              maxWidth: MediaQuery.of(context).size.width * 0.9,
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.9,
+                              minWidth: MediaQuery.of(context).size.width * 0.8,
+                              minHeight:
+                                  MediaQuery.of(context).size.height * 0.8,
+                              cardBuilder: (context, index) {
+                                PostUser user = snap.data[index];
+                                Function swipe = () {
+                                  controller.triggerRight();
+                                };
+                                if (user.id == firebaseAuth.currentUser.uid) {
+                                  return MatchWidgetPersonal(
+                                      user: user, swipe: swipe);
+                                }
+                                return MatchWidget(user: user, swipe: swipe);
+                              },
+                              cardController: controller,
+                              swipeUpdateCallback:
+                                  (DragUpdateDetails details, Alignment align) {
+                                /// Get swiping card's alignment
+                                if (align.x < 0) {
+                                  //Card is LEFT swiping
+                                } else if (align.x > 0) {
+                                  //Card is RIGHT swiping
+                                }
+                              },
+                              swipeCompleteCallback:
+                                  (CardSwipeOrientation orientation,
+                                      int index) async {
+                                currentIndex = index;
+
+                                /// Get orientation & index of swiped card!
+                                if (orientation == CardSwipeOrientation.RIGHT) {
+                                  //PostUser user = snap.data[index];
+                                  //bool isMatch = await swipeRight(user.id);
+                                  // if (isMatch) {
+                                  //   Navigator.of(context)
+                                  //       .push(MatchedOverlay(user: user));
+                                  // } else {}
+                                }
+                              },
+                            );
+                          } else if (snap.hasError)
+                            return Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(FlutterIcons.sad_cry_faw5,
+                                    color: Theme.of(context).accentColor),
+                                SizedBox(height: 10.0),
+                                Text(
+                                  'The feed is empty now! Come back later.',
+                                  style: GoogleFonts.manjari(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).accentColor),
+                                  ),
+                                ),
+                              ],
+                            ));
+                          else
+                            return Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(FlutterIcons.sad_cry_faw5,
+                                    color: Theme.of(context).accentColor),
+                                SizedBox(height: 10.0),
+                                Text(
+                                  'The feed is empty now! Come back later.',
+                                  style: GoogleFonts.manjari(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).accentColor),
+                                  ),
+                                ),
+                              ],
+                            ));
+                        }),
+                  ),
+                ),
+
+                // Container(
+                //   width: MediaQuery.of(context).size.width * 0.9,
+                //   height: 50,
+                //   decoration: BoxDecoration(
+                //       color: Theme.of(context).accentColor,
+                //       borderRadius: BorderRadius.circular(30.0)),
+                // )
+              ],
             ),
-          ],
-        )),
-        ListView(children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 1.5,
-            child: FutureBuilder(
-                future: peopleList(),
-                builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.waiting)
-                    return Center(
-                        child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                    ));
-                  else if (snap.hasData)
-                    return TinderSwapCard(
-                      swipeUp: false,
-                      swipeDown: false,
-                      animDuration: 200,
-                      orientation: AmassOrientation.RIGHT,
-                      totalNum: snap.data.length,
-                      stackNum: 4,
-                      swipeEdge: 4.0,
-                      maxWidth: MediaQuery.of(context).size.width * 0.9,
-                      maxHeight: MediaQuery.of(context).size.height / 1.6,
-                      minWidth: MediaQuery.of(context).size.width * 0.8,
-                      minHeight: MediaQuery.of(context).size.height / 1.7,
-                      cardBuilder: (context, index) {
-                        PostUser user = snap.data[index];
-                        return MatchWidget(user: user);
-                      },
-                      cardController: controller,
-                      swipeUpdateCallback:
-                          (DragUpdateDetails details, Alignment align) {
-                        /// Get swiping card's alignment
-                        if (align.x < 0) {
-                          //Card is LEFT swiping
-                        } else if (align.x > 0) {
-                          //Card is RIGHT swiping
-                        }
-                      },
-                      swipeCompleteCallback:
-                          (CardSwipeOrientation orientation, int index) async {
-                        /// Get orientation & index of swiped card!
-                        if (orientation == CardSwipeOrientation.RIGHT) {
-                          PostUser user = snap.data[index];
-                          //bool isMatch = await swipeRight(user.id);
-                          // if (isMatch) {
-                          //   Navigator.of(context)
-                          //       .push(MatchedOverlay(user: user));
-                          // } else {}
-                        }
-                      },
-                    );
-                  else if (snap.hasError)
-                    return Text("ERROR: ${snap.error}");
-                  else
-                    return Text('None');
-                }),
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                // boxShadow: [
-                //   BoxShadow(
-                //       blurRadius: 3,
-                //       color: Colors.grey.shade400,
-                //       spreadRadius: 1)
-                // ],
-              ),
-              child: InkWell(
-                onTap: () {
-                  controller.triggerLeft();
-                },
-                child: CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.black,
-                  child: Icon(FlutterIcons.close_ant, color: Colors.white),
-                ),
-              ),
-            ),
-            SizedBox(width: 40.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                // boxShadow: [
-                //   BoxShadow(
-                //       blurRadius: 3,
-                //       color: Colors.grey.shade400,
-                //       spreadRadius: 1)
-                // ],
-              ),
-              child: InkWell(
-                onTap: () {
-                  controller.triggerRight();
-                },
-                child: CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.pink,
-                  child: Icon(FlutterIcons.hearto_ant, color: Colors.white),
-                ),
-              ),
-            )
-          ])
-        ]),
+        ),
       ]),
     );
   }
@@ -223,5 +240,13 @@ class _MatchPageState extends State<MatchPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _students = allStudents();
+    getUser(firebaseAuth.currentUser.uid).then((value) {
+      setState(() {
+        _user = value;
+      });
+    });
   }
+
+  bool get wantKeepAlive => true;
 }

@@ -34,7 +34,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -58,7 +58,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -92,7 +92,7 @@ class _CoursesPageState extends State<CoursesPage>
           FlatButton(
             child: Text(
               "Request a course",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -109,7 +109,7 @@ class _CoursesPageState extends State<CoursesPage>
           //   },
           //   child: Text(
           //     "Request a course",
-          //     style: GoogleFonts.quicksand(
+          //     style: GoogleFonts.manjari(
           //       textStyle: TextStyle(
           //           fontSize: 15,
           //           fontWeight: FontWeight.w500,
@@ -126,7 +126,7 @@ class _CoursesPageState extends State<CoursesPage>
               children: [
                 Text(
                   "Courses",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -135,7 +135,7 @@ class _CoursesPageState extends State<CoursesPage>
                 ),
                 Text(
                   "Engage with your peers",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -172,14 +172,14 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.quicksand(
+                      hintStyle: GoogleFonts.manjari(
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -244,7 +244,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any courses :(",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -269,7 +269,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no courses :(",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,

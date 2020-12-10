@@ -44,7 +44,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
               SizedBox(width: 15.0),
               Text(
                 "We've got a question for you!",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),

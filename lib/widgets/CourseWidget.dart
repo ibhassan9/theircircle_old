@@ -49,7 +49,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                     ),
                     Text(
                       "${widget.course.memberCount}",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                         textStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -73,7 +73,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                         children: <Widget>[
                           Text(
                             widget.course.code,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -83,7 +83,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                           Divider(),
                           Text(
                             widget.course.name,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -116,7 +116,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                             },
                             child: Text(
                               status(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

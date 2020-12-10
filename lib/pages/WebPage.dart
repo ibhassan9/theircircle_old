@@ -25,6 +25,7 @@ class _WebPageState extends State<WebPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
@@ -34,7 +35,7 @@ class _WebPageState extends State<WebPage> {
             isLoading
                 ? "Loading Newspage..."
                 : widget.title.replaceAll("     ", ""),
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manjari(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,

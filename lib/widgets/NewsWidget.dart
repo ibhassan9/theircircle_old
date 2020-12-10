@@ -11,6 +11,8 @@ class NewsWidget extends StatefulWidget {
 }
 
 class _NewsWidgetState extends State<NewsWidget> {
+  String url;
+  String imgUrl;
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
@@ -19,11 +21,9 @@ class _NewsWidgetState extends State<NewsWidget> {
         child: Container(
           width: MediaQuery.of(context).size.width / 2,
           decoration: BoxDecoration(
-              color: widget.news.imgUrl == null
-                  ? Constants.color()
-                  : Colors.grey.shade300,
+              color: imgUrl == null ? Constants.color() : Colors.grey.shade300,
               borderRadius: BorderRadius.circular(10.0)),
-          child: widget.news.imgUrl == null
+          child: imgUrl == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +42,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                         widget.news.title,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -110,7 +110,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                                 widget.news.title,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manjari(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -127,5 +127,13 @@ class _NewsWidgetState extends State<NewsWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    url = widget.news.url;
+    imgUrl = widget.news.imgUrl;
   }
 }

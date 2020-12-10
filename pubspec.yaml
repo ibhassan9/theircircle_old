@@ -30,7 +30,7 @@ dependencies:
   curved_navigation_bar: ^0.3.4
   google_fonts: ^1.1.1
   table_calendar: ^2.2.3
-  awesome_dialog: ^1.2.0
+  awesome_dialog: ^1.2.1
   flutter_svg: ^0.18.0
   firebase_core: ^0.5.2
   firebase_auth: ^0.18.0+1
@@ -56,7 +56,6 @@ dependencies:
   toast: ^0.1.5
   page_transition: ^1.1.7+2
   firebase_messaging: ^7.0.3
-  fluttertoast: ^7.1.1
   get: ^3.13.2
   flutter_launcher_icons: ^0.8.1
   flutter_slidable: ^0.5.7
@@ -74,6 +73,19 @@ dependencies:
   toggle_switch: ^0.1.8
   adaptive_theme: ^1.1.0
   modal_bottom_sheet: ^1.0.0+1
+  smart_select: ^4.3.2
+  # agora_rtc_engine: ^1.0.5 # for video
+  # agora_rtm: ^0.9.11 # for chatting
+  wakelock: ^0.2.1+1
+  permission_handler: ^5.0.1+1
+  stretchy_header: ^1.0.8
+  carousel_slider: ^2.3.1
+  video_player: ^1.0.1
+  visibility_detector: ^0.1.5
+  video_thumbnail: ^0.2.5
+  shimmer: ^1.1.2
+  camera: ^0.5.8+17
+  percent_indicator: ^2.1.8
 
 flutter_icons:
   android: "launcher_icon"

@@ -36,7 +36,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
         brightness: Brightness.light,
         title: Text(
           "Poll Results",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manjari(
             textStyle: TextStyle(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
@@ -59,7 +59,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 },
                 child: Text(
                   widget.questionOne,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: selectedOption == 1
                         ? TextStyle(
                             fontSize: 15,
@@ -74,7 +74,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
               ),
               Text(
                 " | ",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -89,7 +89,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 },
                 child: Text(
                   widget.questionTwo,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: selectedOption == 2
                         ? TextStyle(
                             fontSize: 15,
@@ -117,8 +117,8 @@ class _PollResultsPageState extends State<PollResultsPage> {
                     ? option1users[index]
                     : option2users[index];
                 Function f = () {
-                  showProfile(user, context, bioController, scController,
-                      igController, linkedinController, null, null);
+                  // showProfile(user, context, bioController, scController,
+                  //     igController, linkedinController, null, null);
                 };
                 return PollResultWidget(
                     peer: user,

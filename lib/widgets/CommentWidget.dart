@@ -35,14 +35,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                   final act = CupertinoActionSheet(
                     title: Text(
                       "PROCEED?",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
                     message: Text(
                       "Are you sure you want to delete this comment?",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -51,7 +51,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "YES",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -62,7 +62,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "Cancel",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.red),
@@ -93,7 +93,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                           widget.comment.userId == firebaseAuth.currentUser.uid
                               ? "You"
                               : widget.comment.username,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manjari(
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
@@ -108,7 +108,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   ),
                   Text(
                     widget.timeAgo,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -122,7 +122,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
                 widget.comment.content,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

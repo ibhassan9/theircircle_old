@@ -28,23 +28,22 @@ class _UserSearchPageState extends State<UserSearchPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.5,
           centerTitle: false,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "Find students",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               ),
             ],
@@ -75,11 +74,11 @@ class _UserSearchPageState extends State<UserSearchPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search users..."),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black),
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
               ),
@@ -95,15 +94,15 @@ class _UserSearchPageState extends State<UserSearchPage>
                         itemBuilder: (BuildContext context, int i) {
                           PostUser user = snap.data[i];
                           Function f = () {
-                            showProfile(
-                                user,
-                                context,
-                                bioController,
-                                snapchatController,
-                                instagramController,
-                                linkedinController,
-                                null,
-                                null);
+                            // showProfile(
+                            //     user,
+                            //     context,
+                            //     bioController,
+                            //     snapchatController,
+                            //     instagramController,
+                            //     linkedinController,
+                            //     null,
+                            //     null);
                           };
                           return filter == null || filter.trim() == ""
                               ? SearchUserWidget(peer: user, show: f)

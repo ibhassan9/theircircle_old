@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/MyProfilePage.dart';
+import 'package:unify/pages/ProfilePage.dart';
 
 class MemberWidget extends StatefulWidget {
   final PostUser user;
@@ -31,7 +33,20 @@ class _MemberWidgetState extends State<MemberWidget> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          showProfile(widget.user, context, bioC, sC, igC, lC, null, null);
+          if (widget.user.id == _fAuth.currentUser.uid) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyProfilePage(
+                        user: widget.user, heroTag: widget.user.id)));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfilePage(
+                        user: widget.user, heroTag: widget.user.id)));
+          }
+          //showProfile(widget.user, context, bioC, sC, igC, lC, null, null);
         },
         child: Container(
             decoration: BoxDecoration(
@@ -49,7 +64,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                             backgroundColor: Colors.deepOrange,
                             child: Text(
                               widget.user.name[0].toUpperCase(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -62,7 +77,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                               _fAuth.currentUser.uid == widget.user.id
                                   ? 'You'
                                   : widget.user.name,
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -74,7 +89,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                     widget.isCourse == false
                         ? widget.user.id == widget.club.adminId
                             ? Text("Admin",
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manjari(
                                   textStyle: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,

@@ -26,10 +26,26 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>TheirCircle would like to access your media library</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>TheirCircle would like to access your calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>TheirCircle would like to use your camera to detect text for your notes!</string>
+	<key>NSContactsUsageDescription</key>
+	<string>TheirCircle would like to access your contacts.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>TheirCircle would like to access your location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>TheirCircle would like to access your location when the app is in use.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>TheirCircle requires your microphone to enhance livestreaming.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>TheirCircle would like to access your motion usage.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>TheirCircle requires access to photo library so you can enrich your posts and add a profile picture</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>TheirCircle would like to access your speech recognition usage.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -54,5 +70,10 @@
 	<true/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+  		<key>NSAllowsArbitraryLoads</key>
+  		<true/>
+	</dict>	
 </dict>
 </plist>

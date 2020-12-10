@@ -32,7 +32,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   children: <Widget>[
                     Text(
                       "iClicker",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                         textStyle: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -41,7 +41,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     ),
                     Text(
                       r"$ 20",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                         textStyle: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,

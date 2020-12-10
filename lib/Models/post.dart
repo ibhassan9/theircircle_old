@@ -14,6 +14,7 @@ import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class Post {
   String id;
@@ -60,9 +61,35 @@ class Post {
       this.tcQuestion});
 }
 
+class Video {
+  String id;
+  String userId;
+  String caption;
+  String videoUrl;
+  String thumbnailUrl;
+  int commentCount;
+  int likeCount;
+  bool isLiked;
+  String name;
+  int timeStamp;
+
+  Video(
+      {this.id,
+      this.userId,
+      this.caption,
+      this.videoUrl,
+      this.thumbnailUrl,
+      this.commentCount,
+      this.likeCount,
+      this.isLiked,
+      this.name,
+      this.timeStamp});
+}
+
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 var postsDB = FirebaseDatabase.instance.reference().child('posts');
+var videoDB = FirebaseDatabase.instance.reference().child('videos');
 
 var postDBrefUofT =
     FirebaseDatabase.instance.reference().child('posts').child('UofT');
@@ -930,4 +957,150 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
         .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
   }
   return p;
+}
+
+Future<String> getPromoImage() async {
+  var db = FirebaseDatabase.instance.reference().child('promoImageUrl');
+  var snapshot = await db.once();
+  if (snapshot.value != null) {
+    return snapshot.value;
+  } else {
+    return '';
+  }
+}
+
+// VIDEO API
+
+class VideoApi {
+  static Future<File> getVideo() async {
+    final picker = ImagePicker();
+
+    final f = await picker.getVideo(
+        source: ImageSource.gallery, maxDuration: Duration(minutes: 3));
+    File _file = File(f.path);
+    return _file;
+  }
+
+  static Future<List<String>> uploadVideoToStorage(File file) async {
+    try {
+      var bytes = await VideoThumbnail.thumbnailData(
+        video: file.path,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: 0,
+        quality: 75,
+      );
+
+      final DateTime now = DateTime.now();
+      final int millSeconds = now.millisecondsSinceEpoch;
+      final String month = now.month.toString();
+      final String date = now.day.toString();
+      final String storageId = (millSeconds.toString());
+      final String today = ('$month-$date');
+
+      StorageReference ref = FirebaseStorage.instance
+          .ref()
+          .child("files")
+          .child(today)
+          .child(storageId);
+      StorageUploadTask uploadTask = ref.putFile(file);
+
+      var snapShot = await uploadTask.onComplete;
+
+      var url = await snapShot.ref.getDownloadURL();
+      var urlString = url.toString();
+
+      final DateTime now1 = DateTime.now();
+      final int millSeconds1 = now1.millisecondsSinceEpoch;
+      final String month1 = now1.month.toString();
+      final String date1 = now1.day.toString();
+      final String storageId1 = (millSeconds1.toString());
+      final String today1 = ('$month1-$date1');
+
+      StorageReference r = FirebaseStorage.instance
+          .ref()
+          .child('files')
+          .child(today1)
+          .child(storageId1);
+      StorageUploadTask upTask = r.putData(bytes);
+
+      var snap = await upTask.onComplete;
+
+      var thumbUrl = await snap.ref.getDownloadURL();
+      var thumbUrlString = thumbUrl.toString();
+
+      return [urlString, thumbUrlString];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  static Future<bool> createVideo(File f) async {
+    List<String> urls = await uploadVideoToStorage(f);
+
+    if (urls.isEmpty) {
+      return false;
+    }
+
+    var thumbUrl = urls[1];
+    var vidUrl = urls[0];
+
+    PostUser user = await getUser(firebaseAuth.currentUser.uid);
+    var uniKey = Constants.checkUniversity();
+
+    var db = videoDB.child(uniKey == 0 ? 'UofT' : 'YorkU');
+    var key = db.push();
+    final Map<String, dynamic> data = {
+      "userId": firebaseAuth.currentUser.uid,
+      "name": user.name,
+      "videoUrl": vidUrl,
+      "timeStamp": DateTime.now().millisecondsSinceEpoch,
+      "thumbUrl": thumbUrl,
+      "caption": "This video is an explanation of how the app works"
+    };
+    await key.set(data);
+    DataSnapshot ds = await key.once();
+    if (ds.value != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<List<Video>> fetchVideos() async {
+    List<Video> videos = [];
+    var uniKey = Constants.checkUniversity();
+    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var db =
+        FirebaseDatabase.instance.reference().child('videos').child(university);
+    DataSnapshot snap = await db.once();
+    Map<dynamic, dynamic> values = snap.value;
+
+    values.forEach((key, value) {
+      Video video = Video(
+          id: key,
+          userId: value['userId'],
+          name: value['name'],
+          timeStamp: value['timeStamp'],
+          videoUrl: value['videoUrl'],
+          thumbnailUrl: value['thumbUrl'],
+          caption: value['caption']);
+
+      if (value['likes'] != null) {
+        video.likeCount = value['likes'].length;
+      } else {
+        video.likeCount = 0;
+      }
+
+      if (value['comments'] != null) {
+        video.commentCount = value['comments'].length;
+      } else {
+        video.commentCount = 0;
+      }
+
+      videos.add(video);
+    });
+
+    videos.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    return videos;
+  }
 }

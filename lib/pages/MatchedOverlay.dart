@@ -120,8 +120,8 @@ class MatchedOverlay extends ModalRoute<void> {
                   textAlign: TextAlign.center),
               SizedBox(height: 15.0),
               Text('Tap anywhere to close',
-                  style: GoogleFonts.quicksand(
-                      color: Colors.white, fontSize: 15.0),
+                  style:
+                      GoogleFonts.manjari(color: Colors.white, fontSize: 15.0),
                   textAlign: TextAlign.center),
             ],
           ),

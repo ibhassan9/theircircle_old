@@ -31,16 +31,16 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                     children: [
                       Text(
                         name.isNotEmpty ? "Hey $name," : "Hey,",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                           textStyle: TextStyle(
-                              fontSize: 15,
+                              fontSize: 17,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
                       ),
                       Text(
                         "Here is your university digest",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -53,7 +53,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                     backgroundColor: Colors.deepPurpleAccent,
                     child: Text(
                       name.isNotEmpty ? name.substring(0, 1).toString() : "",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,

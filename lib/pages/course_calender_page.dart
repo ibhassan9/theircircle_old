@@ -58,25 +58,25 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
       },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.quicksand(
+        weekdayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.lightBlue),
         ),
-        weekendStyle: GoogleFonts.quicksand(
+        weekendStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
         ),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.quicksand(
+        titleTextStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        formatButtonTextStyle: GoogleFonts.quicksand(
+        formatButtonTextStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -84,49 +84,49 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
         ),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.quicksand(
+        weekdayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        weekendStyle: GoogleFonts.quicksand(
+        weekendStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        holidayStyle: GoogleFonts.quicksand(
+        holidayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        outsideHolidayStyle: GoogleFonts.quicksand(
+        outsideHolidayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        selectedStyle: GoogleFonts.quicksand(
+        selectedStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         ),
-        todayStyle: GoogleFonts.quicksand(
+        todayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        outsideStyle: GoogleFonts.quicksand(
+        outsideStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        outsideWeekendStyle: GoogleFonts.quicksand(
+        outsideWeekendStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        unavailableStyle: GoogleFonts.quicksand(
+        unavailableStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
         ),
@@ -144,7 +144,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "${widget.course != null ? 'Date:' : 'Date:'} ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -165,7 +165,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     hintText: widget.course != null
                         ? "Title. Eg: Study session"
                         : "Title. Eg: Lunch meeting"),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -185,7 +185,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     hintText: widget.course != null
                         ? "Description..."
                         : "Description..."),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -204,7 +204,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText:
                         widget.course != null ? "When is it?" : "When is it?"),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -266,7 +266,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
           widget.course != null
               ? "${widget.course.code} Calendar"
               : "${widget.club.name} Calendar",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manjari(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -302,7 +302,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                               ? "Create note for ${widget.course.code}"
                               : "Create note for ${widget.club.name}",
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manjari(
                             textStyle: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,

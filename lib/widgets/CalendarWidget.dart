@@ -24,61 +24,61 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.quicksand(
+        weekdayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.lightBlue),
         ),
-        weekendStyle: GoogleFonts.quicksand(
+        weekendStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
         ),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.quicksand(
+        titleTextStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        formatButtonTextStyle: GoogleFonts.quicksand(
+        formatButtonTextStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
         ),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.quicksand(
+        weekdayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        weekendStyle: GoogleFonts.quicksand(
+        weekendStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        holidayStyle: GoogleFonts.quicksand(
+        holidayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        outsideHolidayStyle: GoogleFonts.quicksand(
+        outsideHolidayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        selectedStyle: GoogleFonts.quicksand(
+        selectedStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         ),
-        todayStyle: GoogleFonts.quicksand(
+        todayStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        outsideStyle: GoogleFonts.quicksand(
+        outsideStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        outsideWeekendStyle: GoogleFonts.quicksand(
+        outsideWeekendStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        unavailableStyle: GoogleFonts.quicksand(
+        unavailableStyle: GoogleFonts.manjari(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
         ),
@@ -93,7 +93,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           tCalendar,
           SizedBox(height: 10.0),
           Text("Nothing to show here...",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

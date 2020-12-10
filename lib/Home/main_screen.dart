@@ -19,8 +19,10 @@ import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/FilterPage.dart';
 import 'package:unify/pages/MainPage.dart';
+import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
+import 'package:unify/pages/VideosPage.dart';
 import 'package:unify/pages/buynsell_page.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/pages/clubs_page.dart';
@@ -62,12 +64,16 @@ class _MainScreenState extends State<MainScreen>
     super.build(context);
 
     return Scaffold(
+        extendBody: true,
         body: PageView(
           controller: _pageController,
+          physics: AlwaysScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
           children: <Widget>[
             MainPage(),
             CoursesPage(),
+            //MatchPage(),
+            VideosPage(),
             ClubsPage(),
             MyMatchesPage()
           ],
@@ -77,8 +83,10 @@ class _MainScreenState extends State<MainScreen>
           child: CurvedNavigationBar(
             key: _bottomNavigationKey,
             //animationCurve: Curves.easeOutCirc,
-            backgroundColor: Theme.of(context).backgroundColor,
-            color: Colors.deepPurpleAccent,
+            backgroundColor: _pages == 2
+                ? Colors.transparent
+                : Theme.of(context).backgroundColor,
+            color: _pages == 2 ? Colors.black : Colors.deepPurpleAccent,
             items: [
               Icon(
                 FlutterIcons.circle_notch_faw5s,
@@ -88,6 +96,7 @@ class _MainScreenState extends State<MainScreen>
                 AntDesign.book,
                 color: Colors.white,
               ),
+              Icon(FlutterIcons.video_camera_faw, color: Colors.white),
               Icon(
                 AntDesign.Trophy,
                 color: Colors.white,

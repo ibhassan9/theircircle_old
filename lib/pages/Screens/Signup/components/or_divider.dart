@@ -21,7 +21,7 @@ class _OrDividerState extends State<OrDivider> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               "OR",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

@@ -53,7 +53,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
               children: [
                 Text(
                   "Chat",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -62,7 +62,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                 ),
                 Text(
                   "Start a conversation!",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -78,99 +78,6 @@ class _MyMatchesPageState extends State<MyMatchesPage>
         children: [
           ListView(children: [
             SizedBox(height: 10.0),
-            // Padding(
-            //   padding: const EdgeInsets.all(10.0),
-            //   child: Text('My Matches',
-            //       style: GoogleFonts.quicksand(
-            //         textStyle: TextStyle(
-            //             fontSize: 15,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.black),
-            //       )),
-            // ),
-            // Container(
-            //   height: 135,
-            //   child: FutureBuilder(
-            //       future: fetchMatches(),
-            //       builder: (context, snap) {
-            //         if (snap.connectionState == ConnectionState.waiting)
-            //           return Center(
-            //               child: CircularProgressIndicator(
-            //             strokeWidth: 2.0,
-            //           ));
-            //         else if (snap.hasData)
-            //           return ListView.builder(
-            //             shrinkWrap: true,
-            //             scrollDirection: Axis.horizontal,
-            //             physics: AlwaysScrollableScrollPhysics(),
-            //             itemCount: snap.data != null ? snap.data.length : 0,
-            //             itemBuilder: (BuildContext context, int index) {
-            //               print(snap.data[index]);
-            //               Match match = snap.data[index];
-            //               return MyMatchWidget(
-            //                   user: match.user, chatId: match.chatId);
-            //             },
-            //           );
-            //         else if (snap.hasError)
-            //           return Center(
-            //             child: Row(
-            //               crossAxisAlignment: CrossAxisAlignment.center,
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               children: <Widget>[
-            //                 Icon(
-            //                   Icons.face,
-            //                   color: Colors.grey,
-            //                 ),
-            //                 SizedBox(width: 10),
-            //                 Text("You have no matches :(",
-            //                     style: GoogleFonts.quicksand(
-            //                       textStyle: TextStyle(
-            //                           fontSize: 14,
-            //                           fontWeight: FontWeight.w500,
-            //                           color: Colors.grey),
-            //                     )),
-            //               ],
-            //             ),
-            //           );
-            //         else
-            //           return Container(
-            //             height: MediaQuery.of(context).size.height / 1.4,
-            //             child: Center(
-            //               child: Row(
-            //                 crossAxisAlignment: CrossAxisAlignment.center,
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: <Widget>[
-            //                   Icon(
-            //                     Icons.face,
-            //                     color: Colors.grey,
-            //                   ),
-            //                   SizedBox(width: 10),
-            //                   Text("You have no matches :(",
-            //                       style: GoogleFonts.quicksand(
-            //                         textStyle: TextStyle(
-            //                             fontSize: 14,
-            //                             fontWeight: FontWeight.w500,
-            //                             color: Colors.grey),
-            //                       )),
-            //                 ],
-            //               ),
-            //             ),
-            //           );
-            //       }),
-            // ),
-            // Divider(),
-            // Chat Future
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-            //   child: Text('My Conversations',
-            //       style: GoogleFonts.quicksand(
-            //         textStyle: TextStyle(
-            //             fontSize: 15,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.black),
-            //       )),
-            // ),
-
             StreamBuilder(
               stream: myStream,
               builder: (context, snap) {
@@ -217,7 +124,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                           ),
                           SizedBox(height: 10),
                           Text("Your chat list is empty",
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -290,7 +197,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                               ),
                               SizedBox(width: 10),
                               Text("Your chat list is empty :(",
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.manjari(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -342,7 +249,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
             //               ),
             //               SizedBox(width: 10),
             //               Text("You haven't started any conversations yet :(",
-            //                   style: GoogleFonts.quicksand(
+            //                   style: GoogleFonts.manjari(
             //                     textStyle: TextStyle(
             //                         fontSize: 14,
             //                         fontWeight: FontWeight.w500,
@@ -365,7 +272,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
             //                 ),
             //                 SizedBox(width: 10),
             //                 Text("You haven't started any conversations yet :(",
-            //                     style: GoogleFonts.quicksand(
+            //                     style: GoogleFonts.manjari(
             //                       textStyle: TextStyle(
             //                           fontSize: 14,
             //                           fontWeight: FontWeight.w500,

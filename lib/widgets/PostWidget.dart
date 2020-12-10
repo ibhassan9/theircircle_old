@@ -8,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
+import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/PollResultsPage.dart';
+import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/pages/course_page.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
@@ -95,13 +97,25 @@ class _PostWidgetState extends State<PostWidget> {
                       onTap: () async {
                         var user = await getUser(widget.post.userId);
                         if (widget.post.userId != fAuth.currentUser.uid) {
+                          // if (widget.post.isAnonymous == false) {
+                          //   showProfile(
+                          //       user, context, bioC, sC, igC, lC, null, null);
+                          // }
                           if (widget.post.isAnonymous == false) {
-                            showProfile(
-                                user, context, bioC, sC, igC, lC, null, null);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfilePage(
+                                        user: user, heroTag: widget.post.id)));
                           }
                         } else {
-                          showProfile(
-                              user, context, bioC, sC, igC, lC, null, null);
+                          // showProfile(
+                          //     user, context, bioC, sC, igC, lC, null, null);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyProfilePage(
+                                      user: user, heroTag: widget.post.id)));
                         }
                       },
                       child: widget.post.isAnonymous
@@ -115,39 +129,43 @@ class _PostWidgetState extends State<PostWidget> {
                                   child: Text(
                                       widget.post.username.substring(0, 1),
                                       style: TextStyle(color: Colors.white)))
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.network(
-                                    imgUrl,
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: Center(
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2.0,
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                        Color>(
-                                                    Colors.grey.shade600),
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes
-                                                : null,
+                              : Hero(
+                                  tag: widget.post.id,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.network(
+                                      imgUrl,
+                                      width: 40,
+                                      height: 40,
+                                      fit: BoxFit.cover,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2.0,
+                                              valueColor:
+                                                  new AlwaysStoppedAnimation<
+                                                          Color>(
+                                                      Colors.grey.shade600),
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes
+                                                  : null,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                     ),
@@ -164,7 +182,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     : widget.post.isAnonymous
                                         ? "Anonymous"
                                         : widget.post.username,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manjari(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
                                     color: widget.post.userId ==
@@ -177,7 +195,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 visible: widget.post.tcQuestion != null,
                                 child: Text(
                                   'answered a question!',
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.manjari(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.deepPurpleAccent[100]),
@@ -188,7 +206,7 @@ class _PostWidgetState extends State<PostWidget> {
                           SizedBox(height: 2.5),
                           Text(
                             "${widget.timeAgo}",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey),
@@ -204,7 +222,7 @@ class _PostWidgetState extends State<PostWidget> {
                             widget.post.userId == firebaseAuth.currentUser.uid
                                 ? "OPTIONS"
                                 : "REPORT",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -213,7 +231,7 @@ class _PostWidgetState extends State<PostWidget> {
                             widget.post.userId == firebaseAuth.currentUser.uid
                                 ? "What would you like to do?"
                                 : "What is the issue?",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -224,7 +242,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "Delete Post",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -234,7 +252,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         final act = CupertinoActionSheet(
                                             title: Text(
                                               'Delete Post',
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.manjari(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -242,7 +260,7 @@ class _PostWidgetState extends State<PostWidget> {
                                             ),
                                             message: Text(
                                               'Are you sure you want to delete this post?',
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.manjari(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -252,14 +270,12 @@ class _PostWidgetState extends State<PostWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "YES",
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor),
+                                                    style: GoogleFonts.manjari(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Theme.of(context)
+                                                            .accentColor),
                                                   ),
                                                   onPressed: () {
                                                     widget.deletePost();
@@ -268,12 +284,11 @@ class _PostWidgetState extends State<PostWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "Cancel",
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.red),
+                                                    style: GoogleFonts.manjari(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.red),
                                                   ),
                                                   onPressed: () {
                                                     Navigator.pop(context);
@@ -287,7 +302,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "Cancel",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.red),
@@ -300,7 +315,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "It's suspicious or spam",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -313,7 +328,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "It's abusive or harmful",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -326,7 +341,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "It expresses intentions of self-harm or suicide",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -339,7 +354,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "It promotes sexual/inappropriate content",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -352,7 +367,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "Hide this post.",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.red),
@@ -362,7 +377,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         final act = CupertinoActionSheet(
                                           title: Text(
                                             "PROCEED?",
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -370,7 +385,7 @@ class _PostWidgetState extends State<PostWidget> {
                                           ),
                                           message: Text(
                                             "Are you sure you want to hide this post?",
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -380,7 +395,7 @@ class _PostWidgetState extends State<PostWidget> {
                                             CupertinoActionSheetAction(
                                                 child: Text(
                                                   "YES",
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.manjari(
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -393,7 +408,7 @@ class _PostWidgetState extends State<PostWidget> {
                                             CupertinoActionSheetAction(
                                                 child: Text(
                                                   "Cancel",
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.manjari(
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -412,7 +427,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "Block this user",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.red),
@@ -422,7 +437,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         final act = CupertinoActionSheet(
                                           title: Text(
                                             "PROCEED?",
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -430,7 +445,7 @@ class _PostWidgetState extends State<PostWidget> {
                                           ),
                                           message: Text(
                                             "Are you sure you want to block this user?",
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -440,7 +455,7 @@ class _PostWidgetState extends State<PostWidget> {
                                             CupertinoActionSheetAction(
                                                 child: Text(
                                                   "YES",
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.manjari(
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -453,7 +468,7 @@ class _PostWidgetState extends State<PostWidget> {
                                             CupertinoActionSheetAction(
                                                 child: Text(
                                                   "Cancel",
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.manjari(
                                                       fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -472,7 +487,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   CupertinoActionSheetAction(
                                       child: Text(
                                         "Cancel",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.red),
@@ -525,10 +540,10 @@ class _PostWidgetState extends State<PostWidget> {
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: Text(
                                 widget.post.tcQuestion,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manjari(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.pink[200],
+                                  color: Theme.of(context).accentColor,
                                 ),
                               ))
                           : Container(),
@@ -542,7 +557,7 @@ class _PostWidgetState extends State<PostWidget> {
                                       selectedUrl: link.url)));
                         },
                         text: widget.post.content,
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -625,7 +640,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                         .toString() +
                                                     "%)"
                                                 : widget.post.questionOne,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w700,
                                                 color: Theme.of(context)
@@ -685,8 +700,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                   .size
                                                   .width,
                                           decoration: BoxDecoration(
-                                              color:
-                                                  Theme.of(context).cardColor,
+                                              color: option2Color,
                                               borderRadius: widthPercentage(
                                                           2) ==
                                                       1.0
@@ -708,7 +722,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                         .toString() +
                                                     "%)"
                                                 : widget.post.questionTwo,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w700,
                                                 color: Theme.of(context)
@@ -736,7 +750,7 @@ class _PostWidgetState extends State<PostWidget> {
                         widget.post.whichOption == 1
                             ? 'You voted: ${widget.post.questionOne}'
                             : 'You voted: ${widget.post.questionTwo}',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.blueGrey),
@@ -778,7 +792,7 @@ class _PostWidgetState extends State<PostWidget> {
                               : 'View Poll Results (' +
                                   pollCount().toString() +
                                   ' votes)',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manjari(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                               color: Colors.blueGrey),
@@ -805,8 +819,8 @@ class _PostWidgetState extends State<PostWidget> {
                                 child: Image.network(
                                   widget.post.imgUrl,
                                   width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
+                                  //height:
+                                  //MediaQuery.of(context).size.height / 2,
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
@@ -904,7 +918,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     ? widget.post.likeCount.toString() + " Like"
                                     : widget.post.likeCount.toString() +
                                         " Likes",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey),
@@ -927,7 +941,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         " Comment"
                                     : widget.post.commentCount.toString() +
                                         " Comments",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey),
@@ -957,7 +971,7 @@ class _PostWidgetState extends State<PostWidget> {
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text(
                               "Share",
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.grey),
@@ -977,7 +991,7 @@ class _PostWidgetState extends State<PostWidget> {
                         comment.userId == firebaseAuth.currentUser.uid
                             ? "You"
                             : comment.username,
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.deepPurpleAccent[100]),
@@ -1000,7 +1014,7 @@ class _PostWidgetState extends State<PostWidget> {
                             child: Text(comment.content,
                                 maxLines: null,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manjari(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor)),
@@ -1024,7 +1038,7 @@ class _PostWidgetState extends State<PostWidget> {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Your report has been received.',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manjari(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,

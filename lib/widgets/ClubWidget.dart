@@ -60,7 +60,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                       ),
                       Text(
                         "${widget.club.memberCount}",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -88,7 +88,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 Flexible(
                                   child: Text(
                                     widget.club.name,
-                                    style: GoogleFonts.quicksand(
+                                    style: GoogleFonts.manjari(
                                       textStyle: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
@@ -106,7 +106,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                           final act = CupertinoActionSheet(
                                             title: Text(
                                               "PROCEED?",
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.manjari(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -114,7 +114,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                             ),
                                             message: Text(
                                               "Are you sure you want to delete this club?",
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.manjari(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -124,14 +124,12 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "YES",
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor),
+                                                    style: GoogleFonts.manjari(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Theme.of(context)
+                                                            .accentColor),
                                                   ),
                                                   onPressed: () {
                                                     widget.delete();
@@ -139,12 +137,11 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "Cancel",
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.red),
+                                                    style: GoogleFonts.manjari(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.red),
                                                   ),
                                                   onPressed: () {
                                                     Navigator.pop(context);
@@ -163,7 +160,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                             Divider(),
                             Text(
                               widget.club.description,
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
@@ -217,7 +214,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                               },
                               child: Text(
                                 status(),
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manjari(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,

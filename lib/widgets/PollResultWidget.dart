@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/ProfilePage.dart';
 
 class PollResultWidget extends StatefulWidget {
   final PostUser peer;
@@ -34,59 +35,69 @@ class _PollResultWidgetState extends State<PollResultWidget> {
               children: [
                 InkWell(
                   onTap: () {
-                    widget.show();
+                    //widget.show();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(
+                                user: widget.peer, heroTag: widget.peer.id)));
                   },
                   child: Container(
                       child: Row(children: [
-                    widget.peer.profileImgUrl == null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(70),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              color: Colors.grey,
-                              child: Icon(AntDesign.user, color: Colors.white),
-                            ),
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(70),
-                            child: Image.network(
-                              widget.peer.profileImgUrl,
-                              width: 40,
-                              height: 40,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return SizedBox(
-                                  height: 40,
-                                  width: 40,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.0,
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              Colors.grey.shade600),
-                                      value: loadingProgress
-                                                  .expectedTotalBytes !=
-                                              null
-                                          ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes
-                                          : null,
+                    Hero(
+                      tag: widget.peer.id,
+                      child: widget.peer.profileImgUrl == null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(70),
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                color: Colors.grey,
+                                child:
+                                    Icon(AntDesign.user, color: Colors.white),
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(70),
+                              child: Image.network(
+                                widget.peer.profileImgUrl,
+                                width: 40,
+                                height: 40,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.0,
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                Colors.grey.shade600),
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes
+                                            : null,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
+                    ),
                     SizedBox(width: 15.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(widget.peer.name,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
@@ -95,7 +106,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                         Text('Voted: ' + widget.question,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,

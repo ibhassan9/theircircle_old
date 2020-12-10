@@ -136,7 +136,31 @@ Future<Null> send(String token) async {
       body: json.encode(
         <String, dynamic>{
           'notification': <String, dynamic>{
-            'body': "We have a new question available for you!",
+            'body':
+                "Enter our Amazon Card Giveaway! For more information visit our instagram page @theircircle.",
+            'title': 'Win with us!'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'status': 'done'
+          },
+          'to': token,
+        },
+      ));
+}
+
+Future<Null> sendWelcome(String token, String username) async {
+  await http.post('https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=${Constants.serverToken}',
+      },
+      body: json.encode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body':
+                "Hey $username 👋🏻. Your account has been verified! You should be able to use the app now.",
             'title': 'TheirCircle'
           },
           'priority': 'high',

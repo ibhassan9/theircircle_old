@@ -40,7 +40,7 @@ class _ClubsPageState extends State<ClubsPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Create a Virtual Club",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -63,7 +63,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -82,7 +82,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your club here..."),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -97,7 +97,7 @@ class _ClubsPageState extends State<ClubsPage>
                       children: [
                         Text(
                           "Privacy",
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manjari(
                             textStyle: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -154,7 +154,7 @@ class _ClubsPageState extends State<ClubsPage>
               children: [
                 Text(
                   "Clubs",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -163,7 +163,7 @@ class _ClubsPageState extends State<ClubsPage>
                 ),
                 Text(
                   "Start or join a club!",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -208,14 +208,14 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Clubs...",
-                      hintStyle: GoogleFonts.quicksand(
+                      hintStyle: GoogleFonts.manjari(
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -309,7 +309,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any clubs :(",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -334,7 +334,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no clubs :(",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manjari(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,

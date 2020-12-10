@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,11 +14,16 @@ import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 
+List<CameraDescription> cameras = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseDatabase.instance.setPersistenceEnabled(false);
-  //cameras = await availableCameras();
+  try {
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    print(e.code);
+  }
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]).then((_) {
     // SharedPreferences.getInstance().then((prefs) {
     //   var darkModeOn = prefs.getBool('darkMode') ?? false;
@@ -46,13 +52,13 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           primaryColor: Colors.white,
           brightness: Brightness.light,
-          backgroundColor: Colors.white,
+          backgroundColor: Color.fromRGBO(245, 245, 245, 1.0),
           accentColor: Colors.black,
           accentIconTheme: IconThemeData(color: Colors.white),
           dividerColor: Colors.blueGrey.shade50,
           appBarTheme: AppBarTheme(brightness: Brightness.light),
           shadowColor: Colors.deepPurpleAccent[100],
-          cardColor: Colors.blueAccent[100]),
+          cardColor: Colors.white),
       darkTheme: ThemeData(
           splashColor: Color.fromRGBO(36, 35, 49, 1.0),
           primarySwatch: Colors.grey,
@@ -64,7 +70,7 @@ class MyApp extends StatelessWidget {
           dividerColor: Colors.black12,
           appBarTheme: AppBarTheme(brightness: Brightness.dark),
           shadowColor: Colors.deepPurpleAccent,
-          cardColor: Colors.blueAccent),
+          cardColor: Color.fromRGBO(36, 35, 49, 1.0)),
       debugShowCheckedModeBanner: false,
       home: firebaseAuth.currentUser != null ? MainScreen() : WelcomeScreen(),
     );

@@ -48,7 +48,7 @@ class _PostPageState extends State<PostPage> {
         brightness: Theme.of(context).brightness,
         title: Text(
           "Add New Post",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manjari(
             textStyle: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -117,7 +117,7 @@ class _PostPageState extends State<PostPage> {
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                 hintText: title),
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manjari(
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -150,7 +150,7 @@ class _PostPageState extends State<PostPage> {
                   contentPadding:
                       EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                   hintText: "Insert Option 1..."),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -183,7 +183,7 @@ class _PostPageState extends State<PostPage> {
                   contentPadding:
                       EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                   hintText: "Insert Option 2..."),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -217,7 +217,7 @@ class _PostPageState extends State<PostPage> {
                         isAnonymous == false
                             ? "Posting as yourself"
                             : "Posting Anonymously",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                           textStyle: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -349,7 +349,7 @@ class _PostPageState extends State<PostPage> {
                 child: Center(
                   child: Text(
                     pollButtonText,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

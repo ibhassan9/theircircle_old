@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/pages/Screens/Signup/components/background.dart';
 import 'package:unify/pages/Screens/Signup/signup_screen.dart';
@@ -33,7 +33,7 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             Text(
               "LOGIN",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manjari(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -61,7 +61,7 @@ class _BodyState extends State<Body> {
                 final snackBar = SnackBar(
                     backgroundColor: Theme.of(context).backgroundColor,
                     content: Text('Logging you in. Please wait.',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manjari(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,

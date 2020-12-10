@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/ProfilePage.dart';
 
 class SearchUserWidget extends StatefulWidget {
   final PostUser peer;
@@ -29,63 +30,73 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
               children: [
                 InkWell(
                   onTap: () {
-                    widget.show();
+                    //widget.show();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(
+                                user: widget.peer, heroTag: widget.peer.id)));
                   },
                   child: Container(
                       child: Row(children: [
-                    widget.peer.profileImgUrl == null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(70),
-                            child: Container(
-                              width: 70,
-                              height: 70,
-                              color: Colors.grey,
-                              child: Icon(AntDesign.user, color: Colors.white),
-                            ),
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(70),
-                            child: Image.network(
-                              widget.peer.profileImgUrl,
-                              width: 70,
-                              height: 70,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return SizedBox(
-                                  height: 70,
-                                  width: 70,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.0,
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              Colors.grey.shade600),
-                                      value: loadingProgress
-                                                  .expectedTotalBytes !=
-                                              null
-                                          ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes
-                                          : null,
+                    Hero(
+                      tag: widget.peer.id,
+                      child: widget.peer.profileImgUrl == null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(70),
+                              child: Container(
+                                width: 70,
+                                height: 70,
+                                color: Colors.grey,
+                                child:
+                                    Icon(AntDesign.user, color: Colors.white),
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(70),
+                              child: Image.network(
+                                widget.peer.profileImgUrl,
+                                width: 70,
+                                height: 70,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return SizedBox(
+                                    height: 70,
+                                    width: 70,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.0,
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                Colors.grey.shade600),
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes
+                                            : null,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
+                    ),
                     SizedBox(width: 15.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(widget.peer.name,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             )),
                         Text(
                             widget.peer.bio != null
@@ -95,11 +106,11 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 : "No bio available.",
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             )),
                       ],
                     ),
@@ -124,7 +135,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 )));
                   },
                   child: CircleAvatar(
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Colors.deepPurpleAccent,
                       child:
                           Icon(FlutterIcons.message_mdi, color: Colors.white)),
                 )

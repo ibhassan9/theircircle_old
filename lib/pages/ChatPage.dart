@@ -8,6 +8,7 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/user.dart' as u;
+import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/ChatBubbleLeft.dart';
 import 'package:unify/widgets/ChatBubbleRight.dart';
 import 'package:unify/widgets/SayHiWidget.dart';
@@ -68,14 +69,14 @@ class _ChatPageState extends State<ChatPage>
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Insert message here",
-                    hintStyle: GoogleFonts.quicksand(
+                    hintStyle: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
                   ),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -128,7 +129,7 @@ class _ChatPageState extends State<ChatPage>
             ),
             // Text(
             //   "Meet & Make New Friends",
-            //   style: GoogleFonts.quicksand(
+            //   style: GoogleFonts.manjari(
             //     textStyle: TextStyle(
             //         fontSize: 12,
             //         fontWeight: FontWeight.w500,
@@ -142,16 +143,11 @@ class _ChatPageState extends State<ChatPage>
             icon: Icon(FlutterIcons.user_alt_faw5s,
                 color: Theme.of(context).accentColor),
             onPressed: () {
-              u.showProfile(
-                  widget.receiver,
+              Navigator.push(
                   context,
-                  bioController,
-                  snapchatController,
-                  instagramController,
-                  linkedinController,
-                  null,
-                  null,
-                  isFromChat: true);
+                  MaterialPageRoute(
+                      builder: (context) => ProfilePage(
+                          user: widget.receiver, heroTag: widget.receiver.id)));
             },
           ),
         ],

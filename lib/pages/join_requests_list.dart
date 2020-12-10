@@ -25,7 +25,7 @@ class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
           brightness: Theme.of(context).brightness,
           title: Text(
             "Requests",
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manjari(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,

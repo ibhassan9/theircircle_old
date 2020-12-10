@@ -30,7 +30,7 @@ class _SayHiWidgetState extends State<SayHiWidget>
               Text(
                   "You could say something like: What's your favourite memory in school?",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,

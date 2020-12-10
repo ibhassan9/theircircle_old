@@ -57,14 +57,14 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
             final act = CupertinoActionSheet(
               title: Text(
                 "PROCEED?",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
               message: Text(
                 "Are you sure you want to delete this chat? This will not clear the conversation.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -73,7 +73,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "YES",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -85,7 +85,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "Cancel",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manjari(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.red),
@@ -180,7 +180,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(widget.peer.name,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                               textStyle: TextStyle(
                                                   fontSize: 17,
                                                   fontWeight: FontWeight.w700,
@@ -188,7 +188,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                       .accentColor),
                                             )),
                                         Text(widget.timeAgo,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                               textStyle: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -207,7 +207,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               padding: const EdgeInsets.only(
                                                   right: 5.0),
                                               child: Text('You:',
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.manjari(
                                                     textStyle: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
@@ -221,7 +221,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                         child: Text(widget.lastMessage,
                                             maxLines: null,
                                             overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.manjari(
                                               textStyle: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,

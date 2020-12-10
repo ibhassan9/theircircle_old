@@ -37,7 +37,7 @@ class _FilterPageState extends State<FilterPage> {
         ],
         title: Text(
           "Filters",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manjari(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -65,7 +65,7 @@ class _FilterPageState extends State<FilterPage> {
                         contentPadding: EdgeInsets.only(
                             left: 15, bottom: 11, top: 11, right: 15),
                         hintText: "Insert word filter here..."),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -93,7 +93,7 @@ class _FilterPageState extends State<FilterPage> {
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 'Words added here will not appear in your timeline.',
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manjari(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
