@@ -96,8 +96,8 @@ class _ChatPageState extends State<ChatPage>
                   var res = await sendMessage(
                       chatController.text, widget.receiver.id, widget.chatId);
                   if (res) {
-                    await sendPushChat(
-                        widget.receiver.device_token, chatController.text);
+                    await sendPushChat(widget.receiver.device_token,
+                        chatController.text, widget.receiver.id, widget.chatId);
                     chatController.clear();
                   }
                 },
@@ -113,7 +113,7 @@ class _ChatPageState extends State<ChatPage>
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
+        centerTitle: true,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,7 +122,7 @@ class _ChatPageState extends State<ChatPage>
               widget.receiver.name,
               style: GoogleFonts.poppins(
                 textStyle: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Theme.of(context).accentColor),
               ),
@@ -147,7 +147,9 @@ class _ChatPageState extends State<ChatPage>
                   context,
                   MaterialPageRoute(
                       builder: (context) => ProfilePage(
-                          user: widget.receiver, heroTag: widget.receiver.id)));
+                          user: widget.receiver,
+                          heroTag: widget.receiver.id,
+                          isFromChat: true)));
             },
           ),
         ],

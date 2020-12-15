@@ -92,45 +92,57 @@ class _MainPageState extends State<MainPage>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
+        centerTitle: true,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Home",
-                  style: GoogleFonts.manjari(
+                  "HOME",
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                         color: Theme.of(context).accentColor),
                   ),
                 ),
-                Text(
-                  "Platform for Students",
-                  style: GoogleFonts.manjari(
-                    textStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
+                // Text(
+                //   "Platform for Students",
+                //   style: GoogleFonts.poppins(
+                //     textStyle: TextStyle(
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.w500,
+                //         color: Theme.of(context).accentColor),
+                //   ),
+                // ),
               ],
             ),
           ],
         ),
+        leading: IconButton(
+          icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        MyProfilePage(user: user, heroTag: user.id)));
+          },
+        ),
         actions: <Widget>[
+          // IconButton(
+          //   icon: Icon(FlutterIcons.video_library_mdi,
+          //       color: Theme.of(context).accentColor),
+          //   onPressed: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => VideosPage()));
+          //   },
+          // ),
           IconButton(
-            icon: Icon(FlutterIcons.video_library_mdi,
+            icon: Icon(FlutterIcons.filter_outline_mco,
                 color: Theme.of(context).accentColor),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VideosPage()));
-            },
-          ),
-          IconButton(
-            icon: Icon(AntDesign.filter, color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(context,
                       MaterialPageRoute(builder: (context) => FilterPage()))
@@ -141,16 +153,7 @@ class _MainPageState extends State<MainPage>
               });
             },
           ),
-          IconButton(
-            icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          MyProfilePage(user: user, heroTag: user.id)));
-            },
-          ),
+
           IconButton(
             icon: Icon(AntDesign.logout,
                 color: Theme.of(context).accentColor, size: 20),
@@ -178,9 +181,9 @@ class _MainPageState extends State<MainPage>
                 padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                 child: Text(
                   "Recent University News",
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
                   ),
@@ -195,7 +198,7 @@ class _MainPageState extends State<MainPage>
                   children: [
                     Text(
                       "Campus Feed",
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -215,7 +218,7 @@ class _MainPageState extends State<MainPage>
                       },
                       child: Text(
                         "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -255,6 +258,56 @@ class _MainPageState extends State<MainPage>
     );
   }
 
+  Widget userProfile() {
+    return InkWell(
+      onTap: () async {
+        var user = await u.getUser(this.user.id);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    MyProfilePage(user: user, heroTag: this.user.id)));
+      },
+      child: user.profileImgUrl == null || user.profileImgUrl == ''
+          ? CircleAvatar(
+              radius: 5.0,
+              backgroundColor: Colors.deepPurpleAccent,
+              child: Text(this.user.name.substring(0, 1),
+                  style: TextStyle(color: Colors.white)))
+          : Hero(
+              tag: user.id,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  this.user.profileImgUrl,
+                  width: 10,
+                  height: 10,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Colors.grey.shade600),
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -263,20 +316,6 @@ class _MainPageState extends State<MainPage>
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
-    });
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {},
-      onLaunch: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {});
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
     });
     isFirstLaunch();
   }
@@ -339,14 +378,14 @@ class _MainPageState extends State<MainPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -355,7 +394,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -375,7 +414,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -472,18 +511,8 @@ class _MainPageState extends State<MainPage>
                   itemCount: snap.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     News news = snap.data[index];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WebPage(
-                                  title: news.title, selectedUrl: news.url)),
-                        );
-                      },
-                      child: NewsWidget(
-                        news: news,
-                      ),
+                    return NewsWidget(
+                      news: news,
                     );
                   },
                 );
@@ -571,7 +600,7 @@ class _MainPageState extends State<MainPage>
                   ),
                   SizedBox(width: 10),
                   Text("Cannot find any posts :(",
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,

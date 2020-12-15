@@ -29,7 +29,7 @@ class _VerificationPageState extends State<VerificationPage> {
         centerTitle: false,
         title: Text(
           "Code Verification",
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),
           ),
@@ -42,7 +42,7 @@ class _VerificationPageState extends State<VerificationPage> {
             children: <Widget>[
               Text(
                 "We have sent a verification code to the email you have provided. Please enter it below to verify your account.",
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -52,7 +52,7 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               SizedBox(height: 20),
               VerificationCode(
-                textStyle: GoogleFonts.manjari(
+                textStyle: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Clear",
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
@@ -109,7 +109,7 @@ class _VerificationPageState extends State<VerificationPage> {
   showWrong() {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
-    //         style: GoogleFonts.manjari(
+    //         style: GoogleFonts.poppins(
     //           textStyle: TextStyle(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,

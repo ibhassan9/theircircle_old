@@ -140,7 +140,7 @@
 //                                 : widget.post.isAnonymous
 //                                     ? "Anonymous"
 //                                     : widget.post.username,
-//                             style: GoogleFonts.manjari(
+//                             style: GoogleFonts.poppins(
 //                                 fontSize: 15,
 //                                 fontWeight: FontWeight.w700,
 //                                 color: widget.post.userId ==
@@ -151,7 +151,7 @@
 //                           SizedBox(height: 2.5),
 //                           Text(
 //                             "${widget.timeAgo}",
-//                             style: GoogleFonts.manjari(
+//                             style: GoogleFonts.poppins(
 //                                 fontSize: 13,
 //                                 fontWeight: FontWeight.w500,
 //                                 color: Colors.grey),
@@ -194,7 +194,7 @@
 //                                     title: link.text, selectedUrl: link.url)));
 //                       },
 //                       text: widget.post.content,
-//                       style: GoogleFonts.manjari(
+//                       style: GoogleFonts.poppins(
 //                           fontSize: 15,
 //                           fontWeight: FontWeight.w500,
 //                           color: Colors.black),
@@ -263,7 +263,7 @@
 //                                                   .toString() +
 //                                               "%)"
 //                                           : widget.post.questionOne,
-//                                       style: GoogleFonts.manjari(
+//                                       style: GoogleFonts.poppins(
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w700,
 //                                           color: textColor),
@@ -329,7 +329,7 @@
 //                                                   .toString() +
 //                                               "%)"
 //                                           : widget.post.questionTwo,
-//                                       style: GoogleFonts.manjari(
+//                                       style: GoogleFonts.poppins(
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w700,
 //                                           color: textColor),
@@ -356,7 +356,7 @@
 //                   widget.post.whichOption == 1
 //                       ? 'You voted: ${widget.post.questionOne}'
 //                       : 'You voted: ${widget.post.questionTwo}',
-//                   style: GoogleFonts.manjari(
+//                   style: GoogleFonts.poppins(
 //                       fontSize: 15,
 //                       fontWeight: FontWeight.w500,
 //                       color: Colors.blueGrey),
@@ -380,7 +380,7 @@
 //                 SizedBox(width: 5.0),
 //                 Text(
 //                   'View Poll Results',
-//                   style: GoogleFonts.manjari(
+//                   style: GoogleFonts.poppins(
 //                       fontSize: 15,
 //                       fontWeight: FontWeight.w500,
 //                       color: Colors.blueGrey),
@@ -500,7 +500,7 @@
 //                             : widget.post.likeCount == 1
 //                                 ? widget.post.likeCount.toString() + " Like"
 //                                 : widget.post.likeCount.toString() + " Likes",
-//                         style: GoogleFonts.manjari(
+//                         style: GoogleFonts.poppins(
 //                             fontSize: 13,
 //                             fontWeight: FontWeight.w500,
 //                             color: Colors.grey),
@@ -523,7 +523,7 @@
 //                                     " Comment"
 //                                 : widget.post.commentCount.toString() +
 //                                     " Comments",
-//                         style: GoogleFonts.manjari(
+//                         style: GoogleFonts.poppins(
 //                             fontSize: 13,
 //                             fontWeight: FontWeight.w500,
 //                             color: Colors.grey),
@@ -553,7 +553,7 @@
 //                         margin: EdgeInsets.only(left: 3.0),
 //                         child: Text(
 //                           "Share",
-//                           style: GoogleFonts.manjari(
+//                           style: GoogleFonts.poppins(
 //                               fontSize: 13,
 //                               fontWeight: FontWeight.w500,
 //                               color: Colors.grey),
@@ -579,7 +579,7 @@
 //     final snackBar = SnackBar(
 //         backgroundColor: Theme.of(context).backgroundColor,
 //         content: Text('Your report has been received.',
-//             style: GoogleFonts.manjari(
+//             style: GoogleFonts.poppins(
 //               textStyle: TextStyle(
 //                   fontSize: 15,
 //                   fontWeight: FontWeight.w500,

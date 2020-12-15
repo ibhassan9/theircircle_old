@@ -34,7 +34,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -58,7 +58,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -85,31 +85,22 @@ class _CoursesPageState extends State<CoursesPage>
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
-        elevation: 0.5,
-        iconTheme: IconThemeData(color: Colors.black),
+        centerTitle: true,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: [
-          FlatButton(
-            child: Text(
-              "Request a course",
-              style: GoogleFonts.manjari(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              ),
-            ),
-            onPressed: () {
-              addCourseDialog();
-            },
-          ),
+          IconButton(
+              icon: Icon(FlutterIcons.add_circle_mdi),
+              onPressed: () {
+                addCourseDialog();
+              }),
           // InkWell(
           //   onTap: () {
           //     addCourseDialog();
           //   },
           //   child: Text(
           //     "Request a course",
-          //     style: GoogleFonts.manjari(
+          //     style: GoogleFonts.poppins(
           //       textStyle: TextStyle(
           //           fontSize: 15,
           //           fontWeight: FontWeight.w500,
@@ -120,28 +111,29 @@ class _CoursesPageState extends State<CoursesPage>
           // SizedBox(width: 10.0)
         ],
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Courses",
-                  style: GoogleFonts.manjari(
+                  "COURSES",
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                         color: Theme.of(context).accentColor),
                   ),
                 ),
-                Text(
-                  "Engage with your peers",
-                  style: GoogleFonts.manjari(
-                    textStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
+                // Text(
+                //   "Engage with your peers",
+                //   style: GoogleFonts.poppins(
+                //     textStyle: TextStyle(
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.w500,
+                //         color: Theme.of(context).accentColor),
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -172,14 +164,14 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.manjari(
+                      hintStyle: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -244,7 +236,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any courses :(",
-                                        style: GoogleFonts.manjari(
+                                        style: GoogleFonts.poppins(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -269,7 +261,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no courses :(",
-                                        style: GoogleFonts.manjari(
+                                        style: GoogleFonts.poppins(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,

@@ -23,7 +23,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                       child: Column(
@@ -33,7 +33,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                         name.isNotEmpty ? "Hey $name," : "Hey,",
                         style: GoogleFonts.manjari(
                           textStyle: TextStyle(
-                              fontSize: 17,
+                              fontSize: 15,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),

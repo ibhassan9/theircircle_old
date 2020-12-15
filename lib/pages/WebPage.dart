@@ -35,7 +35,7 @@ class _WebPageState extends State<WebPage> {
             isLoading
                 ? "Loading Newspage..."
                 : widget.title.replaceAll("     ", ""),
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,

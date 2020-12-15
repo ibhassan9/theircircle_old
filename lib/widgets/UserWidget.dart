@@ -41,7 +41,7 @@ class _UserWidgetState extends State<UserWidget> {
                   backgroundColor: Colors.white,
                   child: Text(
                     widget.user.name[0].toUpperCase(),
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -55,7 +55,7 @@ class _UserWidgetState extends State<UserWidget> {
                     left: 10.0, right: 10.0, bottom: 15.0),
                 child: Text(
                   widget.user.name,
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: widget.user.name.length > 16 ? 11 : 13,
                         fontWeight: FontWeight.w700,

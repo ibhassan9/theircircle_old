@@ -21,7 +21,7 @@ class _ReportPageState extends State<ReportPage> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Report an issue or a complaint",
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -56,7 +56,7 @@ class _ReportPageState extends State<ReportPage> {
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "What's the issue / complaint?"),
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

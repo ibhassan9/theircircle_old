@@ -44,31 +44,32 @@ class _MyMatchesPageState extends State<MyMatchesPage>
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
-        centerTitle: false,
+        centerTitle: true,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Chat",
-                  style: GoogleFonts.manjari(
+                  "CHAT",
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                         color: Theme.of(context).accentColor),
                   ),
                 ),
-                Text(
-                  "Start a conversation!",
-                  style: GoogleFonts.manjari(
-                    textStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
+                // Text(
+                //   "Start a conversation!",
+                //   style: GoogleFonts.poppins(
+                //     textStyle: TextStyle(
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.w500,
+                //         color: Theme.of(context).accentColor),
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -124,7 +125,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                           ),
                           SizedBox(height: 10),
                           Text("Your chat list is empty",
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -197,7 +198,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                               ),
                               SizedBox(width: 10),
                               Text("Your chat list is empty :(",
-                                  style: GoogleFonts.manjari(
+                                  style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -249,7 +250,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
             //               ),
             //               SizedBox(width: 10),
             //               Text("You haven't started any conversations yet :(",
-            //                   style: GoogleFonts.manjari(
+            //                   style: GoogleFonts.poppins(
             //                     textStyle: TextStyle(
             //                         fontSize: 14,
             //                         fontWeight: FontWeight.w500,
@@ -272,7 +273,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
             //                 ),
             //                 SizedBox(width: 10),
             //                 Text("You haven't started any conversations yet :(",
-            //                     style: GoogleFonts.manjari(
+            //                     style: GoogleFonts.poppins(
             //                       textStyle: TextStyle(
             //                           fontSize: 14,
             //                           fontWeight: FontWeight.w500,

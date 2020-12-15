@@ -16,69 +16,69 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     TableCalendar tCalendar = TableCalendar(
       availableCalendarFormats: {CalendarFormat.week: 'Week'},
       initialCalendarFormat: CalendarFormat.week,
-      onDaySelected: (dt, lst) async {
+      onDaySelected: (dt, lst, lst1) async {
         setState(() {
           dateTimeSelected = dt;
         });
-        var assignments = await fetchAllMyAssignments(dt);
+        //var assignments = await fetchAllMyAssignments(dt);
       },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.manjari(
+        weekdayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.lightBlue),
         ),
-        weekendStyle: GoogleFonts.manjari(
+        weekendStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
         ),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.manjari(
+        titleTextStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        formatButtonTextStyle: GoogleFonts.manjari(
+        formatButtonTextStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
         ),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.manjari(
+        weekdayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        weekendStyle: GoogleFonts.manjari(
+        weekendStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        holidayStyle: GoogleFonts.manjari(
+        holidayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        outsideHolidayStyle: GoogleFonts.manjari(
+        outsideHolidayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        selectedStyle: GoogleFonts.manjari(
+        selectedStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         ),
-        todayStyle: GoogleFonts.manjari(
+        todayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        outsideStyle: GoogleFonts.manjari(
+        outsideStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        outsideWeekendStyle: GoogleFonts.manjari(
+        outsideWeekendStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        unavailableStyle: GoogleFonts.manjari(
+        unavailableStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
         ),
@@ -93,7 +93,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           tCalendar,
           SizedBox(height: 10.0),
           Text("Nothing to show here...",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

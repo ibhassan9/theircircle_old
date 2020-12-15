@@ -30,7 +30,7 @@ class _UserPageState extends State<UserPage> {
           title: Text(
             "Profile",
             textAlign: TextAlign.center,
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -130,7 +130,7 @@ class _UserPageState extends State<UserPage> {
                     Center(
                         child: Text(
                       user.name,
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -156,14 +156,14 @@ class _UserPageState extends State<UserPage> {
                                           user.bio == null || user.bio.isEmpty
                                               ? Constants.dummyDescription
                                               : user.bio,
-                                      hintStyle: GoogleFonts.manjari(
+                                      hintStyle: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.grey.shade700),
                                       )),
                                   maxLines: null,
-                                  style: GoogleFonts.manjari(
+                                  style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
@@ -174,7 +174,7 @@ class _UserPageState extends State<UserPage> {
                             : Text(
                                 user.bio,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.manjari(
+                                style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
@@ -201,7 +201,7 @@ class _UserPageState extends State<UserPage> {
                     //         child: Center(
                     //           child: Text(
                     //             "Update Profile",
-                    //             style: GoogleFonts.manjari(
+                    //             style: GoogleFonts.poppins(
                     //               textStyle: TextStyle(
                     //                   fontSize: 15,
                     //                   fontWeight: FontWeight.w500,

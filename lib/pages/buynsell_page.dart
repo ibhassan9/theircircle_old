@@ -30,7 +30,7 @@ class _BuyNSellState extends State<BuyNSell> {
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Products..."),
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

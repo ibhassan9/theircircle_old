@@ -51,32 +51,37 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
   @override
   Widget build(BuildContext context) {
     TableCalendar tCalendar = TableCalendar(
-      onDaySelected: (dt, lst) {
+      onDaySelected: (dt, lst, lst1) {
         setState(() {
           dateTimeSelected = dt;
         });
       },
+      // onDaySelected: (dt, lst) {
+      //   setState(() {
+      //     dateTimeSelected = dt;
+      //   });
+      // },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.manjari(
+        weekdayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.lightBlue),
         ),
-        weekendStyle: GoogleFonts.manjari(
+        weekendStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
         ),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.manjari(
+        titleTextStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        formatButtonTextStyle: GoogleFonts.manjari(
+        formatButtonTextStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -84,49 +89,49 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
         ),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.manjari(
+        weekdayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        weekendStyle: GoogleFonts.manjari(
+        weekendStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        holidayStyle: GoogleFonts.manjari(
+        holidayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        outsideHolidayStyle: GoogleFonts.manjari(
+        outsideHolidayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        selectedStyle: GoogleFonts.manjari(
+        selectedStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         ),
-        todayStyle: GoogleFonts.manjari(
+        todayStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        outsideStyle: GoogleFonts.manjari(
+        outsideStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        outsideWeekendStyle: GoogleFonts.manjari(
+        outsideWeekendStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        unavailableStyle: GoogleFonts.manjari(
+        unavailableStyle: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
         ),
@@ -144,7 +149,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "${widget.course != null ? 'Date:' : 'Date:'} ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -165,7 +170,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     hintText: widget.course != null
                         ? "Title. Eg: Study session"
                         : "Title. Eg: Lunch meeting"),
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -185,7 +190,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     hintText: widget.course != null
                         ? "Description..."
                         : "Description..."),
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -204,7 +209,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText:
                         widget.course != null ? "When is it?" : "When is it?"),
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -242,14 +247,15 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                   if (member.id != firebaseAuth.currentUser.uid) {
                     var token = member.device_token;
                     await sendPushCourse(
-                        widget.course, 4, token, assignment.title);
+                        widget.course, 4, token, assignment.title, null);
                   }
                 }
               } else {
                 for (var member in widget.club.memberList) {
                   if (member.id != firebaseAuth.currentUser.uid) {
                     var token = member.device_token;
-                    await sendPushClub(widget.club, 4, token, assignment.title);
+                    await sendPushClub(
+                        widget.club, 4, token, assignment.title, null);
                   }
                 }
               }
@@ -266,7 +272,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
           widget.course != null
               ? "${widget.course.code} Calendar"
               : "${widget.club.name} Calendar",
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -302,7 +308,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                               ? "Create note for ${widget.course.code}"
                               : "Create note for ${widget.club.name}",
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.manjari(
+                          style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,

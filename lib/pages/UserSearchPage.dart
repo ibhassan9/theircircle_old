@@ -32,17 +32,17 @@ class _UserSearchPageState extends State<UserSearchPage>
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.5,
-          centerTitle: false,
+          centerTitle: true,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Find students",
-                style: GoogleFonts.manjari(
+                "STUDENTS",
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
                       color: Theme.of(context).accentColor),
                 ),
               ),
@@ -76,7 +76,7 @@ class _UserSearchPageState extends State<UserSearchPage>
                       hintText: "Search users..."),
                   style: GoogleFonts.manjari(
                     textStyle: TextStyle(
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
                   ),

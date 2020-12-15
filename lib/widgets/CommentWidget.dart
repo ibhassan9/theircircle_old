@@ -111,20 +111,21 @@ class _CommentWidgetState extends State<CommentWidget> {
                     style: GoogleFonts.manjari(
                       textStyle: TextStyle(
                           fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).accentColor),
+                          fontWeight: FontWeight.w500,
+                          color:
+                              Theme.of(context).accentColor.withOpacity(0.5)),
                     ),
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
+              padding: const EdgeInsets.only(bottom: 10.0, top: 7.0),
               child: Text(
                 widget.comment.content,
                 style: GoogleFonts.manjari(
                   textStyle: TextStyle(
-                      fontSize: 15,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),

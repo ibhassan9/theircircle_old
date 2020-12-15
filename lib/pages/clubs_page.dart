@@ -40,7 +40,7 @@ class _ClubsPageState extends State<ClubsPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Create a Virtual Club",
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -63,7 +63,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -82,7 +82,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your club here..."),
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -97,7 +97,7 @@ class _ClubsPageState extends State<ClubsPage>
                       children: [
                         Text(
                           "Privacy",
-                          style: GoogleFonts.manjari(
+                          style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -144,32 +144,33 @@ class _ClubsPageState extends State<ClubsPage>
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
+        centerTitle: true,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Clubs",
-                  style: GoogleFonts.manjari(
+                  "CLUBS",
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                         color: Theme.of(context).accentColor),
                   ),
                 ),
-                Text(
-                  "Start or join a club!",
-                  style: GoogleFonts.manjari(
-                    textStyle: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
+                // Text(
+                //   "Start or join a club!",
+                //   style: GoogleFonts.poppins(
+                //     textStyle: TextStyle(
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.w500,
+                //         color: Theme.of(context).accentColor),
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -208,14 +209,14 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Clubs...",
-                      hintStyle: GoogleFonts.manjari(
+                      hintStyle: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -309,7 +310,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any clubs :(",
-                                        style: GoogleFonts.manjari(
+                                        style: GoogleFonts.poppins(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -334,7 +335,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no clubs :(",
-                                        style: GoogleFonts.manjari(
+                                        style: GoogleFonts.poppins(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,

@@ -75,7 +75,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                             widget.course.code,
                             style: GoogleFonts.manjari(
                               textStyle: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: Theme.of(context).accentColor),
                             ),
@@ -118,8 +118,8 @@ class _CourseWidgetState extends State<CourseWidget> {
                               status(),
                               style: GoogleFonts.manjari(
                                 textStyle: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.lightBlue),
                               ),
                             ),

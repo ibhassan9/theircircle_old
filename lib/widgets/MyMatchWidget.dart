@@ -63,7 +63,7 @@ class _MyMatchWidgetState extends State<MyMatchWidget> {
                   ),
             SizedBox(height: 5.0),
             Text(widget.user.name.split(' ')[0],
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,

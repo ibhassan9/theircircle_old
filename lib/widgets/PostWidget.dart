@@ -122,10 +122,10 @@ class _PostWidgetState extends State<PostWidget> {
                           ? CircleAvatar(
                               child: Icon(AntDesign.ellipsis1,
                                   color: Colors.white),
-                              backgroundColor: Colors.deepPurpleAccent)
+                              backgroundColor: Colors.grey[400])
                           : imgUrl == null || imgUrl == ''
                               ? CircleAvatar(
-                                  backgroundColor: Colors.deepPurpleAccent,
+                                  backgroundColor: Colors.grey[400],
                                   child: Text(
                                       widget.post.username.substring(0, 1),
                                       style: TextStyle(color: Colors.white)))
@@ -183,8 +183,8 @@ class _PostWidgetState extends State<PostWidget> {
                                         ? "Anonymous"
                                         : widget.post.username,
                                 style: GoogleFonts.manjari(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
                                     color: widget.post.userId ==
                                             firebaseAuth.currentUser.uid
                                         ? Colors.deepPurpleAccent
@@ -196,9 +196,9 @@ class _PostWidgetState extends State<PostWidget> {
                                 child: Text(
                                   'answered a question!',
                                   style: GoogleFonts.manjari(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.deepPurpleAccent[100]),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context).accentColor),
                                 ),
                               ),
                             ],
@@ -207,7 +207,7 @@ class _PostWidgetState extends State<PostWidget> {
                           Text(
                             "${widget.timeAgo}",
                             style: GoogleFonts.manjari(
-                                fontSize: 13,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey),
                           ),
@@ -537,11 +537,11 @@ class _PostWidgetState extends State<PostWidget> {
                     children: [
                       widget.post.tcQuestion != null
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
+                              padding: const EdgeInsets.only(bottom: 20.0),
                               child: Text(
                                 widget.post.tcQuestion,
                                 style: GoogleFonts.manjari(
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: Theme.of(context).accentColor,
                                 ),
@@ -558,7 +558,7 @@ class _PostWidgetState extends State<PostWidget> {
                         },
                         text: widget.post.content,
                         style: GoogleFonts.manjari(
-                            fontSize: 15,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                         linkStyle: TextStyle(color: Colors.red),
@@ -575,8 +575,12 @@ class _PostWidgetState extends State<PostWidget> {
                                       if (widget.post.isVoted) {
                                         return;
                                       }
-                                      sendPushPoll(token,
-                                          "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}");
+                                      sendPushPoll(
+                                          token,
+                                          "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
+                                          widget.club,
+                                          widget.course,
+                                          widget.post.id);
                                       setState(() {
                                         widget.post.isVoted = true;
                                         widget.post.whichOption = 1;
@@ -642,7 +646,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                 : widget.post.questionOne,
                                             style: GoogleFonts.manjari(
                                                 fontSize: 15,
-                                                fontWeight: FontWeight.w700,
+                                                fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
                                                     .accentColor),
                                           ),
@@ -657,8 +661,12 @@ class _PostWidgetState extends State<PostWidget> {
                                         return;
                                       }
 
-                                      sendPushPoll(token,
-                                          "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}");
+                                      sendPushPoll(
+                                          token,
+                                          "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
+                                          widget.club,
+                                          widget.course,
+                                          widget.post.id);
                                       // TODO: - Vote second option
                                       setState(() {
                                         widget.post.isVoted = true;
@@ -724,7 +732,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                 : widget.post.questionTwo,
                                             style: GoogleFonts.manjari(
                                                 fontSize: 15,
-                                                fontWeight: FontWeight.w700,
+                                                fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
                                                     .accentColor),
                                           ),
@@ -882,14 +890,18 @@ class _PostWidgetState extends State<PostWidget> {
                                 if (user.id != firebaseAuth.currentUser.uid) {
                                   if (widget.club == null &&
                                       widget.course == null) {
-                                    await sendPush(
-                                        0, token, widget.post.content);
+                                    await sendPush(0, token,
+                                        widget.post.content, widget.post.id);
                                   } else if (widget.club != null) {
                                     await sendPushClub(widget.club, 0, token,
-                                        widget.post.content);
+                                        widget.post.content, widget.post.id);
                                   } else {
-                                    await sendPushCourse(widget.course, 0,
-                                        token, widget.post.content);
+                                    await sendPushCourse(
+                                        widget.course,
+                                        0,
+                                        token,
+                                        widget.post.content,
+                                        widget.post.id);
                                   }
                                 }
                                 widget.post.isLiked = true;
@@ -994,7 +1006,7 @@ class _PostWidgetState extends State<PostWidget> {
                         style: GoogleFonts.manjari(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: Colors.deepPurpleAccent[100]),
+                            color: Colors.deepPurpleAccent),
                       ),
                     )
                   : SizedBox(),
@@ -1007,7 +1019,7 @@ class _PostWidgetState extends State<PostWidget> {
                           Container(
                             height: 20.0,
                             width: 3.0,
-                            color: Colors.deepPurpleAccent[100],
+                            color: Colors.deepPurpleAccent,
                           ),
                           SizedBox(width: 10.0),
                           Flexible(
@@ -1015,7 +1027,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 maxLines: null,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.manjari(
-                                    fontSize: 15,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor)),
                           )

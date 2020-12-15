@@ -41,6 +41,11 @@ class _MyProfilePageState extends State<MyProfilePage>
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      bottomNavigationBar: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: createButton(),
+      ),
       appBar: AppBar(
         brightness: widget.user.profileImgUrl != null &&
                 widget.user.profileImgUrl.isNotEmpty
@@ -131,7 +136,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                           color: Colors.grey[500], size: 17.0),
                       SizedBox(width: 5.0),
                       Text(
-                        "University of Toronto",
+                        widget.user.university,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                               fontSize: 11,
@@ -328,89 +333,6 @@ class _MyProfilePageState extends State<MyProfilePage>
           ),
           Divider(),
           interests(),
-          Divider(),
-          InkWell(
-            onTap: () async {
-              if (isUpdating) {
-                return;
-              }
-              setState(() {
-                isUpdating = true;
-              });
-              if (imag != null && f != null) {
-                var url = await uploadImageToStorage(f);
-                var res = await updateProfile(
-                    url,
-                    '',
-                    snapController.text,
-                    linkedinController.text,
-                    instaController.text,
-                    aboutController.text,
-                    accomplishmentOneController.text,
-                    accomplishmentTwoController.text,
-                    accomplishmentThreeController.text,
-                    '',
-                    _interests);
-                if (res) {
-                  setState(() {
-                    isUpdating = false;
-                  });
-                  Toast.show('Profile Updated!', context);
-                } else {
-                  Toast.show('Error updating your profile.', context);
-                }
-              } else {
-                var res = await updateProfile(
-                    null,
-                    '',
-                    snapController.text,
-                    linkedinController.text,
-                    instaController.text,
-                    aboutController.text,
-                    accomplishmentOneController.text,
-                    accomplishmentTwoController.text,
-                    accomplishmentThreeController.text,
-                    '',
-                    _interests);
-                if (res) {
-                  setState(() {
-                    isUpdating = false;
-                  });
-                  Toast.show('Profile Updated!', context);
-                } else {
-                  Toast.show('Error updating your profile.', context);
-                }
-              }
-            },
-            child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
-                    borderRadius: BorderRadius.circular(5.0)),
-                child: isUpdating
-                    ? Center(
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.white)))
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            Icon(FlutterIcons.update_mco,
-                                size: 15.0, color: Colors.white),
-                            SizedBox(width: 10.0),
-                            Text(
-                              "Update Profile",
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                            )
-                          ])),
-          ),
           Divider(),
         ],
       ),
@@ -657,6 +579,92 @@ class _MyProfilePageState extends State<MyProfilePage>
     }
 
     return choices;
+  }
+
+  Widget createButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30),
+      child: InkWell(
+        onTap: () async {
+          if (isUpdating) {
+            return;
+          }
+          setState(() {
+            isUpdating = true;
+          });
+          if (imag != null && f != null) {
+            var url = await uploadImageToStorage(f);
+            var res = await updateProfile(
+                url,
+                '',
+                snapController.text,
+                linkedinController.text,
+                instaController.text,
+                aboutController.text,
+                accomplishmentOneController.text,
+                accomplishmentTwoController.text,
+                accomplishmentThreeController.text,
+                '',
+                _interests);
+            if (res) {
+              setState(() {
+                isUpdating = false;
+              });
+              Toast.show('Profile Updated!', context);
+            } else {
+              Toast.show('Error updating your profile.', context);
+            }
+          } else {
+            var res = await updateProfile(
+                null,
+                '',
+                snapController.text,
+                linkedinController.text,
+                instaController.text,
+                aboutController.text,
+                accomplishmentOneController.text,
+                accomplishmentTwoController.text,
+                accomplishmentThreeController.text,
+                '',
+                _interests);
+            if (res) {
+              setState(() {
+                isUpdating = false;
+              });
+              Toast.show('Profile Updated!', context);
+            } else {
+              Toast.show('Error updating your profile.', context);
+            }
+          }
+        },
+        child: Container(
+            height: 40,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: Colors.deepPurpleAccent,
+                borderRadius: BorderRadius.circular(5.0)),
+            child: isUpdating
+                ? Center(
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2.0,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.white)))
+                : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(FlutterIcons.update_mco,
+                        size: 15.0, color: Colors.white),
+                    SizedBox(width: 10.0),
+                    Text(
+                      "UPDATE PROFILE",
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                    )
+                  ])),
+      ),
+    );
   }
 
   goToChat() {

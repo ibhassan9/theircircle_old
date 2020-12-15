@@ -3,11 +3,18 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/VideoPreview.dart';
+import 'package:unify/pages/club_page.dart';
+import 'package:unify/pages/course_page.dart';
+import 'package:unify/pages/post_detail_page.dart';
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 String title = "TheirCircle";
@@ -50,7 +57,7 @@ Future<Null> sendToAll() async {
   }
 }
 
-Future<Null> sendPush(int nID, String token, String text) async {
+Future<Null> sendPush(int nID, String token, String text, String postId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
 
@@ -70,14 +77,52 @@ Future<Null> sendPush(int nID, String token, String text) async {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            "sound": "default",
+            "screen": "COMMENT_PAGE",
+            "extradata": {'type': 'post', 'postId': postId},
           },
           'to': token,
         },
       ));
 }
 
-Future<Null> sendPushChat(String token, String text) async {
+Future<Null> sendPushVideo(
+    int nID, String token, String text, String videoId) async {
+  var uid = firebaseAuth.currentUser.uid;
+  var me = await getUser(uid);
+
+  await http.post('https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=${Constants.serverToken}',
+      },
+      body: json.encode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': nID == 0
+                ? "${me.name} liked your video"
+                : "${me.name} commented on your video: $text",
+            'title': 'TheirCircle'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'status': 'done',
+            "sound": "default",
+            "screen": "VIDEO_COMMENT_PAGE",
+            "extradata": {
+              'type': 'video',
+              'id': videoId,
+            },
+          },
+          'to': token,
+        },
+      ));
+}
+
+Future<Null> sendPushChat(
+    String token, String text, String userId, String chatId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
 
@@ -95,14 +140,18 @@ Future<Null> sendPushChat(String token, String text) async {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            "sound": "default",
+            "screen": "CHAT_PAGE",
+            "extradata": {'type': 'chat', 'id': userId, 'chatId': chatId}
           },
           'to': token,
         },
       ));
 }
 
-Future<Null> sendPushPoll(String token, String text) async {
+Future<Null> sendPushPoll(
+    String token, String text, Club club, Course course, String postId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
 
@@ -120,7 +169,22 @@ Future<Null> sendPushPoll(String token, String text) async {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            "sound": "default",
+            "screen": "COMMENT_PAGE",
+            "extradata": {
+              'type': club == null && course == null
+                  ? 'post'
+                  : club == null
+                      ? 'course'
+                      : 'club',
+              'id': club == null && course == null
+                  ? null
+                  : club == null
+                      ? course
+                      : club,
+              'postId': postId
+            },
           },
           'to': token,
         },
@@ -201,7 +265,8 @@ Future<Null> sendNewQuestionToAll() async {
   }
 }
 
-Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
+Future<Null> sendPushClub(
+    Club club, int nID, String token, String text, String postId) async {
   var body = "";
 
   await Constants.fm.requestNotificationPermissions(
@@ -227,7 +292,7 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
       body = "Your event has been removed by admin from the shared calender.";
       break;
     case 4:
-      body = "${me.name} added an note: $text";
+      body = "${me.name} added a note: $text";
       break;
     case 5:
       body = "${me.name} sent a request to join your club.";
@@ -248,7 +313,10 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            "sound": "default",
+            "screen": nID == 0 || nID == 1 ? "COMMENT_PAGE" : "CLUB_PAGE",
+            "extradata": {'type': 'club', 'id': club, 'postId': postId},
           },
           'to': token,
         },
@@ -256,7 +324,7 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text) async {
 }
 
 Future<Null> sendPushCourse(
-    Course course, int nID, String token, String text) async {
+    Course course, int nID, String token, String text, String postId) async {
   var body = "";
 
   await Constants.fm.requestNotificationPermissions(
@@ -291,9 +359,135 @@ Future<Null> sendPushCourse(
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            "sound": "default",
+            "screen": nID == 4 ? "COURSE_PAGE" : "COMMENT_PAGE",
+            "extradata": {'type': 'course', 'id': course, 'postId': postId},
           },
           'to': token,
         },
       ));
+}
+
+Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
+  print('handling');
+  var status = data['status'];
+  var screen = data['screen'];
+  Map<String, dynamic> extradata;
+  var type;
+  var postId;
+  var id;
+  var chatId;
+
+  if (data['extradata'] != null) {
+    extradata = json.decode(data['extradata']);
+    extradata.forEach((key, value) {
+      if (key == 'type') {
+        type = value;
+      } else if (key == 'postId') {
+        postId = value;
+      } else if (key == 'id') {
+        id = value;
+      } else if (key == 'chatId') {
+        chatId = value;
+      }
+    });
+  }
+
+  List<dynamic> values;
+
+  print(screen);
+  print(status);
+  print(extradata);
+  print(type);
+
+  print('we are here');
+
+  // if (data['extradata'] != null) {
+  //   print('fetching extradata');
+  //   extradata = data['extradata'];
+  //   print('extradata found');
+  //   print(extradata['type']);
+  //   if (extradata['type'] != null) {
+  //     type = extradata['type'];
+  //     print('type found');
+  //   } else {
+  //     print('no type');
+  //   }
+  //   if (extradata['postId'] != null) {
+  //     postId = extradata['postId'];
+  //     print('postId found');
+  //   } else {
+  //     print('no postId');
+  //   }
+  //   if (extradata['id'] != null) {
+  //     id = extradata['id'];
+  //     print('id found');
+  //   } else {
+  //     print('no id');
+  //   }
+  //   if (extradata['chatId'] != null) {
+  //     chatId = extradata['chatId'];
+  //     print('chatId found');
+  //   } else {
+  //     print('no chatId');
+  //   }
+  //   print('done fetching');
+  // }
+
+  print('waiting');
+
+  if (status == null || screen == null || extradata == null) {
+    return null;
+  }
+
+  print('unsuccessful');
+
+  switch (type) {
+    // course, club, post, chat, video
+    case "course":
+      switch (screen) {
+        case "COMMENT_PAGE":
+          Post post = await fetchCoursePost(postId, id);
+          Course course = id;
+          print(post);
+          values = [0, post, course, null, null, null, chatId];
+          break;
+        case "COURSE_PAGE":
+          Course course = id;
+          values = [1, null, course, null, null, null, chatId];
+      }
+      break;
+    case "club":
+      switch (screen) {
+        case "COMMENT_PAGE":
+          Post post = await fetchClubPost(postId, id);
+          Club club = id;
+          print(post);
+          values = [2, post, null, club, null, null, chatId];
+          break;
+        case "CLUB_PAGE":
+          Club club = id;
+          values = [3, null, null, club, null, null, chatId];
+      }
+      break;
+    case "post":
+      Post post = await fetchPost(postId);
+      print(post);
+      values = [4, post, null, null, null, null, chatId];
+      break;
+    case "chat":
+      PostUser receiver = await getUser(id);
+      values = [5, null, null, null, null, receiver, chatId];
+      break;
+    case "video":
+      Video video = await VideoApi.fetchVideo(id);
+      print(video);
+      values = [6, null, null, null, video, null, chatId];
+      break;
+    default:
+      return null;
+      break;
+  }
+  return values;
 }

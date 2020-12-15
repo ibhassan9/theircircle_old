@@ -33,7 +33,7 @@ class _RoundedButtonState extends State<RoundedButton> {
           onPressed: widget.press,
           child: Text(
             widget.text,
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

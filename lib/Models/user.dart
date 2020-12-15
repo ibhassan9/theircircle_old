@@ -96,7 +96,7 @@ Future signInUser(String email, String password, BuildContext context) async {
       final snackBar = SnackBar(
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text('This account is temporarily banned.',
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -119,7 +119,7 @@ Future signInUser(String email, String password, BuildContext context) async {
       final snackBar = SnackBar(
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text('Please wait...',
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -150,7 +150,7 @@ Future signInUser(String email, String password, BuildContext context) async {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Problem logging in. Please try again.',
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -167,7 +167,7 @@ Future registerUser(
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Please use your university email to sign up.',
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -208,7 +208,7 @@ Future registerUser(
         backgroundColor: Theme.of(context).backgroundColor,
         content:
             Text('Problem creating account / email might already be in use.',
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -271,6 +271,7 @@ Future<PostUser> getUser(String id) async {
       .child('users')
       .child(uniKey == 0 ? 'UofT' : 'YorkU')
       .child(id);
+  var university = uniKey == 0 ? 'UofT' : 'YorkU';
   var snapshot = await userDB.once();
   var blocks = await getBlocks();
 
@@ -294,7 +295,9 @@ Future<PostUser> getUser(String id) async {
           value['instagramHandle'] != null ? value['instagramHandle'] : "",
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-      isBlocked: blocks.contains(id));
+      isBlocked: blocks.contains(id),
+      university:
+          university == 'UofT' ? "University of Toronto" : "York University");
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];
@@ -464,6 +467,7 @@ Future<List<PostUser>> myCampusUsers() async {
       .reference()
       .child('users')
       .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var university = uniKey == 0 ? 'UofT' : 'YorkU';
   var snapshot = await userDB.once();
   List<PostUser> p = [];
   Map<dynamic, dynamic> values = snapshot.value;
@@ -474,7 +478,7 @@ Future<List<PostUser>> myCampusUsers() async {
   for (var key in values.keys) {
     var value = values[key];
     if (value['appear'] == true) {
-      PostUser user = PostUser(
+      var user = PostUser(
           id: key,
           name: value['name'],
           email: value['email'],
@@ -492,7 +496,26 @@ Future<List<PostUser>> myCampusUsers() async {
               value['instagramHandle'] != null ? value['instagramHandle'] : "",
           linkedinHandle:
               value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-          isBlocked: blocks.contains(key));
+          isBlocked: blocks.contains(key),
+          university: university == 'UofT'
+              ? "University of Toronto"
+              : "York University");
+
+      if (value['accomplishments'] != null) {
+        user.accomplishments = value['accomplishments'];
+      }
+
+      if (value['why'] != null) {
+        user.why = value['why'];
+      }
+
+      if (value['interests'] != null) {
+        user.interests = value['interests'];
+      }
+
+      if (value['about'] != null) {
+        user.about = value['about'];
+      }
       p.add(user);
     }
   }
@@ -573,6 +596,7 @@ int verificationCode() {
 }
 
 Future<String> uploadImageToStorage(File file) async {
+  String urlString;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -656,6 +680,7 @@ Future<bool> unblock(String userId) async {
 }
 
 Future<List> getImageString() async {
+  String urlString;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -895,7 +920,7 @@ Future<bool> updateProfile(
 //                         Center(
 //                             child: Text(
 //                           me.name == null ? "" : me.name,
-//                           style: GoogleFonts.manjari(
+//                           style: GoogleFonts.poppins(
 //                             textStyle: TextStyle(
 //                                 fontSize: 15,
 //                                 fontWeight: FontWeight.w500,
@@ -926,14 +951,14 @@ Future<bool> updateProfile(
 //                                               me.bio == null || me.bio.isEmpty
 //                                                   ? Constants.dummyDescription
 //                                                   : me.bio,
-//                                           hintStyle: GoogleFonts.manjari(
+//                                           hintStyle: GoogleFonts.poppins(
 //                                             textStyle: TextStyle(
 //                                                 fontSize: 13,
 //                                                 fontWeight: FontWeight.w500,
 //                                                 color: Colors.grey.shade700),
 //                                           )),
 //                                       maxLines: null,
-//                                       style: GoogleFonts.manjari(
+//                                       style: GoogleFonts.poppins(
 //                                         textStyle: TextStyle(
 //                                             fontSize: 13,
 //                                             fontWeight: FontWeight.w500,
@@ -946,7 +971,7 @@ Future<bool> updateProfile(
 //                                         ? "No bio available"
 //                                         : me.bio,
 //                                     textAlign: TextAlign.center,
-//                                     style: GoogleFonts.manjari(
+//                                     style: GoogleFonts.poppins(
 //                                       textStyle: TextStyle(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
@@ -982,7 +1007,7 @@ Future<bool> updateProfile(
 //                                                 : 'Block this user'
 //                                             : '',
 //                                         textAlign: TextAlign.center,
-//                                         style: GoogleFonts.manjari(
+//                                         style: GoogleFonts.poppins(
 //                                           textStyle: TextStyle(
 //                                               fontSize: 15,
 //                                               fontWeight: FontWeight.w500,
@@ -1016,7 +1041,7 @@ Future<bool> updateProfile(
 //                                       user.appear
 //                                           ? "Hide from 'Students on TheirCircle'"
 //                                           : "Appear on 'Students on TheirCircle'",
-//                                       style: GoogleFonts.manjari(
+//                                       style: GoogleFonts.poppins(
 //                                           textStyle: TextStyle(
 //                                               fontSize: 13,
 //                                               fontWeight: FontWeight.w500,
@@ -1057,14 +1082,14 @@ Future<bool> updateProfile(
 //                                             ? "Insert Snapchat Handle"
 //                                             : "Snapchat Handle Unavailable"
 //                                         : me.snapchatHandle,
-//                                     hintStyle: GoogleFonts.manjari(
+//                                     hintStyle: GoogleFonts.poppins(
 //                                       textStyle: TextStyle(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
-//                                 style: GoogleFonts.manjari(
+//                                 style: GoogleFonts.poppins(
 //                                   textStyle: TextStyle(
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
@@ -1100,14 +1125,14 @@ Future<bool> updateProfile(
 //                                             ? "Insert Instagram Handle"
 //                                             : "Instagram Handle Unavailable"
 //                                         : me.instagramHandle,
-//                                     hintStyle: GoogleFonts.manjari(
+//                                     hintStyle: GoogleFonts.poppins(
 //                                       textStyle: TextStyle(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
-//                                 style: GoogleFonts.manjari(
+//                                 style: GoogleFonts.poppins(
 //                                   textStyle: TextStyle(
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
@@ -1143,14 +1168,14 @@ Future<bool> updateProfile(
 //                                             ? "Insert LinkedIn Handle"
 //                                             : "LinkedIn Handle Unavailable"
 //                                         : me.linkedinHandle,
-//                                     hintStyle: GoogleFonts.manjari(
+//                                     hintStyle: GoogleFonts.poppins(
 //                                       textStyle: TextStyle(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
-//                                 style: GoogleFonts.manjari(
+//                                 style: GoogleFonts.poppins(
 //                                   textStyle: TextStyle(
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
@@ -1195,7 +1220,7 @@ Future<bool> updateProfile(
 //                                       SizedBox(width: 10.0),
 //                                       Text(
 //                                         "Send a message",
-//                                         style: GoogleFonts.manjari(
+//                                         style: GoogleFonts.poppins(
 //                                           textStyle: TextStyle(
 //                                               fontSize: 15,
 //                                               fontWeight: FontWeight.w500,
@@ -1246,7 +1271,7 @@ Future<bool> updateProfile(
 //                                 child: Center(
 //                                   child: Text(
 //                                     "Update Profile",
-//                                     style: GoogleFonts.manjari(
+//                                     style: GoogleFonts.poppins(
 //                                       textStyle: TextStyle(
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w500,

@@ -33,7 +33,7 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             Text(
               "LOGIN",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -61,7 +61,7 @@ class _BodyState extends State<Body> {
                 final snackBar = SnackBar(
                     backgroundColor: Theme.of(context).backgroundColor,
                     content: Text('Logging you in. Please wait.',
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,

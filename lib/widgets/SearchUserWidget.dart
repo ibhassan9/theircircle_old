@@ -43,29 +43,29 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       tag: widget.peer.id,
                       child: widget.peer.profileImgUrl == null
                           ? ClipRRect(
-                              borderRadius: BorderRadius.circular(70),
+                              borderRadius: BorderRadius.circular(50),
                               child: Container(
-                                width: 70,
-                                height: 70,
+                                width: 50,
+                                height: 50,
                                 color: Colors.grey,
                                 child:
                                     Icon(AntDesign.user, color: Colors.white),
                               ),
                             )
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(70),
+                              borderRadius: BorderRadius.circular(50),
                               child: Image.network(
                                 widget.peer.profileImgUrl,
-                                width: 70,
-                                height: 70,
+                                width: 50,
+                                height: 50,
                                 fit: BoxFit.cover,
                                 loadingBuilder: (BuildContext context,
                                     Widget child,
                                     ImageChunkEvent loadingProgress) {
                                   if (loadingProgress == null) return child;
                                   return SizedBox(
-                                    height: 70,
-                                    width: 70,
+                                    height: 50,
+                                    width: 50,
                                     child: Center(
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2.0,
@@ -95,7 +95,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                             style: GoogleFonts.manjari(
                               textStyle: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                   color: Theme.of(context).accentColor),
                             )),
                         Text(
@@ -140,7 +140,8 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                           Icon(FlutterIcons.message_mdi, color: Colors.white)),
                 )
               ],
-            )
+            ),
+            Divider(),
           ],
         ),
       ),

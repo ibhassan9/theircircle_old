@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
@@ -17,19 +19,22 @@ import 'package:shimmer/shimmer.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:chewie/chewie.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 
-class VideoWidget extends StatefulWidget {
+class VideoPreview extends StatefulWidget {
   final Video video;
   final String timeAgo;
 
-  VideoWidget({Key key, this.video, this.timeAgo}) : super(key: key);
+  VideoPreview({Key key, this.video, this.timeAgo}) : super(key: key);
   @override
-  _VideoWidgetState createState() => _VideoWidgetState();
+  _VideoPreviewState createState() => _VideoPreviewState();
 }
 
-class _VideoWidgetState extends State<VideoWidget>
+class _VideoPreviewState extends State<VideoPreview>
     with AutomaticKeepAliveClientMixin {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   VideoPlayerController _controller;
   ChewieController _chewieController;
   String key;
@@ -40,48 +45,52 @@ class _VideoWidgetState extends State<VideoWidget>
   double aspectRatio;
 
   final FlareControls flareControls = FlareControls();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
     super.build(context);
-    // print(_controller.value.aspectRatio);
-    return VisibilityDetector(
-      key: Key(key),
-      onVisibilityChanged: (info) {
-        if (info.visibleFraction == 0.0) {
-          if (initialized) {
-            _controller.pause();
-          }
-        } else if (info.visibleFraction == 1.0) {
-          if (initialized) {
-            _controller.play();
-          }
-        }
-      },
-      child: GestureDetector(
-        onDoubleTap: () async {
-          flareControls.play("like.flr");
-          if (!widget.video.isLiked) {
-            setState(() {
-              widget.video.isLiked = true;
-              widget.video.likeCount += 1;
-            });
-            await VideoApi.like(widget.video);
-            await sendPushVideo(
-                0, token, widget.video.caption, widget.video.id);
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+          brightness: Brightness.dark,
+          backgroundColor: Colors.transparent,
+          iconTheme: IconThemeData(color: Colors.white),
+          elevation: 0.0),
+      body: VisibilityDetector(
+        key: Key(key),
+        onVisibilityChanged: (info) {
+          if (info.visibleFraction == 0.0) {
+            if (initialized) {
+              _controller.pause();
+            }
+          } else if (info.visibleFraction == 1.0) {
+            if (initialized) {
+              _controller.play();
+            }
           }
         },
-        child: InkWell(
-          onTap: () {
-            if (isPaused) {
-              _controller.play();
-              isPaused = false;
-            } else {
-              _controller.pause();
-              isPaused = true;
+        child: GestureDetector(
+          onDoubleTap: () async {
+            flareControls.play("like.flr");
+            if (!widget.video.isLiked) {
+              setState(() {
+                widget.video.isLiked = true;
+                widget.video.likeCount += 1;
+              });
+              await VideoApi.like(widget.video);
+              await sendPushVideo(
+                  0, token, widget.video.caption, widget.video.id);
             }
           },
-          child: ClipRRect(
+          child: InkWell(
+            onTap: () {
+              if (isPaused) {
+                _controller.play();
+                isPaused = false;
+              } else {
+                _controller.pause();
+                isPaused = true;
+              }
+            },
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -132,7 +141,7 @@ class _VideoWidgetState extends State<VideoWidget>
                           ),
                         )
                       : Container(),
-                  initialized && aspectRatio != null
+                  initialized
                       ?
                       // ? SizedBox.expand(
                       //     child: FittedBox(
@@ -154,7 +163,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                       MediaQuery.of(context).size.height),
                               child: Center(
                                 child: AspectRatio(
-                                  aspectRatio: aspectRatio,
+                                  aspectRatio: _controller.value.aspectRatio,
                                   child: Chewie(controller: _chewieController),
                                 ),
                               ),
@@ -371,7 +380,6 @@ class _VideoWidgetState extends State<VideoWidget>
   @override
   void dispose() {
     super.dispose();
-
     _controller.dispose();
     _chewieController.dispose();
   }

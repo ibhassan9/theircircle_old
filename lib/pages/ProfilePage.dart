@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stretchy_header/stretchy_header.dart';
+import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
@@ -9,8 +11,10 @@ import 'package:unify/pages/ChatPage.dart';
 class ProfilePage extends StatefulWidget {
   final PostUser user;
   final String heroTag;
+  final bool isFromChat;
 
-  ProfilePage({Key key, this.user, this.heroTag}) : super(key: key);
+  ProfilePage({Key key, this.user, this.heroTag, this.isFromChat})
+      : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -50,42 +54,8 @@ class _ProfilePageState extends State<ProfilePage>
           highlightHeaderAlignment: HighlightHeaderAlignment.bottom,
           highlightHeader: Container(
             width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20.0,
-                      child: Icon(FlutterIcons.snapchat_ghost_faw,
-                          color: Colors.black)),
-                  SizedBox(width: 5.0),
-                  CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20.0,
-                      child:
-                          Icon(FlutterIcons.linkedin_faw, color: Colors.blue)),
-                  SizedBox(width: 5.0),
-                  CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20.0,
-                      child: Icon(FlutterIcons.instagram_faw,
-                          color: Colors.black)),
-                  SizedBox(width: 5.0),
-                  InkWell(
-                    onTap: () {
-                      goToChat();
-                    },
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 20.0,
-                        child: Icon(FlutterIcons.message1_ant,
-                            color: Colors.black)),
-                  )
-                ],
-              ),
-            ),
+            child:
+                Padding(padding: const EdgeInsets.all(8.0), child: socials()),
           ),
           blurContent: false,
         ),
@@ -125,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage>
                           color: Colors.grey[400], size: 17.0),
                       SizedBox(width: 5.0),
                       Text(
-                        "University of Toronto",
+                        widget.user.university,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                               fontSize: 11,
@@ -303,12 +273,67 @@ class _ProfilePageState extends State<ProfilePage>
 
   Widget socials() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(FlutterIcons.snapchat_faw),
-        Icon(FlutterIcons.instagram_faw),
-        Icon(FlutterIcons.linkedin_faw)
+        InkWell(
+          onTap: () {
+            if (widget.user.snapchatHandle != null &&
+                widget.user.snapchatHandle.isNotEmpty) {
+              showHandle(text: widget.user.snapchatHandle);
+            } else {
+              Toast.show('Snapchat not available', context);
+            }
+          },
+          child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 20.0,
+              child:
+                  Icon(FlutterIcons.snapchat_ghost_faw, color: Colors.black)),
+        ),
+        SizedBox(width: 5.0),
+        InkWell(
+          onTap: () {
+            if (widget.user.linkedinHandle != null &&
+                widget.user.linkedinHandle.isNotEmpty) {
+              showHandle(text: widget.user.linkedinHandle);
+            } else {
+              Toast.show('LinkedIn not available', context);
+            }
+          },
+          child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 20.0,
+              child: Icon(FlutterIcons.linkedin_faw, color: Colors.blue)),
+        ),
+        SizedBox(width: 5.0),
+        InkWell(
+          onTap: () {
+            if (widget.user.instagramHandle != null &&
+                widget.user.instagramHandle.isNotEmpty) {
+              showHandle(text: widget.user.instagramHandle);
+            } else {
+              Toast.show('Instagram not available', context);
+            }
+          },
+          child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 20.0,
+              child: Icon(FlutterIcons.instagram_faw, color: Colors.black)),
+        ),
+        SizedBox(width: 5.0),
+        Visibility(
+          visible: widget.isFromChat == null,
+          child: InkWell(
+            onTap: () {
+              goToChat();
+            },
+            child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 20.0,
+                child: Icon(FlutterIcons.message1_ant, color: Colors.black)),
+          ),
+        ),
       ],
     );
   }
@@ -405,6 +430,25 @@ class _ProfilePageState extends State<ProfilePage>
                   receiver: widget.user,
                   chatId: chatId,
                 )));
+  }
+
+  showHandle({String text}) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.NO_HEADER,
+      body: Center(
+        child: Text(
+          text,
+          style: GoogleFonts.montserrat(
+            textStyle: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ),
+        ),
+      ),
+    )..show();
   }
 
   @override

@@ -59,7 +59,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                 Text(
                   "Add Interest",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -155,7 +155,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                                     ? 'University of Toronto'
                                     : 'York University',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.manjari(
+                                style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
@@ -172,7 +172,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'About Myself',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -204,7 +204,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         disabledBorder: InputBorder.none,
                         hintStyle: TextStyle(color: Colors.grey),
                         hintText: aboutTitle),
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -215,7 +215,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'My Accomplishments',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -250,7 +250,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             disabledBorder: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -282,7 +282,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             disabledBorder: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -314,7 +314,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             disabledBorder: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -327,7 +327,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'Why am I here?',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -358,7 +358,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         disabledBorder: InputBorder.none,
                         hintStyle: TextStyle(color: Colors.grey),
                         hintText: whyTitle),
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -369,7 +369,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'My Interests',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.manjari(
+                    style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -451,7 +451,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                           child: Text(
                             'Select my interests',
                             textAlign: TextAlign.left,
-                            style: GoogleFonts.manjari(
+                            style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -513,7 +513,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             child: Text(
                               'Update my profile',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
@@ -539,7 +539,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
         selectedColor: Colors.grey,
         label: Text(
           '+ Add Interest',
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
           ),
@@ -568,7 +568,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
           selectedColor: Colors.deepPurpleAccent,
           label: Text(
             interest,
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,

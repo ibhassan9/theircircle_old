@@ -120,7 +120,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
         ),
         title: Text(
           title,
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -147,14 +147,14 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
                 contentPadding:
                     EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
                 hintText: "Search Interests",
-                hintStyle: GoogleFonts.manjari(
+                hintStyle: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
               ),
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

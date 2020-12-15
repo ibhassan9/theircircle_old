@@ -5,6 +5,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:custom_switch/custom_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,19 +17,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/FilterPage.dart';
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
+import 'package:unify/pages/TodaysQuestionPage.dart';
+import 'package:unify/pages/VideoPreview.dart';
 import 'package:unify/pages/VideosPage.dart';
 import 'package:unify/pages/buynsell_page.dart';
 import 'package:unify/Models/club.dart';
+import 'package:unify/pages/club_page.dart';
 import 'package:unify/pages/clubs_page.dart';
+import 'package:unify/pages/course_page.dart';
 import 'package:unify/pages/courses_page.dart';
 import 'package:unify/Home/home_page.dart';
 import 'package:unify/Models/post.dart';
+import 'package:unify/pages/post_detail_page.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -57,6 +65,33 @@ class _MainScreenState extends State<MainScreen>
     super.initState();
     getUserData().then((value) => null);
     _pageController = PageController(initialPage: _pages, keepPage: true);
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('onmessage');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onlaunch');
+        handleNotification(message).then((value) {
+          navigate(value);
+        });
+      },
+      onResume: (Map<String, dynamic> message) async {
+        handleNotification(message).then((value) {
+          print(value);
+          navigate(value);
+        });
+        print('onresume');
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {});
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+    });
   }
 
   @override
@@ -64,7 +99,7 @@ class _MainScreenState extends State<MainScreen>
     super.build(context);
 
     return Scaffold(
-        extendBody: true,
+        extendBody: false,
         body: PageView(
           controller: _pageController,
           physics: AlwaysScrollableScrollPhysics(),
@@ -83,9 +118,8 @@ class _MainScreenState extends State<MainScreen>
           child: CurvedNavigationBar(
             key: _bottomNavigationKey,
             //animationCurve: Curves.easeOutCirc,
-            backgroundColor: _pages == 2
-                ? Colors.transparent
-                : Theme.of(context).backgroundColor,
+            backgroundColor:
+                _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,
             color: _pages == 2 ? Colors.black : Colors.deepPurpleAccent,
             items: [
               Icon(
@@ -150,6 +184,66 @@ class _MainScreenState extends State<MainScreen>
     setState(() {
       user = _user;
     });
+  }
+
+  navigate(List<dynamic> data) {
+    var type = data[0];
+    var post = data[1];
+    var course = data[2];
+    var club = data[3];
+    var video = data[4];
+    var receiver = data[5];
+    var chatId = data[6];
+    switch (type) {
+      case 0:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PostDetailPage(post: post, course: course, timeAgo: '')));
+        break;
+      case 1:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CoursePage(course: course)));
+        break;
+      case 2:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PostDetailPage(post: post, club: club, timeAgo: '')));
+        break;
+      case 3:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ClubPage(club: club)));
+        break;
+      case 4:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PostDetailPage(
+                      post: post,
+                      timeAgo: '',
+                    )));
+        break;
+      case 5:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ChatPage(receiver: receiver, chatId: chatId)));
+        break;
+      case 6:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VideoPreview(video: video, timeAgo: '')));
+        break;
+      default:
+        break;
+    }
   }
 
   @override

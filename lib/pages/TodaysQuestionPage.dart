@@ -29,6 +29,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -36,7 +37,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.pink, Colors.deepPurpleAccent]),
+              colors: [Colors.teal, Colors.deepPurpleAccent]),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
@@ -50,9 +51,9 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                     Text('Note: This will be is a public post',
                         textAlign: TextAlign.center,
                         maxLines: null,
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 15,
+                              fontSize: 13,
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         )),
@@ -64,9 +65,9 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                     Text(widget.question,
                         textAlign: TextAlign.center,
                         maxLines: null,
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 23,
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         )),
@@ -95,14 +96,14 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           disabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
-                          hintStyle: GoogleFonts.manjari(
+                          hintStyle: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.white),
                           ),
                           hintText: title),
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -125,7 +126,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                         children: [
                           Text('Post Anonymously',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,

@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
+import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 import 'package:http/http.dart' as http;
@@ -72,6 +73,7 @@ class Video {
   bool isLiked;
   String name;
   int timeStamp;
+  bool allowComments;
 
   Video(
       {this.id,
@@ -83,7 +85,8 @@ class Video {
       this.likeCount,
       this.isLiked,
       this.name,
-      this.timeStamp});
+      this.timeStamp,
+      this.allowComments});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -120,6 +123,11 @@ Future<bool> createPost(Post post) async {
   var uniKey = Constants.checkUniversity();
 
   var db = postsDB.child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var userDB = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child('myposts');
   var key = db.push();
   final Map<String, dynamic> data = {
     "userId": firebaseAuth.currentUser.uid,
@@ -145,6 +153,7 @@ Future<bool> createPost(Post post) async {
   }
 
   await key.set(data);
+  await userDB.child(key.key).set({'type': 'post'});
   DataSnapshot ds = await key.once();
   if (ds.value != null) {
     return true;
@@ -157,6 +166,207 @@ Future<String> fetchQuestion() async {
   var db = FirebaseDatabase.instance.reference().child("question");
   var snapshot = await db.once().catchError((onError) {});
   return snapshot.value;
+}
+
+Future<Post> fetchPost(String postId) async {
+  var uniKey = Constants.checkUniversity();
+  var db = uniKey == 0
+      ? FirebaseDatabase.instance.reference().child("posts").child('UofT')
+      : FirebaseDatabase.instance.reference().child("posts").child('YorkU');
+  var snapshot = await db.child(postId).once();
+
+  Map<dynamic, dynamic> value = snapshot.value;
+  var post = Post(
+      id: postId,
+      userId: value['userId'],
+      username: value['name'],
+      content: value['content'],
+      timeStamp: value['timeStamp'],
+      isAnonymous: value['isAnonymous'] != null ? value['isAnonymous'] : false,
+      courseId: value['courseId'],
+      likeCount: value['likes'] != null ? value['likes'].length : 0,
+      imgUrl: value['imgUrl']);
+
+  if (value['comments'] != null) {
+    post.commentCount = value['comments'].length;
+  } else {
+    post.commentCount = 0;
+  }
+
+  if (value['questionOne'] != null && value['questionTwo'] != null) {
+    if (value['votes'] != null) {
+      List<int> voteCounts = getVotes(value['votes']);
+      post.questionOneLikeCount = voteCounts[0];
+      post.questionTwoLikeCount = voteCounts[1];
+    } else {
+      post.questionOneLikeCount = 0;
+      post.questionTwoLikeCount = 0;
+    }
+    post.questionOne = value['questionOne'];
+    post.questionTwo = value['questionTwo'];
+  }
+
+  if (value['votes'] != null) {
+    var voted = checkIsVoted(value['votes']);
+    post.votes = value['votes'];
+    post.isVoted = voted;
+    if (voted) {
+      int option = whichOption(value['votes']);
+      if (option != 0) {
+        post.whichOption = option;
+      }
+    }
+  } else {
+    post.isVoted = false;
+  }
+
+  if (value['likes'] != null) {
+    var liked = checkIsLiked(value['likes']);
+    post.isLiked = liked;
+  } else {
+    post.isLiked = false;
+  }
+
+  if (value['tcQuestion'] != null) {
+    post.tcQuestion = value['tcQuestion'];
+  }
+
+  return post;
+}
+
+Future<Post> fetchCoursePost(String postId, Course course) async {
+  var uniKey = Constants.checkUniversity();
+  var db = uniKey == 0
+      ? FirebaseDatabase.instance.reference().child("courseposts").child('UofT')
+      : FirebaseDatabase.instance
+          .reference()
+          .child("courseposts")
+          .child('YorkU');
+  var snapshot = await db.child(course.id).child(postId).once();
+
+  Map<dynamic, dynamic> value = snapshot.value;
+  var post = Post(
+      id: postId,
+      userId: value['userId'],
+      username: value['name'],
+      content: value['content'],
+      timeStamp: value['timeStamp'],
+      isAnonymous: value['isAnonymous'] != null ? value['isAnonymous'] : false,
+      courseId: value['courseId'],
+      likeCount: value['likes'] != null ? value['likes'].length : 0,
+      imgUrl: value['imgUrl']);
+
+  if (value['comments'] != null) {
+    post.commentCount = value['comments'].length;
+  } else {
+    post.commentCount = 0;
+  }
+
+  if (value['questionOne'] != null && value['questionTwo'] != null) {
+    if (value['votes'] != null) {
+      List<int> voteCounts = getVotes(value['votes']);
+      post.questionOneLikeCount = voteCounts[0];
+      post.questionTwoLikeCount = voteCounts[1];
+    } else {
+      post.questionOneLikeCount = 0;
+      post.questionTwoLikeCount = 0;
+    }
+    post.questionOne = value['questionOne'];
+    post.questionTwo = value['questionTwo'];
+  }
+
+  if (value['votes'] != null) {
+    var voted = checkIsVoted(value['votes']);
+    post.votes = value['votes'];
+    post.isVoted = voted;
+    if (voted) {
+      int option = whichOption(value['votes']);
+      if (option != 0) {
+        post.whichOption = option;
+      }
+    }
+  } else {
+    post.isVoted = false;
+  }
+
+  if (value['likes'] != null) {
+    var liked = checkIsLiked(value['likes']);
+    post.isLiked = liked;
+  } else {
+    post.isLiked = false;
+  }
+
+  if (value['tcQuestion'] != null) {
+    post.tcQuestion = value['tcQuestion'];
+  }
+
+  return post;
+}
+
+Future<Post> fetchClubPost(String postId, Club club) async {
+  var uniKey = Constants.checkUniversity();
+  var db = uniKey == 0
+      ? FirebaseDatabase.instance.reference().child("clubposts").child('UofT')
+      : FirebaseDatabase.instance.reference().child("clubposts").child('YorkU');
+  var snapshot = await db.child(club.id).child(postId).once();
+
+  Map<dynamic, dynamic> value = snapshot.value;
+  var post = Post(
+      id: postId,
+      userId: value['userId'],
+      username: value['name'],
+      content: value['content'],
+      timeStamp: value['timeStamp'],
+      isAnonymous: value['isAnonymous'] != null ? value['isAnonymous'] : false,
+      courseId: value['courseId'],
+      likeCount: value['likes'] != null ? value['likes'].length : 0,
+      imgUrl: value['imgUrl']);
+
+  if (value['comments'] != null) {
+    post.commentCount = value['comments'].length;
+  } else {
+    post.commentCount = 0;
+  }
+
+  if (value['questionOne'] != null && value['questionTwo'] != null) {
+    if (value['votes'] != null) {
+      List<int> voteCounts = getVotes(value['votes']);
+      post.questionOneLikeCount = voteCounts[0];
+      post.questionTwoLikeCount = voteCounts[1];
+    } else {
+      post.questionOneLikeCount = 0;
+      post.questionTwoLikeCount = 0;
+    }
+    post.questionOne = value['questionOne'];
+    post.questionTwo = value['questionTwo'];
+  }
+
+  if (value['votes'] != null) {
+    var voted = checkIsVoted(value['votes']);
+    post.votes = value['votes'];
+    post.isVoted = voted;
+    if (voted) {
+      int option = whichOption(value['votes']);
+      if (option != 0) {
+        post.whichOption = option;
+      }
+    }
+  } else {
+    post.isVoted = false;
+  }
+
+  if (value['likes'] != null) {
+    var liked = checkIsLiked(value['likes']);
+    post.isLiked = liked;
+  } else {
+    post.isLiked = false;
+  }
+
+  if (value['tcQuestion'] != null) {
+    post.tcQuestion = value['tcQuestion'];
+  }
+
+  return post;
 }
 
 Future<List<Post>> fetchPosts(int sortBy) async {
@@ -309,6 +519,12 @@ Future<bool> createCoursePost(Post post, Course course) async {
   var courseDB = uniKey == 0 ? courseDBUofT : courseDBYorkU;
   var key = coursePostDB.child(course.id).push();
 
+  var userDB = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child('myposts');
+
   final Map<String, dynamic> data = {
     "userId": firebaseAuth.currentUser.uid,
     "name": user.name,
@@ -332,6 +548,8 @@ Future<bool> createCoursePost(Post post, Course course) async {
   }
 
   await key.set(data);
+
+  await userDB.child(key.key).set({'type': 'course', 'id': course.id});
 
   DataSnapshot snap;
 
@@ -360,6 +578,12 @@ Future<bool> createClubPost(Post post, Club club) async {
   var clubDB = uniKey == 0 ? clubDBUofT : clubDBYorkU;
   var key = clubPostDB.child(club.id).push();
 
+  var userDB = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child('myposts');
+
   final Map<String, dynamic> data = {
     "userId": firebaseAuth.currentUser.uid,
     "name": user.name,
@@ -383,6 +607,8 @@ Future<bool> createClubPost(Post post, Club club) async {
   }
 
   await key.set(data);
+
+  await userDB.child(key.key).set({'type': 'club', 'id': club.id});
 
   DataSnapshot snap;
 
@@ -447,6 +673,7 @@ Future<bool> imageApproved(File file) async {
 }
 
 Future<String> uploadImageToStorage(File file) async {
+  String urlString;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -474,6 +701,7 @@ Future<String> uploadImageToStorage(File file) async {
 }
 
 Future<List> getImageString() async {
+  String urlString;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -976,12 +1204,14 @@ class VideoApi {
     final picker = ImagePicker();
 
     final f = await picker.getVideo(
-        source: ImageSource.gallery, maxDuration: Duration(minutes: 3));
+        source: ImageSource.gallery, maxDuration: Duration(minutes: 4));
     File _file = File(f.path);
     return _file;
   }
 
   static Future<List<String>> uploadVideoToStorage(File file) async {
+    String urlString;
+    String thumbUrlString;
     try {
       var bytes = await VideoThumbnail.thumbnailData(
         video: file.path,
@@ -1034,7 +1264,8 @@ class VideoApi {
     }
   }
 
-  static Future<bool> createVideo(File f) async {
+  static Future<bool> createVideo(
+      {File f, String caption, bool allowComments}) async {
     List<String> urls = await uploadVideoToStorage(f);
 
     if (urls.isEmpty) {
@@ -1048,6 +1279,12 @@ class VideoApi {
     var uniKey = Constants.checkUniversity();
 
     var db = videoDB.child(uniKey == 0 ? 'UofT' : 'YorkU');
+    var userDB = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(user.id)
+        .child('myvideos');
     var key = db.push();
     final Map<String, dynamic> data = {
       "userId": firebaseAuth.currentUser.uid,
@@ -1055,15 +1292,111 @@ class VideoApi {
       "videoUrl": vidUrl,
       "timeStamp": DateTime.now().millisecondsSinceEpoch,
       "thumbUrl": thumbUrl,
-      "caption": "This video is an explanation of how the app works"
+      "caption": caption,
+      "allowComments": allowComments
     };
     await key.set(data);
+    await userDB.child(key.key).set(true);
     DataSnapshot ds = await key.once();
     if (ds.value != null) {
       return true;
     } else {
       return false;
     }
+  }
+
+  static Future<bool> delete(String id) async {
+    var uniKey = Constants.checkUniversity();
+    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var uid = firebaseAuth.currentUser.uid;
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(university)
+        .child(uid)
+        .child('myvideos')
+        .child(id);
+    var videoDB = FirebaseDatabase.instance
+        .reference()
+        .child('videos')
+        .child(university)
+        .child(id);
+    await db.remove().then((value) async {
+      await videoDB.remove().catchError((e) {
+        return false;
+      });
+    }).catchError((e) {
+      return false;
+    });
+    return true;
+  }
+
+  static Future<List<Video>> fetchMyVideos() async {
+    List<Video> videos = [];
+    var uniKey = Constants.checkUniversity();
+    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var uid = firebaseAuth.currentUser.uid;
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(university)
+        .child(uid)
+        .child('myvideos');
+    DataSnapshot snap = await db.once();
+    Map<dynamic, dynamic> values = snap.value;
+
+    if (snap.value != null) {
+      for (var key in values.keys) {
+        // key is video id
+        Video video = await fetchVideo(key);
+        if (video != null) {
+          videos.add(video);
+        }
+      }
+    }
+
+    return videos;
+  }
+
+  static Future<Video> fetchVideo(String id) async {
+    var uniKey = Constants.checkUniversity();
+    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var db =
+        FirebaseDatabase.instance.reference().child('videos').child(university);
+    DataSnapshot snap = await db.once();
+    Map<dynamic, dynamic> value = snap.value[id];
+
+    if (snap.value == null) {
+      return null;
+    }
+
+    Video video = Video(
+        id: id,
+        userId: value['userId'],
+        name: value['name'],
+        timeStamp: value['timeStamp'],
+        videoUrl: value['videoUrl'],
+        thumbnailUrl: value['thumbUrl'],
+        caption: value['caption'],
+        allowComments:
+            value['allowComments'] != null ? value['allowComments'] : true);
+
+    if (value['likes'] != null) {
+      video.likeCount = value['likes'].length;
+      var liked = checkIsLiked(value['likes']);
+      video.isLiked = liked;
+    } else {
+      video.likeCount = 0;
+      video.isLiked = false;
+    }
+
+    if (value['comments'] != null) {
+      video.commentCount = value['comments'].length;
+    } else {
+      video.commentCount = 0;
+    }
+
+    return video;
   }
 
   static Future<List<Video>> fetchVideos() async {
@@ -1083,12 +1416,17 @@ class VideoApi {
           timeStamp: value['timeStamp'],
           videoUrl: value['videoUrl'],
           thumbnailUrl: value['thumbUrl'],
-          caption: value['caption']);
+          caption: value['caption'],
+          allowComments:
+              value['allowComments'] != null ? value['allowComments'] : true);
 
       if (value['likes'] != null) {
         video.likeCount = value['likes'].length;
+        var liked = checkIsLiked(value['likes']);
+        video.isLiked = liked;
       } else {
         video.likeCount = 0;
+        video.isLiked = false;
       }
 
       if (value['comments'] != null) {
@@ -1102,5 +1440,99 @@ class VideoApi {
 
     videos.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
     return videos;
+  }
+
+  static Future<bool> like(Video video) async {
+    var uniKey = Constants.checkUniversity();
+
+    await FirebaseDatabase.instance
+        .reference()
+        .child('videos')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(video.id)
+        .child('likes')
+        .child(firebaseAuth.currentUser.uid)
+        .set(firebaseAuth.currentUser.uid)
+        .catchError((err) {
+      return false;
+    });
+    return true;
+  }
+
+  static Future<bool> unlike(Video video) async {
+    var uniKey = Constants.checkUniversity();
+
+    await FirebaseDatabase.instance
+        .reference()
+        .child('videos')
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(video.id)
+        .child('likes')
+        .child(firebaseAuth.currentUser.uid)
+        .remove()
+        .catchError((err) {
+      return false;
+    });
+    return true;
+  }
+
+  static bool checkIsLiked(Map<dynamic, dynamic> likes) {
+    for (var value in likes.values) {
+      if (value == firebaseAuth.currentUser.uid) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static Future<bool> postComment(String content, Video video) async {
+    PostUser user = await getUser(firebaseAuth.currentUser.uid);
+    var uniKey = Constants.checkUniversity();
+    var videoDB = FirebaseDatabase.instance.reference().child('videos');
+    var db = videoDB
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(video.id)
+        .child('comments');
+    //var key = commentsDB.child(post.id).push();
+    var key = db.push();
+    final Map<String, dynamic> data = {
+      "content": content,
+      "username": user.name,
+      "userId": firebaseAuth.currentUser.uid,
+      "timeStamp": DateTime.now().millisecondsSinceEpoch
+    };
+
+    await key.set(data).catchError((err) {
+      return false;
+    });
+
+    return true;
+  }
+
+  static Future<List<Comment>> fetchComments(Video video) async {
+    List<Comment> c = List<Comment>();
+    var uniKey = Constants.checkUniversity();
+    var cDB = FirebaseDatabase.instance.reference().child('videos');
+    var db = cDB
+        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(video.id)
+        .child('comments');
+
+    var snapshot = await db.once();
+
+    Map<dynamic, dynamic> values = snapshot.value;
+
+    if (snapshot.value != null) {
+      values.forEach((key, value) {
+        var comment = Comment(
+            content: value['content'],
+            username: value['username'],
+            userId: value['userId'],
+            timeStamp: value['timeStamp']);
+        c.add(comment);
+      });
+      c.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+    }
+    return c;
   }
 }

@@ -74,157 +74,172 @@ class _ClubWidgetState extends State<ClubWidget> {
                     width: 15.0,
                   ),
                   Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    widget.club.name,
-                                    style: GoogleFonts.manjari(
-                                      textStyle: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context).accentColor),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      widget.club.name,
+                                      style: GoogleFonts.manjari(
+                                        textStyle: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Theme.of(context).accentColor),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
                                   ),
-                                ),
-                                Visibility(
-                                    visible: _fAuth.currentUser.uid ==
-                                        widget.club.adminId,
-                                    child: InkWell(
-                                        onTap: () {
-                                          final act = CupertinoActionSheet(
-                                            title: Text(
-                                              "PROCEED?",
-                                              style: GoogleFonts.manjari(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
-                                            ),
-                                            message: Text(
-                                              "Are you sure you want to delete this club?",
-                                              style: GoogleFonts.manjari(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
-                                            ),
-                                            actions: [
-                                              CupertinoActionSheetAction(
-                                                  child: Text(
-                                                    "YES",
-                                                    style: GoogleFonts.manjari(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Theme.of(context)
-                                                            .accentColor),
-                                                  ),
-                                                  onPressed: () {
-                                                    widget.delete();
-                                                  }),
-                                              CupertinoActionSheetAction(
-                                                  child: Text(
-                                                    "Cancel",
-                                                    style: GoogleFonts.manjari(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.red),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  }),
-                                            ],
-                                          );
-                                          showCupertinoModalPopup(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  act);
-                                        },
-                                        child:
-                                            Icon(AntDesign.delete, size: 15.0)))
-                              ],
-                            ),
-                            Divider(),
-                            Text(
-                              widget.club.description,
-                              style: GoogleFonts.manjari(
-                                textStyle: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
+                                  Visibility(
+                                      visible: _fAuth.currentUser.uid ==
+                                          widget.club.adminId,
+                                      child: InkWell(
+                                          onTap: () {
+                                            final act = CupertinoActionSheet(
+                                              title: Text(
+                                                "PROCEED?",
+                                                style: GoogleFonts.manjari(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
+                                              message: Text(
+                                                "Are you sure you want to delete this club?",
+                                                style: GoogleFonts.manjari(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
+                                              actions: [
+                                                CupertinoActionSheetAction(
+                                                    child: Text(
+                                                      "YES",
+                                                      style:
+                                                          GoogleFonts.manjari(
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .accentColor),
+                                                    ),
+                                                    onPressed: () {
+                                                      widget.delete();
+                                                    }),
+                                                CupertinoActionSheetAction(
+                                                    child: Text(
+                                                      "Cancel",
+                                                      style:
+                                                          GoogleFonts.manjari(
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  Colors.red),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    }),
+                                              ],
+                                            );
+                                            showCupertinoModalPopup(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        act);
+                                          },
+                                          child: Icon(AntDesign.delete,
+                                              size: 15.0)))
+                                ],
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ],
-                        )),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () async {
-                                if (widget.club.admin) {
-                                } else if (widget.club.inClub) {
-                                  setState(() {
-                                    widget.club.inClub = false;
-                                    widget.club.memberCount -= 1;
-                                  });
-                                  await leaveClub(widget.club);
-                                } else if (widget.club.privacy == 0) {
-                                  await joinClub(widget.club);
-                                  var user = await getUser(widget.club.adminId);
-                                  var token = user.device_token;
-                                  await sendPushClub(widget.club, 6, token, "");
-                                  setState(() {
-                                    widget.club.inClub = true;
-                                    widget.club.memberCount += 1;
-                                  });
-                                } else if (widget.club.privacy == 1) {
-                                  if (widget.club.requested) {
-                                    setState(() {
-                                      widget.club.requested = false;
-                                    });
-                                    await removeJoinRequest(widget.club);
-                                  } else {
-                                    setState(() {
-                                      widget.club.requested = true;
-                                    });
-                                    await requestToJoin(widget.club);
-                                    var user =
-                                        await getUser(widget.club.adminId);
-                                    var token = user.device_token;
-                                    await sendPushClub(
-                                        widget.club, 5, token, "");
-                                  }
-                                }
-                              },
-                              child: Text(
-                                status(),
+                              Divider(),
+                              Text(
+                                widget.club.description.isNotEmpty
+                                    ? widget.club.description
+                                    : "No description available",
                                 style: GoogleFonts.manjari(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.lightBlue),
+                                      color: Theme.of(context).accentColor),
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () async {
+                                  if (widget.club.admin) {
+                                  } else if (widget.club.inClub) {
+                                    setState(() {
+                                      widget.club.inClub = false;
+                                      widget.club.memberCount -= 1;
+                                    });
+                                    await leaveClub(widget.club);
+                                  } else if (widget.club.privacy == 0) {
+                                    await joinClub(widget.club);
+                                    var user =
+                                        await getUser(widget.club.adminId);
+                                    var token = user.device_token;
+                                    await sendPushClub(
+                                        widget.club, 6, token, "", null);
+                                    setState(() {
+                                      widget.club.inClub = true;
+                                      widget.club.memberCount += 1;
+                                    });
+                                  } else if (widget.club.privacy == 1) {
+                                    if (widget.club.requested) {
+                                      setState(() {
+                                        widget.club.requested = false;
+                                      });
+                                      await removeJoinRequest(widget.club);
+                                    } else {
+                                      setState(() {
+                                        widget.club.requested = true;
+                                      });
+                                      await requestToJoin(widget.club);
+                                      var user =
+                                          await getUser(widget.club.adminId);
+                                      var token = user.device_token;
+                                      await sendPushClub(
+                                          widget.club, 5, token, "", null);
+                                    }
+                                  }
+                                },
+                                child: Text(
+                                  status(),
+                                  style: GoogleFonts.manjari(
+                                    textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.lightBlue),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

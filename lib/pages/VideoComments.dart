@@ -14,19 +14,15 @@ import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/CommentPostWidget.dart';
 import 'package:unify/widgets/PostWidget.dart';
 
-class PostDetailPage extends StatefulWidget {
-  final Post post;
-  final Course course;
-  final Club club;
-  final String timeAgo;
+class VideoComments extends StatefulWidget {
+  final Video video;
 
-  PostDetailPage({Key key, this.post, this.course, this.club, this.timeAgo})
-      : super(key: key);
+  VideoComments({Key key, this.video}) : super(key: key);
   @override
-  _PostDetailPageState createState() => _PostDetailPageState();
+  _VideoCommentsState createState() => _VideoCommentsState();
 }
 
-class _PostDetailPageState extends State<PostDetailPage> {
+class _VideoCommentsState extends State<VideoComments> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
@@ -83,32 +79,20 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     return;
                   }
                   Comment comment = Comment(content: commentController.text);
-                  var res = await postComment(
-                      comment,
-                      widget.post,
-                      widget.course == null ? null : widget.course,
-                      widget.club == null ? null : widget.club);
+                  commentController.clear();
+                  var res =
+                      await VideoApi.postComment(comment.content, widget.video);
                   if (res) {
-                    var user = await getUser(widget.post.userId);
+                    var user = await getUser(widget.video.userId);
                     var token = user.device_token;
                     if (user.id != firebaseAuth.currentUser.uid) {
-                      if (widget.club == null && widget.course == null) {
-                        await sendPush(
-                            1, token, comment.content, widget.post.id);
-                      } else if (widget.club != null) {
-                        await sendPushClub(widget.club, 1, token,
-                            comment.content, widget.post.id);
-                      } else {
-                        await sendPushCourse(widget.course, 1, token,
-                            comment.content, widget.post.id);
-                      }
+                      await sendPushVideo(
+                          1, token, comment.content, widget.video.id);
                     }
-                    commentController.clear();
                   } else {}
                   if (this.mounted) {
                     setState(() {
-                      commentFuture = fetchComments(
-                          widget.post, widget.course, widget.club);
+                      commentFuture = VideoApi.fetchComments(widget.video);
                     });
                   }
                 },
@@ -124,7 +108,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
       appBar: AppBar(
         title: Text(
           "COMMENTS",
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.montserrat(
             textStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -141,35 +125,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
           children: <Widget>[
             ListView(
               children: <Widget>[
-                PostWidget(
-                    hide: () async {
-                      var res = await hidePost(widget.post.id);
-                      Navigator.pop(context);
-                      if (res) {
-                        previewMessage("Post hidden from feed.", context);
-                      }
-                    },
-                    block: () async {
-                      var res = await block(widget.post.userId);
-                      Navigator.pop(context);
-                      if (res) {
-                        previewMessage("User blocked.", context);
-                      }
-                    },
-                    deletePost: () async {
-                      var res = await deletePost(widget.post.id, null, null);
-                      Navigator.pop(context);
-                      if (res) {
-                        previewMessage("Post Deleted", context);
-                      } else {
-                        previewMessage("Error deleting post!", context);
-                      }
-                    },
-                    fromComments: true,
-                    post: widget.post,
-                    course: widget.course,
-                    club: widget.club,
-                    timeAgo: widget.timeAgo),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: FutureBuilder(
@@ -233,7 +188,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
   Future<Null> refresh() async {
     this.setState(() {
-      commentFuture = fetchComments(widget.post, widget.course, widget.club);
+      commentFuture = VideoApi.fetchComments(widget.video);
     });
   }
 
@@ -241,6 +196,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    commentFuture = fetchComments(widget.post, widget.course, widget.club);
+    commentFuture = VideoApi.fetchComments(widget.video);
   }
 }

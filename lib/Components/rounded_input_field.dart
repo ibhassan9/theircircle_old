@@ -26,7 +26,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
     return TextFieldContainer(
       child: TextField(
         controller: widget.controller,
-        style: GoogleFonts.manjari(
+        style: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
         ),
@@ -38,7 +38,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
             color: kPrimaryColor,
           ),
           hintText: widget.hintText,
-          hintStyle: GoogleFonts.manjari(
+          hintStyle: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),

@@ -122,13 +122,13 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                     widget.peer != null
                         ? widget.peer.profileImgUrl == null
                             ? ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(40),
                                 child: Container(
-                                  width: 50,
-                                  height: 50,
+                                  width: 40,
+                                  height: 40,
                                   color: Colors.deepPurpleAccent,
-                                  child:
-                                      Icon(AntDesign.user, color: Colors.white),
+                                  child: Icon(AntDesign.user,
+                                      size: 15.0, color: Colors.white),
                                 ),
                               )
                             : ClipRRect(
@@ -182,7 +182,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                         Text(widget.peer.name,
                                             style: GoogleFonts.manjari(
                                               textStyle: TextStyle(
-                                                  fontSize: 17,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.w700,
                                                   color: Theme.of(context)
                                                       .accentColor),
@@ -193,7 +193,8 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
-                                                      .accentColor),
+                                                      .accentColor
+                                                      .withOpacity(0.5)),
                                             )),
                                       ],
                                     ),

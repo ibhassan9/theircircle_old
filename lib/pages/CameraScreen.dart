@@ -61,6 +61,9 @@ class _CameraScreenState extends State<CameraScreen>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+    if (controller != null) {
+      controller.dispose();
+    }
   }
 
   @override
@@ -379,7 +382,7 @@ class _CameraScreenState extends State<CameraScreen>
   void onVideoRecordButtonPressed() {
     startVideoRecording().then((String filePath) {
       if (mounted) setState(() {});
-      if (filePath != null) showInSnackBar('Saving video to $filePath');
+      //if (filePath != null) showInSnackBar('Saving video to $filePath');
     });
   }
 
@@ -392,7 +395,12 @@ class _CameraScreenState extends State<CameraScreen>
           MaterialPageRoute(
               builder: (context) => PreviewPage(
                     videoPath: videoPath,
-                  )));
+                  ))).then((value) {
+        setState(() {
+          progress = 0.0;
+          videoPath = null;
+        });
+      });
     });
   }
 
@@ -448,7 +456,7 @@ class _CameraScreenState extends State<CameraScreen>
       return null;
     }
 
-    await _startVideoPlayer();
+    //await _startVideoPlayer();
   }
 
   Future<void> pauseVideoRecording() async {

@@ -20,7 +20,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
     return TextFieldContainer(
       child: TextField(
         controller: widget.controller,
-        style: GoogleFonts.manjari(
+        style: GoogleFonts.poppins(
           textStyle: TextStyle(
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
         ),
@@ -29,7 +29,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
           hintText: "Password",
-          hintStyle: GoogleFonts.manjari(
+          hintStyle: GoogleFonts.poppins(
             textStyle: TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),

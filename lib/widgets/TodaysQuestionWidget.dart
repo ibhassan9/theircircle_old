@@ -33,7 +33,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              color: Colors.pink, borderRadius: BorderRadius.circular(5.0)),
+              color: Colors.teal, borderRadius: BorderRadius.circular(25.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -45,8 +45,8 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
               Text(
                 "We've got a question for you!",
                 style: GoogleFonts.manjari(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white),
               ),
             ],
