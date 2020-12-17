@@ -94,27 +94,27 @@ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 var postsDB = FirebaseDatabase.instance.reference().child('posts');
 var videoDB = FirebaseDatabase.instance.reference().child('videos');
 
-var postDBrefUofT =
-    FirebaseDatabase.instance.reference().child('posts').child('UofT');
-var postDBrefYork =
-    FirebaseDatabase.instance.reference().child('posts').child('YorkU');
-var coursepostDBrefUofT =
-    FirebaseDatabase.instance.reference().child('courseposts').child('UofT');
-var coursepostDBrefYork =
-    FirebaseDatabase.instance.reference().child('courseposts').child('YorkU');
-var courseDBUofT =
-    FirebaseDatabase.instance.reference().child('courses').child('UofT');
-var courseDBYorkU =
-    FirebaseDatabase.instance.reference().child('courses').child('YorkU');
+// var postDBrefUofT =
+//     FirebaseDatabase.instance.reference().child('posts').child('UofT');
+// var postDBrefYork =
+//     FirebaseDatabase.instance.reference().child('posts').child('YorkU');
+// var coursepostDBrefUofT =
+//     FirebaseDatabase.instance.reference().child('courseposts').child('UofT');
+// var coursepostDBrefYork =
+//     FirebaseDatabase.instance.reference().child('courseposts').child('YorkU');
+// var courseDBUofT =
+//     FirebaseDatabase.instance.reference().child('courses').child('UofT');
+// var courseDBYorkU =
+//     FirebaseDatabase.instance.reference().child('courses').child('YorkU');
 
-var clubpostDBrefUofT =
-    FirebaseDatabase.instance.reference().child('clubposts').child('UofT');
-var clubpostDBrefYork =
-    FirebaseDatabase.instance.reference().child('clubposts').child('YorkU');
-var clubDBUofT =
-    FirebaseDatabase.instance.reference().child('clubs').child('UofT');
-var clubDBYorkU =
-    FirebaseDatabase.instance.reference().child('clubs').child('YorkU');
+// var clubpostDBrefUofT =
+//     FirebaseDatabase.instance.reference().child('clubposts').child('UofT');
+// var clubpostDBrefYork =
+//     FirebaseDatabase.instance.reference().child('clubposts').child('YorkU');
+// var clubDBUofT =
+//     FirebaseDatabase.instance.reference().child('clubs').child('UofT');
+// var clubDBYorkU =
+//     FirebaseDatabase.instance.reference().child('clubs').child('YorkU');
 
 // 0 - University of Toronto | 1 - York University
 
@@ -122,11 +122,20 @@ Future<bool> createPost(Post post) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
 
-  var db = postsDB.child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var db = postsDB.child(uniKey == 0
+      ? 'UofT'
+      : uniKey == 1
+          ? 'YorkU'
+          : 'WesternU');
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(user.id)
       .child('myposts');
   var key = db.push();
   final Map<String, dynamic> data = {
@@ -170,9 +179,12 @@ Future<String> fetchQuestion() async {
 
 Future<Post> fetchPost(String postId) async {
   var uniKey = Constants.checkUniversity();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child("posts").child('UofT')
-      : FirebaseDatabase.instance.reference().child("posts").child('YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child("posts").child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var snapshot = await db.child(postId).once();
 
   Map<dynamic, dynamic> value = snapshot.value;
@@ -236,12 +248,14 @@ Future<Post> fetchPost(String postId) async {
 
 Future<Post> fetchCoursePost(String postId, Course course) async {
   var uniKey = Constants.checkUniversity();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child("courseposts").child('UofT')
-      : FirebaseDatabase.instance
-          .reference()
-          .child("courseposts")
-          .child('YorkU');
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("courseposts")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var snapshot = await db.child(course.id).child(postId).once();
 
   Map<dynamic, dynamic> value = snapshot.value;
@@ -305,9 +319,12 @@ Future<Post> fetchCoursePost(String postId, Course course) async {
 
 Future<Post> fetchClubPost(String postId, Club club) async {
   var uniKey = Constants.checkUniversity();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child("clubposts").child('UofT')
-      : FirebaseDatabase.instance.reference().child("clubposts").child('YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child("clubposts").child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var snapshot = await db.child(club.id).child(postId).once();
 
   Map<dynamic, dynamic> value = snapshot.value;
@@ -372,9 +389,12 @@ Future<Post> fetchClubPost(String postId, Club club) async {
 Future<List<Post>> fetchPosts(int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child("posts").child('UofT')
-      : FirebaseDatabase.instance.reference().child("posts").child('YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child("posts").child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
 
   var snapshot = await db.once();
   var blockList = await getBlocks();
@@ -515,14 +535,31 @@ bool checkIsVoted(Map<dynamic, dynamic> votes) {
 Future<bool> createCoursePost(Post post, Course course) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
-  var coursePostDB = uniKey == 0 ? coursepostDBrefUofT : coursepostDBrefYork;
-  var courseDB = uniKey == 0 ? courseDBUofT : courseDBYorkU;
+  var coursePostDB = FirebaseDatabase.instance
+      .reference()
+      .child('courseposts')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
+  var courseDB =
+      FirebaseDatabase.instance.reference().child('courses').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var key = coursePostDB.child(course.id).push();
 
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(user.id)
       .child('myposts');
 
   final Map<String, dynamic> data = {
@@ -574,14 +611,29 @@ Future<bool> createCoursePost(Post post, Course course) async {
 Future<bool> createClubPost(Post post, Club club) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
-  var clubPostDB = uniKey == 0 ? clubpostDBrefUofT : clubpostDBrefYork;
-  var clubDB = uniKey == 0 ? clubDBUofT : clubDBYorkU;
+  var clubPostDB =
+      FirebaseDatabase.instance.reference().child('clubposts').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
+  var clubDB =
+      FirebaseDatabase.instance.reference().child('clubs').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var key = clubPostDB.child(club.id).push();
 
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(user.id)
       .child('myposts');
 
   final Map<String, dynamic> data = {
@@ -740,13 +792,21 @@ Future<bool> deletePost(String postId, Course course, Club club) async {
   var postdb = FirebaseDatabase.instance
       .reference()
       .child('posts')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(postId);
   var coursedb = course != null
       ? FirebaseDatabase.instance
           .reference()
           .child('courseposts')
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(course.id)
           .child(postId)
       : null;
@@ -754,7 +814,11 @@ Future<bool> deletePost(String postId, Course course, Club club) async {
       ? FirebaseDatabase.instance
           .reference()
           .child('clubposts')
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(club.id)
           .child(postId)
       : null;
@@ -781,23 +845,23 @@ Future<bool> deletePost(String postId, Course course, Club club) async {
           : await coursedb.remove().catchError((onError) {
               return false;
             });
+
+  //TODO:- DELETE MY POST
   return true;
 }
 
 Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance
-          .reference()
-          .child("courseposts")
-          .child('UofT')
-          .child(course.id)
-      : FirebaseDatabase.instance
-          .reference()
-          .child("courseposts")
-          .child('YorkU')
-          .child(course.id);
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("courseposts")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(course.id);
 
   var snapshot = await db.once();
   var blockList = await getBlocks();
@@ -899,7 +963,11 @@ Future<List<String>> getHiddenList() async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('hiddenposts');
   var snapshot = await db.once();
@@ -923,7 +991,11 @@ Future<bool> hidePost(String postId) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('hiddenposts')
       .child(postId);
@@ -939,7 +1011,11 @@ Future<bool> unhidePost(String postId) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('hiddenposts')
       .child(postId);
@@ -956,7 +1032,11 @@ Future<bool> like(Post post, Club club, Course course) async {
       ? await FirebaseDatabase.instance
           .reference()
           .child('posts')
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(post.id)
           .child('likes')
           .child(firebaseAuth.currentUser.uid)
@@ -968,7 +1048,11 @@ Future<bool> like(Post post, Club club, Course course) async {
           ? await FirebaseDatabase.instance
               .reference()
               .child('clubposts')
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(club.id)
               .child(post.id)
               .child('likes')
@@ -980,7 +1064,11 @@ Future<bool> like(Post post, Club club, Course course) async {
           : await FirebaseDatabase.instance
               .reference()
               .child('courseposts')
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(course.id)
               .child(post.id)
               .child('likes')
@@ -999,7 +1087,11 @@ Future<bool> vote(Post post, Club club, Course course, int option) async {
       ? await FirebaseDatabase.instance
           .reference()
           .child('posts')
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(post.id)
           .child('votes')
           .child(firebaseAuth.currentUser.uid)
@@ -1011,7 +1103,11 @@ Future<bool> vote(Post post, Club club, Course course, int option) async {
           ? await FirebaseDatabase.instance
               .reference()
               .child('clubposts')
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(club.id)
               .child(post.id)
               .child('votes')
@@ -1023,7 +1119,11 @@ Future<bool> vote(Post post, Club club, Course course, int option) async {
           : await FirebaseDatabase.instance
               .reference()
               .child('courseposts')
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(course.id)
               .child(post.id)
               .child('votes')
@@ -1042,7 +1142,11 @@ Future<bool> unlike(Post post, Club club, Course course) async {
       ? await FirebaseDatabase.instance
           .reference()
           .child('posts')
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(post.id)
           .child('likes')
           .child(firebaseAuth.currentUser.uid)
@@ -1054,7 +1158,11 @@ Future<bool> unlike(Post post, Club club, Course course) async {
           ? await FirebaseDatabase.instance
               .reference()
               .child('clubposts')
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(club.id)
               .child(post.id)
               .child('likes')
@@ -1066,7 +1174,11 @@ Future<bool> unlike(Post post, Club club, Course course) async {
           : await FirebaseDatabase.instance
               .reference()
               .child('courseposts')
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(course.id)
               .child(post.id)
               .child('likes')
@@ -1081,17 +1193,15 @@ Future<bool> unlike(Post post, Club club, Course course) async {
 Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
   var uniKey = Constants.checkUniversity();
   List<Post> p = List<Post>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance
-          .reference()
-          .child("clubposts")
-          .child('UofT')
-          .child(club.id)
-      : FirebaseDatabase.instance
-          .reference()
-          .child("clubposts")
-          .child('YorkU')
-          .child(club.id);
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("clubposts")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(club.id);
 
   var snapshot = await db.once();
   var blockList = await getBlocks();
@@ -1278,11 +1388,19 @@ class VideoApi {
     PostUser user = await getUser(firebaseAuth.currentUser.uid);
     var uniKey = Constants.checkUniversity();
 
-    var db = videoDB.child(uniKey == 0 ? 'UofT' : 'YorkU');
+    var db = videoDB.child(uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU');
     var userDB = FirebaseDatabase.instance
         .reference()
         .child('users')
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(user.id)
         .child('myvideos');
     var key = db.push();
@@ -1307,7 +1425,11 @@ class VideoApi {
 
   static Future<bool> delete(String id) async {
     var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var university = uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU';
     var uid = firebaseAuth.currentUser.uid;
     var db = FirebaseDatabase.instance
         .reference()
@@ -1334,7 +1456,11 @@ class VideoApi {
   static Future<List<Video>> fetchMyVideos() async {
     List<Video> videos = [];
     var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var university = uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU';
     var uid = firebaseAuth.currentUser.uid;
     var db = FirebaseDatabase.instance
         .reference()
@@ -1360,7 +1486,11 @@ class VideoApi {
 
   static Future<Video> fetchVideo(String id) async {
     var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var university = uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU';
     var db =
         FirebaseDatabase.instance.reference().child('videos').child(university);
     DataSnapshot snap = await db.once();
@@ -1402,43 +1532,50 @@ class VideoApi {
   static Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
     var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0 ? 'UofT' : 'YorkU';
+    var university = uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU';
     var db =
         FirebaseDatabase.instance.reference().child('videos').child(university);
     DataSnapshot snap = await db.once();
     Map<dynamic, dynamic> values = snap.value;
 
-    values.forEach((key, value) {
-      Video video = Video(
-          id: key,
-          userId: value['userId'],
-          name: value['name'],
-          timeStamp: value['timeStamp'],
-          videoUrl: value['videoUrl'],
-          thumbnailUrl: value['thumbUrl'],
-          caption: value['caption'],
-          allowComments:
-              value['allowComments'] != null ? value['allowComments'] : true);
+    if (snap.value != null) {
+      values.forEach((key, value) {
+        Video video = Video(
+            id: key,
+            userId: value['userId'],
+            name: value['name'],
+            timeStamp: value['timeStamp'],
+            videoUrl: value['videoUrl'],
+            thumbnailUrl: value['thumbUrl'],
+            caption: value['caption'],
+            allowComments:
+                value['allowComments'] != null ? value['allowComments'] : true);
 
-      if (value['likes'] != null) {
-        video.likeCount = value['likes'].length;
-        var liked = checkIsLiked(value['likes']);
-        video.isLiked = liked;
-      } else {
-        video.likeCount = 0;
-        video.isLiked = false;
-      }
+        if (value['likes'] != null) {
+          video.likeCount = value['likes'].length;
+          var liked = checkIsLiked(value['likes']);
+          video.isLiked = liked;
+        } else {
+          video.likeCount = 0;
+          video.isLiked = false;
+        }
 
-      if (value['comments'] != null) {
-        video.commentCount = value['comments'].length;
-      } else {
-        video.commentCount = 0;
-      }
+        if (value['comments'] != null) {
+          video.commentCount = value['comments'].length;
+        } else {
+          video.commentCount = 0;
+        }
 
-      videos.add(video);
-    });
+        videos.add(video);
+      });
 
-    videos.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+      videos.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    }
+
     return videos;
   }
 
@@ -1448,7 +1585,11 @@ class VideoApi {
     await FirebaseDatabase.instance
         .reference()
         .child('videos')
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(video.id)
         .child('likes')
         .child(firebaseAuth.currentUser.uid)
@@ -1465,7 +1606,11 @@ class VideoApi {
     await FirebaseDatabase.instance
         .reference()
         .child('videos')
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(video.id)
         .child('likes')
         .child(firebaseAuth.currentUser.uid)
@@ -1490,7 +1635,11 @@ class VideoApi {
     var uniKey = Constants.checkUniversity();
     var videoDB = FirebaseDatabase.instance.reference().child('videos');
     var db = videoDB
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(video.id)
         .child('comments');
     //var key = commentsDB.child(post.id).push();
@@ -1514,7 +1663,11 @@ class VideoApi {
     var uniKey = Constants.checkUniversity();
     var cDB = FirebaseDatabase.instance.reference().child('videos');
     var db = cDB
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(video.id)
         .child('comments');
 

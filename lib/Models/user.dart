@@ -110,7 +110,11 @@ Future signInUser(String email, String password, BuildContext context) async {
     var db = FirebaseDatabase.instance
         .reference()
         .child('users')
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(uid)
         .child('device_token')
         .set(token);
@@ -163,7 +167,8 @@ Future signInUser(String email, String password, BuildContext context) async {
 Future registerUser(
     String name, String email, String password, BuildContext context) async {
   if (email.contains(new RegExp(r'yorku', caseSensitive: false)) == false &&
-      email.contains(new RegExp(r'utoronto', caseSensitive: false)) == false) {
+      email.contains(new RegExp(r'utoronto', caseSensitive: false)) == false &&
+      email.contains(new RegExp(r'uwo', caseSensitive: false)) == false) {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Please use your university email to sign up.',
@@ -184,7 +189,11 @@ Future registerUser(
       .then((result) async {
     int code = await sendVerificationCode(email);
     usersDBref
-        .child(uniKey == 0 ? 'UofT' : 'YorkU')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(result.user.uid)
         .set({
       "email": email,
@@ -269,9 +278,17 @@ Future<PostUser> getUser(String id) async {
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(id);
-  var university = uniKey == 0 ? 'UofT' : 'YorkU';
+  var university = uniKey == 0
+      ? 'UofT'
+      : uniKey == 1
+          ? 'YorkU'
+          : 'WesternU';
   var snapshot = await userDB.once();
   var blocks = await getBlocks();
 
@@ -296,8 +313,11 @@ Future<PostUser> getUser(String id) async {
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
       isBlocked: blocks.contains(id),
-      university:
-          university == 'UofT' ? "University of Toronto" : "York University");
+      university: university == 'UofT'
+          ? "University of Toronto"
+          : university == 'YorkU'
+              ? "York University"
+              : "Western University");
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];
@@ -352,7 +372,7 @@ Future<List<PostUser>> allUsers() async {
 }
 
 Future<List<PostUser>> allStudents() async {
-  List<String> universities = ['UofT', 'YorkU'];
+  List<String> universities = ['UofT', 'YorkU', 'WesternU'];
   List<PostUser> p = [];
   var uniKey = Constants.checkUniversity();
   var university = universities[uniKey];
@@ -373,10 +393,12 @@ Future<List<PostUser>> allStudents() async {
 
 Future<List<PostUser>> peopleList() async {
   var uniKey = Constants.checkUniversity();
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var userDB =
+      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var snapshot = await userDB.once();
   List<PostUser> p = [];
   Map<dynamic, dynamic> values = snapshot.value;
@@ -463,11 +485,17 @@ Future<Map<String, List<Assignment>>> fetchAllMyAssignments(
 
 Future<List<PostUser>> myCampusUsers() async {
   var uniKey = Constants.checkUniversity();
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
-  var university = uniKey == 0 ? 'UofT' : 'YorkU';
+  var userDB =
+      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
+  var university = uniKey == 0
+      ? 'UofT'
+      : uniKey == 1
+          ? 'YorkU'
+          : 'WesternU';
   var snapshot = await userDB.once();
   List<PostUser> p = [];
   Map<dynamic, dynamic> values = snapshot.value;
@@ -499,7 +527,9 @@ Future<List<PostUser>> myCampusUsers() async {
           isBlocked: blocks.contains(key),
           university: university == 'UofT'
               ? "University of Toronto"
-              : "York University");
+              : university == 'YorkU'
+                  ? "York University"
+                  : "Western University");
 
       if (value['accomplishments'] != null) {
         user.accomplishments = value['accomplishments'];
@@ -527,7 +557,11 @@ Future<bool> changeAppear(bool appear) async {
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(firebaseAuth.currentUser.uid)
       .child('appear');
   userDB.set(appear).catchError((err) {
@@ -579,7 +613,11 @@ Future<bool> updateVerification(String uid) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid);
   Map<String, dynamic> value = {"verification": 1};
   await db.update(value);
@@ -629,7 +667,11 @@ Future<List<String>> getBlocks() async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('blocks');
   var snapshot = await db.once();
@@ -653,7 +695,11 @@ Future<bool> block(String userId) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('blocks')
       .child(userId);
@@ -669,7 +715,11 @@ Future<bool> unblock(String userId) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('blocks')
       .child(userId);
@@ -741,7 +791,11 @@ Future<bool> updateProfile(
   var shareddb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid);
   var accomplishments = [accomplishment1, accomplishment2, accomplishment3];
   var accomplishmentsdb = shareddb.child('accomplishments');
@@ -1312,7 +1366,11 @@ Future<bool> updateNetworkProfile(
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(firebaseAuth.currentUser.uid);
 
   Map<dynamic, dynamic> values = {
@@ -1334,7 +1392,11 @@ Future<List<dynamic>> fetchNetworkProfile() async {
   var userDB = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(firebaseAuth.currentUser.uid)
       .child('networking');
 

@@ -53,7 +53,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                           widget.news.title,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.manjari(
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -116,12 +116,12 @@ class _NewsWidgetState extends State<NewsWidget> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0),
+                                    left: 10.0, right: 10.0, top: 5.0),
                                 child: Text(
                                   widget.news.title,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.manjari(
                                     textStyle: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,

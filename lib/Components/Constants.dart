@@ -150,8 +150,10 @@ class Constants {
     var userEmail = fAuth.currentUser.email;
     if (userEmail.contains('utoronto')) {
       return 0;
-    } else {
+    } else if (userEmail.contains('yorku')) {
       return 1;
+    } else {
+      return 2;
     }
   }
 

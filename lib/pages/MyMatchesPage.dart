@@ -102,6 +102,10 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                     } else {
                       chatId = '$peerId-$myID';
                     }
+                    print(myID.hashCode);
+                    print(peerId.hashCode);
+
+                    print(chatId);
                     var match = Match(
                         peerId: peerId,
                         chatId: chatId,
@@ -309,7 +313,14 @@ class _MyMatchesPageState extends State<MyMatchesPage>
     super.initState();
     var uniKey = Constants.checkUniversity();
     var myID = firebaseAuth.currentUser.uid;
-    db = db.child(uniKey == 0 ? 'UofT' : 'YorkU').child(myID).child('chats');
+    db = db
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(myID)
+        .child('chats');
     myStream = db.onValue;
   }
 

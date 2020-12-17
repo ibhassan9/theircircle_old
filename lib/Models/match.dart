@@ -68,7 +68,11 @@ Future<List<dynamic>> fetchMyLikes() async {
   var mydb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(myUID)
       .child('matches');
   DataSnapshot snap = await mydb.once();
@@ -89,7 +93,11 @@ Future<bool> removeChat(String peerId) async {
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(myID)
       .child('chats')
       .child(peerId);
@@ -169,7 +177,11 @@ Future<List<Match>> fetchChatList() async {
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(myID)
       .child('chats');
   DataSnapshot snap = await userdb.once();

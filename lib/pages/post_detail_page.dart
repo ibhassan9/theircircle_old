@@ -30,6 +30,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
+  bool isCommenting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +80,12 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   color: Theme.of(context).accentColor,
                 ),
                 onPressed: () async {
-                  if (commentController.text.isEmpty) {
+                  if (commentController.text.isEmpty || isCommenting) {
                     return;
                   }
+                  setState(() {
+                    isCommenting = true;
+                  });
                   Comment comment = Comment(content: commentController.text);
                   var res = await postComment(
                       comment,
@@ -111,6 +115,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           widget.post, widget.course, widget.club);
                     });
                   }
+                  setState(() {
+                    isCommenting = false;
+                  });
                 },
               )
             ],

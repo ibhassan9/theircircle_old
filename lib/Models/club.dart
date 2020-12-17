@@ -37,12 +37,61 @@ class Club {
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
+Future<Club> fetchClub(String id) async {
+  var uniKey = Constants.checkUniversity();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("clubs")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(id);
+
+  DataSnapshot s = await db.once();
+
+  Map<dynamic, dynamic> value = s.value;
+
+  var club = Club(
+      id: value['id'],
+      name: value['name'],
+      description: value['description'],
+      postCount: value['postCount'],
+      admin: value['adminId'] == firebaseAuth.currentUser.uid,
+      privacy: value['privacy'],
+      adminId: value['adminId']);
+
+  PostUser admin = await getUser(value['adminId']);
+
+  if (value['memberList'] != null) {
+    club.memberList = await getMemberList(value['memberList']);
+    club.memberList.insert(0, admin);
+  } else {
+    club.memberList = [admin];
+  }
+
+  if (value['joinRequests'] != null) {
+    club.joinRequests = await getOldJoinRequests(value['joinRequests']);
+  } else {}
+
+  club.memberCount = club.memberList.length;
+
+  club.inClub = inClub(club);
+  club.requested = isRequested(club);
+
+  return club;
+}
+
 Future<List<Club>> fetchClubs() async {
   var uniKey = Constants.checkUniversity();
   List<Club> c = List<Club>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child("clubs").child('UofT')
-      : FirebaseDatabase.instance.reference().child("clubs").child('YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child("clubs").child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
 
   DataSnapshot s = await db.once();
 
@@ -86,10 +135,12 @@ Future<List<Club>> fetchClubs() async {
 Future<List<PostUser>> getOldJoinRequests(
     Map<dynamic, dynamic> requests) async {
   var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   List<PostUser> p = [];
   for (var value in requests.values) {
     DataSnapshot s = await db.child(value).once();
@@ -110,14 +161,22 @@ Future<bool> removeUserFromClub(Club club, PostUser user) async {
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(user.id)
       .child('myclubs')
       .child(club.id);
   var db = FirebaseDatabase.instance
       .reference()
       .child('clubs')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id)
       .child('memberList')
       .child(user.id);
@@ -132,26 +191,29 @@ Future<List<PostUser>> getJoinRequests(Club club) async {
   var uniKey = Constants.checkUniversity();
   List<PostUser> p = [];
   var userdb = FirebaseDatabase.instance.reference().child('users');
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance
-          .reference()
-          .child("clubs")
-          .child('UofT')
-          .child(club.id)
-          .child('joinRequests')
-      : FirebaseDatabase.instance
-          .reference()
-          .child("clubs")
-          .child('YorkU')
-          .child(club.id)
-          .child('joinRequests');
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("clubs")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(club.id)
+      .child('joinRequests');
 
   DataSnapshot s = await db.once();
   Map<dynamic, dynamic> values = s.value;
   for (var value in values.values) {
     var id = value;
-    DataSnapshot us =
-        await userdb.child(uniKey == 0 ? 'UofT' : 'YorkU').child(id).once();
+    DataSnapshot us = await userdb
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(id)
+        .once();
     Map<dynamic, dynamic> v = us.value;
     var user = PostUser(id: id, email: v['email'], name: v['name']);
     p.add(user);
@@ -161,10 +223,12 @@ Future<List<PostUser>> getJoinRequests(Club club) async {
 
 Future<List<PostUser>> getMemberList(Map<dynamic, dynamic> members) async {
   var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   List<PostUser> p = [];
   for (var value in members.values) {
     DataSnapshot s = await db.child(value).once();
@@ -184,7 +248,11 @@ Future<bool> requestToJoin(Club club) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id)
       .child('joinRequests')
       .child(firebaseAuth.currentUser.uid);
@@ -197,7 +265,11 @@ Future<bool> removeJoinRequest(Club club) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id)
       .child('joinRequests')
       .child(firebaseAuth.currentUser.uid);
@@ -210,7 +282,11 @@ Future<bool> removeUserFromRequests(Club club, PostUser user) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id)
       .child('joinRequests')
       .child(user.id);
@@ -223,14 +299,22 @@ Future<bool> acceptUserToClub(PostUser user, Club club) async {
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(user.id)
       .child('myclubs')
       .child(club.id);
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id);
   await userdb.set(club.id);
   await db.child('memberList').child(user.id).set(user.id);
@@ -269,9 +353,12 @@ bool isRequested(Club club) {
 Future<bool> createClub(Club club) async {
   var uniKey = Constants.checkUniversity();
   var uid = firebaseAuth.currentUser.uid;
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child('clubs').child('UofT')
-      : FirebaseDatabase.instance.reference().child('clubs').child('YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child('clubs').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   var key = db.push();
 
   final Map<String, dynamic> data = {
@@ -299,12 +386,20 @@ Future<bool> joinClub(Club club) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id);
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('myclubs')
       .child(club.id);
@@ -318,7 +413,11 @@ Future<bool> deleteClub(Club club) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id);
   await db.remove().catchError((err) {
     return false;
@@ -339,14 +438,22 @@ Future<bool> leaveClub(Club club) async {
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(uid)
       .child('myclubs')
       .child(club.id);
   var db = FirebaseDatabase.instance
       .reference()
       .child("clubs")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(club.id);
   await db.child('memberList').child(uid).remove();
   await userdb.remove();

@@ -626,7 +626,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 accomplishmentTwoController.text,
                 accomplishmentThreeController.text,
                 '',
-                _interests);
+                _interests.cast<String>().toList());
             if (res) {
               setState(() {
                 isUpdating = false;

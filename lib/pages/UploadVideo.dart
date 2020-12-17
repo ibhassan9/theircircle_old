@@ -60,7 +60,7 @@ class _UploadVideoState extends State<UploadVideo> {
       bottomNavigationBar: Padding(
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: createButton(),
+        child: createButton(this.context),
       ),
     );
   }
@@ -142,7 +142,7 @@ class _UploadVideoState extends State<UploadVideo> {
     );
   }
 
-  Widget createButton() {
+  Widget createButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
           10.0, 10.0, 10.0, kBottomNavigationBarHeight),
@@ -166,9 +166,14 @@ class _UploadVideoState extends State<UploadVideo> {
             this.setState(() {
               isUploading = false;
             });
+            //Navigator.pop(context);
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => MainScreen()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MainScreen(
+                          initialPage: 2,
+                        )));
           } else {
             this.setState(() {
               isUploading = false;
@@ -183,9 +188,14 @@ class _UploadVideoState extends State<UploadVideo> {
           ),
           child: Center(
             child: isUploading
-                ? CircularProgressIndicator(
-                    strokeWidth: 3.0,
-                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.white))
+                ? SizedBox(
+                    height: 10.0,
+                    width: 10.0,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 3.0,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.white)),
+                  )
                 : Text('PUBLISH',
                     style: GoogleFonts.poppins(
                       textStyle: TextStyle(

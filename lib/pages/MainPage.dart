@@ -200,7 +200,7 @@ class _MainPageState extends State<MainPage>
                       "Campus Feed",
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                       ),
@@ -220,7 +220,7 @@ class _MainPageState extends State<MainPage>
                         "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
                         style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Colors.grey.shade600),
                         ),

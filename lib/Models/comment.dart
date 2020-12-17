@@ -40,17 +40,29 @@ Future<List<Comment>> fetchComments(
   var clubCDB = FirebaseDatabase.instance.reference().child('clubposts');
   var db = club == null && course == null
       ? cDB
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(post.id)
           .child('comments')
       : club != null
           ? clubCDB
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(club.id)
               .child(post.id)
               .child('comments')
           : courseCDB
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(course.id)
               .child(post.id)
               .child('comments');
@@ -87,17 +99,29 @@ Future<bool> postComment(
   var clubCDB = FirebaseDatabase.instance.reference().child('clubposts');
   var db = club == null && course == null
       ? cDB
-          .child(uniKey == 0 ? 'UofT' : 'YorkU')
+          .child(uniKey == 0
+              ? 'UofT'
+              : uniKey == 1
+                  ? 'YorkU'
+                  : 'WesternU')
           .child(post.id)
           .child('comments')
       : club != null
           ? clubCDB
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(club.id)
               .child(post.id)
               .child('comments')
           : courseCDB
-              .child(uniKey == 0 ? 'UofT' : 'YorkU')
+              .child(uniKey == 0
+                  ? 'UofT'
+                  : uniKey == 1
+                      ? 'YorkU'
+                      : 'WesternU')
               .child(course.id)
               .child(post.id)
               .child('comments');

@@ -11,6 +11,7 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/VideoComments.dart';
+import 'package:unify/pages/VideosPage.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,8 +23,11 @@ import 'dart:ui' as ui;
 class VideoWidget extends StatefulWidget {
   final Video video;
   final String timeAgo;
+  final Function delete;
+  final Function next;
 
-  VideoWidget({Key key, this.video, this.timeAgo}) : super(key: key);
+  VideoWidget({Key key, this.video, this.timeAgo, this.delete, this.next})
+      : super(key: key);
   @override
   _VideoWidgetState createState() => _VideoWidgetState();
 }
@@ -49,11 +53,12 @@ class _VideoWidgetState extends State<VideoWidget>
       key: Key(key),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 0.0) {
-          if (initialized) {
+          if (initialized && _controller != null) {
             _controller.pause();
           }
         } else if (info.visibleFraction == 1.0) {
-          if (initialized) {
+          if (initialized && _controller != null) {
+            if (_controller.value.position == _controller.value.duration) {}
             _controller.play();
           }
         }
@@ -88,91 +93,133 @@ class _VideoWidgetState extends State<VideoWidget>
               color: Colors.black54,
               child: Stack(
                 children: [
-                  aspectRatio != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(0.0),
-                          child: Container(
-                            color: Colors.black54,
-                            child: Hero(
-                              tag: widget.video.id,
-                              child: Image.network(
-                                widget.video.thumbnailUrl,
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                fit: aspectRatio < 0.6
-                                    ? BoxFit.cover
-                                    : BoxFit.contain,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return SizedBox(
-                                    height: MediaQuery.of(context).size.height,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.grey.shade600),
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes
-                                            : null,
-                                      ),
+                  CustomPaint(
+                    foregroundPainter: CustomFadingEffectPainer(),
+                    child: Container(
+                      child: Stack(
+                        children: [
+                          aspectRatio != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                  child: Container(
+                                    color: Colors.black54,
+                                    child: Hero(
+                                      tag: widget.video.id,
+                                      child: Image.network(
+                                          widget.video.thumbnailUrl,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          fit: aspectRatio < 0.6
+                                              ? BoxFit.cover
+                                              : BoxFit.contain,
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return SizedBox(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2.0,
+                                                valueColor:
+                                                    new AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        Colors.grey.shade600),
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes
+                                                    : null,
+                                              ),
+                                            ));
+                                      }),
                                     ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(),
-                  initialized && aspectRatio != null
-                      ?
-                      // ? SizedBox.expand(
-                      //     child: FittedBox(
-                      //       fit: BoxFit.fill,
-                      //       child: SizedBox(
-                      //           // width: _controller.value.size?.width ?? 0,
-                      //           // height: _controller.value.size?.height ?? 0,
-                      //           // width: MediaQuery.of(context).size.width,
-                      //           // height: MediaQuery.of(context).size.height,
-                      //           child: Chewie(
-                      //         controller: _chewieController,
-                      //       )),
-                      //     ),
-                      //   )
-                      _controller.value.aspectRatio < 0.6
-                          ? Transform.scale(
-                              scale: _controller.value.aspectRatio /
-                                  (MediaQuery.of(context).size.width /
-                                      MediaQuery.of(context).size.height),
-                              child: Center(
-                                child: AspectRatio(
-                                  aspectRatio: aspectRatio,
-                                  child: Chewie(controller: _chewieController),
-                                ),
-                              ),
-                            )
-                          : SizedBox.expand(
-                              child: FittedBox(
-                                fit: BoxFit.cover,
-                                child: SizedBox(
-                                    // width: _controller.value.size?.width ?? 0,
-                                    // height: _controller.value.size?.height ?? 0,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                    child: Chewie(
-                                      controller: _chewieController,
-                                    )),
-                              ),
-                            )
-                      : Container(),
+                                  ))
+                              : Container(),
+                          initialized && aspectRatio != null
+                              ?
+                              // ? SizedBox.expand(
+                              //     child: FittedBox(
+                              //       fit: BoxFit.fill,
+                              //       child: SizedBox(
+                              //           // width: _controller.value.size?.width ?? 0,
+                              //           // height: _controller.value.size?.height ?? 0,
+                              //           // width: MediaQuery.of(context).size.width,
+                              //           // height: MediaQuery.of(context).size.height,
+                              //           child: Chewie(
+                              //         controller: _chewieController,
+                              //       )),
+                              //     ),
+                              //   )
+                              _controller.value.aspectRatio < 0.6
+                                  ? SizedBox.expand(
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: SizedBox(
+                                          width:
+                                              _controller.value.size?.width ??
+                                                  0,
+                                          height:
+                                              _controller.value.size?.height ??
+                                                  0,
+                                          child: VideoPlayer(_controller),
+                                        ),
+                                      ),
+                                    )
+                                  // ? SizedBox.expand(
+                                  //     child: FittedBox(
+                                  //       fit: BoxFit.fill,
+                                  //       child: SizedBox(
+                                  //           // width:
+                                  //           //     aspectRatio,
+                                  //           // height: _controller
+                                  //           //         .value.size?.height ??
+                                  //           //     0,
+                                  //           width: MediaQuery.of(context)
+                                  //               .size
+                                  //               .width,
+                                  //           height: MediaQuery.of(context)
+                                  //               .size
+                                  //               .height,
+                                  //           child: Chewie(
+                                  //             controller: _chewieController,
+                                  //           )),
+                                  //     ),
+                                  //   )
+                                  : SizedBox.expand(
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: SizedBox(
+                                            // width: _controller.value.size?.width ?? 0,
+                                            // height: _controller.value.size?.height ?? 0,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            child: Chewie(
+                                              controller: _chewieController,
+                                            )),
+                                      ),
+                                    )
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                  ),
                   Positioned(
                     bottom: 0.0,
                     width: MediaQuery.of(context).size.width,
@@ -190,7 +237,7 @@ class _VideoWidgetState extends State<VideoWidget>
                             ],
                           ),
                           SizedBox(height: 15.0),
-                          bottomBar(),
+                          bottomBar(context),
                         ],
                       ),
                     ),
@@ -290,7 +337,7 @@ class _VideoWidgetState extends State<VideoWidget>
     );
   }
 
-  Widget bottomBar() {
+  Widget bottomBar(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -319,9 +366,9 @@ class _VideoWidgetState extends State<VideoWidget>
           InkWell(
             onTap: () {
               if (widget.video.userId == firebaseAuth.currentUser.uid) {
-                showDelete();
+                showDelete(context);
               } else {
-                showReport();
+                showReport(context);
               }
             },
             child: Icon(Icons.more_horiz,
@@ -371,9 +418,15 @@ class _VideoWidgetState extends State<VideoWidget>
   @override
   void dispose() {
     super.dispose();
-
-    _controller.dispose();
-    _chewieController.dispose();
+    if (_controller != null) {
+      _controller.pause();
+      _controller.dispose();
+    }
+    if (_chewieController != null) {
+      _chewieController.dispose();
+    }
+    // _controller = null;
+    // _chewieController = null;
   }
 
   @override
@@ -383,6 +436,8 @@ class _VideoWidgetState extends State<VideoWidget>
     getUser(widget.video.userId).then((value) {
       imgUrl = value.profileImgUrl;
       token = value.device_token;
+      var item = widget.video.caption;
+      print(item);
       getAspectRatio().then((value) {
         _controller = VideoPlayerController.network(widget.video.videoUrl)
           ..initialize().then((_) {
@@ -399,7 +454,7 @@ class _VideoWidgetState extends State<VideoWidget>
               initialized = true;
             });
           });
-        _controller.setLooping(true);
+        _controller.setLooping(false);
         _controller.play();
       });
     });
@@ -411,7 +466,20 @@ class _VideoWidgetState extends State<VideoWidget>
     return base64UrlEncode(values);
   }
 
-  showDelete() {
+  void checkVideo() {
+    // Implement your calls inside these conditions' bodies :
+    if (_controller.value.position ==
+        Duration(seconds: 0, minutes: 0, hours: 0)) {
+      print('video Started');
+    }
+
+    if (_controller.value.position == _controller.value.duration) {
+      widget.next();
+      print('video Ended');
+    }
+  }
+
+  showDelete(BuildContext context) {
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
@@ -436,7 +504,13 @@ class _VideoWidgetState extends State<VideoWidget>
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
-              onPressed: () async {}),
+              onPressed: () async {
+                widget.delete();
+                setState(() {
+                  initialized = false;
+                });
+                Navigator.pop(context);
+              }),
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
@@ -453,7 +527,7 @@ class _VideoWidgetState extends State<VideoWidget>
         context: context, builder: (BuildContext context) => act);
   }
 
-  showReport() {
+  showReport(BuildContext context) {
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",
@@ -651,7 +725,9 @@ class _VideoWidgetState extends State<VideoWidget>
     image.image
         .resolve(new ImageConfiguration())
         .addListener(new ImageStreamListener((ImageInfo image, bool _) {
-      completer.complete(image.image);
+      if (!completer.isCompleted) {
+        completer.complete(image.image);
+      }
     }));
     ui.Image info = await completer.future;
     int width = info.width;

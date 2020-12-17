@@ -27,10 +27,12 @@ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 // 0 - University of Toronto | 1 - York University
 
 int checkUniversityWithEmail(String email) {
-  if (email.contains('utoronto')) {
+  if (email.toLowerCase().contains('utoronto')) {
     return 0;
-  } else {
+  } else if (email.toLowerCase().contains('yorku')) {
     return 1;
+  } else {
+    return 2;
   }
 }
 
@@ -39,7 +41,11 @@ Future<Null> requestCourse(String code) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('courserequests')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   await db.push().set(code);
 }
 
@@ -58,12 +64,49 @@ Future<Null> createCourse(String code, String name) async {
   key.set(data);
 }
 
+Future<Course> fetchCourse(String id) async {
+  var uniKey = Constants.checkUniversity();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("courses")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(id);
+
+  DataSnapshot s = await db.once();
+
+  Map<dynamic, dynamic> value = s.value;
+
+  var course = Course(
+      id: value['id'],
+      code: value['code'],
+      name: value['name'],
+      postCount: value['postCount']);
+
+  if (value['memberList'] != null) {
+    course.memberList = await getMemberList(value['memberList']);
+  } else {
+    course.memberList = [];
+  }
+
+  course.memberCount = course.memberList.length;
+
+  course.inCourse = inCourse(course);
+  return course;
+}
+
 Future<List<Course>> fetchCourses() async {
   var uniKey = Constants.checkUniversity();
   List<Course> c = List<Course>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance.reference().child("courses").child('UofT')
-      : FirebaseDatabase.instance.reference().child("courses").child('YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child("courses").child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
 
   DataSnapshot s = await db.once();
 
@@ -96,7 +139,11 @@ Future<bool> joinCourse(Course course) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("courses")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(course.id)
       .child('memberList')
       .child(firebaseAuth.currentUser.uid);
@@ -109,7 +156,11 @@ Future<bool> leaveCourse(Course course) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child("courses")
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(course.id)
       .child('memberList')
       .child(firebaseAuth.currentUser.uid);
@@ -133,10 +184,12 @@ bool inCourse(Course course) {
 
 Future<List<PostUser>> getMemberList(Map<dynamic, dynamic> members) async {
   var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
   List<PostUser> p = [];
   for (var value in members.values) {
     DataSnapshot s = await db.child(value).once();
@@ -156,16 +209,22 @@ Future<List<PostUser>> fetchMemberList(Course course, Club club) async {
   var memberDB = FirebaseDatabase.instance
       .reference()
       .child(course != null ? 'courses' : 'clubs')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(course != null ? course.id : club.id)
       .child('memberList');
   DataSnapshot snap = await memberDB.once();
   Map<dynamic, dynamic> values = snap.value;
 
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU');
+  var db =
+      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU');
 
   List<PostUser> p = [];
   for (var value in values.values) {

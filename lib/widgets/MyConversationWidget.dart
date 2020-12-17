@@ -124,8 +124,8 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(40),
                                 child: Container(
-                                  width: 40,
-                                  height: 40,
+                                  width: 50,
+                                  height: 50,
                                   color: Colors.deepPurpleAccent,
                                   child: Icon(AntDesign.user,
                                       size: 15.0, color: Colors.white),
@@ -219,7 +219,10 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                             )
                                           : Container(),
                                       Flexible(
-                                        child: Text(widget.lastMessage,
+                                        child: Text(
+                                            widget.lastMessage != null
+                                                ? widget.lastMessage
+                                                : '',
                                             maxLines: null,
                                             overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.manjari(

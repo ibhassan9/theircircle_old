@@ -181,8 +181,8 @@ Future<Null> sendPushPoll(
               'id': club == null && course == null
                   ? null
                   : club == null
-                      ? course
-                      : club,
+                      ? course.id
+                      : club.id,
               'postId': postId
             },
           },
@@ -243,12 +243,16 @@ Future<Null> sendNewQuestionToAll() async {
       FirebaseDatabase.instance.reference().child('users').child('UofT');
   var user2db =
       FirebaseDatabase.instance.reference().child('users').child('YorkU');
+  var user3db =
+      FirebaseDatabase.instance.reference().child('users').child('WesternU');
 
   DataSnapshot user1snap = await user1db.once();
   DataSnapshot user2snap = await user2db.once();
+  DataSnapshot user3snap = await user3db.once();
 
   Map<dynamic, dynamic> users1 = user1snap.value;
   Map<dynamic, dynamic> users2 = user2snap.value;
+  Map<dynamic, dynamic> users3 = user3snap.value;
 
   for (var value in users1.values) {
     var token = value['device_token'];
@@ -256,6 +260,11 @@ Future<Null> sendNewQuestionToAll() async {
   }
 
   for (var value in users2.values) {
+    var token = value['device_token'];
+    tokenIds.add(token);
+  }
+
+  for (var value in users3.values) {
     var token = value['device_token'];
     tokenIds.add(token);
   }
@@ -316,7 +325,7 @@ Future<Null> sendPushClub(
             'status': 'done',
             "sound": "default",
             "screen": nID == 0 || nID == 1 ? "COMMENT_PAGE" : "CLUB_PAGE",
-            "extradata": {'type': 'club', 'id': club, 'postId': postId},
+            "extradata": {'type': 'club', 'id': club.id, 'postId': postId},
           },
           'to': token,
         },
@@ -362,7 +371,7 @@ Future<Null> sendPushCourse(
             'status': 'done',
             "sound": "default",
             "screen": nID == 4 ? "COURSE_PAGE" : "COMMENT_PAGE",
-            "extradata": {'type': 'course', 'id': course, 'postId': postId},
+            "extradata": {'type': 'course', 'id': course.id, 'postId': postId},
           },
           'to': token,
         },
@@ -435,39 +444,34 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
   //   print('done fetching');
   // }
 
-  print('waiting');
-
   if (status == null || screen == null || extradata == null) {
     return null;
   }
 
-  print('unsuccessful');
-
   switch (type) {
     // course, club, post, chat, video
     case "course":
+      Course course = await fetchCourse(id);
       switch (screen) {
         case "COMMENT_PAGE":
           Post post = await fetchCoursePost(postId, id);
-          Course course = id;
+          // fetch course
           print(post);
           values = [0, post, course, null, null, null, chatId];
           break;
         case "COURSE_PAGE":
-          Course course = id;
           values = [1, null, course, null, null, null, chatId];
       }
       break;
     case "club":
+      Club club = await fetchClub(id);
       switch (screen) {
         case "COMMENT_PAGE":
           Post post = await fetchClubPost(postId, id);
-          Club club = id;
-          print(post);
+          // fetch club
           values = [2, post, null, club, null, null, chatId];
           break;
         case "CLUB_PAGE":
-          Club club = id;
           values = [3, null, null, club, null, null, chatId];
       }
       break;

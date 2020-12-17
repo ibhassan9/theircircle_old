@@ -26,8 +26,10 @@ import 'dart:ui' as ui;
 class VideoPreview extends StatefulWidget {
   final Video video;
   final String timeAgo;
+  final Function delete;
 
-  VideoPreview({Key key, this.video, this.timeAgo}) : super(key: key);
+  VideoPreview({Key key, this.video, this.timeAgo, this.delete})
+      : super(key: key);
   @override
   _VideoPreviewState createState() => _VideoPreviewState();
 }
@@ -199,7 +201,7 @@ class _VideoPreviewState extends State<VideoPreview>
                             ],
                           ),
                           SizedBox(height: 15.0),
-                          bottomBar(),
+                          bottomBar(context),
                         ],
                       ),
                     ),
@@ -299,7 +301,7 @@ class _VideoPreviewState extends State<VideoPreview>
     );
   }
 
-  Widget bottomBar() {
+  Widget bottomBar(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -328,9 +330,9 @@ class _VideoPreviewState extends State<VideoPreview>
           InkWell(
             onTap: () {
               if (widget.video.userId == firebaseAuth.currentUser.uid) {
-                showDelete();
+                showDelete(context);
               } else {
-                showReport();
+                showReport(context);
               }
             },
             child: Icon(Icons.more_horiz,
@@ -380,8 +382,14 @@ class _VideoPreviewState extends State<VideoPreview>
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
-    _chewieController.dispose();
+    _controller.pause();
+    if (_controller != null) {
+      _controller.dispose();
+    }
+    if (_chewieController != null) {
+      _chewieController.dispose();
+    }
+    initialized = false;
   }
 
   @override
@@ -419,7 +427,7 @@ class _VideoPreviewState extends State<VideoPreview>
     return base64UrlEncode(values);
   }
 
-  showDelete() {
+  showDelete(BuildContext context) {
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
@@ -444,7 +452,11 @@ class _VideoPreviewState extends State<VideoPreview>
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
-              onPressed: () async {}),
+              onPressed: () async {
+                widget.delete();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }),
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
@@ -461,7 +473,7 @@ class _VideoPreviewState extends State<VideoPreview>
         context: context, builder: (BuildContext context) => act);
   }
 
-  showReport() {
+  showReport(BuildContext context) {
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",

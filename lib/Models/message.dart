@@ -24,7 +24,11 @@ Future<List<Message>> fetchMessages(String chatId) async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('chats')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(chatId);
 
   DataSnapshot snap = await db.once();
@@ -53,19 +57,31 @@ Future<bool> sendMessage(
   var db = FirebaseDatabase.instance
       .reference()
       .child('chats')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(chatId);
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(myID)
       .child('chats')
       .child(receiverId);
   var peerdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(receiverId)
       .child('chats')
       .child(myID);
@@ -100,7 +116,11 @@ Future<Null> setSeen(String peerId) async {
   var userdb = FirebaseDatabase.instance
       .reference()
       .child('users')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(myID)
       .child('chats')
       .child(peerId);

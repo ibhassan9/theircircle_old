@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/post.dart';
+import 'package:unify/pages/UploadVideo.dart';
 import 'package:unify/pages/VideoPreview.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -19,7 +22,33 @@ class _MyLibraryState extends State<MyLibrary> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: appBar(),
-      body: staggeredGridView(),
+      body: RefreshIndicator(
+          onRefresh: refresh,
+          child: FutureBuilder(
+            future: _future,
+            builder: (context, snap) {
+              if (snap.hasData && snap.data != null) {
+                return StaggeredGridView.count(
+                    crossAxisCount: 4,
+                    children: List.generate(snap.data.length, (int i) {
+                      Video video = snap.data[i];
+                      return _Tile(
+                          video: video,
+                          refreshList: () {
+                            setState(() {
+                              _future = VideoApi.fetchVideos();
+                            });
+                          });
+                    }),
+                    staggeredTiles:
+                        List.generate(snap.data.length, (int index) {
+                      return StaggeredTile.fit(2);
+                    }));
+              } else {
+                return Container();
+              }
+            },
+          )),
     );
   }
 
@@ -38,32 +67,51 @@ class _MyLibraryState extends State<MyLibrary> {
           icon: Icon(FlutterIcons.video_camera_faw,
               color: Theme.of(context).accentColor),
           onPressed: () async {
-            //await selectVideo();
+            await selectVideo();
           },
         )
       ],
     );
   }
 
-  Widget staggeredGridView() {
-    return FutureBuilder(
-      future: _future,
-      builder: (context, snap) {
-        if (snap.hasData && snap.data != null) {
-          return StaggeredGridView.count(
-              crossAxisCount: 4,
-              children: List.generate(snap.data.length, (int i) {
-                Video video = snap.data[i];
-                return _Tile(video: video);
-              }),
-              staggeredTiles: List.generate(snap.data.length, (int index) {
-                return StaggeredTile.fit(2);
-              }));
-        } else {
-          return Container();
-        }
-      },
-    );
+  // Widget staggeredGridView() {
+  //   return FutureBuilder(
+  //     future: _future,
+  //     builder: (context, snap) {
+  //       if (snap.hasData && snap.data != null) {
+  //         return StaggeredGridView.count(
+  //             crossAxisCount: 4,
+  //             children: List.generate(snap.data.length, (int i) {
+  //               Video video = snap.data[i];
+  //               return _Tile(video: video);
+  //             }),
+  //             staggeredTiles: List.generate(snap.data.length, (int index) {
+  //               return StaggeredTile.fit(2);
+  //             }));
+  //       } else {
+  //         return Container();
+  //       }
+  //     },
+  //   );
+  // }
+
+  Future<Null> refresh() async {
+    setState(() {
+      _future = VideoApi.fetchMyVideos();
+    });
+  }
+
+  selectVideo() async {
+    File file = await VideoApi.getVideo();
+    if (file == null) {
+      return;
+    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => UploadVideo(videoFile: file))).then((value) {
+      refresh();
+    });
   }
 
   @override
@@ -76,8 +124,9 @@ class _MyLibraryState extends State<MyLibrary> {
 
 class _Tile extends StatelessWidget {
   final Video video;
+  final Function refreshList;
 
-  _Tile({this.video});
+  _Tile({this.video, this.refreshList});
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +138,43 @@ class _Tile extends StatelessWidget {
             onTap: () {
               var timeAgo =
                   new DateTime.fromMillisecondsSinceEpoch(video.timeStamp);
+              Function delete = () async {
+                await VideoApi.delete(video.id).then((value) {
+                  refreshList();
+                });
+              };
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => VideoPreview(
-                          video: video, timeAgo: timeago.format(timeAgo))));
+                          video: video,
+                          timeAgo: timeago.format(timeAgo),
+                          delete: delete)));
             },
-            child:
-                Hero(tag: video.id, child: Image.network(video.thumbnailUrl))),
+            child: Hero(
+              tag: video.id,
+              child: Image.network(
+                video.thumbnailUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return SizedBox(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.0,
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Colors.grey.shade600),
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes
+                            : null,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )),
       ),
     );
   }

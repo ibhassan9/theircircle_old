@@ -29,34 +29,21 @@ class Assignment {
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-var assignmentDBrefUofT =
-    FirebaseDatabase.instance.reference().child('assignments').child('UofT');
-var assignmentDBrefYork =
-    FirebaseDatabase.instance.reference().child('assignments').child('YorkU');
-var eventDBrefUofT =
-    FirebaseDatabase.instance.reference().child('eventreminders').child('UofT');
-var eventDBrefYork = FirebaseDatabase.instance
-    .reference()
-    .child('eventreminders')
-    .child('YorkU');
 
 Future<List<Assignment>> fetchAssignments(DateTime _date, Course course) async {
   String date = DateFormat('yyyy-MM-dd').format(_date);
   var uniKey = Constants.checkUniversity();
   List<Assignment> a = List<Assignment>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance
-          .reference()
-          .child("assignments")
-          .child('UofT')
-          .child(course.id)
-          .child(date)
-      : FirebaseDatabase.instance
-          .reference()
-          .child("assignments")
-          .child('YorkU')
-          .child(course.id)
-          .child(date);
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("assignments")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(course.id)
+      .child(date);
 
   var snapshot = await db.once();
 
@@ -83,19 +70,16 @@ Future<List<Assignment>> fetchEventReminders(DateTime _date, Club club) async {
   String date = DateFormat('yyyy-MM-dd').format(_date);
   var uniKey = Constants.checkUniversity();
   List<Assignment> a = List<Assignment>();
-  var db = uniKey == 0
-      ? FirebaseDatabase.instance
-          .reference()
-          .child("eventreminders")
-          .child('UofT')
-          .child(club.id)
-          .child(date)
-      : FirebaseDatabase.instance
-          .reference()
-          .child("eventreminders")
-          .child('YorkU')
-          .child(club.id)
-          .child(date);
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child("eventreminders")
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(club.id)
+      .child(date);
 
   var snapshot = await db.once();
 
@@ -123,44 +107,32 @@ Future<bool> createAssignment(
     Assignment assignment, Course course, String date) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
-  if (uniKey == 0) {
-    var key = assignmentDBrefUofT.child(course.id).child(date).push();
-    final Map<String, dynamic> data = {
-      "title": assignment.title,
-      "description": assignment.description,
-      "createdBy": user.name,
-      "timeDue": assignment.timeDue,
-      "userId": firebaseAuth.currentUser.uid,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch
-    };
+  var key = FirebaseDatabase.instance
+      .reference()
+      .child('assignments')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(course.id)
+      .child(date)
+      .push();
+  final Map<String, dynamic> data = {
+    "title": assignment.title,
+    "description": assignment.description,
+    "createdBy": user.name,
+    "timeDue": assignment.timeDue,
+    "userId": firebaseAuth.currentUser.uid,
+    "timeStamp": DateTime.now().millisecondsSinceEpoch
+  };
 
-    await key.set(data);
-    DataSnapshot ds = await key.once();
-    if (ds.value != null) {
-      return true;
-    } else {
-      return false;
-    }
+  await key.set(data);
+  DataSnapshot ds = await key.once();
+  if (ds.value != null) {
+    return true;
   } else {
-    var key = assignmentDBrefYork.child(course.id).child(date).push();
-    final Map<String, dynamic> data = {
-      "title": assignment.title,
-      "description": assignment.description,
-      "createdBy": user.name,
-      "timeDue": assignment.timeDue,
-      "userId": firebaseAuth.currentUser.uid,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch
-    };
-
-    //TODO:- Fix Push Random Key
-
-    await key.set(data);
-    DataSnapshot ds = await key.once();
-    if (ds.value != null) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }
 
@@ -170,7 +142,11 @@ Future<bool> deleteAssignment(
   var assignmentDB = FirebaseDatabase.instance
       .reference()
       .child(course != null ? 'assignments' : 'eventreminders')
-      .child(uniKey == 0 ? 'UofT' : 'YorkU')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
       .child(course != null ? course.id : club.id)
       .child(dateTime)
       .child(a.id);
@@ -184,43 +160,31 @@ Future<bool> createEventReminder(
     Assignment assignment, Club club, String date) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
-  if (uniKey == 0) {
-    var key = eventDBrefUofT.child(club.id).child(date).push();
-    final Map<String, dynamic> data = {
-      "title": assignment.title,
-      "description": assignment.description,
-      "createdBy": user.name,
-      "timeDue": assignment.timeDue,
-      "userId": firebaseAuth.currentUser.uid,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch
-    };
+  var key = FirebaseDatabase.instance
+      .reference()
+      .child('assignments')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(club.id)
+      .child(date)
+      .push();
+  final Map<String, dynamic> data = {
+    "title": assignment.title,
+    "description": assignment.description,
+    "createdBy": user.name,
+    "timeDue": assignment.timeDue,
+    "userId": firebaseAuth.currentUser.uid,
+    "timeStamp": DateTime.now().millisecondsSinceEpoch
+  };
 
-    await key.set(data);
-    DataSnapshot ds = await key.once();
-    if (ds.value != null) {
-      return true;
-    } else {
-      return false;
-    }
+  await key.set(data);
+  DataSnapshot ds = await key.once();
+  if (ds.value != null) {
+    return true;
   } else {
-    var key = eventDBrefYork.child(club.id).child(date).push();
-    final Map<String, dynamic> data = {
-      "title": assignment.title,
-      "description": assignment.description,
-      "createdBy": user.name,
-      "timeDue": assignment.timeDue,
-      "userId": firebaseAuth.currentUser.uid,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch
-    };
-
-    //TODO:- Fix Push Random Key
-
-    await key.set(data);
-    DataSnapshot ds = await key.once();
-    if (ds.value != null) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }

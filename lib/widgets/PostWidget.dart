@@ -823,7 +823,7 @@ class _PostWidgetState extends State<PostWidget> {
                             backgroundColor: Colors.brown,
                             child: Center(
                               child: Hero(
-                                tag: widget.post.id,
+                                tag: widget.post.imgUrl,
                                 child: Image.network(
                                   widget.post.imgUrl,
                                   width: MediaQuery.of(context).size.width,

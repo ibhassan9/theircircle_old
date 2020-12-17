@@ -35,6 +35,7 @@ class _ChatPageState extends State<ChatPage>
   TextEditingController instagramController = TextEditingController();
   Stream<Event> myChat;
   bool seen = false;
+  bool isSending = false;
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -90,15 +91,21 @@ class _ChatPageState extends State<ChatPage>
                   color: Theme.of(context).accentColor,
                 ),
                 onPressed: () async {
-                  if (chatController.text.isEmpty) {
+                  if (chatController.text.isEmpty || isSending) {
                     return;
                   }
+                  setState(() {
+                    isSending = true;
+                  });
                   var res = await sendMessage(
                       chatController.text, widget.receiver.id, widget.chatId);
                   if (res) {
                     await sendPushChat(widget.receiver.device_token,
                         chatController.text, widget.receiver.id, widget.chatId);
                     chatController.clear();
+                    setState(() {
+                      isSending = false;
+                    });
                   }
                 },
               )
@@ -223,7 +230,13 @@ class _ChatPageState extends State<ChatPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    var chats = db.child(uniKey == 0 ? 'UofT' : 'YorkU').child(widget.chatId);
+    var chats = db
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(widget.chatId);
     myChat = chats.onValue;
   }
 

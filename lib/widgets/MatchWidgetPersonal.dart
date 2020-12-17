@@ -153,7 +153,9 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                               Text(
                                 widget.user.university == 'UofT'
                                     ? 'University of Toronto'
-                                    : 'York University',
+                                    : widget.user.university == 'YorkU'
+                                        ? 'York University'
+                                        : 'Western University',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                   textStyle: TextStyle(

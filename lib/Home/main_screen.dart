@@ -39,6 +39,9 @@ import 'package:unify/Models/post.dart';
 import 'package:unify/pages/post_detail_page.dart';
 
 class MainScreen extends StatefulWidget {
+  final int initialPage;
+
+  MainScreen({Key key, this.initialPage}) : super(key: key);
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -63,8 +66,15 @@ class _MainScreenState extends State<MainScreen>
   @override
   void initState() {
     super.initState();
+    if (widget.initialPage != null) {
+      setState(() {
+        _pages = widget.initialPage;
+      });
+    }
     getUserData().then((value) => null);
-    _pageController = PageController(initialPage: _pages, keepPage: true);
+    _pageController = PageController(
+        initialPage: widget.initialPage != null ? widget.initialPage : _pages,
+        keepPage: true);
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -97,7 +107,6 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     return Scaffold(
         extendBody: false,
         body: PageView(
@@ -116,11 +125,27 @@ class _MainScreenState extends State<MainScreen>
         bottomNavigationBar: Container(
           height: kBottomNavigationBarHeight + 30,
           child: CurvedNavigationBar(
+            index: widget.initialPage != null ? widget.initialPage : 0,
             key: _bottomNavigationKey,
             //animationCurve: Curves.easeOutCirc,
-            backgroundColor:
-                _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,
-            color: _pages == 2 ? Colors.black : Colors.deepPurpleAccent,
+            backgroundColor: widget.initialPage == null
+                ? _pages == 2
+                    ? Colors.black
+                    : Theme.of(context).backgroundColor
+                : widget.initialPage == 2
+                    ? _pages == 2
+                        ? Colors.black
+                        : Theme.of(context).backgroundColor
+                    : Theme.of(context).backgroundColor,
+            color: widget.initialPage == null
+                ? _pages == 2
+                    ? Colors.black
+                    : Colors.deepPurpleAccent
+                : widget.initialPage == 2
+                    ? _pages == 2
+                        ? Colors.black
+                        : Colors.deepPurpleAccent
+                    : Colors.deepPurpleAccent,
             items: [
               Icon(
                 FlutterIcons.circle_notch_faw5s,
@@ -142,6 +167,9 @@ class _MainScreenState extends State<MainScreen>
             ],
             onTap: (index) {
               _pageController.jumpToPage(index);
+              // setState(() {
+              //   _pages = index;
+              // });
               // final CurvedNavigationBarState navBarState =
               //     _bottomNavigationKey.currentState;
               // navBarState.setPage(index);
