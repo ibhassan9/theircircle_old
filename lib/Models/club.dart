@@ -19,6 +19,7 @@ class Club {
   bool inClub;
   bool requested;
   int privacy;
+  String imgUrl;
 
   Club(
       {this.id,
@@ -32,7 +33,8 @@ class Club {
       this.admin,
       this.inClub,
       this.requested,
-      this.privacy});
+      this.privacy,
+      this.imgUrl});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
