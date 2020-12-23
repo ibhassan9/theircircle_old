@@ -23,7 +23,7 @@ class _FilterWidgetState extends State<FilterWidget> {
           children: [
             Text(
               widget.text,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

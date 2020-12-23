@@ -60,7 +60,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                       ),
                       Text(
                         "${widget.club.memberCount}",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -90,10 +90,10 @@ class _ClubWidgetState extends State<ClubWidget> {
                                   Flexible(
                                     child: Text(
                                       widget.club.name,
-                                      style: GoogleFonts.manjari(
+                                      style: GoogleFonts.questrial(
                                         textStyle: TextStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             color:
                                                 Theme.of(context).accentColor),
                                       ),
@@ -109,7 +109,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                             final act = CupertinoActionSheet(
                                               title: Text(
                                                 "PROCEED?",
-                                                style: GoogleFonts.manjari(
+                                                style: GoogleFonts.questrial(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -117,7 +117,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               ),
                                               message: Text(
                                                 "Are you sure you want to delete this club?",
-                                                style: GoogleFonts.manjari(
+                                                style: GoogleFonts.questrial(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -128,7 +128,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                     child: Text(
                                                       "YES",
                                                       style:
-                                                          GoogleFonts.manjari(
+                                                          GoogleFonts.questrial(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -144,7 +144,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                     child: Text(
                                                       "Cancel",
                                                       style:
-                                                          GoogleFonts.manjari(
+                                                          GoogleFonts.questrial(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -172,7 +172,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 widget.club.description.isNotEmpty
                                     ? widget.club.description
                                     : "No description available",
-                                style: GoogleFonts.manjari(
+                                style: GoogleFonts.questrial(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -201,8 +201,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                     var user =
                                         await getUser(widget.club.adminId);
                                     var token = user.device_token;
-                                    await sendPushClub(
-                                        widget.club, 6, token, "", null);
+                                    await sendPushClub(widget.club, 6, token,
+                                        "", null, user.id);
                                     setState(() {
                                       widget.club.inClub = true;
                                       widget.club.memberCount += 1;
@@ -221,17 +221,17 @@ class _ClubWidgetState extends State<ClubWidget> {
                                       var user =
                                           await getUser(widget.club.adminId);
                                       var token = user.device_token;
-                                      await sendPushClub(
-                                          widget.club, 5, token, "", null);
+                                      await sendPushClub(widget.club, 5, token,
+                                          "", null, user.id);
                                     }
                                   }
                                 },
                                 child: Text(
                                   status(),
-                                  style: GoogleFonts.manjari(
+                                  style: GoogleFonts.questrial(
                                     textStyle: TextStyle(
                                         fontSize: 12,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         color: Colors.lightBlue),
                                   ),
                                 ),

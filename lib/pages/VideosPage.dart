@@ -72,20 +72,27 @@ class _VideosPageState extends State<VideosPage> {
         backgroundColor: Colors.grey[800],
         body: RefreshIndicator(
             onRefresh: refresh,
-            child: FutureBuilder(
-              future: videoFuture,
+            child: StreamBuilder(
+              stream: videoFuture.asStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
-                  return PageView.builder(
-                      scrollDirection: Axis.vertical,
+                  List<Video> videos = snapshot.data;
+                  return CarouselSlider.builder(
+                      carouselController: _carouselController,
+                      options: CarouselOptions(
+                          enableInfiniteScroll: false,
+                          viewportFraction: 1.0,
+                          autoPlay: false,
+                          scrollDirection: Axis.vertical,
+                          height: MediaQuery.of(context).size.height),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        Video video = snapshot.data[index];
-                        print(index);
+                        Video video = videos[index];
                         var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
                             video.timeStamp);
                         Function delete = () async {
                           await VideoApi.delete(video.id).then((value) {
+                            //setState(() {});
                             setState(() {
                               videoFuture = VideoApi.fetchVideos();
                             });
@@ -93,6 +100,7 @@ class _VideosPageState extends State<VideosPage> {
                           });
                         };
                         return VideoWidget(
+                            key: ValueKey(video.id),
                             video: video,
                             timeAgo: timeago.format(timeAgo),
                             delete: delete);
@@ -176,15 +184,15 @@ class _VideosPageState extends State<VideosPage> {
             MaterialPageRoute(
                 builder: (context) => UploadVideo(videoFile: file)))
         .then((value) async {
-      await refresh();
+      await refresh().then((value) {
+        _carouselController.animateToPage(0);
+      });
     });
   }
 
   Future<Null> refresh() async {
-    print('refreshing');
     videoFuture = VideoApi.fetchVideos();
     setState(() {});
-    print('refreshed');
   }
 
   @override

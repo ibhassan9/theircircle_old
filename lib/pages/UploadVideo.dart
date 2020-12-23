@@ -48,7 +48,7 @@ class _UploadVideoState extends State<UploadVideo> {
         backgroundColor: Theme.of(context).backgroundColor,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text('CREATE',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -75,7 +75,7 @@ class _UploadVideoState extends State<UploadVideo> {
             Icon(Icons.message_rounded, size: 17.0, color: Colors.grey[400]),
             SizedBox(width: 10.0),
             Text('Allow comments',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.questrial(
                   textStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -166,14 +166,14 @@ class _UploadVideoState extends State<UploadVideo> {
             this.setState(() {
               isUploading = false;
             });
-            //Navigator.pop(context);
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MainScreen(
-                          initialPage: 2,
-                        )));
+            Navigator.pop(context);
+            // Navigator.of(context).popUntil((route) => route.isFirst);
+            // Navigator.pushReplacement(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => MainScreen(
+            //               initialPage: 2,
+            //             )));
           } else {
             this.setState(() {
               isUploading = false;
@@ -197,7 +197,7 @@ class _UploadVideoState extends State<UploadVideo> {
                             new AlwaysStoppedAnimation<Color>(Colors.white)),
                   )
                 : Text('PUBLISH',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -229,20 +229,21 @@ class _UploadVideoState extends State<UploadVideo> {
   }
 
   Widget tagWidget() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[500], width: 0.3),
-          borderRadius: BorderRadius.circular(
-              3.0)), //             <--- BoxDecoration here
-      child: Text('@ Friends',
-          style: GoogleFonts.poppins(
-            textStyle: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: Theme.of(context).accentColor),
-          )),
-    );
+    return Container();
+    // return Container(
+    //   padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+    //   decoration: BoxDecoration(
+    //       border: Border.all(color: Colors.grey[500], width: 0.3),
+    //       borderRadius: BorderRadius.circular(
+    //           3.0)), //             <--- BoxDecoration here
+    //   child: Text('@ Friends',
+    //       style: GoogleFonts.questrial(
+    //         textStyle: TextStyle(
+    //             fontSize: 11,
+    //             fontWeight: FontWeight.w400,
+    //             color: Theme.of(context).accentColor),
+    //       )),
+    // );
   }
 
   Widget descriptionField() {
@@ -261,7 +262,7 @@ class _UploadVideoState extends State<UploadVideo> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: 'Describe your video'),
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.questrial(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,

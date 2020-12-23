@@ -177,10 +177,13 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                     seen: chat.seen,
                                     lastMessageSenderId:
                                         chat.lastMessageSenderId),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Divider(),
-                                ),
+                                Divider(
+                                    color: Theme.of(context).dividerColor,
+                                    thickness: 0.5)
+                                // Padding(
+                                //   padding: const EdgeInsets.all(8.0),
+                                //   child: Divider(),
+                                // ),
                               ],
                             );
                           } else {

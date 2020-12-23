@@ -12,13 +12,16 @@ class FilterPage extends StatefulWidget {
   _FilterPageState createState() => _FilterPageState();
 }
 
-class _FilterPageState extends State<FilterPage> {
+class _FilterPageState extends State<FilterPage>
+    with AutomaticKeepAliveClientMixin {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController filterController = TextEditingController();
 
   List<String> filters = [];
+  bool updated = false;
 
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -26,6 +29,11 @@ class _FilterPageState extends State<FilterPage> {
         centerTitle: false,
         elevation: 0.5,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+        leading: IconButton(
+          icon: Icon(FlutterIcons.arrow_back_mdi,
+              color: Theme.of(context).accentColor),
+          onPressed: () => Navigator.pop(context, updated),
+        ),
         actions: [
           IconButton(
               icon: Icon(FlutterIcons.report_mdi),
@@ -37,7 +45,7 @@ class _FilterPageState extends State<FilterPage> {
         ],
         title: Text(
           "Filters",
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -65,7 +73,7 @@ class _FilterPageState extends State<FilterPage> {
                         contentPadding: EdgeInsets.only(
                             left: 15, bottom: 11, top: 11, right: 15),
                         hintText: "Insert word filter here..."),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -93,7 +101,7 @@ class _FilterPageState extends State<FilterPage> {
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 'Words added here will not appear in your timeline.',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.questrial(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -144,6 +152,7 @@ class _FilterPageState extends State<FilterPage> {
     prefs.setStringList('filters', filterList);
     setState(() {
       filters = filterList;
+      updated = true;
     });
     filterController.clear();
   }
@@ -155,6 +164,7 @@ class _FilterPageState extends State<FilterPage> {
     prefs.setStringList('filters', filterList);
     setState(() {
       filters = filterList;
+      updated = true;
     });
   }
 
@@ -164,4 +174,6 @@ class _FilterPageState extends State<FilterPage> {
     super.dispose();
     filterController.dispose();
   }
+
+  bool get wantKeepAlive => true;
 }

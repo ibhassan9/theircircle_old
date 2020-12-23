@@ -29,6 +29,9 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        leading: IconButton(
+            icon: Icon(FlutterIcons.arrow_back_mdi, color: Colors.white),
+            onPressed: () => Navigator.pop(context, false)),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
@@ -51,7 +54,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                     Text('Note: This will be is a public post',
                         textAlign: TextAlign.center,
                         maxLines: null,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -65,7 +68,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                     Text(widget.question,
                         textAlign: TextAlign.center,
                         maxLines: null,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -96,14 +99,14 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           disabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
-                          hintStyle: GoogleFonts.poppins(
+                          hintStyle: GoogleFonts.questrial(
                             textStyle: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white),
                           ),
                           hintText: title),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.questrial(
                         textStyle: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -126,7 +129,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                         children: [
                           Text('Post Anonymously',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.questrial(
                                 textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
@@ -161,17 +164,22 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           setState(() {
                             isPosting = false;
                           });
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         }
                       },
                       child: CircleAvatar(
                           radius: 25.0,
                           backgroundColor: Colors.white,
                           child: isPosting
-                              ? CircularProgressIndicator(
-                                  strokeWidth: 2.0,
-                                  valueColor: new AlwaysStoppedAnimation<Color>(
-                                      Colors.deepPurpleAccent),
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                    valueColor:
+                                        new AlwaysStoppedAnimation<Color>(
+                                            Colors.deepPurpleAccent),
+                                  ),
                                 )
                               : Icon(FlutterIcons.send_mdi,
                                   color: Colors.deepPurpleAccent)),

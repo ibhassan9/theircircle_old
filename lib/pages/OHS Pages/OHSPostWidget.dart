@@ -7,8 +7,10 @@ import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/OHS.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/pages/MyProfilePage.dart';
+import 'package:unify/pages/OHS%20Pages/OHSComments.dart';
 import 'package:unify/pages/PollResultsPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/pages/course_page.dart';
@@ -21,21 +23,19 @@ import 'package:unify/Models/user.dart';
 import 'package:unify/pages/WebPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PostWidget extends StatefulWidget {
+class OHSPostWidget extends StatefulWidget {
   final Post post;
   final String timeAgo;
-  final Course course;
   final Club club;
   final Function deletePost;
   final Function block;
   final Function hide;
   final bool fromComments;
 
-  PostWidget(
+  OHSPostWidget(
       {Key key,
       @required this.post,
       this.timeAgo,
-      this.course,
       this.club,
       this.deletePost,
       this.block,
@@ -44,10 +44,10 @@ class PostWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PostWidgetState createState() => _PostWidgetState();
+  _OHSPostWidgetState createState() => _OHSPostWidgetState();
 }
 
-class _PostWidgetState extends State<PostWidget> {
+class _OHSPostWidgetState extends State<OHSPostWidget> {
   bool isLiked = false;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController bioC = TextEditingController();
@@ -75,9 +75,8 @@ class _PostWidgetState extends State<PostWidget> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PostDetailPage(
+                builder: (context) => OHSPostDetail(
                     post: widget.post,
-                    course: widget.course,
                     club: widget.club,
                     timeAgo: widget.timeAgo)));
       },
@@ -96,7 +95,8 @@ class _PostWidgetState extends State<PostWidget> {
                       child: Row(children: [
                     InkWell(
                       onTap: () async {
-                        var user = await getUser(widget.post.userId);
+                        var user = await getUserWithUniversity(
+                            widget.post.userId, widget.post.university);
                         if (widget.post.userId != fAuth.currentUser.uid) {
                           // if (widget.post.isAnonymous == false) {
                           //   showProfile(
@@ -600,13 +600,13 @@ class _PostWidgetState extends State<PostWidget> {
                                       if (widget.post.isVoted) {
                                         return;
                                       }
-                                      sendPushPoll(
-                                          token,
-                                          "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
-                                          widget.club,
-                                          widget.course,
-                                          widget.post.id,
-                                          widget.post.userId);
+                                      //TODO: PUSH NOTIFICATION
+                                      // sendPushPoll(
+                                      //     token,
+                                      //     "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
+                                      //     widget.club,
+                                      //     null,
+                                      //     widget.post.id);
                                       setState(() {
                                         widget.post.isVoted = true;
                                         widget.post.whichOption = 1;
@@ -618,8 +618,8 @@ class _PostWidgetState extends State<PostWidget> {
                                       width2 =
                                           MediaQuery.of(context).size.width *
                                               widthPercentage(2);
-                                      await vote(widget.post, widget.club,
-                                          widget.course, 1);
+                                      await OneHealingSpace.vote(
+                                          widget.post, 1);
                                     },
                                     child: Stack(
                                       alignment:
@@ -686,14 +686,13 @@ class _PostWidgetState extends State<PostWidget> {
                                       if (widget.post.isVoted) {
                                         return;
                                       }
-
-                                      sendPushPoll(
-                                          token,
-                                          "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
-                                          widget.club,
-                                          widget.course,
-                                          widget.post.id,
-                                          widget.post.userId);
+                                      // TODO: PUSH NOTIFICATION
+                                      // sendPushPoll(
+                                      //     token,
+                                      //     "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
+                                      //     widget.club,
+                                      //     null,
+                                      //     widget.post.id);
                                       // TODO: - Vote second option
                                       setState(() {
                                         widget.post.isVoted = true;
@@ -706,8 +705,8 @@ class _PostWidgetState extends State<PostWidget> {
                                       width2 =
                                           MediaQuery.of(context).size.width *
                                               widthPercentage(2);
-                                      await vote(widget.post, widget.club,
-                                          widget.course, 2);
+                                      await OneHealingSpace.vote(
+                                          widget.post, 2);
                                     },
                                     child: Stack(
                                       alignment:
@@ -940,47 +939,40 @@ class _PostWidgetState extends State<PostWidget> {
                               if (widget.post.isLiked) {
                                 widget.post.isLiked = false;
                                 widget.post.likeCount -= 1;
-                                var res = await unlike(
-                                    widget.post, widget.club, widget.course);
+                                var res =
+                                    await OneHealingSpace.unlike(widget.post);
                                 if (res) {
                                   if (this.mounted) {
                                     setState(() {});
                                   }
                                 }
                               } else {
-                                var user = await getUser(widget.post.userId);
+                                var user = await getUserWithUniversity(
+                                    widget.post.userId, widget.post.university);
                                 var token = user.device_token;
                                 if (user.id != firebaseAuth.currentUser.uid) {
-                                  if (widget.club == null &&
-                                      widget.course == null) {
-                                    await sendPush(
-                                        0,
-                                        token,
-                                        widget.post.content,
-                                        widget.post.id,
-                                        user.id);
-                                  } else if (widget.club != null) {
-                                    await sendPushClub(
-                                        widget.club,
-                                        0,
-                                        token,
-                                        widget.post.content,
-                                        widget.post.id,
-                                        user.id);
-                                  } else {
-                                    await sendPushCourse(
-                                        widget.course,
-                                        0,
-                                        token,
-                                        widget.post.content,
-                                        widget.post.id,
-                                        user.id);
-                                  }
+                                  // TODO:- send push notification
+
+                                  // if (widget.club == null &&
+                                  //     widget.course == null) {
+                                  //   await sendPush(0, token,
+                                  //       widget.post.content, widget.post.id);
+                                  // } else if (widget.club != null) {
+                                  //   await sendPushClub(widget.club, 0, token,
+                                  //       widget.post.content, widget.post.id);
+                                  // } else {
+                                  //   await sendPushCourse(
+                                  //       widget.course,
+                                  //       0,
+                                  //       token,
+                                  //       widget.post.content,
+                                  //       widget.post.id);
+                                  // }
                                 }
                                 widget.post.isLiked = true;
                                 widget.post.likeCount += 1;
-                                var res = await like(
-                                    widget.post, widget.club, widget.course);
+                                var res =
+                                    await OneHealingSpace.like(widget.post);
                                 if (res) {
                                   if (this.mounted) {
                                     setState(() {});
@@ -1115,7 +1107,8 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   Future<PostUser> user() async {
-    return await getUser(widget.post.userId);
+    return await getUserWithUniversity(
+        widget.post.userId, widget.post.university);
   }
 
   showSnackBar() {
@@ -1135,7 +1128,8 @@ class _PostWidgetState extends State<PostWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUser(widget.post.userId).then((value) {
+    getUserWithUniversity(widget.post.userId, widget.post.university)
+        .then((value) {
       imgUrl = value.profileImgUrl;
       token = value.device_token;
       _user = value;
@@ -1148,16 +1142,16 @@ class _PostWidgetState extends State<PostWidget> {
           width2 = MediaQuery.of(context).size.width;
         }
       });
-      fetchComments(widget.post, widget.course, widget.club).then((value) {
-        if (value.length > 0 && value != null) {
-          Comment c = value.last;
-          if (this.mounted) {
-            setState(() {
-              comment = c;
-            });
-          }
-        }
-      });
+      // fetchComments(widget.post, widget.course, widget.club).then((value) {
+      //   if (value.length > 0 && value != null) {
+      //     Comment c = value.last;
+      //     if (this.mounted) {
+      //       setState(() {
+      //         comment = c;
+      //       });
+      //     }
+      //   }
+      // });
     });
     // setState(() {
     //   width1 = MediaQuery.of(context).size.width;

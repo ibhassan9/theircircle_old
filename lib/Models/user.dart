@@ -253,7 +253,12 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
           value['instagramHandle'] != null ? value['instagramHandle'] : "",
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-      isBlocked: blocks.contains(id));
+      isBlocked: blocks.contains(id),
+      university: uni == 'UofT'
+          ? "University of Toronto"
+          : uni == 'YorkU'
+              ? "York University"
+              : "Western University");
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart' as c;
@@ -12,8 +11,14 @@ class Comment {
   String username;
   String userId;
   int timeStamp;
+  String university;
 
-  Comment({this.content, this.username, this.userId, this.timeStamp});
+  Comment(
+      {this.content,
+      this.username,
+      this.userId,
+      this.timeStamp,
+      this.university});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;

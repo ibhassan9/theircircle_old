@@ -106,19 +106,23 @@ class _UserPageState extends State<UserPage> {
                                     height: 100,
                                     width: 100,
                                     child: Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.grey.shade600),
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes
-                                            : null,
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  Colors.grey.shade600),
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes
+                                              : null,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -218,8 +222,12 @@ class _UserPageState extends State<UserPage> {
               ],
             )
           : Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 1.5,
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1.5,
+                ),
               ),
             ),
     );

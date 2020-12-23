@@ -32,14 +32,18 @@ class NewsView extends StatelessWidget {
                   height: 200,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.grey.shade600),
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes
-                          : null,
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.0,
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Colors.grey.shade600),
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes
+                            : null,
+                      ),
                     ),
                   ),
                 );

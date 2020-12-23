@@ -15,6 +15,7 @@ import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class Post {
@@ -38,6 +39,7 @@ class Post {
   bool isVoted;
   int whichOption;
   String tcQuestion;
+  String university; // only used by OHS
 
   Post(
       {this.id,
@@ -59,7 +61,8 @@ class Post {
       this.votes,
       this.isVoted,
       this.whichOption,
-      this.tcQuestion});
+      this.tcQuestion,
+      this.university});
 }
 
 class Video {
@@ -74,6 +77,7 @@ class Video {
   String name;
   int timeStamp;
   bool allowComments;
+  String university;
 
   Video(
       {this.id,
@@ -86,7 +90,8 @@ class Video {
       this.isLiked,
       this.name,
       this.timeStamp,
-      this.allowComments});
+      this.allowComments,
+      this.university});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -246,7 +251,7 @@ Future<Post> fetchPost(String postId) async {
   return post;
 }
 
-Future<Post> fetchCoursePost(String postId, Course course) async {
+Future<Post> fetchCoursePost(String postId, String id) async {
   var uniKey = Constants.checkUniversity();
   var db = FirebaseDatabase.instance
       .reference()
@@ -256,7 +261,7 @@ Future<Post> fetchCoursePost(String postId, Course course) async {
           : uniKey == 1
               ? 'YorkU'
               : 'WesternU');
-  var snapshot = await db.child(course.id).child(postId).once();
+  var snapshot = await db.child(id).child(postId).once();
 
   Map<dynamic, dynamic> value = snapshot.value;
   var post = Post(
@@ -317,7 +322,7 @@ Future<Post> fetchCoursePost(String postId, Course course) async {
   return post;
 }
 
-Future<Post> fetchClubPost(String postId, Club club) async {
+Future<Post> fetchClubPost(String postId, String id) async {
   var uniKey = Constants.checkUniversity();
   var db =
       FirebaseDatabase.instance.reference().child("clubposts").child(uniKey == 0
@@ -325,7 +330,7 @@ Future<Post> fetchClubPost(String postId, Club club) async {
           : uniKey == 1
               ? 'YorkU'
               : 'WesternU');
-  var snapshot = await db.child(club.id).child(postId).once();
+  var snapshot = await db.child(id).child(postId).once();
 
   Map<dynamic, dynamic> value = snapshot.value;
   var post = Post(
@@ -1388,11 +1393,7 @@ class VideoApi {
     PostUser user = await getUser(firebaseAuth.currentUser.uid);
     var uniKey = Constants.checkUniversity();
 
-    var db = videoDB.child(uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU');
+    var db = videoDB;
     var userDB = FirebaseDatabase.instance
         .reference()
         .child('users')
@@ -1411,7 +1412,12 @@ class VideoApi {
       "timeStamp": DateTime.now().millisecondsSinceEpoch,
       "thumbUrl": thumbUrl,
       "caption": caption,
-      "allowComments": allowComments
+      "allowComments": allowComments,
+      "university": uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU'
     };
     await key.set(data);
     await userDB.child(key.key).set(true);
@@ -1438,11 +1444,8 @@ class VideoApi {
         .child(uid)
         .child('myvideos')
         .child(id);
-    var videoDB = FirebaseDatabase.instance
-        .reference()
-        .child('videos')
-        .child(university)
-        .child(id);
+    var videoDB =
+        FirebaseDatabase.instance.reference().child('videos').child(id);
     await db.remove().then((value) async {
       await videoDB.remove().catchError((e) {
         return false;
@@ -1485,14 +1488,7 @@ class VideoApi {
   }
 
   static Future<Video> fetchVideo(String id) async {
-    var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db =
-        FirebaseDatabase.instance.reference().child('videos').child(university);
+    var db = FirebaseDatabase.instance.reference().child('videos');
     DataSnapshot snap = await db.once();
     Map<dynamic, dynamic> value = snap.value[id];
 
@@ -1509,7 +1505,8 @@ class VideoApi {
         thumbnailUrl: value['thumbUrl'],
         caption: value['caption'],
         allowComments:
-            value['allowComments'] != null ? value['allowComments'] : true);
+            value['allowComments'] != null ? value['allowComments'] : true,
+        university: value['university']);
 
     if (value['likes'] != null) {
       video.likeCount = value['likes'].length;
@@ -1531,14 +1528,7 @@ class VideoApi {
 
   static Future<List<Video>> fetchVideos() async {
     List<Video> videos = [];
-    var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db =
-        FirebaseDatabase.instance.reference().child('videos').child(university);
+    var db = FirebaseDatabase.instance.reference().child('videos');
     DataSnapshot snap = await db.once();
     Map<dynamic, dynamic> values = snap.value;
 
@@ -1553,7 +1543,8 @@ class VideoApi {
             thumbnailUrl: value['thumbUrl'],
             caption: value['caption'],
             allowComments:
-                value['allowComments'] != null ? value['allowComments'] : true);
+                value['allowComments'] != null ? value['allowComments'] : true,
+            university: value['university']);
 
         if (value['likes'] != null) {
           video.likeCount = value['likes'].length;
@@ -1585,15 +1576,14 @@ class VideoApi {
     await FirebaseDatabase.instance
         .reference()
         .child('videos')
-        .child(uniKey == 0
+        .child(video.id)
+        .child('likes')
+        .child(firebaseAuth.currentUser.uid)
+        .set(uniKey == 0
             ? 'UofT'
             : uniKey == 1
                 ? 'YorkU'
                 : 'WesternU')
-        .child(video.id)
-        .child('likes')
-        .child(firebaseAuth.currentUser.uid)
-        .set(firebaseAuth.currentUser.uid)
         .catchError((err) {
       return false;
     });
@@ -1601,16 +1591,9 @@ class VideoApi {
   }
 
   static Future<bool> unlike(Video video) async {
-    var uniKey = Constants.checkUniversity();
-
     await FirebaseDatabase.instance
         .reference()
         .child('videos')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
         .child(video.id)
         .child('likes')
         .child(firebaseAuth.currentUser.uid)
@@ -1622,7 +1605,7 @@ class VideoApi {
   }
 
   static bool checkIsLiked(Map<dynamic, dynamic> likes) {
-    for (var value in likes.values) {
+    for (var value in likes.keys) {
       if (value == firebaseAuth.currentUser.uid) {
         return true;
       }
@@ -1634,21 +1617,19 @@ class VideoApi {
     PostUser user = await getUser(firebaseAuth.currentUser.uid);
     var uniKey = Constants.checkUniversity();
     var videoDB = FirebaseDatabase.instance.reference().child('videos');
-    var db = videoDB
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(video.id)
-        .child('comments');
+    var db = videoDB.child(video.id).child('comments');
     //var key = commentsDB.child(post.id).push();
     var key = db.push();
     final Map<String, dynamic> data = {
       "content": content,
       "username": user.name,
       "userId": firebaseAuth.currentUser.uid,
-      "timeStamp": DateTime.now().millisecondsSinceEpoch
+      "timeStamp": DateTime.now().millisecondsSinceEpoch,
+      "university": uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU'
     };
 
     await key.set(data).catchError((err) {
@@ -1660,16 +1641,8 @@ class VideoApi {
 
   static Future<List<Comment>> fetchComments(Video video) async {
     List<Comment> c = List<Comment>();
-    var uniKey = Constants.checkUniversity();
     var cDB = FirebaseDatabase.instance.reference().child('videos');
-    var db = cDB
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(video.id)
-        .child('comments');
+    var db = cDB.child(video.id).child('comments');
 
     var snapshot = await db.once();
 
@@ -1681,7 +1654,8 @@ class VideoApi {
             content: value['content'],
             username: value['username'],
             userId: value['userId'],
-            timeStamp: value['timeStamp']);
+            timeStamp: value['timeStamp'],
+            university: value['university']);
         c.add(comment);
       });
       c.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));

@@ -30,8 +30,12 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name.isNotEmpty ? "Hey $name," : "Hey,",
-                        style: GoogleFonts.manjari(
+                        name != null
+                            ? name.isNotEmpty
+                                ? "Hey $name,"
+                                : "Hey,"
+                            : "Hey,",
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -40,7 +44,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                       ),
                       Text(
                         "Here is your university digest",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -52,8 +56,12 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                   CircleAvatar(
                     backgroundColor: Colors.deepPurpleAccent,
                     child: Text(
-                      name.isNotEmpty ? name.substring(0, 1).toString() : "",
-                      style: GoogleFonts.manjari(
+                      name != null
+                          ? name.isNotEmpty
+                              ? name.substring(0, 1).toString()
+                              : ""
+                          : "",
+                      style: GoogleFonts.questrial(
                         textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,

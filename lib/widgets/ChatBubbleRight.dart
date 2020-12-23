@@ -20,7 +20,7 @@ class ChatBubbleRight extends StatelessWidget {
       stick: true,
       color: Colors.deepPurpleAccent,
       child: Text(msg.messageText,
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
           )),

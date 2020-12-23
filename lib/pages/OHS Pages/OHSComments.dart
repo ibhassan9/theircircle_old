@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/OHS.dart';
 import 'package:unify/Widgets/CommentWidget.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
@@ -11,22 +12,22 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/OHS%20Pages/OHSPostWidget.dart';
 import 'package:unify/widgets/CommentPostWidget.dart';
 import 'package:unify/widgets/PostWidget.dart';
 
-class PostDetailPage extends StatefulWidget {
+class OHSPostDetail extends StatefulWidget {
   final Post post;
-  final Course course;
   final Club club;
   final String timeAgo;
 
-  PostDetailPage({Key key, this.post, this.course, this.club, this.timeAgo})
+  OHSPostDetail({Key key, this.post, this.club, this.timeAgo})
       : super(key: key);
   @override
-  _PostDetailPageState createState() => _PostDetailPageState();
+  _OHSPostDetailState createState() => _OHSPostDetailState();
 }
 
-class _PostDetailPageState extends State<PostDetailPage> {
+class _OHSPostDetailState extends State<OHSPostDetail> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
@@ -87,32 +88,30 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     isCommenting = true;
                   });
                   Comment comment = Comment(content: commentController.text);
-                  var res = await postComment(
-                      comment,
-                      widget.post,
-                      widget.course == null ? null : widget.course,
-                      widget.club == null ? null : widget.club);
+                  var res =
+                      await OneHealingSpace.postComment(comment, widget.post);
                   if (res) {
-                    var user = await getUser(widget.post.userId);
-                    var token = user.device_token;
-                    if (user.id != firebaseAuth.currentUser.uid) {
-                      if (widget.club == null && widget.course == null) {
-                        await sendPush(
-                            1, token, comment.content, widget.post.id, user.id);
-                      } else if (widget.club != null) {
-                        await sendPushClub(widget.club, 1, token,
-                            comment.content, widget.post.id, user.id);
-                      } else {
-                        await sendPushCourse(widget.course, 1, token,
-                            comment.content, widget.post.id, user.id);
-                      }
-                    }
+                    //TODO:- send push notification
+                    // var user = await getUser(widget.post.userId);
+                    // var token = user.device_token;
+                    // if (user.id != firebaseAuth.currentUser.uid) {
+                    //   if (widget.club == null && widget.course == null) {
+                    //     await sendPush(
+                    //         1, token, comment.content, widget.post.id);
+                    //   } else if (widget.club != null) {
+                    //     await sendPushClub(widget.club, 1, token,
+                    //         comment.content, widget.post.id);
+                    //   } else {
+                    //     await sendPushCourse(widget.course, 1, token,
+                    //         comment.content, widget.post.id);
+                    //   }
+                    // }
                     commentController.clear();
                   } else {}
                   if (this.mounted) {
                     setState(() {
-                      commentFuture = fetchComments(
-                          widget.post, widget.course, widget.club);
+                      commentFuture =
+                          OneHealingSpace.fetchComments(widget.post);
                     });
                   }
                   setState(() {
@@ -148,7 +147,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
           children: <Widget>[
             ListView(
               children: <Widget>[
-                PostWidget(
+                OHSPostWidget(
                     hide: () async {
                       var res = await hidePost(widget.post.id);
                       Navigator.pop(context);
@@ -164,7 +163,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       }
                     },
                     deletePost: () async {
-                      var res = await deletePost(widget.post.id, null, null);
+                      var res =
+                          await OneHealingSpace.deletePost(widget.post.id);
                       Navigator.pop(context);
                       if (res) {
                         previewMessage("Post Deleted", context);
@@ -174,7 +174,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     },
                     fromComments: true,
                     post: widget.post,
-                    course: widget.course,
                     club: widget.club,
                     timeAgo: widget.timeAgo),
                 Padding(
@@ -240,7 +239,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
   Future<Null> refresh() async {
     this.setState(() {
-      commentFuture = fetchComments(widget.post, widget.course, widget.club);
+      commentFuture = OneHealingSpace.fetchComments(widget.post);
     });
   }
 
@@ -248,6 +247,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    commentFuture = fetchComments(widget.post, widget.course, widget.club);
+    commentFuture = OneHealingSpace.fetchComments(widget.post);
   }
 }

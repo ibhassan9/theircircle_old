@@ -62,7 +62,7 @@ class _VideoCommentsState extends State<VideoComments> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Comment Here"),
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.questrial(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -83,11 +83,12 @@ class _VideoCommentsState extends State<VideoComments> {
                   var res =
                       await VideoApi.postComment(comment.content, widget.video);
                   if (res) {
-                    var user = await getUser(widget.video.userId);
+                    var user = await getUserWithUniversity(
+                        widget.video.userId, widget.video.university);
                     var token = user.device_token;
                     if (user.id != firebaseAuth.currentUser.uid) {
-                      await sendPushVideo(
-                          1, token, comment.content, widget.video.id);
+                      await sendPushVideo(1, token, comment.content,
+                          widget.video.id, widget.video.userId);
                     }
                   } else {}
                   if (this.mounted) {
@@ -108,7 +109,7 @@ class _VideoCommentsState extends State<VideoComments> {
       appBar: AppBar(
         title: Text(
           "COMMENTS",
-          style: GoogleFonts.montserrat(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,

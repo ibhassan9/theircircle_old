@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +80,8 @@ class _VideoPreviewState extends State<VideoPreview>
                 widget.video.likeCount += 1;
               });
               await VideoApi.like(widget.video);
-              await sendPushVideo(
-                  0, token, widget.video.caption, widget.video.id);
+              await sendPushVideo(0, token, widget.video.caption,
+                  widget.video.id, widget.video.userId);
             }
           },
           child: InkWell(
@@ -103,44 +104,48 @@ class _VideoPreviewState extends State<VideoPreview>
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(0.0),
                           child: Container(
-                            color: Colors.black54,
-                            child: Hero(
-                              tag: widget.video.id,
-                              child: Image.network(
-                                widget.video.thumbnailUrl,
+                              color: Colors.black54,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.video.thumbnailUrl,
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height,
                                 fit: aspectRatio < 0.6
                                     ? BoxFit.cover
                                     : BoxFit.contain,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return SizedBox(
-                                    height: MediaQuery.of(context).size.height,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.grey.shade600),
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes
-                                            : null,
-                                      ),
-                                    ),
-                                  );
-                                },
+                              )
+                              // child: Image.network(
+                              //   widget.video.thumbnailUrl,
+                              //   width: MediaQuery.of(context).size.width,
+                              //   height: MediaQuery.of(context).size.height,
+                              //   fit: aspectRatio < 0.6
+                              //       ? BoxFit.cover
+                              //       : BoxFit.contain,
+                              //   loadingBuilder: (BuildContext context,
+                              //       Widget child,
+                              //       ImageChunkEvent loadingProgress) {
+                              //     if (loadingProgress == null) return child;
+                              //     return SizedBox(
+                              //       height: MediaQuery.of(context).size.height,
+                              //       width: MediaQuery.of(context).size.width,
+                              //       child: Center(
+                              //         child: CircularProgressIndicator(
+                              //           strokeWidth: 2.0,
+                              //           valueColor:
+                              //               new AlwaysStoppedAnimation<Color>(
+                              //                   Colors.grey.shade600),
+                              //           value: loadingProgress
+                              //                       .expectedTotalBytes !=
+                              //                   null
+                              //               ? loadingProgress
+                              //                       .cumulativeBytesLoaded /
+                              //                   loadingProgress.expectedTotalBytes
+                              //               : null,
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              // ),
                               ),
-                            ),
-                          ),
                         )
                       : Container(),
                   initialized
@@ -257,12 +262,12 @@ class _VideoPreviewState extends State<VideoPreview>
         SizedBox(width: 10.0),
         Text(
           widget.video.name.toUpperCase(),
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.questrial(
               fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
         ),
         Text(
           ' • ' + widget.timeAgo,
-          style: GoogleFonts.manjari(
+          style: GoogleFonts.questrial(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Colors.grey[300]),
@@ -278,7 +283,7 @@ class _VideoPreviewState extends State<VideoPreview>
         Text(widget.video.caption,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.questrial(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: Colors.white)),
@@ -291,7 +296,7 @@ class _VideoPreviewState extends State<VideoPreview>
         //     Text("DIET_ • Denzel Curry, Kenny Beats",
         //         maxLines: 2,
         //         overflow: TextOverflow.ellipsis,
-        //         style: GoogleFonts.manjari(
+        //         style: GoogleFonts.questrial(
         //             fontSize: 13,
         //             fontWeight: FontWeight.w500,
         //             color: Colors.white)),
@@ -303,6 +308,7 @@ class _VideoPreviewState extends State<VideoPreview>
 
   Widget bottomBar(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 10.0),
       width: MediaQuery.of(context).size.width,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Container(
@@ -311,7 +317,7 @@ class _VideoPreviewState extends State<VideoPreview>
             Icon(AntDesign.heart, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.likeCount.toString(),
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.questrial(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white)),
@@ -319,7 +325,7 @@ class _VideoPreviewState extends State<VideoPreview>
             Icon(AntDesign.message1, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.commentCount.toString(),
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.questrial(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white))
@@ -353,8 +359,8 @@ class _VideoPreviewState extends State<VideoPreview>
                   widget.video.likeCount += 1;
                 });
                 await VideoApi.like(widget.video);
-                await sendPushVideo(
-                    0, token, widget.video.caption, widget.video.id);
+                await sendPushVideo(0, token, widget.video.caption,
+                    widget.video.id, widget.video.userId);
               }
             },
             child: Icon(AntDesign.heart,
@@ -477,14 +483,14 @@ class _VideoPreviewState extends State<VideoPreview>
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",
-        style: GoogleFonts.manjari(
+        style: GoogleFonts.questrial(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "What is the issue?",
-        style: GoogleFonts.manjari(
+        style: GoogleFonts.questrial(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -493,7 +499,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It's suspicious or spam",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -505,7 +511,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It's abusive or harmful",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -517,7 +523,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It expresses intentions of self-harm or suicide",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -529,7 +535,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It promotes sexual/inappropriate content",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -541,7 +547,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "Hide this video.",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -549,14 +555,14 @@ class _VideoPreviewState extends State<VideoPreview>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.questrial(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to hide this video?",
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.questrial(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -565,7 +571,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.questrial(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -574,7 +580,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.questrial(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -590,7 +596,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "Block this user",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -598,14 +604,14 @@ class _VideoPreviewState extends State<VideoPreview>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.questrial(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to block this user?",
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.questrial(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -614,7 +620,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.questrial(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -623,7 +629,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.manjari(
+                        style: GoogleFonts.questrial(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -639,7 +645,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.manjari(
+              style: GoogleFonts.questrial(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -655,7 +661,7 @@ class _VideoPreviewState extends State<VideoPreview>
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text('Your report has been received.',
-            style: GoogleFonts.manjari(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,

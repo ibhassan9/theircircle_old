@@ -66,7 +66,9 @@ class _MemberWidgetState extends State<MemberWidget> {
                               ? CircleAvatar(
                                   backgroundColor: Colors.grey[400],
                                   child: Text(widget.user.name.substring(0, 1),
-                                      style: TextStyle(color: Colors.white)))
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .backgroundColor)))
                               : Hero(
                                   tag: widget.user.id,
                                   child: ClipRRect(
@@ -85,20 +87,24 @@ class _MemberWidgetState extends State<MemberWidget> {
                                           height: 40,
                                           width: 40,
                                           child: Center(
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2.0,
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                          Color>(
-                                                      Colors.grey.shade600),
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes
-                                                  : null,
+                                            child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2.0,
+                                                valueColor:
+                                                    new AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        Colors.grey.shade600),
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes
+                                                    : null,
+                                              ),
                                             ),
                                           ),
                                         );
@@ -111,10 +117,10 @@ class _MemberWidgetState extends State<MemberWidget> {
                               _fAuth.currentUser.uid == widget.user.id
                                   ? 'You'
                                   : widget.user.name,
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.questrial(
                                 textStyle: TextStyle(
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
                               ))
                         ],
@@ -123,7 +129,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                     widget.isCourse == false
                         ? widget.user.id == widget.club.adminId
                             ? Text("Admin",
-                                style: GoogleFonts.manjari(
+                                style: GoogleFonts.questrial(
                                   textStyle: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,

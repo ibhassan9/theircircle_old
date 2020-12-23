@@ -74,7 +74,7 @@ class _UserSearchPageState extends State<UserSearchPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search users..."),
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

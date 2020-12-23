@@ -49,7 +49,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                     ),
                     Text(
                       "${widget.course.memberCount}",
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.questrial(
                         textStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -73,17 +73,17 @@ class _CourseWidgetState extends State<CourseWidget> {
                         children: <Widget>[
                           Text(
                             widget.course.code,
-                            style: GoogleFonts.manjari(
+                            style: GoogleFonts.questrial(
                               textStyle: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
                                   color: Theme.of(context).accentColor),
                             ),
                           ),
                           Divider(),
                           Text(
                             widget.course.name,
-                            style: GoogleFonts.manjari(
+                            style: GoogleFonts.questrial(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -116,10 +116,10 @@ class _CourseWidgetState extends State<CourseWidget> {
                             },
                             child: Text(
                               status(),
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.questrial(
                                 textStyle: TextStyle(
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.lightBlue),
                               ),
                             ),

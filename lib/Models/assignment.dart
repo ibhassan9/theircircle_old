@@ -162,7 +162,7 @@ Future<bool> createEventReminder(
   var uniKey = Constants.checkUniversity();
   var key = FirebaseDatabase.instance
       .reference()
-      .child('assignments')
+      .child('eventreminders')
       .child(uniKey == 0
           ? 'UofT'
           : uniKey == 1

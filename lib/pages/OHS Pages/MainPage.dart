@@ -4,9 +4,16 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/OHS.dart';
+import 'package:unify/pages/OHS%20Pages/CalendarPage.dart';
+import 'package:unify/pages/OHS%20Pages/MembersPage.dart';
+import 'package:unify/pages/OHS%20Pages/OHSPostPage.dart';
+import 'package:unify/pages/OHS%20Pages/OHSPostWidget.dart';
+import 'package:unify/pages/join_requests_list.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/members_list_page.dart';
 import 'package:unify/widgets/PostWidget.dart';
+import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/pages/course_calender_page.dart';
 import 'package:unify/Models/post.dart';
@@ -14,27 +21,56 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/PostPage.dart';
 
-class CoursePage extends StatefulWidget {
-  final Course course;
+class OHSMainPage extends StatefulWidget {
+  final Club club;
 
-  CoursePage({Key key, this.course}) : super(key: key);
+  OHSMainPage({Key key, this.club}) : super(key: key);
 
   @override
-  _CoursePageState createState() => _CoursePageState();
+  _OHSMainPageState createState() => _OHSMainPageState();
 }
 
-class _CoursePageState extends State<CoursePage> {
+class _OHSMainPageState extends State<OHSMainPage> {
   int sortBy = 0;
-  Future<List<Post>> courseFuture;
+  Future<List<Post>> clubFuture;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 25.0),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.pink, borderRadius: BorderRadius.circular(25.0)),
+          width: MediaQuery.of(context).size.width,
+          height: 50.0,
+          margin: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 5.0),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(FlutterIcons.calendar_ant,
+                    color: Colors.white, size: 17.0),
+                SizedBox(width: 10.0),
+                Text(
+                  'Book an appointment',
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         title: Text(
-          widget.course.code,
+          widget.club.name,
           style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 15,
@@ -47,45 +83,45 @@ class _CoursePageState extends State<CoursePage> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: <Widget>[
           IconButton(
-            icon: Icon(AntDesign.plus, color: Theme.of(context).accentColor),
+            icon: Icon(AntDesign.plus),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PostPage(
-                            course: widget.course,
+                      builder: (context) => OHSPostPage(
+                            club: widget.club,
                           ))).then((value) {
                 if (value == false) {
                   return;
                 }
                 setState(() {
-                  courseFuture = fetchCoursePosts(widget.course, sortBy);
+                  clubFuture = OneHealingSpace.fetchPosts(sortBy);
                 });
               });
             },
           ),
           IconButton(
-            icon: Icon(AntDesign.team, color: Theme.of(context).accentColor),
+            icon: Icon(AntDesign.team),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MembersListPage(
-                        members: widget.course.memberList,
-                        isCourse: true,
-                        course: widget.course),
-                  ));
+                      builder: (context) => OHSMembersPage(
+                            members: widget.club.memberList,
+                            club: widget.club,
+                            isCourse: false,
+                          )));
             },
           ),
           IconButton(
-            icon:
-                Icon(AntDesign.calendar, color: Theme.of(context).accentColor),
+            icon: Icon(Icons.calendar_today),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CourseCalendarPage(
-                          course: widget.course, club: null)));
+                      builder: (context) => OHSCalendarPage(
+                            club: widget.club,
+                          )));
             },
           )
         ],
@@ -109,7 +145,7 @@ class _CoursePageState extends State<CoursePage> {
                         } else {
                           sortBy = 0;
                         }
-                        courseFuture = fetchCoursePosts(widget.course, sortBy);
+                        clubFuture = OneHealingSpace.fetchPosts(sortBy);
                       });
                     },
                     child: Center(
@@ -126,7 +162,7 @@ class _CoursePageState extends State<CoursePage> {
                   ),
                 ),
                 FutureBuilder(
-                  future: courseFuture,
+                  future: clubFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -140,26 +176,24 @@ class _CoursePageState extends State<CoursePage> {
                           var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
                               post.timeStamp);
                           Function f = () async {
-                            var res =
-                                await deletePost(post.id, widget.course, null);
+                            var res = await OneHealingSpace.deletePost(post.id);
                             Navigator.pop(context);
                             if (res) {
                               setState(() {
-                                courseFuture =
-                                    fetchCoursePosts(widget.course, sortBy);
+                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
                               });
                               previewMessage("Post Deleted", context);
                             } else {
                               previewMessage("Error deleting post!", context);
                             }
                           };
+
                           Function b = () async {
                             var res = await block(post.userId);
                             Navigator.pop(context);
                             if (res) {
                               setState(() {
-                                courseFuture =
-                                    fetchCoursePosts(widget.course, sortBy);
+                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
                               });
                               previewMessage("User blocked.", context);
                             }
@@ -170,17 +204,16 @@ class _CoursePageState extends State<CoursePage> {
                             Navigator.pop(context);
                             if (res) {
                               setState(() {
-                                courseFuture =
-                                    fetchCoursePosts(widget.course, sortBy);
+                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
                               });
                               previewMessage("Post hidden from feed.", context);
                             }
                           };
-                          return PostWidget(
-                              key: ValueKey(post.id),
+
+                          return OHSPostWidget(
                               post: post,
                               timeAgo: timeago.format(timeAgo),
-                              course: widget.course,
+                              club: widget.club,
                               deletePost: f,
                               block: b,
                               hide: h);
@@ -218,31 +251,12 @@ class _CoursePageState extends State<CoursePage> {
           ],
         ),
       ),
-      // bottomNavigationBar: Padding(
-      //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 20.0),
-      //   child: Container(
-      //     height: 50,
-      //     child: FlatButton(
-      //       color: Colors.deepPurple,
-      //       child: Text(
-      //         "Create a Poll",
-      //         style: GoogleFonts.questrial(
-      //           textStyle: TextStyle(
-      //               fontSize: 17,
-      //               fontWeight: FontWeight.w700,
-      //               color: Colors.white),
-      //         ),
-      //       ),
-      //       onPressed: () {},
-      //     ),
-      //   ),
-      // ),
     );
   }
 
   Future<Null> refresh() async {
     this.setState(() {
-      courseFuture = fetchCoursePosts(widget.course, sortBy);
+      clubFuture = OneHealingSpace.fetchPosts(sortBy);
     });
   }
 
@@ -250,6 +264,6 @@ class _CoursePageState extends State<CoursePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    courseFuture = fetchCoursePosts(widget.course, sortBy);
+    clubFuture = OneHealingSpace.fetchPosts(sortBy);
   }
 }

@@ -123,7 +123,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 children: [
                   Text(
                     widget.user.name + ',',
-                    style: GoogleFonts.montserrat(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -133,15 +133,15 @@ class _MyProfilePageState extends State<MyProfilePage>
                   Row(
                     children: [
                       Icon(FlutterIcons.graduation_cap_ent,
-                          color: Colors.grey[500], size: 17.0),
+                          color: Theme.of(context).buttonColor, size: 17.0),
                       SizedBox(width: 5.0),
                       Text(
                         widget.user.university,
-                        style: GoogleFonts.montserrat(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
-                              color: Colors.grey[500]),
+                              color: Theme.of(context).buttonColor),
                         ),
                       ),
                     ],
@@ -153,7 +153,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           Divider(),
           Text(
             "About myself",
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -164,7 +164,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           Divider(),
           Text(
             "What i've accomplished",
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -182,14 +182,14 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
-              hintStyle: GoogleFonts.montserrat(
+              hintStyle: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[500]),
               ),
             ),
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -207,14 +207,14 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
-              hintStyle: GoogleFonts.montserrat(
+              hintStyle: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[500]),
               ),
             ),
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -232,14 +232,14 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
-              hintStyle: GoogleFonts.montserrat(
+              hintStyle: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[500]),
               ),
             ),
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -249,7 +249,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           Divider(),
           Text(
             "My socials",
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -267,14 +267,14 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert Snapchat handle here...",
-              hintStyle: GoogleFonts.montserrat(
+              hintStyle: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[500]),
               ),
             ),
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -292,14 +292,14 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert Instagram handle here...",
-              hintStyle: GoogleFonts.montserrat(
+              hintStyle: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[500]),
               ),
             ),
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -317,14 +317,14 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert LinkedIn handle here...",
-              hintStyle: GoogleFonts.montserrat(
+              hintStyle: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[500]),
               ),
             ),
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -359,14 +359,18 @@ class _MyProfilePageState extends State<MyProfilePage>
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Colors.grey.shade600),
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes
-                              : null,
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.grey.shade600),
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
                         ),
                       ),
                     );
@@ -400,14 +404,14 @@ class _MyProfilePageState extends State<MyProfilePage>
         disabledBorder: InputBorder.none,
         contentPadding: EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
         hintText: "Insert about here",
-        hintStyle: GoogleFonts.montserrat(
+        hintStyle: GoogleFonts.questrial(
           textStyle: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w400,
               color: Colors.grey[500]),
         ),
       ),
-      style: GoogleFonts.montserrat(
+      style: GoogleFonts.questrial(
         textStyle: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w400,
@@ -428,7 +432,7 @@ class _MyProfilePageState extends State<MyProfilePage>
     return result.isNotEmpty
         ? Text(
             result,
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -444,7 +448,7 @@ class _MyProfilePageState extends State<MyProfilePage>
       children: [
         Text(
           "I'm interested in",
-          style: GoogleFonts.montserrat(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -480,7 +484,7 @@ class _MyProfilePageState extends State<MyProfilePage>
         selectedColor: Colors.grey,
         label: Text(
           '+ Add Interest',
-          style: GoogleFonts.montserrat(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
           ),
@@ -513,7 +517,7 @@ class _MyProfilePageState extends State<MyProfilePage>
             selectedColor: Colors.deepPurpleAccent,
             label: Text(
               interest,
-              style: GoogleFonts.montserrat(
+              style: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
@@ -537,7 +541,7 @@ class _MyProfilePageState extends State<MyProfilePage>
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Places i've been to",
-              style: GoogleFonts.montserrat(
+              style: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -563,7 +567,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           avatar: Text('🇸🇩'),
           label: Text(
             'Sudan',
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -645,17 +649,21 @@ class _MyProfilePageState extends State<MyProfilePage>
                 borderRadius: BorderRadius.circular(5.0)),
             child: isUpdating
                 ? Center(
+                    child: SizedBox(
+                    width: 20,
+                    height: 20,
                     child: CircularProgressIndicator(
                         strokeWidth: 2.0,
                         valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.white)))
+                            new AlwaysStoppedAnimation<Color>(Colors.white)),
+                  ))
                 : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Icon(FlutterIcons.update_mco,
                         size: 15.0, color: Colors.white),
                     SizedBox(width: 10.0),
                     Text(
                       "UPDATE PROFILE",
-                      style: GoogleFonts.montserrat(
+                      style: GoogleFonts.questrial(
                         textStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,

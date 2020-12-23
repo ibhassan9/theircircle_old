@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
@@ -11,10 +12,12 @@ class NewsWidget extends StatefulWidget {
   _NewsWidgetState createState() => _NewsWidgetState();
 }
 
-class _NewsWidgetState extends State<NewsWidget> {
+class _NewsWidgetState extends State<NewsWidget>
+    with AutomaticKeepAliveClientMixin {
   String url;
   String imgUrl;
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: ClipRRect(
@@ -53,7 +56,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                           widget.news.title,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.manjari(
+                          style: GoogleFonts.questrial(
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -64,30 +67,35 @@ class _NewsWidgetState extends State<NewsWidget> {
                     ],
                   )
                 : Stack(children: [
-                    Image.network(
-                      widget.news.imgUrl,
+                    CachedNetworkImage(
+                      imageUrl: widget.news.imgUrl,
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
                       fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.0,
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Colors.grey.shade600),
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes
-                                  : null,
-                            ),
-                          ),
-                        );
-                      },
+                      // loadingBuilder: (BuildContext context, Widget child,
+                      //     ImageChunkEvent loadingProgress) {
+                      //   if (loadingProgress == null) return child;
+                      //   return SizedBox(
+                      //     height: 200,
+                      //     width: MediaQuery.of(context).size.width,
+                      //     child: Center(
+                      //       child: SizedBox(
+                      //         width: 20,
+                      //         height: 20,
+                      //         child: CircularProgressIndicator(
+                      //           strokeWidth: 2.0,
+                      //           valueColor: new AlwaysStoppedAnimation<Color>(
+                      //               Colors.grey.shade600),
+                      //           value: loadingProgress.expectedTotalBytes !=
+                      //                   null
+                      //               ? loadingProgress.cumulativeBytesLoaded /
+                      //                   loadingProgress.expectedTotalBytes
+                      //               : null,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   );
+                      // },
                     ),
                     Positioned(
                       bottom: 0,
@@ -121,7 +129,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                                   widget.news.title,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.manjari(
+                                  style: GoogleFonts.questrial(
                                     textStyle: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
@@ -148,4 +156,6 @@ class _NewsWidgetState extends State<NewsWidget> {
     url = widget.news.url;
     imgUrl = widget.news.imgUrl;
   }
+
+  bool get wantKeepAlive => true;
 }

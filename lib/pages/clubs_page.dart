@@ -1,10 +1,15 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/OHS.dart';
 import 'package:unify/Widgets/ClubWidget.dart';
 import 'package:unify/Widgets/CourseWidget.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/pages/OHS%20Pages/MainPage.dart';
+import 'package:unify/pages/club_page.dart';
 
 class ClubsPage extends StatefulWidget {
   @override
@@ -21,6 +26,8 @@ class _ClubsPageState extends State<ClubsPage>
   List<Club> searchedClubs = List<Club>();
   bool isSearching = false;
   String filter;
+  Club _oneHealingSpace;
+  String _oneHealingSpaceImageUrl;
 
   Future<List<Club>> _clubFuture;
 
@@ -40,7 +47,7 @@ class _ClubsPageState extends State<ClubsPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Create a Virtual Club",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -61,9 +68,9 @@ class _ClubsPageState extends State<ClubsPage>
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
+                          left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -80,9 +87,9 @@ class _ClubsPageState extends State<ClubsPage>
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
+                          left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your club here..."),
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -97,12 +104,11 @@ class _ClubsPageState extends State<ClubsPage>
                       children: [
                         Text(
                           "Privacy",
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey),
-                          ),
+                          style: GoogleFonts.questrial(
+                              textStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).accentColor)),
                         ),
                         Switch(
                             activeColor: Colors.deepOrange,
@@ -117,7 +123,7 @@ class _ClubsPageState extends State<ClubsPage>
               ],
             );
           }),
-          btnOkColor: Colors.deepOrange,
+          btnOkColor: Colors.deepPurpleAccent,
           btnOkOnPress: () async {
             // create club
             var club = Club(
@@ -155,7 +161,7 @@ class _ClubsPageState extends State<ClubsPage>
               children: [
                 Text(
                   "CLUBS",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -164,7 +170,7 @@ class _ClubsPageState extends State<ClubsPage>
                 ),
                 // Text(
                 //   "Start or join a club!",
-                //   style: GoogleFonts.poppins(
+                //   style: GoogleFonts.questrial(
                 //     textStyle: TextStyle(
                 //         fontSize: 12,
                 //         fontWeight: FontWeight.w500,
@@ -209,14 +215,14 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Clubs...",
-                      hintStyle: GoogleFonts.poppins(
+                      hintStyle: GoogleFonts.questrial(
                         textStyle: TextStyle(
-                            fontSize: 13,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -256,10 +262,14 @@ class _ClubsPageState extends State<ClubsPage>
                         builder: (context, snap) {
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
-                                child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).accentColor),
-                              strokeWidth: 2.0,
+                                child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).accentColor),
+                                strokeWidth: 2.0,
+                              ),
                             ));
                           else if (snap.hasData)
                             return ListView.builder(
@@ -273,19 +283,15 @@ class _ClubsPageState extends State<ClubsPage>
                                 Function delete = () async {
                                   Navigator.pop(context);
                                   await deleteClub(club);
-                                  setState(() {});
+                                  setState(() {
+                                    _clubFuture = fetchClubs();
+                                  });
                                 };
 
-                                return filter == null || filter.trim() == ""
-                                    ? Column(
-                                        children: <Widget>[
-                                          ClubWidget(
-                                              club: club, delete: delete),
-                                          Divider(),
-                                        ],
-                                      )
-                                    : club.name.toLowerCase().trim().contains(
-                                            filter.toLowerCase().trim())
+                                if (index == 0) {
+                                  return Column(children: [
+                                    oneHealingSpace(),
+                                    filter == null || filter.trim() == ""
                                         ? Column(
                                             children: <Widget>[
                                               ClubWidget(
@@ -293,31 +299,67 @@ class _ClubsPageState extends State<ClubsPage>
                                               Divider(),
                                             ],
                                           )
-                                        : new Container();
+                                        : club.name
+                                                .toLowerCase()
+                                                .trim()
+                                                .contains(
+                                                    filter.toLowerCase().trim())
+                                            ? Column(
+                                                children: <Widget>[
+                                                  ClubWidget(
+                                                      club: club,
+                                                      delete: delete),
+                                                  Divider(),
+                                                ],
+                                              )
+                                            : new Container()
+                                  ]);
+                                } else {
+                                  return filter == null || filter.trim() == ""
+                                      ? Column(
+                                          children: <Widget>[
+                                            ClubWidget(
+                                                club: club, delete: delete),
+                                            Divider(),
+                                          ],
+                                        )
+                                      : club.name.toLowerCase().trim().contains(
+                                              filter.toLowerCase().trim())
+                                          ? Column(
+                                              children: <Widget>[
+                                                ClubWidget(
+                                                    club: club, delete: delete),
+                                                Divider(),
+                                              ],
+                                            )
+                                          : new Container();
+                                }
                               },
                             );
                           else if (snap.hasError)
-                            return Container(
-                              height: MediaQuery.of(context).size.height / 1.4,
-                              child: Center(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.face,
-                                      color: Theme.of(context).accentColor,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text("Cannot find any clubs :(",
-                                        style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .accentColor),
-                                        )),
-                                  ],
+                            return Center(
+                              child: Container(
+                                child: Center(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.face,
+                                        color: Theme.of(context).accentColor,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text("Cannot find any clubs :(",
+                                          style: GoogleFonts.questrial(
+                                            textStyle: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -335,7 +377,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no clubs :(",
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.questrial(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -355,15 +397,154 @@ class _ClubsPageState extends State<ClubsPage>
     );
   }
 
+  Widget oneHealingSpace() {
+    return _oneHealingSpace != null
+        ? InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          OHSMainPage(club: _oneHealingSpace)));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(0.0),
+                child: Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                    ),
+                    child: Stack(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: _oneHealingSpace.imgUrl != null
+                              ? _oneHealingSpace.imgUrl
+                              : '',
+                          width: MediaQuery.of(context).size.width,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          top: 0.0,
+                          left: 0.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              color: Colors.black,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    10.0, 5.0, 10.0, 5.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.star,
+                                        color: Colors.white, size: 15.0),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      'Featured Club',
+                                      style: GoogleFonts.quicksand(
+                                        textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0.0,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                10.0, 0.0, 10.0, 15.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                      _oneHealingSpace.name,
+                                      style: GoogleFonts.questrial(
+                                        textStyle: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                      _oneHealingSpace.description,
+                                      maxLines: null,
+                                      style: GoogleFonts.questrial(
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                      'Join the One Healing Space community.',
+                                      maxLines: null,
+                                      style: GoogleFonts.questrial(
+                                        textStyle: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+            ),
+          )
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            height: 150,
+            color: Colors.grey[100],
+          );
+  }
+
   @override
   void initState() {
     super.initState();
     _clubFuture = fetchClubs();
+    OneHealingSpace.object().then((value) {
+      setState(() {
+        _oneHealingSpace = value;
+      });
+    });
   }
 
   Future<Null> refresh() async {
-    this.setState(() {
-      _clubFuture = fetchClubs();
+    OneHealingSpace.object().then((value) {
+      setState(() {
+        _oneHealingSpace = value;
+        _clubFuture = fetchClubs();
+      });
     });
   }
 

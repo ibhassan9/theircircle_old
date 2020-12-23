@@ -16,6 +16,33 @@ import 'package:unify/pages/club_page.dart';
 import 'package:unify/pages/course_page.dart';
 import 'package:unify/pages/post_detail_page.dart';
 
+class Notification {
+  String notificationId;
+  String screen;
+  String type;
+  String postId;
+  String id;
+  String chatId;
+  String from;
+  String university;
+  String body;
+  int timestamp;
+  bool seen;
+
+  Notification(
+      {this.notificationId,
+      this.screen,
+      this.type,
+      this.postId,
+      this.id,
+      this.chatId,
+      this.from,
+      this.university,
+      this.body,
+      this.timestamp,
+      this.seen});
+}
+
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 String title = "TheirCircle";
 
@@ -57,9 +84,29 @@ Future<Null> sendToAll() async {
   }
 }
 
-Future<Null> sendPush(int nID, String token, String text, String postId) async {
+Future<Null> sendPush(int nID, String token, String text, String postId,
+    String receiverId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
+
+  Notification notification = Notification(
+      screen: "COMMENT_PAGE",
+      type: "post",
+      postId: postId,
+      from: me.id,
+      university: Constants.checkUniversity() == 0
+          ? 'UofT'
+          : Constants.checkUniversity() == 1
+              ? 'YorkU'
+              : 'WesternU',
+      body: nID == 0
+          ? "${me.name} liked your post: $text"
+          : "${me.name} commented on your post: $text");
+  print('sending noti');
+
+  await uploadNotification(notification, receiverId);
+
+  print("notification sent");
 
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
@@ -87,10 +134,26 @@ Future<Null> sendPush(int nID, String token, String text, String postId) async {
       ));
 }
 
-Future<Null> sendPushVideo(
-    int nID, String token, String text, String videoId) async {
+Future<Null> sendPushVideo(int nID, String token, String text, String videoId,
+    String receiverId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
+
+  Notification notification = Notification(
+      screen: "VIDEO_COMMENT_PAGE",
+      type: "video",
+      from: me.id,
+      university: Constants.checkUniversity() == 0
+          ? 'UofT'
+          : Constants.checkUniversity() == 1
+              ? 'YorkU'
+              : 'WesternU',
+      id: videoId,
+      body: nID == 0
+          ? "${me.name} liked your video"
+          : "${me.name} commented on your video: $text");
+
+  await uploadNotification(notification, receiverId);
 
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
@@ -121,8 +184,8 @@ Future<Null> sendPushVideo(
       ));
 }
 
-Future<Null> sendPushChat(
-    String token, String text, String userId, String chatId) async {
+Future<Null> sendPushChat(String token, String text, String userId,
+    String chatId, String receiverId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
 
@@ -150,10 +213,33 @@ Future<Null> sendPushChat(
       ));
 }
 
-Future<Null> sendPushPoll(
-    String token, String text, Club club, Course course, String postId) async {
+Future<Null> sendPushPoll(String token, String text, Club club, Course course,
+    String postId, String receiverId) async {
   var uid = firebaseAuth.currentUser.uid;
   var me = await getUser(uid);
+
+  Notification notification = Notification(
+      screen: "COMMENT_PAGE",
+      type: club == null && course == null
+          ? 'post'
+          : club == null
+              ? 'course'
+              : 'club',
+      postId: postId,
+      from: me.id,
+      university: Constants.checkUniversity() == 0
+          ? 'UofT'
+          : Constants.checkUniversity() == 1
+              ? 'YorkU'
+              : 'WesternU',
+      id: club == null && course == null
+          ? null
+          : club == null
+              ? course.id
+              : club.id,
+      body: text);
+
+  await uploadNotification(notification, receiverId);
 
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
@@ -191,7 +277,7 @@ Future<Null> sendPushPoll(
       ));
 }
 
-Future<Null> send(String token) async {
+Future<Null> send(String token, String receiverId) async {
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -214,7 +300,8 @@ Future<Null> send(String token) async {
       ));
 }
 
-Future<Null> sendWelcome(String token, String username) async {
+Future<Null> sendWelcome(
+    String token, String username, String receiverId) async {
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -270,12 +357,12 @@ Future<Null> sendNewQuestionToAll() async {
   }
 
   for (var token in tokenIds) {
-    await send(token);
+    await send(token, '');
   }
 }
 
-Future<Null> sendPushClub(
-    Club club, int nID, String token, String text, String postId) async {
+Future<Null> sendPushClub(Club club, int nID, String token, String text,
+    String postId, String receiverId) async {
   var body = "";
 
   await Constants.fm.requestNotificationPermissions(
@@ -311,6 +398,21 @@ Future<Null> sendPushClub(
       break;
   }
 
+  Notification notification = Notification(
+      university: Constants.checkUniversity() == 0
+          ? 'UofT'
+          : Constants.checkUniversity() == 1
+              ? 'YorkU'
+              : 'WesternU',
+      from: me.id,
+      screen: nID == 0 || nID == 1 ? "COMMENT_PAGE" : "CLUB_PAGE",
+      type: 'club',
+      id: club.id,
+      postId: postId,
+      body: body);
+
+  await uploadNotification(notification, receiverId);
+
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -332,8 +434,8 @@ Future<Null> sendPushClub(
       ));
 }
 
-Future<Null> sendPushCourse(
-    Course course, int nID, String token, String text, String postId) async {
+Future<Null> sendPushCourse(Course course, int nID, String token, String text,
+    String postId, String receiverId) async {
   var body = "";
 
   await Constants.fm.requestNotificationPermissions(
@@ -357,6 +459,20 @@ Future<Null> sendPushCourse(
       break;
   }
 
+  Notification notification = Notification(
+      university: Constants.checkUniversity() == 0
+          ? 'UofT'
+          : Constants.checkUniversity() == 1
+              ? 'YorkU'
+              : 'WesternU',
+      from: me.id,
+      screen: nID == 4 ? "COURSE_PAGE" : "COMMENT_PAGE",
+      type: 'course',
+      id: course.id,
+      postId: postId,
+      body: body);
+  await uploadNotification(notification, receiverId);
+
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -376,6 +492,100 @@ Future<Null> sendPushCourse(
           'to': token,
         },
       ));
+}
+
+Future<bool> uploadNotification(Notification n, String receiverId) async {
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('notifications')
+      .child(receiverId);
+  var key = db.push();
+
+  Map<dynamic, dynamic> data = {
+    "timestamp": DateTime.now().millisecondsSinceEpoch,
+    "seen": false,
+  };
+
+  if (n.screen != null) {
+    data["screen"] = n.screen;
+  }
+
+  if (n.type != null) {
+    data['type'] = n.type;
+  }
+
+  if (n.postId != null) {
+    data['postId'] = n.postId;
+  }
+
+  if (n.id != null) {
+    data['id'] = n.id;
+  }
+
+  if (n.chatId != null) {
+    data['chatId'] = n.chatId;
+  }
+
+  if (n.from != null) {
+    data['from'] = n.from;
+  }
+
+  if (n.university != null) {
+    data['university'] = n.university;
+  }
+
+  if (n.body != null) {
+    data['body'] = n.body;
+  }
+
+  print(data);
+  db.child(key.key).set(data).catchError((e) {
+    print(e.toString());
+    return false;
+  });
+  return true;
+}
+
+Future<List<Notification>> fetchNotifications() async {
+  List<Notification> notifications = [];
+  var uid = firebaseAuth.currentUser.uid;
+  var db =
+      FirebaseDatabase.instance.reference().child('notifications').child(uid);
+
+  DataSnapshot snap = await db.once();
+  Map<dynamic, dynamic> values = snap.value;
+
+  if (snap.value != null) {
+    values.forEach((key, value) {
+      var screen = value['screen'] != null ? value['screen'] : null;
+      var type = value['type'] != null ? value['type'] : null;
+      var postId = value['postId'] != null ? value['postId'] : null;
+      var id = value['id'] != null ? value['id'] : null;
+      var chatId = value['chatId'] != null ? value['chatId'] : null;
+      var from = value['from'] != null ? value['from'] : null;
+      var university = value['university'] != null ? value['university'] : null;
+      var body = value['body'] != null ? value['body'] : null;
+      var seen = value['seen'] != null ? value['seen'] : false;
+      Notification notification = Notification(
+          notificationId: key,
+          screen: screen,
+          type: type,
+          postId: postId,
+          id: id,
+          chatId: chatId,
+          from: from,
+          university: university,
+          body: body,
+          timestamp: value['timestamp'],
+          seen: seen);
+
+      notifications.add(notification);
+    });
+  }
+
+  notifications.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+  return notifications;
 }
 
 Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
@@ -409,40 +619,6 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
   print(status);
   print(extradata);
   print(type);
-
-  print('we are here');
-
-  // if (data['extradata'] != null) {
-  //   print('fetching extradata');
-  //   extradata = data['extradata'];
-  //   print('extradata found');
-  //   print(extradata['type']);
-  //   if (extradata['type'] != null) {
-  //     type = extradata['type'];
-  //     print('type found');
-  //   } else {
-  //     print('no type');
-  //   }
-  //   if (extradata['postId'] != null) {
-  //     postId = extradata['postId'];
-  //     print('postId found');
-  //   } else {
-  //     print('no postId');
-  //   }
-  //   if (extradata['id'] != null) {
-  //     id = extradata['id'];
-  //     print('id found');
-  //   } else {
-  //     print('no id');
-  //   }
-  //   if (extradata['chatId'] != null) {
-  //     chatId = extradata['chatId'];
-  //     print('chatId found');
-  //   } else {
-  //     print('no chatId');
-  //   }
-  //   print('done fetching');
-  // }
 
   if (status == null || screen == null || extradata == null) {
     return null;
@@ -494,4 +670,16 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
       break;
   }
   return values;
+}
+
+Future<bool> seenAllNotifications() async {
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('notifications')
+      .child(firebaseAuth.currentUser.uid);
+  List<Notification> notifications = await fetchNotifications();
+  for (var notification in notifications) {
+    var key = notification.notificationId;
+    db.child(key).child('seen').set(true);
+  }
 }

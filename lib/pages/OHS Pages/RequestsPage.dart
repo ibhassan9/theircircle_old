@@ -6,17 +6,17 @@ import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
 
-class JoinRequestsListPage extends StatefulWidget {
+class OHSRequestsPage extends StatefulWidget {
   final Club club;
   final Course course;
 
-  JoinRequestsListPage({Key key, this.club, this.course});
+  OHSRequestsPage({Key key, this.club, this.course});
 
   @override
-  _JoinRequestsListPageState createState() => _JoinRequestsListPageState();
+  _OHSRequestsPageState createState() => _OHSRequestsPageState();
 }
 
-class _JoinRequestsListPageState extends State<JoinRequestsListPage> {
+class _OHSRequestsPageState extends State<OHSRequestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

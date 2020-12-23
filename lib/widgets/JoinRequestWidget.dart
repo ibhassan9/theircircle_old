@@ -50,7 +50,9 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                               ? CircleAvatar(
                                   backgroundColor: Colors.grey[400],
                                   child: Text(widget.user.name.substring(0, 1),
-                                      style: TextStyle(color: Colors.white)))
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .backgroundColor)))
                               : Hero(
                                   tag: widget.user.id,
                                   child: ClipRRect(
@@ -69,20 +71,24 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                           height: 40,
                                           width: 40,
                                           child: Center(
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2.0,
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                          Color>(
-                                                      Colors.grey.shade600),
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes
-                                                  : null,
+                                            child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2.0,
+                                                valueColor:
+                                                    new AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        Colors.grey.shade600),
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes
+                                                    : null,
+                                              ),
                                             ),
                                           ),
                                         );
@@ -92,7 +98,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                 ),
                           SizedBox(width: 10.0),
                           Text(widget.user.name,
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.questrial(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -115,7 +121,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                         });
                                       },
                                       child: Text("ACCEPT",
-                                          style: GoogleFonts.manjari(
+                                          style: GoogleFonts.questrial(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -134,7 +140,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                         });
                                       },
                                       child: Text("DENY",
-                                          style: GoogleFonts.manjari(
+                                          style: GoogleFonts.questrial(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -144,14 +150,14 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                   ],
                                 )
                               : Text("ACCEPTED",
-                                  style: GoogleFonts.manjari(
+                                  style: GoogleFonts.questrial(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.blue),
                                   ))
                           : Text("DENIED",
-                              style: GoogleFonts.manjari(
+                              style: GoogleFonts.questrial(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

@@ -57,14 +57,14 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
             final act = CupertinoActionSheet(
               title: Text(
                 "PROCEED?",
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.questrial(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
               message: Text(
                 "Are you sure you want to delete this chat? This will not clear the conversation.",
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.questrial(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -73,7 +73,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "YES",
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.questrial(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -85,7 +85,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "Cancel",
-                      style: GoogleFonts.manjari(
+                      style: GoogleFonts.questrial(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.red),
@@ -101,7 +101,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
         )
       ],
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
         child: InkWell(
           onTap: () {
             Navigator.push(
@@ -146,19 +146,24 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                       height: 50,
                                       width: 50,
                                       child: Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2.0,
-                                          valueColor:
-                                              new AlwaysStoppedAnimation<Color>(
-                                                  Colors.grey.shade600),
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes
-                                              : null,
+                                        child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2.0,
+                                            valueColor:
+                                                new AlwaysStoppedAnimation<
+                                                        Color>(
+                                                    Colors.grey.shade600),
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes
+                                                : null,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -180,15 +185,15 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(widget.peer.name,
-                                            style: GoogleFonts.manjari(
+                                            style: GoogleFonts.questrial(
                                               textStyle: TextStyle(
                                                   fontSize: 15,
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w600,
                                                   color: Theme.of(context)
                                                       .accentColor),
                                             )),
                                         Text(widget.timeAgo,
-                                            style: GoogleFonts.manjari(
+                                            style: GoogleFonts.questrial(
                                               textStyle: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
@@ -208,7 +213,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               padding: const EdgeInsets.only(
                                                   right: 5.0),
                                               child: Text('You:',
-                                                  style: GoogleFonts.manjari(
+                                                  style: GoogleFonts.questrial(
                                                     textStyle: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
@@ -225,7 +230,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                 : '',
                                             maxLines: null,
                                             overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.manjari(
+                                            style: GoogleFonts.questrial(
                                               textStyle: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,

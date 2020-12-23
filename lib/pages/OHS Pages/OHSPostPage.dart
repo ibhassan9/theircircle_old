@@ -8,22 +8,21 @@ import 'package:polls/polls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/text_field_container.dart';
+import 'package:unify/Models/OHS.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
 
-class PostPage extends StatefulWidget {
+class OHSPostPage extends StatefulWidget {
   final Club club;
-  final Course course;
-  final String name;
 
-  PostPage({Key key, this.club, this.course, this.name}) : super(key: key);
+  OHSPostPage({Key key, this.club}) : super(key: key);
 
   @override
-  _PostPageState createState() => _PostPageState();
+  _OHSPostPageState createState() => _OHSPostPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _OHSPostPageState extends State<OHSPostPage> {
   TextEditingController contentController = TextEditingController();
   TextEditingController pollOptionOneController = TextEditingController();
   TextEditingController pollOptionTwoController = TextEditingController();
@@ -508,23 +507,13 @@ class _PostPageState extends State<PostPage> {
     }
 
     var res = imag == null
-        ? widget.course == null && widget.club == null
-            ? await createPost(post)
-            : widget.club != null
-                ? await createClubPost(post, widget.club)
-                : await createCoursePost(post, widget.course)
+        ? await OneHealingSpace.createPost(post)
         : await uploadImageToStorage(f);
     // res is a boolean if imag is null - string if image available
 
     imag != null ? post.imgUrl = res : post.imgUrl = null;
 
-    var result = imag != null
-        ? widget.course == null && widget.club == null
-            ? await createPost(post)
-            : widget.club != null
-                ? await createClubPost(post, widget.club)
-                : await createCoursePost(post, widget.course)
-        : true;
+    var result = imag != null ? await OneHealingSpace.createPost(post) : true;
 
     setState(() {
       clength = 300;

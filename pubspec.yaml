@@ -46,7 +46,7 @@ dependencies:
   flutter_verification_code: ^0.2.1
   mailer: ^3.2.1
   web_scraper: ^0.0.6
-  provider: ^3.1.0
+  provider: ^4.3.2+3
   shared_preferences: ^0.5.12
   sliding_up_panel: ^1.0.2
   webview_flutter: ^1.0.7
@@ -66,7 +66,7 @@ dependencies:
   confetti: ^0.5.4+1
   quiver: ^2.1.4+1
   full_screen_image: ^1.0.2
-  cached_network_image: ^2.3.3
+  cached_network_image: ^2.4.1
   share: ^0.6.5+4
   path_provider: ^1.6.24
   polls: ^0.2.2
@@ -84,12 +84,10 @@ dependencies:
   visibility_detector: ^0.1.5
   video_thumbnail: ^0.2.5
   shimmer: ^1.1.2
-  camera: ^0.5.8+17
   percent_indicator: ^2.1.8
   flare_flutter: ^2.0.6
   chewie: ^0.12.0
   flutter_staggered_grid_view: ^0.3.2
-  better_player: ^0.0.37
 
 flutter_icons:
   android: "launcher_icon"
@@ -113,6 +111,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/anim/like.flr
+    - assets/anim/play_pause.flr
+    - assets/anim/play.flr
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

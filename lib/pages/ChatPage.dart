@@ -33,6 +33,7 @@ class _ChatPageState extends State<ChatPage>
   TextEditingController snapchatController = TextEditingController();
   TextEditingController linkedinController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
+  ScrollController _scrollController = new ScrollController();
   Stream<Event> myChat;
   bool seen = false;
   bool isSending = false;
@@ -70,14 +71,14 @@ class _ChatPageState extends State<ChatPage>
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Insert message here",
-                    hintStyle: GoogleFonts.manjari(
+                    hintStyle: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
                   ),
-                  style: GoogleFonts.manjari(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -100,12 +101,21 @@ class _ChatPageState extends State<ChatPage>
                   var res = await sendMessage(
                       chatController.text, widget.receiver.id, widget.chatId);
                   if (res) {
-                    await sendPushChat(widget.receiver.device_token,
-                        chatController.text, widget.receiver.id, widget.chatId);
+                    await sendPushChat(
+                        widget.receiver.device_token,
+                        chatController.text,
+                        widget.receiver.id,
+                        widget.chatId,
+                        widget.receiver.id);
                     chatController.clear();
                     setState(() {
                       isSending = false;
                     });
+                    _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent + 10,
+                      curve: Curves.easeOut,
+                      duration: const Duration(milliseconds: 300),
+                    );
                   }
                 },
               )
@@ -136,7 +146,7 @@ class _ChatPageState extends State<ChatPage>
             ),
             // Text(
             //   "Meet & Make New Friends",
-            //   style: GoogleFonts.manjari(
+            //   style: GoogleFonts.questrial(
             //     textStyle: TextStyle(
             //         fontSize: 12,
             //         fontWeight: FontWeight.w500,
@@ -169,6 +179,9 @@ class _ChatPageState extends State<ChatPage>
         },
         child: Stack(children: [
           ListView(
+            controller: _scrollController,
+            shrinkWrap: true,
+            physics: AlwaysScrollableScrollPhysics(),
             children: [
               StreamBuilder(
                 stream: myChat,
@@ -199,6 +212,7 @@ class _ChatPageState extends State<ChatPage>
 
                     return ListView.builder(
                       shrinkWrap: true,
+                      reverse: false,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
@@ -245,6 +259,7 @@ class _ChatPageState extends State<ChatPage>
     // TODO: implement dispose
     super.dispose();
     chatController.dispose();
+    _scrollController.dispose();
   }
 
   @override

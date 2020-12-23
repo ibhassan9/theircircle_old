@@ -72,19 +72,23 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                                     height: 40,
                                     width: 40,
                                     child: Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.grey.shade600),
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes
-                                            : null,
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  Colors.grey.shade600),
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes
+                                              : null,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -97,16 +101,17 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(widget.peer.name,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.questrial(
                               textStyle: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.black),
                             )),
+                        SizedBox(height: 10.0),
                         Text('Voted: ' + widget.question,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.questrial(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,

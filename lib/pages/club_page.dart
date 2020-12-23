@@ -37,10 +37,10 @@ class _ClubPageState extends State<ClubPage> {
         brightness: Theme.of(context).brightness,
         title: Text(
           widget.club.name,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 15,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
           ),
         ),
@@ -57,6 +57,9 @@ class _ClubPageState extends State<ClubPage> {
                       builder: (context) => PostPage(
                             club: widget.club,
                           ))).then((value) {
+                if (value == false) {
+                  return;
+                }
                 setState(() {
                   clubFuture = fetchClubPosts(widget.club, sortBy);
                 });
@@ -115,11 +118,11 @@ class _ClubPageState extends State<ClubPage> {
                     child: Center(
                       child: Text(
                         "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
-                              fontSize: 15,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: Colors.grey.shade600),
+                              color: Theme.of(context).buttonColor),
                         ),
                       ),
                     ),
@@ -179,6 +182,7 @@ class _ClubPageState extends State<ClubPage> {
                           };
 
                           return PostWidget(
+                              key: ValueKey(post.id),
                               post: post,
                               timeAgo: timeago.format(timeAgo),
                               club: widget.club,
@@ -201,7 +205,7 @@ class _ClubPageState extends State<ClubPage> {
                               ),
                               SizedBox(width: 10),
                               Text("There are no posts :(",
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.questrial(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,

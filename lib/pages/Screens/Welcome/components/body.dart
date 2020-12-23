@@ -24,7 +24,7 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             Text(
               "Welcome To TheirCircle",
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

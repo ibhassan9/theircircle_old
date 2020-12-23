@@ -82,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage>
                 children: [
                   Text(
                     widget.user.name + ',',
-                    style: GoogleFonts.montserrat(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -90,17 +90,18 @@ class _ProfilePageState extends State<ProfilePage>
                     ),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(FlutterIcons.graduation_cap_ent,
-                          color: Colors.grey[400], size: 17.0),
+                          color: Theme.of(context).buttonColor, size: 17.0),
                       SizedBox(width: 5.0),
                       Text(
                         widget.user.university,
-                        style: GoogleFonts.montserrat(
+                        style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
-                              color: Colors.grey[400]),
+                              color: Theme.of(context).buttonColor),
                         ),
                       ),
                     ],
@@ -123,10 +124,10 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Center(
                     child: Text(
                       isBlocked ? "Unblock" : "Block",
-                      style: GoogleFonts.montserrat(
+                      style: GoogleFonts.questrial(
                         textStyle: TextStyle(
                             fontSize: 13,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white),
                       ),
                     ),
@@ -139,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage>
           about(),
           // Text(
           //   "My accomplishments",
-          //   style: GoogleFonts.montserrat(
+          //   style: GoogleFonts.questrial(
           //     textStyle: TextStyle(
           //         fontSize: 16,
           //         fontWeight: FontWeight.w700,
@@ -178,14 +179,18 @@ class _ProfilePageState extends State<ProfilePage>
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Colors.grey.shade600),
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes
-                              : null,
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.grey.shade600),
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
                         ),
                       ),
                     );
@@ -205,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage>
     return widget.user.about != null && widget.user.about.isNotEmpty
         ? Text(
             widget.user.about,
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -214,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage>
           )
         : Text(
             'Nothing to see here... :(',
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -237,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage>
     return result.isNotEmpty
         ? Text(
             result,
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -254,7 +259,7 @@ class _ProfilePageState extends State<ProfilePage>
             children: [
               Text(
                 "I'm interested in",
-                style: GoogleFonts.montserrat(
+                style: GoogleFonts.questrial(
                   textStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -323,7 +328,7 @@ class _ProfilePageState extends State<ProfilePage>
         ),
         SizedBox(width: 5.0),
         Visibility(
-          visible: widget.isFromChat == null,
+          visible: widget.isFromChat == null && sameUniversity(),
           child: InkWell(
             onTap: () {
               goToChat();
@@ -347,7 +352,7 @@ class _ProfilePageState extends State<ProfilePage>
           selectedColor: Colors.pink,
           label: Text(
             interest,
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -370,7 +375,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Places i've been to",
-              style: GoogleFonts.montserrat(
+              style: GoogleFonts.questrial(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -396,7 +401,7 @@ class _ProfilePageState extends State<ProfilePage>
           avatar: Text('🇸🇩'),
           label: Text(
             'Sudan',
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.questrial(
               textStyle: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -440,7 +445,7 @@ class _ProfilePageState extends State<ProfilePage>
       body: Center(
         child: Text(
           text,
-          style: GoogleFonts.montserrat(
+          style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -455,6 +460,15 @@ class _ProfilePageState extends State<ProfilePage>
   void initState() {
     super.initState();
     isBlocked = widget.user.isBlocked;
+  }
+
+  bool sameUniversity() {
+    var uni = Constants.checkUniversity() == 0
+        ? 'UofT'
+        : Constants.checkUniversity() == 1
+            ? 'YorkU'
+            : 'WesternU';
+    return uni == widget.user.university;
   }
 
   bool get wantKeepAlive => true;

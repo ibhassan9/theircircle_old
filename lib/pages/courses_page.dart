@@ -34,7 +34,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -58,7 +58,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ class _CoursesPageState extends State<CoursesPage>
               ],
             );
           }),
-          btnOkColor: Colors.deepOrange,
+          btnOkColor: Colors.deepPurpleAccent,
           btnOkOnPress: () async {
             // send request on firebase
             if (titleController.text.isEmpty || titleController.text == null) {
@@ -100,7 +100,7 @@ class _CoursesPageState extends State<CoursesPage>
           //   },
           //   child: Text(
           //     "Request a course",
-          //     style: GoogleFonts.poppins(
+          //     style: GoogleFonts.questrial(
           //       textStyle: TextStyle(
           //           fontSize: 15,
           //           fontWeight: FontWeight.w500,
@@ -118,7 +118,7 @@ class _CoursesPageState extends State<CoursesPage>
               children: [
                 Text(
                   "COURSES",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -127,7 +127,7 @@ class _CoursesPageState extends State<CoursesPage>
                 ),
                 // Text(
                 //   "Engage with your peers",
-                //   style: GoogleFonts.poppins(
+                //   style: GoogleFonts.questrial(
                 //     textStyle: TextStyle(
                 //         fontSize: 12,
                 //         fontWeight: FontWeight.w500,
@@ -164,14 +164,14 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.poppins(
+                      hintStyle: GoogleFonts.questrial(
                         textStyle: TextStyle(
-                            fontSize: 13,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.questrial(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -185,10 +185,14 @@ class _CoursesPageState extends State<CoursesPage>
                         builder: (context, snap) {
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
-                                child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).accentColor),
-                              strokeWidth: 2.0,
+                                child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).accentColor),
+                                strokeWidth: 2.0,
+                              ),
                             ));
                           else if (snap.hasData)
                             return ListView.builder(
@@ -236,7 +240,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any courses :(",
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.questrial(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -261,7 +265,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no courses :(",
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.questrial(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -36,7 +37,7 @@ class _MyLibraryState extends State<MyLibrary> {
                           video: video,
                           refreshList: () {
                             setState(() {
-                              _future = VideoApi.fetchVideos();
+                              _future = VideoApi.fetchMyVideos();
                             });
                           });
                     }),
@@ -45,7 +46,13 @@ class _MyLibraryState extends State<MyLibrary> {
                       return StaggeredTile.fit(2);
                     }));
               } else {
-                return Container();
+                return Center(
+                    child: SizedBox(
+                        height: 15.0,
+                        width: 15.0,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                        )));
               }
             },
           )),
@@ -151,29 +158,9 @@ class _Tile extends StatelessWidget {
                           timeAgo: timeago.format(timeAgo),
                           delete: delete)));
             },
-            child: Hero(
-              tag: video.id,
-              child: Image.network(
-                video.thumbnailUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return SizedBox(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.grey.shade600),
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    ),
-                  );
-                },
-              ),
+            child: CachedNetworkImage(
+              imageUrl: video.thumbnailUrl,
+              fit: BoxFit.cover,
             )),
       ),
     );

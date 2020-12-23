@@ -16,6 +16,7 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Explore/feed_screen.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/user.dart';

@@ -67,19 +67,23 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                     height: 50,
                                     width: 50,
                                     child: Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.grey.shade600),
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes
-                                            : null,
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  Colors.grey.shade600),
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes
+                                              : null,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -92,7 +96,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(widget.peer.name,
-                            style: GoogleFonts.manjari(
+                            style: GoogleFonts.questrial(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -106,7 +110,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 : "No bio available.",
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.manjari(
+                            style: GoogleFonts.questrial(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,

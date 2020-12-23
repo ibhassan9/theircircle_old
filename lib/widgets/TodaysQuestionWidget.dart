@@ -27,27 +27,31 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
                       builder: (context) =>
                           TodaysQuestionPage(question: widget.question)))
               .then((value) {
+            if (value == false) {
+              return;
+            }
             widget.refresh();
           });
         },
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              color: Colors.teal, borderRadius: BorderRadius.circular(25.0)),
+              color: Theme.of(context).accentColor,
+              borderRadius: BorderRadius.circular(5.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 FlutterIcons.md_happy_ion,
-                color: Colors.white,
+                color: Theme.of(context).backgroundColor,
               ),
               SizedBox(width: 15.0),
               Text(
                 "We've got a question for you!",
-                style: GoogleFonts.manjari(
+                style: GoogleFonts.questrial(
                     fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).backgroundColor),
               ),
             ],
           ),
