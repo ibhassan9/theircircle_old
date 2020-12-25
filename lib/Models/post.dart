@@ -480,7 +480,7 @@ Future<List<Post>> fetchPosts(int sortBy) async {
     }
 
     if (i == 0 &&
-        blockList.contains(post.userId) == false &&
+        blockList.containsKey(post.userId) == false &&
         hiddenList.contains(post.id) == false) {
       p.add(post);
     }
@@ -947,7 +947,7 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
     }
 
     if (i == 0 &&
-        blockList.contains(post.userId) == false &&
+        blockList.containsKey(post.userId) == false &&
         hiddenList.contains(post.id) == false) {
       p.add(post);
     }
@@ -1286,7 +1286,7 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
     }
 
     if (i == 0 &&
-        blockList.contains(post.userId) == false &&
+        blockList.containsKey(post.userId) == false &&
         hiddenList.contains(post.id) == false) {
       p.add(post);
     }
@@ -1527,6 +1527,7 @@ class VideoApi {
   }
 
   static Future<List<Video>> fetchVideos() async {
+    Map<String, String> blockedUserIds = await getBlocks();
     List<Video> videos = [];
     var db = FirebaseDatabase.instance.reference().child('videos');
     DataSnapshot snap = await db.once();
@@ -1534,34 +1535,38 @@ class VideoApi {
 
     if (snap.value != null) {
       values.forEach((key, value) {
-        Video video = Video(
-            id: key,
-            userId: value['userId'],
-            name: value['name'],
-            timeStamp: value['timeStamp'],
-            videoUrl: value['videoUrl'],
-            thumbnailUrl: value['thumbUrl'],
-            caption: value['caption'],
-            allowComments:
-                value['allowComments'] != null ? value['allowComments'] : true,
-            university: value['university']);
-
-        if (value['likes'] != null) {
-          video.likeCount = value['likes'].length;
-          var liked = checkIsLiked(value['likes']);
-          video.isLiked = liked;
+        if (blockedUserIds.containsKey(value['userId'])) {
         } else {
-          video.likeCount = 0;
-          video.isLiked = false;
-        }
+          Video video = Video(
+              id: key,
+              userId: value['userId'],
+              name: value['name'],
+              timeStamp: value['timeStamp'],
+              videoUrl: value['videoUrl'],
+              thumbnailUrl: value['thumbUrl'],
+              caption: value['caption'],
+              allowComments: value['allowComments'] != null
+                  ? value['allowComments']
+                  : true,
+              university: value['university']);
 
-        if (value['comments'] != null) {
-          video.commentCount = value['comments'].length;
-        } else {
-          video.commentCount = 0;
-        }
+          if (value['likes'] != null) {
+            video.likeCount = value['likes'].length;
+            var liked = checkIsLiked(value['likes']);
+            video.isLiked = liked;
+          } else {
+            video.likeCount = 0;
+            video.isLiked = false;
+          }
 
-        videos.add(video);
+          if (value['comments'] != null) {
+            video.commentCount = value['comments'].length;
+          } else {
+            video.commentCount = 0;
+          }
+
+          videos.add(video);
+        }
       });
 
       videos.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));

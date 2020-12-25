@@ -25,8 +25,15 @@ class VideoWidget extends StatefulWidget {
   final String timeAgo;
   final Function delete;
   final Function next;
+  final Function blockUser;
 
-  VideoWidget({Key key, this.video, this.timeAgo, this.delete, this.next})
+  VideoWidget(
+      {Key key,
+      this.video,
+      this.timeAgo,
+      this.delete,
+      this.next,
+      this.blockUser})
       : super(key: key);
   @override
   _VideoWidgetState createState() => _VideoWidgetState();
@@ -255,7 +262,7 @@ class _VideoWidgetState extends State<VideoWidget>
         child: Text(
           university,
           style: GoogleFonts.questrial(
-              fontSize: 10, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
         ),
       ),
     );
@@ -711,7 +718,10 @@ class _VideoWidgetState extends State<VideoWidget>
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                       ),
-                      onPressed: () async {}),
+                      onPressed: () async {
+                        widget.blockUser();
+                        Navigator.pop(context);
+                      }),
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",

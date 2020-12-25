@@ -9,6 +9,7 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/MultiSelectChip.dart';
+import 'package:unify/pages/MyBlockedUsers.dart';
 
 class MyProfilePage extends StatefulWidget {
   final PostUser user;
@@ -148,6 +149,28 @@ class _MyProfilePageState extends State<MyProfilePage>
                   ),
                 ],
               ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyBlockedUsers()));
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurpleAccent,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                      child: Text('Blocked Users',
+                          style: GoogleFonts.questrial(
+                            textStyle: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
+                          )),
+                    )),
+              )
             ],
           ),
           Divider(),

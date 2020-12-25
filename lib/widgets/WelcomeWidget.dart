@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Models/user.dart';
@@ -15,9 +16,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 5.0),
       child: Container(
-          height: 60,
           color: Theme.of(context).backgroundColor,
           child: Column(
             children: [
@@ -53,22 +53,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                       ),
                     ],
                   )),
-                  CircleAvatar(
-                    backgroundColor: Colors.deepPurpleAccent,
-                    child: Text(
-                      name != null
-                          ? name.isNotEmpty
-                              ? name.substring(0, 1).toString()
-                              : ""
-                          : "",
-                      style: GoogleFonts.questrial(
-                        textStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                    ),
-                  )
+                  Icon(FlutterIcons.feed_faw, color: Colors.deepPurpleAccent)
                 ],
               ),
               // SizedBox(height: 5.0),

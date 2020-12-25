@@ -15,116 +15,124 @@ import 'package:timeago/timeago.dart' as timeago;
 class NotificationWidget extends StatefulWidget {
   final noti.Notification notification;
 
-  NotificationWidget({this.notification});
+  NotificationWidget({Key key, this.notification}) : super(key: key);
   @override
   _NotificationWidgetState createState() => _NotificationWidgetState();
 }
 
-class _NotificationWidgetState extends State<NotificationWidget> {
+class _NotificationWidgetState extends State<NotificationWidget>
+    with AutomaticKeepAliveClientMixin {
   String imgUrl;
   String name = '';
   String body = '';
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        await handleNotification();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                imgUrl == null || imgUrl == ''
-                    ? CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.grey[300],
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.network(
-                          imgUrl,
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: Center(
-                                child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                    valueColor:
-                                        new AlwaysStoppedAnimation<Color>(
-                                            Colors.grey[500]),
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes
-                                        : null,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                SizedBox(width: 10.0),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    super.build(context);
+    return imgUrl != null && name.isNotEmpty && body.isNotEmpty
+        ? InkWell(
+            onTap: () async {
+              await handleNotification();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        name,
-                        maxLines: null,
-                        style: GoogleFonts.questrial(
-                          textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      ),
-                      SizedBox(height: 3.0),
-                      Text(
-                        body,
-                        maxLines: null,
-                        style: GoogleFonts.questrial(
-                          textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      ),
-                      SizedBox(height: 7.0),
-                      Text(
-                        timeago.format(new DateTime.fromMillisecondsSinceEpoch(
-                            widget.notification.timestamp)),
-                        maxLines: null,
-                        style: GoogleFonts.questrial(
-                          textStyle: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey[500]),
+                      imgUrl == null || imgUrl == ''
+                          ? CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Colors.grey[300],
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Image.network(
+                                imgUrl,
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return SizedBox(
+                                    height: 30,
+                                    width: 30,
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  Colors.grey[500]),
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes
+                                              : null,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                      SizedBox(width: 10.0),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              maxLines: null,
+                              style: GoogleFonts.questrial(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: Theme.of(context).accentColor),
+                              ),
+                            ),
+                            SizedBox(height: 3.0),
+                            Text(
+                              body,
+                              maxLines: null,
+                              style: GoogleFonts.questrial(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              ),
+                            ),
+                            SizedBox(height: 7.0),
+                            Text(
+                              timeago.format(
+                                  new DateTime.fromMillisecondsSinceEpoch(
+                                      widget.notification.timestamp)),
+                              maxLines: null,
+                              style: GoogleFonts.questrial(
+                                textStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[500]),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  Divider(
+                    thickness: 1.5,
+                  ),
+                ],
+              ),
             ),
-            Divider(
-              thickness: 1.5,
-            ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Container();
   }
 
   @override
@@ -236,4 +244,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
         break;
     }
   }
+
+  bool get wantKeepAlive => true;
 }

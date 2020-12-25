@@ -20,6 +20,7 @@ class MyConversationWidget extends StatefulWidget {
   final PostUser peer;
   final bool seen;
   final String lastMessageSenderId;
+  final Function getBlocks;
   MyConversationWidget(
       {Key key,
       @required this.peerId,
@@ -30,7 +31,8 @@ class MyConversationWidget extends StatefulWidget {
       this.timeAgo,
       this.peer,
       this.seen,
-      this.lastMessageSenderId})
+      this.lastMessageSenderId,
+      this.getBlocks})
       : super(key: key);
   @override
   _MyConversationWidgetState createState() => _MyConversationWidgetState();
@@ -110,7 +112,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                     builder: (context) => ChatPage(
                           receiver: widget.peer,
                           chatId: widget.chatId,
-                        )));
+                        ))).then((value) {});
           },
           child: Container(
             width: MediaQuery.of(context).size.width,

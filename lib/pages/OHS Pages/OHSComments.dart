@@ -156,7 +156,8 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
                       }
                     },
                     block: () async {
-                      var res = await block(widget.post.userId);
+                      var res = await block(
+                          widget.post.userId, widget.post.university);
                       Navigator.pop(context);
                       if (res) {
                         previewMessage("User blocked.", context);

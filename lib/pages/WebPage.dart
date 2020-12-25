@@ -45,7 +45,7 @@ class _WebPageState extends State<WebPage> {
         ),
         body: WebView(
           initialUrl: widget.selectedUrl,
-          javascriptMode: JavascriptMode.disabled,
+          javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
           },

@@ -110,7 +110,9 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               InkWell(
                 onTap: () {
-                  isBlocked ? unblock(widget.user.id) : block(widget.user.id);
+                  isBlocked
+                      ? unblock(widget.user.id)
+                      : block(widget.user.id, widget.user.university);
                   setState(() {
                     isBlocked = isBlocked ? false : true;
                   });

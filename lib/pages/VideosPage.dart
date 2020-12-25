@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/post.dart';
+import 'package:unify/Models/user.dart';
 import 'package:unify/pages/CameraScreen.dart';
 import 'package:unify/pages/MyLibrary.dart';
 import 'package:unify/pages/UploadVideo.dart';
@@ -99,11 +100,21 @@ class _VideosPageState extends State<VideosPage> {
                             //_carouselController.animateToPage(0);
                           });
                         };
+
+                        Function blockUser = () async {
+                          await block(video.userId, video.university)
+                              .then((value) {
+                            setState(() {
+                              videoFuture = VideoApi.fetchVideos();
+                            });
+                          });
+                        };
                         return VideoWidget(
                             key: ValueKey(video.id),
                             video: video,
                             timeAgo: timeago.format(timeAgo),
-                            delete: delete);
+                            delete: delete,
+                            blockUser: blockUser);
                       });
                 } else {
                   return Container();

@@ -672,7 +672,7 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
   return values;
 }
 
-Future<bool> seenAllNotifications() async {
+Future<Null> seenAllNotifications() async {
   var db = FirebaseDatabase.instance
       .reference()
       .child('notifications')

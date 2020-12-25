@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart' as noti;
 import 'package:unify/widgets/NotificationWidget.dart';
 
@@ -8,9 +10,12 @@ class NotificationsPage extends StatefulWidget {
   _NotificationsPageState createState() => _NotificationsPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
+class _NotificationsPageState extends State<NotificationsPage>
+    with AutomaticKeepAliveClientMixin {
   Future<List<noti.Notification>> notificationFuture;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: appBar(),
@@ -30,6 +35,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       itemBuilder: (context, index) {
                         noti.Notification notification = snapshot.data[index];
                         return NotificationWidget(
+                          key: ValueKey(notification.notificationId),
                           notification: notification,
                         );
                       },
@@ -69,5 +75,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
     // TODO: implement initState
     super.initState();
     notificationFuture = noti.fetchNotifications();
+    setSeen(firebaseAuth.currentUser.uid);
   }
+
+  bool get wantKeepAlive => true;
 }

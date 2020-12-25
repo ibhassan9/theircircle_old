@@ -17,9 +17,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:unify/Agora_Live/host.dart';
-import 'package:unify/Agora_Live/join.dart';
-import 'package:unify/Agora_Live/live.dart';
 import 'package:unify/Components/theme.dart';
 import 'package:unify/Components/theme_notifier.dart';
 import 'package:unify/pages/CameraScreen.dart';
@@ -74,14 +71,13 @@ class _MainPageState extends State<MainPage>
   Future<List<u.PostUser>> _userFuture;
   Future<String> _questionFuture;
   int sortBy = 0;
+  String imgUrl;
+
+  Stream<Event> notificationStream;
 
   var _darkTheme = true;
 
   // AGORA START
-
-  List<Live> list = [];
-  bool ready = false;
-  Live liveUser;
 
   // AGORA END
 
@@ -94,44 +90,63 @@ class _MainPageState extends State<MainPage>
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: true,
+        titleSpacing: 10.0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "HOME",
-                  style: GoogleFonts.questrial(
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-                // Text(
-                //   "Platform for Students",
-                //   style: GoogleFonts.questrial(
-                //     textStyle: TextStyle(
-                //         fontSize: 12,
-                //         fontWeight: FontWeight.w500,
-                //         color: Theme.of(context).accentColor),
-                //   ),
-                // ),
-              ],
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            profile(),
+            IconButton(
+              icon: Icon(FlutterIcons.filter_outline_mco,
+                  color: Theme.of(context).accentColor),
+              onPressed: () {
+                Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FilterPage()))
+                    .then((value) {
+                  if (value == false) {
+                    return;
+                  }
+                  setState(() {
+                    _postFuture = fetchPosts(sortBy);
+                  });
+                });
+              },
             ),
           ],
         ),
-        leading: IconButton(
-          icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyProfilePage(user: user, heroTag: user.id)));
-          },
-        ),
+        // title: Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Column(
+        //       crossAxisAlignment: CrossAxisAlignment.center,
+        //       children: [
+        //         Icon(
+        //           FlutterIcons.circle_notch_faw5s,
+        //           color: Colors.deepPurpleAccent,
+        //         ),
+        //         // Text(
+        //         //   "Platform for Students",
+        //         //   style: GoogleFonts.questrial(
+        //         //     textStyle: TextStyle(
+        //         //         fontSize: 12,
+        //         //         fontWeight: FontWeight.w500,
+        //         //         color: Theme.of(context).accentColor),
+        //         //   ),
+        //         // ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+        // leading: IconButton(
+        //   icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
+        //   onPressed: () {
+        //     Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //             builder: (context) =>
+        //                 MyProfilePage(user: user, heroTag: user.id)));
+        //   },
+        // ),
         actions: <Widget>[
           // IconButton(
           //   icon: Icon(FlutterIcons.video_library_mdi,
@@ -167,7 +182,7 @@ class _MainPageState extends State<MainPage>
             },
           )
         ],
-        elevation: 0.0,
+        elevation: 1.0,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
@@ -323,6 +338,11 @@ class _MainPageState extends State<MainPage>
   @override
   void initState() {
     super.initState();
+    notificationStream = FirebaseDatabase.instance
+        .reference()
+        .child('notifications')
+        .child(firebaseAuth.currentUser.uid)
+        .onValue;
     getUserData().then((value) {
       _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
       _postFuture = fetchPosts(sortBy);
@@ -373,15 +393,13 @@ class _MainPageState extends State<MainPage>
     var id = firebaseAuth.currentUser.uid;
     var _user = await u.getUser(id);
     var _promo = await getPromoImage();
-    list = [];
-    liveUser =
-        new Live(username: _user.name, me: true, image: _user.profileImgUrl);
     setState(() {
       //list.add(liveUser);
       name = _name;
       uni = _uni;
       user = _user;
       promo = _promo;
+      imgUrl = user.profileImgUrl;
     });
   }
 
@@ -440,44 +458,112 @@ class _MainPageState extends State<MainPage>
   }
 
   Widget notifications() {
-    return FutureBuilder(
-      future: noti.fetchNotifications(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData &&
-            snapshot.connectionState == ConnectionState.done) {
+    return StreamBuilder(
+      stream: notificationStream,
+      builder: (context, snap) {
+        if (snap.hasData &&
+            !snap.hasError &&
+            snap.data.snapshot.value != null) {
+          Map data = snap.data.snapshot.value;
+          int notiCount = 0;
+          for (var d in data.values) {
+            print(d['seen']);
+            if (d['seen'] != null && d['seen'] == false) {
+              notiCount += 1;
+            }
+          }
           return Stack(children: [
             IconButton(
-                icon: Icon(AntDesign.notification,
-                    color: Theme.of(context).accentColor),
+                icon:
+                    Icon(AntDesign.bells, color: Theme.of(context).accentColor),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => NotificationsPage()));
                 }),
-            Positioned(
-                top: 0,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: CircleAvatar(
-                    radius: 10,
-                    backgroundColor: Colors.red,
-                    child: Text(snapshot.data.length.toString(),
-                        style: GoogleFonts.questrial(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white),
-                        )),
-                  ),
-                ))
+            notiCount > 0
+                ? Positioned(
+                    top: 12.0,
+                    right: 10.0,
+                    width: 10.0,
+                    height: 10.0,
+                    child: CircleAvatar(
+                      radius: 8,
+                      backgroundColor: Colors.red,
+                      child: Text('',
+                          style: GoogleFonts.questrial(
+                            textStyle: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          )),
+                    ))
+                : Container()
           ]);
         } else {
           return Container();
         }
       },
     );
+  }
+
+  Widget profile() {
+    return imgUrl == null || imgUrl == ''
+        ? Container(
+            width: 25,
+            height: 25,
+            decoration: BoxDecoration(
+                color: Colors.grey, borderRadius: BorderRadius.circular(15.0)))
+        : InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyProfilePage(
+                            user: user,
+                            heroTag: user.id + user.id,
+                          )));
+            },
+            child: Hero(
+              tag: user.id + user.id,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Container(
+                  color: Colors.grey,
+                  child: Image.network(
+                    imgUrl,
+                    width: 25,
+                    height: 25,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: Center(
+                          child: SizedBox(
+                            width: 25,
+                            height: 25,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  Colors.grey[500]),
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes
+                                  : null,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 
   Widget promoWidget() {
@@ -630,7 +716,7 @@ class _MainPageState extends State<MainPage>
                   }
                 };
                 Function b = () async {
-                  var res = await u.block(post.userId);
+                  var res = await u.block(post.userId, post.userId);
                   Navigator.pop(context);
                   if (res) {
                     setState(() {

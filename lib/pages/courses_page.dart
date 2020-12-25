@@ -21,6 +21,7 @@ class _CoursesPageState extends State<CoursesPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print('rebuilding courses');
     addCourseDialog() {
       bool switchVal = false;
       AwesomeDialog(
@@ -117,7 +118,7 @@ class _CoursesPageState extends State<CoursesPage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "COURSES",
+                  "Courses",
                   style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,

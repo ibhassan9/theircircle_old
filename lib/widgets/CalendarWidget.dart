@@ -16,7 +16,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     TableCalendar tCalendar = TableCalendar(
       availableCalendarFormats: {CalendarFormat.week: 'Week'},
       initialCalendarFormat: CalendarFormat.week,
-      onDaySelected: (dt, lst, lst1) async {
+      onDaySelected: (dt, lst) async {
         setState(() {
           dateTimeSelected = dt;
         });

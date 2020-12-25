@@ -586,7 +586,7 @@ class _PostWidgetState extends State<PostWidget> {
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
-                        linkStyle: TextStyle(color: Colors.red),
+                        linkStyle: TextStyle(color: Colors.blue),
                       ),
                       widget.post.questionOne != null &&
                               widget.post.questionTwo != null

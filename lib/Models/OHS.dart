@@ -283,7 +283,7 @@ class OneHealingSpace {
       }
 
       if (i == 0 &&
-          blockList.contains(post.userId) == false &&
+          blockList.containsKey(post.userId) == false &&
           hiddenList.contains(post.id) == false) {
         p.add(post);
       }

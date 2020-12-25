@@ -40,7 +40,7 @@ class _ClubPageState extends State<ClubPage> {
           style: GoogleFonts.questrial(
             textStyle: TextStyle(
                 fontSize: 15,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
           ),
         ),
@@ -158,7 +158,7 @@ class _ClubPageState extends State<ClubPage> {
                           };
 
                           Function b = () async {
-                            var res = await block(post.userId);
+                            var res = await block(post.userId, post.userId);
                             Navigator.pop(context);
                             if (res) {
                               setState(() {

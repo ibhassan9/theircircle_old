@@ -157,7 +157,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       }
                     },
                     block: () async {
-                      var res = await block(widget.post.userId);
+                      var res = await block(widget.post.userId, '');
                       Navigator.pop(context);
                       if (res) {
                         previewMessage("User blocked.", context);

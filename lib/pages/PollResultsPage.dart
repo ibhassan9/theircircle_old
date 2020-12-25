@@ -151,7 +151,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
         option1users.add(user);
       } else if (option == 2) {
         PostUser user = await getUser(userId);
-        option1users.add(user);
+        option2users.add(user);
       }
     }
     setState(() {});

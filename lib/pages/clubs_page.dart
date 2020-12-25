@@ -22,8 +22,8 @@ class _ClubsPageState extends State<ClubsPage>
   TextEditingController clubDescriptionController = TextEditingController();
   TextEditingController searchingController = TextEditingController();
 
-  List<Club> clubs = List<Club>();
-  List<Club> searchedClubs = List<Club>();
+  List<Club> clubs = [];
+  List<Club> searchedClubs = [];
   bool isSearching = false;
   String filter;
   Club _oneHealingSpace;
@@ -160,7 +160,7 @@ class _ClubsPageState extends State<ClubsPage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "CLUBS",
+                  "Clubs",
                   style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,

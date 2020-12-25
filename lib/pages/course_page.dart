@@ -154,7 +154,7 @@ class _CoursePageState extends State<CoursePage> {
                             }
                           };
                           Function b = () async {
-                            var res = await block(post.userId);
+                            var res = await block(post.userId, post.userId);
                             Navigator.pop(context);
                             if (res) {
                               setState(() {

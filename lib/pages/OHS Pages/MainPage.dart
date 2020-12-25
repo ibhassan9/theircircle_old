@@ -9,6 +9,7 @@ import 'package:unify/pages/OHS%20Pages/CalendarPage.dart';
 import 'package:unify/pages/OHS%20Pages/MembersPage.dart';
 import 'package:unify/pages/OHS%20Pages/OHSPostPage.dart';
 import 'package:unify/pages/OHS%20Pages/OHSPostWidget.dart';
+import 'package:unify/pages/WebPage.dart';
 import 'package:unify/pages/join_requests_list.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/members_list_page.dart';
@@ -40,29 +41,39 @@ class _OHSMainPageState extends State<OHSMainPage> {
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(bottom: 25.0),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.pink, borderRadius: BorderRadius.circular(25.0)),
-          width: MediaQuery.of(context).size.width,
-          height: 50.0,
-          margin: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 5.0),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(FlutterIcons.calendar_ant,
-                    color: Colors.white, size: 17.0),
-                SizedBox(width: 10.0),
-                Text(
-                  'Book an appointment',
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => WebPage(
+                        title: "One Healing Space",
+                        selectedUrl: "https://healingclinic.janeapp.com/")));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.pink, borderRadius: BorderRadius.circular(25.0)),
+            width: MediaQuery.of(context).size.width,
+            height: 50.0,
+            margin: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 5.0),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(FlutterIcons.calendar_ant,
+                      color: Colors.white, size: 17.0),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'Book an appointment',
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -189,7 +200,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                           };
 
                           Function b = () async {
-                            var res = await block(post.userId);
+                            var res = await block(post.userId, post.university);
                             Navigator.pop(context);
                             if (res) {
                               setState(() {

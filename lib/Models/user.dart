@@ -253,7 +253,7 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
           value['instagramHandle'] != null ? value['instagramHandle'] : "",
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-      isBlocked: blocks.contains(id),
+      isBlocked: blocks.containsKey(id),
       university: uni == 'UofT'
           ? "University of Toronto"
           : uni == 'YorkU'
@@ -317,7 +317,7 @@ Future<PostUser> getUser(String id) async {
           value['instagramHandle'] != null ? value['instagramHandle'] : "",
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-      isBlocked: blocks.contains(id),
+      isBlocked: blocks.containsKey(id),
       university: university == 'UofT'
           ? "University of Toronto"
           : university == 'YorkU'
@@ -433,7 +433,7 @@ Future<List<PostUser>> peopleList() async {
               value['instagramHandle'] != null ? value['instagramHandle'] : "",
           linkedinHandle:
               value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-          isBlocked: blocks.contains(key));
+          isBlocked: blocks.containsKey(key));
       if (mylikes != null) {
         if (mylikes.contains(user.id) == false) {
           p.add(user);
@@ -529,7 +529,7 @@ Future<List<PostUser>> myCampusUsers() async {
               value['instagramHandle'] != null ? value['instagramHandle'] : "",
           linkedinHandle:
               value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
-          isBlocked: blocks.contains(key),
+          isBlocked: blocks.containsKey(key),
           university: university == 'UofT'
               ? "University of Toronto"
               : university == 'YorkU'
@@ -666,7 +666,7 @@ Future<String> uploadImageToStorage(File file) async {
   }
 }
 
-Future<List<String>> getBlocks() async {
+Future<Map<String, String>> getBlocks() async {
   var uniKey = Constants.checkUniversity();
   var uid = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance
@@ -681,20 +681,20 @@ Future<List<String>> getBlocks() async {
       .child('blocks');
   var snapshot = await db.once();
 
-  List<String> blockList = [];
+  Map<String, String> blockList = {};
 
   if (snapshot.value != null) {
     Map<dynamic, dynamic> values = snapshot.value;
 
     for (var key in values.keys) {
-      blockList.add(key);
+      blockList[key] = values[key];
     }
   }
 
   return blockList;
 }
 
-Future<bool> block(String userId) async {
+Future<bool> block(String userId, String university) async {
   var uniKey = Constants.checkUniversity();
   var uid = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance
@@ -708,7 +708,12 @@ Future<bool> block(String userId) async {
       .child(uid)
       .child('blocks')
       .child(userId);
-  await db.set(userId).catchError((onError) {
+  var uni = university == "University of Toronto"
+      ? "UofT"
+      : university == "York University"
+          ? "YorkU"
+          : "WesternU";
+  await db.set(uni).catchError((onError) {
     return false;
   });
   return true;

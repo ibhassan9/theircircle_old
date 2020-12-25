@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/theme.dart';
 import 'package:unify/Components/theme_notifier.dart';
-import 'package:unify/Explore/service_locator.dart';
 import 'package:unify/Home/main_screen.dart';
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
@@ -17,7 +16,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseDatabase.instance.setPersistenceEnabled(false);
-  //setup();
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]).then((_) {
     // SharedPreferences.getInstance().then((prefs) {
     //   var darkModeOn = prefs.getBool('darkMode') ?? false;
