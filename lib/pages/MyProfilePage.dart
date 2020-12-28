@@ -137,7 +137,11 @@ class _MyProfilePageState extends State<MyProfilePage>
                           color: Theme.of(context).buttonColor, size: 17.0),
                       SizedBox(width: 5.0),
                       Text(
-                        widget.user.university,
+                        widget.user.university == 'UofT'
+                            ? "University of Toronto"
+                            : widget.user.university == 'YorkU'
+                                ? "York University"
+                                : "Western University",
                         style: GoogleFonts.questrial(
                           textStyle: TextStyle(
                               fontSize: 11,
@@ -451,7 +455,6 @@ class _MyProfilePageState extends State<MyProfilePage>
       }
     }
     result.trimRight();
-    print(result);
     return result.isNotEmpty
         ? Text(
             result,
@@ -638,6 +641,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 isUpdating = false;
               });
               Toast.show('Profile Updated!', context);
+              Navigator.pop(context);
             } else {
               Toast.show('Error updating your profile.', context);
             }
@@ -659,6 +663,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 isUpdating = false;
               });
               Toast.show('Profile Updated!', context);
+              Navigator.pop(context);
             } else {
               Toast.show('Error updating your profile.', context);
             }

@@ -23,6 +23,7 @@ import 'package:unify/pages/CameraScreen.dart';
 import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/NotificationsPage.dart';
+import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/pages/VideosPage.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/Components/Constants.dart';
@@ -112,8 +113,13 @@ class _MainPageState extends State<MainPage>
                 });
               },
             ),
+            // Expanded(
+            //     child: Center(
+            //         child: Icon(FlutterIcons.circle_notch_faw5s,
+            //             color: Theme.of(context).accentColor)))
           ],
         ),
+
         // title: Row(
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [
@@ -284,12 +290,18 @@ class _MainPageState extends State<MainPage>
   Widget userProfile() {
     return InkWell(
       onTap: () async {
-        var user = await u.getUser(this.user.id);
+        print('text');
+        print(this.user.university);
+        var user =
+            await u.getUserWithUniversity(this.user.id, this.user.university);
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    MyProfilePage(user: user, heroTag: this.user.id)));
+                builder: (context) => ProfilePage(
+                      user: user,
+                      heroTag: this.user.id,
+                      isMyProfile: true,
+                    )));
       },
       child: user.profileImgUrl == null || user.profileImgUrl == ''
           ? CircleAvatar(
@@ -467,25 +479,25 @@ class _MainPageState extends State<MainPage>
           Map data = snap.data.snapshot.value;
           int notiCount = 0;
           for (var d in data.values) {
-            print(d['seen']);
             if (d['seen'] != null && d['seen'] == false) {
               notiCount += 1;
             }
           }
-          return Stack(children: [
-            IconButton(
-                icon:
-                    Icon(AntDesign.bells, color: Theme.of(context).accentColor),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotificationsPage()));
-                }),
+          return Stack(alignment: Alignment.center, children: [
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationsPage()));
+              },
+              child: Icon(FlutterIcons.bell_faw5s,
+                  color: Theme.of(context).accentColor),
+            ),
             notiCount > 0
                 ? Positioned(
-                    top: 12.0,
-                    right: 10.0,
+                    top: 15.0,
+                    right: 0.0,
                     width: 10.0,
                     height: 10.0,
                     child: CircleAvatar(
@@ -509,23 +521,26 @@ class _MainPageState extends State<MainPage>
   }
 
   Widget profile() {
-    return imgUrl == null || imgUrl == ''
-        ? Container(
-            width: 25,
-            height: 25,
-            decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(15.0)))
-        : InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyProfilePage(
-                            user: user,
-                            heroTag: user.id + user.id,
-                          )));
-            },
-            child: Hero(
+    return InkWell(
+      onTap: () async {
+        u.PostUser _u = await u.getUserWithUniversity(user.id, user.university);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProfilePage(
+                      user: _u,
+                      heroTag: user.id + user.id,
+                      isMyProfile: true,
+                    )));
+      },
+      child: imgUrl == null || imgUrl == ''
+          ? Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(15.0)))
+          : Hero(
               tag: user.id + user.id,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
@@ -563,7 +578,7 @@ class _MainPageState extends State<MainPage>
                 ),
               ),
             ),
-          );
+    );
   }
 
   Widget promoWidget() {

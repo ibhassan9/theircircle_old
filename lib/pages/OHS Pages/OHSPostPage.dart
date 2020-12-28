@@ -286,7 +286,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
               size: 20,
               color: isAnonymous == false
                   ? Theme.of(context).buttonColor
-                  : Colors.pink),
+                  : Colors.deepPurpleAccent),
         ),
       ],
     );
@@ -358,7 +358,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
         child: Container(
           height: 60,
           decoration: BoxDecoration(
-            color: Colors.pink,
+            color: Colors.deepPurpleAccent,
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: Center(
@@ -540,7 +540,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
   Widget field1() {
     return TextField(
       controller: contentController,
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.newline,
       maxLines: null,
       onChanged: (value) {
         var newLength = 300 - value.length;

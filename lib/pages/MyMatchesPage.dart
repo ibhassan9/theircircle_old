@@ -31,23 +31,18 @@ class _MyMatchesPageState extends State<MyMatchesPage>
 
   Widget build(BuildContext context) {
     super.build(context);
-    print('rebuilding');
-    print(blockList);
     return VisibilityDetector(
       key: ValueKey('chat_page_detector'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1.0) {
           if (hasInitialized) {
-            print('loading');
             getBlocks().then((value) {
               setState(() {
                 blockList = value;
               });
             });
           }
-        } else if (info.visibleFraction == 0.0) {
-          print('not visible');
-        }
+        } else if (info.visibleFraction == 0.0) {}
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -337,7 +332,6 @@ class _MyMatchesPageState extends State<MyMatchesPage>
   void initState() {
     super.initState();
     getBlocks().then((value) {
-      print(value);
       setState(() {
         blockList = value;
         hasInitialized = true;

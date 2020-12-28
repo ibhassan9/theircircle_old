@@ -102,11 +102,8 @@ Future<Null> sendPush(int nID, String token, String text, String postId,
       body: nID == 0
           ? "${me.name} liked your post: $text"
           : "${me.name} commented on your post: $text");
-  print('sending noti');
 
   await uploadNotification(notification, receiverId);
-
-  print("notification sent");
 
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
@@ -538,9 +535,7 @@ Future<bool> uploadNotification(Notification n, String receiverId) async {
     data['body'] = n.body;
   }
 
-  print(data);
   db.child(key.key).set(data).catchError((e) {
-    print(e.toString());
     return false;
   });
   return true;
@@ -589,7 +584,6 @@ Future<List<Notification>> fetchNotifications() async {
 }
 
 Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
-  print('handling');
   var status = data['status'];
   var screen = data['screen'];
   Map<String, dynamic> extradata;
@@ -615,11 +609,6 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
 
   List<dynamic> values;
 
-  print(screen);
-  print(status);
-  print(extradata);
-  print(type);
-
   if (status == null || screen == null || extradata == null) {
     return null;
   }
@@ -632,7 +621,6 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
         case "COMMENT_PAGE":
           Post post = await fetchCoursePost(postId, id);
           // fetch course
-          print(post);
           values = [0, post, course, null, null, null, chatId];
           break;
         case "COURSE_PAGE":
@@ -653,7 +641,6 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
       break;
     case "post":
       Post post = await fetchPost(postId);
-      print(post);
       values = [4, post, null, null, null, null, chatId];
       break;
     case "chat":
@@ -662,7 +649,6 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
       break;
     case "video":
       Video video = await VideoApi.fetchVideo(id);
-      print(video);
       values = [6, null, null, null, video, null, chatId];
       break;
     default:

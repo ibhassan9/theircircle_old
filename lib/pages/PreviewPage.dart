@@ -22,7 +22,6 @@ class _PreviewPageState extends State<PreviewPage> {
   bool initialized = false;
 
   Widget build(BuildContext context) {
-    print("From Preview Page: " + widget.videoPath);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,

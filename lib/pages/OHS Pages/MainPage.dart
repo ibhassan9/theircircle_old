@@ -48,11 +48,12 @@ class _OHSMainPageState extends State<OHSMainPage> {
                 MaterialPageRoute(
                     builder: (context) => WebPage(
                         title: "One Healing Space",
-                        selectedUrl: "https://healingclinic.janeapp.com/")));
+                        selectedUrl:
+                            "https://healingclinic.janeapp.com/login")));
           },
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.pink, borderRadius: BorderRadius.circular(25.0)),
+                color: Colors.blue, borderRadius: BorderRadius.circular(25.0)),
             width: MediaQuery.of(context).size.width,
             height: 50.0,
             margin: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 5.0),
@@ -94,7 +95,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: <Widget>[
           IconButton(
-            icon: Icon(AntDesign.plus),
+            icon: Icon(FlutterIcons.pencil_plus_mco),
             onPressed: () {
               Navigator.push(
                   context,
@@ -222,6 +223,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                           };
 
                           return OHSPostWidget(
+                              key: ValueKey(post.id),
                               post: post,
                               timeAgo: timeago.format(timeAgo),
                               club: widget.club,

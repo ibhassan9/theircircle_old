@@ -21,7 +21,6 @@ class _CoursesPageState extends State<CoursesPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print('rebuilding courses');
     addCourseDialog() {
       bool switchVal = false;
       AwesomeDialog(

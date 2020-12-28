@@ -16,6 +16,7 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Components/theme.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/user.dart';
@@ -77,21 +78,16 @@ class _MainScreenState extends State<MainScreen>
         keepPage: true);
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onmessage');
-      },
+      onMessage: (Map<String, dynamic> message) async {},
       onLaunch: (Map<String, dynamic> message) async {
-        print('onlaunch');
         handleNotification(message).then((value) {
           navigate(value);
         });
       },
       onResume: (Map<String, dynamic> message) async {
         handleNotification(message).then((value) {
-          print(value);
           navigate(value);
         });
-        print('onresume');
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -108,75 +104,278 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        extendBody: false,
-        body: PageView(
-          controller: _pageController,
-          physics: AlwaysScrollableScrollPhysics(),
-          onPageChanged: onPageChanged,
-          children: <Widget>[
-            MainPage(),
-            CoursesPage(),
-            //MatchPage(),
-            VideosPage(),
-            ClubsPage(),
-            MyMatchesPage()
-          ],
-        ),
-        bottomNavigationBar: Container(
-          height: kBottomNavigationBarHeight + 30,
-          child: CurvedNavigationBar(
-            index: widget.initialPage != null ? widget.initialPage : 0,
-            key: _bottomNavigationKey,
-            //animationCurve: Curves.easeOutCirc,
-            backgroundColor: widget.initialPage == null
-                ? _pages == 2
-                    ? Colors.black
-                    : Theme.of(context).backgroundColor
-                : widget.initialPage == 2
-                    ? _pages == 2
-                        ? Colors.black
-                        : Theme.of(context).backgroundColor
-                    : Theme.of(context).backgroundColor,
-            color: widget.initialPage == null
-                ? _pages == 2
-                    ? Colors.black
-                    : Colors.deepPurpleAccent
-                : widget.initialPage == 2
-                    ? _pages == 2
-                        ? Colors.black
-                        : Colors.deepPurpleAccent
-                    : Colors.deepPurpleAccent,
-            items: [
-              Icon(
-                FlutterIcons.circle_notch_faw5s,
-                color: Colors.white,
+      extendBody: false,
+      body: PageView(
+        controller: _pageController,
+        physics: AlwaysScrollableScrollPhysics(),
+        onPageChanged: onPageChanged,
+        children: <Widget>[
+          MainPage(),
+          CoursesPage(),
+          VideosPage(),
+          ClubsPage(),
+          MyMatchesPage()
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: kBottomNavigationBarHeight + 20,
+        color: _pages == 2
+            ? Colors.black.withOpacity(0.99)
+            : Theme.of(context).backgroundColor,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 0.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () {
+                  _pageController.jumpToPage(0);
+                  setState(() {
+                    _pages = 0;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Icon(FlutterIcons.circle_notch_faw5s,
+                        color: _pages == 2
+                            ? Colors.grey
+                            : _pages == 0
+                                ? Theme.of(context).accentColor
+                                : Colors.grey),
+                    SizedBox(height: 3.0),
+                    Text(
+                      'Home',
+                      style: GoogleFonts.questrial(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: _pages == 2
+                                ? Colors.grey
+                                : _pages == 0
+                                    ? Theme.of(context).accentColor
+                                    : Colors.grey),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Icon(
-                AntDesign.book,
-                color: Colors.white,
+              InkWell(
+                onTap: () {
+                  _pageController.jumpToPage(1);
+                  setState(() {
+                    _pages = 1;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Icon(AntDesign.book,
+                        color: _pages == 2
+                            ? Colors.grey
+                            : _pages == 1
+                                ? Theme.of(context).accentColor
+                                : Colors.grey),
+                    SizedBox(height: 3.0),
+                    Text(
+                      'Courses',
+                      style: GoogleFonts.questrial(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: _pages == 2
+                                ? Colors.grey
+                                : _pages == 1
+                                    ? Theme.of(context).accentColor
+                                    : Colors.grey),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Icon(FlutterIcons.video_camera_faw, color: Colors.white),
-              Icon(
-                AntDesign.Trophy,
-                color: Colors.white,
+              InkWell(
+                onTap: () {
+                  _pageController.jumpToPage(2);
+                  setState(() {
+                    _pages = 2;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Icon(FlutterIcons.video_camera_faw,
+                        color: _pages == 2 ? Colors.white : Colors.grey),
+                    SizedBox(height: 3.0),
+                    Text(
+                      'UniTV',
+                      style: GoogleFonts.questrial(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: _pages == 2 ? Colors.white : Colors.grey),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Icon(
-                FlutterIcons.chat_bubble_outline_mdi,
-                color: Colors.white,
+              InkWell(
+                onTap: () {
+                  _pageController.jumpToPage(3);
+                  setState(() {
+                    _pages = 3;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Icon(AntDesign.Trophy,
+                        color: _pages == 2
+                            ? Colors.grey
+                            : _pages == 3
+                                ? Theme.of(context).accentColor
+                                : Colors.grey),
+                    SizedBox(height: 3.0),
+                    Text(
+                      'Clubs',
+                      style: GoogleFonts.questrial(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: _pages == 2
+                                ? Colors.grey
+                                : _pages == 3
+                                    ? Theme.of(context).accentColor
+                                    : Colors.grey),
+                      ),
+                    )
+                  ],
+                ),
               ),
+              InkWell(
+                onTap: () {
+                  _pageController.jumpToPage(4);
+                  setState(() {
+                    _pages = 4;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Icon(FlutterIcons.chat_bubble_outline_mdi,
+                        color: _pages == 2
+                            ? Colors.grey
+                            : _pages == 4
+                                ? Theme.of(context).accentColor
+                                : Colors.grey),
+                    SizedBox(height: 3.0),
+                    Text(
+                      'Chat',
+                      style: GoogleFonts.questrial(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: _pages == 2
+                                ? Colors.grey
+                                : _pages == 4
+                                    ? Theme.of(context).accentColor
+                                    : Colors.grey),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              // BottomNavigationBarItem(
+              //           icon: Icon(FlutterIcons.circle_notch_faw5s),
+              //           title: Text('Home')),
+              //       CustomNavigationBarItem(
+              //           icon: Icon(AntDesign.book), title: Text('Courses')),
+              //       CustomNavigationBarItem(
+              //           icon: Icon(FlutterIcons.video_camera_faw),
+              //           title: Text('UniTV')),
+              //       CustomNavigationBarItem(
+              //           icon: Icon(AntDesign.Trophy), title: Text('Clubs')),
+              //       CustomNavigationBarItem(
+              //           icon: Icon(FlutterIcons.chat_bubble_outline_mdi),
+              //           title: Text('Chat')),
             ],
-            onTap: (index) {
-              _pageController.jumpToPage(index);
-              // setState(() {
-              //   _pages = index;
-              // });
-              // final CurvedNavigationBarState navBarState =
-              //     _bottomNavigationKey.currentState;
-              // navBarState.setPage(index);
-              // _pageController.jumpToPage(index);
-            },
           ),
-        ));
+        ),
+      ),
+      // bottomNavigationBar: Container(
+      //   color: Colors.red,
+      //   height: kBottomNavigationBarHeight + 40,
+      //   child: Stack(
+      //     children: [
+      //       Positioned(
+      //         top: 0.0,
+      //         child: CustomNavigationBar(
+      //           //index: widget.initialPage != null ? widget.initialPage : 0,
+      //           key: _bottomNavigationKey,
+      //           currentIndex: _pages,
+      //           elevation: 1.5,
+      //           //animationCurve: Curves.easeOutCirc,
+      //           backgroundColor: widget.initialPage == null
+      //               ? _pages == 2
+      //                   ? Colors.black
+      //                   : Theme.of(context).backgroundColor
+      //               : widget.initialPage == 2
+      //                   ? _pages == 2
+      //                       ? Colors.black
+      //                       : Theme.of(context).backgroundColor
+      //                   : Theme.of(context).backgroundColor,
+      //           // color: widget.initialPage == null
+      //           //     ? _pages == 2
+      //           //         ? Colors.black
+      //           //         : Colors.deepPurpleAccent
+      //           //     : widget.initialPage == 2
+      //           //         ? _pages == 2
+      //           //             ? Colors.black
+      //           //             : Colors.deepPurpleAccent
+      //           //         : Colors.deepPurpleAccent,
+      //           items: [
+      //             CustomNavigationBarItem(
+      //                 icon: Icon(FlutterIcons.circle_notch_faw5s),
+      //                 title: Text('Home')),
+      //             CustomNavigationBarItem(
+      //                 icon: Icon(AntDesign.book), title: Text('Courses')),
+      //             CustomNavigationBarItem(
+      //                 icon: Icon(FlutterIcons.video_camera_faw),
+      //                 title: Text('UniTV')),
+      //             CustomNavigationBarItem(
+      //                 icon: Icon(AntDesign.Trophy), title: Text('Clubs')),
+      //             CustomNavigationBarItem(
+      //                 icon: Icon(FlutterIcons.chat_bubble_outline_mdi),
+      //                 title: Text('Chat')),
+      //             // Icon(
+      //             //   FlutterIcons.circle_notch_faw5s,
+      //             //   color: Colors.white,
+      //             // ),
+      //             // Icon(
+      //             //   AntDesign.book,
+      //             //   color: Colors.white,
+      //             // ),
+      //             // Icon(FlutterIcons.video_camera_faw, color: Colors.white),
+      //             // Icon(
+      //             //   AntDesign.Trophy,
+      //             //   color: Colors.white,
+      //             // ),
+      //             // Icon(
+      //             //   FlutterIcons.chat_bubble_outline_mdi,
+      //             //   color: Colors.white,
+      //             // ),
+      //           ],
+      //           onTap: (index) {
+      //             _pageController.jumpToPage(index);
+      //             // setState(() {
+      //             //   _pages = index;
+      //             // });
+      //             // final CurvedNavigationBarState navBarState =
+      //             //     _bottomNavigationKey.currentState;
+      //             // navBarState.setPage(index);
+      //             // _pageController.jumpToPage(index);
+      //           },
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // )
+    );
   }
 
   @override
@@ -187,9 +386,9 @@ class _MainScreenState extends State<MainScreen>
   }
 
   void onPageChanged(int page) {
-    final CurvedNavigationBarState navBarState =
-        _bottomNavigationKey.currentState;
-    navBarState.setPage(page);
+    // final CurvedNavigationBarState navBarState =
+    //     _bottomNavigationKey.currentState;
+    // navBarState.setPage(page);
     setState(() {
       this._pages = page;
     });

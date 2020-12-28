@@ -195,6 +195,101 @@ class OneHealingSpace {
     }
   }
 
+  static Future<Post> fetchPost(String postId) async {
+    Post p;
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child("partners")
+        .child("onehealingspace")
+        .child('posts')
+        .child(postId);
+
+    var snapshot = await db.once();
+    var blockList = await getBlocks();
+    var hiddenList = await getHiddenList();
+
+    Map<dynamic, dynamic> value = snapshot.value;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var filters = prefs.getStringList('filters');
+
+    var post = Post(
+        id: postId,
+        userId: value['userId'],
+        username: value['name'],
+        content: value['content'],
+        timeStamp: value['timeStamp'],
+        isAnonymous:
+            value['isAnonymous'] != null ? value['isAnonymous'] : false,
+        courseId: value['courseId'],
+        likeCount: value['likes'] != null ? value['likes'].length : 0,
+        imgUrl: value['imgUrl'],
+        university: value['university']);
+
+    if (value['comments'] != null) {
+      post.commentCount = value['comments'].length;
+    } else {
+      post.commentCount = 0;
+    }
+
+    if (value['questionOne'] != null && value['questionTwo'] != null) {
+      if (value['votes'] != null) {
+        List<int> voteCounts = getVotes(value['votes']);
+        post.questionOneLikeCount = voteCounts[0];
+        post.questionTwoLikeCount = voteCounts[1];
+      } else {
+        post.questionOneLikeCount = 0;
+        post.questionTwoLikeCount = 0;
+      }
+      post.questionOne = value['questionOne'];
+      post.questionTwo = value['questionTwo'];
+    }
+
+    if (value['votes'] != null) {
+      var voted = checkIsVoted(value['votes']);
+      post.votes = value['votes'];
+      post.isVoted = voted;
+      if (voted) {
+        int option = whichOption(value['votes']);
+        if (option != 0) {
+          post.whichOption = option;
+        }
+      }
+    } else {
+      post.isVoted = false;
+    }
+
+    if (value['likes'] != null) {
+      var liked = checkIsLiked(value['likes']);
+      post.isLiked = liked;
+    } else {
+      post.isLiked = false;
+    }
+
+    if (value['tcQuestion'] != null) {
+      post.tcQuestion = value['tcQuestion'];
+    }
+
+    var i = 0;
+
+    if (post.userId != firebaseAuth.currentUser.uid) {
+      if (filters != null) {
+        for (var filter in filters) {
+          if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+            i += 1;
+          }
+        }
+      }
+    }
+
+    if (i == 0 &&
+        blockList.containsKey(post.userId) == false &&
+        hiddenList.contains(post.id) == false) {
+      p = post;
+    }
+    return p;
+  }
+
   static Future<List<Post>> fetchPosts(int sortBy) async {
     List<Post> p = List<Post>();
     var db = FirebaseDatabase.instance
@@ -356,6 +451,17 @@ class OneHealingSpace {
   }
 
   static Future<bool> deletePost(String postId) async {
+    var uniKey = Constants.checkUniversity();
+    var myDB = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child('myposts')
+        .child(postId);
     var postdb = FirebaseDatabase.instance
         .reference()
         .child('partners')
@@ -366,7 +472,10 @@ class OneHealingSpace {
       return false;
     });
 
-    //TODO:- DELETE MY POST
+    await myDB.remove().catchError((e) {
+      return false;
+    });
+
     return true;
   }
 

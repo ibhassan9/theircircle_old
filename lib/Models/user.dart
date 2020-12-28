@@ -254,11 +254,7 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
       isBlocked: blocks.containsKey(id),
-      university: uni == 'UofT'
-          ? "University of Toronto"
-          : uni == 'YorkU'
-              ? "York University"
-              : "Western University");
+      university: uni);
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];
@@ -318,11 +314,7 @@ Future<PostUser> getUser(String id) async {
       linkedinHandle:
           value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
       isBlocked: blocks.containsKey(id),
-      university: university == 'UofT'
-          ? "University of Toronto"
-          : university == 'YorkU'
-              ? "York University"
-              : "Western University");
+      university: university);
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];
@@ -530,11 +522,7 @@ Future<List<PostUser>> myCampusUsers() async {
           linkedinHandle:
               value['linkedinHandle'] != null ? value['linkedinHandle'] : "",
           isBlocked: blocks.containsKey(key),
-          university: university == 'UofT'
-              ? "University of Toronto"
-              : university == 'YorkU'
-                  ? "York University"
-                  : "Western University");
+          university: university);
 
       if (value['accomplishments'] != null) {
         user.accomplishments = value['accomplishments'];
@@ -1390,7 +1378,6 @@ Future<bool> updateNetworkProfile(
     'interests': interests
   };
   await userDB.child('networking').set(values).catchError((onError) {
-    print(onError);
     return false;
   });
   return true;

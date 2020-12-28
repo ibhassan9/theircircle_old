@@ -75,7 +75,7 @@ class _NotificationsPageState extends State<NotificationsPage>
     // TODO: implement initState
     super.initState();
     notificationFuture = noti.fetchNotifications();
-    setSeen(firebaseAuth.currentUser.uid);
+    noti.seenAllNotifications();
   }
 
   bool get wantKeepAlive => true;

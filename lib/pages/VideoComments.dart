@@ -120,70 +120,81 @@ class _VideoCommentsState extends State<VideoComments> {
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       ),
-      body: RefreshIndicator(
-        onRefresh: refresh,
-        child: Stack(
-          children: <Widget>[
-            ListView(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: FutureBuilder(
-                    future: commentFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount:
-                              snapshot.data != null ? snapshot.data.length : 0,
-                          itemBuilder: (BuildContext context, int index) {
-                            Comment comment = snapshot.data[index];
-                            var timeAgo =
-                                new DateTime.fromMillisecondsSinceEpoch(
-                                    comment.timeStamp);
-                            return CommentWidget(
-                                comment: comment,
-                                timeAgo: timeago.format(timeAgo));
-                          },
-                        );
-                      } else {
-                        return Container(
-                          height: MediaQuery.of(context).size.height / 1.4,
-                          child: Center(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.face,
-                                  color: Theme.of(context).accentColor,
+      body: widget.video.allowComments
+          ? RefreshIndicator(
+              onRefresh: refresh,
+              child: Stack(
+                children: <Widget>[
+                  ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FutureBuilder(
+                          future: commentFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data != null
+                                    ? snapshot.data.length
+                                    : 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Comment comment = snapshot.data[index];
+                                  var timeAgo =
+                                      new DateTime.fromMillisecondsSinceEpoch(
+                                          comment.timeStamp);
+                                  return CommentWidget(
+                                      comment: comment,
+                                      timeAgo: timeago.format(timeAgo));
+                                },
+                              );
+                            } else {
+                              return Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.face,
+                                      color: Theme.of(context).accentColor,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text("There are no comments :(",
+                                        style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .accentColor),
+                                        )),
+                                  ],
                                 ),
-                                SizedBox(width: 10),
-                                Text("There are no comments :(",
-                                    style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).accentColor),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ],
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             )
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-          child: commentBox),
+          : Center(
+              child: Text("Comments are disabled",
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  )),
+            ),
+      bottomNavigationBar: widget.video.allowComments
+          ? Padding(
+              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+              child: commentBox)
+          : Container(),
     );
   }
 

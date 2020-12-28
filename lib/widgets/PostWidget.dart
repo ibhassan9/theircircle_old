@@ -115,8 +115,11 @@ class _PostWidgetState extends State<PostWidget> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MyProfilePage(
-                                      user: user, heroTag: widget.post.id)));
+                                  builder: (context) => ProfilePage(
+                                        user: user,
+                                        heroTag: widget.post.id,
+                                        isMyProfile: true,
+                                      )));
                         }
                       },
                       child: widget.post.isAnonymous
@@ -181,20 +184,24 @@ class _PostWidgetState extends State<PostWidget> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                widget.post.userId ==
-                                        firebaseAuth.currentUser.uid
-                                    ? "You"
-                                    : widget.post.isAnonymous
-                                        ? "Anonymous"
-                                        : widget.post.username,
-                                style: GoogleFonts.questrial(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: widget.post.userId ==
+                              Row(
+                                children: [
+                                  Text(
+                                    widget.post.userId ==
                                             firebaseAuth.currentUser.uid
-                                        ? Colors.blue
-                                        : Theme.of(context).accentColor),
+                                        ? "You"
+                                        : widget.post.isAnonymous
+                                            ? "Anonymous"
+                                            : widget.post.username,
+                                    style: GoogleFonts.questrial(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: widget.post.userId ==
+                                                firebaseAuth.currentUser.uid
+                                            ? Colors.blue
+                                            : Theme.of(context).accentColor),
+                                  ),
+                                ],
                               ),
                               Visibility(
                                 visible: widget.post.tcQuestion != null,
@@ -588,6 +595,29 @@ class _PostWidgetState extends State<PostWidget> {
                             color: Theme.of(context).accentColor),
                         linkStyle: TextStyle(color: Colors.blue),
                       ),
+                      widget.club != null
+                          ? widget.post.userId == widget.club.adminId &&
+                                  widget.post.isAnonymous == false &&
+                                  widget.club != null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 15.0),
+                                  child: Container(
+                                    color: Colors.grey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          8.0, 3.0, 8.0, 3.0),
+                                      child: Text(
+                                        "Admin",
+                                        style: GoogleFonts.questrial(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container()
+                          : Container(),
                       widget.post.questionOne != null &&
                               widget.post.questionTwo != null
                           ? Container(

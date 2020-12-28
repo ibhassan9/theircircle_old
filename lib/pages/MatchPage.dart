@@ -7,6 +7,7 @@ import 'package:unify/Models/user.dart';
 import 'package:unify/pages/MatchedOverlay.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
+import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/MatchWidget.dart';
 import 'package:unify/widgets/MatchWidgetPersonal.dart';
 
@@ -66,8 +67,11 @@ class _MatchPageState extends State<MatchPage>
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          MyProfilePage(user: _user, heroTag: _user.id)));
+                      builder: (context) => ProfilePage(
+                            user: _user,
+                            heroTag: _user.id,
+                            isMyProfile: true,
+                          )));
             },
           ),
           IconButton(

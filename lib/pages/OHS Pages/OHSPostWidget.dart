@@ -115,8 +115,11 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MyProfilePage(
-                                      user: user, heroTag: widget.post.id)));
+                                  builder: (context) => ProfilePage(
+                                        user: user,
+                                        heroTag: widget.post.id,
+                                        isMyProfile: true,
+                                      )));
                         }
                       },
                       child: widget.post.isAnonymous
@@ -181,20 +184,24 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                widget.post.userId ==
-                                        firebaseAuth.currentUser.uid
-                                    ? "You"
-                                    : widget.post.isAnonymous
-                                        ? "Anonymous"
-                                        : widget.post.username,
-                                style: GoogleFonts.questrial(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: widget.post.userId ==
+                              Row(
+                                children: [
+                                  Text(
+                                    widget.post.userId ==
                                             firebaseAuth.currentUser.uid
-                                        ? Colors.blue
-                                        : Theme.of(context).accentColor),
+                                        ? "You"
+                                        : widget.post.isAnonymous
+                                            ? "Anonymous"
+                                            : widget.post.username,
+                                    style: GoogleFonts.questrial(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: widget.post.userId ==
+                                                firebaseAuth.currentUser.uid
+                                            ? Colors.blue
+                                            : Theme.of(context).accentColor),
+                                  ),
+                                ],
                               ),
                               Visibility(
                                 visible: widget.post.tcQuestion != null,
@@ -210,6 +217,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                   ),
                                 ),
                               ),
+
                               // Visibility(
                               //   visible: _user.about != null,
                               //   child: Text(
@@ -232,7 +240,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).buttonColor),
                           ),
-                        ])
+                        ]),
                   ])),
                   Visibility(
                     visible: !widget.fromComments,
@@ -240,7 +248,10 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                       onTap: () {
                         final act = CupertinoActionSheet(
                           title: Text(
-                            widget.post.userId == firebaseAuth.currentUser.uid
+                            widget.post.userId ==
+                                        firebaseAuth.currentUser.uid ||
+                                    widget.club.adminId ==
+                                        firebaseAuth.currentUser.uid
                                 ? "OPTIONS"
                                 : "REPORT",
                             style: GoogleFonts.questrial(
@@ -249,7 +260,10 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 color: Theme.of(context).accentColor),
                           ),
                           message: Text(
-                            widget.post.userId == firebaseAuth.currentUser.uid
+                            widget.post.userId ==
+                                        firebaseAuth.currentUser.uid ||
+                                    widget.club.adminId ==
+                                        firebaseAuth.currentUser.uid
                                 ? "What would you like to do?"
                                 : "What is the issue?",
                             style: GoogleFonts.questrial(
@@ -258,7 +272,9 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 color: Theme.of(context).accentColor),
                           ),
                           actions: widget.post.userId ==
-                                  firebaseAuth.currentUser.uid
+                                      firebaseAuth.currentUser.uid ||
+                                  widget.club.adminId ==
+                                      firebaseAuth.currentUser.uid
                               ? [
                                   CupertinoActionSheetAction(
                                       child: Text(
@@ -588,6 +604,26 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                             color: Theme.of(context).accentColor),
                         linkStyle: TextStyle(color: Colors.red),
                       ),
+                      widget.post.userId == widget.club.adminId &&
+                              widget.post.isAnonymous == false
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Container(
+                                color: Colors.grey,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      8.0, 3.0, 8.0, 3.0),
+                                  child: Text(
+                                    "Admin",
+                                    style: GoogleFonts.questrial(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
                       widget.post.questionOne != null &&
                               widget.post.questionTwo != null
                           ? Container(

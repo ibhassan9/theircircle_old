@@ -65,6 +65,7 @@ class _VideoWidgetState extends State<VideoWidget>
         } else if (info.visibleFraction == 1.0) {
           if (initialized && _controller != null) {
             if (_controller.value.position == _controller.value.duration) {}
+            _controller.seekTo(Duration());
             _controller.play();
           }
         }
@@ -273,22 +274,22 @@ class _VideoWidgetState extends State<VideoWidget>
       children: [
         imgUrl == null || imgUrl == ''
             ? CircleAvatar(
-                radius: 15,
+                radius: 10,
                 backgroundColor: Colors.grey.withOpacity(0.7),
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.network(
                   imgUrl,
-                  width: 30,
-                  height: 30,
+                  width: 20,
+                  height: 20,
                   fit: BoxFit.cover,
                   loadingBuilder: (BuildContext context, Widget child,
                       ImageChunkEvent loadingProgress) {
                     if (loadingProgress == null) return child;
                     return SizedBox(
-                      height: 30,
-                      width: 30,
+                      height: 20,
+                      width: 20,
                       child: Center(
                         child: SizedBox(
                           width: 20,
@@ -309,25 +310,30 @@ class _VideoWidgetState extends State<VideoWidget>
                 ),
               ),
         SizedBox(width: 10.0),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            widget.video.userId == firebaseAuth.currentUser.uid
-                ? 'Posted by you'
-                : widget.video.name,
-            style: GoogleFonts.questrial(
-                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
-          ),
-          SizedBox(height: 5.0),
-          Text(
-            widget.timeAgo,
-            style: GoogleFonts.questrial(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[300]),
-          ),
-          // SizedBox(height: 5.0),
-          // institution()
-        ])
+        Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                widget.video.userId == firebaseAuth.currentUser.uid
+                    ? 'Posted by you'
+                    : widget.video.name,
+                style: GoogleFonts.questrial(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+              SizedBox(width: 5.0),
+              Text(
+                widget.timeAgo,
+                style: GoogleFonts.questrial(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[300]),
+              ),
+              // SizedBox(height: 5.0),
+              // institution()
+            ])
       ],
     );
   }
@@ -445,6 +451,9 @@ class _VideoWidgetState extends State<VideoWidget>
   @override
   void dispose() {
     super.dispose();
+    setState(() {
+      initialized = false;
+    });
     if (_controller != null) {
       _controller.pause();
       _controller.dispose();
@@ -517,13 +526,10 @@ class _VideoWidgetState extends State<VideoWidget>
   void checkVideo() {
     // Implement your calls inside these conditions' bodies :
     if (_controller.value.position ==
-        Duration(seconds: 0, minutes: 0, hours: 0)) {
-      print('video Started');
-    }
+        Duration(seconds: 0, minutes: 0, hours: 0)) {}
 
     if (_controller.value.position == _controller.value.duration) {
       widget.next();
-      print('video Ended');
     }
   }
 
@@ -637,55 +643,55 @@ class _VideoWidgetState extends State<VideoWidget>
               Navigator.pop(context);
               showSnackBar();
             }),
-        CupertinoActionSheetAction(
-            child: Text(
-              "Hide this video.",
-              style: GoogleFonts.questrial(
-                  fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              final act = CupertinoActionSheet(
-                title: Text(
-                  "PROCEED?",
-                  style: GoogleFonts.questrial(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
-                message: Text(
-                  "Are you sure you want to hide this video?",
-                  style: GoogleFonts.questrial(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
-                actions: [
-                  CupertinoActionSheetAction(
-                      child: Text(
-                        "YES",
-                        style: GoogleFonts.questrial(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      ),
-                      onPressed: () async {}),
-                  CupertinoActionSheetAction(
-                      child: Text(
-                        "Cancel",
-                        style: GoogleFonts.questrial(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                ],
-              );
-              showCupertinoModalPopup(
-                  context: context, builder: (BuildContext context) => act);
-            }),
+        // CupertinoActionSheetAction(
+        //     child: Text(
+        //       "Hide this video.",
+        //       style: GoogleFonts.questrial(
+        //           fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+        //     ),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //       final act = CupertinoActionSheet(
+        //         title: Text(
+        //           "PROCEED?",
+        //           style: GoogleFonts.questrial(
+        //               fontSize: 13,
+        //               fontWeight: FontWeight.w500,
+        //               color: Theme.of(context).accentColor),
+        //         ),
+        //         message: Text(
+        //           "Are you sure you want to hide this video?",
+        //           style: GoogleFonts.questrial(
+        //               fontSize: 13,
+        //               fontWeight: FontWeight.w500,
+        //               color: Theme.of(context).accentColor),
+        //         ),
+        //         actions: [
+        //           CupertinoActionSheetAction(
+        //               child: Text(
+        //                 "YES",
+        //                 style: GoogleFonts.questrial(
+        //                     fontSize: 13,
+        //                     fontWeight: FontWeight.w500,
+        //                     color: Theme.of(context).accentColor),
+        //               ),
+        //               onPressed: () async {}),
+        //           CupertinoActionSheetAction(
+        //               child: Text(
+        //                 "Cancel",
+        //                 style: GoogleFonts.questrial(
+        //                     fontSize: 13,
+        //                     fontWeight: FontWeight.w500,
+        //                     color: Colors.red),
+        //               ),
+        //               onPressed: () {
+        //                 Navigator.pop(context);
+        //               }),
+        //         ],
+        //       );
+        //       showCupertinoModalPopup(
+        //           context: context, builder: (BuildContext context) => act);
+        //     }),
         CupertinoActionSheetAction(
             child: Text(
               "Block this user",

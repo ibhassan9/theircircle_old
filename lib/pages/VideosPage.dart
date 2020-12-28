@@ -55,11 +55,16 @@ class _VideosPageState extends State<VideosPage> {
                   MaterialPageRoute(builder: (context) => MyLibrary()));
             },
           ),
-          title: Text("EXPLORE",
-              style: GoogleFonts.poppins(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white)),
+          title: InkWell(
+            onTap: () {
+              refresh();
+            },
+            child: Text("EXPLORE",
+                style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white)),
+          ),
           actions: [
             IconButton(
               icon: Icon(FlutterIcons.video_camera_faw, color: Colors.white),

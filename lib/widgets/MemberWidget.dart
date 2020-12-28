@@ -39,8 +39,11 @@ class _MemberWidgetState extends State<MemberWidget> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MyProfilePage(
-                        user: widget.user, heroTag: widget.user.id)));
+                    builder: (context) => ProfilePage(
+                          user: widget.user,
+                          heroTag: widget.user.id,
+                          isMyProfile: true,
+                        )));
           } else {
             Navigator.push(
                 context,

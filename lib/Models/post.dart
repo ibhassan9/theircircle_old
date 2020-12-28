@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/OHS.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/course.dart';
@@ -389,6 +390,65 @@ Future<Post> fetchClubPost(String postId, String id) async {
   }
 
   return post;
+}
+
+Future<List<Post>> fetchUserPost(PostUser user) async {
+  var uni = user.university;
+  print(uni);
+  List<Post> p = [];
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uni)
+      .child(user.id)
+      .child('myposts');
+  var snapshot = await db.once();
+
+  Map<dynamic, dynamic> values = snapshot.value;
+
+  for (var key in values.keys) {
+    var postId = key;
+    var type = values[key]['type'];
+    var typeId = values[key]['id'];
+
+    print(type);
+
+    switch (type) {
+      case 'post':
+        Post post = await fetchPost(postId);
+        if (post.isAnonymous == false ||
+            post.userId == firebaseAuth.currentUser.uid) {
+          p.add(post);
+        }
+        break;
+      case 'club':
+        Post post = await fetchClubPost(postId, typeId);
+        if (post.isAnonymous == false ||
+            post.userId == firebaseAuth.currentUser.uid) {
+          p.add(post);
+        }
+        break;
+      case 'course':
+        Post post = await fetchCoursePost(postId, typeId);
+        if (post.isAnonymous == false ||
+            post.userId == firebaseAuth.currentUser.uid) {
+          p.add(post);
+        }
+        break;
+      case 'onehealingspace':
+        Post post = await OneHealingSpace.fetchPost(postId);
+        if (post.isAnonymous == false ||
+            post.userId == firebaseAuth.currentUser.uid) {
+          p.add(post);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+  return p;
 }
 
 Future<List<Post>> fetchPosts(int sortBy) async {
@@ -794,6 +854,16 @@ Future<List> getImageString() async {
 
 Future<bool> deletePost(String postId, Course course, Club club) async {
   var uniKey = Constants.checkUniversity();
+  var myDB = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child('myposts')
+      .child(postId);
   var postdb = FirebaseDatabase.instance
       .reference()
       .child('posts')
@@ -851,7 +921,9 @@ Future<bool> deletePost(String postId, Course course, Club club) async {
               return false;
             });
 
-  //TODO:- DELETE MY POST
+  await myDB.remove().catchError((e) {
+    return false;
+  });
   return true;
 }
 
@@ -1325,8 +1397,6 @@ class VideoApi {
   }
 
   static Future<List<String>> uploadVideoToStorage(File file) async {
-    String urlString;
-    String thumbUrlString;
     try {
       var bytes = await VideoThumbnail.thumbnailData(
         video: file.path,
@@ -1427,6 +1497,30 @@ class VideoApi {
     } else {
       return false;
     }
+  }
+
+  static Future<List<Video>> fetchUserVideos(PostUser user) async {
+    List<Video> videos = [];
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(user.university)
+        .child(user.id)
+        .child('myvideos');
+    DataSnapshot snap = await db.once();
+    Map<dynamic, dynamic> values = snap.value;
+
+    if (snap.value != null) {
+      for (var key in values.keys) {
+        // key is video id
+        Video video = await fetchVideo(key);
+        if (video != null) {
+          videos.add(video);
+        }
+      }
+    }
+
+    return videos;
   }
 
   static Future<bool> delete(String id) async {

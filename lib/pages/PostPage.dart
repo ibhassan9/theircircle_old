@@ -287,7 +287,7 @@ class _PostPageState extends State<PostPage> {
               size: 20,
               color: isAnonymous == false
                   ? Theme.of(context).buttonColor
-                  : Colors.pink),
+                  : Colors.deepPurpleAccent),
         ),
       ],
     );
@@ -359,7 +359,7 @@ class _PostPageState extends State<PostPage> {
         child: Container(
           height: 60,
           decoration: BoxDecoration(
-            color: Colors.pink,
+            color: Colors.deepPurpleAccent,
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: Center(
@@ -551,7 +551,7 @@ class _PostPageState extends State<PostPage> {
   Widget field1() {
     return TextField(
       controller: contentController,
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.newline,
       maxLines: null,
       onChanged: (value) {
         var newLength = 300 - value.length;
