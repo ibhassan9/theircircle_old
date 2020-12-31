@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Models/OHS.dart';
 import 'package:unify/Widgets/CommentWidget.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
@@ -87,11 +88,42 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     isCommenting = true;
                   });
                   Comment comment = Comment(content: commentController.text);
-                  var res = await postComment(
-                      comment,
-                      widget.post,
-                      widget.course == null ? null : widget.course,
-                      widget.club == null ? null : widget.club);
+                  var res;
+
+                  if (widget.post.type != null) {
+                    switch (widget.post.type) {
+                      case 'post':
+                        res =
+                            await postComment(comment, widget.post, null, null);
+                        break;
+                      case 'club':
+                        res = await postComment(comment, widget.post, null,
+                            Club(id: widget.post.typeId));
+                        break;
+                      case 'course':
+                        res = await postComment(comment, widget.post,
+                            Course(id: widget.post.typeId), null);
+                        break;
+                      case 'onehealingspace':
+                        res = await OneHealingSpace.postComment(
+                            comment, widget.post);
+                        break;
+                      default:
+                        res = await postComment(
+                            comment,
+                            widget.post,
+                            widget.course == null ? null : widget.course,
+                            widget.club == null ? null : widget.club);
+                        break;
+                    }
+                  } else {
+                    res = await postComment(
+                        comment,
+                        widget.post,
+                        widget.course == null ? null : widget.course,
+                        widget.club == null ? null : widget.club);
+                  }
+
                   if (res) {
                     var user = await getUser(widget.post.userId);
                     var token = user.device_token;
@@ -102,7 +134,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       } else if (widget.club != null) {
                         await sendPushClub(widget.club, 1, token,
                             comment.content, widget.post.id, user.id);
-                      } else {
+                      } else if (widget.course != null) {
                         await sendPushCourse(widget.course, 1, token,
                             comment.content, widget.post.id, user.id);
                       }
@@ -110,10 +142,45 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     commentController.clear();
                   } else {}
                   if (this.mounted) {
-                    setState(() {
-                      commentFuture = fetchComments(
-                          widget.post, widget.course, widget.club);
-                    });
+                    if (widget.post.type != null) {
+                      switch (widget.post.type) {
+                        case 'post':
+                          this.setState(() {
+                            commentFuture =
+                                fetchComments(widget.post, null, null);
+                          });
+                          break;
+                        case 'club':
+                          this.setState(() {
+                            commentFuture = fetchComments(widget.post, null,
+                                Club(id: widget.post.typeId));
+                          });
+                          break;
+                        case 'course':
+                          this.setState(() {
+                            commentFuture = fetchComments(widget.post,
+                                Course(id: widget.post.typeId), null);
+                          });
+                          break;
+                        case 'onehealingspace':
+                          this.setState(() {
+                            commentFuture =
+                                OneHealingSpace.fetchComments(widget.post);
+                          });
+                          break;
+                        default:
+                          this.setState(() {
+                            commentFuture = fetchComments(
+                                widget.post, widget.course, widget.club);
+                          });
+                          break;
+                      }
+                    } else {
+                      this.setState(() {
+                        commentFuture = fetchComments(
+                            widget.post, widget.course, widget.club);
+                      });
+                    }
                   }
                   setState(() {
                     isCommenting = false;
@@ -164,7 +231,33 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       }
                     },
                     deletePost: () async {
-                      var res = await deletePost(widget.post.id, null, null);
+                      var res;
+
+                      if (widget.post.type != null) {
+                        switch (widget.post.type) {
+                          case 'post':
+                            res = await deletePost(widget.post.id, null, null);
+                            break;
+                          case 'club':
+                            res = await deletePost(widget.post.id, null,
+                                Club(id: widget.post.typeId));
+                            break;
+                          case 'course':
+                            res = await deletePost(widget.post.id,
+                                Course(id: widget.post.typeId), null);
+                            break;
+                          case 'onehealingspace':
+                            res = await OneHealingSpace.deletePost(
+                                widget.post.id);
+                            break;
+                          default:
+                            res = await deletePost(widget.post.id, null, null);
+                            break;
+                        }
+                      } else {
+                        res = await deletePost(widget.post.id, null, null);
+                      }
+
                       Navigator.pop(context);
                       if (res) {
                         previewMessage("Post Deleted", context);
@@ -239,15 +332,83 @@ class _PostDetailPageState extends State<PostDetailPage> {
   }
 
   Future<Null> refresh() async {
-    this.setState(() {
-      commentFuture = fetchComments(widget.post, widget.course, widget.club);
-    });
+    if (widget.post.type != null) {
+      switch (widget.post.type) {
+        case 'post':
+          this.setState(() {
+            commentFuture = fetchComments(widget.post, null, null);
+          });
+          break;
+        case 'club':
+          this.setState(() {
+            commentFuture =
+                fetchComments(widget.post, null, Club(id: widget.post.typeId));
+          });
+          break;
+        case 'course':
+          this.setState(() {
+            commentFuture = fetchComments(
+                widget.post, Course(id: widget.post.typeId), null);
+          });
+          break;
+        case 'onehealingspace':
+          this.setState(() {
+            commentFuture = OneHealingSpace.fetchComments(widget.post);
+          });
+          break;
+        default:
+          this.setState(() {
+            commentFuture =
+                fetchComments(widget.post, widget.course, widget.club);
+          });
+          break;
+      }
+    } else {
+      this.setState(() {
+        commentFuture = fetchComments(widget.post, widget.course, widget.club);
+      });
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    commentFuture = fetchComments(widget.post, widget.course, widget.club);
+    if (widget.post.type != null) {
+      switch (widget.post.type) {
+        case 'post':
+          this.setState(() {
+            commentFuture = fetchComments(widget.post, null, null);
+          });
+          break;
+        case 'club':
+          this.setState(() {
+            commentFuture =
+                fetchComments(widget.post, null, Club(id: widget.post.typeId));
+          });
+          break;
+        case 'course':
+          this.setState(() {
+            commentFuture = fetchComments(
+                widget.post, Course(id: widget.post.typeId), null);
+          });
+          break;
+        case 'onehealingspace':
+          this.setState(() {
+            commentFuture = OneHealingSpace.fetchComments(widget.post);
+          });
+          break;
+        default:
+          this.setState(() {
+            commentFuture =
+                fetchComments(widget.post, widget.course, widget.club);
+          });
+          break;
+      }
+    } else {
+      this.setState(() {
+        commentFuture = fetchComments(widget.post, widget.course, widget.club);
+      });
+    }
   }
 }

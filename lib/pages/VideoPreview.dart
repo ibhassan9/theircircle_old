@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
@@ -372,11 +373,16 @@ class _VideoPreviewState extends State<VideoPreview>
           SizedBox(width: 10.0),
           InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            VideoComments(video: widget.video)));
+                showBarModalBottomSheet(
+                  context: context,
+                  expand: true,
+                  builder: (context) => VideoComments(video: widget.video),
+                );
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             VideoComments(video: widget.video)));
               },
               child: Icon(FlutterIcons.comment_fou,
                   size: 30.0, color: Colors.white.withOpacity(0.8))),

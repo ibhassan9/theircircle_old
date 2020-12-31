@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/OHS.dart';
 import 'package:unify/pages/OHS%20Pages/CalendarPage.dart';
 import 'package:unify/pages/OHS%20Pages/MembersPage.dart';
@@ -43,13 +44,20 @@ class _OHSMainPageState extends State<OHSMainPage> {
         margin: EdgeInsets.only(bottom: 25.0),
         child: InkWell(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WebPage(
-                        title: "One Healing Space",
-                        selectedUrl:
-                            "https://healingclinic.janeapp.com/login")));
+            showBarModalBottomSheet(
+              context: context,
+              enableDrag: false,
+              expand: true,
+              builder: (context) => WebPage(
+                  title: "One Healing Space",
+                  selectedUrl: "https://healingclinic.janeapp.com/"),
+            );
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => WebPage(
+            //             title: "One Healing Space",
+            //             selectedUrl: "https://healingclinic.janeapp.com/")));
           },
           child: Container(
             decoration: BoxDecoration(
@@ -187,6 +195,20 @@ class _OHSMainPageState extends State<OHSMainPage> {
                           Post post = snapshot.data[index];
                           var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
                               post.timeStamp);
+
+                          Function a = () async {
+                            var res = await OneHealingSpace.deletePostWithUser(
+                                post.id, post.userId, post.university);
+                            Navigator.pop(context);
+                            if (res) {
+                              setState(() {
+                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
+                              });
+                              previewMessage("Post Deleted", context);
+                            } else {
+                              previewMessage("Error deleting post!", context);
+                            }
+                          };
                           Function f = () async {
                             var res = await OneHealingSpace.deletePost(post.id);
                             Navigator.pop(context);
@@ -229,7 +251,8 @@ class _OHSMainPageState extends State<OHSMainPage> {
                               club: widget.club,
                               deletePost: f,
                               block: b,
-                              hide: h);
+                              hide: h,
+                              deleteAsAdmin: a);
                         },
                       );
                     } else {

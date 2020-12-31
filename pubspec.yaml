@@ -71,7 +71,7 @@ dependencies:
   polls: ^0.2.2
   toggle_switch: ^0.1.8
   adaptive_theme: ^1.1.0
-  modal_bottom_sheet: ^1.0.0+1
+  modal_bottom_sheet: ^1.0.0+1  
   smart_select: ^4.3.2
   # agora_rtc_engine: ^1.0.5 # for video
   # agora_rtm: ^0.9.11 # for chatting

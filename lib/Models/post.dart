@@ -41,6 +41,8 @@ class Post {
   int whichOption;
   String tcQuestion;
   String university; // only used by OHS
+  String type;
+  String typeId;
 
   Post(
       {this.id,
@@ -63,7 +65,9 @@ class Post {
       this.isVoted,
       this.whichOption,
       this.tcQuestion,
-      this.university});
+      this.university,
+      this.type,
+      this.typeId});
 }
 
 class Video {
@@ -191,9 +195,15 @@ Future<Post> fetchPost(String postId) async {
           : uniKey == 1
               ? 'YorkU'
               : 'WesternU');
-  var snapshot = await db.child(postId).once();
+  var snapshot = await db.child(postId).once().catchError((e) {
+    return null;
+  });
 
   Map<dynamic, dynamic> value = snapshot.value;
+
+  if (value == null) {
+    return null;
+  }
   var post = Post(
       id: postId,
       userId: value['userId'],
@@ -262,9 +272,15 @@ Future<Post> fetchCoursePost(String postId, String id) async {
           : uniKey == 1
               ? 'YorkU'
               : 'WesternU');
-  var snapshot = await db.child(id).child(postId).once();
+  var snapshot = await db.child(id).child(postId).once().catchError((e) {
+    return null;
+  });
 
   Map<dynamic, dynamic> value = snapshot.value;
+
+  if (value == null) {
+    return null;
+  }
   var post = Post(
       id: postId,
       userId: value['userId'],
@@ -331,9 +347,15 @@ Future<Post> fetchClubPost(String postId, String id) async {
           : uniKey == 1
               ? 'YorkU'
               : 'WesternU');
-  var snapshot = await db.child(id).child(postId).once();
+  var snapshot = await db.child(id).child(postId).once().catchError((e) {
+    return null;
+  });
 
   Map<dynamic, dynamic> value = snapshot.value;
+
+  if (value == null) {
+    return null;
+  }
   var post = Post(
       id: postId,
       userId: value['userId'],
@@ -416,36 +438,55 @@ Future<List<Post>> fetchUserPost(PostUser user) async {
     switch (type) {
       case 'post':
         Post post = await fetchPost(postId);
-        if (post.isAnonymous == false ||
-            post.userId == firebaseAuth.currentUser.uid) {
-          p.add(post);
+        if (post != null) {
+          if (post.isAnonymous == false ||
+              post.userId == firebaseAuth.currentUser.uid) {
+            post.type = 'post';
+            p.add(post);
+          }
         }
         break;
       case 'club':
         Post post = await fetchClubPost(postId, typeId);
-        if (post.isAnonymous == false ||
-            post.userId == firebaseAuth.currentUser.uid) {
-          p.add(post);
+        if (post != null) {
+          if (post.isAnonymous == false ||
+              post.userId == firebaseAuth.currentUser.uid) {
+            post.type = 'club';
+            post.typeId = typeId;
+            p.add(post);
+          }
         }
         break;
       case 'course':
         Post post = await fetchCoursePost(postId, typeId);
-        if (post.isAnonymous == false ||
-            post.userId == firebaseAuth.currentUser.uid) {
-          p.add(post);
+        if (post != null) {
+          if (post.isAnonymous == false ||
+              post.userId == firebaseAuth.currentUser.uid) {
+            post.type = 'course';
+            post.typeId = typeId;
+            p.add(post);
+          }
         }
         break;
       case 'onehealingspace':
+        print('getting post');
         Post post = await OneHealingSpace.fetchPost(postId);
-        if (post.isAnonymous == false ||
-            post.userId == firebaseAuth.currentUser.uid) {
-          p.add(post);
+        print(post);
+        if (post != null) {
+          if (post.isAnonymous == false ||
+              post.userId == firebaseAuth.currentUser.uid) {
+            post.type = 'onehealingspace';
+            p.add(post);
+          }
         }
         break;
       default:
         break;
     }
   }
+
+  print('getting p');
+  print(p);
 
   p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   return p;

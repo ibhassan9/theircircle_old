@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
@@ -29,18 +30,39 @@ class _WebPageState extends State<WebPage> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+          leading: IconButton(
+            icon: Icon(FlutterIcons.close_ant,
+                color: Theme.of(context).accentColor),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           centerTitle: true,
           elevation: 0.0,
-          title: Text(
-            isLoading
-                ? "Loading Newspage..."
-                : widget.title.replaceAll("     ", ""),
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+          title: Column(
+            children: [
+              Text(
+                isLoading
+                    ? "Loading Newspage..."
+                    : widget.title.replaceAll("     ", ""),
+                style: GoogleFonts.questrial(
+                  textStyle: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 3.0),
+              Text(
+                widget.selectedUrl,
+                style: GoogleFonts.questrial(
+                  textStyle: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[200]),
+                ),
+              ),
+            ],
           ),
         ),
         body: WebView(

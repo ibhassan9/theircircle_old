@@ -31,6 +31,7 @@ class OHSPostWidget extends StatefulWidget {
   final Function block;
   final Function hide;
   final bool fromComments;
+  final Function deleteAsAdmin;
 
   OHSPostWidget(
       {Key key,
@@ -40,7 +41,8 @@ class OHSPostWidget extends StatefulWidget {
       this.deletePost,
       this.block,
       this.hide,
-      this.fromComments = false})
+      this.fromComments = false,
+      this.deleteAsAdmin})
       : super(key: key);
 
   @override
@@ -317,7 +319,13 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                 .accentColor),
                                                   ),
                                                   onPressed: () {
-                                                    widget.deletePost();
+                                                    if (widget.club.adminId ==
+                                                        firebaseAuth
+                                                            .currentUser.uid) {
+                                                      widget.deleteAsAdmin();
+                                                    } else {
+                                                      widget.deletePost();
+                                                    }
                                                     Navigator.pop(context);
                                                   }),
                                               CupertinoActionSheetAction(

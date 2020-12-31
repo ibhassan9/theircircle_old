@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,7 @@ class _ClubsPageState extends State<ClubsPage>
   TextEditingController clubNameController = TextEditingController();
   TextEditingController clubDescriptionController = TextEditingController();
   TextEditingController searchingController = TextEditingController();
+  FirebaseAuth fAuth = FirebaseAuth.instance;
 
   List<Club> clubs = [];
   List<Club> searchedClubs = [];
@@ -160,7 +162,7 @@ class _ClubsPageState extends State<ClubsPage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Clubs",
+                  "TheirCircle",
                   style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,
@@ -408,9 +410,9 @@ class _ClubsPageState extends State<ClubsPage>
                           OHSMainPage(club: _oneHealingSpace)));
             },
             child: Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(0.0),
+                borderRadius: BorderRadius.circular(10.0),
                 child: Container(
                     height: 150,
                     decoration: BoxDecoration(
@@ -462,58 +464,108 @@ class _ClubsPageState extends State<ClubsPage>
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 10.0, 0.0, 10.0, 15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      _oneHealingSpace.name,
-                                      style: GoogleFonts.questrial(
-                                        textStyle: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black),
-                                      ),
+                            child: InkWell(
+                              onTap: () async {
+                                if (_oneHealingSpace.adminId ==
+                                    fAuth.currentUser.uid) {
+                                  return;
+                                } else {
+                                  if (_oneHealingSpace.inClub) {
+                                    setState(() {
+                                      _oneHealingSpace.inClub = false;
+                                    });
+                                    var res = await OneHealingSpace.leave();
+                                    if (res == false) {
+                                      setState(() {
+                                        _oneHealingSpace.inClub = true;
+                                      });
+                                    }
+                                  } else {
+                                    setState(() {
+                                      _oneHealingSpace.inClub = true;
+                                    });
+                                    var res = await OneHealingSpace.join();
+                                    if (res == false) {
+                                      setState(() {
+                                        _oneHealingSpace.inClub = false;
+                                      });
+                                    }
+                                  }
+                                }
+                              },
+                              child: Container(
+                                color: Colors.black,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    _oneHealingSpace.adminId ==
+                                            fAuth.currentUser.uid
+                                        ? 'Created by you'
+                                        : _oneHealingSpace.inClub
+                                            ? 'Leave Community'
+                                            : 'Join Community',
+                                    style: GoogleFonts.questrial(
+                                      textStyle: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      _oneHealingSpace.description,
-                                      maxLines: null,
-                                      style: GoogleFonts.questrial(
-                                        textStyle: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                      'Join the One Healing Space community.',
-                                      maxLines: null,
-                                      style: GoogleFonts.questrial(
-                                        textStyle: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
+                            // child: Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Container(
+                            //       color: Colors.white,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.all(5.0),
+                            //         child: Text(
+                            //           _oneHealingSpace.name,
+                            //           style: GoogleFonts.questrial(
+                            //             textStyle: TextStyle(
+                            //                 fontSize: 14,
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: Colors.black),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       color: Colors.white,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.all(5.0),
+                            //         child: Text(
+                            //           _oneHealingSpace.description,
+                            //           maxLines: null,
+                            //           style: GoogleFonts.questrial(
+                            //             textStyle: TextStyle(
+                            //                 fontSize: 16,
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: Colors.black),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       color: Colors.white,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.all(5.0),
+                            //         child: Text(
+                            //           'Join the One Healing Space community.',
+                            //           maxLines: null,
+                            //           style: GoogleFonts.questrial(
+                            //             textStyle: TextStyle(
+                            //                 fontSize: 13,
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: Colors.black),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ),
                         ),
                       ],

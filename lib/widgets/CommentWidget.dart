@@ -146,7 +146,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                 color: widget.comment.userId ==
                                         firebaseAuth.currentUser.uid
                                     ? Theme.of(context).accentColor
-                                    : Constants.color()),
+                                    : Theme.of(context).accentColor),
                           ),
                         ),
                         Text(

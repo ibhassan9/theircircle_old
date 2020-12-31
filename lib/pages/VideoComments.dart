@@ -107,6 +107,13 @@ class _VideoCommentsState extends State<VideoComments> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(FlutterIcons.close_ant,
+              color: Theme.of(context).accentColor),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text(
           "COMMENTS",
           style: GoogleFonts.questrial(

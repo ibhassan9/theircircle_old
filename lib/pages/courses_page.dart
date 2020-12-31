@@ -117,7 +117,7 @@ class _CoursesPageState extends State<CoursesPage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Courses",
+                  "TheirCircle",
                   style: GoogleFonts.questrial(
                     textStyle: TextStyle(
                         fontSize: 15,

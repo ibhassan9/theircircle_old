@@ -204,11 +204,18 @@ class OneHealingSpace {
         .child('posts')
         .child(postId);
 
-    var snapshot = await db.once();
+    var snapshot = await db.once().catchError((e) {
+      print(e.toString());
+      return null;
+    });
     var blockList = await getBlocks();
     var hiddenList = await getHiddenList();
 
     Map<dynamic, dynamic> value = snapshot.value;
+
+    if (value == null) {
+      return null;
+    }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var filters = prefs.getStringList('filters');
@@ -460,6 +467,33 @@ class OneHealingSpace {
             : uniKey == 1
                 ? 'YorkU'
                 : 'WesternU')
+        .child(firebaseAuth.currentUser.uid)
+        .child('myposts')
+        .child(postId);
+    var postdb = FirebaseDatabase.instance
+        .reference()
+        .child('partners')
+        .child('onehealingspace')
+        .child('posts')
+        .child(postId);
+    await postdb.remove().catchError((e) {
+      return false;
+    });
+
+    await myDB.remove().catchError((e) {
+      return false;
+    });
+
+    return true;
+  }
+
+  static Future<bool> deletePostWithUser(
+      String postId, String userId, String uni) async {
+    var myDB = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uni)
+        .child(userId)
         .child('myposts')
         .child(postId);
     var postdb = FirebaseDatabase.instance

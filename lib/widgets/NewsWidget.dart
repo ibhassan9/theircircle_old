@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/news.dart';
 import 'package:unify/pages/WebPage.dart';
@@ -24,12 +25,19 @@ class _NewsWidgetState extends State<NewsWidget>
         borderRadius: BorderRadius.circular(10.0),
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WebPage(
-                      title: widget.news.title, selectedUrl: widget.news.url)),
+            showBarModalBottomSheet(
+              context: context,
+              enableDrag: false,
+              expand: true,
+              builder: (context) => WebPage(
+                  title: widget.news.title, selectedUrl: widget.news.url),
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) => WebPage(
+            //           title: widget.news.title, selectedUrl: widget.news.url)),
+            // );
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 2,

@@ -1,15 +1,21 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stretchy_header/stretchy_header.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/OHS.dart';
+import 'package:unify/Models/club.dart';
+import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart' as p;
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:unify/pages/MainPage.dart';
+import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/VideoPreview.dart';
 import 'package:unify/widgets/PostWidget.dart';
@@ -34,117 +40,128 @@ class _ProfilePageState extends State<ProfilePage>
   Future<List<p.Post>> postsFuture;
   Future<List<p.Video>> videosFuture;
   PostUser user;
+  PageController _controller = PageController();
+
+  int selectedOption = 0;
 
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(FlutterIcons.arrow_back_mdi,
-                  color: Theme.of(context).accentColor)),
-          actions: [
-            widget.isMyProfile != null
-                ? widget.isMyProfile
-                    ? IconButton(
-                        icon: Icon(FlutterIcons.edit_2_fea,
-                            color: Theme.of(context).accentColor),
-                        onPressed: () async {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyProfilePage(
-                                          user: user, heroTag: widget.heroTag)))
-                              .then((value) async {
-                            PostUser _u = await getUserWithUniversity(
-                                widget.user.id, widget.user.university);
-                            setState(() {
-                              user = _u;
-                            });
-                          });
-                        },
-                      )
-                    : InkWell(
-                        onTap: () {
-                          isBlocked
-                              ? unblock(widget.user.id)
-                              : block(widget.user.id, widget.user.university);
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(FlutterIcons.arrow_back_mdi,
+                color: Theme.of(context).accentColor)),
+        actions: [
+          widget.isMyProfile != null
+              ? widget.isMyProfile
+                  ? IconButton(
+                      icon: Icon(FlutterIcons.edit_2_fea,
+                          color: Theme.of(context).accentColor),
+                      onPressed: () async {
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyProfilePage(
+                                        user: user, heroTag: widget.heroTag)))
+                            .then((value) async {
+                          PostUser _u = await getUserWithUniversity(
+                              widget.user.id, widget.user.university);
                           setState(() {
-                            isBlocked = isBlocked ? false : true;
+                            user = _u;
                           });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(2.0)),
-                          width: 75,
-                          height: 20,
-                          child: Center(
-                            child: Text(
-                              isBlocked ? "Unblock" : "Block",
-                              style: GoogleFonts.questrial(
-                                textStyle: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white),
-                              ),
+                        });
+                      },
+                    )
+                  : InkWell(
+                      onTap: () {
+                        isBlocked
+                            ? unblock(widget.user.id)
+                            : block(widget.user.id, widget.user.university);
+                        setState(() {
+                          isBlocked = isBlocked ? false : true;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(2.0)),
+                        width: 75,
+                        height: 20,
+                        child: Center(
+                          child: Text(
+                            isBlocked ? "Unblock" : "Block",
+                            style: GoogleFonts.questrial(
+                              textStyle: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: Theme.of(context).accentColor),
                             ),
                           ),
                         ),
-                      )
-                : InkWell(
-                    onTap: () {
-                      isBlocked
-                          ? unblock(widget.user.id)
-                          : block(widget.user.id, widget.user.university);
-                      setState(() {
-                        isBlocked = isBlocked ? false : true;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(2.0)),
-                      width: 75,
-                      height: 20,
-                      child: Center(
-                        child: Text(
-                          isBlocked ? "Unblock" : "Block",
-                          style: GoogleFonts.questrial(
-                            textStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
+                      ),
+                    )
+              : InkWell(
+                  onTap: () {
+                    isBlocked
+                        ? unblock(widget.user.id)
+                        : block(widget.user.id, widget.user.university);
+                    setState(() {
+                      isBlocked = isBlocked ? false : true;
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 20.0),
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(2.0)),
+                        child: Center(
+                          child: Text(
+                            isBlocked
+                                ? "Unblock ${user.name}"
+                                : "Block ${user.name}",
+                            style: GoogleFonts.questrial(
+                              textStyle: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: Theme.of(context).accentColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-          ],
-        ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        // body: StretchyHeader.singleChild(
-        //   headerData: HeaderData(
-        //     headerHeight: height,
-        //     header: picture(),
-        //     highlightHeaderAlignment: HighlightHeaderAlignment.bottom,
-        //     highlightHeader: Container(
-        //       width: MediaQuery.of(context).size.width,
-        //       child:
-        //           Padding(padding: const EdgeInsets.all(8.0), child: socials()),
-        //     ),
-        //     blurContent: false,
-        //   ),
-        //   child: Padding(
-        //     padding: const EdgeInsets.only(top: 20.0),
-        //     child: body(),
-        //   ),
-        // ),
-        body: ListView(children: [Center(child: picture()), body()]));
+                ),
+        ],
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Column(
+        children: [
+          body(),
+          Flexible(
+            child: PageView(
+              onPageChanged: (index) {
+                setState(() {
+                  selectedOption = index;
+                });
+              },
+              controller: _controller,
+              children: [userPosts(), userVideos()],
+            ),
+          ),
+        ],
+      ),
+      // body: ListView(
+      //     physics: AlwaysScrollableScrollPhysics(),
+      //     shrinkWrap: true,
+      //     children: [Center(child: picture()), body()])
+    );
   }
 
   Widget body() {
@@ -153,123 +170,212 @@ class _ProfilePageState extends State<ProfilePage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          picture(),
+          SizedBox(height: 5.0),
+          Text(
+            user.name,
+            style: GoogleFonts.questrial(
+              textStyle: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
+            ),
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    user.name,
-                    style: GoogleFonts.questrial(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Icon(FlutterIcons.graduation_cap_ent,
-                      //     color: Theme.of(context).buttonColor, size: 17.0),
-                      // SizedBox(width: 5.0),
-                      Text(
-                        user.university == "UofT"
-                            ? "University of Toronto"
-                            : widget.user.university == "YorkU"
-                                ? "York University"
-                                : "Western University",
-                        style: GoogleFonts.questrial(
-                          textStyle: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).buttonColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5.0),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              if (user.instagramHandle != null &&
-                                  user.instagramHandle.isNotEmpty) {
-                                showHandle(text: user.instagramHandle);
-                              } else {
-                                Toast.show('Instagram not available', context);
-                              }
-                            },
-                            child: Icon(FlutterIcons.instagram_ant,
-                                color: Colors.purple)),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        InkWell(
-                            onTap: () {
-                              if (user.linkedinHandle != null &&
-                                  user.linkedinHandle.isNotEmpty) {
-                                showHandle(text: user.linkedinHandle);
-                              } else {
-                                Toast.show('LinkedIn not available', context);
-                              }
-                            },
-                            child: Icon(FlutterIcons.linkedin_box_mco,
-                                color: Colors.blue)),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            if (user.snapchatHandle != null &&
-                                user.snapchatHandle.isNotEmpty) {
-                              showHandle(text: user.snapchatHandle);
-                            } else {
-                              Toast.show('Snapchat not available', context);
-                            }
-                          },
-                          child: Icon(FlutterIcons.snapchat_ghost_faw,
-                              color: Colors.yellow[700]),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              Text(
+                user.university == "UofT"
+                    ? "University of Toronto"
+                    : widget.user.university == "YorkU"
+                        ? "York University"
+                        : "Western University",
+                style: GoogleFonts.questrial(
+                  textStyle: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).buttonColor),
+                ),
               ),
             ],
           ),
+          SizedBox(height: 5.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                sameUniversity()
+                    ? InkWell(
+                        onTap: () {
+                          goToChat();
+                        },
+                        child: Container(
+                          height: 35,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[300], width: 0.5)),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  10.0, 0.0, 10.0, 0.0),
+                              child: Text(
+                                'Message',
+                                style: GoogleFonts.questrial(
+                                  textStyle: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context).buttonColor),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ))
+                    : Container(),
+                sameUniversity() ? SizedBox(width: 5.0) : Container(),
+                InkWell(
+                    onTap: () {
+                      if (user.instagramHandle != null &&
+                          user.instagramHandle.isNotEmpty) {
+                        showHandle(text: user.instagramHandle);
+                      } else {
+                        Toast.show('Instagram not available', context);
+                      }
+                    },
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.grey[300], width: 0.5)),
+                      child: Icon(FlutterIcons.instagram_ant,
+                          color: Theme.of(context).accentColor),
+                    )),
+                SizedBox(
+                  width: 5.0,
+                ),
+                InkWell(
+                    onTap: () {
+                      if (user.linkedinHandle != null &&
+                          user.linkedinHandle.isNotEmpty) {
+                        showHandle(text: user.linkedinHandle);
+                      } else {
+                        Toast.show('LinkedIn not available', context);
+                      }
+                    },
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.grey[300], width: 0.5)),
+                      child: Icon(FlutterIcons.linkedin_box_mco,
+                          color: Theme.of(context).accentColor),
+                    )),
+                SizedBox(
+                  width: 5.0,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (user.snapchatHandle != null &&
+                        user.snapchatHandle.isNotEmpty) {
+                      showHandle(text: user.snapchatHandle);
+                    } else {
+                      Toast.show('Snapchat not available', context);
+                    }
+                  },
+                  child: Container(
+                    width: 35,
+                    height: 35,
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Colors.grey[300], width: 0.5)),
+                    child: Icon(FlutterIcons.snapchat_ghost_faw,
+                        color: Theme.of(context).accentColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Divider(),
           about(),
-          // Text(
-          //   "My accomplishments",
-          //   style: GoogleFonts.questrial(
-          //     textStyle: TextStyle(
-          //         fontSize: 16,
-          //         fontWeight: FontWeight.w700,
-          //         color: Colors.grey[700]),
-          //   ),
-          // ),
-          Divider(),
-          accomplishments(),
-          // SizedBox(height: 20.0),
-          // Text("Places i've visited"),
-          // Divider(),
-
-          //places(),
+          SizedBox(height: 5.0),
           interests(),
-          Divider(),
-          userVideos(),
-          Divider(),
-          userPosts()
+          Divider(
+            color: Theme.of(context).dividerColor,
+            thickness: 1.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedOption = 0;
+                  });
+                  _controller.animateToPage(0,
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.easeIn);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(FlutterIcons.book_outline_mco,
+                        color: selectedOption == 0
+                            ? Theme.of(context).accentColor
+                            : Colors.grey[400]),
+                    SizedBox(height: 5.0),
+                    selectedOption == 0
+                        ? Container(
+                            width: 30.0,
+                            height: 2.0,
+                            color: Theme.of(context).accentColor)
+                        : Container()
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedOption = 1;
+                  });
+                  _controller.animateToPage(1,
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.easeIn);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(FlutterIcons.video_library_mdi,
+                        color: selectedOption == 1
+                            ? Theme.of(context).accentColor
+                            : Colors.grey[400]),
+                    SizedBox(height: 5.0),
+                    selectedOption == 1
+                        ? Container(
+                            width: 30.0,
+                            height: 2.0,
+                            color: Theme.of(context).accentColor)
+                        : Container()
+                  ],
+                ),
+              )
+            ],
+          ),
+          Container(
+              height: 1,
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).dividerColor),
+          // ListView(
+          //   physics: NeverScrollableScrollPhysics(),
+          //   scrollDirection: Axis.vertical,
+          //   shrinkWrap: true,
+          //   children: [userVideos(), userPosts()],
+          // )
         ],
       ),
     );
@@ -290,57 +396,106 @@ class _ProfilePageState extends State<ProfilePage>
               strokeWidth: 2.0,
             ),
           ));
-        } else if (snap.hasData) {
+        } else if (snap.hasData && snap.data.length > 0) {
           return Container(
-            height: MediaQuery.of(context).size.height / 4,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
+            margin: EdgeInsets.only(left: 5.0, right: 5.0),
+            width: MediaQuery.of(context).size.width / 3.5,
+            height: MediaQuery.of(context).size.width / 2,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1.0,
+                  childAspectRatio: 9 / 16),
               shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.vertical,
               physics: AlwaysScrollableScrollPhysics(),
               itemCount: snap.data != null ? snap.data.length : 0,
               itemBuilder: (BuildContext context, int index) {
                 p.Video video = snap.data[index];
-                return Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      height: MediaQuery.of(context).size.height / 4,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.grey[300]),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: InkWell(
-                          onTap: () {
-                            var timeAgo =
-                                new DateTime.fromMillisecondsSinceEpoch(
-                                    video.timeStamp);
-                            Function delete = () async {
-                              await p.VideoApi.delete(video.id).then((value) {
-                                //refreshList();
-                              });
-                            };
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => VideoPreview(
-                                        video: video,
-                                        timeAgo: timeago.format(timeAgo),
-                                        delete: delete)));
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: video.thumbnailUrl,
-                            fit: BoxFit.cover,
+                return Row(
+                  children: [
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3.1,
+                        height: MediaQuery.of(context).size.width / 2,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(0.0),
+                            color: Colors.grey[300]),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(0.0),
+                          child: InkWell(
+                            onTap: () {
+                              var timeAgo =
+                                  new DateTime.fromMillisecondsSinceEpoch(
+                                      video.timeStamp);
+                              Function delete = () async {
+                                await p.VideoApi.delete(video.id).then((value) {
+                                  //refreshList();
+                                });
+                              };
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VideoPreview(
+                                          video: video,
+                                          timeAgo: timeago.format(timeAgo),
+                                          delete: delete)));
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: video.thumbnailUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ],
                 );
               },
             ),
           );
+        } else if (snap.hasError) {
+          return Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  FlutterIcons.sad_cry_faw5,
+                  color: Theme.of(context).accentColor,
+                  size: 17.0,
+                ),
+                SizedBox(width: 10),
+                Text("Cannot find any posts :(",
+                    style: GoogleFonts.questrial(
+                      textStyle: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    )),
+              ],
+            ),
+          );
         } else {
-          return Container();
+          return Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  FlutterIcons.sad_cry_faw5,
+                  color: Theme.of(context).accentColor,
+                  size: 17.0,
+                ),
+                SizedBox(width: 10),
+                Text("Cannot find any videos :(",
+                    style: GoogleFonts.questrial(
+                      textStyle: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    )),
+              ],
+            ),
+          );
         }
       },
     );
@@ -361,17 +516,39 @@ class _ProfilePageState extends State<ProfilePage>
                 strokeWidth: 2.0,
               ),
             ));
-          } else if (snap.hasData) {
-            var r = 0;
+          } else if (snap.hasData && snap.data.length > 0) {
             return ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              physics: NeverScrollableScrollPhysics(),
+              physics: AlwaysScrollableScrollPhysics(),
               itemCount: snap.data != null ? snap.data.length : 0,
               itemBuilder: (BuildContext context, int index) {
                 p.Post post = snap.data[index];
                 Function f = () async {
                   var res = await p.deletePost(post.id, null, null);
+                  if (post.type != null) {
+                    switch (post.type) {
+                      case 'post':
+                        res = await p.deletePost(post.id, null, null);
+                        break;
+                      case 'club':
+                        res = await p.deletePost(
+                            post.id, null, Club(id: post.typeId));
+                        break;
+                      case 'course':
+                        res = await p.deletePost(
+                            post.id, Course(id: post.typeId), null);
+                        break;
+                      case 'onehealingspace':
+                        res = await OneHealingSpace.deletePost(post.id);
+                        break;
+                      default:
+                        res = await p.deletePost(post.id, null, null);
+                        break;
+                    }
+                  } else {
+                    res = await p.deletePost(post.id, null, null);
+                  }
                   Navigator.pop(context);
                   if (res) {
                     setState(() {
@@ -440,7 +617,30 @@ class _ProfilePageState extends State<ProfilePage>
               ),
             );
           } else {
-            return Text('');
+            return Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    sameUniversity() ? FlutterIcons.sad_cry_faw5 : Icons.lock,
+                    color: Theme.of(context).accentColor,
+                    size: 17.0,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                      sameUniversity()
+                          ? "Cannot find any posts :("
+                          : "You cannot view posts from a different institution",
+                      style: GoogleFonts.questrial(
+                        textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
+                      )),
+                ],
+              ),
+            );
           }
         });
   }
@@ -452,26 +652,26 @@ class _ProfilePageState extends State<ProfilePage>
         child: user.profileImgUrl != null && user.profileImgUrl.isNotEmpty
             ? Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(35.0),
                   child: Container(
                     color: Colors.red,
-                    height: 60,
-                    width: 60,
+                    height: 70,
+                    width: 70,
                     child: Image.network(
                       widget.user.profileImgUrl,
-                      width: 60,
-                      height: 60,
+                      width: 70,
+                      height: 70,
                       fit: BoxFit.cover,
                       loadingBuilder: (BuildContext context, Widget child,
                           ImageChunkEvent loadingProgress) {
                         if (loadingProgress == null) return child;
                         return SizedBox(
-                          height: 60,
-                          width: 60,
+                          height: 70,
+                          width: 70,
                           child: Center(
                             child: SizedBox(
-                              width: 60,
-                              height: 60,
+                              width: 70,
+                              height: 70,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2.0,
                                 valueColor: new AlwaysStoppedAnimation<Color>(
@@ -636,12 +836,14 @@ class _ProfilePageState extends State<ProfilePage>
       choices.add(Container(
         padding: const EdgeInsets.only(left: 0.0, right: 2.0),
         child: ChoiceChip(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.0)),
           selectedColor: Colors.deepPurpleAccent,
           label: Text(
             interest,
             style: GoogleFonts.questrial(
               textStyle: TextStyle(
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),
             ),
@@ -708,7 +910,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   goToChat() {
     var chatId = '';
-    var myID = firebaseAuth.currentUser.uid;
+    var myID = p.firebaseAuth.currentUser.uid;
     var peerId = widget.user.id;
     if (myID.hashCode <= peerId.hashCode) {
       chatId = '$myID-$peerId';
