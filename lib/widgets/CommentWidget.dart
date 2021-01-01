@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/user.dart' as u;
@@ -107,19 +108,12 @@ class _CommentWidgetState extends State<CommentWidget> {
                           width: 30,
                           child: Center(
                             child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.0,
-                                valueColor: new AlwaysStoppedAnimation<Color>(
-                                    Colors.grey[500]),
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes
-                                    : null,
-                              ),
-                            ),
+                                width: 30,
+                                height: 30,
+                                child: LoadingIndicator(
+                                  indicatorType: Indicator.orbit,
+                                  color: Theme.of(context).accentColor,
+                                )),
                           ),
                         );
                       },

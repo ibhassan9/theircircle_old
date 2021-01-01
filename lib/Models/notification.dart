@@ -203,7 +203,7 @@ Future<Null> sendPushChat(String token, String text, String userId,
             'status': 'done',
             "sound": "default",
             "screen": "CHAT_PAGE",
-            "extradata": {'type': 'chat', 'id': userId, 'chatId': chatId}
+            "extradata": {'type': 'chat', 'id': uid, 'chatId': chatId}
           },
           'to': token,
         },
@@ -668,4 +668,14 @@ Future<Null> seenAllNotifications() async {
     var key = notification.notificationId;
     db.child(key).child('seen').set(true);
   }
+}
+
+Future<Null> seenNotification(String id) async {
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('notifications')
+      .child(firebaseAuth.currentUser.uid)
+      .child(id)
+      .child('seen');
+  await db.set(true);
 }

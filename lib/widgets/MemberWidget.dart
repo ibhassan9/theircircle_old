@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
@@ -91,24 +92,14 @@ class _MemberWidgetState extends State<MemberWidget> {
                                           width: 40,
                                           child: Center(
                                             child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        Colors.grey.shade600),
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes
-                                                    : null,
-                                              ),
-                                            ),
+                                                width: 20,
+                                                height: 20,
+                                                child: LoadingIndicator(
+                                                  indicatorType: Indicator
+                                                      .ballScaleMultiple,
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                )),
                                           ),
                                         );
                                       },

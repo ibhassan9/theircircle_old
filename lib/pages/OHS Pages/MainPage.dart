@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/OHS.dart';
 import 'package:unify/pages/OHS%20Pages/CalendarPage.dart';
@@ -184,7 +185,8 @@ class _OHSMainPageState extends State<OHSMainPage> {
                 FutureBuilder(
                   future: clubFuture,
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.hasData &&
+                        snapshot.connectionState == ConnectionState.done) {
                       return ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
@@ -254,6 +256,41 @@ class _OHSMainPageState extends State<OHSMainPage> {
                               hide: h,
                               deleteAsAdmin: a);
                         },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height / 1.4,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.face,
+                                color: Theme.of(context).accentColor,
+                              ),
+                              SizedBox(width: 10),
+                              Text("Could not load posts :(",
+                                  style: GoogleFonts.questrial(
+                                    textStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).accentColor),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: LoadingIndicator(
+                              indicatorType: Indicator.ballBeat,
+                              color: Theme.of(context).accentColor),
+                        ),
                       );
                     } else {
                       return Container(

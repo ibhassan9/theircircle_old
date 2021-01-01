@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/user.dart';
 
 class MatchedOverlay extends ModalRoute<void> {
@@ -94,19 +95,10 @@ class MatchedOverlay extends ModalRoute<void> {
                                 height: 140,
                                 width: 140,
                                 child: Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                    valueColor:
-                                        new AlwaysStoppedAnimation<Color>(
-                                            Colors.grey.shade600),
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes
-                                        : null,
-                                  ),
-                                ),
+                                    child: LoadingIndicator(
+                                  indicatorType: Indicator.orbit,
+                                  color: Theme.of(context).accentColor,
+                                )),
                               );
                             },
                           ),

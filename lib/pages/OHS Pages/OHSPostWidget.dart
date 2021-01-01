@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/OHS.dart';
@@ -154,24 +155,14 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                           width: 40,
                                           child: Center(
                                             child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        Colors.grey[500]),
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes
-                                                    : null,
-                                              ),
-                                            ),
+                                                width: 20,
+                                                height: 20,
+                                                child: LoadingIndicator(
+                                                  indicatorType: Indicator
+                                                      .ballScaleMultiple,
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                )),
                                           ),
                                         );
                                       },
@@ -913,23 +904,13 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                       width: MediaQuery.of(context).size.width,
                                       child: Center(
                                         child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2.0,
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(Colors.grey[500]),
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes
-                                                : null,
-                                          ),
-                                        ),
+                                            width: 20,
+                                            height: 20,
+                                            child: LoadingIndicator(
+                                              indicatorType: Indicator.orbit,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                            )),
                                       ),
                                     );
                                   },

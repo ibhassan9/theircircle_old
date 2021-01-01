@@ -59,7 +59,7 @@ class _WebPageState extends State<WebPage> {
                   textStyle: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey[200]),
+                      color: Theme.of(context).accentColor.withOpacity(0.7)),
                 ),
               ),
             ],

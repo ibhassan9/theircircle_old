@@ -4,6 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:stretchy_header/stretchy_header.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
@@ -63,18 +65,31 @@ class _ProfilePageState extends State<ProfilePage>
                       icon: Icon(FlutterIcons.edit_2_fea,
                           color: Theme.of(context).accentColor),
                       onPressed: () async {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyProfilePage(
-                                        user: user, heroTag: widget.heroTag)))
-                            .then((value) async {
+                        showBarModalBottomSheet(
+                            context: context,
+                            expand: true,
+                            builder: (context) => MyProfilePage(
+                                user: user,
+                                heroTag: widget.heroTag)).then((value) async {
                           PostUser _u = await getUserWithUniversity(
                               widget.user.id, widget.user.university);
                           setState(() {
                             user = _u;
                           });
                         });
+
+                        // Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => MyProfilePage(
+                        //                 user: user, heroTag: widget.heroTag)))
+                        //     .then((value) async {
+                        //   PostUser _u = await getUserWithUniversity(
+                        //       widget.user.id, widget.user.university);
+                        //   setState(() {
+                        //     user = _u;
+                        //   });
+                        // });
                       },
                     )
                   : InkWell(
@@ -123,9 +138,7 @@ class _ProfilePageState extends State<ProfilePage>
                             borderRadius: BorderRadius.circular(2.0)),
                         child: Center(
                           child: Text(
-                            isBlocked
-                                ? "Unblock ${user.name}"
-                                : "Block ${user.name}",
+                            isBlocked ? "Unblock" : "Block",
                             style: GoogleFonts.questrial(
                               textStyle: TextStyle(
                                   fontSize: 12,
@@ -209,7 +222,9 @@ class _ProfilePageState extends State<ProfilePage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                sameUniversity()
+                sameUniversity() &&
+                        user.id != p.firebaseAuth.currentUser.uid &&
+                        widget.isFromChat == false
                     ? InkWell(
                         onTap: () {
                           goToChat();
@@ -388,14 +403,12 @@ class _ProfilePageState extends State<ProfilePage>
         if (snap.connectionState == ConnectionState.waiting) {
           return Center(
               child: SizedBox(
-            width: 20,
-            height: 20,
-            child: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).accentColor),
-              strokeWidth: 2.0,
-            ),
-          ));
+                  width: 20,
+                  height: 20,
+                  child: LoadingIndicator(
+                    indicatorType: Indicator.orbit,
+                    color: Theme.of(context).accentColor,
+                  )));
         } else if (snap.hasData && snap.data.length > 0) {
           return Container(
             margin: EdgeInsets.only(left: 5.0, right: 5.0),
@@ -508,14 +521,12 @@ class _ProfilePageState extends State<ProfilePage>
           if (snap.connectionState == ConnectionState.waiting) {
             return Center(
                 child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor),
-                strokeWidth: 2.0,
-              ),
-            ));
+                    width: 20,
+                    height: 20,
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.orbit,
+                      color: Theme.of(context).accentColor,
+                    )));
           } else if (snap.hasData && snap.data.length > 0) {
             return ListView.builder(
               shrinkWrap: true,
@@ -652,37 +663,30 @@ class _ProfilePageState extends State<ProfilePage>
         child: user.profileImgUrl != null && user.profileImgUrl.isNotEmpty
             ? Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(35.0),
+                  borderRadius: BorderRadius.circular(50.0),
                   child: Container(
-                    color: Colors.red,
-                    height: 70,
-                    width: 70,
+                    color: Colors.grey,
+                    height: 100,
+                    width: 100,
                     child: Image.network(
                       widget.user.profileImgUrl,
-                      width: 70,
-                      height: 70,
+                      width: 100,
+                      height: 100,
                       fit: BoxFit.cover,
                       loadingBuilder: (BuildContext context, Widget child,
                           ImageChunkEvent loadingProgress) {
                         if (loadingProgress == null) return child;
                         return SizedBox(
-                          height: 70,
-                          width: 70,
+                          height: 100,
+                          width: 100,
                           child: Center(
                             child: SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.0,
-                                valueColor: new AlwaysStoppedAnimation<Color>(
-                                    Colors.grey.shade600),
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes
-                                    : null,
-                              ),
-                            ),
+                                width: 100,
+                                height: 100,
+                                child: LoadingIndicator(
+                                  indicatorType: Indicator.orbit,
+                                  color: Theme.of(context).accentColor,
+                                )),
                           ),
                         );
                       },

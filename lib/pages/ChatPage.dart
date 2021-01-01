@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:bubble/bubble.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:timeago/timeago.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
@@ -12,6 +16,7 @@ import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/ChatBubbleLeft.dart';
 import 'package:unify/widgets/ChatBubbleRight.dart';
 import 'package:unify/widgets/SayHiWidget.dart';
+import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
   final u.PostUser receiver;
@@ -59,6 +64,14 @@ class _ChatPageState extends State<ChatPage>
                     color: Theme.of(context).dividerColor,
                     borderRadius: BorderRadius.circular(20.0)),
                 child: TextField(
+                  onTap: () {
+                    Timer(
+                        Duration(milliseconds: 300),
+                        () => _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeIn));
+                  },
                   textInputAction: TextInputAction.done,
                   maxLines: null,
                   controller: chatController,
@@ -86,39 +99,51 @@ class _ChatPageState extends State<ChatPage>
                   ),
                 ),
               )),
-              IconButton(
-                icon: Icon(
-                  FlutterIcons.send_mdi,
-                  color: Theme.of(context).accentColor,
-                ),
-                onPressed: () async {
-                  if (chatController.text.isEmpty || isSending) {
-                    return;
-                  }
-                  setState(() {
-                    isSending = true;
-                  });
-                  var res = await sendMessage(
-                      chatController.text, widget.receiver.id, widget.chatId);
-                  if (res) {
-                    await sendPushChat(
-                        widget.receiver.device_token,
-                        chatController.text,
-                        widget.receiver.id,
-                        widget.chatId,
-                        widget.receiver.id);
-                    chatController.clear();
-                    setState(() {
-                      isSending = false;
-                    });
-                    _scrollController.animateTo(
-                      _scrollController.position.maxScrollExtent + 10,
-                      curve: Curves.easeOut,
-                      duration: const Duration(milliseconds: 300),
-                    );
-                  }
-                },
-              )
+              isSending
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                          height: 10,
+                          width: 10,
+                          child: LoadingIndicator(
+                            indicatorType: Indicator.orbit,
+                            color: Theme.of(context).accentColor,
+                          )),
+                    )
+                  : IconButton(
+                      icon: Icon(
+                        FlutterIcons.send_mdi,
+                        color: Theme.of(context).accentColor,
+                      ),
+                      onPressed: () async {
+                        if (chatController.text.isEmpty || isSending) {
+                          return;
+                        }
+
+                        setState(() {
+                          isSending = true;
+                        });
+                        var res = await sendMessage(chatController.text,
+                            widget.receiver.id, widget.chatId);
+                        if (res) {
+                          await sendPushChat(
+                              widget.receiver.device_token,
+                              chatController.text,
+                              widget.receiver.id,
+                              widget.chatId,
+                              widget.receiver.id);
+                          chatController.clear();
+                          setState(() {
+                            isSending = false;
+                          });
+                          _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent + 10,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 300),
+                          );
+                        }
+                      },
+                    )
             ],
           ),
         ),
@@ -160,13 +185,20 @@ class _ChatPageState extends State<ChatPage>
             icon: Icon(FlutterIcons.user_alt_faw5s,
                 color: Theme.of(context).accentColor),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfilePage(
-                          user: widget.receiver,
-                          heroTag: widget.receiver.id,
-                          isFromChat: true)));
+              showBarModalBottomSheet(
+                  context: context,
+                  expand: true,
+                  builder: (context) => ProfilePage(
+                      user: widget.receiver,
+                      heroTag: widget.receiver.id,
+                      isFromChat: true));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => ProfilePage(
+              //             user: widget.receiver,
+              //             heroTag: widget.receiver.id,
+              //             isFromChat: true)));
             },
           ),
         ],
@@ -217,12 +249,128 @@ class _ChatPageState extends State<ChatPage>
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
                         Message msg = messages[index];
-                        if (msg.senderId == myID) {
-                          return ChatBubbleRight(
-                            msg: msg,
-                          );
+                        var date =
+                            DateTime.fromMillisecondsSinceEpoch(msg.timestamp);
+                        var formattedDate = DateFormat.yMMMd().format(date);
+                        var date_now = DateTime.now();
+                        var formattedNow = DateFormat.yMMMd().format(date_now);
+                        if (index == 0) {
+                          if (msg.senderId == myID) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                      formattedDate == formattedNow
+                                          ? "Today"
+                                          : formattedDate,
+                                      style: GoogleFonts.questrial(
+                                        textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.7)),
+                                      )),
+                                  ChatBubbleRight(
+                                    msg: msg,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                      formattedDate == formattedNow
+                                          ? "Today"
+                                          : formattedDate,
+                                      style: GoogleFonts.questrial(
+                                        textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.7)),
+                                      )),
+                                  ChatBubbleLeft(msg: msg),
+                                ],
+                              ),
+                            );
+                          }
                         } else {
-                          return ChatBubbleLeft(msg: msg);
+                          if (index > 0) {
+                            Message _old = messages[index - 1];
+                            var _date = DateTime.fromMillisecondsSinceEpoch(
+                                _old.timestamp);
+                            var _formattedDate =
+                                DateFormat.yMMMd().format(_date);
+                            if (_formattedDate == formattedDate) {
+                              if (msg.senderId == myID) {
+                                return ChatBubbleRight(
+                                  msg: msg,
+                                );
+                              } else {
+                                return ChatBubbleLeft(msg: msg);
+                              }
+                            } else {
+                              if (msg.senderId == myID) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          formattedDate == formattedNow
+                                              ? "Today"
+                                              : formattedDate,
+                                          style: GoogleFonts.questrial(
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.7)),
+                                          )),
+                                      ChatBubbleRight(
+                                        msg: msg,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          formattedDate == formattedNow
+                                              ? "Today"
+                                              : formattedDate,
+                                          style: GoogleFonts.questrial(
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.7)),
+                                          )),
+                                      ChatBubbleLeft(msg: msg),
+                                    ],
+                                  ),
+                                );
+                              }
+                            }
+                          } else {
+                            if (msg.senderId == myID) {
+                              return ChatBubbleRight(
+                                msg: msg,
+                              );
+                            } else {
+                              return ChatBubbleLeft(msg: msg);
+                            }
+                          }
                         }
                       },
                     );
@@ -252,6 +400,12 @@ class _ChatPageState extends State<ChatPage>
                 : 'WesternU')
         .child(widget.chatId);
     myChat = chats.onValue;
+    Timer(
+        Duration(milliseconds: 300),
+        () => _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeIn));
   }
 
   @override

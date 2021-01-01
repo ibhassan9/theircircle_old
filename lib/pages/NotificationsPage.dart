@@ -34,6 +34,9 @@ class _NotificationsPageState extends State<NotificationsPage>
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         noti.Notification notification = snapshot.data[index];
+                        if (notification.seen == false) {
+                          noti.seenNotification(notification.notificationId);
+                        }
                         return NotificationWidget(
                           key: ValueKey(notification.notificationId),
                           notification: notification,
@@ -75,7 +78,7 @@ class _NotificationsPageState extends State<NotificationsPage>
     // TODO: implement initState
     super.initState();
     notificationFuture = noti.fetchNotifications();
-    noti.seenAllNotifications();
+    //noti.seenAllNotifications();
   }
 
   bool get wantKeepAlive => true;

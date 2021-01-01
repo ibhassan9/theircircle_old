@@ -8,22 +8,27 @@ class ChatBubbleRight extends StatelessWidget {
   ChatBubbleRight({Key key, @required this.msg}) : super(key: key);
 
   Widget build(BuildContext context) {
-    return Bubble(
-      shadowColor: Colors.transparent,
-      margin: BubbleEdges.fromLTRB(
-          MediaQuery.of(context).size.width / 4, 10.0, 10.0, 0.0),
-      alignment: Alignment.centerRight,
-      nip: BubbleNip.rightTop,
-      nipWidth: 10,
-      nipHeight: 10,
-      nipRadius: 5,
-      stick: true,
-      color: Colors.deepPurpleAccent,
-      child: Text(msg.messageText,
-          style: GoogleFonts.questrial(
-            textStyle: TextStyle(
-                fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-          )),
+    return Container(
+      child: Bubble(
+        shadowColor: Colors.transparent,
+        margin: BubbleEdges.fromLTRB(
+            MediaQuery.of(context).size.width / 4, 10.0, 10.0, 0.0),
+        alignment: Alignment.centerRight,
+        nip: BubbleNip.rightTop,
+        nipWidth: 10,
+        nipHeight: 10,
+        nipRadius: 5,
+        radius: Radius.circular(20.0),
+        stick: true,
+        color: Colors.blue,
+        child: Text(msg.messageText,
+            style: GoogleFonts.questrial(
+              textStyle: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            )),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Home/main_screen.dart';
 import 'package:unify/Models/post.dart';
@@ -191,11 +192,10 @@ class _UploadVideoState extends State<UploadVideo> {
                 ? SizedBox(
                     height: 10.0,
                     width: 10.0,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 3.0,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.white)),
-                  )
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.orbit,
+                      color: Colors.white,
+                    ))
                 : Text('PUBLISH',
                     style: GoogleFonts.questrial(
                       textStyle: TextStyle(

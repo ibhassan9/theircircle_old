@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:stretchy_header/stretchy_header.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
@@ -387,18 +388,12 @@ class _MyProfilePageState extends State<MyProfilePage>
                       width: MediaQuery.of(context).size.width,
                       child: Center(
                         child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.grey.shade600),
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        ),
+                            width: 20,
+                            height: 20,
+                            child: LoadingIndicator(
+                              indicatorType: Indicator.orbit,
+                              color: Theme.of(context).accentColor,
+                            )),
                       ),
                     );
                   },
@@ -678,13 +673,12 @@ class _MyProfilePageState extends State<MyProfilePage>
             child: isUpdating
                 ? Center(
                     child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.white)),
-                  ))
+                        width: 20,
+                        height: 20,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.orbit,
+                          color: Theme.of(context).accentColor,
+                        )))
                 : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Icon(FlutterIcons.update_mco,
                         size: 15.0, color: Colors.white),

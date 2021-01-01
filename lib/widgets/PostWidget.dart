@@ -5,6 +5,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
@@ -72,14 +74,23 @@ class _PostWidgetState extends State<PostWidget> {
         if (widget.fromComments) {
           return;
         }
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PostDetailPage(
-                    post: widget.post,
-                    course: widget.course,
-                    club: widget.club,
-                    timeAgo: widget.timeAgo)));
+        showBarModalBottomSheet(
+          context: context,
+          expand: true,
+          builder: (context) => PostDetailPage(
+              post: widget.post,
+              course: widget.course,
+              club: widget.club,
+              timeAgo: widget.timeAgo),
+        );
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => PostDetailPage(
+        //             post: widget.post,
+        //             course: widget.course,
+        //             club: widget.club,
+        //             timeAgo: widget.timeAgo)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -103,30 +114,45 @@ class _PostWidgetState extends State<PostWidget> {
                           //       user, context, bioC, sC, igC, lC, null, null);
                           // }
                           if (widget.post.isAnonymous == false) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePage(
-                                        user: user, heroTag: widget.post.id)));
+                            showBarModalBottomSheet(
+                                context: context,
+                                expand: true,
+                                builder: (context) => ProfilePage(
+                                    user: user, heroTag: widget.post.id));
+
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ProfilePage(
+                            //             user: user, heroTag: widget.post.id)));
                           }
                         } else {
                           // showProfile(
                           //     user, context, bioC, sC, igC, lC, null, null);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfilePage(
-                                        user: user,
-                                        heroTag: widget.post.id,
-                                        isMyProfile: true,
-                                      )));
+                          showBarModalBottomSheet(
+                              context: context,
+                              expand: true,
+                              builder: (context) => ProfilePage(
+                                    user: user,
+                                    heroTag: widget.post.id,
+                                    isMyProfile: true,
+                                  ));
+
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => ProfilePage(
+                          //               user: user,
+                          //               heroTag: widget.post.id,
+                          //               isMyProfile: true,
+                          //             )));
                         }
                       },
                       child: widget.post.isAnonymous
                           ? CircleAvatar(
                               child: Icon(AntDesign.ellipsis1,
                                   color: Colors.white),
-                              backgroundColor: Colors.blue)
+                              backgroundColor: Colors.grey[400])
                           : imgUrl == null || imgUrl == ''
                               ? CircleAvatar(
                                   backgroundColor: Colors.blue,
@@ -152,24 +178,14 @@ class _PostWidgetState extends State<PostWidget> {
                                           width: 40,
                                           child: Center(
                                             child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        Colors.grey[500]),
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes
-                                                    : null,
-                                              ),
-                                            ),
+                                                width: 20,
+                                                height: 20,
+                                                child: LoadingIndicator(
+                                                  indicatorType: Indicator
+                                                      .ballScaleMultiple,
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                )),
                                           ),
                                         );
                                       },
@@ -900,23 +916,13 @@ class _PostWidgetState extends State<PostWidget> {
                                       width: MediaQuery.of(context).size.width,
                                       child: Center(
                                         child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2.0,
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(Colors.grey[500]),
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes
-                                                : null,
-                                          ),
-                                        ),
+                                            width: 20,
+                                            height: 20,
+                                            child: LoadingIndicator(
+                                              indicatorType: Indicator.orbit,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                            )),
                                       ),
                                     );
                                   },

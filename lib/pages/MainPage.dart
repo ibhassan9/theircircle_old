@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,9 +102,10 @@ class _MainPageState extends State<MainPage>
               icon: Icon(FlutterIcons.filter_outline_mco,
                   color: Theme.of(context).accentColor),
               onPressed: () {
-                Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => FilterPage()))
-                    .then((value) {
+                showBarModalBottomSheet(
+                    context: context,
+                    expand: true,
+                    builder: (context) => FilterPage()).then((value) {
                   if (value == false) {
                     return;
                   }
@@ -111,6 +113,16 @@ class _MainPageState extends State<MainPage>
                     _postFuture = fetchPosts(sortBy);
                   });
                 });
+                // Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) => FilterPage()))
+                //     .then((value) {
+                //   if (value == false) {
+                //     return;
+                //   }
+                //   setState(() {
+                //     _postFuture = fetchPosts(sortBy);
+                //   });
+                // });
               },
             ),
             // Expanded(
@@ -188,7 +200,7 @@ class _MainPageState extends State<MainPage>
             },
           )
         ],
-        elevation: 1.0,
+        elevation: 0.5,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
@@ -271,10 +283,10 @@ class _MainPageState extends State<MainPage>
           //await u.fetchNetworkProfile();
           // Navigator.push(
           //     context, MaterialPageRoute(builder: (context) => MatchPage()));
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PostPage()),
-          ).then((refresh) {
+          showBarModalBottomSheet(
+              context: context,
+              expand: true,
+              builder: (context) => PostPage()).then((refresh) {
             if (refresh == false) {
               return;
             }
@@ -282,6 +294,17 @@ class _MainPageState extends State<MainPage>
               _postFuture = fetchPosts(sortBy);
             });
           });
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => PostPage()),
+          // ).then((refresh) {
+          //   if (refresh == false) {
+          //     return;
+          //   }
+          //   setState(() {
+          //     _postFuture = fetchPosts(sortBy);
+          //   });
+          // });
         },
       ),
     );
@@ -326,18 +349,12 @@ class _MainPageState extends State<MainPage>
                       width: 20,
                       child: Center(
                         child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.grey.shade600),
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        ),
+                            width: 20,
+                            height: 20,
+                            child: LoadingIndicator(
+                              indicatorType: Indicator.orbit,
+                              color: Theme.of(context).accentColor,
+                            )),
                       ),
                     );
                   },
@@ -356,7 +373,11 @@ class _MainPageState extends State<MainPage>
         .child(firebaseAuth.currentUser.uid)
         .onValue;
     getUserData().then((value) {
-      _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+      _newsFuture = uni == 1
+          ? scrapeYorkUNews()
+          : uni == 0
+              ? scrapeUofTNews()
+              : scrapeWesternUNews();
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
@@ -366,7 +387,11 @@ class _MainPageState extends State<MainPage>
 
   Future<Null> refresh() async {
     getUserData().then((value) {
-      _newsFuture = uni == 1 ? scrapeYorkUNews() : scrapeUofTNews();
+      _newsFuture = uni == 1
+          ? scrapeYorkUNews()
+          : uni == 0
+              ? scrapeUofTNews()
+              : scrapeWesternUNews();
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
@@ -486,12 +511,16 @@ class _MainPageState extends State<MainPage>
           return Stack(alignment: Alignment.center, children: [
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationsPage()));
+                showBarModalBottomSheet(
+                    context: context,
+                    expand: true,
+                    builder: (context) => NotificationsPage());
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => NotificationsPage()));
               },
-              child: Icon(FlutterIcons.bell_faw5s,
+              child: Icon(FlutterIcons.ios_notifications_outline_ion,
                   color: Theme.of(context).accentColor),
             ),
             notiCount > 0
@@ -524,14 +553,22 @@ class _MainPageState extends State<MainPage>
     return InkWell(
       onTap: () async {
         u.PostUser _u = await u.getUserWithUniversity(user.id, user.university);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProfilePage(
-                      user: _u,
-                      heroTag: user.id + user.id,
-                      isMyProfile: true,
-                    )));
+        showBarModalBottomSheet(
+            context: context,
+            expand: true,
+            builder: (context) => ProfilePage(
+                  user: _u,
+                  heroTag: user.id + user.id,
+                  isMyProfile: true,
+                ));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => ProfilePage(
+        //               user: _u,
+        //               heroTag: user.id + user.id,
+        //               isMyProfile: true,
+        //             )));
       },
       child: imgUrl == null || imgUrl == ''
           ? Container(
@@ -559,18 +596,12 @@ class _MainPageState extends State<MainPage>
                         width: 25,
                         child: Center(
                           child: SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.0,
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Colors.grey[500]),
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes
-                                  : null,
-                            ),
-                          ),
+                              width: 25,
+                              height: 25,
+                              child: LoadingIndicator(
+                                indicatorType: Indicator.ballScaleRipple,
+                                color: Colors.white,
+                              )),
                         ),
                       );
                     },
@@ -664,14 +695,12 @@ class _MainPageState extends State<MainPage>
               if (snap.connectionState == ConnectionState.waiting)
                 return Center(
                     child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor),
-                    strokeWidth: 2.0,
-                  ),
-                ));
+                        width: 20,
+                        height: 20,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.orbit,
+                          color: Theme.of(context).accentColor,
+                        )));
               else if (snap.hasData)
                 return ListView.builder(
                   shrinkWrap: true,
@@ -701,14 +730,12 @@ class _MainPageState extends State<MainPage>
           if (snap.connectionState == ConnectionState.waiting) {
             return Center(
                 child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).accentColor),
-                strokeWidth: 2.0,
-              ),
-            ));
+                    width: 20,
+                    height: 20,
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.orbit,
+                      color: Theme.of(context).accentColor,
+                    )));
           } else if (snap.hasData) {
             var r = 0;
             return ListView.builder(

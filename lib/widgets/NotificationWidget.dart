@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart' as noti;
@@ -59,23 +61,13 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                     width: 30,
                                     child: Center(
                                       child: SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2.0,
-                                          valueColor:
-                                              new AlwaysStoppedAnimation<Color>(
-                                                  Colors.grey[500]),
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes
-                                              : null,
-                                        ),
-                                      ),
+                                          width: 30,
+                                          height: 30,
+                                          child: LoadingIndicator(
+                                            indicatorType: Indicator.orbit,
+                                            color:
+                                                Theme.of(context).accentColor,
+                                          )),
                                     ),
                                   );
                                 },
@@ -176,19 +168,30 @@ class _NotificationWidgetState extends State<NotificationWidget>
             Post post = await fetchCoursePost(postId, id);
             var timeAgo =
                 new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PostDetailPage(
-                        post: post,
-                        course: course,
-                        timeAgo: timeago.format(timeAgo))));
+            showBarModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => PostDetailPage(
+                    post: post,
+                    course: course,
+                    timeAgo: timeago.format(timeAgo)));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => PostDetailPage(
+            //             post: post,
+            //             course: course,
+            //             timeAgo: timeago.format(timeAgo))));
             break;
           case "COURSE_PAGE":
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CoursePage(course: course)));
+            showBarModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => CoursePage(course: course));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => CoursePage(course: course)));
         }
         break;
       case "club":
@@ -198,37 +201,55 @@ class _NotificationWidgetState extends State<NotificationWidget>
             Post post = await fetchClubPost(postId, id);
             var timeAgo =
                 new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PostDetailPage(
-                        post: post,
-                        club: club,
-                        timeAgo: timeago.format(timeAgo))));
+            showBarModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => PostDetailPage(
+                    post: post, club: club, timeAgo: timeago.format(timeAgo)));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => PostDetailPage(
+            //             post: post,
+            //             club: club,
+            //             timeAgo: timeago.format(timeAgo))));
             break;
           case "CLUB_PAGE":
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ClubPage(club: club)));
+            showBarModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => ClubPage(club: club));
+          // Navigator.push(context,
+          //     MaterialPageRoute(builder: (context) => ClubPage(club: club)));
         }
         break;
       case "post":
         Post post = await fetchPost(postId);
         var timeAgo = new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PostDetailPage(
-                      post: post,
-                      timeAgo: timeago.format(timeAgo),
-                    )));
+        showBarModalBottomSheet(
+            context: context,
+            expand: true,
+            builder: (context) =>
+                PostDetailPage(post: post, timeAgo: timeago.format(timeAgo)));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => PostDetailPage(
+        //               post: post,
+        //               timeAgo: timeago.format(timeAgo),
+        //             )));
         break;
       case "chat":
         PostUser receiver = await getUser(id);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    ChatPage(receiver: receiver, chatId: chatId)));
+        showBarModalBottomSheet(
+            context: context,
+            expand: true,
+            builder: (context) => ChatPage(receiver: receiver, chatId: chatId));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>
+        //             ChatPage(receiver: receiver, chatId: chatId)));
         break;
       case "video":
         Video video = await VideoApi.fetchVideo(id);

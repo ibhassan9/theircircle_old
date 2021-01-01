@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
@@ -174,13 +175,10 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                               ? SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                    valueColor:
-                                        new AlwaysStoppedAnimation<Color>(
-                                            Colors.deepPurpleAccent),
-                                  ),
-                                )
+                                  child: LoadingIndicator(
+                                    indicatorType: Indicator.orbit,
+                                    color: Colors.white,
+                                  ))
                               : Icon(FlutterIcons.send_mdi,
                                   color: Colors.deepPurpleAccent)),
                     )

@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:polls/polls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
@@ -366,11 +367,10 @@ class _OHSPostPageState extends State<OHSPostPage> {
                 ? SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 3.0,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.white)),
-                  )
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.orbit,
+                      color: Colors.white,
+                    ))
                 : Text('CREATE',
                     style: GoogleFonts.questrial(
                       textStyle: TextStyle(

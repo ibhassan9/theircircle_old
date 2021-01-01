@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/OHS.dart';
 import 'package:unify/pages/join_requests_list.dart';
 import 'package:unify/Widgets/MemberWidget.dart';
@@ -71,14 +72,12 @@ class _OHSMembersPageState extends State<OHSMembersPage> {
                   if (snap.connectionState == ConnectionState.waiting)
                     return Center(
                         child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).accentColor),
-                        strokeWidth: 2.0,
-                      ),
-                    ));
+                            width: 20,
+                            height: 20,
+                            child: LoadingIndicator(
+                              indicatorType: Indicator.orbit,
+                              color: Theme.of(context).accentColor,
+                            )));
                   else if (snap.hasData)
                     return ListView.builder(
                       shrinkWrap: true,

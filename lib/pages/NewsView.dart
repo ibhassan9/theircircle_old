@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:unify/Models/news.dart';
 
@@ -33,18 +34,12 @@ class NewsView extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.grey.shade600),
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    ),
+                        width: 20,
+                        height: 20,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.orbit,
+                          color: Theme.of(context).accentColor,
+                        )),
                   ),
                 );
               },

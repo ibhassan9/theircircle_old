@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/match.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
@@ -106,13 +108,20 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
         child: InkWell(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatPage(
-                          receiver: widget.peer,
-                          chatId: widget.chatId,
-                        ))).then((value) {});
+            showBarModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => ChatPage(
+                      receiver: widget.peer,
+                      chatId: widget.chatId,
+                    )).then((value) {});
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => ChatPage(
+            //               receiver: widget.peer,
+            //               chatId: widget.chatId,
+            //             ))).then((value) {});
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -149,24 +158,13 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                       width: 50,
                                       child: Center(
                                         child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2.0,
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                        Color>(
-                                                    Colors.grey.shade600),
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes
-                                                : null,
-                                          ),
-                                        ),
+                                            width: 20,
+                                            height: 20,
+                                            child: LoadingIndicator(
+                                              indicatorType: Indicator.orbit,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                            )),
                                       ),
                                     );
                                   },

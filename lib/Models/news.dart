@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:unify/Models/course.dart';
 import 'package:web_scraper/web_scraper.dart';
 import 'package:quiver/iterables.dart';
@@ -298,6 +299,7 @@ List<String> courses = [
 
 final uoftScraper = WebScraper('https://www.utoronto.ca');
 final yorkUScraper = WebScraper('https://yfile.news.yorku.ca');
+final westernUScraper = WebScraper('https://news.westernu.ca');
 
 Future<List<News>> scrapeUofTNews() async {
   List<News> news = [];
@@ -354,6 +356,42 @@ Future<List<News>> scrapeYorkUNews() async {
       news.add(n);
     }
   }
+  return news;
+}
+
+Future<List<News>> scrapeWesternUNews() async {
+  List<News> news = [];
+  if (await westernUScraper.loadWebPage('/campus/')) {
+    var scrape = westernUScraper.getElement(
+        'div.et_pb_row > div.et_pb_column > div.et_pb_module > div.et_pb_blog_grid > div.et_pb_ajax_pagination_container > div.et_pb_salvattore_content > article.et_pb_post > h2.entry-title > a',
+        ['href']);
+    var scrapeF = westernUScraper.getElement(
+        'div.et_pb_row > div.et_pb_column > div.et_pb_module > div.et_pb_blog_grid > div.et_pb_ajax_pagination_container > div.et_pb_salvattore_content > article.et_pb_post > div.et_pb_image_container > a > img',
+        ['src']);
+    for (var i = 0; i < scrapeF.length; i++) {
+      if (scrape[i]['title'].toString().contains('<a href')) {
+      } else {
+        var element = scrape[i];
+        var imgElement = scrapeF[i];
+        var title = element['title'].toString();
+        var t = title.replaceAll("\n", "");
+        var url = element['attributes']['href'].toString();
+        var imgUrl = imgElement['attributes']['src'].toString().trim();
+        var n = News(title: '${t.trim()}', url: "$url", imgUrl: imgUrl);
+        news.add(n);
+      }
+    }
+    // // for (var element in scrape) {
+    // //   String title = element['title'];
+    // //   title = title.trim();
+    // //   String url = element['attributes']['href'];
+    // //   url = url.trim();
+    // //   print(title);
+    // //   print(url);
+    // // }
+    // print(news[0].url);
+  }
+
   return news;
 }
 

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/notification.dart';
@@ -245,16 +246,10 @@ class _VideoPreviewState extends State<VideoPreview>
                         height: 30,
                         width: 30,
                         child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.grey.shade600),
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        ),
+                            child: LoadingIndicator(
+                          indicatorType: Indicator.orbit,
+                          color: Theme.of(context).accentColor,
+                        )),
                       );
                     },
                   ),
