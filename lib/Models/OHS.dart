@@ -721,4 +721,23 @@ class OneHealingSpace {
       return p;
     }
   }
+
+  static Future<Null> pushRedirect() async {
+    var uid = FirebaseAuth.instance.currentUser.uid;
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('partners')
+        .child('onehealingspace')
+        .child('redirects')
+        .child(uid);
+    var count = 0;
+    DataSnapshot snap = await db.once();
+    if (snap.value != null) {
+      int currentCount = snap.value;
+      count = currentCount + 1;
+    } else {
+      count += 1;
+    }
+    await db.set(count);
+  }
 }

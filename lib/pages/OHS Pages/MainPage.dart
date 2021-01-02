@@ -53,6 +53,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                   title: "One Healing Space",
                   selectedUrl: "https://healingclinic.janeapp.com/"),
             );
+            OneHealingSpace.pushRedirect();
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(

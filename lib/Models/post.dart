@@ -1443,7 +1443,7 @@ class VideoApi {
         video: file.path,
         imageFormat: ImageFormat.JPEG,
         maxWidth: 0,
-        quality: 75,
+        quality: 100,
       );
 
       final DateTime now = DateTime.now();
