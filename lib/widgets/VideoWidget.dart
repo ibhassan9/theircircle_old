@@ -242,7 +242,7 @@ class _VideoWidgetState extends State<VideoWidget>
     var university = widget.video.university == "UofT"
         ? "University of Toronto"
         : widget.video.university == "YorkU"
-            ? "York Univeristy"
+            ? "York University"
             : "Western University";
     return Container(
       decoration: BoxDecoration(
