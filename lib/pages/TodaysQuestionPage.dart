@@ -41,7 +41,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.teal, Colors.deepPurpleAccent]),
+              colors: [Colors.blue, Colors.pink]),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
@@ -55,7 +55,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                     Text('Note: This will be is a public post',
                         textAlign: TextAlign.center,
                         maxLines: null,
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -69,7 +69,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                     Text(widget.question,
                         textAlign: TextAlign.center,
                         maxLines: null,
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -100,14 +100,14 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           disabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
-                          hintStyle: GoogleFonts.questrial(
+                          hintStyle: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white),
                           ),
                           hintText: title),
-                      style: GoogleFonts.questrial(
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -130,7 +130,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                         children: [
                           Text('Post Anonymously',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,

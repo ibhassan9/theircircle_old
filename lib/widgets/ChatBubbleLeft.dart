@@ -54,7 +54,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
               radius: Radius.circular(20.0),
               color: Colors.grey.shade200,
               child: Text(widget.msg.messageText,
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

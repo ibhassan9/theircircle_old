@@ -84,14 +84,14 @@ class _ChatPageState extends State<ChatPage>
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Insert message here",
-                    hintStyle: GoogleFonts.questrial(
+                    hintStyle: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
                   ),
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -171,7 +171,7 @@ class _ChatPageState extends State<ChatPage>
             ),
             // Text(
             //   "Meet & Make New Friends",
-            //   style: GoogleFonts.questrial(
+            //   style: GoogleFonts.quicksand(
             //     textStyle: TextStyle(
             //         fontSize: 12,
             //         fontWeight: FontWeight.w500,
@@ -264,7 +264,7 @@ class _ChatPageState extends State<ChatPage>
                                       formattedDate == formattedNow
                                           ? "Today"
                                           : formattedDate,
-                                      style: GoogleFonts.questrial(
+                                      style: GoogleFonts.quicksand(
                                         textStyle: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
@@ -287,7 +287,7 @@ class _ChatPageState extends State<ChatPage>
                                       formattedDate == formattedNow
                                           ? "Today"
                                           : formattedDate,
-                                      style: GoogleFonts.questrial(
+                                      style: GoogleFonts.quicksand(
                                         textStyle: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
@@ -325,7 +325,7 @@ class _ChatPageState extends State<ChatPage>
                                           formattedDate == formattedNow
                                               ? "Today"
                                               : formattedDate,
-                                          style: GoogleFonts.questrial(
+                                          style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
@@ -348,7 +348,7 @@ class _ChatPageState extends State<ChatPage>
                                           formattedDate == formattedNow
                                               ? "Today"
                                               : formattedDate,
-                                          style: GoogleFonts.questrial(
+                                          style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,

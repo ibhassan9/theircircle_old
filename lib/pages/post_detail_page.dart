@@ -68,7 +68,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Comment Here"),
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -196,12 +196,13 @@ class _PostDetailPageState extends State<PostDetailPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        centerTitle: false,
         title: Text(
-          "COMMENTS",
-          style: GoogleFonts.questrial(
+          "Comments",
+          style: GoogleFonts.pacifico(
             textStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
           ),
         ),
@@ -306,7 +307,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 ),
                                 SizedBox(width: 10),
                                 Text("There are no comments :(",
-                                    style: GoogleFonts.questrial(
+                                    style: GoogleFonts.quicksand(
                                       textStyle: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,

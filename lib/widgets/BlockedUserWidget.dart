@@ -56,7 +56,7 @@ class BlockedUserWidget extends StatelessWidget {
                 SizedBox(width: 5.0),
                 Text(
                   user.name,
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -78,7 +78,7 @@ class BlockedUserWidget extends StatelessWidget {
                   child: Center(
                       child: Text(
                     'Unblock',
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,

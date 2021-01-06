@@ -92,7 +92,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(widget.peer.name,
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -102,7 +102,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                         Text('Voted: ' + widget.question,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,

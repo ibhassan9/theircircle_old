@@ -60,7 +60,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                       ),
                       Text(
                         "${widget.club.memberCount}",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -90,7 +90,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                   Flexible(
                                     child: Text(
                                       widget.club.name,
-                                      style: GoogleFonts.questrial(
+                                      style: GoogleFonts.quicksand(
                                         textStyle: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -109,7 +109,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                             final act = CupertinoActionSheet(
                                               title: Text(
                                                 "PROCEED?",
-                                                style: GoogleFonts.questrial(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -117,7 +117,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               ),
                                               message: Text(
                                                 "Are you sure you want to delete this club?",
-                                                style: GoogleFonts.questrial(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -128,7 +128,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                     child: Text(
                                                       "YES",
                                                       style:
-                                                          GoogleFonts.questrial(
+                                                          GoogleFonts.quicksand(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -144,7 +144,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                     child: Text(
                                                       "Cancel",
                                                       style:
-                                                          GoogleFonts.questrial(
+                                                          GoogleFonts.quicksand(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -172,7 +172,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 widget.club.description.isNotEmpty
                                     ? widget.club.description
                                     : "No description available",
-                                style: GoogleFonts.questrial(
+                                style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -228,7 +228,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 },
                                 child: Text(
                                   status(),
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,

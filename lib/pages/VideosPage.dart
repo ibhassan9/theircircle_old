@@ -41,6 +41,7 @@ class VideosPage extends StatefulWidget {
 class _VideosPageState extends State<VideosPage> {
   Future<List<Video>> videoFuture;
   CarouselController _carouselController = CarouselController();
+  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pink]);
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -61,7 +62,7 @@ class _VideosPageState extends State<VideosPage> {
             },
             child: Text("EXPLORE",
                 style: GoogleFonts.poppins(
-                    fontSize: 15,
+                    fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: Colors.white)),
           ),

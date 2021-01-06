@@ -81,7 +81,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             Text(
                               name,
                               maxLines: null,
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
@@ -92,7 +92,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             Text(
                               body,
                               maxLines: null,
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -105,7 +105,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                   new DateTime.fromMillisecondsSinceEpoch(
                                       widget.notification.timestamp)),
                               maxLines: null,
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,

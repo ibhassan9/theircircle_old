@@ -33,7 +33,7 @@ class _MembersListPageState extends State<MembersListPage> {
             widget.isCourse
                 ? "${widget.course.code} Members"
                 : "${widget.club.name} Members",
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -141,14 +141,14 @@ class _MembersListPageState extends State<MembersListPage> {
     final act = CupertinoActionSheet(
       title: Text(
         "PROCEED?",
-        style: GoogleFonts.questrial(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "Are you sure you want to remove ${user.name} from your club?",
-        style: GoogleFonts.questrial(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -157,7 +157,7 @@ class _MembersListPageState extends State<MembersListPage> {
         CupertinoActionSheetAction(
             child: Text(
               "YES",
-              style: GoogleFonts.questrial(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -172,7 +172,7 @@ class _MembersListPageState extends State<MembersListPage> {
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.questrial(
+              style: GoogleFonts.quicksand(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {

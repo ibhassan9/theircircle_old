@@ -49,8 +49,8 @@ class _ClubsPageState extends State<ClubsPage>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Create a Virtual Club",
-                    style: GoogleFonts.questrial(
+                    "Create a Virtual Community",
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -73,7 +73,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -92,7 +92,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your club here..."),
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -107,7 +107,7 @@ class _ClubsPageState extends State<ClubsPage>
                       children: [
                         Text(
                           "Privacy",
-                          style: GoogleFonts.questrial(
+                          style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -153,36 +153,17 @@ class _ClubsPageState extends State<ClubsPage>
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: true,
+        centerTitle: false,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "TheirCircle",
-                  style: GoogleFonts.questrial(
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-                // Text(
-                //   "Start or join a club!",
-                //   style: GoogleFonts.questrial(
-                //     textStyle: TextStyle(
-                //         fontSize: 12,
-                //         fontWeight: FontWeight.w500,
-                //         color: Theme.of(context).accentColor),
-                //   ),
-                // ),
-              ],
-            ),
-          ],
+        title: Text(
+          "Communities",
+          style: GoogleFonts.pacifico(
+            textStyle: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -217,15 +198,15 @@ class _ClubsPageState extends State<ClubsPage>
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Search Clubs...",
-                      hintStyle: GoogleFonts.questrial(
+                      hintText: "Search Communities...",
+                      hintStyle: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -352,7 +333,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       ),
                                       SizedBox(width: 10),
                                       Text("Cannot find any clubs :(",
-                                          style: GoogleFonts.questrial(
+                                          style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -378,7 +359,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no clubs :(",
-                                        style: GoogleFonts.questrial(
+                                        style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -409,7 +390,7 @@ class _ClubsPageState extends State<ClubsPage>
                           OHSMainPage(club: _oneHealingSpace)));
             },
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Container(
@@ -431,9 +412,11 @@ class _ClubsPageState extends State<ClubsPage>
                           top: 0.0,
                           left: 0.0,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(0.0),
                             child: Container(
-                              color: Colors.black,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [Colors.blue, Colors.pink])),
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(
                                     10.0, 5.0, 10.0, 5.0),
@@ -460,111 +443,58 @@ class _ClubsPageState extends State<ClubsPage>
                         ),
                         Positioned(
                           bottom: 0.0,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                10.0, 0.0, 10.0, 15.0),
-                            child: InkWell(
-                              onTap: () async {
-                                if (_oneHealingSpace.adminId ==
-                                    fAuth.currentUser.uid) {
-                                  return;
-                                } else {
-                                  if (_oneHealingSpace.inClub) {
-                                    setState(() {
-                                      _oneHealingSpace.inClub = false;
-                                    });
-                                    var res = await OneHealingSpace.leave();
-                                    if (res == false) {
-                                      setState(() {
-                                        _oneHealingSpace.inClub = true;
-                                      });
-                                    }
-                                  } else {
+                          right: 0.0,
+                          child: InkWell(
+                            onTap: () async {
+                              if (_oneHealingSpace.adminId ==
+                                  fAuth.currentUser.uid) {
+                                return;
+                              } else {
+                                if (_oneHealingSpace.inClub) {
+                                  setState(() {
+                                    _oneHealingSpace.inClub = false;
+                                  });
+                                  var res = await OneHealingSpace.leave();
+                                  if (res == false) {
                                     setState(() {
                                       _oneHealingSpace.inClub = true;
                                     });
-                                    var res = await OneHealingSpace.join();
-                                    if (res == false) {
-                                      setState(() {
-                                        _oneHealingSpace.inClub = false;
-                                      });
-                                    }
+                                  }
+                                } else {
+                                  setState(() {
+                                    _oneHealingSpace.inClub = true;
+                                  });
+                                  var res = await OneHealingSpace.join();
+                                  if (res == false) {
+                                    setState(() {
+                                      _oneHealingSpace.inClub = false;
+                                    });
                                   }
                                 }
-                              },
-                              child: Container(
-                                color: Colors.black,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(
-                                    _oneHealingSpace.adminId ==
-                                            fAuth.currentUser.uid
-                                        ? 'Created by you'
-                                        : _oneHealingSpace.inClub
-                                            ? 'Leave Community'
-                                            : 'Join Community',
-                                    style: GoogleFonts.questrial(
-                                      textStyle: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [Colors.blue, Colors.pink])),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  _oneHealingSpace.adminId ==
+                                          fAuth.currentUser.uid
+                                      ? 'Created by you'
+                                      : _oneHealingSpace.inClub
+                                          ? 'Leave Community'
+                                          : 'Join Community',
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
                                   ),
                                 ),
                               ),
                             ),
-                            // child: Column(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     Container(
-                            //       color: Colors.white,
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.all(5.0),
-                            //         child: Text(
-                            //           _oneHealingSpace.name,
-                            //           style: GoogleFonts.questrial(
-                            //             textStyle: TextStyle(
-                            //                 fontSize: 14,
-                            //                 fontWeight: FontWeight.w500,
-                            //                 color: Colors.black),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Container(
-                            //       color: Colors.white,
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.all(5.0),
-                            //         child: Text(
-                            //           _oneHealingSpace.description,
-                            //           maxLines: null,
-                            //           style: GoogleFonts.questrial(
-                            //             textStyle: TextStyle(
-                            //                 fontSize: 16,
-                            //                 fontWeight: FontWeight.w500,
-                            //                 color: Colors.black),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Container(
-                            //       color: Colors.white,
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.all(5.0),
-                            //         child: Text(
-                            //           'Join the One Healing Space community.',
-                            //           maxLines: null,
-                            //           style: GoogleFonts.questrial(
-                            //             textStyle: TextStyle(
-                            //                 fontSize: 13,
-                            //                 fontWeight: FontWeight.w500,
-                            //                 color: Colors.black),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
                           ),
                         ),
                       ],

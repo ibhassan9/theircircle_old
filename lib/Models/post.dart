@@ -428,67 +428,66 @@ Future<List<Post>> fetchUserPost(PostUser user) async {
 
   Map<dynamic, dynamic> values = snapshot.value;
 
-  for (var key in values.keys) {
-    var postId = key;
-    var type = values[key]['type'];
-    var typeId = values[key]['id'];
+  if (values != null) {
+    for (var key in values.keys) {
+      var postId = key;
+      var type = values[key]['type'];
+      var typeId = values[key]['id'];
 
-    print(type);
+      print(type);
 
-    switch (type) {
-      case 'post':
-        Post post = await fetchPost(postId);
-        if (post != null) {
-          if (post.isAnonymous == false ||
-              post.userId == firebaseAuth.currentUser.uid) {
-            post.type = 'post';
-            p.add(post);
+      switch (type) {
+        case 'post':
+          Post post = await fetchPost(postId);
+          if (post != null) {
+            if (post.isAnonymous == false ||
+                post.userId == firebaseAuth.currentUser.uid) {
+              post.type = 'post';
+              p.add(post);
+            }
           }
-        }
-        break;
-      case 'club':
-        Post post = await fetchClubPost(postId, typeId);
-        if (post != null) {
-          if (post.isAnonymous == false ||
-              post.userId == firebaseAuth.currentUser.uid) {
-            post.type = 'club';
-            post.typeId = typeId;
-            p.add(post);
+          break;
+        case 'club':
+          Post post = await fetchClubPost(postId, typeId);
+          if (post != null) {
+            if (post.isAnonymous == false ||
+                post.userId == firebaseAuth.currentUser.uid) {
+              post.type = 'club';
+              post.typeId = typeId;
+              p.add(post);
+            }
           }
-        }
-        break;
-      case 'course':
-        Post post = await fetchCoursePost(postId, typeId);
-        if (post != null) {
-          if (post.isAnonymous == false ||
-              post.userId == firebaseAuth.currentUser.uid) {
-            post.type = 'course';
-            post.typeId = typeId;
-            p.add(post);
+          break;
+        case 'course':
+          Post post = await fetchCoursePost(postId, typeId);
+          if (post != null) {
+            if (post.isAnonymous == false ||
+                post.userId == firebaseAuth.currentUser.uid) {
+              post.type = 'course';
+              post.typeId = typeId;
+              p.add(post);
+            }
           }
-        }
-        break;
-      case 'onehealingspace':
-        print('getting post');
-        Post post = await OneHealingSpace.fetchPost(postId);
-        print(post);
-        if (post != null) {
-          if (post.isAnonymous == false ||
-              post.userId == firebaseAuth.currentUser.uid) {
-            post.type = 'onehealingspace';
-            p.add(post);
+          break;
+        case 'onehealingspace':
+          print('getting post');
+          Post post = await OneHealingSpace.fetchPost(postId);
+          print(post);
+          if (post != null) {
+            if (post.isAnonymous == false ||
+                post.userId == firebaseAuth.currentUser.uid) {
+              post.type = 'onehealingspace';
+              p.add(post);
+            }
           }
-        }
-        break;
-      default:
-        break;
+          break;
+        default:
+          break;
+      }
     }
+    p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   }
 
-  print('getting p');
-  print(p);
-
-  p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   return p;
 }
 

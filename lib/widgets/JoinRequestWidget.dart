@@ -89,7 +89,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                 ),
                           SizedBox(width: 10.0),
                           Text(widget.user.name,
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -112,7 +112,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                         });
                                       },
                                       child: Text("ACCEPT",
-                                          style: GoogleFonts.questrial(
+                                          style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -131,7 +131,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                         });
                                       },
                                       child: Text("DENY",
-                                          style: GoogleFonts.questrial(
+                                          style: GoogleFonts.quicksand(
                                             textStyle: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
@@ -141,14 +141,14 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                   ],
                                 )
                               : Text("ACCEPTED",
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.blue),
                                   ))
                           : Text("DENIED",
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

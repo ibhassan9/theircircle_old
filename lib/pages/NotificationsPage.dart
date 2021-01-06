@@ -58,14 +58,14 @@ class _NotificationsPageState extends State<NotificationsPage>
   AppBar appBar() {
     return AppBar(
       backgroundColor: Theme.of(context).backgroundColor,
-      centerTitle: true,
+      centerTitle: false,
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text(
         "Notifications",
-        style: GoogleFonts.questrial(
+        style: GoogleFonts.pacifico(
           textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
       ),

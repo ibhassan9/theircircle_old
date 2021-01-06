@@ -1,11 +1,14 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stretchy_header/stretchy_header.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
@@ -19,6 +22,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
+import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 import 'package:unify/pages/VideoPreview.dart';
 import 'package:unify/widgets/PostWidget.dart';
 
@@ -27,9 +31,15 @@ class ProfilePage extends StatefulWidget {
   final String heroTag;
   final bool isFromChat;
   final bool isMyProfile;
+  final bool isFromMain;
 
   ProfilePage(
-      {Key key, this.user, this.heroTag, this.isFromChat, this.isMyProfile})
+      {Key key,
+      this.user,
+      this.heroTag,
+      this.isFromChat,
+      this.isMyProfile,
+      this.isFromMain})
       : super(key: key);
 
   @override
@@ -52,44 +62,30 @@ class _ProfilePageState extends State<ProfilePage>
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(FlutterIcons.arrow_back_mdi,
-                color: Theme.of(context).accentColor)),
+        centerTitle: true,
+        title: Text('Profile',
+            style: GoogleFonts.pacifico(
+              textStyle: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
+            )),
+        leading: widget.isFromMain != null && widget.isFromMain
+            ? null
+            : IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(FlutterIcons.arrow_back_mdi,
+                    color: Theme.of(context).accentColor)),
         actions: [
           widget.isMyProfile != null
               ? widget.isMyProfile
                   ? IconButton(
-                      icon: Icon(FlutterIcons.edit_2_fea,
+                      icon: Icon(AntDesign.logout,
                           color: Theme.of(context).accentColor),
                       onPressed: () async {
-                        showBarModalBottomSheet(
-                            context: context,
-                            expand: true,
-                            builder: (context) => MyProfilePage(
-                                user: user,
-                                heroTag: widget.heroTag)).then((value) async {
-                          PostUser _u = await getUserWithUniversity(
-                              widget.user.id, widget.user.university);
-                          setState(() {
-                            user = _u;
-                          });
-                        });
-
-                        // Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => MyProfilePage(
-                        //                 user: user, heroTag: widget.heroTag)))
-                        //     .then((value) async {
-                        //   PostUser _u = await getUserWithUniversity(
-                        //       widget.user.id, widget.user.university);
-                        //   setState(() {
-                        //     user = _u;
-                        //   });
-                        // });
+                        callLogout();
                       },
                     )
                   : InkWell(
@@ -110,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage>
                         child: Center(
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -139,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage>
                         child: Center(
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -184,12 +180,12 @@ class _ProfilePageState extends State<ProfilePage>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           picture(),
-          SizedBox(height: 5.0),
+          SizedBox(height: 10.0),
           Text(
             user.name,
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
-                  fontSize: 15,
+                  fontSize: 19,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
             ),
@@ -207,7 +203,7 @@ class _ProfilePageState extends State<ProfilePage>
                     : widget.user.university == "YorkU"
                         ? "York University"
                         : "Western University",
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
@@ -224,6 +220,7 @@ class _ProfilePageState extends State<ProfilePage>
               children: [
                 sameUniversity() &&
                         user.id != p.firebaseAuth.currentUser.uid &&
+                        widget.isFromChat != null &&
                         widget.isFromChat == false
                     ? InkWell(
                         onTap: () {
@@ -240,7 +237,7 @@ class _ProfilePageState extends State<ProfilePage>
                                   10.0, 0.0, 10.0, 0.0),
                               child: Text(
                                 'Message',
-                                style: GoogleFonts.questrial(
+                                style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -250,7 +247,44 @@ class _ProfilePageState extends State<ProfilePage>
                             ),
                           ),
                         ))
-                    : Container(),
+                    : widget.isMyProfile != null && widget.isMyProfile
+                        ? InkWell(
+                            onTap: () async {
+                              showBarModalBottomSheet(
+                                      context: context,
+                                      expand: true,
+                                      builder: (context) => MyProfilePage(
+                                          user: user, heroTag: widget.heroTag))
+                                  .then((value) async {
+                                PostUser _u = await getUserWithUniversity(
+                                    widget.user.id, widget.user.university);
+                                setState(() {
+                                  user = _u;
+                                });
+                              });
+                            },
+                            child: Container(
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.grey[300], width: 0.5)),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      10.0, 0.0, 10.0, 0.0),
+                                  child: Text(
+                                    'Edit Profile',
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).buttonColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ))
+                        : Container(),
                 sameUniversity() ? SizedBox(width: 5.0) : Container(),
                 InkWell(
                     onTap: () {
@@ -478,7 +512,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
                 SizedBox(width: 10),
                 Text("Cannot find any posts :(",
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -500,7 +534,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
                 SizedBox(width: 10),
                 Text("Cannot find any videos :(",
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -618,7 +652,7 @@ class _ProfilePageState extends State<ProfilePage>
                       sameUniversity()
                           ? "Cannot find any posts :("
                           : "You cannot view posts from a different institution",
-                      style: GoogleFonts.questrial(
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -643,7 +677,7 @@ class _ProfilePageState extends State<ProfilePage>
                       sameUniversity()
                           ? "Cannot find any posts :("
                           : "You cannot view posts from a different institution",
-                      style: GoogleFonts.questrial(
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -669,7 +703,7 @@ class _ProfilePageState extends State<ProfilePage>
                     height: 100,
                     width: 100,
                     child: Image.network(
-                      widget.user.profileImgUrl,
+                      user.profileImgUrl,
                       width: 100,
                       height: 100,
                       fit: BoxFit.cover,
@@ -681,11 +715,11 @@ class _ProfilePageState extends State<ProfilePage>
                           width: 100,
                           child: Center(
                             child: SizedBox(
-                                width: 100,
-                                height: 100,
+                                width: 50,
+                                height: 50,
                                 child: LoadingIndicator(
                                   indicatorType: Indicator.orbit,
-                                  color: Theme.of(context).accentColor,
+                                  color: Colors.white,
                                 )),
                           ),
                         );
@@ -709,7 +743,7 @@ class _ProfilePageState extends State<ProfilePage>
     return widget.user.about != null && widget.user.about.isNotEmpty
         ? Text(
             widget.user.about,
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -717,6 +751,60 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           )
         : Container();
+  }
+
+  callLogout() async {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+    final act = CupertinoActionSheet(
+        title: Text(
+          'Log Out',
+          style: GoogleFonts.quicksand(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ),
+        message: Text(
+          'Are you sure you want to logout?',
+          style: GoogleFonts.quicksand(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ),
+        actions: [
+          CupertinoActionSheetAction(
+              child: Text(
+                "YES",
+                style: GoogleFonts.quicksand(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
+              ),
+              onPressed: () async {
+                await _firebaseAuth.signOut().then((value) async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove('uni');
+                  prefs.remove('name');
+                  prefs.remove('filters');
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                });
+              }),
+          CupertinoActionSheetAction(
+              child: Text(
+                "Cancel",
+                style: GoogleFonts.quicksand(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+        ]);
+    showCupertinoModalPopup(
+        context: context, builder: (BuildContext context) => act);
   }
 
   Widget accomplishments() {
@@ -733,7 +821,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Text(
             result,
             textAlign: TextAlign.center,
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -750,7 +838,7 @@ class _ProfilePageState extends State<ProfilePage>
             children: [
               // Text(
               //   "I'm interested in",
-              //   style: GoogleFonts.questrial(
+              //   style: GoogleFonts.quicksand(
               //     textStyle: TextStyle(
               //         fontSize: 15,
               //         fontWeight: FontWeight.w500,
@@ -845,7 +933,7 @@ class _ProfilePageState extends State<ProfilePage>
           selectedColor: Colors.deepPurpleAccent,
           label: Text(
             interest,
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
@@ -868,7 +956,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Places i've been to",
-              style: GoogleFonts.questrial(
+              style: GoogleFonts.quicksand(
                 textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -894,7 +982,7 @@ class _ProfilePageState extends State<ProfilePage>
           avatar: Text('🇸🇩'),
           label: Text(
             'Sudan',
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -938,7 +1026,7 @@ class _ProfilePageState extends State<ProfilePage>
       body: Center(
         child: Text(
           text,
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,

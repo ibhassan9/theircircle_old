@@ -64,7 +64,7 @@ class _NewsWidgetState extends State<NewsWidget>
                           widget.news.title,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.questrial(
+                          style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -137,7 +137,7 @@ class _NewsWidgetState extends State<NewsWidget>
                                   widget.news.title,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,

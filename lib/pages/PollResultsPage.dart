@@ -36,7 +36,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
         brightness: Brightness.light,
         title: Text(
           "Poll Results",
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
@@ -59,7 +59,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 },
                 child: Text(
                   widget.questionOne,
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: selectedOption == 1
                         ? TextStyle(
                             fontSize: 15,
@@ -74,7 +74,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
               ),
               Text(
                 " | ",
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -89,7 +89,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 },
                 child: Text(
                   widget.questionTwo,
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: selectedOption == 2
                         ? TextStyle(
                             fontSize: 15,

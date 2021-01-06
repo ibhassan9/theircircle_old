@@ -25,7 +25,7 @@ class _AlreadyHaveAnAccountCheckState extends State<AlreadyHaveAnAccountCheck> {
           widget.login
               ? "Don’t have an Account ? "
               : "Already have an Account ? ",
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -36,7 +36,7 @@ class _AlreadyHaveAnAccountCheckState extends State<AlreadyHaveAnAccountCheck> {
           onTap: widget.press,
           child: Text(
             widget.login ? "Sign Up" : "Sign In",
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

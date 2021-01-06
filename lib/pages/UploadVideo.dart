@@ -48,11 +48,11 @@ class _UploadVideoState extends State<UploadVideo> {
         elevation: 0.0,
         backgroundColor: Theme.of(context).backgroundColor,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        title: Text('CREATE',
-            style: GoogleFonts.questrial(
+        title: Text('Create',
+            style: GoogleFonts.pacifico(
               textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
             )),
       ),
@@ -73,14 +73,15 @@ class _UploadVideoState extends State<UploadVideo> {
         Container(
             child: Row(
           children: [
-            Icon(Icons.message_rounded, size: 17.0, color: Colors.grey[400]),
+            Icon(Icons.message_rounded,
+                size: 17.0, color: Theme.of(context).accentColor),
             SizedBox(width: 10.0),
             Text('Allow comments',
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey[400]),
+                      color: Theme.of(context).accentColor),
                 )),
           ],
         )),
@@ -184,7 +185,7 @@ class _UploadVideoState extends State<UploadVideo> {
         child: Container(
           height: 60,
           decoration: BoxDecoration(
-            color: Colors.pink,
+            gradient: LinearGradient(colors: [Colors.blue, Colors.pink]),
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: Center(
@@ -197,7 +198,7 @@ class _UploadVideoState extends State<UploadVideo> {
                       color: Colors.white,
                     ))
                 : Text('PUBLISH',
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -237,7 +238,7 @@ class _UploadVideoState extends State<UploadVideo> {
     //       borderRadius: BorderRadius.circular(
     //           3.0)), //             <--- BoxDecoration here
     //   child: Text('@ Friends',
-    //       style: GoogleFonts.questrial(
+    //       style: GoogleFonts.quicksand(
     //         textStyle: TextStyle(
     //             fontSize: 11,
     //             fontWeight: FontWeight.w400,
@@ -262,10 +263,10 @@ class _UploadVideoState extends State<UploadVideo> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: 'Describe your video'),
-        style: GoogleFonts.questrial(
+        style: GoogleFonts.quicksand(
           textStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
       ),

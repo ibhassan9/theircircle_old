@@ -15,6 +15,9 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:visibility_detector/visibility_detector.dart';
 
 class MyMatchesPage extends StatefulWidget {
+  final Function backFromChat;
+
+  MyMatchesPage({Key key, this.backFromChat}) : super(key: key);
   @override
   _MyMatchesPageState createState() => _MyMatchesPageState();
 }
@@ -62,35 +65,22 @@ class _MyMatchesPageState extends State<MyMatchesPage>
           brightness: Theme.of(context).brightness,
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.0,
-          centerTitle: true,
+          centerTitle: false,
+          leading: IconButton(
+              icon: Icon(FlutterIcons.arrow_back_mdi),
+              color: Theme.of(context).accentColor,
+              onPressed: () {
+                widget.backFromChat();
+              }),
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "CHAT",
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).accentColor),
-                    ),
-                  ),
-                  // Text(
-                  //   "Start a conversation!",
-                  //   style: GoogleFonts.poppins(
-                  //     textStyle: TextStyle(
-                  //         fontSize: 12,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Theme.of(context).accentColor),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ],
+          title: Text(
+            "Chat",
+            style: GoogleFonts.pacifico(
+              textStyle: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
+            ),
           ),
         ),
         body: Stack(

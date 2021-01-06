@@ -35,7 +35,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                 ? "Hey $name,"
                                 : "Hey,"
                             : "Hey,",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -44,7 +44,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                       ),
                       Text(
                         "Here is your university digest",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,

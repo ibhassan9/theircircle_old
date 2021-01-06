@@ -38,11 +38,11 @@ class _UserSearchPageState extends State<UserSearchPage>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "STUDENTS",
-                style: GoogleFonts.poppins(
+                "Students",
+                style: GoogleFonts.pacifico(
                   textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
               ),
@@ -73,8 +73,8 @@ class _UserSearchPageState extends State<UserSearchPage>
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Search users..."),
-                  style: GoogleFonts.questrial(
+                      hintText: "Search students..."),
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

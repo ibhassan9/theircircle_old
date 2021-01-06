@@ -37,7 +37,7 @@ class _ClubPageState extends State<ClubPage> {
         brightness: Theme.of(context).brightness,
         title: Text(
           widget.club.name,
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -118,7 +118,7 @@ class _ClubPageState extends State<ClubPage> {
                     child: Center(
                       child: Text(
                         "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -205,7 +205,7 @@ class _ClubPageState extends State<ClubPage> {
                               ),
                               SizedBox(width: 10),
                               Text("There are no posts :(",
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,

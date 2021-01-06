@@ -36,22 +36,22 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
+              gradient: LinearGradient(colors: [Colors.blue, Colors.pink]),
               borderRadius: BorderRadius.circular(5.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 FlutterIcons.md_happy_ion,
-                color: Theme.of(context).backgroundColor,
+                color: Colors.white,
               ),
               SizedBox(width: 15.0),
               Text(
                 "We've got a question for you!",
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: Theme.of(context).backgroundColor),
+                    color: Colors.white),
               ),
             ],
           ),

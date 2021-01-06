@@ -17,6 +17,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Components/theme.dart';
 import 'package:unify/Components/theme_notifier.dart';
 import 'package:unify/pages/CameraScreen.dart';
@@ -50,6 +51,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MainPage extends StatefulWidget {
+  final Function goToChat;
+
+  MainPage({Key key, this.goToChat}) : super(key: key);
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -76,6 +80,8 @@ class _MainPageState extends State<MainPage>
 
   Stream<Event> notificationStream;
 
+  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pink]);
+
   var _darkTheme = true;
 
   // AGORA START
@@ -90,46 +96,73 @@ class _MainPageState extends State<MainPage>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: true,
-        titleSpacing: 10.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            profile(),
-            IconButton(
-              icon: Icon(FlutterIcons.filter_outline_mco,
-                  color: Theme.of(context).accentColor),
-              onPressed: () {
-                showBarModalBottomSheet(
-                    context: context,
-                    expand: true,
-                    builder: (context) => FilterPage()).then((value) {
-                  if (value == false) {
-                    return;
-                  }
-                  setState(() {
-                    _postFuture = fetchPosts(sortBy);
-                  });
-                });
-                // Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => FilterPage()))
-                //     .then((value) {
-                //   if (value == false) {
-                //     return;
-                //   }
-                //   setState(() {
-                //     _postFuture = fetchPosts(sortBy);
-                //   });
-                // });
-              },
+        centerTitle: false,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ShaderMask(
+              shaderCallback: (bounds) => gradient.createShader(
+                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+              ),
+              child: Text(
+                "TheirCircle",
+                style: GoogleFonts.pacifico(
+                  textStyle: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ),
             ),
-            // Expanded(
-            //     child: Center(
-            //         child: Icon(FlutterIcons.circle_notch_faw5s,
-            //             color: Theme.of(context).accentColor)))
+            // Text(
+            //   "Platform for students",
+            //   style: GoogleFonts.quicksand(
+            //     textStyle: TextStyle(
+            //         fontSize: 13,
+            //         fontWeight: FontWeight.w500,
+            //         color: Theme.of(context).accentColor),
+            //   ),
+            // )
           ],
         ),
+        // title: Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: <Widget>[
+        //     profile(),
+        //     IconButton(
+        //       icon: Icon(FlutterIcons.filter_outline_mco,
+        //           color: Theme.of(context).accentColor),
+        //       onPressed: () {
+        //         showBarModalBottomSheet(
+        //             context: context,
+        //             expand: true,
+        //             builder: (context) => FilterPage()).then((value) {
+        //           if (value == false) {
+        //             return;
+        //           }
+        //           setState(() {
+        //             _postFuture = fetchPosts(sortBy);
+        //           });
+        //         });
+        //         // Navigator.push(context,
+        //         //         MaterialPageRoute(builder: (context) => FilterPage()))
+        //         //     .then((value) {
+        //         //   if (value == false) {
+        //         //     return;
+        //         //   }
+        //         //   setState(() {
+        //         //     _postFuture = fetchPosts(sortBy);
+        //         //   });
+        //         // });
+        //       },
+        //     ),
+        //     // Expanded(
+        //     //     child: Center(
+        //     //         child: Icon(FlutterIcons.circle_notch_faw5s,
+        //     //             color: Theme.of(context).accentColor)))
+        //   ],
+        // ),
 
         // title: Row(
         //   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +176,7 @@ class _MainPageState extends State<MainPage>
         //         ),
         //         // Text(
         //         //   "Platform for Students",
-        //         //   style: GoogleFonts.questrial(
+        //         //   style: GoogleFonts.quicksand(
         //         //     textStyle: TextStyle(
         //         //         fontSize: 12,
         //         //         fontWeight: FontWeight.w500,
@@ -192,14 +225,22 @@ class _MainPageState extends State<MainPage>
           // ),
 
           IconButton(
-            icon: Icon(AntDesign.logout,
-                color: Theme.of(context).accentColor, size: 20),
-            onPressed: () async {
-              callLogout();
+            icon: Icon(AppIcons.conversation,
+                size: 30.0, color: Theme.of(context).accentColor),
+            onPressed: () {
+              widget.goToChat();
             },
           )
+
+          // IconButton(
+          //   icon: Icon(AntDesign.logout,
+          //       color: Theme.of(context).accentColor, size: 20),
+          //   onPressed: () async {
+          //     callLogout();
+          //   },
+          // )
         ],
-        elevation: 0.5,
+        elevation: 0.0,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
@@ -218,7 +259,7 @@ class _MainPageState extends State<MainPage>
                 padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                 child: Text(
                   "Recent University News",
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -235,7 +276,7 @@ class _MainPageState extends State<MainPage>
                   children: [
                     Text(
                       "Campus Feed",
-                      style: GoogleFonts.questrial(
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -255,7 +296,7 @@ class _MainPageState extends State<MainPage>
                       },
                       child: Text(
                         "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -272,39 +313,43 @@ class _MainPageState extends State<MainPage>
           ),
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurpleAccent,
-        child: Icon(Entypo.pencil, color: Colors.white),
-        onPressed: () async {
-          // await sendWelcome(
-          //     "eYE2CfxtrELBq0G-SRSCJR:APA91bGaCyJsKsj1cazxxwmZwLvt_fgtReqsajsCOQVqlM0kCPUE2CJy4uR39WLob5McuDpJf7kkMVYzXcvXWY-YGOkOzguaXfY2uOSGKNHP5l2RTuuczM5FZfTHDv5vp8Ufb6fyKU7t",
-          //     "Laszlo Toth");
-          //await u.fetchNetworkProfile();
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => MatchPage()));
-          showBarModalBottomSheet(
-              context: context,
-              expand: true,
-              builder: (context) => PostPage()).then((refresh) {
-            if (refresh == false) {
-              return;
-            }
-            setState(() {
-              _postFuture = fetchPosts(sortBy);
+      floatingActionButton: Container(
+        width: 60,
+        height: 60,
+        child: FloatingActionButton(
+          backgroundColor: Colors.deepPurpleAccent,
+          child: Icon(Entypo.plus, color: Colors.white),
+          onPressed: () async {
+            // await sendWelcome(
+            //     "eYE2CfxtrELBq0G-SRSCJR:APA91bGaCyJsKsj1cazxxwmZwLvt_fgtReqsajsCOQVqlM0kCPUE2CJy4uR39WLob5McuDpJf7kkMVYzXcvXWY-YGOkOzguaXfY2uOSGKNHP5l2RTuuczM5FZfTHDv5vp8Ufb6fyKU7t",
+            //     "Laszlo Toth");
+            //await u.fetchNetworkProfile();
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => MatchPage()));
+            showBarModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => PostPage()).then((refresh) {
+              if (refresh == false) {
+                return;
+              }
+              setState(() {
+                _postFuture = fetchPosts(sortBy);
+              });
             });
-          });
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => PostPage()),
-          // ).then((refresh) {
-          //   if (refresh == false) {
-          //     return;
-          //   }
-          //   setState(() {
-          //     _postFuture = fetchPosts(sortBy);
-          //   });
-          // });
-        },
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => PostPage()),
+            // ).then((refresh) {
+            //   if (refresh == false) {
+            //     return;
+            //   }
+            //   setState(() {
+            //     _postFuture = fetchPosts(sortBy);
+            //   });
+            // });
+          },
+        ),
       ),
     );
   }
@@ -444,14 +489,14 @@ class _MainPageState extends State<MainPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -460,7 +505,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -480,7 +525,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -519,8 +564,8 @@ class _MainPageState extends State<MainPage>
                 //     MaterialPageRoute(
                 //         builder: (context) => NotificationsPage()));
               },
-              child: Icon(FlutterIcons.ios_notifications_outline_ion,
-                  color: Theme.of(context).accentColor),
+              child: Icon(AppIcons.notification,
+                  size: 30, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
                 ? Positioned(
@@ -532,7 +577,7 @@ class _MainPageState extends State<MainPage>
                       radius: 8,
                       backgroundColor: Colors.red,
                       child: Text('',
-                          style: GoogleFonts.questrial(
+                          style: GoogleFonts.quicksand(
                             textStyle: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -542,7 +587,20 @@ class _MainPageState extends State<MainPage>
                 : Container()
           ]);
         } else {
-          return Container();
+          return InkWell(
+            onTap: () {
+              showBarModalBottomSheet(
+                  context: context,
+                  expand: true,
+                  builder: (context) => NotificationsPage());
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => NotificationsPage()));
+            },
+            child: Icon(AppIcons.notification,
+                size: 30, color: Theme.of(context).accentColor),
+          );
         }
       },
     );
@@ -800,7 +858,7 @@ class _MainPageState extends State<MainPage>
                   ),
                   SizedBox(width: 10),
                   Text("Cannot find any posts :(",
-                      style: GoogleFonts.questrial(
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,

@@ -91,9 +91,10 @@ class _OHSMainPageState extends State<OHSMainPage> {
       ),
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
+        centerTitle: false,
         title: Text(
           widget.club.name,
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -173,7 +174,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                     child: Center(
                       child: Text(
                         "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -272,7 +273,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                               ),
                               SizedBox(width: 10),
                               Text("Could not load posts :(",
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -307,7 +308,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                               ),
                               SizedBox(width: 10),
                               Text("There are no posts :(",
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,

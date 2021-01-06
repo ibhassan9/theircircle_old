@@ -52,7 +52,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
             onPressed: () => Navigator.pop(context, false)),
         title: Text(
           "NEW POST",
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
@@ -125,7 +125,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
       //               isAnonymous == false
       //                   ? "Posting as yourself"
       //                   : "Posting Anonymously",
-      //               style: GoogleFonts.questrial(
+      //               style: GoogleFonts.quicksand(
       //                 textStyle: TextStyle(
       //                     fontSize: 13,
       //                     fontWeight: FontWeight.w500,
@@ -194,7 +194,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
       //       child: Center(
       //         child: Text(
       //           pollButtonText,
-      //           style: GoogleFonts.questrial(
+      //           style: GoogleFonts.quicksand(
       //             textStyle: TextStyle(
       //                 fontSize: 13,
       //                 fontWeight: FontWeight.w700,
@@ -260,7 +260,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
             Icon(Icons.lock, size: 17.0, color: Theme.of(context).buttonColor),
             SizedBox(width: 10.0),
             Text('Post Anonymously',
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -372,7 +372,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
                       color: Colors.white,
                     ))
                 : Text('CREATE',
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -461,7 +461,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
             borderRadius: BorderRadius.circular(
                 3.0)), //             <--- BoxDecoration here
         child: Text(pollVisible ? '🗳️ Remove Poll' : '🗳️ Create Poll',
-            style: GoogleFonts.questrial(
+            style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w400,
@@ -561,7 +561,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: title),
-      style: GoogleFonts.questrial(
+      style: GoogleFonts.quicksand(
         textStyle: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
@@ -597,7 +597,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: "Insert Option 1..."),
-        style: GoogleFonts.questrial(
+        style: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -634,7 +634,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: "Insert Option 2..."),
-        style: GoogleFonts.questrial(
+        style: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,

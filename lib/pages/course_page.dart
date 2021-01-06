@@ -35,7 +35,7 @@ class _CoursePageState extends State<CoursePage> {
         brightness: Theme.of(context).brightness,
         title: Text(
           widget.course.code,
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -115,7 +115,7 @@ class _CoursePageState extends State<CoursePage> {
                     child: Center(
                       child: Text(
                         "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.questrial(
+                        style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -200,7 +200,7 @@ class _CoursePageState extends State<CoursePage> {
                               ),
                               SizedBox(width: 10),
                               Text("There are no posts :(",
-                                  style: GoogleFonts.questrial(
+                                  style: GoogleFonts.quicksand(
                                     textStyle: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -226,7 +226,7 @@ class _CoursePageState extends State<CoursePage> {
       //       color: Colors.deepPurple,
       //       child: Text(
       //         "Create a Poll",
-      //         style: GoogleFonts.questrial(
+      //         style: GoogleFonts.quicksand(
       //           textStyle: TextStyle(
       //               fontSize: 17,
       //               fontWeight: FontWeight.w700,

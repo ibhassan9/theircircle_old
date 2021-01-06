@@ -111,7 +111,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                               _fAuth.currentUser.uid == widget.user.id
                                   ? 'You'
                                   : widget.user.name,
-                              style: GoogleFonts.questrial(
+                              style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -123,7 +123,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                     widget.isCourse == false
                         ? widget.user.id == widget.club.adminId
                             ? Text("Admin",
-                                style: GoogleFonts.questrial(
+                                style: GoogleFonts.quicksand(
                                   textStyle: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,

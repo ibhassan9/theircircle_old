@@ -110,22 +110,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   fonts:
-    - family: "Neue"
-      fonts:
-        - asset: "assets/fonts/Helvetica Neu Bold.ttf"
-          weight: 900
-        - asset: "assets/fonts/HelveticaNeue Light.ttf"
-          weight: 300
-        - asset: "assets/fonts/HelveticaNeue Medium.ttf"
-          weight: 500
-        - asset: "assets/fonts/HelveticaNeue Thin.ttf"
-          weight: 200
-        - asset: "assets/fonts/HelveticaNeue.ttf"
-          weight: 100
-    - family: "Clan"
-      fonts:
-        - asset: "assets/fonts/clan_pro.ttf"
-
+  - family: AppIcons
+    fonts:
+      - asset: lib/Components/fonts/AppIcons.ttf
   assets:
     - assets/images/
     - assets/icons/

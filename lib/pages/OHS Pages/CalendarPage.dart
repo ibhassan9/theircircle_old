@@ -63,25 +63,25 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
       // },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.questrial(
+        weekdayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.lightBlue),
         ),
-        weekendStyle: GoogleFonts.questrial(
+        weekendStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
         ),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.questrial(
+        titleTextStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        formatButtonTextStyle: GoogleFonts.questrial(
+        formatButtonTextStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -89,49 +89,49 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
         ),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.questrial(
+        weekdayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        weekendStyle: GoogleFonts.questrial(
+        weekendStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        holidayStyle: GoogleFonts.questrial(
+        holidayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        outsideHolidayStyle: GoogleFonts.questrial(
+        outsideHolidayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        selectedStyle: GoogleFonts.questrial(
+        selectedStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         ),
-        todayStyle: GoogleFonts.questrial(
+        todayStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
-        outsideStyle: GoogleFonts.questrial(
+        outsideStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        outsideWeekendStyle: GoogleFonts.questrial(
+        outsideWeekendStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         ),
-        unavailableStyle: GoogleFonts.questrial(
+        unavailableStyle: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
         ),
@@ -149,7 +149,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Date: ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -168,7 +168,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Title. Eg: Weekly seminar"),
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Description..."),
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -204,7 +204,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "When is it?"),
-                style: GoogleFonts.questrial(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -263,7 +263,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
         brightness: Theme.of(context).brightness,
         title: Text(
           "${widget.club.name} Calendar",
-          style: GoogleFonts.questrial(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -299,7 +299,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                           Text(
                             "Create reminder for ${widget.club.name}",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,

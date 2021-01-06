@@ -35,7 +35,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -59,7 +59,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.questrial(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -86,7 +86,7 @@ class _CoursesPageState extends State<CoursesPage>
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: true,
+        centerTitle: false,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: [
@@ -101,7 +101,7 @@ class _CoursesPageState extends State<CoursesPage>
           //   },
           //   child: Text(
           //     "Request a course",
-          //     style: GoogleFonts.questrial(
+          //     style: GoogleFonts.quicksand(
           //       textStyle: TextStyle(
           //           fontSize: 15,
           //           fontWeight: FontWeight.w500,
@@ -111,33 +111,14 @@ class _CoursesPageState extends State<CoursesPage>
           // ),
           // SizedBox(width: 10.0)
         ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "TheirCircle",
-                  style: GoogleFonts.questrial(
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-                // Text(
-                //   "Engage with your peers",
-                //   style: GoogleFonts.questrial(
-                //     textStyle: TextStyle(
-                //         fontSize: 12,
-                //         fontWeight: FontWeight.w500,
-                //         color: Theme.of(context).accentColor),
-                //   ),
-                // ),
-              ],
-            ),
-          ],
+        title: Text(
+          "Courses",
+          style: GoogleFonts.pacifico(
+            textStyle: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ),
         ),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -165,14 +146,14 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.questrial(
+                      hintStyle: GoogleFonts.quicksand(
                         textStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).accentColor),
                       ),
                     ),
-                    style: GoogleFonts.questrial(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -239,7 +220,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("Cannot find any courses :(",
-                                        style: GoogleFonts.questrial(
+                                        style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -264,7 +245,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     ),
                                     SizedBox(width: 10),
                                     Text("There are no courses :(",
-                                        style: GoogleFonts.questrial(
+                                        style: GoogleFonts.quicksand(
                                           textStyle: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,

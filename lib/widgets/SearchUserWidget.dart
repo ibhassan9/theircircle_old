@@ -87,7 +87,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(widget.peer.name,
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -101,7 +101,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 : "No bio available.",
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.questrial(
+                            style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -129,10 +129,15 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                   chatId: chatId,
                                 )));
                   },
-                  child: CircleAvatar(
-                      backgroundColor: Colors.deepPurpleAccent,
-                      child:
-                          Icon(FlutterIcons.message_mdi, color: Colors.white)),
+                  child: Container(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 7.0),
+                        child: Text("Message"),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.deepPurpleAccent,
+                          borderRadius: BorderRadius.circular(3.0))),
                 )
               ],
             ),
