@@ -20,18 +20,19 @@ class _VerificationPageState extends State<VerificationPage> {
   bool _onEditing = true;
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0.0,
         centerTitle: false,
         title: Text(
           "Code Verification",
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
       ),
@@ -42,21 +43,21 @@ class _VerificationPageState extends State<VerificationPage> {
             children: <Widget>[
               Text(
                 "We have sent a verification code to the email you have provided. Please enter it below to verify your account.",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
               VerificationCode(
-                textStyle: GoogleFonts.poppins(
+                textStyle: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
                 keyboardType: TextInputType.number,
                 // in case underline color is null it will use primaryColor: Colors.red from Theme
@@ -68,7 +69,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Clear",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
@@ -109,7 +110,7 @@ class _VerificationPageState extends State<VerificationPage> {
   showWrong() {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
-    //         style: GoogleFonts.poppins(
+    //         style: GoogleFonts.quicksand(
     //           textStyle: TextStyle(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,

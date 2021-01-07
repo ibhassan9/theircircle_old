@@ -137,7 +137,7 @@ class _MainScreenState extends State<MainScreen>
             ],
           ),
           bottomNavigationBar: Container(
-            height: kBottomNavigationBarHeight + 23,
+            height: MediaQuery.of(context).size.height * 0.1,
             decoration: BoxDecoration(
                 color: _pages == 2
                     ? Colors.black.withOpacity(0.99)

@@ -42,9 +42,12 @@ class _ChatPageState extends State<ChatPage>
   Stream<Event> myChat;
   bool seen = false;
   bool isSending = false;
+  int renders = 0;
+  bool listRendered = false;
 
   Widget build(BuildContext context) {
     super.build(context);
+
     Padding chatBox = Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -248,6 +251,16 @@ class _ChatPageState extends State<ChatPage>
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
+                        renders += 1;
+                        if (renders == messages.length - 1) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            print('hi');
+                            print(_scrollController.position.maxScrollExtent);
+                            _scrollController.jumpTo(
+                                _scrollController.position.maxScrollExtent);
+                          });
+                        }
+
                         Message msg = messages[index];
                         var date =
                             DateTime.fromMillisecondsSinceEpoch(msg.timestamp);
@@ -400,12 +413,6 @@ class _ChatPageState extends State<ChatPage>
                 : 'WesternU')
         .child(widget.chatId);
     myChat = chats.onValue;
-    Timer(
-        Duration(milliseconds: 300),
-        () => _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeIn));
   }
 
   @override

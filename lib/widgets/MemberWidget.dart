@@ -122,13 +122,21 @@ class _MemberWidgetState extends State<MemberWidget> {
                     ),
                     widget.isCourse == false
                         ? widget.user.id == widget.club.adminId
-                            ? Text("Admin",
-                                style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.deepOrange),
-                                ))
+                            ? Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      10.0, 7.0, 10.0, 7.0),
+                                  child: Text(
+                                    'Admin',
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                    color: Colors.deepPurpleAccent,
+                                    borderRadius: BorderRadius.circular(3.0)))
                             : Visibility(
                                 visible: _fAuth.currentUser.uid ==
                                         widget.club.adminId &&

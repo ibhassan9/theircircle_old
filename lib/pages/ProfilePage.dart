@@ -352,7 +352,7 @@ class _ProfilePageState extends State<ProfilePage>
           ),
           Divider(),
           about(),
-          SizedBox(height: 5.0),
+          SizedBox(height: 10.0),
           interests(),
           Divider(
             color: Theme.of(context).dividerColor,
@@ -452,8 +452,8 @@ class _ProfilePageState extends State<ProfilePage>
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 1,
-                  mainAxisSpacing: 1.0,
-                  childAspectRatio: 9 / 16),
+                  mainAxisSpacing: 1,
+                  childAspectRatio: 2 / 3),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               physics: AlwaysScrollableScrollPhysics(),
@@ -746,7 +746,7 @@ class _ProfilePageState extends State<ProfilePage>
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
             ),
           )
@@ -846,8 +846,16 @@ class _ProfilePageState extends State<ProfilePage>
               //   ),
               // ),
               // Divider(),
-              Wrap(
-                children: _buildChoicesList(),
+              Container(
+                height: 40.0,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: _buildChoicesList(),
+                  ),
+                ),
               ),
               SizedBox(height: 5.0),
             ],

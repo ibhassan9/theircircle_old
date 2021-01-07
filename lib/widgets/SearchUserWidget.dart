@@ -133,7 +133,13 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       child: Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 7.0),
-                        child: Text("Message"),
+                        child: Text(
+                          'Message',
+                          style: GoogleFonts.quicksand(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        ),
                       ),
                       decoration: BoxDecoration(
                           color: Colors.deepPurpleAccent,

@@ -25,6 +25,7 @@ import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/NotificationsPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
+import 'package:unify/pages/UserSearchPage.dart';
 import 'package:unify/pages/VideosPage.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/Components/Constants.dart';
@@ -80,7 +81,10 @@ class _MainPageState extends State<MainPage>
 
   Stream<Event> notificationStream;
 
-  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pink]);
+  Gradient gradient =
+      LinearGradient(colors: [Colors.deepPurple, Colors.pinkAccent]);
+  Gradient gradient1 =
+      LinearGradient(colors: [Colors.purple, Colors.pink, Colors.blue]);
 
   var _darkTheme = true;
 
@@ -206,6 +210,14 @@ class _MainPageState extends State<MainPage>
           //         MaterialPageRoute(builder: (context) => VideosPage()));
           //   },
           // ),
+          IconButton(
+            icon: Icon(FlutterIcons.search1_ant,
+                size: 25.0, color: Theme.of(context).accentColor),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserSearchPage()));
+            },
+          ),
           notifications(),
           // IconButton(
           //   icon: Icon(FlutterIcons.filter_outline_mco,
@@ -225,8 +237,8 @@ class _MainPageState extends State<MainPage>
           // ),
 
           IconButton(
-            icon: Icon(AppIcons.conversation,
-                size: 30.0, color: Theme.of(context).accentColor),
+            icon: Icon(FlutterIcons.message1_ant,
+                size: 25.0, color: Theme.of(context).accentColor),
             onPressed: () {
               widget.goToChat();
             },
@@ -565,7 +577,7 @@ class _MainPageState extends State<MainPage>
                 //         builder: (context) => NotificationsPage()));
               },
               child: Icon(AppIcons.notification,
-                  size: 30, color: Theme.of(context).accentColor),
+                  size: 25, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
                 ? Positioned(
@@ -599,7 +611,7 @@ class _MainPageState extends State<MainPage>
               //         builder: (context) => NotificationsPage()));
             },
             child: Icon(AppIcons.notification,
-                size: 30, color: Theme.of(context).accentColor),
+                size: 25, color: Theme.of(context).accentColor),
           );
         }
       },

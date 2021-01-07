@@ -263,7 +263,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: Theme.of(context).buttonColor),
                 )),
           ],
@@ -464,7 +464,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
             style: GoogleFonts.quicksand(
               textStyle: TextStyle(
                   fontSize: 11,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
             )),
       ),
@@ -563,8 +563,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
           hintText: title),
       style: GoogleFonts.quicksand(
         textStyle: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
     );
@@ -600,7 +600,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
       ),
@@ -637,7 +637,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
         style: GoogleFonts.quicksand(
           textStyle: TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
       ),

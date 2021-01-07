@@ -36,7 +36,8 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.blue, Colors.pink]),
+              gradient: LinearGradient(
+                  colors: [Colors.deepPurple[400], Colors.pinkAccent]),
               borderRadius: BorderRadius.circular(5.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -607,7 +607,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         },
                         text: widget.post.content,
                         style: GoogleFonts.quicksand(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                         linkStyle: TextStyle(color: Colors.blue),

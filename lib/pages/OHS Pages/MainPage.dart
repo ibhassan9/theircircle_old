@@ -36,6 +36,7 @@ class OHSMainPage extends StatefulWidget {
 class _OHSMainPageState extends State<OHSMainPage> {
   int sortBy = 0;
   Future<List<Post>> clubFuture;
+  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pink]);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +107,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FlutterIcons.pencil_plus_mco),
+            icon: Icon(FlutterIcons.plus_square_o_faw),
             onPressed: () {
               Navigator.push(
                   context,
@@ -137,7 +138,11 @@ class _OHSMainPageState extends State<OHSMainPage> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.calendar_today),
+            icon: ShaderMask(
+                shaderCallback: (bounds) => gradient.createShader(
+                      Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                    ),
+                child: Icon(Icons.calendar_today, color: Colors.white)),
             onPressed: () {
               Navigator.push(
                   context,

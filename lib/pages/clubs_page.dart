@@ -91,7 +91,7 @@ class _ClubsPageState extends State<ClubsPage>
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
-                      hintText: "Describe your club here..."),
+                      hintText: "Describe your community here..."),
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
                         fontSize: 16,
@@ -106,7 +106,8 @@ class _ClubsPageState extends State<ClubsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Privacy",
+                          "Privacy " +
+                              (switchVal == true ? "(Private)" : "(Public)"),
                           style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                   fontSize: 16,
@@ -415,8 +416,10 @@ class _ClubsPageState extends State<ClubsPage>
                             padding: const EdgeInsets.all(0.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [Colors.blue, Colors.pink])),
+                                  gradient: LinearGradient(colors: [
+                                Colors.deepPurple,
+                                Colors.pinkAccent
+                              ])),
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(
                                     10.0, 5.0, 10.0, 5.0),
@@ -475,8 +478,10 @@ class _ClubsPageState extends State<ClubsPage>
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [Colors.blue, Colors.pink])),
+                                  gradient: LinearGradient(colors: [
+                                Colors.deepPurple,
+                                Colors.pinkAccent
+                              ])),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Text(

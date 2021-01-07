@@ -622,7 +622,7 @@ class _PostWidgetState extends State<PostWidget> {
                         },
                         text: widget.post.content,
                         style: GoogleFonts.quicksand(
-                            fontSize: 16,
+                            fontSize: 15.5,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                         linkStyle: TextStyle(color: Colors.blue),
@@ -1041,7 +1041,10 @@ class _PostWidgetState extends State<PostWidget> {
                                 }
                               }
                             },
-                            child: Icon(FlutterIcons.like_sli,
+                            child: Icon(
+                                widget.post.isLiked
+                                    ? FlutterIcons.heart_ant
+                                    : FlutterIcons.hearto_ant,
                                 color: widget.post.isLiked
                                     ? Colors.red
                                     : Theme.of(context).buttonColor,
@@ -1122,44 +1125,45 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ),
               SizedBox(height: 15.0),
-              // comment != null && !widget.fromComments
-              //     ? Padding(
-              //         padding: const EdgeInsets.only(left: 0.0),
-              //         child: Text(
-              //           comment.userId == firebaseAuth.currentUser.uid
-              //               ? "You"
-              //               : comment.username,
-              //           style: GoogleFonts.quicksand(
-              //               fontSize: 13,
-              //               fontWeight: FontWeight.w500,
-              //               color: Colors.deepPurpleAccent),
-              //         ),
-              //       )
-              //     : SizedBox(),
-              // comment != null && !widget.fromComments
-              //     ? Container(
-              //         height: 50,
-              //         child: Row(
-              //           children: [
-              //             Container(
-              //               height: 20.0,
-              //               width: 3.0,
-              //               color: Colors.deepPurpleAccent,
-              //             ),
-              //             SizedBox(width: 10.0),
-              //             Flexible(
-              //               child: Text(comment.content,
-              //                   maxLines: null,
-              //                   overflow: TextOverflow.ellipsis,
-              //                   style: GoogleFonts.quicksand(
-              //                       fontSize: 13,
-              //                       fontWeight: FontWeight.w500,
-              //                       color: Theme.of(context).accentColor)),
-              //             )
-              //           ],
-              //         ),
-              //       )
-              //     : SizedBox()
+              comment != null && !widget.fromComments
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text(
+                        comment.userId == firebaseAuth.currentUser.uid
+                            ? "You"
+                            : comment.username,
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
+                      ),
+                    )
+                  : SizedBox(),
+              comment != null && !widget.fromComments
+                  ? Container(
+                      height: 40,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 15.0),
+                          Container(
+                            height: 20.0,
+                            width: 3.0,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          SizedBox(width: 10.0),
+                          Flexible(
+                            child: Text(comment.content,
+                                maxLines: null,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor)),
+                          )
+                        ],
+                      ),
+                    )
+                  : SizedBox()
             ],
           ),
         ),
