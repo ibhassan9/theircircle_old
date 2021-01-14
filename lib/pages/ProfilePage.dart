@@ -150,18 +150,26 @@ class _ProfilePageState extends State<ProfilePage>
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Column(
+      body: ListView(
         children: [
-          body(),
-          Flexible(
-            child: PageView(
-              onPageChanged: (index) {
-                setState(() {
-                  selectedOption = index;
-                });
-              },
-              controller: _controller,
-              children: [userPosts(), userVideos()],
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                body(),
+                Flexible(
+                  child: PageView(
+                    onPageChanged: (index) {
+                      setState(() {
+                        selectedOption = index;
+                      });
+                    },
+                    controller: _controller,
+                    children: [userPosts(), userVideos()],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -380,10 +388,13 @@ class _ProfilePageState extends State<ProfilePage>
                     SizedBox(height: 5.0),
                     selectedOption == 0
                         ? Container(
-                            width: 30.0,
+                            width: MediaQuery.of(context).size.width / 5,
                             height: 2.0,
                             color: Theme.of(context).accentColor)
-                        : Container()
+                        : Container(
+                            width: MediaQuery.of(context).size.width / 5,
+                            height: 2.0,
+                            color: Colors.transparent)
                   ],
                 ),
               ),
@@ -406,10 +417,13 @@ class _ProfilePageState extends State<ProfilePage>
                     SizedBox(height: 5.0),
                     selectedOption == 1
                         ? Container(
-                            width: 30.0,
+                            width: MediaQuery.of(context).size.width / 5,
                             height: 2.0,
                             color: Theme.of(context).accentColor)
-                        : Container()
+                        : Container(
+                            width: MediaQuery.of(context).size.width / 5,
+                            height: 2.0,
+                            color: Colors.transparent)
                   ],
                 ),
               )
