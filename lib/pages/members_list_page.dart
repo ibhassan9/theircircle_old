@@ -71,10 +71,10 @@ class _MembersListPageState extends State<MembersListPage> {
                   if (snap.connectionState == ConnectionState.waiting)
                     return Center(
                         child: SizedBox(
-                            width: 20,
-                            height: 20,
+                            width: 40,
+                            height: 40,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.orbit,
+                              indicatorType: Indicator.ballScaleMultiple,
                               color: Theme.of(context).accentColor,
                             )));
                   else if (snap.hasData)

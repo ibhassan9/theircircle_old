@@ -292,8 +292,8 @@ class _OHSMainPageState extends State<OHSMainPage> {
                         ConnectionState.waiting) {
                       return Center(
                         child: SizedBox(
-                          height: 20,
-                          width: 20,
+                          height: 40,
+                          width: 40,
                           child: LoadingIndicator(
                               indicatorType: Indicator.ballBeat,
                               color: Theme.of(context).accentColor),

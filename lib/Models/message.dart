@@ -9,13 +9,15 @@ class Message {
   String receiverId;
   String senderId;
   int timestamp;
+  String productId;
 
   Message(
       {this.id,
       this.messageText,
       this.receiverId,
       this.senderId,
-      this.timestamp});
+      this.timestamp,
+      this.productId});
 }
 
 Future<List<Message>> fetchMessages(String chatId) async {
@@ -51,7 +53,7 @@ Future<List<Message>> fetchMessages(String chatId) async {
 }
 
 Future<bool> sendMessage(
-    String messageText, String receiverId, String chatId) async {
+    String messageText, String receiverId, String chatId, String prodId) async {
   var uniKey = Constants.checkUniversity();
   var myID = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance
@@ -92,6 +94,10 @@ Future<bool> sendMessage(
     "senderId": myID,
     "timeStamp": DateTime.now().millisecondsSinceEpoch
   };
+  if (prodId != null) {
+    data['prodId'] = prodId;
+  }
+  print('sending');
   await key.set(data).catchError((err) {
     return false;
   });

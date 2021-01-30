@@ -31,7 +31,7 @@ dependencies:
   google_fonts: ^1.1.1
   table_calendar: ^2.2.3
   awesome_dialog: ^1.2.1
-  flutter_svg: ^0.18.0
+  flutter_svg: ^0.19.1
   firebase_core: ^0.5.2
   firebase_auth: ^0.18.0+1
   firebase_database: ^4.3.0
@@ -39,7 +39,7 @@ dependencies:
   lite_rolling_switch: ^0.1.1
   timeago: ^2.0.27
   intl: ^0.16.1
-  image_picker: ^0.6.7+7
+  image_picker: ^0.6.7+21
   firebase_storage: ^4.0.0
   flutter_icons: ^1.1.0
   flutter_verification_code: ^0.2.1
@@ -88,17 +88,15 @@ dependencies:
   flutter_staggered_grid_view: ^0.3.2
   custom_navigation_bar: ^0.6.0
   loading_indicator: ^1.2.0
+  sticky_headers: ^0.1.8+1
+  tabbar: ^0.1.1
+  flutter_unicons: ^0.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_launcher_icons: "^0.8.0"
-
-flutter_icons:
-  android: "launcher_icon"
-  ios: false
-  image_path: "assets/logo/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

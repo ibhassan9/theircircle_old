@@ -153,6 +153,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                     builder: (_, s) {
                       if (snap.hasData && snap.data != null) {
                         return ListView.builder(
+                          cacheExtent: 9999,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: NeverScrollableScrollPhysics(),
@@ -174,6 +175,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                               return Column(
                                 children: [
                                   MyConversationWidget(
+                                      key: ValueKey(u.id),
                                       peerId: chat.peerId,
                                       lastMessage: chat.lastMessage,
                                       chatId: chat.chatId,

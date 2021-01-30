@@ -72,7 +72,8 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                           width: 20,
                                           height: 20,
                                           child: LoadingIndicator(
-                                            indicatorType: Indicator.orbit,
+                                            indicatorType:
+                                                Indicator.ballScaleMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

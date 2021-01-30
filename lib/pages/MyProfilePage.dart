@@ -84,7 +84,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                       if (res.isNotEmpty) {
                         var image = res[0] as Image;
                         var file = res[1] as File;
-                        setState(() {
+                        this.setState(() {
                           imag = image;
                           f = file;
                         });
@@ -368,51 +368,50 @@ class _MyProfilePageState extends State<MyProfilePage>
   }
 
   Widget picture() {
-    return Hero(
-      tag: widget.heroTag,
-      child: widget.user.profileImgUrl != null &&
-              widget.user.profileImgUrl.isNotEmpty
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(0.0),
-              child: Container(
-                child: Image.network(
-                  widget.user.profileImgUrl,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: LoadingIndicator(
-                              indicatorType: Indicator.orbit,
-                              color: Theme.of(context).accentColor,
-                            )),
-                      ),
-                    );
-                  },
-                ),
+    return widget.user.profileImgUrl != null &&
+            widget.user.profileImgUrl.isNotEmpty &&
+            imag == null &&
+            f == null
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(0.0),
+            child: Container(
+              child: Image.network(
+                widget.user.profileImgUrl,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: LoadingIndicator(
+                            indicatorType: Indicator.ballScaleMultiple,
+                            color: Theme.of(context).accentColor,
+                          )),
+                    ),
+                  );
+                },
               ),
-            )
-          : imag != null && f != null
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(0.0),
-                  child: Image.file(f,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                      height: 400))
-              : Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 400,
-                  color: Colors.grey[300],
-                  child: Icon(AntDesign.user, color: Colors.black, size: 30.0)),
-    );
+            ),
+          )
+        : imag != null && f != null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(0.0),
+                child: Image.file(f,
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                    height: 400))
+            : Container(
+                width: MediaQuery.of(context).size.width,
+                height: 400,
+                color: Colors.grey[300],
+                child: Icon(AntDesign.user, color: Colors.black, size: 30.0));
   }
 
   Widget about() {
@@ -619,6 +618,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           });
           if (imag != null && f != null) {
             var url = await uploadImageToStorage(f);
+            print(url);
             var res = await updateProfile(
                 url,
                 '',
@@ -630,7 +630,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 accomplishmentTwoController.text,
                 accomplishmentThreeController.text,
                 '',
-                _interests);
+                _interests.cast<String>().toList());
             if (res) {
               setState(() {
                 isUpdating = false;
@@ -673,11 +673,11 @@ class _MyProfilePageState extends State<MyProfilePage>
             child: isUpdating
                 ? Center(
                     child: SizedBox(
-                        width: 20,
-                        height: 20,
+                        width: 40,
+                        height: 40,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.orbit,
-                          color: Theme.of(context).accentColor,
+                          indicatorType: Indicator.ballScaleMultiple,
+                          color: Colors.white,
                         )))
                 : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Icon(FlutterIcons.update_mco,

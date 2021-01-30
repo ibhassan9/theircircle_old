@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Widgets/CourseWidget.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/pages/GPACalcPage.dart';
 
 class CoursesPage extends StatefulWidget {
   @override
@@ -83,44 +85,44 @@ class _CoursesPageState extends State<CoursesPage>
     }
 
     return Scaffold(
-      appBar: AppBar(
-        brightness: Theme.of(context).brightness,
-        backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        actions: [
-          IconButton(
-              icon: Icon(FlutterIcons.add_circle_mdi),
-              onPressed: () {
-                addCourseDialog();
-              }),
-          // InkWell(
-          //   onTap: () {
-          //     addCourseDialog();
-          //   },
-          //   child: Text(
-          //     "Request a course",
-          //     style: GoogleFonts.quicksand(
-          //       textStyle: TextStyle(
-          //           fontSize: 15,
-          //           fontWeight: FontWeight.w500,
-          //           color: Colors.black),
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(width: 10.0)
-        ],
-        title: Text(
-          "Courses",
-          style: GoogleFonts.pacifico(
-            textStyle: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   brightness: Theme.of(context).brightness,
+      //   backgroundColor: Theme.of(context).backgroundColor,
+      //   centerTitle: false,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+      //   actions: [
+      //     IconButton(
+      //         icon: Icon(FlutterIcons.add_circle_mdi),
+      //         onPressed: () {
+      //           addCourseDialog();
+      //         }),
+      //     // InkWell(
+      //     //   onTap: () {
+      //     //     addCourseDialog();
+      //     //   },
+      //     //   child: Text(
+      //     //     "Request a course",
+      //     //     style: GoogleFonts.quicksand(
+      //     //       textStyle: TextStyle(
+      //     //           fontSize: 15,
+      //     //           fontWeight: FontWeight.w500,
+      //     //           color: Colors.black),
+      //     //     ),
+      //     //   ),
+      //     // ),
+      //     // SizedBox(width: 10.0)
+      //   ],
+      //   title: Text(
+      //     "Courses",
+      //     style: GoogleFonts.pacifico(
+      //       textStyle: TextStyle(
+      //           fontSize: 25,
+      //           fontWeight: FontWeight.w500,
+      //           color: Theme.of(context).accentColor),
+      //     ),
+      //   ),
+      // ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -130,6 +132,32 @@ class _CoursesPageState extends State<CoursesPage>
               shrinkWrap: true,
               physics: AlwaysScrollableScrollPhysics(),
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      showBarModalBottomSheet(
+                          context: context,
+                          builder: (context) => GPACalculator());
+                    },
+                    child: Container(
+                      height: 50.0,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(3.0)),
+                      child: Center(
+                        child: Text("GPA Calculator",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            )),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   child: TextField(
                     onChanged: (value) {
@@ -168,10 +196,11 @@ class _CoursesPageState extends State<CoursesPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 20,
-                                    height: 20,
+                                    width: 40,
+                                    height: 40,
                                     child: LoadingIndicator(
-                                      indicatorType: Indicator.orbit,
+                                      indicatorType:
+                                          Indicator.ballScaleMultiple,
                                       color: Theme.of(context).accentColor,
                                     )));
                           else if (snap.hasData)
@@ -261,6 +290,18 @@ class _CoursesPageState extends State<CoursesPage>
               ],
             )
           ],
+        ),
+      ),
+      floatingActionButton: Container(
+        width: 40,
+        height: 40,
+        child: FloatingActionButton(
+          heroTag: 'btn2',
+          backgroundColor: Colors.deepPurpleAccent,
+          child: Icon(Entypo.plus, color: Colors.white),
+          onPressed: () async {
+            addCourseDialog();
+          },
         ),
       ),
     );

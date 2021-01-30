@@ -77,7 +77,8 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                                           width: 20,
                                           height: 20,
                                           child: LoadingIndicator(
-                                            indicatorType: Indicator.orbit,
+                                            indicatorType:
+                                                Indicator.ballScaleMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),
@@ -96,9 +97,9 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                               textStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             )),
-                        SizedBox(height: 10.0),
+                        SizedBox(height: 5.0),
                         Text('Voted: ' + widget.question,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -106,7 +107,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                               textStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black),
+                                  color: Theme.of(context).accentColor),
                             )),
                       ],
                     ),

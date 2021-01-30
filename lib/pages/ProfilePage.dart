@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -309,7 +310,7 @@ class _ProfilePageState extends State<ProfilePage>
                       decoration: BoxDecoration(
                           border:
                               Border.all(color: Colors.grey[300], width: 0.5)),
-                      child: Icon(FlutterIcons.instagram_ant,
+                      child: Unicon(UniconData.uniInstagram,
                           color: Theme.of(context).accentColor),
                     )),
                 SizedBox(
@@ -351,7 +352,7 @@ class _ProfilePageState extends State<ProfilePage>
                     decoration: BoxDecoration(
                         border:
                             Border.all(color: Colors.grey[300], width: 0.5)),
-                    child: Icon(FlutterIcons.snapchat_ghost_faw,
+                    child: Unicon(UniconData.uniSnapchatGhost,
                         color: Theme.of(context).accentColor),
                   ),
                 ),
@@ -381,18 +382,18 @@ class _ProfilePageState extends State<ProfilePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(FlutterIcons.book_outline_mco,
+                    Unicon(UniconData.uniPostcard,
                         color: selectedOption == 0
                             ? Theme.of(context).accentColor
                             : Colors.grey[400]),
                     SizedBox(height: 5.0),
                     selectedOption == 0
                         ? Container(
-                            width: MediaQuery.of(context).size.width / 5,
+                            width: MediaQuery.of(context).size.width / 10,
                             height: 2.0,
                             color: Theme.of(context).accentColor)
                         : Container(
-                            width: MediaQuery.of(context).size.width / 5,
+                            width: MediaQuery.of(context).size.width / 10,
                             height: 2.0,
                             color: Colors.transparent)
                   ],
@@ -410,18 +411,18 @@ class _ProfilePageState extends State<ProfilePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(FlutterIcons.video_library_mdi,
+                    Unicon(UniconData.uniPlayCircle,
                         color: selectedOption == 1
                             ? Theme.of(context).accentColor
                             : Colors.grey[400]),
                     SizedBox(height: 5.0),
                     selectedOption == 1
                         ? Container(
-                            width: MediaQuery.of(context).size.width / 5,
+                            width: MediaQuery.of(context).size.width / 10,
                             height: 2.0,
                             color: Theme.of(context).accentColor)
                         : Container(
-                            width: MediaQuery.of(context).size.width / 5,
+                            width: MediaQuery.of(context).size.width / 10,
                             height: 2.0,
                             color: Colors.transparent)
                   ],
@@ -451,10 +452,10 @@ class _ProfilePageState extends State<ProfilePage>
         if (snap.connectionState == ConnectionState.waiting) {
           return Center(
               child: SizedBox(
-                  width: 20,
-                  height: 20,
+                  width: 40,
+                  height: 40,
                   child: LoadingIndicator(
-                    indicatorType: Indicator.orbit,
+                    indicatorType: Indicator.ballScaleMultiple,
                     color: Theme.of(context).accentColor,
                   )));
         } else if (snap.hasData && snap.data.length > 0) {
@@ -569,10 +570,10 @@ class _ProfilePageState extends State<ProfilePage>
           if (snap.connectionState == ConnectionState.waiting) {
             return Center(
                 child: SizedBox(
-                    width: 20,
-                    height: 20,
+                    width: 40,
+                    height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.orbit,
+                      indicatorType: Indicator.ballScaleMultiple,
                       color: Theme.of(context).accentColor,
                     )));
           } else if (snap.hasData && snap.data.length > 0) {
@@ -706,50 +707,47 @@ class _ProfilePageState extends State<ProfilePage>
 
   Widget picture() {
     return Container(
-      child: Hero(
-        tag: widget.heroTag,
-        child: user.profileImgUrl != null && user.profileImgUrl.isNotEmpty
-            ? Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Container(
-                    color: Colors.grey,
-                    height: 100,
+      child: user.profileImgUrl != null && user.profileImgUrl.isNotEmpty
+          ? Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50.0),
+                child: Container(
+                  color: Colors.grey,
+                  height: 100,
+                  width: 100,
+                  child: Image.network(
+                    user.profileImgUrl,
                     width: 100,
-                    child: Image.network(
-                      user.profileImgUrl,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          height: 100,
-                          width: 100,
-                          child: Center(
-                            child: SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: LoadingIndicator(
-                                  indicatorType: Indicator.orbit,
-                                  color: Colors.white,
-                                )),
-                          ),
-                        );
-                      },
-                    ),
+                    height: 100,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Center(
+                          child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: LoadingIndicator(
+                                indicatorType: Indicator.ballScaleMultiple,
+                                color: Colors.white,
+                              )),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              )
-            : Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(30.0)),
-                child: Icon(AntDesign.user, color: Colors.black)),
-      ),
+              ),
+            )
+          : Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(30.0)),
+              child: Icon(AntDesign.user, color: Colors.black)),
     );
   }
 

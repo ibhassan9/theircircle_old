@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TheirCircle',
       theme: ThemeData(
-          buttonColor: Colors.grey[900],
+          buttonColor: Colors.grey.shade900,
           splashColor: Colors.white,
           primarySwatch: Colors.grey,
           primaryColor: Colors.white,
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           shadowColor: Colors.deepPurpleAccent[100],
           cardColor: Colors.white),
       darkTheme: ThemeData(
-          buttonColor: Colors.white,
+          buttonColor: Colors.grey.shade200,
           splashColor: Color.fromRGBO(36, 35, 49, 1.0),
           primarySwatch: Colors.grey,
           primaryColor: Colors.black,

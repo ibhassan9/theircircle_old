@@ -30,6 +30,11 @@ class Constants {
   static String dummyImageUrl =
       'https://www.publicdomainpictures.net/pictures/240000/velka/beautiful-girl-in-the-park-smiling.jpg';
 
+  static String theircartiOS =
+      'https://apps.apple.com/ca/app/theircart/id1516132456';
+  static String theircartA =
+      'https://play.google.com/store/apps/details?id=com.theircart.app&hl=en_GB';
+
   static termsDialog(BuildContext context) {
     AwesomeDialog(
       context: context,

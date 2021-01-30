@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
@@ -23,6 +24,7 @@ import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/CoursenClub.dart';
 import 'package:unify/pages/FilterPage.dart';
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/pages/MatchPage.dart';
@@ -32,7 +34,7 @@ import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 import 'package:unify/pages/TodaysQuestionPage.dart';
 import 'package:unify/pages/VideoPreview.dart';
 import 'package:unify/pages/VideosPage.dart';
-import 'package:unify/pages/buynsell_page.dart';
+import 'package:unify/pages/BuyNSellPage.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/pages/club_page.dart';
 import 'package:unify/pages/clubs_page.dart';
@@ -124,9 +126,11 @@ class _MainScreenState extends State<MainScreen>
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeIn);
               }),
-              CoursesPage(),
+              //CoursesPage(),
+              CoursenClub(),
               VideosPage(),
-              ClubsPage(),
+              //ClubsPage(),
+              BuyNSell(),
               //MyMatchesPage()
               ProfilePage(
                 isMyProfile: true,
@@ -164,12 +168,14 @@ class _MainScreenState extends State<MainScreen>
                         Icon(FlutterIcons.circle_notch_faw5s,
                             color: _pages == 2
                                 ? Colors.white
-                                : Theme.of(context).accentColor,
-                            size: 23.0),
+                                : _pages == 0
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).buttonColor,
+                            size: 25),
                         // SizedBox(height: 3.0),
                         // Text(
                         //   'Home',
-                        //   style: GoogleFonts.quicksand(
+                        //   style: GoogleFonts.rubik(
                         //     textStyle: TextStyle(
                         //         fontSize: 12,
                         //         fontWeight: FontWeight.w400,
@@ -192,19 +198,18 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Icon(
-                            _pages == 1
-                                ? FlutterIcons.book_mco
-                                : FlutterIcons.book_outline_mco,
+                        Unicon(UniconData.uniBookReader,
                             color: _pages == 2
                                 ? Colors.white
-                                : Theme.of(context).accentColor,
-                            size: 23.0),
+                                : _pages == 1
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).buttonColor,
+                            size: 27.0),
 
                         // SizedBox(height: 3.0),
                         // Text(
                         //   'Courses',
-                        //   style: GoogleFonts.quicksand(
+                        //   style: GoogleFonts.rubik(
                         //     textStyle: TextStyle(
                         //         fontSize: 12,
                         //         fontWeight: FontWeight.w400,
@@ -227,18 +232,15 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Icon(
-                            _pages == 2
-                                ? AppIcons.play_button__1_
-                                : AppIcons.play_button,
+                        Unicon(UniconData.uniTvRetro,
                             color: _pages == 2
                                 ? Colors.white
-                                : Theme.of(context).accentColor,
-                            size: 23.0),
+                                : Theme.of(context).buttonColor,
+                            size: 27.0),
                         // SizedBox(height: 3.0),
                         // Text(
                         //   'UniTV',
-                        //   style: GoogleFonts.quicksand(
+                        //   style: GoogleFonts.rubik(
                         //     textStyle: TextStyle(
                         //         fontSize: 12,
                         //         fontWeight: FontWeight.w400,
@@ -257,18 +259,17 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Icon(
-                            _pages == 3
-                                ? FlutterIcons.account_group_mco
-                                : FlutterIcons.account_group_outline_mco,
+                        Unicon(UniconData.uniShoppingBag,
                             color: _pages == 2
                                 ? Colors.white
-                                : Theme.of(context).accentColor,
-                            size: 23.0),
+                                : _pages == 3
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).buttonColor,
+                            size: 27.0),
                         // SizedBox(height: 3.0),
                         // Text(
                         //   'Clubs',
-                        //   style: GoogleFonts.quicksand(
+                        //   style: GoogleFonts.rubik(
                         //     textStyle: TextStyle(
                         //         fontSize: 12,
                         //         fontWeight: FontWeight.w400,
@@ -296,24 +297,49 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        profile()
-
+                        Unicon(UniconData.uniUserCircle,
+                            color: _pages == 2
+                                ? Colors.white
+                                : _pages == 4
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).buttonColor,
+                            size: 27.0),
                         // SizedBox(height: 3.0),
                         // Text(
-                        //   'Chat',
-                        //   style: GoogleFonts.quicksand(
+                        //   'Clubs',
+                        //   style: GoogleFonts.rubik(
                         //     textStyle: TextStyle(
                         //         fontSize: 12,
                         //         fontWeight: FontWeight.w400,
                         //         color: _pages == 2
                         //             ? Colors.grey
-                        //             : _pages == 4
+                        //             : _pages == 3
                         //                 ? Theme.of(context).accentColor
                         //                 : Colors.grey),
                         //   ),
                         // )
                       ],
                     ),
+                    // child: Column(
+                    //   children: [
+                    //     profile()
+
+                    //     // SizedBox(height: 3.0),
+                    //     // Text(
+                    //     //   'Chat',
+                    //     //   style: GoogleFonts.rubik(
+                    //     //     textStyle: TextStyle(
+                    //     //         fontSize: 12,
+                    //     //         fontWeight: FontWeight.w400,
+                    //     //         color: _pages == 2
+                    //     //             ? Colors.grey
+                    //     //             : _pages == 4
+                    //     //                 ? Theme.of(context).accentColor
+                    //     //                 : Colors.grey),
+                    //     //   ),
+                    //     // )
+                    //   ],
+                    // ),
                   ),
                   // BottomNavigationBarItem(
                   //           icon: Icon(FlutterIcons.circle_notch_faw5s),

@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:bubble/bubble.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -11,6 +13,7 @@ import 'package:timeago/timeago.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart';
+import 'package:unify/Models/product.dart';
 import 'package:unify/Models/user.dart' as u;
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/ChatBubbleLeft.dart';
@@ -21,7 +24,8 @@ import 'package:intl/intl.dart';
 class ChatPage extends StatefulWidget {
   final u.PostUser receiver;
   final String chatId;
-  ChatPage({Key key, @required this.receiver, @required this.chatId})
+  final Product prod;
+  ChatPage({Key key, @required this.receiver, @required this.chatId, this.prod})
       : super(key: key);
 
   @override
@@ -44,6 +48,7 @@ class _ChatPageState extends State<ChatPage>
   bool isSending = false;
   int renders = 0;
   bool listRendered = false;
+  Product prod;
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -58,96 +63,218 @@ class _ChatPageState extends State<ChatPage>
                 Border(top: BorderSide(color: Theme.of(context).dividerColor))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                  child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(20.0)),
-                child: TextField(
-                  onTap: () {
-                    Timer(
-                        Duration(milliseconds: 300),
-                        () => _scrollController.animateTo(
-                            _scrollController.position.maxScrollExtent,
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeIn));
-                  },
-                  textInputAction: TextInputAction.done,
-                  maxLines: null,
-                  controller: chatController,
-                  decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: "Insert message here",
-                    hintStyle: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    ),
-                  ),
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-              )),
-              isSending
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                          height: 10,
-                          width: 10,
-                          child: LoadingIndicator(
-                            indicatorType: Indicator.orbit,
-                            color: Theme.of(context).accentColor,
-                          )),
-                    )
-                  : IconButton(
-                      icon: Icon(
-                        FlutterIcons.send_mdi,
-                        color: Theme.of(context).accentColor,
+          child: Container(
+            height:
+                prod == null ? 50 : MediaQuery.of(context).size.height / 5.2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                prod != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 5.0),
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height / 8,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[100],
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: prod != null
+                                              ? prod.imgUrls[0]
+                                              : '',
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              8,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              5,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          prod.title +
+                                              ' • ' +
+                                              r'$' +
+                                              prod.price,
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        // Text(
+                                        //   r'$ ' + prod.price,
+                                        //   style: GoogleFonts.quicksand(
+                                        //     textStyle: TextStyle(
+                                        //         fontSize: 13,
+                                        //         fontWeight: FontWeight.w700,
+                                        //         color: Colors.black),
+                                        //   ),
+                                        // ),
+                                        Text(
+                                          prod.description,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.quicksand(
+                                            textStyle: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: 0.0,
+                              right: 0.0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5.0, right: 5.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      prod = null;
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 13.0,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(FlutterIcons.remove_mdi,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    : Container(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                        child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).dividerColor,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: TextField(
+                        onTap: () {
+                          Timer(
+                              Duration(milliseconds: 300),
+                              () => _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.easeIn));
+                        },
+                        textInputAction: TextInputAction.done,
+                        maxLines: null,
+                        controller: chatController,
+                        decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: 15, bottom: 11, top: 11, right: 15),
+                          hintText: "Insert message here",
+                          hintStyle: GoogleFonts.quicksand(
+                            textStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                        ),
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
+                        ),
                       ),
-                      onPressed: () async {
-                        if (chatController.text.isEmpty || isSending) {
-                          return;
-                        }
+                    )),
+                    isSending
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                                height: 10,
+                                width: 10,
+                                child: LoadingIndicator(
+                                  indicatorType: Indicator.ballScaleMultiple,
+                                  color: Theme.of(context).accentColor,
+                                )),
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              FlutterIcons.send_mdi,
+                              color: Theme.of(context).accentColor,
+                            ),
+                            onPressed: () async {
+                              if (chatController.text.isEmpty || isSending) {
+                                return;
+                              }
 
-                        setState(() {
-                          isSending = true;
-                        });
-                        var res = await sendMessage(chatController.text,
-                            widget.receiver.id, widget.chatId);
-                        if (res) {
-                          await sendPushChat(
-                              widget.receiver.device_token,
-                              chatController.text,
-                              widget.receiver.id,
-                              widget.chatId,
-                              widget.receiver.id);
-                          chatController.clear();
-                          setState(() {
-                            isSending = false;
-                          });
-                          _scrollController.animateTo(
-                            _scrollController.position.maxScrollExtent + 10,
-                            curve: Curves.easeOut,
-                            duration: const Duration(milliseconds: 300),
-                          );
-                        }
-                      },
-                    )
-            ],
+                              setState(() {
+                                isSending = true;
+                              });
+                              var res = await sendMessage(
+                                  chatController.text,
+                                  widget.receiver.id,
+                                  widget.chatId,
+                                  prod != null ? prod.id : null);
+                              if (res) {
+                                await sendPushChat(
+                                    widget.receiver.device_token,
+                                    chatController.text,
+                                    widget.receiver.id,
+                                    widget.chatId,
+                                    widget.receiver.id);
+                                chatController.clear();
+                                setState(() {
+                                  isSending = false;
+                                  prod = null;
+                                });
+                                _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent +
+                                      10,
+                                  curve: Curves.easeOut,
+                                  duration: const Duration(milliseconds: 300),
+                                );
+                              }
+                            },
+                          )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -185,23 +312,23 @@ class _ChatPageState extends State<ChatPage>
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FlutterIcons.user_alt_faw5s,
+            icon: Unicon(UniconData.uniUser,
                 color: Theme.of(context).accentColor),
             onPressed: () {
-              showBarModalBottomSheet(
-                  context: context,
-                  expand: true,
-                  builder: (context) => ProfilePage(
-                      user: widget.receiver,
-                      heroTag: widget.receiver.id,
-                      isFromChat: true));
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => ProfilePage(
-              //             user: widget.receiver,
-              //             heroTag: widget.receiver.id,
-              //             isFromChat: true)));
+              // showBarModalBottomSheet(
+              //     context: context,
+              //     expand: true,
+              //     builder: (context) => ProfilePage(
+              //         user: widget.receiver,
+              //         heroTag: widget.receiver.id,
+              //         isFromChat: true));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfilePage(
+                          user: widget.receiver,
+                          heroTag: widget.receiver.id,
+                          isFromChat: true)));
             },
           ),
         ],
@@ -233,6 +360,9 @@ class _ChatPageState extends State<ChatPage>
                           receiverId: data[key]['receiverId'],
                           senderId: data[key]['senderId'],
                           timestamp: data[key]['timeStamp']);
+                      if (data[key]['prodId'] != null) {
+                        msg.productId = data[key]['prodId'];
+                      }
                       messages.add(msg);
                     }
 
@@ -254,8 +384,6 @@ class _ChatPageState extends State<ChatPage>
                         renders += 1;
                         if (renders == messages.length - 1) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            print('hi');
-                            print(_scrollController.position.maxScrollExtent);
                             _scrollController.jumpTo(
                                 _scrollController.position.maxScrollExtent);
                           });
@@ -413,6 +541,7 @@ class _ChatPageState extends State<ChatPage>
                 : 'WesternU')
         .child(widget.chatId);
     myChat = chats.onValue;
+    prod = widget.prod;
   }
 
   @override

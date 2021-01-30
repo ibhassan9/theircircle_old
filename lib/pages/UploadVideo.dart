@@ -191,10 +191,10 @@ class _UploadVideoState extends State<UploadVideo> {
           child: Center(
             child: isUploading
                 ? SizedBox(
-                    height: 10.0,
-                    width: 10.0,
+                    height: 40.0,
+                    width: 40.0,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.orbit,
+                      indicatorType: Indicator.ballScaleMultiple,
                       color: Colors.white,
                     ))
                 : Text('PUBLISH',

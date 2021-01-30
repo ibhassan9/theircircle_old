@@ -219,6 +219,32 @@ class _VideoWidgetState extends State<VideoWidget>
                               userInfo(),
                               SizedBox(height: 15.0),
                               caption(),
+                              SizedBox(height: 10.0),
+                              Container(
+                                height: 20.0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 12,
+                                      width: 12,
+                                      child: LoadingIndicator(
+                                          indicatorType:
+                                              Indicator.audioEqualizer,
+                                          color: Colors.white),
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Text(
+                                        "Original audio • ${widget.video.name}",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white)),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           SizedBox(height: 15.0),
@@ -286,7 +312,7 @@ class _VideoWidgetState extends State<VideoWidget>
                             width: 20,
                             height: 20,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.orbit,
+                              indicatorType: Indicator.ballScaleMultiple,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -328,27 +354,12 @@ class _VideoWidgetState extends State<VideoWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.video.caption,
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)),
-        SizedBox(height: 10.0),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   children: [
-        //     Icon(FlutterIcons.library_music_mdi, color: Colors.white),
-        //     SizedBox(width: 5.0),
-        //     Text("DIET_ • Denzel Curry, Kenny Beats",
-        //         maxLines: 2,
-        //         overflow: TextOverflow.ellipsis,
-        //         style: GoogleFonts.quicksand(
-        //             fontSize: 13,
-        //             fontWeight: FontWeight.w500,
-        //             color: Colors.white)),
-        //   ],
-        // ),
       ],
     );
   }

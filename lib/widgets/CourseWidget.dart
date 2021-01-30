@@ -89,7 +89,8 @@ class _CourseWidgetState extends State<CourseWidget> {
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).accentColor),
                             ),
-                            maxLines: null,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           )
                         ],
                       )),

@@ -783,7 +783,7 @@ Future<bool> updateProfile(
     String accomplishment2,
     String accomplishment3,
     String why,
-    List<String> interests) async {
+    List<dynamic> interests) async {
   var uid = firebaseAuth.currentUser.uid;
   var uniKey = Constants.checkUniversity();
   var shareddb = FirebaseDatabase.instance

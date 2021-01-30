@@ -111,7 +111,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                 width: 30,
                                 height: 30,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.orbit,
+                                  indicatorType: Indicator.ballScaleMultiple,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),

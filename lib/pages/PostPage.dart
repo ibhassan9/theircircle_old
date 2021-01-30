@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:polls/polls.dart';
@@ -17,8 +18,10 @@ class PostPage extends StatefulWidget {
   final Club club;
   final Course course;
   final String name;
+  final bool intro;
 
-  PostPage({Key key, this.club, this.course, this.name}) : super(key: key);
+  PostPage({Key key, this.club, this.course, this.name, this.intro = false})
+      : super(key: key);
 
   @override
   _PostPageState createState() => _PostPageState();
@@ -52,7 +55,7 @@ class _PostPageState extends State<PostPage> {
                 color: Theme.of(context).accentColor),
             onPressed: () => Navigator.pop(context, false)),
         title: Text(
-          "NEW POST",
+          widget.intro ? "Introduce yourself!" : "NEW POST",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
                 fontSize: 15,
@@ -62,152 +65,6 @@ class _PostPageState extends State<PostPage> {
         ),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
-      // body: ListView(
-      //   children: [
-      // imag != null
-      //     ? Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: Stack(fit: StackFit.passthrough, children: [
-      //           ClipRRect(
-      //               borderRadius: BorderRadius.circular(5.0),
-      //               child: Container(
-      //                   height: 200,
-      //                   child: FittedBox(
-      //                     fit: BoxFit.cover,
-      //                     child: Image(
-      //                       image: imag.image,
-      //                     ),
-      //                   ))),
-      //           Positioned(
-      //               top: 6,
-      //               left: 6,
-      //               child: InkWell(
-      //                 onTap: () {
-      //                   setState(() {
-      //                     imag = null;
-      //                     f = null;
-      //                   });
-      //                 },
-      //                 child: CircleAvatar(
-      //                   backgroundColor: Colors.white,
-      //                   child: Icon(
-      //                     Icons.close,
-      //                     color: Colors.black,
-      //                   ),
-      //                 ),
-      //               )),
-      //         ]),
-      //       )
-      //     : Container(),
-      // Divider(),
-      // Padding(
-      //   padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: [
-      //       Container(
-      //           child: InkWell(
-      //         onTap: () {
-      //           if (isAnonymous) {
-      //             setState(() {
-      //               isAnonymous = false;
-      //             });
-      //           } else {
-      //             setState(() {
-      //               isAnonymous = true;
-      //             });
-      //           }
-      //         },
-      //         child: Row(
-      //           children: [
-      //             Icon(Icons.lock, color: Colors.blue, size: 15.0),
-      //             SizedBox(width: 5.0),
-      //             Text(
-      //               isAnonymous == false
-      //                   ? "Posting as yourself"
-      //                   : "Posting Anonymously",
-      //               style: GoogleFonts.quicksand(
-      //                 textStyle: TextStyle(
-      //                     fontSize: 13,
-      //                     fontWeight: FontWeight.w500,
-      //                     color: Colors.blue),
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       )),
-      //       Row(
-      //         children: [
-      //           IconButton(
-      //               icon: Icon(AntDesign.picture, color: Colors.deepPurple),
-      //               onPressed: () async {
-      //                 var res = await getImage();
-      //                 if (res.isNotEmpty) {
-      //                   var image = res[0] as Image;
-      //                   var file = res[1] as File;
-      //                   setState(() {
-      //                     imag = image;
-      //                     f = file;
-      //                   });
-      //                 }
-      //               }),
-      //           isPosting
-      //               ? Center(
-      //                   child: SizedBox(
-      //                   height: 20,
-      //                   width: 20,
-      //                   child: CircularProgressIndicator(
-      //                     strokeWidth: 3.0,
-      //                     valueColor: new AlwaysStoppedAnimation<Color>(
-      //                         Colors.deepPurple),
-      //                   ),
-      //                 ))
-      //               : IconButton(
-      //                   icon: Icon(AntDesign.arrowright,
-      //                       color: Colors.deepPurple),
-      //                   onPressed: () async {}),
-      //         ],
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      // Padding(
-      //   padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
-      //   child: InkWell(
-      //     onTap: () {
-      //       if (pollVisible) {
-      //         setState(() {
-      //           pollVisible = false;
-      //           pollButtonText = "Poll time? Create one!";
-      //           title = "What's on your mind?";
-      //         });
-      //       } else {
-      //         setState(() {
-      //           pollVisible = true;
-      //           pollButtonText = "Remove Poll";
-      //           title = "Insert Poll Title...";
-      //         });
-      //       }
-      //     },
-      //     child: Container(
-      //       height: 50.0,
-      //       color: Colors.deepPurpleAccent,
-      //       child: Center(
-      //         child: Text(
-      //           pollButtonText,
-      //           style: GoogleFonts.quicksand(
-      //             textStyle: TextStyle(
-      //                 fontSize: 13,
-      //                 fontWeight: FontWeight.w700,
-      //                 color: Colors.white),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      //   ],
-      // ),
       body: body(),
       bottomNavigationBar: Padding(
         padding:
@@ -258,7 +115,8 @@ class _PostPageState extends State<PostPage> {
         Container(
             child: Row(
           children: [
-            Icon(Icons.lock, size: 17.0, color: Theme.of(context).buttonColor),
+            Unicon(UniconData.uniLock,
+                size: 17.0, color: Theme.of(context).buttonColor),
             SizedBox(width: 10.0),
             Text('Post Anonymously',
                 style: GoogleFonts.quicksand(
@@ -366,14 +224,14 @@ class _PostPageState extends State<PostPage> {
           child: Center(
             child: isPosting
                 ? SizedBox(
-                    width: 20,
-                    height: 20,
+                    width: 40,
+                    height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.orbit,
+                      indicatorType: Indicator.ballScaleMultiple,
                       color: Colors.white,
                     ),
                   )
-                : Text('CREATE',
+                : Text('POST',
                     style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
                           fontSize: 15,
@@ -414,7 +272,7 @@ class _PostPageState extends State<PostPage> {
                       image: imag.image,
                       fit: BoxFit.cover,
                     )
-                  : Icon(FlutterIcons.camera_image_mco),
+                  : Unicon(UniconData.uniCameraPlus, color: Colors.black),
             ),
           ),
         ),

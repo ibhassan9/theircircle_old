@@ -365,10 +365,10 @@ class _OHSPostPageState extends State<OHSPostPage> {
           child: Center(
             child: isPosting
                 ? SizedBox(
-                    width: 20,
-                    height: 20,
+                    width: 40,
+                    height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.orbit,
+                      indicatorType: Indicator.ballScaleMultiple,
                       color: Colors.white,
                     ))
                 : Text('CREATE',

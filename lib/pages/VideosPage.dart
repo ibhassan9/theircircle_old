@@ -33,6 +33,25 @@ class CustomFadingEffectPainer extends CustomPainter {
   bool shouldRepaint(CustomFadingEffectPainer linePainter) => false;
 }
 
+class CustomFadingEffect2Painer extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Rect rect = Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height));
+    Paint paint = Paint()
+      ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.center,
+          colors: [
+            Colors.black.withOpacity(0.3),
+            Color.fromARGB(0, 0, 0, 0)
+          ]).createShader(rect);
+    canvas.drawRect(rect, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomFadingEffect2Painer linePainter) => false;
+}
+
 class VideosPage extends StatefulWidget {
   @override
   _VideosPageState createState() => _VideosPageState();

@@ -96,7 +96,7 @@ class MatchedOverlay extends ModalRoute<void> {
                                 width: 140,
                                 child: Center(
                                     child: LoadingIndicator(
-                                  indicatorType: Indicator.orbit,
+                                  indicatorType: Indicator.ballScaleMultiple,
                                   color: Theme.of(context).accentColor,
                                 )),
                               );

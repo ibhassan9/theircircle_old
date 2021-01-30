@@ -917,7 +917,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                             width: 20,
                                             height: 20,
                                             child: LoadingIndicator(
-                                              indicatorType: Indicator.orbit,
+                                              indicatorType:
+                                                  Indicator.ballScaleMultiple,
                                               color: Colors.white,
                                             )),
                                       ),

@@ -29,7 +29,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
   String body = '';
   Widget build(BuildContext context) {
     super.build(context);
-    return imgUrl != null && name.isNotEmpty && body.isNotEmpty
+    return name.isNotEmpty && body.isNotEmpty
         ? InkWell(
             onTap: () async {
               await handleNotification();
@@ -64,7 +64,8 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                           width: 30,
                                           height: 30,
                                           child: LoadingIndicator(
-                                            indicatorType: Indicator.orbit,
+                                            indicatorType:
+                                                Indicator.ballScaleMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

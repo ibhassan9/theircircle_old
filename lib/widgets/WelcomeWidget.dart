@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Models/user.dart';
@@ -53,7 +54,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                       ),
                     ],
                   )),
-                  Icon(FlutterIcons.feed_faw, color: Colors.deepPurpleAccent)
+                  Unicon(UniconData.uniGlobe,
+                      color: Theme.of(context).accentColor)
                 ],
               ),
               // SizedBox(height: 5.0),

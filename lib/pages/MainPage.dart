@@ -11,6 +11,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -81,8 +82,7 @@ class _MainPageState extends State<MainPage>
 
   Stream<Event> notificationStream;
 
-  Gradient gradient =
-      LinearGradient(colors: [Colors.deepPurple, Colors.pinkAccent]);
+  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pinkAccent]);
   Gradient gradient1 =
       LinearGradient(colors: [Colors.purple, Colors.pink, Colors.blue]);
 
@@ -211,7 +211,7 @@ class _MainPageState extends State<MainPage>
           //   },
           // ),
           IconButton(
-            icon: Icon(FlutterIcons.search1_ant,
+            icon: Unicon(UniconData.uniSearch,
                 size: 25.0, color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(context,
@@ -237,7 +237,7 @@ class _MainPageState extends State<MainPage>
           // ),
 
           IconButton(
-            icon: Icon(FlutterIcons.message1_ant,
+            icon: Unicon(UniconData.uniCommentMessage,
                 size: 25.0, color: Theme.of(context).accentColor),
             onPressed: () {
               widget.goToChat();
@@ -273,7 +273,7 @@ class _MainPageState extends State<MainPage>
                   "Recent University News",
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
                   ),
@@ -326,18 +326,14 @@ class _MainPageState extends State<MainPage>
         ]),
       ),
       floatingActionButton: Container(
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         child: FloatingActionButton(
-          backgroundColor: Colors.deepPurpleAccent,
-          child: Icon(Entypo.plus, color: Colors.white),
+          backgroundColor: Theme.of(context).accentColor,
+          elevation: 0.0,
+          child: Unicon(UniconData.uniPlus,
+              color: Theme.of(context).backgroundColor),
           onPressed: () async {
-            // await sendWelcome(
-            //     "eYE2CfxtrELBq0G-SRSCJR:APA91bGaCyJsKsj1cazxxwmZwLvt_fgtReqsajsCOQVqlM0kCPUE2CJy4uR39WLob5McuDpJf7kkMVYzXcvXWY-YGOkOzguaXfY2uOSGKNHP5l2RTuuczM5FZfTHDv5vp8Ufb6fyKU7t",
-            //     "Laszlo Toth");
-            //await u.fetchNetworkProfile();
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => MatchPage()));
             showBarModalBottomSheet(
                 context: context,
                 expand: true,
@@ -349,17 +345,6 @@ class _MainPageState extends State<MainPage>
                 _postFuture = fetchPosts(sortBy);
               });
             });
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => PostPage()),
-            // ).then((refresh) {
-            //   if (refresh == false) {
-            //     return;
-            //   }
-            //   setState(() {
-            //     _postFuture = fetchPosts(sortBy);
-            //   });
-            // });
           },
         ),
       ),
@@ -389,7 +374,7 @@ class _MainPageState extends State<MainPage>
               child: Text(this.user.name.substring(0, 1),
                   style: TextStyle(color: Colors.white)))
           : Hero(
-              tag: user.id,
+              tag: UniqueKey().toString(),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
@@ -408,7 +393,7 @@ class _MainPageState extends State<MainPage>
                             width: 20,
                             height: 20,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.orbit,
+                              indicatorType: Indicator.ballScaleMultiple,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -437,8 +422,8 @@ class _MainPageState extends State<MainPage>
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
+      isFirstLaunch();
     });
-    isFirstLaunch();
   }
 
   Future<Null> refresh() async {
@@ -459,11 +444,141 @@ class _MainPageState extends State<MainPage>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var yes = prefs.getBool('isFirst');
     if (yes == null) {
-      Constants.termsDialog(context);
+      terms();
       return true;
     } else {
+      List<Post> p = await fetchUserPost(user);
+      if (p.isEmpty) {
+        showBarModalBottomSheet(
+            context: context,
+            expand: true,
+            builder: (context) => PostPage(intro: true)).then((refresh) {
+          if (refresh == false) {
+            return;
+          }
+          setState(() {
+            _postFuture = fetchPosts(sortBy);
+          });
+        });
+      }
       return false;
     }
+  }
+
+  void terms() async {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.NO_HEADER,
+      body: StatefulBuilder(builder: (context, setState) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                "Welcome to TheirCircle",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "You must agree to these terms before posting.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "1. Any type of bullying will not be tolerated.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "2. Zero tolerance policy on exposing people's personal information.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "3. Do not clutter people's feed with useless or offensive information.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "4. If your posts are being reported consistently you will be banned.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "5. Posting explicit photos under any circumstances will not be tolerated.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              FlatButton(
+                color: Colors.blue,
+                child: Text(
+                  "I agree to these terms.",
+                  style: GoogleFonts.quicksand(
+                    textStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ),
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setBool('isFirst', true);
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(height: 10.0),
+            ],
+          ),
+        );
+      }),
+    )..show().then((value) async {});
   }
 
   void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
@@ -486,6 +601,7 @@ class _MainPageState extends State<MainPage>
     var id = firebaseAuth.currentUser.uid;
     var _user = await u.getUser(id);
     var _promo = await getPromoImage();
+    print(_promo);
     setState(() {
       //list.add(liveUser);
       name = _name;
@@ -576,7 +692,7 @@ class _MainPageState extends State<MainPage>
                 //     MaterialPageRoute(
                 //         builder: (context) => NotificationsPage()));
               },
-              child: Icon(AppIcons.notification,
+              child: Unicon(UniconData.uniBell,
                   size: 25, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
@@ -627,7 +743,7 @@ class _MainPageState extends State<MainPage>
             expand: true,
             builder: (context) => ProfilePage(
                   user: _u,
-                  heroTag: user.id + user.id,
+                  heroTag: UniqueKey().toString(),
                   isMyProfile: true,
                 ));
         // Navigator.push(
@@ -764,10 +880,10 @@ class _MainPageState extends State<MainPage>
               if (snap.connectionState == ConnectionState.waiting)
                 return Center(
                     child: SizedBox(
-                        width: 20,
-                        height: 20,
+                        width: 40,
+                        height: 40,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.orbit,
+                          indicatorType: Indicator.ballScaleMultiple,
                           color: Theme.of(context).accentColor,
                         )));
               else if (snap.hasData)
@@ -799,10 +915,10 @@ class _MainPageState extends State<MainPage>
           if (snap.connectionState == ConnectionState.waiting) {
             return Center(
                 child: SizedBox(
-                    width: 20,
-                    height: 20,
+                    width: 40,
+                    height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.orbit,
+                      indicatorType: Indicator.ballScaleMultiple,
                       color: Theme.of(context).accentColor,
                     )));
           } else if (snap.hasData) {

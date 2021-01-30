@@ -31,19 +31,20 @@ class _PollResultsPageState extends State<PollResultsPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
         title: Text(
           "Poll Results",
           style: GoogleFonts.quicksand(
             textStyle: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       ),
       body: ListView(
         children: [
@@ -68,7 +69,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                         : TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: Theme.of(context).accentColor),
                   ),
                 ),
               ),
@@ -78,7 +79,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                   textStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black),
+                      color: Theme.of(context).accentColor),
                 ),
               ),
               InkWell(
@@ -98,7 +99,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
                         : TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: Theme.of(context).accentColor),
                   ),
                 ),
               ),

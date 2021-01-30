@@ -108,7 +108,8 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
         child: InkWell(
           onTap: () {
-            showBarModalBottomSheet(
+            showMaterialModalBottomSheet(
+                animationCurve: Curves.easeInCubic,
                 context: context,
                 expand: true,
                 builder: (context) => ChatPage(
@@ -161,7 +162,8 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                             width: 20,
                                             height: 20,
                                             child: LoadingIndicator(
-                                              indicatorType: Indicator.orbit,
+                                              indicatorType:
+                                                  Indicator.ballScaleMultiple,
                                               color:
                                                   Theme.of(context).accentColor,
                                             )),

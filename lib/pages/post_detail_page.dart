@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -32,6 +34,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
   bool isCommenting = false;
+  ScrollController _controller = new ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     void dispose() {
       super.dispose();
       commentController.dispose();
+      _controller.dispose();
     }
 
     Padding commentBox = Padding(
@@ -56,6 +60,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
             children: <Widget>[
               Flexible(
                   child: TextField(
+                onTap: () {},
                 maxLines: null,
                 textInputAction: TextInputAction.done,
                 controller: commentController,
@@ -278,6 +283,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
+                          controller: _controller,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: NeverScrollableScrollPhysics(),

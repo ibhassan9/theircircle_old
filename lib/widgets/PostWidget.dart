@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -76,7 +77,7 @@ class _PostWidgetState extends State<PostWidget> {
         if (widget.fromComments) {
           return;
         }
-        showBarModalBottomSheet(
+        showMaterialModalBottomSheet(
           context: context,
           expand: true,
           builder: (context) => PostDetailPage(
@@ -119,8 +120,8 @@ class _PostWidgetState extends State<PostWidget> {
                             showBarModalBottomSheet(
                                 context: context,
                                 expand: true,
-                                builder: (context) => ProfilePage(
-                                    user: user, heroTag: widget.post.id));
+                                builder: (context) =>
+                                    ProfilePage(user: user, heroTag: null));
 
                             // Navigator.push(
                             //     context,
@@ -136,7 +137,7 @@ class _PostWidgetState extends State<PostWidget> {
                               expand: true,
                               builder: (context) => ProfilePage(
                                     user: user,
-                                    heroTag: widget.post.id,
+                                    heroTag: null,
                                     isMyProfile: true,
                                   ));
 
@@ -168,37 +169,33 @@ class _PostWidgetState extends State<PostWidget> {
                                   child: Text(
                                       widget.post.username.substring(0, 1),
                                       style: TextStyle(color: Colors.white)))
-                              : Hero(
-                                  tag: widget.post.id,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.network(
-                                      imgUrl,
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.cover,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: Center(
-                                            child: SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child: LoadingIndicator(
-                                                  indicatorType: Indicator
-                                                      .ballScaleMultiple,
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                )),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.network(
+                                    imgUrl,
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Center(
+                                          child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: LoadingIndicator(
+                                                indicatorType:
+                                                    Indicator.ballScaleMultiple,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              )),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                     ),
@@ -220,7 +217,7 @@ class _PostWidgetState extends State<PostWidget> {
                                             : widget.post.username,
                                     style: GoogleFonts.quicksand(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w600,
                                         color: widget.post.userId ==
                                                 firebaseAuth.currentUser.uid
                                             ? Colors.blue
@@ -622,7 +619,7 @@ class _PostWidgetState extends State<PostWidget> {
                         },
                         text: widget.post.content,
                         style: GoogleFonts.quicksand(
-                            fontSize: 15.5,
+                            fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                         linkStyle: TextStyle(color: Colors.blue),
@@ -662,13 +659,17 @@ class _PostWidgetState extends State<PostWidget> {
                                       if (widget.post.isVoted) {
                                         return;
                                       }
-                                      sendPushPoll(
-                                          token,
-                                          "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
-                                          widget.club,
-                                          widget.course,
-                                          widget.post.id,
-                                          widget.post.userId);
+                                      if (widget.post.userId !=
+                                          firebaseAuth.currentUser.uid) {
+                                        sendPushPoll(
+                                            token,
+                                            "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
+                                            widget.club,
+                                            widget.course,
+                                            widget.post.id,
+                                            widget.post.userId);
+                                      }
+
                                       setState(() {
                                         widget.post.isVoted = true;
                                         widget.post.whichOption = 1;
@@ -748,15 +749,17 @@ class _PostWidgetState extends State<PostWidget> {
                                       if (widget.post.isVoted) {
                                         return;
                                       }
+                                      if (widget.post.userId !=
+                                          firebaseAuth.currentUser.uid) {
+                                        sendPushPoll(
+                                            token,
+                                            "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
+                                            widget.club,
+                                            widget.course,
+                                            widget.post.id,
+                                            widget.post.userId);
+                                      }
 
-                                      sendPushPoll(
-                                          token,
-                                          "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
-                                          widget.club,
-                                          widget.course,
-                                          widget.post.id,
-                                          widget.post.userId);
-                                      // TODO: - Vote second option
                                       setState(() {
                                         widget.post.isVoted = true;
                                         widget.post.whichOption = 2;
@@ -936,7 +939,8 @@ class _PostWidgetState extends State<PostWidget> {
                                             width: 20,
                                             height: 20,
                                             child: LoadingIndicator(
-                                              indicatorType: Indicator.orbit,
+                                              indicatorType:
+                                                  Indicator.ballScaleMultiple,
                                               color:
                                                   Theme.of(context).accentColor,
                                             )),
@@ -1069,7 +1073,7 @@ class _PostWidgetState extends State<PostWidget> {
                     ),
                     Row(
                       children: <Widget>[
-                        Icon(AntDesign.message1,
+                        Unicon(UniconData.uniCommentDots,
                             color: Theme.of(context).buttonColor, size: 20),
                         SizedBox(width: 10.0),
                         Container(
@@ -1105,7 +1109,7 @@ class _PostWidgetState extends State<PostWidget> {
                       },
                       child: Row(
                         children: <Widget>[
-                          Icon(AntDesign.sharealt,
+                          Unicon(UniconData.uniFileShareAlt,
                               color: Theme.of(context).buttonColor, size: 20),
                           SizedBox(width: 10.0),
                           Container(

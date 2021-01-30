@@ -49,10 +49,10 @@ class _MyLibraryState extends State<MyLibrary> {
               } else {
                 return Center(
                     child: SizedBox(
-                        height: 15.0,
-                        width: 15.0,
+                        height: 40.0,
+                        width: 40.0,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.orbit,
+                          indicatorType: Indicator.ballScaleMultiple,
                           color: Theme.of(context).accentColor,
                         )));
               }

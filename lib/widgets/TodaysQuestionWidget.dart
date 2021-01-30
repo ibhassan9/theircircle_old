@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/pages/TodaysQuestionPage.dart';
 
@@ -42,8 +43,8 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                FlutterIcons.md_happy_ion,
+              Unicon(
+                UniconData.uniSmileBeam,
                 color: Colors.white,
               ),
               SizedBox(width: 15.0),

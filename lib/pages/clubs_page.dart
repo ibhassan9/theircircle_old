@@ -151,30 +151,30 @@ class _ClubsPageState extends State<ClubsPage>
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        brightness: Theme.of(context).brightness,
-        backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        title: Text(
-          "Communities",
-          style: GoogleFonts.pacifico(
-            textStyle: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add, color: Theme.of(context).accentColor),
-            onPressed: () {
-              addClubDialog();
-            },
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   brightness: Theme.of(context).brightness,
+      //   backgroundColor: Theme.of(context).backgroundColor,
+      //   centerTitle: false,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+      //   title: Text(
+      //     "Communities",
+      //     style: GoogleFonts.pacifico(
+      //       textStyle: TextStyle(
+      //           fontSize: 25,
+      //           fontWeight: FontWeight.w500,
+      //           color: Theme.of(context).accentColor),
+      //     ),
+      //   ),
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Icon(Icons.add, color: Theme.of(context).accentColor),
+      //       onPressed: () {
+      //         addClubDialog();
+      //       },
+      //     )
+      //   ],
+      // ),
       body: RefreshIndicator(
         onRefresh: refresh,
         child: Stack(
@@ -248,10 +248,11 @@ class _ClubsPageState extends State<ClubsPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 20,
-                                    height: 20,
+                                    width: 40,
+                                    height: 40,
                                     child: LoadingIndicator(
-                                      indicatorType: Indicator.orbit,
+                                      indicatorType:
+                                          Indicator.ballScaleMultiple,
                                       color: Theme.of(context).accentColor,
                                     )));
                           else if (snap.hasData)
@@ -375,6 +376,18 @@ class _ClubsPageState extends State<ClubsPage>
               ],
             )
           ],
+        ),
+      ),
+      floatingActionButton: Container(
+        width: 40,
+        height: 40,
+        child: FloatingActionButton(
+          heroTag: 'btn1',
+          backgroundColor: Colors.deepPurpleAccent,
+          child: Icon(Entypo.plus, color: Colors.white),
+          onPressed: () async {
+            addClubDialog();
+          },
         ),
       ),
     );

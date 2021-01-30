@@ -1802,3 +1802,72 @@ class VideoApi {
     return c;
   }
 }
+
+List<String> postContents = [
+  "Hi, I am doing a minor in CS and it says on the academic calendar that I can take 1.5 credits of third and fourth year computer science courses. However, on almost every computer science course in third and fourth year, it says that CSC290 is a prerequisite for that particular course, but I can't take CSC290 right now because I don't have eligibility into the CS major/specialist program. Can someone give me clarification on this?",
+  "Can we apply for another program anytime throughout the year or is it during summer only?",
+  "I wanted to keep one course (fsc239-Y) but i think i'm gonna have to drop it, i feel really indecisive about what i want to do and i'd rather not end up with what i predict to be a horrible grade in this course. what happens if i drop this being my only course for the year?:(",
+  "I am taking BIO207 in the winter term and was wondering if anyone had Williams and if she focuses on the lectures or the textbook readings. also if anyone has a list of the reading schedule she had from the summer and could send it to me that would be great!",
+  "Heyo, has anyone worked for IEC before? If yes, could u tell me how was the experience? I am thinking about applying.",
+  "Does anyone know what the independent research projects ( PSY40XH5) are and how to apply ?",
+  "I wonder if there is any chance to nc one of the courses that I took in first year. (I’m in my second yr now) I was not informed about any of cr/ncr thing in my first semester. That’s why I couldn’t nc that course. That course mark is rlly affecting my gpa a lot (in a bad way ofc).",
+  "Is anyone majoring in computer science and commerce ?? what is it like? is it a good idea?",
+  "Guys I have a question, if I won’t pass post in CS is it possible to transfer to U of Waterloo? What kind of options do I have?",
+  "anyone wanna be friends for csc207 next semester!!! :) :P :D",
+  "is there any way we can set up some petition or file a complaint or something to the CS department to remove the autofail for this year. I know instructors are having a tough time with online delivery of classes but we students are also struggling as well. We're already in a bad situation because of covid, some of us may be struggling with finances, and sick family members. Putting this additional restriction on us makes it all the more difficult. You may tell us to take less courses next time or simply repeat a course but some of us can't afford to spend the time or money doing so, and that has been amplified by the state of the world right now.",
+  "What are some easy courses that fulfill the writing requirement for the commerce program? I suck at writing so trynna find something easy",
+  "Do u guys think campus will be closed completely with the new lockdown? I have in person lab courses :(",
+  "hey! i’ll be taking 148 in the winter semester and i’ve been seeing many posts about how 148 isn’t easy and many people end up retaking it. could someone explain to me what exactly is difficult about the course and leave any advice? how similar is it to 108? Anything i should practice or learn to prepare? thanks (: side note: i just finished 108 and i did pretty good (although that exam dropped my grade like crazy but thankfully passed), i feel like i have a pretty good grasp on the fundamentals taught in 108. and found that the structure of the course was alright, i enjoyed PCRS (except for spatial skills, that killed me). i will admit though, test questions were definitely designed to trick you rather than test your knowledge.",
+];
+
+List<String> userIds = [
+  "2ZEnF0ToxKM6LkHt4CC6v43yYyB3",
+  "P7ATkYSxQiRdL7698piw35V9UFo1",
+  "Q2ruHpyLAoMKxXR3raNDnZVdIBE2",
+  "36OEYQ36WBenC7x2KieK3xazeRe2",
+  "0dwafclC4sYdtvJTeK73Z8mvDvq2"
+];
+
+Future<Null> postDummies() async {
+  for (var content in postContents) {
+    Random rnd;
+    int min = 0;
+    int max = userIds.length - 1;
+    rnd = new Random();
+    int r = min + rnd.nextInt(max - min);
+    PostUser user = await getUser(userIds[r]);
+    var uniKey = Constants.checkUniversity();
+
+    var db = postsDB.child(uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU');
+    var userDB = FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(user.id)
+        .child('myposts');
+    var key = db.push();
+    final Map<String, dynamic> data = {
+      "userId": firebaseAuth.currentUser.uid,
+      "name": user.name,
+      "content": content,
+      "timeStamp": DateTime.now().millisecondsSinceEpoch,
+      "isAnonymous": true,
+      "likeCount": 0,
+      "commentCount": 0,
+    };
+
+    await key.set(data);
+    await userDB.child(key.key).set({'type': 'post'});
+    await Future.delayed(const Duration(minutes: 2), () {
+      print('Posted');
+    });
+  }
+}
