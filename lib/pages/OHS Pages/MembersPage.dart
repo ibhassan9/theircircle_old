@@ -35,11 +35,9 @@ class _OHSMembersPageState extends State<OHSMembersPage> {
                 ? "${widget.course.code} Members"
                 : "${widget.club.name} Members",
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           actions: [
             Visibility(
@@ -75,7 +73,7 @@ class _OHSMembersPageState extends State<OHSMembersPage> {
                             width: 40,
                             height: 40,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.ballScaleMultiple,
+                              indicatorType: Indicator.ballClipRotate,
                               color: Theme.of(context).accentColor,
                             )));
                   else if (snap.hasData)

@@ -78,11 +78,9 @@ class _OHSMainPageState extends State<OHSMainPage> {
                   Text(
                     'Book an appointment',
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -96,11 +94,9 @@ class _OHSMainPageState extends State<OHSMainPage> {
         title: Text(
           widget.club.name,
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.7,
@@ -180,11 +176,9 @@ class _OHSMainPageState extends State<OHSMainPage> {
                       child: Text(
                         "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
                         style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).buttonColor),
-                        ),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).buttonColor),
                       ),
                     ),
                   ),
@@ -277,13 +271,13 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                 color: Theme.of(context).accentColor,
                               ),
                               SizedBox(width: 10),
-                              Text("Could not load posts :(",
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
-                                  )),
+                              Text(
+                                "Could not load posts :(",
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              ),
                             ],
                           ),
                         ),
@@ -312,13 +306,13 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                 color: Theme.of(context).accentColor,
                               ),
                               SizedBox(width: 10),
-                              Text("There are no posts :(",
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
-                                  )),
+                              Text(
+                                "There are no posts :(",
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              ),
                             ],
                           ),
                         ),

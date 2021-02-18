@@ -35,6 +35,8 @@ class Constants {
   static String theircartA =
       'https://play.google.com/store/apps/details?id=com.theircart.app&hl=en_GB';
 
+  static Color mainColor = Colors.teal;
+
   static termsDialog(BuildContext context) {
     AwesomeDialog(
       context: context,
@@ -48,81 +50,65 @@ class Constants {
               Text(
                 "Welcome to TheirCircle",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               FlatButton(
@@ -130,11 +116,9 @@ class Constants {
                 child: Text(
                   "I agree to these terms.",
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
                 onPressed: () async {
                   SharedPreferences prefs =
@@ -178,22 +162,22 @@ class Constants {
         break;
       case 3:
         {
-          return Colors.blueAccent;
+          return Colors.deepOrangeAccent;
         }
         break;
       case 4:
         {
-          return Colors.purpleAccent;
+          return Colors.pink[900];
         }
         break;
       case 5:
         {
-          return Colors.redAccent;
+          return Colors.blue[800];
         }
         break;
       default:
         {
-          return Colors.indigoAccent;
+          return Colors.indigo;
         }
         break;
     }

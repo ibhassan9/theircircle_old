@@ -46,47 +46,43 @@ class _MatchWidgetState extends State<MatchWidget> {
                         children: [
                           Text(
                             widget.user.name,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0.0, 0.0),
-                                      blurRadius: 3.0,
-                                      color: Colors.grey,
-                                    ),
-                                    Shadow(
-                                      offset: Offset(0.0, 0.0),
-                                      blurRadius: 8.0,
-                                      color: Colors.grey,
-                                    ),
-                                  ],
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
-                            ),
+                            style: GoogleFonts.quicksand(
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 3.0,
+                                    color: Colors.grey,
+                                  ),
+                                  Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 8.0,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
                           ),
                           Text(
                             widget.user.about != null
                                 ? widget.user.about
                                 : 'No Information Available...',
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0.0, 0.0),
-                                      blurRadius: 3.0,
-                                      color: Colors.grey,
-                                    ),
-                                    Shadow(
-                                      offset: Offset(0.0, 0.0),
-                                      blurRadius: 8.0,
-                                      color: Colors.grey,
-                                    ),
-                                  ],
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
+                            style: GoogleFonts.quicksand(
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 3.0,
+                                    color: Colors.grey,
+                                  ),
+                                  Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 8.0,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
                           )
                         ],
                       ),

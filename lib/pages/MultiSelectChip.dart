@@ -30,13 +30,11 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
             label: Text(
               key,
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: selectedChoices.contains(key)
-                        ? Colors.white
-                        : Colors.black),
-              ),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: selectedChoices.contains(key)
+                      ? Colors.white
+                      : Colors.black),
             ),
             selected: selectedChoices.contains(key),
             onSelected: (selected) {
@@ -69,13 +67,11 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
               label: Text(
                 key,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: selectedChoices.contains(key)
-                          ? Colors.white
-                          : Colors.black),
-                ),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: selectedChoices.contains(key)
+                        ? Colors.white
+                        : Colors.black),
               ),
               selected: selectedChoices.contains(key),
               onSelected: (selected) {
@@ -121,11 +117,9 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
         title: Text(
           title,
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
       ),
       body: Padding(
@@ -148,18 +142,14 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
                     EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
                 hintText: "Search Interests",
                 hintStyle: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
-              ),
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
+              style: GoogleFonts.quicksand(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
             ),
           ),
           Wrap(

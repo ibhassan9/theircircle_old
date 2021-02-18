@@ -37,11 +37,9 @@ class _SellProductPageState extends State<SellProductPage> {
         title: Text(
           "Post Product",
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).accentColor),
         ),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -153,17 +151,17 @@ class _SellProductPageState extends State<SellProductPage> {
                     width: 40,
                     height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballScaleMultiple,
+                      indicatorType: Indicator.ballClipRotate,
                       color: Colors.white,
                     ),
                   )
-                : Text('Post Product',
+                : Text(
+                    'Post Product',
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    )),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white),
+                  ),
           ),
         ),
       ),
@@ -326,7 +324,8 @@ class _SellProductPageState extends State<SellProductPage> {
       decoration: new InputDecoration(
           suffix: Text(
             clength.toString(),
-            style: TextStyle(color: clength < 0 ? Colors.red : Colors.grey),
+            style: GoogleFonts.quicksand(
+                color: clength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -337,11 +336,9 @@ class _SellProductPageState extends State<SellProductPage> {
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: 'Product title'),
       style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).accentColor),
-      ),
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).accentColor),
     );
   }
 
@@ -359,7 +356,8 @@ class _SellProductPageState extends State<SellProductPage> {
       decoration: new InputDecoration(
           suffix: Text(
             dlength.toString(),
-            style: TextStyle(color: dlength < 0 ? Colors.red : Colors.grey),
+            style: GoogleFonts.quicksand(
+                color: dlength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -370,11 +368,9 @@ class _SellProductPageState extends State<SellProductPage> {
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: "Describe your product here"),
       style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).accentColor),
-      ),
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).accentColor),
     );
   }
 
@@ -395,11 +391,9 @@ class _SellProductPageState extends State<SellProductPage> {
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: "Price" + r' ($)'),
       style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).accentColor),
-      ),
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).accentColor),
     );
   }
 

@@ -59,12 +59,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                 Text(
                   "Add Interest",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),
-                  ),
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
                 ),
               ],
             ),
@@ -143,12 +141,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                                 widget.user.name,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.josefinSans(
-                                  textStyle: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
                               ),
                               Text(
                                 widget.user.university == 'UofT'
@@ -157,12 +153,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                                         ? 'York University'
                                         : 'Western University',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
                               ),
                             ],
                           ),
@@ -174,12 +168,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'About Myself',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey),
-                    ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.grey),
                   ),
                   Divider(),
                   TextField(
@@ -195,7 +187,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                     decoration: new InputDecoration(
                         suffix: Text(
                           aboutlength.toString(),
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                               color:
                                   aboutlength < 0 ? Colors.red : Colors.grey),
                         ),
@@ -204,25 +196,21 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: GoogleFonts.quicksand(color: Colors.grey),
                         hintText: aboutTitle),
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
                   ),
                   SizedBox(height: 15.0),
                   Text(
                     'My Accomplishments',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey),
-                    ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.grey),
                   ),
                   Divider(),
                   Column(
@@ -240,7 +228,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         decoration: new InputDecoration(
                             suffix: Text(
                               acc1length.toString(),
-                              style: TextStyle(
+                              style: GoogleFonts.quicksand(
                                   color: acc1length < 0
                                       ? Colors.red
                                       : Colors.grey),
@@ -250,14 +238,13 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle:
+                                GoogleFonts.quicksand(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
                       TextField(
                         controller: acc2C,
@@ -272,7 +259,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         decoration: new InputDecoration(
                             suffix: Text(
                               acc2length.toString(),
-                              style: TextStyle(
+                              style: GoogleFonts.quicksand(
                                   color: acc2length < 0
                                       ? Colors.red
                                       : Colors.grey),
@@ -282,14 +269,13 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle:
+                                GoogleFonts.quicksand(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
                       TextField(
                         controller: acc3C,
@@ -304,7 +290,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         decoration: new InputDecoration(
                             suffix: Text(
                               acc3length.toString(),
-                              style: TextStyle(
+                              style: GoogleFonts.quicksand(
                                   color: acc3length < 0
                                       ? Colors.red
                                       : Colors.grey),
@@ -314,14 +300,13 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle:
+                                GoogleFonts.quicksand(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -329,12 +314,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'Why am I here?',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey),
-                    ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.grey),
                   ),
                   Divider(),
                   TextField(
@@ -350,7 +333,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                     decoration: new InputDecoration(
                         suffix: Text(
                           whylength.toString(),
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                               color: whylength < 0 ? Colors.red : Colors.grey),
                         ),
                         border: InputBorder.none,
@@ -358,25 +341,21 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: GoogleFonts.quicksand(color: Colors.grey),
                         hintText: whyTitle),
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
                   ),
                   SizedBox(height: 15.0),
                   Text(
                     'My Interests',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey),
-                    ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.grey),
                   ),
                   Divider(),
                   interests != null && interests.isNotEmpty
@@ -453,12 +432,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                           child: Text(
                             'Select my interests',
                             textAlign: TextAlign.left,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black),
-                            ),
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
                           ),
                         ),
                   SizedBox(height: 30.0),
@@ -515,12 +492,10 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             child: Text(
                               'Update my profile',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
+                              style: GoogleFonts.quicksand(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                             ),
                           ),
                   ],
@@ -541,10 +516,8 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
         selectedColor: Colors.grey,
         label: Text(
           '+ Add Interest',
-          style: GoogleFonts.poppins(
-            textStyle: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
-          ),
+          style: GoogleFonts.quicksand(
+              fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
         ),
         onSelected: (selected) async {
           var result = await Navigator.push(
@@ -570,12 +543,8 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
           selectedColor: Colors.deepPurpleAccent,
           label: Text(
             interest,
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
-            ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
           ),
           onSelected: (selected) {
             setState(() {});

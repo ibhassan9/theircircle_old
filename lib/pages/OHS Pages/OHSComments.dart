@@ -69,11 +69,9 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Comment Here"),
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               )),
               IconButton(
                 icon: Icon(
@@ -131,12 +129,10 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
         centerTitle: false,
         title: Text(
           "Comments",
-          style: GoogleFonts.pacifico(
-            textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+          style: GoogleFonts.quicksand(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
@@ -213,13 +209,13 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
                                   color: Theme.of(context).accentColor,
                                 ),
                                 SizedBox(width: 10),
-                                Text("There are no comments :(",
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).accentColor),
-                                    )),
+                                Text(
+                                  "There are no comments :(",
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).accentColor),
+                                ),
                               ],
                             ),
                           ),

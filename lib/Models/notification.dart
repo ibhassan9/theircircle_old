@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
+import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/VideoPreview.dart';
@@ -71,7 +72,6 @@ Future<Null> sendToAll() async {
             'notification': <String, dynamic>{
               'body':
                   'A huge thank you to everyone that is a part of TheirCircle! Show your appreciation with a simple post to be featured in our IG page!',
-              'title': 'TheirCircle'
             },
             'priority': 'high',
             'data': <String, dynamic>{
@@ -101,7 +101,9 @@ Future<Null> sendPush(int nID, String token, String text, String postId,
               : 'WesternU',
       body: nID == 0
           ? "${me.name} liked your post: $text"
-          : "${me.name} commented on your post: $text");
+          : nID == 1
+              ? "${me.name} commented on your post: $text"
+              : "${me.name} tagged you in a comment: $text");
 
   await uploadNotification(notification, receiverId);
 
@@ -115,8 +117,9 @@ Future<Null> sendPush(int nID, String token, String text, String postId,
           'notification': <String, dynamic>{
             'body': nID == 0
                 ? "${me.name} liked your post: $text"
-                : "${me.name} commented on your post: $text",
-            'title': 'TheirCircle'
+                : nID == 1
+                    ? "${me.name} commented on your post: $text"
+                    : "${me.name} tagged you in a comment: $text",
           },
           'priority': 'high',
           'data': <String, dynamic>{
@@ -163,7 +166,6 @@ Future<Null> sendPushVideo(int nID, String token, String text, String videoId,
             'body': nID == 0
                 ? "${me.name} liked your video"
                 : "${me.name} commented on your video: $text",
-            'title': 'TheirCircle'
           },
           'priority': 'high',
           'data': <String, dynamic>{
@@ -208,6 +210,43 @@ Future<Null> sendPushChat(String token, String text, String userId,
           'to': token,
         },
       ));
+}
+
+Future<Null> sendPushRoomChat(
+    List<String> tokens, String text, Room room) async {
+  var uid = firebaseAuth.currentUser.uid;
+  var me = await getUser(uid);
+  print('sending');
+  for (var token in tokens) {
+    print('sending to ' + token);
+    await http
+        .post('https://fcm.googleapis.com/fcm/send',
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization': 'key=${Constants.serverToken}',
+            },
+            body: json.encode(
+              <String, dynamic>{
+                'notification': <String, dynamic>{
+                  'body': '${me.name}: $text',
+                  'title': '${room.name}'
+                },
+                'priority': 'high',
+                'data': <String, dynamic>{
+                  'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                  'status': 'done',
+                  "sound": "default",
+                  "screen": "ROOM_PAGE",
+                  "extradata": {'type': 'room', 'id': room.id}
+                },
+                'to': token,
+              },
+            ))
+        .catchError((e) {
+      print(e.toString());
+    });
+    print('sent to ' + token);
+  }
 }
 
 Future<Null> sendPushPoll(String token, String text, Club club, Course course,
@@ -275,6 +314,32 @@ Future<Null> sendPushPoll(String token, String text, Club club, Course course,
 }
 
 Future<Null> send(String token, String receiverId) async {
+  await http
+      .post('https://fcm.googleapis.com/fcm/send',
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'key=${Constants.serverToken}',
+          },
+          body: json.encode(
+            <String, dynamic>{
+              'notification': <String, dynamic>{
+                'body':
+                    "Answer our question of the day: How do you deal with negative criticism?",
+              },
+              'priority': 'high',
+              'data': <String, dynamic>{
+                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                'status': 'done'
+              },
+              'to': token,
+            },
+          ))
+      .then((value) {
+    print('Sent to ' + receiverId);
+  });
+}
+
+Future<Null> pushAddedToRoom({Room room, String receiverId}) async {
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -283,16 +348,42 @@ Future<Null> send(String token, String receiverId) async {
       body: json.encode(
         <String, dynamic>{
           'notification': <String, dynamic>{
-            'body':
-                "Enter our Amazon Card Giveaway! For more information visit our instagram page @theircircle.",
-            'title': 'Win with us!'
+            'body': "You've been added to ${room.name}",
           },
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            "sound": "default",
+            "screen": "ROOMS_PAGE",
+            "extradata": {
+              'type': 'room',
+              'id': room.id,
+            },
           },
-          'to': token,
+          'to': receiverId,
+        },
+      ));
+}
+
+Future<Null> pushRemovedFromRoom({Room room, String receiverId}) async {
+  await http.post('https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=${Constants.serverToken}',
+      },
+      body: json.encode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': "You've been removed from ${room.name}",
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'status': 'done',
+            "sound": "default",
+          },
+          'to': receiverId,
         },
       ));
 }
@@ -309,7 +400,6 @@ Future<Null> sendWelcome(
           'notification': <String, dynamic>{
             'body':
                 "Hey $username 👋🏻. Your account has been verified! You should be able to use the app now.",
-            'title': 'TheirCircle'
           },
           'priority': 'high',
           'data': <String, dynamic>{
@@ -393,6 +483,9 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text,
     case 6:
       body = "${me.name} joined your club.";
       break;
+    case 7:
+      body = "${me.name} tagged you in a comment: $text";
+      break;
   }
 
   Notification notification = Notification(
@@ -453,6 +546,9 @@ Future<Null> sendPushCourse(Course course, int nID, String token, String text,
       break;
     case 4:
       body = "${me.name} added a note: $text";
+      break;
+    case 5:
+      body = "${me.name} tagged you in a comment: $text";
       break;
   }
 
@@ -633,23 +729,27 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
         case "COMMENT_PAGE":
           Post post = await fetchClubPost(postId, id);
           // fetch club
-          values = [2, post, null, club, null, null, chatId];
+          values = [2, post, null, club, null, null, chatId, null];
           break;
         case "CLUB_PAGE":
-          values = [3, null, null, club, null, null, chatId];
+          values = [3, null, null, club, null, null, chatId, null];
       }
       break;
     case "post":
       Post post = await fetchPost(postId);
-      values = [4, post, null, null, null, null, chatId];
+      values = [4, post, null, null, null, null, chatId, null];
       break;
     case "chat":
       PostUser receiver = await getUser(id);
-      values = [5, null, null, null, null, receiver, chatId];
+      values = [5, null, null, null, null, receiver, chatId, null];
       break;
     case "video":
       Video video = await VideoApi.fetchVideo(id);
-      values = [6, null, null, null, video, null, chatId];
+      values = [6, null, null, null, video, null, chatId, null];
+      break;
+    case "room":
+      Room room = await Room.fetch(id: id);
+      values = [7, null, null, null, null, null, null, room];
       break;
     default:
       return null;

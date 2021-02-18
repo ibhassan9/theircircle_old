@@ -34,11 +34,9 @@ class _BodyState extends State<Body> {
             Text(
               "LOGIN",
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
             ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
@@ -60,13 +58,13 @@ class _BodyState extends State<Body> {
               press: () async {
                 final snackBar = SnackBar(
                     backgroundColor: Theme.of(context).backgroundColor,
-                    content: Text('Logging you in. Please wait.',
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        )));
+                    content: Text(
+                      'Logging you in. Please wait.',
+                      style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    ));
                 Scaffold.of(context).showSnackBar(snackBar);
                 await signInUser(
                     emailController.text, passwordController.text, context);

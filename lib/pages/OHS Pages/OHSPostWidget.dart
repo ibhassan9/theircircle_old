@@ -144,7 +144,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                   backgroundColor: Colors.blue,
                                   child: Text(
                                       widget.post.username.substring(0, 1),
-                                      style: TextStyle(color: Colors.white)))
+                                      style: GoogleFonts.quicksand(
+                                          color: Colors.white)))
                               : Hero(
                                   tag: widget.post.id,
                                   child: ClipRRect(
@@ -309,8 +310,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "YES",
-                                                    style:
-                                                        GoogleFonts.quicksand(
+                                                    style: GoogleFonts
+                                                        .didactGothic(
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -331,8 +332,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "Cancel",
-                                                    style:
-                                                        GoogleFonts.quicksand(
+                                                    style: GoogleFonts
+                                                        .didactGothic(
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -610,7 +611,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
-                        linkStyle: TextStyle(color: Colors.blue),
+                        linkStyle: GoogleFonts.quicksand(color: Colors.blue),
                       ),
                       widget.post.userId == widget.club.adminId &&
                               widget.post.isAnonymous == false
@@ -918,7 +919,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                             height: 20,
                                             child: LoadingIndicator(
                                               indicatorType:
-                                                  Indicator.ballScaleMultiple,
+                                                  Indicator.ballClipRotate,
                                               color: Colors.white,
                                             )),
                                       ),
@@ -1149,13 +1150,13 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
   showSnackBar() {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        content: Text('Your report has been received.',
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )));
+        content: Text(
+          'Your report has been received.',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ));
     Scaffold.of(context).showSnackBar(snackBar);
   }
 

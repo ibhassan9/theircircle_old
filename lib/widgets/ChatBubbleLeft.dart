@@ -10,7 +10,8 @@ import 'package:unify/pages/ProductDetailPage.dart';
 
 class ChatBubbleLeft extends StatefulWidget {
   final Message msg;
-  ChatBubbleLeft({Key key, @required this.msg}) : super(key: key);
+  final Function scroll;
+  ChatBubbleLeft({Key key, @required this.msg, this.scroll}) : super(key: key);
 
   @override
   _ChatBubbleLeftState createState() => _ChatBubbleLeftState();
@@ -51,7 +52,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
               margin: BubbleEdges.fromLTRB(
                   10.0, 10.0, MediaQuery.of(context).size.width / 4, 0.0),
               alignment: Alignment.centerLeft,
-              nip: BubbleNip.leftTop,
+              nip: BubbleNip.no,
               nipWidth: 10,
               nipHeight: 10,
               nipRadius: 5,
@@ -89,12 +90,10 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                             'Listing not available',
-                                            style: GoogleFonts.quicksand(
-                                              textStyle: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
-                                            ),
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
                                           ),
                                         ),
                                       )
@@ -155,8 +154,8 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                                       maxLines: 1,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.quicksand(
+                                                      style: GoogleFonts
+                                                          .lexendDeca(
                                                         textStyle: TextStyle(
                                                             fontSize: 15,
                                                             fontWeight:
@@ -167,7 +166,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                                     ),
                                                     // Text(
                                                     //   r'$ ' + prod.price,
-                                                    //   style: GoogleFonts.quicksand(
+                                                    //   style: GoogleFonts.lexendDeca(
                                                     //     textStyle: TextStyle(
                                                     //         fontSize: 13,
                                                     //         fontWeight: FontWeight.w500,
@@ -179,8 +178,8 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.quicksand(
+                                                      style: GoogleFonts
+                                                          .lexendDeca(
                                                         textStyle: TextStyle(
                                                             fontSize: 12,
                                                             fontWeight:
@@ -199,23 +198,23 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                               ],
                             ),
                           ),
-                          Text(widget.msg.messageText,
-                              style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
-                              )),
+                          Text(
+                            widget.msg.messageText,
+                            style: GoogleFonts.quicksand(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
                         ],
                       ),
                     )
-                  : Text(widget.msg.messageText,
+                  : Text(
+                      widget.msg.messageText,
                       style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      )),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
             ),
           ),
         ],
@@ -237,11 +236,13 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
             }
             prod = _prod;
           });
+          widget.scroll();
         });
       } else {
         setState(() {
           imgUrl = value.profileImgUrl;
         });
+        widget.scroll();
       }
     });
   }

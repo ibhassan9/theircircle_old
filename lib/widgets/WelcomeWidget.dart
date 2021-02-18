@@ -37,20 +37,16 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                 : "Hey,"
                             : "Hey,",
                         style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
                       ),
                       Text(
                         "Here is your university digest",
                         style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
                       ),
                     ],
                   )),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/SearchUserWidget.dart';
@@ -34,19 +35,38 @@ class _UserSearchPageState extends State<UserSearchPage>
           elevation: 0.5,
           centerTitle: true,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Students",
-                style: GoogleFonts.pacifico(
-                  textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
-              ),
-            ],
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Unicon(UniconData.uniArrowLeft,
+                  color: Theme.of(context).accentColor),
+            ),
+          ),
+          leadingWidth: 35,
+          title: TextField(
+            textInputAction: TextInputAction.done,
+            controller: searchingController,
+            onChanged: (value) {
+              setState(() {
+                filter = value;
+              });
+            },
+            decoration: new InputDecoration(
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                hintText: "Search students..."),
+            style: GoogleFonts.quicksand(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
         ),
         body: GestureDetector(
@@ -54,71 +74,72 @@ class _UserSearchPageState extends State<UserSearchPage>
           onPanDown: (_) {
             FocusScope.of(context).requestFocus(FocusNode());
           },
-          child: Stack(children: [
-            ListView(children: [
-              Container(
-                child: TextField(
-                  textInputAction: TextInputAction.done,
-                  controller: searchingController,
-                  onChanged: (value) {
-                    setState(() {
-                      filter = value;
-                    });
-                  },
-                  decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Search students..."),
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-              ),
-              FutureBuilder(
-                  future: _searchFuture,
-                  builder: (context, snap) {
-                    if (snap.hasData && snap.data.length != 0) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: snap.data != null ? snap.data.length : 0,
-                        itemBuilder: (BuildContext context, int i) {
-                          PostUser user = snap.data[i];
-                          Function f = () {
-                            // showProfile(
-                            //     user,
-                            //     context,
-                            //     bioController,
-                            //     snapchatController,
-                            //     instagramController,
-                            //     linkedinController,
-                            //     null,
-                            //     null);
-                          };
-                          return filter == null || filter.trim() == ""
-                              ? SearchUserWidget(peer: user, show: f)
-                              : user.name
-                                      .toLowerCase()
-                                      .trim()
-                                      .contains(filter.toLowerCase().trim())
-                                  ? SearchUserWidget(peer: user, show: f)
-                                  : new Container();
-                        },
-                      );
-                    } else {
-                      return Center(child: Text("No data"));
-                    }
-                  })
-            ])
+          child: ListView(physics: AlwaysScrollableScrollPhysics(), children: [
+            // Hero(
+            //   tag: 'searchBar_tag',
+            //   child: Material(
+            //     child: Container(
+            //       child: TextField(
+            //         textInputAction: TextInputAction.done,
+            //         controller: searchingController,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             filter = value;
+            //           });
+            //         },
+            //         decoration: new InputDecoration(
+            //             border: InputBorder.none,
+            //             focusedBorder: InputBorder.none,
+            //             enabledBorder: InputBorder.none,
+            //             errorBorder: InputBorder.none,
+            //             disabledBorder: InputBorder.none,
+            //             contentPadding: EdgeInsets.only(
+            //                 left: 15, bottom: 11, top: 11, right: 15),
+            //             hintText: "Search students..."),
+            //         style: GoogleFonts.quicksand(
+            //             fontSize: 15,
+            //             fontWeight: FontWeight.w500,
+            //             color: Theme.of(context).accentColor),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            FutureBuilder(
+                future: _searchFuture,
+                builder: (context, snap) {
+                  if (snap.hasData && snap.data.length != 0) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snap.data != null ? snap.data.length : 0,
+                      itemBuilder: (BuildContext context, int i) {
+                        PostUser user = snap.data[i];
+                        Function f = () {
+                          // showProfile(
+                          //     user,
+                          //     context,
+                          //     bioController,
+                          //     snapchatController,
+                          //     instagramController,
+                          //     linkedinController,
+                          //     null,
+                          //     null);
+                        };
+                        return filter == null || filter.trim() == ""
+                            ? SearchUserWidget(peer: user, show: f)
+                            : user.name
+                                    .toLowerCase()
+                                    .trim()
+                                    .contains(filter.toLowerCase().trim())
+                                ? SearchUserWidget(peer: user, show: f)
+                                : new Container();
+                      },
+                    );
+                  } else {
+                    return Center(child: Text("No data"));
+                  }
+                })
           ]),
         ));
   }

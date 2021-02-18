@@ -22,10 +22,12 @@ import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Components/theme.dart';
 import 'package:unify/Components/theme_notifier.dart';
 import 'package:unify/pages/CameraScreen.dart';
+import 'package:unify/pages/CreateRoom.dart';
 import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/NotificationsPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
+import 'package:unify/pages/Rooms.dart';
 import 'package:unify/pages/UserSearchPage.dart';
 import 'package:unify/pages/VideosPage.dart';
 import 'package:unify/pages/clubs_page.dart';
@@ -101,107 +103,66 @@ class _MainPageState extends State<MainPage>
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: false,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ShaderMask(
-              shaderCallback: (bounds) => gradient.createShader(
-                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-              ),
-              child: Text(
-                "TheirCircle",
-                style: GoogleFonts.pacifico(
-                  textStyle: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-            // Text(
-            //   "Platform for students",
-            //   style: GoogleFonts.quicksand(
-            //     textStyle: TextStyle(
-            //         fontSize: 13,
-            //         fontWeight: FontWeight.w500,
-            //         color: Theme.of(context).accentColor),
-            //   ),
-            // )
-          ],
-        ),
-        // title: Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: <Widget>[
-        //     profile(),
-        //     IconButton(
-        //       icon: Icon(FlutterIcons.filter_outline_mco,
-        //           color: Theme.of(context).accentColor),
-        //       onPressed: () {
-        //         showBarModalBottomSheet(
-        //             context: context,
-        //             expand: true,
-        //             builder: (context) => FilterPage()).then((value) {
-        //           if (value == false) {
-        //             return;
-        //           }
-        //           setState(() {
-        //             _postFuture = fetchPosts(sortBy);
-        //           });
-        //         });
-        //         // Navigator.push(context,
-        //         //         MaterialPageRoute(builder: (context) => FilterPage()))
-        //         //     .then((value) {
-        //         //   if (value == false) {
-        //         //     return;
-        //         //   }
-        //         //   setState(() {
-        //         //     _postFuture = fetchPosts(sortBy);
-        //         //   });
-        //         // });
-        //       },
-        //     ),
-        //     // Expanded(
-        //     //     child: Center(
-        //     //         child: Icon(FlutterIcons.circle_notch_faw5s,
-        //     //             color: Theme.of(context).accentColor)))
-        //   ],
-        // ),
 
-        // title: Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
+        title: Text(
+          "Theircircle",
+          style: GoogleFonts.pacifico(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.only(left: 8.0),
+        //   child: notifications(),
+        // ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.only(left: 10.0),
+        //   child: InkWell(
+        //     onTap: () {
+        //       Navigator.push(context,
+        //               MaterialPageRoute(builder: (context) => FilterPage()))
+        //           .then((value) {
+        //         if (value == false) {
+        //           return;
+        //         }
+        //         setState(() {
+        //           _postFuture = fetchPosts(sortBy);
+        //         });
+        //       });
+        //     },
+        //     child: Unicon(UniconData.uniFilter,
+        //         color: Theme.of(context).accentColor, size: 20.0),
+        //   ),
+        // ),
+        leadingWidth: 35.0,
+        // title: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
         //   children: [
-        //     Column(
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       children: [
-        //         Icon(
-        //           FlutterIcons.circle_notch_faw5s,
-        //           color: Colors.deepPurpleAccent,
+        //     ShaderMask(
+        //       shaderCallback: (bounds) => gradient.createShader(
+        //         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+        //       ),
+        //       child: Text(
+        //         "TheirCircle",
+        //         style: GoogleFonts.pacifico(
+        //           GoogleFonts.quicksand: GoogleFonts.quicksand(
+        //               fontSize: 25,
+        //               fontWeight: FontWeight.w800,
+        //               color: Colors.white),
         //         ),
-        //         // Text(
-        //         //   "Platform for Students",
-        //         //   style: GoogleFonts.quicksand(
-        //         //     textStyle: TextStyle(
-        //         //         fontSize: 12,
-        //         //         fontWeight: FontWeight.w500,
-        //         //         color: Theme.of(context).accentColor),
-        //         //   ),
-        //         // ),
-        //       ],
+        //       ),
         //     ),
         //   ],
-        // ),
-        // leading: IconButton(
-        //   icon: Icon(AntDesign.user, color: Theme.of(context).accentColor),
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //             builder: (context) =>
-        //                 MyProfilePage(user: user, heroTag: user.id)));
-        //   },
         // ),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Feather.search,
+                size: 25.0, color: Theme.of(context).accentColor),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserSearchPage()));
+            },
+          ),
           // IconButton(
           //   icon: Icon(FlutterIcons.video_library_mdi,
           //       color: Theme.of(context).accentColor),
@@ -210,15 +171,15 @@ class _MainPageState extends State<MainPage>
           //         MaterialPageRoute(builder: (context) => VideosPage()));
           //   },
           // ),
-          IconButton(
-            icon: Unicon(UniconData.uniSearch,
-                size: 25.0, color: Theme.of(context).accentColor),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserSearchPage()));
-            },
-          ),
-          notifications(),
+          // IconButton(
+          //   icon: Unicon(UniconData.uniSearch,
+          //       size: 25.0, color: Theme.of(context).accentColor),
+          //   onPressed: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => UserSearchPage()));
+          //   },
+          // ),
+
           // IconButton(
           //   icon: Icon(FlutterIcons.filter_outline_mco,
           //       color: Theme.of(context).accentColor),
@@ -237,7 +198,7 @@ class _MainPageState extends State<MainPage>
           // ),
 
           IconButton(
-            icon: Unicon(UniconData.uniCommentMessage,
+            icon: Icon(Feather.message_square,
                 size: 25.0, color: Theme.of(context).accentColor),
             onPressed: () {
               widget.goToChat();
@@ -252,7 +213,7 @@ class _MainPageState extends State<MainPage>
           //   },
           // )
         ],
-        elevation: 0.0,
+        elevation: 1.0,
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
@@ -264,62 +225,118 @@ class _MainPageState extends State<MainPage>
               //   height: 100,
               //   child: getStories(),
               // ),
-              promoWidget(),
-              WelcomeWidget(),
-              questionWidget(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                child: Text(
-                  "Recent University News",
-                  style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-              ),
-              newsListWidget(),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Campus Feed",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (sortBy == 0) {
-                            sortBy = 1;
-                          } else {
-                            sortBy = 0;
-                          }
-                          _postFuture = fetchPosts(sortBy);
-                        });
-                      },
-                      child: Text(
-                        "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+              Container(
+                color: Theme.of(context).dividerColor,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
+                  child: Row(
+                    children: [
+                      Unicon(UniconData.uniSortAmountUp,
+                          size: 20.0, color: Colors.grey.shade600),
+                      SizedBox(width: 5.0),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (sortBy == 0) {
+                              sortBy = 1;
+                            } else {
+                              sortBy = 0;
+                            }
+                            _postFuture = fetchPosts(sortBy);
+                          });
+                        },
+                        child: Text(
+                          "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                              .toUpperCase(),
+                          style: GoogleFonts.quicksand(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
                               color: Colors.grey.shade600),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 5.0),
+                      Unicon(UniconData.uniArrowDown,
+                          size: 20.0, color: Colors.grey.shade600),
+                    ],
+                  ),
                 ),
               ),
-              Divider(),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text('Rooms', style: GoogleFonts.quicksand()),
+              //       InkWell(
+              //         onTap: () {
+              //           Navigator.push(context,
+              //               MaterialPageRoute(builder: (context) => Rooms()));
+              //         },
+              //         child: Row(
+              //           crossAxisAlignment: CrossAxisAlignment.center,
+              //           children: [
+              //             Text('See All',
+              //                 style: GoogleFonts.quicksand(
+              //                     fontSize: 12,
+              //                     color: Theme.of(context).buttonColor)),
+              //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // rooms(),
+              promoWidget(),
+              //WelcomeWidget(),
+              //questionWidget(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
+                child: Text(
+                  "Recent University News".toUpperCase(),
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              newsListWidget(),
+              //Divider(),
+              // Padding(
+              //   padding: const EdgeInsets.all(15),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "Campus Feed",
+              //         style: GoogleFonts.quicksand(
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w500,
+              //             color: Theme.of(context).accentColor),
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           setState(() {
+              //             if (sortBy == 0) {
+              //               sortBy = 1;
+              //             } else {
+              //               sortBy = 0;
+              //             }
+              //             _postFuture = fetchPosts(sortBy);
+              //           });
+              //         },
+              //         child: Text(
+              //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+              //           style: GoogleFonts.quicksand(
+              //               fontSize: 14,
+              //               fontWeight: FontWeight.w800,
+              //               color: Colors.grey.shade600),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              //Divider(),
               postWidget()
             ],
           ),
@@ -351,6 +368,69 @@ class _MainPageState extends State<MainPage>
     );
   }
 
+  Widget rooms() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+      child: Container(
+        height: 100,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            physics: AlwaysScrollableScrollPhysics(),
+            itemCount: 25,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  if (index == 0) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CreateRoom()));
+                  }
+                },
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 5.0),
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).dividerColor,
+                              borderRadius: BorderRadius.circular(5.0)),
+                          child: index == 0
+                              ? Icon(FlutterIcons.add_mdi,
+                                  color: Theme.of(context).accentColor)
+                              : SizedBox(),
+                        ),
+                        SizedBox(height: 5.0),
+                        Container(
+                          width: 60,
+                          child: Center(
+                            child: Text(
+                                index == 0 ? 'Create' : 'Community Chat',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(fontSize: 10.0),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                        top: 0.0,
+                        right: 3.0,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.blue,
+                          radius: 5.0,
+                        )),
+                  ],
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
   Widget userProfile() {
     return InkWell(
       onTap: () async {
@@ -372,7 +452,7 @@ class _MainPageState extends State<MainPage>
               radius: 5.0,
               backgroundColor: Colors.deepPurpleAccent,
               child: Text(this.user.name.substring(0, 1),
-                  style: TextStyle(color: Colors.white)))
+                  style: GoogleFonts.quicksand(color: Colors.white)))
           : Hero(
               tag: UniqueKey().toString(),
               child: ClipRRect(
@@ -393,7 +473,7 @@ class _MainPageState extends State<MainPage>
                             width: 20,
                             height: 20,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.ballScaleMultiple,
+                              indicatorType: Indicator.ballClipRotate,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -478,81 +558,65 @@ class _MainPageState extends State<MainPage>
               Text(
                 "Welcome to TheirCircle",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 10.0),
               FlatButton(
@@ -560,11 +624,9 @@ class _MainPageState extends State<MainPage>
                 child: Text(
                   "I agree to these terms.",
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
                 onPressed: () async {
                   SharedPreferences prefs =
@@ -692,7 +754,7 @@ class _MainPageState extends State<MainPage>
                 //     MaterialPageRoute(
                 //         builder: (context) => NotificationsPage()));
               },
-              child: Unicon(UniconData.uniBell,
+              child: Icon(Feather.bell,
                   size: 25, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
@@ -704,13 +766,13 @@ class _MainPageState extends State<MainPage>
                     child: CircleAvatar(
                       radius: 8,
                       backgroundColor: Colors.red,
-                      child: Text('',
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
-                          )),
+                      child: Text(
+                        '',
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
                     ))
                 : Container()
           ]);
@@ -726,7 +788,7 @@ class _MainPageState extends State<MainPage>
               //     MaterialPageRoute(
               //         builder: (context) => NotificationsPage()));
             },
-            child: Icon(AppIcons.notification,
+            child: Icon(Feather.bell,
                 size: 25, color: Theme.of(context).accentColor),
           );
         }
@@ -880,10 +942,10 @@ class _MainPageState extends State<MainPage>
               if (snap.connectionState == ConnectionState.waiting)
                 return Center(
                     child: SizedBox(
-                        width: 40,
-                        height: 40,
+                        width: 20,
+                        height: 20,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.ballScaleMultiple,
+                          indicatorType: Indicator.ballClipRotate,
                           color: Theme.of(context).accentColor,
                         )));
               else if (snap.hasData)
@@ -894,8 +956,11 @@ class _MainPageState extends State<MainPage>
                   itemCount: snap.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     News news = snap.data[index];
-                    return NewsWidget(
-                      news: news,
+                    return AnimatedSwitcher(
+                      duration: Duration(seconds: 1),
+                      child: NewsWidget(
+                        news: news,
+                      ),
                     );
                   },
                 );
@@ -909,96 +974,108 @@ class _MainPageState extends State<MainPage>
   }
 
   Widget postWidget() {
-    return FutureBuilder(
-        future: _postFuture,
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: LoadingIndicator(
-                      indicatorType: Indicator.ballScaleMultiple,
-                      color: Theme.of(context).accentColor,
-                    )));
-          } else if (snap.hasData) {
-            var r = 0;
-            return ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: snap.data != null ? snap.data.length : 0,
-              itemBuilder: (BuildContext context, int index) {
-                Post post = snap.data[index];
-                Function f = () async {
-                  var res = await deletePost(post.id, null, null);
-                  Navigator.pop(context);
-                  if (res) {
-                    setState(() {
-                      _postFuture = fetchPosts(sortBy);
-                    });
-                    previewMessage("Post Deleted", context);
-                  } else {
-                    previewMessage("Error deleting post!", context);
-                  }
-                };
-                Function b = () async {
-                  var res = await u.block(post.userId, post.userId);
-                  Navigator.pop(context);
-                  if (res) {
-                    setState(() {
-                      _postFuture = fetchPosts(sortBy);
-                    });
-                    previewMessage("User blocked.", context);
-                  }
-                };
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0),
+      child: FutureBuilder(
+          future: _postFuture,
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.waiting) {
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: Center(
+                    child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.ballClipRotate,
+                          color: Theme.of(context).accentColor,
+                        ))),
+              );
+            } else if (snap.hasData) {
+              var r = 0;
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: snap.data != null ? snap.data.length : 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    Post post = snap.data[index];
+                    Function f = () async {
+                      var res = await deletePost(post.id, null, null);
+                      Navigator.pop(context);
+                      if (res) {
+                        setState(() {
+                          _postFuture = fetchPosts(sortBy);
+                        });
+                        previewMessage("Post Deleted", context);
+                      } else {
+                        previewMessage("Error deleting post!", context);
+                      }
+                    };
+                    Function b = () async {
+                      var res = await u.block(post.userId, post.userId);
+                      Navigator.pop(context);
+                      if (res) {
+                        setState(() {
+                          _postFuture = fetchPosts(sortBy);
+                        });
+                        previewMessage("User blocked.", context);
+                      }
+                    };
 
-                Function h = () async {
-                  var res = await hidePost(post.id);
-                  Navigator.pop(context);
-                  if (res) {
-                    setState(() {
-                      _postFuture = fetchPosts(sortBy);
-                    });
-                    previewMessage("Post hidden from feed.", context);
-                  }
-                };
-                var timeAgo =
-                    new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-                return PostWidget(
-                    key: ValueKey(post.id),
-                    post: post,
-                    timeAgo: timeago.format(timeAgo),
-                    deletePost: f,
-                    block: b,
-                    hide: h);
-              },
-            );
-          } else if (snap.hasError) {
-            return Center(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.face,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(width: 10),
-                  Text("Cannot find any posts :(",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
+                    Function h = () async {
+                      var res = await hidePost(post.id);
+                      Navigator.pop(context);
+                      if (res) {
+                        setState(() {
+                          _postFuture = fetchPosts(sortBy);
+                        });
+                        previewMessage("Post hidden from feed.", context);
+                      }
+                    };
+                    var timeAgo =
+                        new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
+                    return PostWidget(
+                        key: ValueKey(post.id),
+                        post: post,
+                        timeAgo: timeago.format(timeAgo, locale: 'en_short'),
+                        deletePost: f,
+                        block: b,
+                        hide: h);
+                  },
+                ),
+              );
+            } else if (snap.hasError) {
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.face,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Cannot find any posts :(",
+                        style: GoogleFonts.quicksand(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey),
-                      )),
-                ],
-              ),
-            );
-          } else {
-            return Text('');
-          }
-        });
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return Text('');
+            }
+          }),
+    );
   }
 
   @override

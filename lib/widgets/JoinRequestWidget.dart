@@ -59,7 +59,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                   ? CircleAvatar(
                                       backgroundColor: Colors.grey[400],
                                       child: Text(user.name.substring(0, 1),
-                                          style: TextStyle(
+                                          style: GoogleFonts.quicksand(
                                               color: Theme.of(context)
                                                   .backgroundColor)))
                                   : Hero(
@@ -97,13 +97,13 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                       ),
                                     ),
                               SizedBox(width: 10.0),
-                              Text(user.name,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
-                                  ))
+                              Text(
+                                user.name,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              )
                             ],
                           ),
                         ),
@@ -120,13 +120,13 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                               accepted = true;
                                             });
                                           },
-                                          child: Text("ACCEPT",
-                                              style: GoogleFonts.quicksand(
-                                                textStyle: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.blue),
-                                              )),
+                                          child: Text(
+                                            "ACCEPT",
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.blue),
+                                          ),
                                         ),
                                         SizedBox(
                                           width: 10.0,
@@ -139,30 +139,30 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                               rejected = true;
                                             });
                                           },
-                                          child: Text("DENY",
-                                              style: GoogleFonts.quicksand(
-                                                textStyle: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.red),
-                                              )),
+                                          child: Text(
+                                            "DENY",
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.red),
+                                          ),
                                         )
                                       ],
                                     )
-                                  : Text("ACCEPTED",
+                                  : Text(
+                                      "ACCEPTED",
                                       style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.blue),
-                                      ))
-                              : Text("DENIED",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.blue),
+                                    )
+                              : Text(
+                                  "DENIED",
                                   style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.red),
-                                  )),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.red),
+                                ),
                         )
                       ]),
                   Divider(),

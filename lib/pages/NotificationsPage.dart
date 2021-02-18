@@ -62,12 +62,10 @@ class _NotificationsPageState extends State<NotificationsPage>
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text(
         "Notifications",
-        style: GoogleFonts.pacifico(
-          textStyle: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+        style: GoogleFonts.quicksand(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
       elevation: 0.0,
     );

@@ -80,7 +80,7 @@ class _VideosPageState extends State<VideosPage> {
               refresh();
             },
             child: Text("EXPLORE",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: Colors.white)),

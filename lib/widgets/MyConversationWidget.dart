@@ -163,7 +163,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                             height: 20,
                                             child: LoadingIndicator(
                                               indicatorType:
-                                                  Indicator.ballScaleMultiple,
+                                                  Indicator.ballClipRotate,
                                               color:
                                                   Theme.of(context).accentColor,
                                             )),
@@ -186,23 +186,23 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(widget.peer.name,
-                                            style: GoogleFonts.quicksand(
-                                              textStyle: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
-                                            )),
-                                        Text(widget.timeAgo,
-                                            style: GoogleFonts.quicksand(
-                                              textStyle: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor
-                                                      .withOpacity(0.5)),
-                                            )),
+                                        Text(
+                                          widget.peer.name,
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                  .accentColor),
+                                        ),
+                                        Text(
+                                          widget.timeAgo,
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .accentColor
+                                                  .withOpacity(0.5)),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -214,31 +214,29 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                           ? Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 5.0),
-                                              child: Text('You:',
-                                                  style: GoogleFonts.quicksand(
-                                                    textStyle: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Theme.of(context)
-                                                            .accentColor),
-                                                  )),
+                                              child: Text(
+                                                'You:',
+                                                style: GoogleFonts.quicksand(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
                                             )
                                           : Container(),
                                       Flexible(
                                         child: Text(
-                                            widget.lastMessage != null
-                                                ? widget.lastMessage
-                                                : '',
-                                            maxLines: null,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.quicksand(
-                                              textStyle: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
-                                            )),
+                                          widget.lastMessage != null
+                                              ? widget.lastMessage
+                                              : '',
+                                          maxLines: null,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .accentColor),
+                                        ),
                                       ),
                                     ],
                                   ),

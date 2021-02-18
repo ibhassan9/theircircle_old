@@ -27,12 +27,10 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "FEED",
-                style: GoogleFonts.ubuntu(
-                  textStyle: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
+                style: GoogleFonts.quicksand(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
               ),
             ),
             SizedBox(height: 20),

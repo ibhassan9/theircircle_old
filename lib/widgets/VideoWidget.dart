@@ -67,7 +67,6 @@ class _VideoWidgetState extends State<VideoWidget>
         } else if (info.visibleFraction == 1.0) {
           print('controller visible');
           if (initialized && _controller != null) {
-            _controller.seekTo(Duration());
             _controller.play();
           }
         }
@@ -312,7 +311,7 @@ class _VideoWidgetState extends State<VideoWidget>
                             width: 20,
                             height: 20,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.ballScaleMultiple,
+                              indicatorType: Indicator.ballClipRotate,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -433,8 +432,9 @@ class _VideoWidgetState extends State<VideoWidget>
               onTap: () {
                 showBarModalBottomSheet(
                   context: context,
-                  expand: true,
-                  builder: (context) => VideoComments(video: widget.video),
+                  builder: (context) => Container(
+                      height: MediaQuery.of(context).size.height / 1.2,
+                      child: VideoComments(video: widget.video)),
                 );
                 // Navigator.push(
                 //     context,
@@ -763,13 +763,13 @@ class _VideoWidgetState extends State<VideoWidget>
   showSnackBar() {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        content: Text('Your report has been received.',
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )));
+        content: Text(
+          'Your report has been received.',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ));
     Scaffold.of(context).showSnackBar(snackBar);
   }
 

@@ -35,11 +35,9 @@ class _BodyState extends State<Body> {
             Text(
               "SIGNUP",
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
             ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
@@ -62,13 +60,13 @@ class _BodyState extends State<Body> {
               press: () async {
                 final snackBar = SnackBar(
                     backgroundColor: Theme.of(context).backgroundColor,
-                    content: Text('Creating your account. Please wait.',
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        )));
+                    content: Text(
+                      'Creating your account. Please wait.',
+                      style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    ));
                 Scaffold.of(context).showSnackBar(snackBar);
                 await registerUser(nameController.text, emailController.text,
                     passwordController.text, context);
@@ -82,13 +80,14 @@ class _BodyState extends State<Body> {
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: RichText(
                 text: TextSpan(
-                  style: TextStyle(
+                  style: GoogleFonts.quicksand(
                       fontSize: 10, color: Theme.of(context).accentColor),
                   children: <TextSpan>[
                     TextSpan(text: "By signing up you agree to our "),
                     TextSpan(
                         text: "Terms and Conditions",
-                        style: TextStyle(fontSize: 10, color: Colors.blue),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 10, color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             // Navigator.push(
@@ -103,7 +102,8 @@ class _BodyState extends State<Body> {
                     TextSpan(text: " and have read our "),
                     TextSpan(
                         text: "Privacy Policy",
-                        style: TextStyle(fontSize: 10, color: Colors.blue),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 10, color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             // Navigator.push(

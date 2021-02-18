@@ -25,12 +25,10 @@ class _HashtagWidgetState extends State<HashtagWidget> {
             child: Text(
               "${widget.title}",
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
+              style: GoogleFonts.quicksand(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
             ),
           ),
         ),

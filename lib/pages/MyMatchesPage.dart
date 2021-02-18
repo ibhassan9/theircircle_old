@@ -75,12 +75,10 @@ class _MyMatchesPageState extends State<MyMatchesPage>
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
             "Chat",
-            style: GoogleFonts.pacifico(
-              textStyle: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+            style: GoogleFonts.quicksand(
+                fontSize: 19,
+                fontWeight: FontWeight.w800,
+                color: Theme.of(context).accentColor),
           ),
         ),
         body: Stack(
@@ -134,13 +132,13 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                               color: Colors.grey,
                             ),
                             SizedBox(height: 10),
-                            Text("Your chat list is empty",
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
-                                )),
+                            Text(
+                              "Your chat list is empty",
+                              style: GoogleFonts.quicksand(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey),
+                            ),
                           ],
                         ),
                       ),
@@ -213,13 +211,13 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                   color: Theme.of(context).accentColor,
                                 ),
                                 SizedBox(width: 10),
-                                Text("Your chat list is empty :(",
-                                    style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).accentColor),
-                                    )),
+                                Text(
+                                  "Your chat list is empty :(",
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).accentColor),
+                                ),
                               ],
                             ),
                           ),
@@ -267,7 +265,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
               //               SizedBox(width: 10),
               //               Text("You haven't started any conversations yet :(",
               //                   style: GoogleFonts.poppins(
-              //                     textStyle: TextStyle(
+              //                     GoogleFonts.quicksand: GoogleFonts.quicksand(
               //                         fontSize: 14,
               //                         fontWeight: FontWeight.w500,
               //                         color: Colors.grey),
@@ -290,7 +288,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
               //                 SizedBox(width: 10),
               //                 Text("You haven't started any conversations yet :(",
               //                     style: GoogleFonts.poppins(
-              //                       textStyle: TextStyle(
+              //                       GoogleFonts.quicksand: GoogleFonts.quicksand(
               //                           fontSize: 14,
               //                           fontWeight: FontWeight.w500,
               //                           color: Colors.grey),

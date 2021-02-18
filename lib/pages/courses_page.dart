@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:toast/toast.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Widgets/CourseWidget.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/pages/GPACalcPage.dart';
@@ -38,11 +39,9 @@ class _CoursesPageState extends State<CoursesPage>
                   child: Text(
                     "Don't see your course? Request it!",
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    ),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 SizedBox(
@@ -62,11 +61,9 @@ class _CoursesPageState extends State<CoursesPage>
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
                 ),
               ],
             );
@@ -103,8 +100,8 @@ class _CoursesPageState extends State<CoursesPage>
       //     //   },
       //     //   child: Text(
       //     //     "Request a course",
-      //     //     style: GoogleFonts.quicksand(
-      //     //       textStyle: TextStyle(
+      //     //     style: GoogleFonts.lexendDeca(
+      //     //       GoogleFonts.quicksand: GoogleFonts.quicksand(
       //     //           fontSize: 15,
       //     //           fontWeight: FontWeight.w500,
       //     //           color: Colors.black),
@@ -116,7 +113,7 @@ class _CoursesPageState extends State<CoursesPage>
       //   title: Text(
       //     "Courses",
       //     style: GoogleFonts.pacifico(
-      //       textStyle: TextStyle(
+      //       GoogleFonts.quicksand: GoogleFonts.quicksand(
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
       //           color: Theme.of(context).accentColor),
@@ -144,17 +141,16 @@ class _CoursesPageState extends State<CoursesPage>
                       height: 50.0,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(3.0)),
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(25.0)),
                       child: Center(
-                        child: Text("GPA Calculator",
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            )),
-                      ),
+                          child: Text(
+                        "GPA Calculator",
+                        style: GoogleFonts.quicksand(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      )),
                     ),
                   ),
                 ),
@@ -172,21 +168,17 @@ class _CoursesPageState extends State<CoursesPage>
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
+                          left: 20, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
                       hintStyle: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).accentColor),
-                      ),
-                    ),
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 didload == true
@@ -199,8 +191,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     width: 40,
                                     height: 40,
                                     child: LoadingIndicator(
-                                      indicatorType:
-                                          Indicator.ballScaleMultiple,
+                                      indicatorType: Indicator.ballClipRotate,
                                       color: Theme.of(context).accentColor,
                                     )));
                           else if (snap.hasData)
@@ -248,14 +239,13 @@ class _CoursesPageState extends State<CoursesPage>
                                       color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
-                                    Text("Cannot find any courses :(",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .accentColor),
-                                        )),
+                                    Text(
+                                      "Cannot find any courses :(",
+                                      style: GoogleFonts.quicksand(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).accentColor),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -273,14 +263,13 @@ class _CoursesPageState extends State<CoursesPage>
                                       color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
-                                    Text("There are no courses :(",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .accentColor),
-                                        )),
+                                    Text(
+                                      "There are no courses :(",
+                                      style: GoogleFonts.quicksand(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).accentColor),
+                                    ),
                                   ],
                                 ),
                               ),

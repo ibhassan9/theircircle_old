@@ -65,7 +65,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                           height: 30,
                                           child: LoadingIndicator(
                                             indicatorType:
-                                                Indicator.ballScaleMultiple,
+                                                Indicator.ballClipRotate,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),
@@ -83,22 +83,18 @@ class _NotificationWidgetState extends State<NotificationWidget>
                               name,
                               maxLines: null,
                               style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: Theme.of(context).accentColor),
-                              ),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Theme.of(context).accentColor),
                             ),
                             SizedBox(height: 3.0),
                             Text(
                               body,
                               maxLines: null,
                               style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
-                              ),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).accentColor),
                             ),
                             SizedBox(height: 7.0),
                             Text(
@@ -107,11 +103,9 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                       widget.notification.timestamp)),
                               maxLines: null,
                               style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey[500]),
-                              ),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[500]),
                             ),
                           ],
                         ),

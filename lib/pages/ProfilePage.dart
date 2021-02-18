@@ -64,13 +64,13 @@ class _ProfilePageState extends State<ProfilePage>
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: Text('Profile',
-            style: GoogleFonts.pacifico(
-              textStyle: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )),
+        title: Text(
+          '',
+          style: GoogleFonts.quicksand(
+              fontSize: 25,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ),
         leading: widget.isFromMain != null && widget.isFromMain
             ? null
             : IconButton(
@@ -108,11 +108,9 @@ class _ProfilePageState extends State<ProfilePage>
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
                             style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).accentColor),
-                            ),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).accentColor),
                           ),
                         ),
                       ),
@@ -137,11 +135,9 @@ class _ProfilePageState extends State<ProfilePage>
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
                             style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).accentColor),
-                            ),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).accentColor),
                           ),
                         ),
                       ),
@@ -193,11 +189,9 @@ class _ProfilePageState extends State<ProfilePage>
           Text(
             user.name,
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 19,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           SizedBox(
             height: 5.0,
@@ -213,11 +207,9 @@ class _ProfilePageState extends State<ProfilePage>
                         ? "York University"
                         : "Western University",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).buttonColor),
-                ),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).buttonColor),
               ),
             ],
           ),
@@ -247,11 +239,9 @@ class _ProfilePageState extends State<ProfilePage>
                               child: Text(
                                 'Message',
                                 style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context).buttonColor),
-                                ),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).buttonColor),
                               ),
                             ),
                           ),
@@ -284,11 +274,9 @@ class _ProfilePageState extends State<ProfilePage>
                                   child: Text(
                                     'Edit Profile',
                                     style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context).buttonColor),
-                                    ),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context).buttonColor),
                                   ),
                                 ),
                               ),
@@ -455,7 +443,7 @@ class _ProfilePageState extends State<ProfilePage>
                   width: 40,
                   height: 40,
                   child: LoadingIndicator(
-                    indicatorType: Indicator.ballScaleMultiple,
+                    indicatorType: Indicator.ballClipRotate,
                     color: Theme.of(context).accentColor,
                   )));
         } else if (snap.hasData && snap.data.length > 0) {
@@ -526,13 +514,13 @@ class _ProfilePageState extends State<ProfilePage>
                   size: 17.0,
                 ),
                 SizedBox(width: 10),
-                Text("Cannot find any posts :(",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    )),
+                Text(
+                  "Cannot find any posts :(",
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
               ],
             ),
           );
@@ -548,13 +536,13 @@ class _ProfilePageState extends State<ProfilePage>
                   size: 17.0,
                 ),
                 SizedBox(width: 10),
-                Text("Cannot find any videos :(",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    )),
+                Text(
+                  "Cannot find any videos :(",
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
+                ),
               ],
             ),
           );
@@ -573,7 +561,7 @@ class _ProfilePageState extends State<ProfilePage>
                     width: 40,
                     height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballScaleMultiple,
+                      indicatorType: Indicator.ballClipRotate,
                       color: Theme.of(context).accentColor,
                     )));
           } else if (snap.hasData && snap.data.length > 0) {
@@ -664,15 +652,14 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                   SizedBox(width: 10),
                   Text(
-                      sameUniversity()
-                          ? "Cannot find any posts :("
-                          : "You cannot view posts from a different institution",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      )),
+                    sameUniversity()
+                        ? "Cannot find any posts :("
+                        : "You cannot view posts from a different institution",
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  ),
                 ],
               ),
             );
@@ -689,15 +676,14 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                   SizedBox(width: 10),
                   Text(
-                      sameUniversity()
-                          ? "Cannot find any posts :("
-                          : "You cannot view posts from a different institution",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      )),
+                    sameUniversity()
+                        ? "Cannot find any posts :("
+                        : "You cannot view posts from a different institution",
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  ),
                 ],
               ),
             );
@@ -731,7 +717,7 @@ class _ProfilePageState extends State<ProfilePage>
                               width: 50,
                               height: 50,
                               child: LoadingIndicator(
-                                indicatorType: Indicator.ballScaleMultiple,
+                                indicatorType: Indicator.ballClipRotate,
                                 color: Colors.white,
                               )),
                         ),
@@ -756,11 +742,9 @@ class _ProfilePageState extends State<ProfilePage>
         ? Text(
             widget.user.about,
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           )
         : Container();
   }
@@ -834,11 +818,9 @@ class _ProfilePageState extends State<ProfilePage>
             result,
             textAlign: TextAlign.center,
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           )
         : SizedBox();
   }
@@ -850,8 +832,8 @@ class _ProfilePageState extends State<ProfilePage>
             children: [
               // Text(
               //   "I'm interested in",
-              //   style: GoogleFonts.quicksand(
-              //     textStyle: TextStyle(
+              //   style: GoogleFonts.lexendDeca(
+              //     GoogleFonts.quicksand: GoogleFonts.quicksand(
               //         fontSize: 15,
               //         fontWeight: FontWeight.w500,
               //         color: Theme.of(context).accentColor),
@@ -954,11 +936,7 @@ class _ProfilePageState extends State<ProfilePage>
           label: Text(
             interest,
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-            ),
+                fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
             setState(() {});
@@ -977,11 +955,9 @@ class _ProfilePageState extends State<ProfilePage>
             Text(
               "Places i've been to",
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              ),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
             ),
             Divider(),
             Wrap(
@@ -1003,11 +979,7 @@ class _ProfilePageState extends State<ProfilePage>
           label: Text(
             'Sudan',
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-            ),
+                fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
             setState(() {});
@@ -1047,11 +1019,9 @@ class _ProfilePageState extends State<ProfilePage>
         child: Text(
           text,
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
       ),
     )..show();

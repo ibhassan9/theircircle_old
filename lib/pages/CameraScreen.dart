@@ -96,7 +96,7 @@
 //         iconTheme: IconThemeData(color: Colors.white),
 //         title: Text('CREATE',
 //             style: GoogleFonts.poppins(
-//               textStyle: TextStyle(
+//               GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                   fontSize: 15,
 //                   fontWeight: FontWeight.w700,
 //                   color: Colors.white),
@@ -159,7 +159,7 @@
 //     if (controller == null || !controller.value.isInitialized) {
 //       return const Text(
 //         'Tap a camera',
-//         style: TextStyle(
+//         style: GoogleFonts.quicksand(
 //           color: Colors.white,
 //           fontSize: 24.0,
 //           fontWeight: FontWeight.w900,

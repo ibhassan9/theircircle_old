@@ -28,12 +28,10 @@ class _VerificationPageState extends State<VerificationPage> {
         centerTitle: false,
         title: Text(
           "Code Verification",
-          style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
       ),
       body: Center(
@@ -43,22 +41,18 @@ class _VerificationPageState extends State<VerificationPage> {
             children: <Widget>[
               Text(
                 "We have sent a verification code to the email you have provided. Please enter it below to verify your account.",
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
               VerificationCode(
-                textStyle: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                textStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
                 keyboardType: TextInputType.number,
                 // in case underline color is null it will use primaryColor: Colors.red from Theme
                 underlineColor: Colors.amber,
@@ -69,12 +63,10 @@ class _VerificationPageState extends State<VerificationPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Clear",
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.blue),
-                    ),
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
                   ),
                 ),
                 onCompleted: (String value) async {
@@ -110,7 +102,7 @@ class _VerificationPageState extends State<VerificationPage> {
   showWrong() {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
-    //         style: GoogleFonts.quicksand(
+    //         style: GoogleFonts.lexendDeca(
     //           textStyle: TextStyle(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -14,34 +15,28 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/product.dart';
+import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart' as u;
 import 'package:unify/pages/ProfilePage.dart';
-import 'package:unify/widgets/ChatBubbleLeft.dart';
-import 'package:unify/widgets/ChatBubbleRight.dart';
+import 'package:unify/pages/RoomInfoPage.dart';
+import 'package:unify/widgets/ChatBubbleLeftGroup.dart';
+import 'package:unify/widgets/ChatBubbleRightGroup.dart';
 import 'package:unify/widgets/SayHiWidget.dart';
 import 'package:intl/intl.dart';
 
-class ChatPage extends StatefulWidget {
-  final u.PostUser receiver;
-  final String chatId;
-  final Product prod;
-  ChatPage({Key key, @required this.receiver, @required this.chatId, this.prod})
-      : super(key: key);
+class RoomPage extends StatefulWidget {
+  final Room room;
+  RoomPage({Key key, @required this.room}) : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _RoomPageState createState() => _RoomPageState();
 }
 
-class _ChatPageState extends State<ChatPage>
-    with AutomaticKeepAliveClientMixin {
+class _RoomPageState extends State<RoomPage> {
   TextEditingController chatController = TextEditingController();
   var uniKey = Constants.checkUniversity();
   var myID = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance.reference().child('chats');
-  TextEditingController bioController = TextEditingController();
-  TextEditingController snapchatController = TextEditingController();
-  TextEditingController linkedinController = TextEditingController();
-  TextEditingController instagramController = TextEditingController();
+  var db = FirebaseDatabase.instance.reference().child('rooms');
   ScrollController _scrollController = new ScrollController();
   Stream<Event> myChat;
   bool seen = false;
@@ -51,8 +46,6 @@ class _ChatPageState extends State<ChatPage>
   Product prod;
 
   Widget build(BuildContext context) {
-    super.build(context);
-
     Padding chatBox = Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -64,118 +57,17 @@ class _ChatPageState extends State<ChatPage>
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Container(
-            height:
-                prod == null ? 50 : MediaQuery.of(context).size.height / 5.2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                prod != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(
-                            left: 5.0, right: 5.0, bottom: 5.0),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height / 8,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[100],
-                                        ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: prod != null
-                                              ? prod.imgUrls[0]
-                                              : '',
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              8,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              5,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          prod.title +
-                                              ' • ' +
-                                              r'$' +
-                                              prod.price,
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black),
-                                        ),
-                                        // Text(
-                                        //   r'$ ' + prod.price,
-                                        //   style: GoogleFonts.lexendDeca(
-                                        //     GoogleFonts.quicksand: GoogleFonts.quicksand(
-                                        //         fontSize: 13,
-                                        //         fontWeight: FontWeight.w700,
-                                        //         color: Colors.black),
-                                        //   ),
-                                        // ),
-                                        Text(
-                                          prod.description,
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              top: 0.0,
-                              right: 0.0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 5.0, right: 5.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      prod = null;
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 13.0,
-                                    backgroundColor: Colors.white,
-                                    child: Icon(FlutterIcons.remove_mdi,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    : Container(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    // SizedBox(width: 3.0),
+                    // Unicon(UniconData.uniImage,
+                    //     color: Theme.of(context).accentColor),
+                    // SizedBox(width: 5.0),
                     Flexible(
                         child: Container(
                       decoration: BoxDecoration(
@@ -233,22 +125,14 @@ class _ChatPageState extends State<ChatPage>
                               if (chatController.text.isEmpty || isSending) {
                                 return;
                               }
-
                               setState(() {
                                 isSending = true;
                               });
-                              var res = await sendMessage(
-                                  chatController.text,
-                                  widget.receiver.id,
-                                  widget.chatId,
-                                  prod != null ? prod.id : null);
+                              var res = await Room.sendMessage(
+                                  message: chatController.text,
+                                  roomId: widget.room.id);
                               if (res) {
-                                await sendPushChat(
-                                    widget.receiver.device_token,
-                                    chatController.text,
-                                    widget.receiver.id,
-                                    widget.chatId,
-                                    widget.receiver.id);
+                                sendPush(text: chatController.text);
                                 chatController.clear();
                                 setState(() {
                                   isSending = false;
@@ -277,50 +161,57 @@ class _ChatPageState extends State<ChatPage>
       appBar: AppBar(
         brightness: Theme.of(context).brightness,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: true,
+        centerTitle: false,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        leadingWidth: 20,
+        title: Row(
           children: [
-            Text(
-              widget.receiver.name,
-              style: GoogleFonts.quicksand(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).accentColor),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: CachedNetworkImage(
+                imageUrl: widget.room.imageUrl,
+                width: 30,
+                height: 30,
+                fit: BoxFit.cover,
+              ),
             ),
-            // Text(
-            //   "Meet & Make New Friends",
-            //   style: GoogleFonts.lexendDeca(
-            //     GoogleFonts.quicksand: GoogleFonts.quicksand(
-            //         fontSize: 12,
-            //         fontWeight: FontWeight.w500,
-            //         color: Colors.black),
-            //   ),
-            // ),
+            SizedBox(width: 10.0),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.room.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).accentColor),
+                  ),
+                  Text(
+                    widget.room.members.length.toString() + ' member(s)',
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).buttonColor),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
         actions: <Widget>[
           IconButton(
-            icon: Unicon(UniconData.uniUser,
-                color: Theme.of(context).accentColor),
+            icon: Unicon(UniconData.uniInfoCircle, color: Colors.blue),
             onPressed: () {
-              // showBarModalBottomSheet(
-              //     context: context,
-              //     expand: true,
-              //     builder: (context) => ProfilePage(
-              //         user: widget.receiver,
-              //         heroTag: widget.receiver.id,
-              //         isFromChat: true));
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ProfilePage(
-                          user: widget.receiver,
-                          heroTag: widget.receiver.id,
-                          isFromChat: true)));
+                      builder: (context) => RoomInfoPage(room: widget.room)));
             },
-          ),
+          )
         ],
         elevation: 0.5,
       ),
@@ -332,7 +223,6 @@ class _ChatPageState extends State<ChatPage>
         child: Stack(children: [
           ListView(
             controller: _scrollController,
-            shrinkWrap: true,
             physics: AlwaysScrollableScrollPhysics(),
             children: [
               StreamBuilder(
@@ -361,7 +251,6 @@ class _ChatPageState extends State<ChatPage>
                     if (messages.isNotEmpty) {
                       if (seen == false) {
                         seen = true;
-                        setSeen(widget.receiver.id);
                       }
                     }
 
@@ -376,7 +265,6 @@ class _ChatPageState extends State<ChatPage>
 
                     return ListView.builder(
                       shrinkWrap: true,
-                      reverse: false,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
@@ -411,9 +299,8 @@ class _ChatPageState extends State<ChatPage>
                                             .accentColor
                                             .withOpacity(0.7)),
                                   ),
-                                  ChatBubbleRight(
-                                    msg: msg,
-                                  ),
+                                  ChatBubbleRightGroup(
+                                      msg: msg, scroll: scroll),
                                 ],
                               ),
                             );
@@ -433,7 +320,7 @@ class _ChatPageState extends State<ChatPage>
                                             .accentColor
                                             .withOpacity(0.7)),
                                   ),
-                                  ChatBubbleLeft(msg: msg, scroll: scroll),
+                                  ChatBubbleLeftGroup(msg: msg, scroll: scroll),
                                 ],
                               ),
                             );
@@ -447,11 +334,11 @@ class _ChatPageState extends State<ChatPage>
                                 DateFormat.yMMMd().format(_date);
                             if (_formattedDate == formattedDate) {
                               if (msg.senderId == myID) {
-                                return ChatBubbleRight(
-                                  msg: msg,
-                                );
+                                return ChatBubbleRightGroup(
+                                    msg: msg, scroll: scroll);
                               } else {
-                                return ChatBubbleLeft(msg: msg, scroll: scroll);
+                                return ChatBubbleLeftGroup(
+                                    msg: msg, scroll: scroll);
                               }
                             } else {
                               if (msg.senderId == myID) {
@@ -470,9 +357,8 @@ class _ChatPageState extends State<ChatPage>
                                                 .accentColor
                                                 .withOpacity(0.7)),
                                       ),
-                                      ChatBubbleRight(
-                                        msg: msg,
-                                      ),
+                                      ChatBubbleRightGroup(
+                                          msg: msg, scroll: scroll),
                                     ],
                                   ),
                                 );
@@ -492,7 +378,7 @@ class _ChatPageState extends State<ChatPage>
                                                 .accentColor
                                                 .withOpacity(0.7)),
                                       ),
-                                      ChatBubbleLeft(msg: msg, scroll: scroll),
+                                      ChatBubbleLeftGroup(msg: msg),
                                     ],
                                   ),
                                 );
@@ -500,19 +386,18 @@ class _ChatPageState extends State<ChatPage>
                             }
                           } else {
                             if (msg.senderId == myID) {
-                              return ChatBubbleRight(
-                                msg: msg,
-                              );
+                              return ChatBubbleRightGroup(
+                                  msg: msg, scroll: scroll);
                             } else {
-                              return ChatBubbleLeft(msg: msg, scroll: scroll);
+                              return ChatBubbleLeftGroup(
+                                  msg: msg, scroll: scroll);
                             }
                           }
                         }
                       },
                     );
                   } else
-                    return Center(
-                        child: SayHiWidget(receiver: widget.receiver));
+                    return Center(child: SayHiWidget(receiver: null));
                 },
               ),
             ],
@@ -526,7 +411,6 @@ class _ChatPageState extends State<ChatPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     var chats = db
         .child(uniKey == 0
@@ -534,9 +418,17 @@ class _ChatPageState extends State<ChatPage>
             : uniKey == 1
                 ? 'YorkU'
                 : 'WesternU')
-        .child(widget.chatId);
+        .child(widget.room.id)
+        .child('chat');
     myChat = chats.onValue;
-    prod = widget.prod;
+  }
+
+  void sendPush({String text}) {
+    List<String> tokens = [];
+    for (var user in widget.room.members) {
+      tokens.add(user.device_token);
+    }
+    sendPushRoomChat(tokens, text, widget.room);
   }
 
   @override
@@ -546,7 +438,4 @@ class _ChatPageState extends State<ChatPage>
     chatController.dispose();
     _scrollController.dispose();
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

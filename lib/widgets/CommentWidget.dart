@@ -90,11 +90,11 @@ class _CommentWidgetState extends State<CommentWidget> {
                     radius: 15,
                     backgroundColor: Colors.grey[300],
                     child: Text(widget.comment.username.substring(0, 1),
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             color: Theme.of(context).backgroundColor)))
                 : ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(25),
                     child: Image.network(
                       imgUrl,
                       width: 30,
@@ -104,14 +104,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                           ImageChunkEvent loadingProgress) {
                         if (loadingProgress == null) return child;
                         return SizedBox(
-                          height: 30,
-                          width: 30,
+                          height: 25,
+                          width: 25,
                           child: Center(
                             child: SizedBox(
-                                width: 30,
-                                height: 30,
+                                width: 10,
+                                height: 10,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.ballScaleMultiple,
+                                  indicatorType: Indicator.ballClipRotate,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),
@@ -134,26 +134,22 @@ class _CommentWidgetState extends State<CommentWidget> {
                               ? "You"
                               : widget.comment.username,
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                color: widget.comment.userId ==
-                                        firebaseAuth.currentUser.uid
-                                    ? Theme.of(context).accentColor
-                                    : Theme.of(context).accentColor),
-                          ),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: widget.comment.userId ==
+                                      firebaseAuth.currentUser.uid
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).accentColor),
                         ),
                         Text(
                           widget.timeAgo,
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .accentColor
-                                    .withOpacity(0.5)),
-                          ),
-                        )
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context)
+                                  .accentColor
+                                  .withOpacity(0.5)),
+                        ),
                       ],
                     ),
                   ),
@@ -162,11 +158,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                     widget.comment.content,
                     maxLines: null,
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    ),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
                   ),
                   Divider(
                     color: Theme.of(context).dividerColor,

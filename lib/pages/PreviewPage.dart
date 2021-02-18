@@ -28,13 +28,11 @@ class _PreviewPageState extends State<PreviewPage> {
         backgroundColor: Colors.transparent,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text('CREATE',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black),
-            )),
+        title: Text(
+          'CREATE',
+          style: GoogleFonts.quicksand(
+              fontSize: 15, fontWeight: FontWeight.w700, color: Colors.black),
+        ),
       ),
       backgroundColor: Colors.white,
       body: VisibilityDetector(

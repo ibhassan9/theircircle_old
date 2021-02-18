@@ -798,7 +798,7 @@ Future<List> getImage() async {
 }
 
 void previewMessage(String msg, BuildContext context) {
-  Toast.show(msg, context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+  Toast.show(msg, context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
 }
 
 Future<bool> imageApproved(File file) async {

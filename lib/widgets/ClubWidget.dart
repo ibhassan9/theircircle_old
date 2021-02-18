@@ -43,33 +43,33 @@ class _ClubWidgetState extends State<ClubWidget> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Container(
-            height: 105,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(AntDesign.team,
-                            color: Theme.of(context).accentColor),
-                        onPressed: () {},
+                  Container(
+                    decoration: BoxDecoration(
+                        color: color, borderRadius: BorderRadius.circular(5.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(AntDesign.team, color: Colors.white, size: 15.0),
+                          Text(
+                            "${widget.club.memberCount}",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "${widget.club.memberCount}",
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  Container(width: 3.0, color: color),
                   SizedBox(
                     width: 15.0,
                   ),
@@ -91,12 +91,9 @@ class _ClubWidgetState extends State<ClubWidget> {
                                     child: Text(
                                       widget.club.name,
                                       style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Theme.of(context).accentColor),
-                                      ),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).accentColor),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                     ),
@@ -127,8 +124,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                 CupertinoActionSheetAction(
                                                     child: Text(
                                                       "YES",
-                                                      style:
-                                                          GoogleFonts.quicksand(
+                                                      style: GoogleFonts
+                                                          .lexendDeca(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -143,8 +140,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                 CupertinoActionSheetAction(
                                                     child: Text(
                                                       "Cancel",
-                                                      style:
-                                                          GoogleFonts.quicksand(
+                                                      style: GoogleFonts
+                                                          .lexendDeca(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -167,22 +164,22 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               size: 15.0)))
                                 ],
                               ),
-                              Divider(),
                               Text(
                                 widget.club.description.isNotEmpty
                                     ? widget.club.description
                                     : "No description available",
                                 style: GoogleFonts.quicksand(
-                                  textStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).accentColor),
-                                ),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context)
+                                        .accentColor
+                                        .withOpacity(0.5)),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               )
                             ],
                           )),
+                          SizedBox(height: 5.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -229,11 +226,9 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 child: Text(
                                   status(),
                                   style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.lightBlue),
-                                  ),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.lightBlue),
                                 ),
                               ),
                             ],

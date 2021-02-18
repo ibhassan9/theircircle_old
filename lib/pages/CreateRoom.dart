@@ -13,35 +13,27 @@ import 'package:unify/Components/text_field_container.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
+import 'package:unify/Models/room.dart';
 
-class PostPage extends StatefulWidget {
-  final Club club;
-  final Course course;
-  final String name;
-  final bool intro;
-
-  PostPage({Key key, this.club, this.course, this.name, this.intro = false})
-      : super(key: key);
+class CreateRoom extends StatefulWidget {
+  CreateRoom({Key key}) : super(key: key);
 
   @override
-  _PostPageState createState() => _PostPageState();
+  _CreateRoomState createState() => _CreateRoomState();
 }
 
-class _PostPageState extends State<PostPage> {
-  TextEditingController contentController = TextEditingController();
-  TextEditingController pollOptionOneController = TextEditingController();
-  TextEditingController pollOptionTwoController = TextEditingController();
+class _CreateRoomState extends State<CreateRoom> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
-  int clength = 300;
-  int poll1length = 30;
-  int poll2length = 30;
-  bool isAnonymous = false;
+  int clength = 50;
+  int dlength = 300;
+  bool isLocked = false;
   Image imag;
   File f;
   bool isPosting = false;
-  bool pollVisible = false;
-  String pollButtonText = "Poll time? Create one!";
-  String title = "What's on your mind?";
+  String title = "Name your room";
+  String description = "Describe your room";
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,10 +46,11 @@ class _PostPageState extends State<PostPage> {
             icon: Icon(FlutterIcons.arrow_back_mdi,
                 color: Theme.of(context).accentColor),
             onPressed: () => Navigator.pop(context, false)),
+        centerTitle: false,
         title: Text(
-          widget.intro ? "Introduce yourself!" : "NEW POST",
+          "Create Room",
           style: GoogleFonts.quicksand(
-              fontSize: 15,
+              fontSize: 20,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
@@ -87,14 +80,13 @@ class _PostPageState extends State<PostPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
-                    children: [descriptionField(), tagWidget()],
+                    children: [descriptionField()],
                   ),
                 ),
               ),
               picture()
             ],
           ),
-          SizedBox(height: 5.0),
           Divider(
             indent: 0.0,
             color: Colors.grey[400],
@@ -117,7 +109,7 @@ class _PostPageState extends State<PostPage> {
                 size: 17.0, color: Theme.of(context).buttonColor),
             SizedBox(width: 10.0),
             Text(
-              'Post Anonymously',
+              'Locked Room?',
               style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -127,22 +119,22 @@ class _PostPageState extends State<PostPage> {
         )),
         InkWell(
           onTap: () {
-            if (isAnonymous) {
+            if (isLocked) {
               this.setState(() {
-                isAnonymous = false;
+                isLocked = false;
               });
             } else {
               this.setState(() {
-                isAnonymous = true;
+                isLocked = true;
               });
             }
           },
           child: Icon(
-              isAnonymous == false
+              isLocked == false
                   ? FlutterIcons.md_radio_button_off_ion
                   : FlutterIcons.md_radio_button_on_ion,
               size: 20,
-              color: isAnonymous == false
+              color: isLocked == false
                   ? Theme.of(context).buttonColor
                   : Colors.deepPurpleAccent),
         ),
@@ -160,14 +152,15 @@ class _PostPageState extends State<PostPage> {
           if (first) {
             return;
           }
-          if (contentController.text.isEmpty) {
+          if (nameController.text.isEmpty ||
+              descriptionController.text.isEmpty ||
+              f == null ||
+              imag == null) {
+            previewMessage(
+                'All fields are required, including an image.', context);
             return;
           }
-          if (pollVisible && pollOptionOneController.text.isEmpty ||
-              pollVisible && pollOptionTwoController.text.isEmpty) {
-            return;
-          }
-          if (clength < 0 || poll1length < 0 || poll2length < 0) {
+          if (clength < 0 || dlength < 0) {
             return;
           }
           if (imag != null && f != null) {
@@ -185,7 +178,7 @@ class _PostPageState extends State<PostPage> {
                 setState(() {
                   isPosting = false;
                 });
-                previewMessage("Error creating your post!", context);
+                previewMessage("Error creating your room!", context);
               }
             } else {
               // show error message
@@ -209,7 +202,7 @@ class _PostPageState extends State<PostPage> {
               setState(() {
                 isPosting = false;
               });
-              previewMessage("Error creating your post!", context);
+              previewMessage("Error creating your room!", context);
             }
           }
         },
@@ -230,7 +223,7 @@ class _PostPageState extends State<PostPage> {
                     ),
                   )
                 : Text(
-                    'POST',
+                    'Create',
                     style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -260,7 +253,7 @@ class _PostPageState extends State<PostPage> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(3.0),
             child: Container(
-              height: 100.0,
+              height: 85.0,
               width: 85.0,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
@@ -301,43 +294,12 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
-  Widget tagWidget() {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          if (pollVisible) {
-            pollVisible = false;
-          } else {
-            pollVisible = true;
-          }
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey[500], width: 0.3),
-            borderRadius: BorderRadius.circular(
-                3.0)), //             <--- BoxDecoration here
-        child: Text(
-          pollVisible ? '🗳️ Remove Poll' : '🗳️ Create Poll',
-          style: GoogleFonts.quicksand(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
-      ),
-    );
-  }
-
   Widget descriptionField() {
     return Flexible(
       child: Column(
         children: [
           field1(),
-          Divider(),
           field2(),
-          field3(),
-          Divider(),
         ],
       ),
     );
@@ -348,49 +310,19 @@ class _PostPageState extends State<PostPage> {
       isPosting = true;
     });
 
-    Post post;
-    if (pollVisible) {
-      post = Post(
-          content: contentController.text,
-          isAnonymous: isAnonymous,
-          questionOne: pollOptionOneController.text,
-          questionOneLikeCount: 0,
-          questionTwo: pollOptionTwoController.text,
-          questionTwoLikeCount: 0);
-    } else {
-      post = Post(
-        content: contentController.text,
-        isAnonymous: isAnonymous,
-      );
-    }
-
-    var res = imag == null
-        ? widget.course == null && widget.club == null
-            ? await createPost(post)
-            : widget.club != null
-                ? await createClubPost(post, widget.club)
-                : await createCoursePost(post, widget.course)
-        : await uploadImageToStorage(f);
-    // res is a boolean if imag is null - string if image available
-
-    imag != null ? post.imgUrl = res : post.imgUrl = null;
-
-    var result = imag != null
-        ? widget.course == null && widget.club == null
-            ? await createPost(post)
-            : widget.club != null
-                ? await createClubPost(post, widget.club)
-                : await createCoursePost(post, widget.course)
-        : true;
+    var result = await Room.create(
+        name: nameController.text,
+        description: descriptionController.text,
+        isLocked: isLocked,
+        coverImg: imag,
+        imgFile: f);
 
     setState(() {
-      clength = 300;
-      poll1length = 30;
-      poll2length = 30;
+      clength = 50;
+      dlength = 300;
     });
-    contentController.clear();
-    pollOptionOneController.clear();
-    pollOptionTwoController.clear();
+    nameController.clear();
+    descriptionController.clear();
     return result;
   }
 
@@ -407,11 +339,11 @@ class _PostPageState extends State<PostPage> {
 
   Widget field1() {
     return TextField(
-      controller: contentController,
+      controller: nameController,
       textInputAction: TextInputAction.newline,
       maxLines: null,
       onChanged: (value) {
-        var newLength = 300 - value.length;
+        var newLength = 50 - value.length;
         setState(() {
           clength = newLength;
         });
@@ -438,72 +370,34 @@ class _PostPageState extends State<PostPage> {
   }
 
   Widget field2() {
-    return Visibility(
-      visible: pollVisible,
-      child: TextField(
-        controller: pollOptionOneController,
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        onChanged: (value) {
-          var newLength = 30 - value.length;
-          setState(() {
-            poll1length = newLength;
-          });
-        },
-        decoration: new InputDecoration(
-            suffix: Text(
-              poll1length.toString(),
-              style: GoogleFonts.quicksand(
-                  color: poll1length < 0 ? Colors.red : Colors.grey),
-            ),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            contentPadding:
-                EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
-            hintText: "Insert Option 1..."),
-        style: GoogleFonts.quicksand(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).accentColor),
-      ),
-    );
-  }
-
-  Widget field3() {
-    return Visibility(
-      visible: pollVisible,
-      child: TextField(
-        controller: pollOptionTwoController,
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        onChanged: (value) {
-          var newLength = 30 - value.length;
-          setState(() {
-            poll2length = newLength;
-          });
-        },
-        decoration: new InputDecoration(
-            suffix: Text(
-              poll2length.toString(),
-              style: GoogleFonts.quicksand(
-                  color: poll2length < 0 ? Colors.red : Colors.grey),
-            ),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            contentPadding:
-                EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
-            hintText: "Insert Option 2..."),
-        style: GoogleFonts.quicksand(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).accentColor),
-      ),
+    return TextField(
+      controller: descriptionController,
+      textInputAction: TextInputAction.done,
+      maxLines: null,
+      onChanged: (value) {
+        var newLength = 100 - value.length;
+        setState(() {
+          dlength = newLength;
+        });
+      },
+      decoration: new InputDecoration(
+          suffix: Text(
+            dlength.toString(),
+            style: GoogleFonts.quicksand(
+                color: dlength < 0 ? Colors.red : Colors.grey),
+          ),
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          contentPadding:
+              EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
+          hintText: description),
+      style: GoogleFonts.quicksand(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).accentColor),
     );
   }
 
@@ -511,8 +405,7 @@ class _PostPageState extends State<PostPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    contentController.dispose();
-    pollOptionOneController.dispose();
-    pollOptionTwoController.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
   }
 }

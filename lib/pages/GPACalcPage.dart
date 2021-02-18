@@ -69,11 +69,9 @@ class _GPACalculatorState extends State<GPACalculator> {
           title: Text(
             'GPA Calculator',
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).accentColor),
           ),
           elevation: 0.0,
         ),
@@ -95,11 +93,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                         child: Text(
                           'Courses',
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     ),
@@ -110,11 +106,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                         child: Text(
                           'Weight',
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     ),
@@ -125,11 +119,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                         child: Text(
                           'Final Grade',
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
                     )
@@ -186,17 +178,15 @@ class _GPACalculatorState extends State<GPACalculator> {
             },
             child: Row(
               children: [
-                Unicon(UniconData.uniPlusSquare,
+                Unicon(UniconData.uniPlusCircle,
                     color: Theme.of(context).accentColor),
                 SizedBox(width: 7.0),
                 Text(
                   'Add Course',
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        color: Theme.of(context).accentColor),
-                  ),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: Theme.of(context).accentColor),
                 ),
               ],
             ),
@@ -212,14 +202,12 @@ class _GPACalculatorState extends State<GPACalculator> {
                 Text(
                   'Remove Course',
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.red),
-                  ),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.red),
                 ),
                 SizedBox(width: 7.0),
-                Unicon(UniconData.uniMinusSquare, color: Colors.red),
+                Unicon(UniconData.uniMinusCircle, color: Colors.red),
               ],
             ),
           )
@@ -251,11 +239,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                     child: Text(
                       'Final Grade Needed Calculator',
                       style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      ),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
                     ),
                   ),
                 ),
@@ -286,11 +272,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                         Text(
                           'CALCULATE',
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
                         ),
                       ],
                     ),
@@ -321,11 +305,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                 textAlign: TextAlign.center,
                 maxLines: null,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
+                    fontSize: 40,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
             ),
             SizedBox(height: 15.0),
@@ -335,11 +317,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                 textAlign: TextAlign.center,
                 maxLines: null,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
             ),
             Center(
@@ -348,11 +328,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                 textAlign: TextAlign.center,
                 maxLines: null,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
             ),
           ],
@@ -459,11 +437,9 @@ class _GPACalculatorState extends State<GPACalculator> {
       child: Text(
         value.toString(),
         style: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
       onPressed: () {
         print(value);
@@ -480,11 +456,9 @@ class _GPACalculatorState extends State<GPACalculator> {
       child: Text(
         value,
         style: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
       onPressed: () {
         setState(() {
@@ -560,11 +534,9 @@ class _GPACalculatorState extends State<GPACalculator> {
               child: Text(
                 'Course #$index',
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
             ),
           ),
@@ -584,11 +556,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                 child: Text(
                   rows[index]['weight'].toString(),
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -612,11 +582,9 @@ class _GPACalculatorState extends State<GPACalculator> {
                 child: Text(
                   getGrade(rows[index]['grade']),
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
               ),
             ),

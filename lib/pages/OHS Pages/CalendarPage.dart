@@ -64,77 +64,49 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.lightBlue),
-        ),
+            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
         weekendStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
-        ),
+            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
       ),
       headerStyle: HeaderStyle(
         titleTextStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
         formatButtonTextStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
       calendarStyle: CalendarStyle(
         weekdayStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
         weekendStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
         holidayStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
         outsideHolidayStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
         selectedStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        ),
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         todayStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
         outsideStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        ),
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         outsideWeekendStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        ),
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
         unavailableStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
-        ),
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );
 
@@ -150,11 +122,9 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                 child: Text(
                   "Date: ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
                 ),
               ),
               TextField(
@@ -169,11 +139,9 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Title. Eg: Weekly seminar"),
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               TextField(
                 controller: descriptionController,
@@ -187,11 +155,9 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Description..."),
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               TextField(
                 controller: timeDueController,
@@ -205,11 +171,9 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "When is it?"),
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
             ],
           ),
@@ -264,11 +228,9 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
         title: Text(
           "${widget.club.name} Calendar",
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
@@ -300,11 +262,9 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                             "Create reminder for ${widget.club.name}",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
                           ),
                         ],
                       ),

@@ -27,9 +27,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
       child: TextField(
         controller: widget.controller,
         style: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
         onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
@@ -39,9 +37,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
           ),
           hintText: widget.hintText,
           hintStyle: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-          ),
+              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           border: InputBorder.none,
         ),
       ),

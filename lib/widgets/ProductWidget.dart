@@ -66,7 +66,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                                 width: 20,
                                 height: 20,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.ballScaleMultiple,
+                                  indicatorType: Indicator.ballClipRotate,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),
@@ -77,23 +77,22 @@ class _ProductWidgetState extends State<ProductWidget> {
                   SizedBox(width: 5.0),
                   Flexible(
                     child: Text(
-                        (widget.prod.sellerId ==
-                                    FirebaseAuth.instance.currentUser.uid
-                                ? 'You'
-                                : widget.prod.sellerName) +
-                            ' • ' +
-                            timeago.format(
-                                new DateTime.fromMillisecondsSinceEpoch(
-                                    widget.prod.timeStamp),
-                                locale: 'en_short'),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        )),
+                      (widget.prod.sellerId ==
+                                  FirebaseAuth.instance.currentUser.uid
+                              ? 'You'
+                              : widget.prod.sellerName) +
+                          ' • ' +
+                          timeago.format(
+                              new DateTime.fromMillisecondsSinceEpoch(
+                                  widget.prod.timeStamp),
+                              locale: 'en_short'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.quicksand(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    ),
                   )
                 ],
               ),
@@ -115,24 +114,24 @@ class _ProductWidgetState extends State<ProductWidget> {
             ),
           ),
           SizedBox(height: 5.0),
-          Text(widget.prod.title + r' • $' + widget.prod.price,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              )),
-          Text(widget.prod.description,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor.withOpacity(0.5)),
-              ))
+          Text(
+            widget.prod.title + r' • $' + widget.prod.price,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.quicksand(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ),
+          Text(
+            widget.prod.description,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.quicksand(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor.withOpacity(0.5)),
+          )
         ],
       ),
     );

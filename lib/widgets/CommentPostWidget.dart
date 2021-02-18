@@ -93,7 +93,7 @@
 //                                   backgroundColor: Colors.deepPurpleAccent,
 //                                   child: Text(
 //                                       widget.post.username.substring(0, 1),
-//                                       style: TextStyle(color: Colors.white)))
+//                                       style: GoogleFonts.quicksand(color: Colors.white)))
 //                               : ClipRRect(
 //                                   borderRadius: BorderRadius.circular(100),
 //                                   child: Image.network(
@@ -198,7 +198,7 @@
 //                           fontSize: 15,
 //                           fontWeight: FontWeight.w500,
 //                           color: Colors.black),
-//                       linkStyle: TextStyle(color: Colors.red),
+//                       linkStyle: GoogleFonts.quicksand(color: Colors.red),
 //                     )),
 //                 widget.post.questionOne != null &&
 //                         widget.post.questionTwo != null
@@ -580,7 +580,7 @@
 //         backgroundColor: Theme.of(context).backgroundColor,
 //         content: Text('Your report has been received.',
 //             style: GoogleFonts.poppins(
-//               textStyle: TextStyle(
+//               GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                   fontSize: 15,
 //                   fontWeight: FontWeight.w500,
 //                   color: Theme.of(context).accentColor),

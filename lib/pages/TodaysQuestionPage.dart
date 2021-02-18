@@ -52,29 +52,29 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Note: This will be is a public post',
-                        textAlign: TextAlign.center,
-                        maxLines: null,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        )),
+                    Text(
+                      'Note: This will be is a public post',
+                      textAlign: TextAlign.center,
+                      maxLines: null,
+                      style: GoogleFonts.quicksand(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
                     Divider(color: Colors.white, thickness: 2.0),
                     SizedBox(height: 40.0),
                     Icon(FlutterIcons.md_happy_ion,
                         color: Colors.white, size: 30.0),
                     SizedBox(height: 15.0),
-                    Text(widget.question,
-                        textAlign: TextAlign.center,
-                        maxLines: null,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        )),
+                    Text(
+                      widget.question,
+                      textAlign: TextAlign.center,
+                      maxLines: null,
+                      style: GoogleFonts.quicksand(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
                     SizedBox(height: 10.0),
                     TextField(
                       textInputAction: TextInputAction.done,
@@ -90,7 +90,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       decoration: new InputDecoration(
                           suffix: Text(
                             clength.toString(),
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                                 color: clength < 0 ? Colors.red : Colors.white),
                           ),
                           border: InputBorder.none,
@@ -101,18 +101,14 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
                           hintStyle: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white),
-                          ),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
                           hintText: title),
                       style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     ),
                     SizedBox(height: 30.0),
                     InkWell(
@@ -128,14 +124,14 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Post Anonymously',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white),
-                              )),
+                          Text(
+                            'Post Anonymously',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
+                          ),
                           SizedBox(width: 5.0),
                           Icon(
                               isAnonymous == false

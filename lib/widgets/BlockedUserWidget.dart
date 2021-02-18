@@ -23,7 +23,7 @@ class BlockedUserWidget extends StatelessWidget {
                     ? CircleAvatar(
                         backgroundColor: Colors.blue,
                         child: Text(user.name.substring(0, 1),
-                            style: TextStyle(color: Colors.white)))
+                            style: GoogleFonts.quicksand(color: Colors.white)))
                     : Hero(
                         tag: user.id,
                         child: ClipRRect(
@@ -44,8 +44,7 @@ class BlockedUserWidget extends StatelessWidget {
                                       width: 20,
                                       height: 20,
                                       child: LoadingIndicator(
-                                        indicatorType:
-                                            Indicator.ballScaleMultiple,
+                                        indicatorType: Indicator.ballClipRotate,
                                         color: Theme.of(context).accentColor,
                                       )),
                                 ),
@@ -58,11 +57,9 @@ class BlockedUserWidget extends StatelessWidget {
                 Text(
                   user.name,
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).accentColor),
-                  ),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).accentColor),
                 ),
               ],
             )),
@@ -80,11 +77,9 @@ class BlockedUserWidget extends StatelessWidget {
                       child: Text(
                     'Unblock',
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
-                    ),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   )),
                 ),
               ),

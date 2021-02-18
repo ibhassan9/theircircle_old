@@ -46,21 +46,17 @@ class _WebPageState extends State<WebPage> {
                     ? "Loading Newspage..."
                     : widget.title.replaceAll("     ", ""),
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               ),
               SizedBox(height: 3.0),
               Text(
                 widget.selectedUrl,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor.withOpacity(0.7)),
-                ),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor.withOpacity(0.7)),
               ),
             ],
           ),

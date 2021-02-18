@@ -53,11 +53,9 @@ class _OHSPostPageState extends State<OHSPostPage> {
         title: Text(
           "NEW POST",
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).accentColor),
         ),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -125,8 +123,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
       //               isAnonymous == false
       //                   ? "Posting as yourself"
       //                   : "Posting Anonymously",
-      //               style: GoogleFonts.quicksand(
-      //                 textStyle: TextStyle(
+      //               style: GoogleFonts.lexendDeca(
+      //                 GoogleFonts.quicksand: GoogleFonts.quicksand(
       //                     fontSize: 13,
       //                     fontWeight: FontWeight.w500,
       //                     color: Colors.blue),
@@ -194,8 +192,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
       //       child: Center(
       //         child: Text(
       //           pollButtonText,
-      //           style: GoogleFonts.quicksand(
-      //             textStyle: TextStyle(
+      //           style: GoogleFonts.lexendDeca(
+      //             GoogleFonts.quicksand: GoogleFonts.quicksand(
       //                 fontSize: 13,
       //                 fontWeight: FontWeight.w700,
       //                 color: Colors.white),
@@ -259,13 +257,13 @@ class _OHSPostPageState extends State<OHSPostPage> {
           children: [
             Icon(Icons.lock, size: 17.0, color: Theme.of(context).buttonColor),
             SizedBox(width: 10.0),
-            Text('Post Anonymously',
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).buttonColor),
-                )),
+            Text(
+              'Post Anonymously',
+              style: GoogleFonts.quicksand(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).buttonColor),
+            ),
           ],
         )),
         InkWell(
@@ -368,16 +366,16 @@ class _OHSPostPageState extends State<OHSPostPage> {
                     width: 40,
                     height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballScaleMultiple,
+                      indicatorType: Indicator.ballClipRotate,
                       color: Colors.white,
                     ))
-                : Text('CREATE',
+                : Text(
+                    'CREATE',
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    )),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white),
+                  ),
           ),
         ),
       ),
@@ -460,13 +458,13 @@ class _OHSPostPageState extends State<OHSPostPage> {
             border: Border.all(color: Colors.grey[500], width: 0.3),
             borderRadius: BorderRadius.circular(
                 3.0)), //             <--- BoxDecoration here
-        child: Text(pollVisible ? '🗳️ Remove Poll' : '🗳️ Create Poll',
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )),
+        child: Text(
+          pollVisible ? '🗳️ Remove Poll' : '🗳️ Create Poll',
+          style: GoogleFonts.quicksand(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ),
       ),
     );
   }
@@ -551,7 +549,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
       decoration: new InputDecoration(
           suffix: Text(
             clength.toString(),
-            style: TextStyle(color: clength < 0 ? Colors.red : Colors.grey),
+            style: GoogleFonts.quicksand(
+                color: clength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -562,11 +561,9 @@ class _OHSPostPageState extends State<OHSPostPage> {
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: title),
       style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).accentColor),
-      ),
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).accentColor),
     );
   }
 
@@ -586,8 +583,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
         decoration: new InputDecoration(
             suffix: Text(
               poll1length.toString(),
-              style:
-                  TextStyle(color: poll1length < 0 ? Colors.red : Colors.grey),
+              style: GoogleFonts.quicksand(
+                  color: poll1length < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
@@ -598,11 +595,9 @@ class _OHSPostPageState extends State<OHSPostPage> {
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: "Insert Option 1..."),
         style: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
     );
   }
@@ -623,8 +618,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
         decoration: new InputDecoration(
             suffix: Text(
               poll2length.toString(),
-              style:
-                  TextStyle(color: poll2length < 0 ? Colors.red : Colors.grey),
+              style: GoogleFonts.quicksand(
+                  color: poll2length < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
@@ -635,11 +630,9 @@ class _OHSPostPageState extends State<OHSPostPage> {
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: "Insert Option 2..."),
         style: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
     );
   }

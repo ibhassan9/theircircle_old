@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/OHS.dart';
 import 'package:unify/Widgets/CommentWidget.dart';
 import 'package:unify/Components/Constants.dart';
@@ -34,7 +35,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
   bool isCommenting = false;
-  ScrollController _controller = new ScrollController();
+  ScrollController _scrollController = new ScrollController();
+  List<PostUser> users = [];
+  String str = '';
+  List<String> tags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     void dispose() {
       super.dispose();
       commentController.dispose();
-      _controller.dispose();
+      _scrollController.dispose();
     }
 
     Padding commentBox = Padding(
@@ -55,143 +59,329 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 Border(top: BorderSide(color: Theme.of(context).dividerColor))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                  child: TextField(
-                onTap: () {},
-                maxLines: null,
-                textInputAction: TextInputAction.done,
-                controller: commentController,
-                decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: "Comment Here"),
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
-              )),
-              IconButton(
-                icon: Icon(
-                  AntDesign.arrowright,
-                  color: Theme.of(context).accentColor,
-                ),
-                onPressed: () async {
-                  if (commentController.text.isEmpty || isCommenting) {
-                    return;
-                  }
-                  setState(() {
-                    isCommenting = true;
-                  });
-                  Comment comment = Comment(content: commentController.text);
-                  var res;
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              str.isNotEmpty
+                  ? Container(
+                      constraints: BoxConstraints(maxHeight: 200),
+                      child: ListView(
+                          shrinkWrap: true,
+                          children: users.map((s) {
+                            if (('@' + s.name)
+                                .toLowerCase()
+                                .contains(str.toLowerCase())) {
+                              return Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    10.0, 5.0, 10.0, 5.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    String tmp = str.substring(0, str.length);
+                                    print(tmp);
+                                    setState(() {
+                                      str = '';
+                                      commentController.text = commentController
+                                          .text
+                                          .replaceFirst(tmp, '@');
+                                      commentController.text +=
+                                          s.name.trimRight() + ' ';
+                                      commentController.value =
+                                          commentController.value.copyWith(
+                                        text: commentController.text,
+                                        selection: TextSelection(
+                                            baseOffset:
+                                                commentController.text.length,
+                                            extentOffset:
+                                                commentController.text.length),
+                                        composing: TextRange.empty,
+                                      );
+                                    });
+                                    String tag = '@' + s.name.trimRight();
+                                    tags.add(tag);
+                                    print(s.name);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      s.profileImgUrl == null ||
+                                              s.profileImgUrl == ''
+                                          ? CircleAvatar(
+                                              radius: 15,
+                                              backgroundColor: Colors.grey[300],
+                                              child: Text(
+                                                  s.name.substring(0, 1),
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 13,
+                                                      color: Theme.of(context)
+                                                          .backgroundColor)))
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              child: Image.network(
+                                                s.profileImgUrl,
+                                                width: 30,
+                                                height: 30,
+                                                fit: BoxFit.cover,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return SizedBox(
+                                                    height: 30,
+                                                    width: 30,
+                                                    child: Center(
+                                                      child: SizedBox(
+                                                          width: 30,
+                                                          height: 30,
+                                                          child:
+                                                              LoadingIndicator(
+                                                            indicatorType: Indicator
+                                                                .ballScaleMultiple,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .accentColor,
+                                                          )),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                      SizedBox(width: 5.0),
+                                      Text(
+                                        s.name,
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Theme.of(context).accentColor),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            return SizedBox();
+                          }).toList()),
+                    )
+                  : Container(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Flexible(
+                      child: TextField(
+                    onTap: () {
+                      Timer(
+                          Duration(milliseconds: 300),
+                          () => _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeIn));
+                    },
+                    onChanged: (val) {
+                      setState(() {
+                        var words = val.split(' ');
+                        str = words.length > 0 &&
+                                words[words.length - 1].startsWith('@')
+                            ? words[words.length - 1]
+                            : '';
+                      });
+                    },
+                    maxLines: null,
+                    textInputAction: TextInputAction.done,
+                    controller: commentController,
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(
+                            left: 15, bottom: 11, top: 11, right: 15),
+                        hintText: "Comment Here"),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  )),
+                  IconButton(
+                    icon: Icon(
+                      AntDesign.arrowright,
+                      color: Theme.of(context).accentColor,
+                    ),
+                    onPressed: () async {
+                      Map<String, dynamic> newTags = {};
+                      for (var tag in tags) {
+                        if (commentController.text.contains(tag)) {
+                          var name = tag.replaceAll('@', '');
+                          name = name.replaceAll('_', ' ');
+                          var uid = users
+                              .where((element) => element.name.trim() == name);
+                          newTags[name] = {
+                            'id': uid.first.id,
+                            'token': uid.first.device_token
+                          };
+                        }
+                      }
+                      print(newTags);
+                      if (commentController.text.isEmpty || isCommenting) {
+                        return;
+                      }
+                      setState(() {
+                        isCommenting = true;
+                      });
+                      Comment comment =
+                          Comment(content: commentController.text);
+                      var res;
 
-                  if (widget.post.type != null) {
-                    switch (widget.post.type) {
-                      case 'post':
-                        res =
-                            await postComment(comment, widget.post, null, null);
-                        break;
-                      case 'club':
-                        res = await postComment(comment, widget.post, null,
-                            Club(id: widget.post.typeId));
-                        break;
-                      case 'course':
-                        res = await postComment(comment, widget.post,
-                            Course(id: widget.post.typeId), null);
-                        break;
-                      case 'onehealingspace':
-                        res = await OneHealingSpace.postComment(
-                            comment, widget.post);
-                        break;
-                      default:
+                      if (widget.post.type != null) {
+                        switch (widget.post.type) {
+                          case 'post':
+                            res = await postComment(comment, widget.post, null,
+                                null, newTags.isNotEmpty ? newTags : null);
+                            break;
+                          case 'club':
+                            res = await postComment(
+                                comment,
+                                widget.post,
+                                null,
+                                Club(id: widget.post.typeId),
+                                newTags.isNotEmpty ? newTags : null);
+                            break;
+                          case 'course':
+                            res = await postComment(
+                                comment,
+                                widget.post,
+                                Course(id: widget.post.typeId),
+                                null,
+                                newTags.isNotEmpty ? newTags : null);
+                            break;
+                          case 'onehealingspace':
+                            res = await OneHealingSpace.postComment(
+                                comment, widget.post);
+                            break;
+                          default:
+                            res = await postComment(
+                                comment,
+                                widget.post,
+                                widget.course == null ? null : widget.course,
+                                widget.club == null ? null : widget.club,
+                                newTags.isNotEmpty ? newTags : null);
+                            break;
+                        }
+                      } else {
                         res = await postComment(
                             comment,
                             widget.post,
                             widget.course == null ? null : widget.course,
-                            widget.club == null ? null : widget.club);
-                        break;
-                    }
-                  } else {
-                    res = await postComment(
-                        comment,
-                        widget.post,
-                        widget.course == null ? null : widget.course,
-                        widget.club == null ? null : widget.club);
-                  }
-
-                  if (res) {
-                    var user = await getUser(widget.post.userId);
-                    var token = user.device_token;
-                    if (user.id != firebaseAuth.currentUser.uid) {
-                      if (widget.club == null && widget.course == null) {
-                        await sendPush(
-                            1, token, comment.content, widget.post.id, user.id);
-                      } else if (widget.club != null) {
-                        await sendPushClub(widget.club, 1, token,
-                            comment.content, widget.post.id, user.id);
-                      } else if (widget.course != null) {
-                        await sendPushCourse(widget.course, 1, token,
-                            comment.content, widget.post.id, user.id);
+                            widget.club == null ? null : widget.club,
+                            newTags.isNotEmpty ? newTags : null);
                       }
-                    }
-                    commentController.clear();
-                  } else {}
-                  if (this.mounted) {
-                    if (widget.post.type != null) {
-                      switch (widget.post.type) {
-                        case 'post':
-                          this.setState(() {
-                            commentFuture =
-                                fetchComments(widget.post, null, null);
-                          });
-                          break;
-                        case 'club':
-                          this.setState(() {
-                            commentFuture = fetchComments(widget.post, null,
-                                Club(id: widget.post.typeId));
-                          });
-                          break;
-                        case 'course':
-                          this.setState(() {
-                            commentFuture = fetchComments(widget.post,
-                                Course(id: widget.post.typeId), null);
-                          });
-                          break;
-                        case 'onehealingspace':
-                          this.setState(() {
-                            commentFuture =
-                                OneHealingSpace.fetchComments(widget.post);
-                          });
-                          break;
-                        default:
+
+                      if (res) {
+                        var user = await getUser(widget.post.userId);
+                        var token = user.device_token;
+                        if (user.id != firebaseAuth.currentUser.uid) {
+                          if (newTags.isNotEmpty) {
+                            newTags.forEach((key, value) {
+                              var id = value['id'];
+                              if (id == widget.post.userId) {
+                                if (widget.club == null &&
+                                    widget.course == null) {
+                                  sendPush(1, token, comment.content,
+                                      widget.post.id, user.id);
+                                } else if (widget.club != null) {
+                                  sendPushClub(widget.club, 1, token,
+                                      comment.content, widget.post.id, user.id);
+                                } else if (widget.course != null) {
+                                  sendPushCourse(widget.course, 1, token,
+                                      comment.content, widget.post.id, user.id);
+                                }
+                              } else {
+                                var _token = value['token'];
+                                if (widget.club == null &&
+                                    widget.course == null) {
+                                  sendPush(2, _token, comment.content,
+                                      widget.post.id, user.id);
+                                } else if (widget.club != null) {
+                                  sendPushClub(widget.club, 7, _token,
+                                      comment.content, widget.post.id, user.id);
+                                } else if (widget.course != null) {
+                                  sendPushCourse(widget.course, 5, _token,
+                                      comment.content, widget.post.id, user.id);
+                                }
+                              }
+                            });
+                          } else {
+                            if (widget.club == null && widget.course == null) {
+                              await sendPush(1, token, comment.content,
+                                  widget.post.id, user.id);
+                            } else if (widget.club != null) {
+                              await sendPushClub(widget.club, 1, token,
+                                  comment.content, widget.post.id, user.id);
+                            } else if (widget.course != null) {
+                              await sendPushCourse(widget.course, 1, token,
+                                  comment.content, widget.post.id, user.id);
+                            }
+                          }
+                        }
+                        commentController.clear();
+                      } else {}
+                      if (this.mounted) {
+                        if (widget.post.type != null) {
+                          switch (widget.post.type) {
+                            case 'post':
+                              this.setState(() {
+                                commentFuture =
+                                    fetchComments(widget.post, null, null);
+                              });
+                              break;
+                            case 'club':
+                              this.setState(() {
+                                commentFuture = fetchComments(widget.post, null,
+                                    Club(id: widget.post.typeId));
+                              });
+                              break;
+                            case 'course':
+                              this.setState(() {
+                                commentFuture = fetchComments(widget.post,
+                                    Course(id: widget.post.typeId), null);
+                              });
+                              break;
+                            case 'onehealingspace':
+                              this.setState(() {
+                                commentFuture =
+                                    OneHealingSpace.fetchComments(widget.post);
+                              });
+                              break;
+                            default:
+                              this.setState(() {
+                                commentFuture = fetchComments(
+                                    widget.post, widget.course, widget.club);
+                              });
+                              break;
+                          }
+                        } else {
                           this.setState(() {
                             commentFuture = fetchComments(
                                 widget.post, widget.course, widget.club);
                           });
-                          break;
+                        }
                       }
-                    } else {
-                      this.setState(() {
-                        commentFuture = fetchComments(
-                            widget.post, widget.course, widget.club);
+                      setState(() {
+                        isCommenting = false;
                       });
-                    }
-                  }
-                  setState(() {
-                    isCommenting = false;
-                  });
-                },
-              )
+                      Timer(
+                          Duration(milliseconds: 300),
+                          () => _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeIn));
+                    },
+                  )
+                ],
+              ),
             ],
           ),
         ),
@@ -204,12 +394,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
         centerTitle: false,
         title: Text(
           "Comments",
-          style: GoogleFonts.pacifico(
-            textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+          style: GoogleFonts.quicksand(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
@@ -220,6 +408,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
         child: Stack(
           children: <Widget>[
             ListView(
+              controller: _scrollController,
               children: <Widget>[
                 PostWidget(
                     hide: () async {
@@ -283,7 +472,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
-                          controller: _controller,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: NeverScrollableScrollPhysics(),
@@ -312,13 +500,13 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                   color: Theme.of(context).accentColor,
                                 ),
                                 SizedBox(width: 10),
-                                Text("There are no comments :(",
-                                    style: GoogleFonts.quicksand(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).accentColor),
-                                    )),
+                                Text(
+                                  "There are no comments :(",
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).accentColor),
+                                ),
                               ],
                             ),
                           ),
@@ -417,5 +605,18 @@ class _PostDetailPageState extends State<PostDetailPage> {
         commentFuture = fetchComments(widget.post, widget.course, widget.club);
       });
     }
+
+    myCampusUsers().then((value) {
+      setState(() {
+        users = value;
+      });
+    });
+
+    Timer(
+        Duration(milliseconds: 300),
+        () => _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeIn));
   }
 }

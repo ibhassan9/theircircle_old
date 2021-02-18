@@ -34,11 +34,9 @@ class _MembersListPageState extends State<MembersListPage> {
                 ? "${widget.course.code} Members"
                 : "${widget.club.name} Members",
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           actions: [
             Visibility(
@@ -74,7 +72,7 @@ class _MembersListPageState extends State<MembersListPage> {
                             width: 40,
                             height: 40,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.ballScaleMultiple,
+                              indicatorType: Indicator.ballClipRotate,
                               color: Theme.of(context).accentColor,
                             )));
                   else if (snap.hasData)
@@ -84,7 +82,8 @@ class _MembersListPageState extends State<MembersListPage> {
                       physics: AlwaysScrollableScrollPhysics(),
                       itemCount: snap.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        var user = snap.data[index];
+                        PostUser user = snap.data[index];
+                        print(user.name);
                         Function delete = () {
                           showRemove(user);
                         };

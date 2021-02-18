@@ -25,11 +25,9 @@ class _BodyState extends State<Body> {
             Text(
               "Welcome To TheirCircle",
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
             ),
             SizedBox(height: size.height * 0.05),
             SvgPicture.asset(

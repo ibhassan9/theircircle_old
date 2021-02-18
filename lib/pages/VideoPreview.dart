@@ -247,7 +247,7 @@ class _VideoPreviewState extends State<VideoPreview>
                         width: 30,
                         child: Center(
                             child: LoadingIndicator(
-                          indicatorType: Indicator.ballScaleMultiple,
+                          indicatorType: Indicator.ballClipRotate,
                           color: Theme.of(context).accentColor,
                         )),
                       );
@@ -438,14 +438,14 @@ class _VideoPreviewState extends State<VideoPreview>
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to delete this video?',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -454,7 +454,7 @@ class _VideoPreviewState extends State<VideoPreview>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -467,7 +467,7 @@ class _VideoPreviewState extends State<VideoPreview>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -661,13 +661,13 @@ class _VideoPreviewState extends State<VideoPreview>
   showSnackBar() {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        content: Text('Your report has been received.',
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )));
+        content: Text(
+          'Your report has been received.',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ));
     Scaffold.of(context).showSnackBar(snackBar);
   }
 

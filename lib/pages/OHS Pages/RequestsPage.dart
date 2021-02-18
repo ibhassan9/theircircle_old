@@ -26,11 +26,9 @@ class _OHSRequestsPageState extends State<OHSRequestsPage> {
           title: Text(
             "Requests",
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0.0,

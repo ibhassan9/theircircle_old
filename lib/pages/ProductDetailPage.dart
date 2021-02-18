@@ -36,13 +36,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               icon: Icon(FlutterIcons.more_horiz_mdi),
               onPressed: () {
                 final act = CupertinoActionSheet(
-                  title: Text("What's wrong with this listing?",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Theme.of(context).accentColor),
-                      )),
+                  title: Text(
+                    "What's wrong with this listing?",
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).accentColor),
+                  ),
                   actions: <Widget>[
                     CupertinoActionSheetAction(
                         child: Text(
@@ -100,13 +100,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           )
         ],
-        title: Text('Shop',
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).accentColor),
-            )),
+        title: Text(
+          'Shop',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).accentColor),
+        ),
       ),
       body: body(),
     );
@@ -170,7 +170,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 width: 20,
                                 height: 20,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.ballScaleMultiple,
+                                  indicatorType: Indicator.ballClipRotate,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),
@@ -180,16 +180,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   SizedBox(width: 5.0),
                   Text(
-                      widget.prod.sellerId ==
-                              FirebaseAuth.instance.currentUser.uid
-                          ? 'Product by you'
-                          : 'Product by ' + widget.prod.sellerName,
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      )),
+                    widget.prod.sellerId ==
+                            FirebaseAuth.instance.currentUser.uid
+                        ? 'Product by you'
+                        : 'Product by ' + widget.prod.sellerName,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  ),
                 ],
               ),
               Row(
@@ -197,16 +196,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Icon(FlutterIcons.clock_faw5, size: 16.0),
                   SizedBox(width: 5.0),
                   Text(
-                      timeago.format(
-                          new DateTime.fromMillisecondsSinceEpoch(
-                              widget.prod.timeStamp),
-                          locale: 'en_short'),
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      )),
+                    timeago.format(
+                        new DateTime.fromMillisecondsSinceEpoch(
+                            widget.prod.timeStamp),
+                        locale: 'en_short'),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  ),
                 ],
               ),
             ],
@@ -215,23 +213,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         SizedBox(height: 5.0),
         Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-          child: Text(widget.prod.title,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).accentColor),
-              )),
+          child: Text(
+            widget.prod.title,
+            style: GoogleFonts.quicksand(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).accentColor),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 15.0),
-          child: Text(r'$' + widget.prod.price,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              )),
+          child: Text(
+            r'$' + widget.prod.price,
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ),
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
@@ -297,16 +295,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                        widget.prod.sellerId ==
-                                FirebaseAuth.instance.currentUser.uid
-                            ? 'Remove Listing'
-                            : 'Contact Seller',
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        )),
+                      widget.prod.sellerId ==
+                              FirebaseAuth.instance.currentUser.uid
+                          ? 'Remove Listing'
+                          : 'Contact Seller',
+                      style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
                     // SizedBox(width: 10.0),
                     // Icon(FlutterIcons.send_mco, color: Colors.white, size: 20.0),
                   ],
@@ -319,23 +316,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             color: Theme.of(context).accentColor.withOpacity(0.05)),
         Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-          child: Text('Description',
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).accentColor),
-              )),
+          child: Text(
+            'Description',
+            style: GoogleFonts.quicksand(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).accentColor),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-          child: Text(widget.prod.description,
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              )),
+          child: Text(
+            widget.prod.description,
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ),
         ),
       ],
     );

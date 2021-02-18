@@ -27,14 +27,12 @@ class _SayHiWidgetState extends State<SayHiWidget>
               Icon(FlutterIcons.nature_people_mdi,
                   color: Theme.of(context).accentColor, size: 40),
               SizedBox(height: 15.0),
-              Text(
-                  "You could say something like: What's your favourite memory in school?",
+              Text("Need an opener? A simple 'hey' can go a long way!",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor)))
+                  style: GoogleFonts.quicksand(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor))
             ],
           ),
         ),

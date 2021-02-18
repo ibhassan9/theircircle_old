@@ -84,7 +84,7 @@ class _MemberWidgetState extends State<MemberWidget> {
                                       backgroundColor: Colors.grey[400],
                                       child: Text(
                                           widget.user.name.substring(0, 1),
-                                          style: TextStyle(
+                                          style: GoogleFonts.quicksand(
                                               color: Theme.of(context)
                                                   .backgroundColor)))
                                   : Hero(
@@ -123,15 +123,14 @@ class _MemberWidgetState extends State<MemberWidget> {
                                     ),
                               SizedBox(width: 10.0),
                               Text(
-                                  _fAuth.currentUser.uid == widget.user.id
-                                      ? 'You'
-                                      : widget.user.name,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
-                                  ))
+                                _fAuth.currentUser.uid == widget.user.id
+                                    ? 'You'
+                                    : widget.user.name,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              )
                             ],
                           ),
                         ),

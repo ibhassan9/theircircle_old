@@ -51,11 +51,9 @@ class _ClubsPageState extends State<ClubsPage>
                   child: Text(
                     "Create a Virtual Community",
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    ),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 SizedBox(
@@ -74,11 +72,9 @@ class _ClubsPageState extends State<ClubsPage>
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
                 ),
                 TextField(
                   controller: clubDescriptionController,
@@ -93,11 +89,9 @@ class _ClubsPageState extends State<ClubsPage>
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your community here..."),
                   style: GoogleFonts.quicksand(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).accentColor),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -106,14 +100,12 @@ class _ClubsPageState extends State<ClubsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Privacy " +
-                              (switchVal == true ? "(Private)" : "(Public)"),
-                          style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).accentColor)),
-                        ),
+                            "Privacy " +
+                                (switchVal == true ? "(Private)" : "(Public)"),
+                            style: GoogleFonts.quicksand(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor)),
                         Switch(
                             activeColor: Colors.deepOrange,
                             value: switchVal,
@@ -160,7 +152,7 @@ class _ClubsPageState extends State<ClubsPage>
       //   title: Text(
       //     "Communities",
       //     style: GoogleFonts.pacifico(
-      //       textStyle: TextStyle(
+      //       GoogleFonts.quicksand: GoogleFonts.quicksand(
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
       //           color: Theme.of(context).accentColor),
@@ -198,21 +190,17 @@ class _ClubsPageState extends State<ClubsPage>
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
-                          left: 15, bottom: 11, top: 11, right: 15),
+                          left: 20, bottom: 11, top: 11, right: 15),
                       hintText: "Search Communities...",
                       hintStyle: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).accentColor),
-                      ),
-                    ),
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 searchedClubs.isNotEmpty
@@ -251,8 +239,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     width: 40,
                                     height: 40,
                                     child: LoadingIndicator(
-                                      indicatorType:
-                                          Indicator.ballScaleMultiple,
+                                      indicatorType: Indicator.ballClipRotate,
                                       color: Theme.of(context).accentColor,
                                     )));
                           else if (snap.hasData)
@@ -334,14 +321,14 @@ class _ClubsPageState extends State<ClubsPage>
                                         color: Theme.of(context).accentColor,
                                       ),
                                       SizedBox(width: 10),
-                                      Text("Cannot find any clubs :(",
-                                          style: GoogleFonts.quicksand(
-                                            textStyle: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
-                                          )),
+                                      Text(
+                                        "Cannot find any clubs :(",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Theme.of(context).accentColor),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -360,14 +347,13 @@ class _ClubsPageState extends State<ClubsPage>
                                       color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
-                                    Text("There are no clubs :(",
-                                        style: GoogleFonts.quicksand(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .accentColor),
-                                        )),
+                                    Text(
+                                      "There are no clubs :(",
+                                      style: GoogleFonts.quicksand(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).accentColor),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -445,11 +431,9 @@ class _ClubsPageState extends State<ClubsPage>
                                     Text(
                                       'Featured Club',
                                       style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white),
-                                      ),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
                                     ),
                                   ],
                                 ),
@@ -505,11 +489,9 @@ class _ClubsPageState extends State<ClubsPage>
                                           ? 'Leave Community'
                                           : 'Join Community',
                                   style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                  ),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
                                 ),
                               ),
                             ),

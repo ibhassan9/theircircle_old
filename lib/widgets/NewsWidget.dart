@@ -65,11 +65,9 @@ class _NewsWidgetState extends State<NewsWidget>
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
                         ),
                       ),
                     ],
@@ -114,7 +112,7 @@ class _NewsWidgetState extends State<NewsWidget>
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.black45,
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(3.0),
                           ),
                           height: 70,
                           child: Column(
@@ -138,11 +136,9 @@ class _NewsWidgetState extends State<NewsWidget>
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                  ),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
                                 ),
                               ),
                             ],

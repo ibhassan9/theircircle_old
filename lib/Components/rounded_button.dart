@@ -34,11 +34,9 @@ class _RoundedButtonState extends State<RoundedButton> {
           child: Text(
             widget.text,
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: widget.textColor),
-            ),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: widget.textColor),
           ),
         ),
       ),

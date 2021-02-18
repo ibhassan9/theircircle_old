@@ -95,13 +95,13 @@ Future signInUser(String email, String password, BuildContext context) async {
     if (_user.status == 1) {
       final snackBar = SnackBar(
           backgroundColor: Theme.of(context).backgroundColor,
-          content: Text('This account is temporarily banned.',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              )));
+          content: Text(
+            'This account is temporarily banned.',
+            style: GoogleFonts.quicksand(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ));
       Scaffold.of(context).showSnackBar(snackBar);
       return;
     }
@@ -122,13 +122,13 @@ Future signInUser(String email, String password, BuildContext context) async {
     if (_user.verified != 1) {
       final snackBar = SnackBar(
           backgroundColor: Theme.of(context).backgroundColor,
-          content: Text('Please wait...',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              )));
+          content: Text(
+            'Please wait...',
+            style: GoogleFonts.quicksand(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
+          ));
       Scaffold.of(context).showSnackBar(snackBar);
       var code = await sendVerificationCode(email);
       if (code == 0) {
@@ -153,13 +153,13 @@ Future signInUser(String email, String password, BuildContext context) async {
   }).catchError((err) {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        content: Text('Problem logging in. Please try again.',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )));
+        content: Text(
+          'Problem logging in. Please try again.',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ));
     Scaffold.of(context).showSnackBar(snackBar);
   });
 }
@@ -171,13 +171,13 @@ Future registerUser(
       email.contains(new RegExp(r'uwo', caseSensitive: false)) == false) {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        content: Text('Please use your university email to sign up.',
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )));
+        content: Text(
+          'Please use your university email to sign up.',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ));
     Scaffold.of(context).showSnackBar(snackBar);
     return;
   }
@@ -215,14 +215,13 @@ Future registerUser(
   }).catchError((err) {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        content:
-            Text('Problem creating account / email might already be in use.',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                )));
+        content: Text(
+          'Problem creating account / email might already be in use.',
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ));
     Scaffold.of(context).showSnackBar(snackBar);
   });
 }
@@ -783,7 +782,7 @@ Future<bool> updateProfile(
     String accomplishment2,
     String accomplishment3,
     String why,
-    List<dynamic> interests) async {
+    List<String> interests) async {
   var uid = firebaseAuth.currentUser.uid;
   var uniKey = Constants.checkUniversity();
   var shareddb = FirebaseDatabase.instance
@@ -973,7 +972,7 @@ Future<bool> updateProfile(
 //                             child: Text(
 //                           me.name == null ? "" : me.name,
 //                           style: GoogleFonts.poppins(
-//                             textStyle: TextStyle(
+//                             GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                 fontSize: 15,
 //                                 fontWeight: FontWeight.w500,
 //                                 color: Theme.of(context).accentColor),
@@ -1004,14 +1003,14 @@ Future<bool> updateProfile(
 //                                                   ? Constants.dummyDescription
 //                                                   : me.bio,
 //                                           hintStyle: GoogleFonts.poppins(
-//                                             textStyle: TextStyle(
+//                                             GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                                 fontSize: 13,
 //                                                 fontWeight: FontWeight.w500,
 //                                                 color: Colors.grey.shade700),
 //                                           )),
 //                                       maxLines: null,
 //                                       style: GoogleFonts.poppins(
-//                                         textStyle: TextStyle(
+//                                         GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                             fontSize: 13,
 //                                             fontWeight: FontWeight.w500,
 //                                             color: Colors.grey.shade700),
@@ -1024,7 +1023,7 @@ Future<bool> updateProfile(
 //                                         : me.bio,
 //                                     textAlign: TextAlign.center,
 //                                     style: GoogleFonts.poppins(
-//                                       textStyle: TextStyle(
+//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
@@ -1060,7 +1059,7 @@ Future<bool> updateProfile(
 //                                             : '',
 //                                         textAlign: TextAlign.center,
 //                                         style: GoogleFonts.poppins(
-//                                           textStyle: TextStyle(
+//                                           GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                               fontSize: 15,
 //                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.blue),
@@ -1094,7 +1093,7 @@ Future<bool> updateProfile(
 //                                           ? "Hide from 'Students on TheirCircle'"
 //                                           : "Appear on 'Students on TheirCircle'",
 //                                       style: GoogleFonts.poppins(
-//                                           textStyle: TextStyle(
+//                                           GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                               fontSize: 13,
 //                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.blue)))
@@ -1135,14 +1134,14 @@ Future<bool> updateProfile(
 //                                             : "Snapchat Handle Unavailable"
 //                                         : me.snapchatHandle,
 //                                     hintStyle: GoogleFonts.poppins(
-//                                       textStyle: TextStyle(
+//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
 //                                 style: GoogleFonts.poppins(
-//                                   textStyle: TextStyle(
+//                                   GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: Theme.of(context).accentColor),
@@ -1178,14 +1177,14 @@ Future<bool> updateProfile(
 //                                             : "Instagram Handle Unavailable"
 //                                         : me.instagramHandle,
 //                                     hintStyle: GoogleFonts.poppins(
-//                                       textStyle: TextStyle(
+//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
 //                                 style: GoogleFonts.poppins(
-//                                   textStyle: TextStyle(
+//                                   GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: Theme.of(context).accentColor),
@@ -1221,14 +1220,14 @@ Future<bool> updateProfile(
 //                                             : "LinkedIn Handle Unavailable"
 //                                         : me.linkedinHandle,
 //                                     hintStyle: GoogleFonts.poppins(
-//                                       textStyle: TextStyle(
+//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
 //                                 style: GoogleFonts.poppins(
-//                                   textStyle: TextStyle(
+//                                   GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: Theme.of(context).accentColor),
@@ -1273,7 +1272,7 @@ Future<bool> updateProfile(
 //                                       Text(
 //                                         "Send a message",
 //                                         style: GoogleFonts.poppins(
-//                                           textStyle: TextStyle(
+//                                           GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                               fontSize: 15,
 //                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.white),
@@ -1324,7 +1323,7 @@ Future<bool> updateProfile(
 //                                   child: Text(
 //                                     "Update Profile",
 //                                     style: GoogleFonts.poppins(
-//                                       textStyle: TextStyle(
+//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Colors.white),

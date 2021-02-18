@@ -24,64 +24,36 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.lightBlue),
-        ),
-        weekendStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
-        ),
+        weekdayStyle: GoogleFonts.quicksand(
+            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
+        weekendStyle: GoogleFonts.quicksand(
+            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        formatButtonTextStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
+        titleTextStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+        formatButtonTextStyle: GoogleFonts.quicksand(
+            fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        weekendStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        holidayStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        outsideHolidayStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        selectedStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        ),
-        todayStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        outsideStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        ),
-        outsideWeekendStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        ),
-        unavailableStyle: GoogleFonts.poppins(
-          textStyle: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
-        ),
+        weekdayStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+        weekendStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+        holidayStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+        outsideHolidayStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+        selectedStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
+        todayStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
+        outsideStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
+        outsideWeekendStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
+        unavailableStyle: GoogleFonts.quicksand(
+            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );
 
@@ -93,11 +65,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           tCalendar,
           SizedBox(height: 10.0),
           Text("Nothing to show here...",
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black))),
+              style: GoogleFonts.quicksand(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black)),
           SizedBox(height: 10.0),
         ]),
       ),

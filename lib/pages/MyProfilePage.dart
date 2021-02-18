@@ -126,11 +126,9 @@ class _MyProfilePageState extends State<MyProfilePage>
                   Text(
                     widget.user.name + ',',
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).accentColor),
-                    ),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).accentColor),
                   ),
                   Row(
                     children: [
@@ -144,11 +142,9 @@ class _MyProfilePageState extends State<MyProfilePage>
                                 ? "York University"
                                 : "Western University",
                         style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).buttonColor),
-                        ),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).buttonColor),
                       ),
                     ],
                   ),
@@ -167,13 +163,13 @@ class _MyProfilePageState extends State<MyProfilePage>
                         borderRadius: BorderRadius.circular(20)),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                      child: Text('Blocked Users',
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
-                          )),
+                      child: Text(
+                        'Blocked Users',
+                        style: GoogleFonts.quicksand(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
                     )),
               )
             ],
@@ -182,22 +178,18 @@ class _MyProfilePageState extends State<MyProfilePage>
           Text(
             "About myself",
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           about(),
           Divider(),
           Text(
             "What i've accomplished",
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           TextField(
             controller: accomplishmentOneController,
@@ -211,18 +203,14 @@ class _MyProfilePageState extends State<MyProfilePage>
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
               hintStyle: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[500]),
-              ),
-            ),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
+                  color: Colors.grey[500]),
             ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           ),
           TextField(
             controller: accomplishmentTwoController,
@@ -236,18 +224,14 @@ class _MyProfilePageState extends State<MyProfilePage>
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
               hintStyle: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[500]),
-              ),
-            ),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
+                  color: Colors.grey[500]),
             ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           ),
           TextField(
             controller: accomplishmentThreeController,
@@ -261,28 +245,22 @@ class _MyProfilePageState extends State<MyProfilePage>
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
               hintStyle: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[500]),
-              ),
-            ),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
+                  color: Colors.grey[500]),
             ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           ),
           Divider(),
           Text(
             "My socials",
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor),
           ),
           TextField(
             controller: snapController,
@@ -296,18 +274,14 @@ class _MyProfilePageState extends State<MyProfilePage>
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert Snapchat handle here...",
               hintStyle: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[500]),
-              ),
-            ),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
+                  color: Colors.grey[500]),
             ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           ),
           TextField(
             controller: instaController,
@@ -321,18 +295,14 @@ class _MyProfilePageState extends State<MyProfilePage>
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert Instagram handle here...",
               hintStyle: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[500]),
-              ),
-            ),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
+                  color: Colors.grey[500]),
             ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           ),
           TextField(
             controller: linkedinController,
@@ -346,18 +316,14 @@ class _MyProfilePageState extends State<MyProfilePage>
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert LinkedIn handle here...",
               hintStyle: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey[500]),
-              ),
-            ),
-            style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
+                  color: Colors.grey[500]),
             ),
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           ),
           Divider(),
           interests(),
@@ -391,7 +357,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                           width: 40,
                           height: 40,
                           child: LoadingIndicator(
-                            indicatorType: Indicator.ballScaleMultiple,
+                            indicatorType: Indicator.ballClipRotate,
                             color: Theme.of(context).accentColor,
                           )),
                     ),
@@ -426,18 +392,12 @@ class _MyProfilePageState extends State<MyProfilePage>
         contentPadding: EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
         hintText: "Insert about here",
         hintStyle: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey[500]),
-        ),
+            fontSize: 13, fontWeight: FontWeight.w400, color: Colors.grey[500]),
       ),
       style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
-            color: Theme.of(context).accentColor),
-      ),
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+          color: Theme.of(context).accentColor),
     );
   }
 
@@ -453,11 +413,9 @@ class _MyProfilePageState extends State<MyProfilePage>
         ? Text(
             result,
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).accentColor),
-            ),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).accentColor),
           )
         : SizedBox();
   }
@@ -469,11 +427,9 @@ class _MyProfilePageState extends State<MyProfilePage>
         Text(
           "I'm interested in",
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         Divider(),
         Wrap(
@@ -505,9 +461,7 @@ class _MyProfilePageState extends State<MyProfilePage>
         label: Text(
           '+ Add Interest',
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
-          ),
+              fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
         ),
         onSelected: (selected) async {
           var result = await Navigator.push(
@@ -538,11 +492,9 @@ class _MyProfilePageState extends State<MyProfilePage>
             label: Text(
               interest,
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
             ),
             onSelected: (selected) {
               setState(() {});
@@ -562,11 +514,9 @@ class _MyProfilePageState extends State<MyProfilePage>
             Text(
               "Places i've been to",
               style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-              ),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
             ),
             Divider(),
             Wrap(
@@ -588,11 +538,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           label: Text(
             'Sudan',
             style: GoogleFonts.quicksand(
-              textStyle: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-            ),
+                fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
             setState(() {});
@@ -630,7 +576,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 accomplishmentTwoController.text,
                 accomplishmentThreeController.text,
                 '',
-                _interests.cast<String>().toList());
+                _interests != null ? _interests.cast<String>().toList() : []);
             if (res) {
               setState(() {
                 isUpdating = false;
@@ -652,7 +598,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 accomplishmentTwoController.text,
                 accomplishmentThreeController.text,
                 '',
-                _interests.cast<String>().toList());
+                _interests != null ? _interests.cast<String>().toList() : []);
             if (res) {
               setState(() {
                 isUpdating = false;
@@ -676,7 +622,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                         width: 40,
                         height: 40,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.ballScaleMultiple,
+                          indicatorType: Indicator.ballClipRotate,
                           color: Colors.white,
                         )))
                 : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -686,11 +632,9 @@ class _MyProfilePageState extends State<MyProfilePage>
                     Text(
                       "UPDATE PROFILE",
                       style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     )
                   ])),
       ),

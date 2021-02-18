@@ -27,10 +27,10 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
         margin: BubbleEdges.fromLTRB(
             MediaQuery.of(context).size.width * 0.4, 10.0, 10.0, 0.0),
         alignment: Alignment.centerRight,
-        nip: BubbleNip.rightTop,
-        nipWidth: 10,
-        nipHeight: 10,
-        nipRadius: 5,
+        nip: BubbleNip.no,
+        nipWidth: 1,
+        nipHeight: 1,
+        nipRadius: 0.5,
         radius: Radius.circular(20.0),
         stick: true,
         color: prod != null || (prodNull != null && prodNull == true)
@@ -65,11 +65,9 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                     child: Text(
                                       'Listing not available',
                                       style: GoogleFonts.quicksand(
-                                        textStyle: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black),
-                                      ),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black),
                                     ),
                                   ),
                                 )
@@ -126,17 +124,14 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: GoogleFonts.quicksand(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: Colors.black),
-                                                ),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black),
                                               ),
                                               // Text(
                                               //   r'$ ' + prod.price,
-                                              //   style: GoogleFonts.quicksand(
-                                              //     textStyle: TextStyle(
+                                              //   style: GoogleFonts.lexendDeca(
+                                              //     GoogleFonts.quicksand: GoogleFonts.quicksand(
                                               //         fontSize: 13,
                                               //         fontWeight: FontWeight.w500,
                                               //         color: Colors.black),
@@ -147,12 +142,9 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: GoogleFonts.quicksand(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black),
-                                                ),
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black),
                                               ),
                                             ],
                                           ),
@@ -164,23 +156,23 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                         ],
                       ),
                     ),
-                    Text(widget.msg.messageText,
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        )),
+                    Text(
+                      widget.msg.messageText,
+                      style: GoogleFonts.quicksand(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
+                    ),
                   ],
                 ),
               )
-            : Text(widget.msg.messageText,
+            : Text(
+                widget.msg.messageText,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                )),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              ),
       ),
     );
   }

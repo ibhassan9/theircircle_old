@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tabbar/tabbar.dart';
+import 'package:unify/pages/Rooms.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/pages/courses_page.dart';
 
@@ -33,13 +34,11 @@ class _CoursenClubState extends State<CoursenClub> {
                   Text(
                     "Courses",
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: selected == 0
-                              ? Theme.of(context).accentColor
-                              : Theme.of(context).accentColor.withOpacity(0.4)),
-                    ),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: selected == 0
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
                   CircleAvatar(
@@ -65,18 +64,46 @@ class _CoursenClubState extends State<CoursenClub> {
                   Text(
                     "Communities",
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: selected == 1
-                              ? Theme.of(context).accentColor
-                              : Theme.of(context).accentColor.withOpacity(0.4)),
-                    ),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: selected == 1
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
                   CircleAvatar(
                     radius: 3.0,
                     backgroundColor: selected == 1
+                        ? Colors.purple
+                        : Theme.of(context).backgroundColor,
+                  )
+                ],
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                controller.animateToPage(2,
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.easeIn);
+                setState(() {
+                  selected = 2;
+                });
+              },
+              child: Column(
+                children: [
+                  Text(
+                    "Rooms",
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: selected == 2
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).accentColor.withOpacity(0.4)),
+                  ),
+                  SizedBox(height: 5.0),
+                  CircleAvatar(
+                    radius: 3.0,
+                    backgroundColor: selected == 2
                         ? Colors.purple
                         : Theme.of(context).backgroundColor,
                   )
@@ -95,7 +122,7 @@ class _CoursenClubState extends State<CoursenClub> {
           });
         },
         controller: controller,
-        children: <Widget>[CoursesPage(), ClubsPage()],
+        children: <Widget>[CoursesPage(), ClubsPage(), Rooms()],
       ),
     );
   }

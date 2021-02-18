@@ -36,11 +36,9 @@ class _PollResultsPageState extends State<PollResultsPage> {
         title: Text(
           "Poll Results",
           style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
@@ -60,27 +58,23 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 },
                 child: Text(
                   widget.questionOne,
-                  style: GoogleFonts.quicksand(
-                    textStyle: selectedOption == 1
-                        ? TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blue)
-                        : TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                  ),
+                  style: selectedOption == 1
+                      ? GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.blue)
+                      : GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
                 ),
               ),
               Text(
                 " | ",
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).accentColor),
               ),
               InkWell(
                 onTap: () {
@@ -90,17 +84,15 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 },
                 child: Text(
                   widget.questionTwo,
-                  style: GoogleFonts.quicksand(
-                    textStyle: selectedOption == 2
-                        ? TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blue)
-                        : TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                  ),
+                  style: selectedOption == 2
+                      ? GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.blue)
+                      : GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).accentColor),
                 ),
               ),
             ],

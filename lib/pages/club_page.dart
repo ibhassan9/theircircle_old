@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/pages/join_requests_list.dart';
 import 'package:unify/Components/Constants.dart';
@@ -27,203 +29,368 @@ class ClubPage extends StatefulWidget {
 
 class _ClubPageState extends State<ClubPage> {
   int sortBy = 0;
+  var iconContainerHeight = 55.00;
   Future<List<Post>> clubFuture;
+  Color color;
+  ScrollController _controller;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        brightness: Theme.of(context).brightness,
-        title: Text(
-          widget.club.name,
-          style: GoogleFonts.quicksand(
-            textStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
+        backgroundColor: color,
+        appBar: AppBar(
+          brightness: Brightness.dark,
+          centerTitle: false,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.club.name,
+                style: GoogleFonts.quicksand(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+              Text(
+                widget.club.description,
+                style: GoogleFonts.quicksand(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+            ],
           ),
-        ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        elevation: 0.7,
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(AntDesign.plus),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PostPage(
-                            club: widget.club,
-                          ))).then((value) {
-                if (value == false) {
-                  return;
-                }
-                setState(() {
-                  clubFuture = fetchClubPosts(widget.club, sortBy);
-                });
-              });
-            },
-          ),
-          IconButton(
-            icon: Icon(AntDesign.team),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MembersListPage(
+          backgroundColor: color,
+          elevation: 0.0,
+          iconTheme: IconThemeData(color: Colors.white),
+          titleSpacing: 0.0,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 15, right: 15.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MembersListPage(
                             members: widget.club.memberList,
-                            club: widget.club,
                             isCourse: false,
-                          )));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CourseCalendarPage(
-                            course: null,
-                            club: widget.club,
-                          )));
-            },
-          )
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: refresh,
-        child: Stack(
-          children: <Widget>[
-            ListView(
-              children: <Widget>[
-                SizedBox(
+                            club: widget.club),
+                      ));
+                },
+                child: Container(
                   height: 10,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(20.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Feather.users, color: Colors.white, size: 20.0),
+                      SizedBox(width: 5.0),
+                      Text(widget.club.memberCount.toString(),
+                          style: GoogleFonts.quicksand(
+                              color: Colors.white, fontWeight: FontWeight.bold))
+                    ],
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        if (sortBy == 0) {
-                          sortBy = 1;
-                        } else {
-                          sortBy = 0;
-                        }
-                        clubFuture = fetchClubPosts(widget.club, sortBy);
-                      });
-                    },
-                    child: Center(
-                      child: Text(
-                        "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).buttonColor),
+              ),
+            ),
+            // IconButton(
+            //   icon: Icon(AntDesign.plus),
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => PostPage(
+            //                   club: widget.club,
+            //                 ))).then((value) {
+            //       if (value == false) {
+            //         return;
+            //       }
+            //       setState(() {
+            //         clubFuture = fetchClubPosts(widget.club, sortBy);
+            //       });
+            //     });
+            //   },
+            // ),
+            // IconButton(
+            //   icon: Icon(AntDesign.team),
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => MembersListPage(
+            //                   members: widget.club.memberList,
+            //                   club: widget.club,
+            //                   isCourse: false,
+            //                 )));
+            //   },
+            // ),
+            // IconButton(
+            //   icon: Icon(Icons.calendar_today),
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => CourseCalendarPage(
+            //                   course: null,
+            //                   club: widget.club,
+            //                 )));
+            //   },
+            // )
+          ],
+        ),
+        body: RefreshIndicator(
+          onRefresh: refresh,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CourseCalendarPage(
+                                    course: null, club: widget.club)));
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        height: iconContainerHeight,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Visibility(
+                          visible: iconContainerHeight != 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(AntDesign.calendar,
+                                  color: Colors.white, size: 20.0),
+                              SizedBox(width: 5.0),
+                              Text('View Shared Calendar',
+                                  style: GoogleFonts.quicksand(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500))
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                FutureBuilder(
-                  future: clubFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount:
-                            snapshot.data != null ? snapshot.data.length : 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          Post post = snapshot.data[index];
-                          var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
-                              post.timeStamp);
-                          Function f = () async {
-                            var res =
-                                await deletePost(post.id, null, widget.club);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture =
-                                    fetchClubPosts(widget.club, sortBy);
-                              });
-                              previewMessage("Post Deleted", context);
-                            } else {
-                              previewMessage("Error deleting post!", context);
-                            }
-                          };
-
-                          Function b = () async {
-                            var res = await block(post.userId, post.userId);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture =
-                                    fetchClubPosts(widget.club, sortBy);
-                              });
-                              previewMessage("User blocked.", context);
-                            }
-                          };
-
-                          Function h = () async {
-                            var res = await hidePost(post.id);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture =
-                                    fetchClubPosts(widget.club, sortBy);
-                              });
-                              previewMessage("Post hidden from feed.", context);
-                            }
-                          };
-
-                          return PostWidget(
-                              key: ValueKey(post.id),
-                              post: post,
-                              timeAgo: timeago.format(timeAgo),
-                              club: widget.club,
-                              deletePost: f,
-                              block: b,
-                              hide: h);
-                        },
-                      );
-                    } else {
-                      return Container(
-                        height: MediaQuery.of(context).size.height / 1.4,
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.face,
-                                color: Theme.of(context).accentColor,
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(
+                        color: Theme.of(context).backgroundColor,
+                        child: Column(
+                          children: [
+                            Container(
+                              color: Theme.of(context).dividerColor,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    15.0, 7.0, 15.0, 7.0),
+                                child: Row(
+                                  children: [
+                                    Unicon(UniconData.uniSortAmountUp,
+                                        size: 20.0,
+                                        color: Colors.grey.shade600),
+                                    SizedBox(width: 5.0),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          if (sortBy == 0) {
+                                            sortBy = 1;
+                                          } else {
+                                            sortBy = 0;
+                                          }
+                                          clubFuture = fetchClubPosts(
+                                              widget.club, sortBy);
+                                        });
+                                      },
+                                      child: Text(
+                                        "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                                            .toUpperCase(),
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.grey.shade600),
+                                      ),
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Unicon(UniconData.uniArrowDown,
+                                        size: 20.0,
+                                        color: Colors.grey.shade600),
+                                  ],
+                                ),
                               ),
-                              SizedBox(width: 10),
-                              Text("There are no posts :(",
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
-                                  )),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Flexible(
+                              child: FutureBuilder(
+                                future: clubFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      controller: _controller,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      physics: AlwaysScrollableScrollPhysics(),
+                                      itemCount: snapshot.data != null
+                                          ? snapshot.data.length
+                                          : 0,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        Post post = snapshot.data[index];
+                                        var timeAgo = new DateTime
+                                                .fromMillisecondsSinceEpoch(
+                                            post.timeStamp);
+                                        Function f = () async {
+                                          var res = await deletePost(
+                                              post.id, null, widget.club);
+                                          Navigator.pop(context);
+                                          if (res) {
+                                            setState(() {
+                                              clubFuture = fetchClubPosts(
+                                                  widget.club, sortBy);
+                                            });
+                                            previewMessage(
+                                                "Post Deleted", context);
+                                          } else {
+                                            previewMessage(
+                                                "Error deleting post!",
+                                                context);
+                                          }
+                                        };
+
+                                        Function b = () async {
+                                          var res = await block(
+                                              post.userId, post.userId);
+                                          Navigator.pop(context);
+                                          if (res) {
+                                            setState(() {
+                                              clubFuture = fetchClubPosts(
+                                                  widget.club, sortBy);
+                                            });
+                                            previewMessage(
+                                                "User blocked.", context);
+                                          }
+                                        };
+
+                                        Function h = () async {
+                                          var res = await hidePost(post.id);
+                                          Navigator.pop(context);
+                                          if (res) {
+                                            setState(() {
+                                              clubFuture = fetchClubPosts(
+                                                  widget.club, sortBy);
+                                            });
+                                            previewMessage(
+                                                "Post hidden from feed.",
+                                                context);
+                                          }
+                                        };
+
+                                        return PostWidget(
+                                            key: ValueKey(post.id),
+                                            post: post,
+                                            timeAgo: timeago.format(timeAgo,
+                                                locale: 'en_short'),
+                                            club: widget.club,
+                                            deletePost: f,
+                                            block: b,
+                                            hide: h);
+                                      },
+                                    );
+                                  } else {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              1.4,
+                                      child: Center(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.face,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              "There are no posts :(",
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .accentColor),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            )
-          ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
+        floatingActionButton: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+                backgroundColor: color,
+                elevation: 0.0,
+                child: Unicon(UniconData.uniPlus, color: Colors.white),
+                onPressed: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PostPage(
+                                club: widget.club,
+                              ))).then((value) {
+                    if (value == false) {
+                      return;
+                    }
+                    setState(() {
+                      clubFuture = fetchClubPosts(widget.club, sortBy);
+                    });
+                  });
+                })));
+  }
+
+  void _scrollListener() {
+    if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+      if (iconContainerHeight != 0)
+        setState(() {
+          iconContainerHeight = 0;
+        });
+    }
+    if (_controller.position.userScrollDirection == ScrollDirection.forward) {
+      if (iconContainerHeight == 0)
+        setState(() {
+          iconContainerHeight = 55;
+        });
+    }
   }
 
   Future<Null> refresh() async {
@@ -237,5 +404,14 @@ class _ClubPageState extends State<ClubPage> {
     // TODO: implement initState
     super.initState();
     clubFuture = fetchClubPosts(widget.club, sortBy);
+    color = Colors.deepPurpleAccent;
+    _controller = ScrollController()..addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
   }
 }

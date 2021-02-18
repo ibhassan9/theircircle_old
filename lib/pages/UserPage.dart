@@ -30,12 +30,8 @@ class _UserPageState extends State<UserPage> {
           title: Text(
             "Profile",
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
+            style: GoogleFonts.quicksand(
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
           elevation: 0.0,
           iconTheme: IconThemeData(color: Colors.black),
@@ -134,12 +130,10 @@ class _UserPageState extends State<UserPage> {
                     Center(
                         child: Text(
                       user.name,
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      ),
+                      style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
                     )),
                     SizedBox(height: 5.0),
                     Center(
@@ -151,39 +145,34 @@ class _UserPageState extends State<UserPage> {
                                   controller: bioController,
                                   textAlign: TextAlign.center,
                                   decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      disabledBorder: InputBorder.none,
-                                      hintText:
-                                          user.bio == null || user.bio.isEmpty
-                                              ? Constants.dummyDescription
-                                              : user.bio,
-                                      hintStyle: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey.shade700),
-                                      )),
-                                  maxLines: null,
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    hintText:
+                                        user.bio == null || user.bio.isEmpty
+                                            ? Constants.dummyDescription
+                                            : user.bio,
+                                    hintStyle: GoogleFonts.quicksand(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.grey.shade700),
                                   ),
+                                  maxLines: null,
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey.shade700),
                                 ),
                               )
                             : Text(
                                 user.bio,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
-                                ),
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
                               )),
                     SizedBox(height: 5.0),
                     Divider(),
@@ -206,7 +195,7 @@ class _UserPageState extends State<UserPage> {
                     //           child: Text(
                     //             "Update Profile",
                     //             style: GoogleFonts.poppins(
-                    //               textStyle: TextStyle(
+                    //               GoogleFonts.quicksand: GoogleFonts.quicksand(
                     //                   fontSize: 15,
                     //                   fontWeight: FontWeight.w500,
                     //                   color: Colors.white),

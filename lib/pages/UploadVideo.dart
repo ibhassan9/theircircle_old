@@ -48,13 +48,13 @@ class _UploadVideoState extends State<UploadVideo> {
         elevation: 0.0,
         backgroundColor: Theme.of(context).backgroundColor,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        title: Text('Create',
-            style: GoogleFonts.pacifico(
-              textStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).accentColor),
-            )),
+        title: Text(
+          'Create',
+          style: GoogleFonts.quicksand(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
+        ),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: body(),
@@ -76,13 +76,13 @@ class _UploadVideoState extends State<UploadVideo> {
             Icon(Icons.message_rounded,
                 size: 17.0, color: Theme.of(context).accentColor),
             SizedBox(width: 10.0),
-            Text('Allow comments',
-                style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                )),
+            Text(
+              'Allow comments',
+              style: GoogleFonts.quicksand(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor),
+            ),
           ],
         )),
         InkWell(
@@ -194,16 +194,16 @@ class _UploadVideoState extends State<UploadVideo> {
                     height: 40.0,
                     width: 40.0,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballScaleMultiple,
+                      indicatorType: Indicator.ballClipRotate,
                       color: Colors.white,
                     ))
-                : Text('PUBLISH',
+                : Text(
+                    'PUBLISH',
                     style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    )),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
           ),
         ),
       ),
@@ -238,8 +238,8 @@ class _UploadVideoState extends State<UploadVideo> {
     //       borderRadius: BorderRadius.circular(
     //           3.0)), //             <--- BoxDecoration here
     //   child: Text('@ Friends',
-    //       style: GoogleFonts.quicksand(
-    //         textStyle: TextStyle(
+    //       style: GoogleFonts.lexendDeca(
+    //         GoogleFonts.quicksand: GoogleFonts.quicksand(
     //             fontSize: 11,
     //             fontWeight: FontWeight.w400,
     //             color: Theme.of(context).accentColor),
@@ -264,11 +264,9 @@ class _UploadVideoState extends State<UploadVideo> {
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: 'Describe your video'),
         style: GoogleFonts.quicksand(
-          textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
       ),
     );
   }

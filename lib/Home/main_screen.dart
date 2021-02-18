@@ -30,6 +30,7 @@ import 'package:unify/pages/MainPage.dart';
 import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
+import 'package:unify/pages/RoomPage.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 import 'package:unify/pages/TodaysQuestionPage.dart';
 import 'package:unify/pages/VideoPreview.dart';
@@ -165,27 +166,20 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Icon(FlutterIcons.circle_notch_faw5s,
+                        Icon(Feather.home,
                             color: _pages == 2
                                 ? Colors.white
                                 : _pages == 0
                                     ? Theme.of(context).accentColor
                                     : Theme.of(context).buttonColor,
-                            size: 25),
-                        // SizedBox(height: 3.0),
-                        // Text(
-                        //   'Home',
-                        //   style: GoogleFonts.rubik(
-                        //     textStyle: TextStyle(
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //         color: _pages == 2
-                        //             ? Colors.grey
-                        //             : _pages == 0
-                        //                 ? Theme.of(context).accentColor
-                        //                 : Colors.grey),
-                        //   ),
-                        // )
+                            size: 27),
+                        SizedBox(height: 5.0),
+                        CircleAvatar(
+                          radius: 3.0,
+                          backgroundColor: _pages == 0
+                              ? Theme.of(context).accentColor
+                              : Colors.transparent,
+                        )
                       ],
                     ),
                   ),
@@ -198,28 +192,20 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Unicon(UniconData.uniBookReader,
+                        Icon(Feather.award,
                             color: _pages == 2
                                 ? Colors.white
                                 : _pages == 1
                                     ? Theme.of(context).accentColor
                                     : Theme.of(context).buttonColor,
                             size: 27.0),
-
-                        // SizedBox(height: 3.0),
-                        // Text(
-                        //   'Courses',
-                        //   style: GoogleFonts.rubik(
-                        //     textStyle: TextStyle(
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //         color: _pages == 2
-                        //             ? Colors.grey
-                        //             : _pages == 1
-                        //                 ? Theme.of(context).accentColor
-                        //                 : Colors.grey),
-                        //   ),
-                        // )
+                        SizedBox(height: 5.0),
+                        CircleAvatar(
+                          radius: 3.0,
+                          backgroundColor: _pages == 1
+                              ? Theme.of(context).accentColor
+                              : Colors.transparent,
+                        )
                       ],
                     ),
                   ),
@@ -232,21 +218,17 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Unicon(UniconData.uniTvRetro,
+                        Icon(Feather.tv,
                             color: _pages == 2
                                 ? Colors.white
                                 : Theme.of(context).buttonColor,
                             size: 27.0),
-                        // SizedBox(height: 3.0),
-                        // Text(
-                        //   'UniTV',
-                        //   style: GoogleFonts.rubik(
-                        //     textStyle: TextStyle(
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //         color: _pages == 2 ? Colors.white : Colors.grey),
-                        //   ),
-                        // )
+                        SizedBox(height: 5.0),
+                        CircleAvatar(
+                          radius: 3.0,
+                          backgroundColor:
+                              _pages == 2 ? Colors.white : Colors.transparent,
+                        )
                       ],
                     ),
                   ),
@@ -259,27 +241,20 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Unicon(UniconData.uniShoppingBag,
+                        Icon(Feather.shopping_bag,
                             color: _pages == 2
                                 ? Colors.white
                                 : _pages == 3
                                     ? Theme.of(context).accentColor
                                     : Theme.of(context).buttonColor,
                             size: 27.0),
-                        // SizedBox(height: 3.0),
-                        // Text(
-                        //   'Clubs',
-                        //   style: GoogleFonts.rubik(
-                        //     textStyle: TextStyle(
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //         color: _pages == 2
-                        //             ? Colors.grey
-                        //             : _pages == 3
-                        //                 ? Theme.of(context).accentColor
-                        //                 : Colors.grey),
-                        //   ),
-                        // )
+                        SizedBox(height: 5.0),
+                        CircleAvatar(
+                          radius: 3.0,
+                          backgroundColor: _pages == 3
+                              ? Theme.of(context).accentColor
+                              : Colors.transparent,
+                        )
                       ],
                     ),
                   ),
@@ -297,145 +272,27 @@ class _MainScreenState extends State<MainScreen>
                     },
                     child: Column(
                       children: [
-                        Unicon(UniconData.uniUserCircle,
+                        Icon(Feather.user,
                             color: _pages == 2
                                 ? Colors.white
                                 : _pages == 4
                                     ? Theme.of(context).accentColor
                                     : Theme.of(context).buttonColor,
                             size: 27.0),
-                        // SizedBox(height: 3.0),
-                        // Text(
-                        //   'Clubs',
-                        //   style: GoogleFonts.rubik(
-                        //     textStyle: TextStyle(
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //         color: _pages == 2
-                        //             ? Colors.grey
-                        //             : _pages == 3
-                        //                 ? Theme.of(context).accentColor
-                        //                 : Colors.grey),
-                        //   ),
-                        // )
+                        SizedBox(height: 5.0),
+                        CircleAvatar(
+                          radius: 3.0,
+                          backgroundColor: _pages == 4
+                              ? Theme.of(context).accentColor
+                              : Colors.transparent,
+                        )
                       ],
                     ),
-                    // child: Column(
-                    //   children: [
-                    //     profile()
-
-                    //     // SizedBox(height: 3.0),
-                    //     // Text(
-                    //     //   'Chat',
-                    //     //   style: GoogleFonts.rubik(
-                    //     //     textStyle: TextStyle(
-                    //     //         fontSize: 12,
-                    //     //         fontWeight: FontWeight.w400,
-                    //     //         color: _pages == 2
-                    //     //             ? Colors.grey
-                    //     //             : _pages == 4
-                    //     //                 ? Theme.of(context).accentColor
-                    //     //                 : Colors.grey),
-                    //     //   ),
-                    //     // )
-                    //   ],
-                    // ),
                   ),
-                  // BottomNavigationBarItem(
-                  //           icon: Icon(FlutterIcons.circle_notch_faw5s),
-                  //           title: Text('Home')),
-                  //       CustomNavigationBarItem(
-                  //           icon: Icon(AntDesign.book), title: Text('Courses')),
-                  //       CustomNavigationBarItem(
-                  //           icon: Icon(FlutterIcons.video_camera_faw),
-                  //           title: Text('UniTV')),
-                  //       CustomNavigationBarItem(
-                  //           icon: Icon(AntDesign.Trophy), title: Text('Clubs')),
-                  //       CustomNavigationBarItem(
-                  //           icon: Icon(FlutterIcons.chat_bubble_outline_mdi),
-                  //           title: Text('Chat')),
                 ],
               ),
             ),
           ),
-          // bottomNavigationBar: Container(
-          //   color: Colors.red,
-          //   height: kBottomNavigationBarHeight + 40,
-          //   child: Stack(
-          //     children: [
-          //       Positioned(
-          //         top: 0.0,
-          //         child: CustomNavigationBar(
-          //           //index: widget.initialPage != null ? widget.initialPage : 0,
-          //           key: _bottomNavigationKey,
-          //           currentIndex: _pages,
-          //           elevation: 1.5,
-          //           //animationCurve: Curves.easeOutCirc,
-          //           backgroundColor: widget.initialPage == null
-          //               ? _pages == 2
-          //                   ? Colors.black
-          //                   : Theme.of(context).backgroundColor
-          //               : widget.initialPage == 2
-          //                   ? _pages == 2
-          //                       ? Colors.black
-          //                       : Theme.of(context).backgroundColor
-          //                   : Theme.of(context).backgroundColor,
-          //           // color: widget.initialPage == null
-          //           //     ? _pages == 2
-          //           //         ? Colors.black
-          //           //         : Colors.deepPurpleAccent
-          //           //     : widget.initialPage == 2
-          //           //         ? _pages == 2
-          //           //             ? Colors.black
-          //           //             : Colors.deepPurpleAccent
-          //           //         : Colors.deepPurpleAccent,
-          //           items: [
-          //             CustomNavigationBarItem(
-          //                 icon: Icon(FlutterIcons.circle_notch_faw5s),
-          //                 title: Text('Home')),
-          //             CustomNavigationBarItem(
-          //                 icon: Icon(AntDesign.book), title: Text('Courses')),
-          //             CustomNavigationBarItem(
-          //                 icon: Icon(FlutterIcons.video_camera_faw),
-          //                 title: Text('UniTV')),
-          //             CustomNavigationBarItem(
-          //                 icon: Icon(AntDesign.Trophy), title: Text('Clubs')),
-          //             CustomNavigationBarItem(
-          //                 icon: Icon(FlutterIcons.chat_bubble_outline_mdi),
-          //                 title: Text('Chat')),
-          //             // Icon(
-          //             //   FlutterIcons.circle_notch_faw5s,
-          //             //   color: Colors.white,
-          //             // ),
-          //             // Icon(
-          //             //   AntDesign.book,
-          //             //   color: Colors.white,
-          //             // ),
-          //             // Icon(FlutterIcons.video_camera_faw, color: Colors.white),
-          //             // Icon(
-          //             //   AntDesign.Trophy,
-          //             //   color: Colors.white,
-          //             // ),
-          //             // Icon(
-          //             //   FlutterIcons.chat_bubble_outline_mdi,
-          //             //   color: Colors.white,
-          //             // ),
-          //           ],
-          //           onTap: (index) {
-          //             _pageController.jumpToPage(index);
-          //             // setState(() {
-          //             //   _pages = index;
-          //             // });
-          //             // final CurvedNavigationBarState navBarState =
-          //             //     _bottomNavigationKey.currentState;
-          //             // navBarState.setPage(index);
-          //             // _pageController.jumpToPage(index);
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // )
         ),
         MyMatchesPage(backFromChat: () {
           _mainController.animateToPage(0,
@@ -545,6 +402,7 @@ class _MainScreenState extends State<MainScreen>
     var video = data[4];
     var receiver = data[5];
     var chatId = data[6];
+    var room = data[7];
     switch (type) {
       case 0:
         Navigator.push(
@@ -591,6 +449,14 @@ class _MainScreenState extends State<MainScreen>
             context,
             MaterialPageRoute(
                 builder: (context) => VideoPreview(video: video, timeAgo: '')));
+        break;
+      case 7:
+        // go to room chat
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                settings: RouteSettings(name: "/Rooms"),
+                builder: (context) => RoomPage(room: room)));
         break;
       default:
         break;

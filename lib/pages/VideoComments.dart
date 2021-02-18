@@ -63,11 +63,9 @@ class _VideoCommentsState extends State<VideoComments> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Comment Here"),
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
               )),
               IconButton(
                 icon: Icon(
@@ -117,12 +115,10 @@ class _VideoCommentsState extends State<VideoComments> {
         ),
         title: Text(
           "Comments",
-          style: GoogleFonts.pacifico(
-            textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+          style: GoogleFonts.quicksand(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
@@ -169,14 +165,13 @@ class _VideoCommentsState extends State<VideoComments> {
                                       color: Theme.of(context).accentColor,
                                     ),
                                     SizedBox(width: 10),
-                                    Text("There are no comments :(",
-                                        style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .accentColor),
-                                        )),
+                                    Text(
+                                      "There are no comments :(",
+                                      style: GoogleFonts.quicksand(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).accentColor),
+                                    ),
                                   ],
                                 ),
                               );
@@ -190,13 +185,13 @@ class _VideoCommentsState extends State<VideoComments> {
               ),
             )
           : Center(
-              child: Text("Comments are disabled",
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  )),
+              child: Text(
+                "Comments are disabled",
+                style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).accentColor),
+              ),
             ),
       bottomNavigationBar: widget.video.allowComments
           ? Padding(

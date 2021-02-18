@@ -12,13 +12,15 @@ class Comment {
   String userId;
   int timeStamp;
   String university;
+  Map<dynamic, dynamic> tags;
 
   Comment(
       {this.content,
       this.username,
       this.userId,
       this.timeStamp,
-      this.university});
+      this.university,
+      this.tags});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -38,7 +40,7 @@ var clubpostDBYorkU =
 
 Future<List<Comment>> fetchComments(
     Post post, c.Course course, Club club) async {
-  List<Comment> c = List<Comment>();
+  List<Comment> c = [];
   var uniKey = Constants.checkUniversity();
   var cDB = FirebaseDatabase.instance.reference().child('posts');
   var courseCDB = FirebaseDatabase.instance.reference().child('courseposts');
@@ -86,6 +88,9 @@ Future<List<Comment>> fetchComments(
           username: value['username'],
           userId: value['userId'],
           timeStamp: value['timeStamp']);
+      if (value['tags'] != null) {
+        comment.tags = value['tags'];
+      }
       c.add(comment);
     });
     c.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
@@ -95,8 +100,8 @@ Future<List<Comment>> fetchComments(
 
 Future<bool> deleteComment(Post post, c.Course course, Club club) async {}
 
-Future<bool> postComment(
-    Comment comment, Post post, c.Course course, Club club) async {
+Future<bool> postComment(Comment comment, Post post, c.Course course, Club club,
+    Map<String, dynamic> tags) async {
   PostUser user = await getUser(firebaseAuth.currentUser.uid);
   var uniKey = Constants.checkUniversity();
   var cDB = FirebaseDatabase.instance.reference().child('posts');
@@ -130,14 +135,17 @@ Future<bool> postComment(
               .child(course.id)
               .child(post.id)
               .child('comments');
-  //var key = commentsDB.child(post.id).push();
   var key = db.push();
   final Map<String, dynamic> data = {
     "content": comment.content,
     "username": user.name,
     "userId": firebaseAuth.currentUser.uid,
-    "timeStamp": DateTime.now().millisecondsSinceEpoch
+    "timeStamp": DateTime.now().millisecondsSinceEpoch,
   };
+
+  if (tags != null) {
+    data["tags"] = tags;
+  }
 
   await key.set(data).catchError((err) {
     return false;

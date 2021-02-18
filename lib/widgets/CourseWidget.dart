@@ -32,33 +32,36 @@ class _CourseWidgetState extends State<CourseWidget> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          height: 110,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(AntDesign.team,
-                          color: Theme.of(context).accentColor),
-                      onPressed: () {},
+                Container(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(AntDesign.team, color: Colors.white, size: 15.0),
+                        Text(
+                          "${widget.course.memberCount}",
+                          style: GoogleFonts.quicksand(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "${widget.course.memberCount}",
-                      style: GoogleFonts.quicksand(
-                        textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                Container(width: 3.0, color: color),
                 SizedBox(
                   width: 15.0,
                 ),
@@ -74,26 +77,22 @@ class _CourseWidgetState extends State<CourseWidget> {
                           Text(
                             widget.course.code,
                             style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).accentColor),
-                            ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
                           ),
-                          Divider(),
                           Text(
                             widget.course.name,
                             style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).accentColor),
-                            ),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           )
                         ],
                       )),
+                      SizedBox(height: 5.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -118,11 +117,9 @@ class _CourseWidgetState extends State<CourseWidget> {
                             child: Text(
                               status(),
                               style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.lightBlue),
-                              ),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.lightBlue),
                             ),
                           ),
                         ],

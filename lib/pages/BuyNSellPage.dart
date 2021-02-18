@@ -40,12 +40,10 @@ class _BuyNSellState extends State<BuyNSell>
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Store",
-          style: GoogleFonts.pacifico(
-            textStyle: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ),
+          style: GoogleFonts.quicksand(
+              fontSize: 23,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         actions: <Widget>[
           InkWell(
@@ -135,16 +133,13 @@ class _BuyNSellState extends State<BuyNSell>
                                 left: 0, bottom: 0, top: 0, right: 15),
                             hintText: "Search Products...",
                             hintStyle: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor))),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor)),
                         style: GoogleFonts.quicksand(
-                          textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                   ),
@@ -164,12 +159,10 @@ class _BuyNSellState extends State<BuyNSell>
                       child: Text(
                         "Sell or drive with Theircart",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.rubik(
-                          textStyle: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
                       ),
                     ),
                   ),
@@ -226,7 +219,7 @@ class _BuyNSellState extends State<BuyNSell>
                               width: 40,
                               height: 40,
                               child: LoadingIndicator(
-                                indicatorType: Indicator.ballScaleMultiple,
+                                indicatorType: Indicator.ballClipRotate,
                                 color: Theme.of(context).accentColor,
                               )))
                 ],

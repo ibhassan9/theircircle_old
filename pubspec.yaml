@@ -91,6 +91,7 @@ dependencies:
   sticky_headers: ^0.1.8+1
   tabbar: ^0.1.1
   flutter_unicons: ^0.0.1
+  integration_test: ^1.0.2+2
 
 dev_dependencies:
   flutter_test:
@@ -111,6 +112,22 @@ flutter:
   - family: AppIcons
     fonts:
       - asset: lib/Components/fonts/AppIcons.ttf
+  - family: Gilroy
+    fonts:
+      - asset: assets/fonts/Gilroy-Medium.ttf
+        weight: 600
+      - asset: assets/fonts/Gilroy-Regular.ttf
+        weight: 500
+      - asset: assets/fonts/Gilroy-Bold.ttf
+        weight: 700
+  - family: H
+    fonts:
+      - asset: assets/fonts/Light.ttf
+        weight: 500
+      - asset: assets/fonts/Medium.ttf
+        weight: 600
+      - asset: assets/fonts/Bold.ttf
+        weight: 700
 
   assets:
     - assets/images/

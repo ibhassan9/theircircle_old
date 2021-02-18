@@ -98,11 +98,9 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                       ? 'You'
                                       : widget.assignment.createdBy),
                               style: GoogleFonts.quicksand(
-                                textStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
-                              ),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).accentColor),
                             ),
                             Visibility(
                               visible: _fAuth.currentUser.uid ==
@@ -171,21 +169,17 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                         Text(
                           widget.assignment.title,
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
                         ),
                         Divider(),
                         Text(
                           widget.assignment.description,
                           style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
                         ),
                         Divider(),
                       ],
@@ -198,11 +192,9 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                           Text(
                             "Due: " + widget.assignment.timeDue,
                             style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).accentColor),
-                            ),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
                           ),
                         ],
                       ),

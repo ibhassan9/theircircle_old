@@ -1,32 +1,38 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
 
-class PollResultWidget extends StatefulWidget {
+class AddUserWidget extends StatefulWidget {
   final PostUser peer;
-  final Function show;
-  final String question;
-  PollResultWidget(
+  final Function add;
+  final Function delete;
+  final List<PostUser> selectedUsers;
+  AddUserWidget(
       {Key key,
       @required this.peer,
-      @required this.show,
-      @required this.question})
+      @required this.add,
+      @required this.delete,
+      this.selectedUsers})
       : super(key: key);
   @override
-  _PollResultWidgetState createState() => _PollResultWidgetState();
+  _AddUserWidgetState createState() => _AddUserWidgetState();
 }
 
-class _PollResultWidgetState extends State<PollResultWidget> {
+class _AddUserWidgetState extends State<AddUserWidget> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  bool isSelected = false;
 
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 0.0),
       child: InkWell(
         onTap: () {},
         child: Column(
@@ -49,33 +55,33 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                       tag: widget.peer.id,
                       child: widget.peer.profileImgUrl == null
                           ? ClipRRect(
-                              borderRadius: BorderRadius.circular(70),
+                              borderRadius: BorderRadius.circular(25),
                               child: Container(
-                                width: 40,
-                                height: 40,
+                                width: 50,
+                                height: 50,
                                 color: Colors.grey,
-                                child:
-                                    Icon(AntDesign.user, color: Colors.white),
+                                child: Icon(Ionicons.md_person,
+                                    color: Colors.white, size: 30.0),
                               ),
                             )
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(70),
+                              borderRadius: BorderRadius.circular(25),
                               child: Image.network(
                                 widget.peer.profileImgUrl,
-                                width: 40,
-                                height: 40,
+                                width: 50,
+                                height: 50,
                                 fit: BoxFit.cover,
                                 loadingBuilder: (BuildContext context,
                                     Widget child,
                                     ImageChunkEvent loadingProgress) {
                                   if (loadingProgress == null) return child;
                                   return SizedBox(
-                                    height: 40,
-                                    width: 40,
+                                    height: 50,
+                                    width: 50,
                                     child: Center(
                                       child: SizedBox(
-                                          width: 20,
-                                          height: 20,
+                                          width: 30,
+                                          height: 30,
                                           child: LoadingIndicator(
                                             indicatorType:
                                                 Indicator.ballClipRotate,
@@ -96,12 +102,15 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                           widget.peer.name,
                           style: GoogleFonts.quicksand(
                               fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               color: Theme.of(context).accentColor),
                         ),
-                        SizedBox(height: 5.0),
                         Text(
-                          'Voted: ' + widget.question,
+                          widget.peer.about != null
+                              ? widget.peer.about.isNotEmpty
+                                  ? widget.peer.about
+                                  : "No bio available."
+                              : "No bio available.",
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.quicksand(
@@ -131,13 +140,27 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                                   chatId: chatId,
                                 )));
                   },
-                  child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(FlutterIcons.message_mdi,
-                          color: Colors.deepPurpleAccent)),
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 7.0),
+                      child: IconButton(
+                          onPressed: () {
+                            if (widget.selectedUsers.contains(widget.peer)) {
+                              widget.delete();
+                            } else {
+                              widget.add();
+                            }
+                          },
+                          icon: Icon(
+                              widget.selectedUsers.contains(widget.peer) ==
+                                      false
+                                  ? FlutterIcons.add_circle_mdi
+                                  : FlutterIcons.remove_circle_mdi,
+                              color: widget.selectedUsers.contains(widget.peer)
+                                  ? Colors.red
+                                  : Colors.blue))),
                 )
               ],
-            )
+            ),
           ],
         ),
       ),
