@@ -105,7 +105,7 @@ class _VideoCommentsState extends State<VideoComments> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(FlutterIcons.close_ant,
               color: Theme.of(context).accentColor),
@@ -115,9 +115,10 @@ class _VideoCommentsState extends State<VideoComments> {
         ),
         title: Text(
           "Comments",
-          style: GoogleFonts.quicksand(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
+          style: TextStyle(
+              fontFamily: "Futura1",
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
@@ -151,7 +152,8 @@ class _VideoCommentsState extends State<VideoComments> {
                                           comment.timeStamp);
                                   return CommentWidget(
                                       comment: comment,
-                                      timeAgo: timeago.format(timeAgo));
+                                      timeAgo: timeago.format(timeAgo),
+                                      isVideo: true);
                                 },
                               );
                             } else {

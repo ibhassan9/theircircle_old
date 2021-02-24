@@ -75,7 +75,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
             "Chat",
-            style: GoogleFonts.quicksand(
+            style: TextStyle(
+                fontFamily: "Futura",
                 fontSize: 19,
                 fontWeight: FontWeight.w800,
                 color: Theme.of(context).accentColor),
@@ -161,7 +162,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                             var timeAgo =
                                 new DateTime.fromMillisecondsSinceEpoch(
                                     chat.timestamp);
-                            var time = timeago.format(timeAgo);
+                            var time =
+                                timeago.format(timeAgo, locale: 'en_short');
                             Function reload = () {
                               setState(() {
                                 myStream = db.onValue;

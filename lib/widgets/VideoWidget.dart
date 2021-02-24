@@ -278,8 +278,11 @@ class _VideoWidgetState extends State<VideoWidget>
         padding: const EdgeInsets.all(5.0),
         child: Text(
           university,
-          style: GoogleFonts.quicksand(
-              fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
+          style: TextStyle(
+              fontFamily: "Futura1",
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              color: Colors.black),
         ),
       ),
     );
@@ -324,22 +327,30 @@ class _VideoWidgetState extends State<VideoWidget>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                widget.video.userId == firebaseAuth.currentUser.uid
-                    ? 'Posted by you'
-                    : widget.video.name,
-                style: GoogleFonts.quicksand(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Text(
+                  widget.video.userId == firebaseAuth.currentUser.uid
+                      ? 'Posted by you'
+                      : widget.video.name,
+                  style: TextStyle(
+                      fontFamily: "Futura1",
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
               ),
               SizedBox(width: 5.0),
-              Text(
-                widget.timeAgo,
-                style: GoogleFonts.quicksand(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[300]),
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Text(
+                  widget.timeAgo,
+                  style: TextStyle(
+                      fontFamily: "Futura1",
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[300]),
+                ),
               ),
               // SizedBox(height: 5.0),
               // institution()

@@ -22,17 +22,18 @@ class MembersListPage extends StatefulWidget {
   _MembersListPageState createState() => _MembersListPageState();
 }
 
-class _MembersListPageState extends State<MembersListPage> {
+class _MembersListPageState extends State<MembersListPage>
+    with AutomaticKeepAliveClientMixin {
+  Future<List<PostUser>> memberFuture;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           brightness: Theme.of(context).brightness,
           title: Text(
-            widget.isCourse
-                ? "${widget.course.code} Members"
-                : "${widget.club.name} Members",
+            "Members",
             style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -64,7 +65,7 @@ class _MembersListPageState extends State<MembersListPage> {
           child: Stack(
             children: <Widget>[
               FutureBuilder(
-                future: cour.fetchMemberList(widget.course, widget.club),
+                future: memberFuture,
                 builder: (context, snap) {
                   if (snap.connectionState == ConnectionState.waiting)
                     return Center(
@@ -75,7 +76,8 @@ class _MembersListPageState extends State<MembersListPage> {
                               indicatorType: Indicator.ballClipRotate,
                               color: Theme.of(context).accentColor,
                             )));
-                  else if (snap.hasData)
+                  else if (snap.hasData &&
+                      snap.connectionState == ConnectionState.done)
                     return ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -83,7 +85,8 @@ class _MembersListPageState extends State<MembersListPage> {
                       itemCount: snap.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         PostUser user = snap.data[index];
-                        print(user.name);
+                        print(user.university);
+                        print(snap.data.length);
                         Function delete = () {
                           showRemove(user);
                         };
@@ -136,6 +139,12 @@ class _MembersListPageState extends State<MembersListPage> {
         ));
   }
 
+  @override
+  void initState() {
+    super.initState();
+    memberFuture = cour.fetchMemberList(widget.course, widget.club);
+  }
+
   showRemove(PostUser user) {
     final act = CupertinoActionSheet(
       title: Text(
@@ -182,4 +191,6 @@ class _MembersListPageState extends State<MembersListPage> {
     showCupertinoModalPopup(
         context: context, builder: (BuildContext context) => act);
   }
+
+  bool get wantKeepAlive => true;
 }

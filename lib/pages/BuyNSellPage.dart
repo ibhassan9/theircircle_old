@@ -40,7 +40,8 @@ class _BuyNSellState extends State<BuyNSell>
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Store",
-          style: GoogleFonts.quicksand(
+          style: TextStyle(
+              fontFamily: "Futura",
               fontSize: 23,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -216,8 +217,8 @@ class _BuyNSellState extends State<BuyNSell>
                           : Center(child: Text('No products found'))
                       : Center(
                           child: SizedBox(
-                              width: 40,
-                              height: 40,
+                              width: 20,
+                              height: 20,
                               child: LoadingIndicator(
                                 indicatorType: Indicator.ballClipRotate,
                                 color: Theme.of(context).accentColor,

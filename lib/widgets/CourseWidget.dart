@@ -76,9 +76,10 @@ class _CourseWidgetState extends State<CourseWidget> {
                         children: <Widget>[
                           Text(
                             widget.course.code,
-                            style: GoogleFonts.quicksand(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
+                            style: TextStyle(
+                                fontFamily: "Futura1",
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
                           ),
                           Text(

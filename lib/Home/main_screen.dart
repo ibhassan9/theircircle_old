@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
@@ -7,6 +8,7 @@ import 'package:custom_switch/custom_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -86,7 +88,12 @@ class _MainScreenState extends State<MainScreen>
         keepPage: true);
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {},
+      onMessage: (Map<String, dynamic> message) async {
+        if (message['screen'] == "CHAT_PAGE") {
+          return;
+        }
+        floatNotification(notification: message);
+      },
       onLaunch: (Map<String, dynamic> message) async {
         handleNotification(message).then((value) {
           navigate(value);
@@ -141,158 +148,201 @@ class _MainScreenState extends State<MainScreen>
               )
             ],
           ),
-          bottomNavigationBar: Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            decoration: BoxDecoration(
-                color: _pages == 2
-                    ? Colors.black.withOpacity(0.99)
-                    : Theme.of(context).backgroundColor,
-                border: Border(
-                    top: BorderSide(
-                        color: Theme.of(context).accentColor.withOpacity(0.1),
-                        width: 1.0))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 0.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      _pageController.jumpToPage(0);
-                      setState(() {
-                        _pages = 0;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Feather.home,
-                            color: _pages == 2
-                                ? Colors.white
-                                : _pages == 0
-                                    ? Theme.of(context).accentColor
-                                    : Theme.of(context).buttonColor,
-                            size: 27),
-                        SizedBox(height: 5.0),
-                        CircleAvatar(
-                          radius: 3.0,
-                          backgroundColor: _pages == 0
-                              ? Theme.of(context).accentColor
-                              : Colors.transparent,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _pageController.jumpToPage(1);
-                      setState(() {
-                        _pages = 1;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Feather.award,
-                            color: _pages == 2
-                                ? Colors.white
-                                : _pages == 1
-                                    ? Theme.of(context).accentColor
-                                    : Theme.of(context).buttonColor,
-                            size: 27.0),
-                        SizedBox(height: 5.0),
-                        CircleAvatar(
-                          radius: 3.0,
-                          backgroundColor: _pages == 1
-                              ? Theme.of(context).accentColor
-                              : Colors.transparent,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _pageController.jumpToPage(2);
-                      setState(() {
-                        _pages = 2;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Feather.tv,
-                            color: _pages == 2
-                                ? Colors.white
-                                : Theme.of(context).buttonColor,
-                            size: 27.0),
-                        SizedBox(height: 5.0),
-                        CircleAvatar(
-                          radius: 3.0,
-                          backgroundColor:
-                              _pages == 2 ? Colors.white : Colors.transparent,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _pageController.jumpToPage(3);
-                      setState(() {
-                        _pages = 3;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Feather.shopping_bag,
-                            color: _pages == 2
-                                ? Colors.white
-                                : _pages == 3
-                                    ? Theme.of(context).accentColor
-                                    : Theme.of(context).buttonColor,
-                            size: 27.0),
-                        SizedBox(height: 5.0),
-                        CircleAvatar(
-                          radius: 3.0,
-                          backgroundColor: _pages == 3
-                              ? Theme.of(context).accentColor
-                              : Colors.transparent,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      var id = firebaseAuth.currentUser.uid;
-                      var _user = await getUser(id);
-                      setState(() {
-                        user = _user;
-                      });
-                      _pageController.jumpToPage(4);
-                      setState(() {
-                        _pages = 4;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Feather.user,
-                            color: _pages == 2
-                                ? Colors.white
-                                : _pages == 4
-                                    ? Theme.of(context).accentColor
-                                    : Theme.of(context).buttonColor,
-                            size: 27.0),
-                        SizedBox(height: 5.0),
-                        CircleAvatar(
-                          radius: 3.0,
-                          backgroundColor: _pages == 4
-                              ? Theme.of(context).accentColor
-                              : Colors.transparent,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          // floatingActionButton: FloatingActionButton(
+          //   elevation: 8,
+          //   backgroundColor: Color(0xffffa400),
+          //   child: Icon(
+          //     Feather.tv,
+          //     color: Colors.white,
+          //   ),
+          //   onPressed: () {
+          //     _pageController.jumpToPage(2);
+          //     setState(() {
+          //       _pages = 2;
+          //     });
+          //   },
+          // ),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: AnimatedBottomNavigationBar(
+            notchSmoothness: NotchSmoothness.softEdge,
+            backgroundColor:
+                _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,
+            splashColor: Colors.deepPurpleAccent,
+            splashSpeedInMilliseconds: 500,
+            gapLocation: GapLocation.none,
+            activeColor:
+                _pages == 2 ? Colors.white : Theme.of(context).accentColor,
+            inactiveColor: Theme.of(context).buttonColor,
+            icons: [
+              Feather.home,
+              Feather.award,
+              Feather.tv,
+              Feather.shopping_bag,
+              Feather.user
+            ],
+            activeIndex: _pages,
+            onTap: (index) {
+              _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 10),
+                  curve: Curves.elasticIn);
+              setState(() {
+                _pages = index;
+              });
+            },
           ),
+          // bottomNavigationBar: Container(
+          //   height: MediaQuery.of(context).size.height * 0.1,
+          //   decoration: BoxDecoration(
+          //       color: _pages == 2
+          //           ? Colors.black.withOpacity(0.99)
+          //           : Theme.of(context).backgroundColor,
+          //       border: Border(
+          //           top: BorderSide(
+          //               color: Theme.of(context).accentColor.withOpacity(0.1),
+          //               width: 1.0))),
+          //   child: Padding(
+          //     padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 0.0),
+          //     child: Row(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //       children: [
+          //         InkWell(
+          //           onTap: () {
+          //             _pageController.jumpToPage(0);
+          //             setState(() {
+          //               _pages = 0;
+          //             });
+          //           },
+          //           child: Column(
+          //             children: [
+          //               Icon(Feather.home,
+          //                   color: _pages == 2
+          //                       ? Colors.white
+          //                       : _pages == 0
+          //                           ? Theme.of(context).accentColor
+          //                           : Theme.of(context).buttonColor,
+          //                   size: 27),
+          //               SizedBox(height: 5.0),
+          //               CircleAvatar(
+          //                 radius: 3.0,
+          //                 backgroundColor: _pages == 0
+          //                     ? Theme.of(context).accentColor
+          //                     : Colors.transparent,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         InkWell(
+          //           onTap: () {
+          //             _pageController.jumpToPage(1);
+          //             setState(() {
+          //               _pages = 1;
+          //             });
+          //           },
+          //           child: Column(
+          //             children: [
+          //               Icon(Feather.award,
+          //                   color: _pages == 2
+          //                       ? Colors.white
+          //                       : _pages == 1
+          //                           ? Theme.of(context).accentColor
+          //                           : Theme.of(context).buttonColor,
+          //                   size: 27.0),
+          //               SizedBox(height: 5.0),
+          //               CircleAvatar(
+          //                 radius: 3.0,
+          //                 backgroundColor: _pages == 1
+          //                     ? Theme.of(context).accentColor
+          //                     : Colors.transparent,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         InkWell(
+          //           onTap: () {
+          //             _pageController.jumpToPage(2);
+          //             setState(() {
+          //               _pages = 2;
+          //             });
+          //           },
+          //           child: Column(
+          //             children: [
+          //               Icon(Feather.tv,
+          //                   color: _pages == 2
+          //                       ? Colors.white
+          //                       : Theme.of(context).buttonColor,
+          //                   size: 27.0),
+          //               SizedBox(height: 5.0),
+          //               CircleAvatar(
+          //                 radius: 3.0,
+          //                 backgroundColor:
+          //                     _pages == 2 ? Colors.white : Colors.transparent,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         InkWell(
+          //           onTap: () {
+          //             _pageController.jumpToPage(3);
+          //             setState(() {
+          //               _pages = 3;
+          //             });
+          //           },
+          //           child: Column(
+          //             children: [
+          //               Icon(Feather.shopping_bag,
+          //                   color: _pages == 2
+          //                       ? Colors.white
+          //                       : _pages == 3
+          //                           ? Theme.of(context).accentColor
+          //                           : Theme.of(context).buttonColor,
+          //                   size: 27.0),
+          //               SizedBox(height: 5.0),
+          //               CircleAvatar(
+          //                 radius: 3.0,
+          //                 backgroundColor: _pages == 3
+          //                     ? Theme.of(context).accentColor
+          //                     : Colors.transparent,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         InkWell(
+          //           onTap: () async {
+          //             var id = firebaseAuth.currentUser.uid;
+          //             var _user = await getUser(id);
+          //             setState(() {
+          //               user = _user;
+          //             });
+          //             _pageController.jumpToPage(4);
+          //             setState(() {
+          //               _pages = 4;
+          //             });
+          //           },
+          //           child: Column(
+          //             children: [
+          //               Icon(Feather.user,
+          //                   color: _pages == 2
+          //                       ? Colors.white
+          //                       : _pages == 4
+          //                           ? Theme.of(context).accentColor
+          //                           : Theme.of(context).buttonColor,
+          //                   size: 27.0),
+          //               SizedBox(height: 5.0),
+          //               CircleAvatar(
+          //                 radius: 3.0,
+          //                 backgroundColor: _pages == 4
+          //                     ? Theme.of(context).accentColor
+          //                     : Colors.transparent,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ),
         MyMatchesPage(backFromChat: () {
           _mainController.animateToPage(0,
@@ -378,6 +428,53 @@ class _MainScreenState extends State<MainScreen>
         _bottomNavigationKey.currentState;
     navBarState.setPage(page);
     _pageController.jumpToPage(page);
+  }
+
+  void floatNotification(
+      {FlashStyle style = FlashStyle.floating,
+      Map<String, dynamic> notification}) {
+    showFlash(
+      context: context,
+      duration: const Duration(seconds: 4),
+      persistent: true,
+      builder: (_, controller) {
+        return Flash(
+          margin: const EdgeInsets.all(10.0),
+          controller: controller,
+          backgroundColor: Theme.of(context).backgroundColor,
+          boxShadows: [BoxShadow(blurRadius: 0)],
+          brightness: Theme.of(context).brightness,
+          barrierBlur: 3.0,
+          barrierColor: Colors.transparent,
+          barrierDismissible: true,
+          borderRadius: BorderRadius.circular(10.0),
+          style: style,
+          position: FlashPosition.top,
+          onTap: () {
+            handleNotification(notification).then((value) {
+              navigate(value);
+            });
+          },
+          child: FlashBar(
+            title: Text(
+              notification['aps']['alert']['title'].toString(),
+              style: GoogleFonts.quicksand(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).accentColor),
+            ),
+            message: Text(
+              notification['aps']['alert']['body'].toString(),
+              style: GoogleFonts.quicksand(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).accentColor),
+            ),
+            showProgressIndicator: false,
+          ),
+        );
+      },
+    );
   }
 
   Future<Null> getUserData() async {

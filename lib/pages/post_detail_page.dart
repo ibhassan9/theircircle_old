@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Models/OHS.dart';
 import 'package:unify/Widgets/CommentWidget.dart';
 import 'package:unify/Components/Constants.dart';
@@ -15,7 +16,7 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
-import 'package:unify/widgets/CommentPostWidget.dart';
+import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/PostWidget.dart';
 
 class PostDetailPage extends StatefulWidget {
@@ -39,6 +40,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
   List<PostUser> users = [];
   String str = '';
   List<String> tags = [];
+  String imgUrl;
+  FocusNode focusNode = FocusNode();
+  Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +115,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                                   s.name.substring(0, 1),
                                                   style: GoogleFonts.quicksand(
                                                       fontSize: 13,
-                                                      color: Theme.of(context)
-                                                          .backgroundColor)))
+                                                      color: Colors.black)))
                                           : ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(30),
@@ -171,6 +174,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 children: <Widget>[
                   Flexible(
                       child: TextField(
+                    focusNode: focusNode,
                     onTap: () {
                       Timer(
                           Duration(milliseconds: 300),
@@ -286,44 +290,44 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           if (newTags.isNotEmpty) {
                             newTags.forEach((key, value) {
                               var id = value['id'];
-                              if (id == widget.post.userId) {
-                                if (widget.club == null &&
-                                    widget.course == null) {
-                                  sendPush(1, token, comment.content,
-                                      widget.post.id, user.id);
-                                } else if (widget.club != null) {
-                                  sendPushClub(widget.club, 1, token,
-                                      comment.content, widget.post.id, user.id);
-                                } else if (widget.course != null) {
-                                  sendPushCourse(widget.course, 1, token,
-                                      comment.content, widget.post.id, user.id);
-                                }
-                              } else {
+                              print(id);
+                              print(value['id']);
+                              if (id != widget.post.userId) {
                                 var _token = value['token'];
                                 if (widget.club == null &&
                                     widget.course == null) {
                                   sendPush(2, _token, comment.content,
-                                      widget.post.id, user.id);
+                                      widget.post.id, value['id']);
                                 } else if (widget.club != null) {
-                                  sendPushClub(widget.club, 7, _token,
-                                      comment.content, widget.post.id, user.id);
+                                  sendPushClub(
+                                      widget.club,
+                                      7,
+                                      _token,
+                                      comment.content,
+                                      widget.post.id,
+                                      value['id']);
                                 } else if (widget.course != null) {
-                                  sendPushCourse(widget.course, 5, _token,
-                                      comment.content, widget.post.id, user.id);
+                                  sendPushCourse(
+                                      widget.course,
+                                      5,
+                                      _token,
+                                      comment.content,
+                                      widget.post.id,
+                                      value['id']);
                                 }
                               }
                             });
-                          } else {
-                            if (widget.club == null && widget.course == null) {
-                              await sendPush(1, token, comment.content,
-                                  widget.post.id, user.id);
-                            } else if (widget.club != null) {
-                              await sendPushClub(widget.club, 1, token,
-                                  comment.content, widget.post.id, user.id);
-                            } else if (widget.course != null) {
-                              await sendPushCourse(widget.course, 1, token,
-                                  comment.content, widget.post.id, user.id);
-                            }
+                          }
+
+                          if (widget.club == null && widget.course == null) {
+                            await sendPush(1, token, comment.content,
+                                widget.post.id, user.id);
+                          } else if (widget.club != null) {
+                            await sendPushClub(widget.club, 1, token,
+                                comment.content, widget.post.id, user.id);
+                          } else if (widget.course != null) {
+                            await sendPushCourse(widget.course, 1, token,
+                                comment.content, widget.post.id, user.id);
                           }
                         }
                         commentController.clear();
@@ -392,13 +396,16 @@ class _PostDetailPageState extends State<PostDetailPage> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
-          "Comments",
-          style: GoogleFonts.quicksand(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
-        ),
+        title: userBar(),
+        titleSpacing: 0.0,
+        leadingWidth: 30.0,
+        // title: Text(
+        //   "Comments",
+        //   style: GoogleFonts.quicksand(
+        //       fontSize: 20,
+        //       fontWeight: FontWeight.w500,
+        //       color: Theme.of(context).accentColor),
+        // ),
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
@@ -482,9 +489,44 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             var timeAgo =
                                 new DateTime.fromMillisecondsSinceEpoch(
                                     comment.timeStamp);
+                            Function reply = () {
+                              String tmp = str.substring(0, str.length);
+                              print(tmp);
+                              setState(() {
+                                str = '';
+                                // commentController.text = commentController.text
+                                //     .replaceFirst(tmp, '@');
+                                commentController.text +=
+                                    '@' + comment.username.trimRight() + ' ';
+                                commentController.value =
+                                    commentController.value.copyWith(
+                                  text: commentController.text,
+                                  selection: TextSelection(
+                                      baseOffset: commentController.text.length,
+                                      extentOffset:
+                                          commentController.text.length),
+                                  composing: TextRange.empty,
+                                );
+                              });
+                              String tag = '@' + comment.username.trimRight();
+                              if (!tags.contains(tag)) {
+                                tags.add(tag);
+                              }
+                              print(tags);
+                              FocusScope.of(context).requestFocus(focusNode);
+                              Timer(
+                                  Duration(milliseconds: 300),
+                                  () => _scrollController.animateTo(
+                                      _scrollController
+                                          .position.maxScrollExtent,
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.easeIn));
+                            };
                             return CommentWidget(
                                 comment: comment,
-                                timeAgo: timeago.format(timeAgo));
+                                timeAgo:
+                                    timeago.format(timeAgo, locale: 'en_short'),
+                                respond: reply);
                           },
                         );
                       } else {
@@ -524,6 +566,185 @@ class _PostDetailPageState extends State<PostDetailPage> {
           padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
           child: commentBox),
     );
+  }
+
+  Widget userBar() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Container(
+          child: Row(children: [
+        InkWell(
+          onTap: () async {
+            var user = await getUser(widget.post.userId);
+            if (widget.post.userId != fAuth.currentUser.uid) {
+              // if (widget.post.isAnonymous == false) {
+              //   showProfile(
+              //       user, context, bioC, sC, igC, lC, null, null);
+              // }
+              if (widget.post.isAnonymous == false) {
+                showBarModalBottomSheet(
+                    context: context,
+                    expand: true,
+                    builder: (context) =>
+                        ProfilePage(user: user, heroTag: null));
+
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => ProfilePage(
+                //             user: user, heroTag: widget.post.id)));
+              }
+            } else {
+              // showProfile(
+              //     user, context, bioC, sC, igC, lC, null, null);
+              showBarModalBottomSheet(
+                  context: context,
+                  expand: true,
+                  builder: (context) => ProfilePage(
+                        user: user,
+                        heroTag: null,
+                        isMyProfile: true,
+                      ));
+
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => ProfilePage(
+              //               user: user,
+              //               heroTag: widget.post.id,
+              //               isMyProfile: true,
+              //             )));
+            }
+          },
+          child: widget.post.isAnonymous
+              ? Container(
+                  width: 40,
+                  height: 40,
+                  child: Center(
+                    child: Icon(Feather.feather,
+                        color: Theme.of(context).backgroundColor, size: 15.0),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).buttonColor,
+                      borderRadius: BorderRadius.circular(25.0)),
+                )
+              : imgUrl == null || imgUrl == ''
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        color: Theme.of(context).dividerColor,
+                        child: Center(
+                          child: Icon(Feather.feather,
+                              color: Colors.black, size: 15.0),
+                        ),
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.network(
+                        imgUrl,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: Center(
+                              child: SizedBox(
+                                  width: 10,
+                                  height: 10,
+                                  child: LoadingIndicator(
+                                    indicatorType: Indicator.ballClipRotate,
+                                    color: Theme.of(context).accentColor,
+                                  )),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+        ),
+        SizedBox(width: 5.0),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    widget.post.userId == firebaseAuth.currentUser.uid
+                        ? "You"
+                        : widget.post.isAnonymous
+                            ? "Anon"
+                            : widget.post.feeling != null
+                                ? widget.post.username.trim()
+                                : widget.post.username
+                                    .trim()
+                                    .replaceAll(' ', '\n'),
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color:
+                            widget.post.userId == firebaseAuth.currentUser.uid
+                                ? Colors.indigo
+                                : Theme.of(context).accentColor),
+                  ),
+                  Text(
+                    " • ${widget.timeAgo}",
+                    style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).buttonColor),
+                  ),
+                ],
+              ),
+              // Visibility(
+              //   visible: widget.post.tcQuestion != null,
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(
+              //         top: 3.0, bottom: 3.0),
+              //     child: Text(
+              //       'answered a question!',
+              //       style: GoogleFonts.quicksand(
+              //           fontSize: 12,
+              //           fontWeight: FontWeight.w500,
+              //           color: Colors.indigo),
+              //     ),
+              //   ),
+              // ),
+              // Visibility(
+              //   visible: _user.about != null,
+              //   child: Text(
+              //     _user.about != null
+              //         ? _user.about
+              //         : 'No bio available',
+              //     style: GoogleFonts.quicksand(
+              //         fontSize: 12,
+              //         fontWeight: FontWeight.w600,
+              //         color: Colors.grey[500]),
+              //   ),
+              // )
+
+              widget.post.feeling != null
+                  ? Text(
+                      'is feeling ${widget.post.feeling.toLowerCase()} ' +
+                          Constants.feelings[widget.post.feeling],
+                      style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: color,
+                      ))
+                  : Container()
+            ],
+          ),
+        ])
+      ]))
+    ]);
   }
 
   Future<Null> refresh() async {
@@ -569,6 +790,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    color = Constants.color();
     if (widget.post.type != null) {
       switch (widget.post.type) {
         case 'post':
@@ -605,6 +827,12 @@ class _PostDetailPageState extends State<PostDetailPage> {
         commentFuture = fetchComments(widget.post, widget.course, widget.club);
       });
     }
+
+    getUser(widget.post.userId).then((value) {
+      setState(() {
+        imgUrl = value.profileImgUrl;
+      });
+    });
 
     myCampusUsers().then((value) {
       setState(() {

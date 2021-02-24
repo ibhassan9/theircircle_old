@@ -99,9 +99,10 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.peer.name,
-                          style: GoogleFonts.quicksand(
-                              fontSize: 15,
+                          widget.peer.name.trim(),
+                          style: TextStyle(
+                              fontFamily: "Futura1",
+                              fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).accentColor),
                         ),

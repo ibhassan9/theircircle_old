@@ -56,6 +56,7 @@ class _ProfilePageState extends State<ProfilePage>
   PageController _controller = PageController();
 
   int selectedOption = 0;
+  int likeCount = 0;
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -188,9 +189,10 @@ class _ProfilePageState extends State<ProfilePage>
           SizedBox(height: 10.0),
           Text(
             user.name,
-            style: GoogleFonts.quicksand(
-                fontSize: 19,
-                fontWeight: FontWeight.w500,
+            style: TextStyle(
+                fontFamily: "Futura1",
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
           ),
           SizedBox(
@@ -273,10 +275,11 @@ class _ProfilePageState extends State<ProfilePage>
                                       10.0, 0.0, 10.0, 0.0),
                                   child: Text(
                                     'Edit Profile',
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context).buttonColor),
+                                    style: TextStyle(
+                                        fontFamily: "Futura1",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).accentColor),
                                   ),
                                 ),
                               ),
@@ -515,7 +518,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "Cannot find any posts :(",
+                  "Cannot find any videos :(",
                   style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -633,7 +636,7 @@ class _ProfilePageState extends State<ProfilePage>
                 return PostWidget(
                     key: ValueKey(post.id),
                     post: post,
-                    timeAgo: timeago.format(timeAgo),
+                    timeAgo: timeago.format(timeAgo, locale: 'en_short'),
                     deletePost: f,
                     block: b,
                     hide: h);
@@ -931,8 +934,8 @@ class _ProfilePageState extends State<ProfilePage>
         padding: const EdgeInsets.only(left: 0.0, right: 2.0),
         child: ChoiceChip(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.0)),
-          selectedColor: Colors.deepPurpleAccent,
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          selectedColor: Colors.pink,
           label: Text(
             interest,
             style: GoogleFonts.quicksand(

@@ -16,7 +16,7 @@ class TodaysQuestionWidget extends StatefulWidget {
 class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20.0),
+      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
       child: InkWell(
         onTap: () {
           if (widget.question == null) {

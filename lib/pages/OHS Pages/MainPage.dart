@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -37,295 +39,503 @@ class _OHSMainPageState extends State<OHSMainPage> {
   int sortBy = 0;
   Future<List<Post>> clubFuture;
   Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pink]);
+  var iconContainerHeight = 55.00;
+  ScrollController _controller;
+  Color color = Color(0xffF5F5DC);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 25.0),
-        child: InkWell(
-          onTap: () {
-            showBarModalBottomSheet(
-              context: context,
-              enableDrag: false,
-              expand: true,
-              builder: (context) => WebPage(
-                  title: "One Healing Space",
-                  selectedUrl: "https://healingclinic.janeapp.com/"),
-            );
-            OneHealingSpace.pushRedirect();
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => WebPage(
-            //             title: "One Healing Space",
-            //             selectedUrl: "https://healingclinic.janeapp.com/")));
-          },
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(25.0)),
-            width: MediaQuery.of(context).size.width,
-            height: 50.0,
-            margin: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 5.0),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(FlutterIcons.calendar_ant,
-                      color: Colors.white, size: 17.0),
-                  SizedBox(width: 10.0),
-                  Text(
-                    'Book an appointment',
-                    style: GoogleFonts.quicksand(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ],
+        backgroundColor: color,
+        bottomNavigationBar: Container(
+          color: Theme.of(context).backgroundColor,
+          margin: EdgeInsets.only(bottom: 0.0),
+          child: InkWell(
+            onTap: () {
+              showBarModalBottomSheet(
+                context: context,
+                enableDrag: false,
+                expand: true,
+                builder: (context) => WebPage(
+                    title: "One Healing Space",
+                    selectedUrl: "https://healingclinic.janeapp.com/"),
+              );
+              OneHealingSpace.pushRedirect();
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => WebPage(
+              //             title: "One Healing Space",
+              //             selectedUrl: "https://healingclinic.janeapp.com/")));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: color, borderRadius: BorderRadius.circular(25.0)),
+              width: MediaQuery.of(context).size.width,
+              height: 50.0,
+              margin: EdgeInsets.fromLTRB(60.0, 5.0, 60.0, 20.0),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(FlutterIcons.calendar_ant,
+                        color: Colors.black, size: 17.0),
+                    SizedBox(width: 10.0),
+                    Text(
+                      'Book an appointment',
+                      style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      appBar: AppBar(
-        brightness: Theme.of(context).brightness,
-        centerTitle: false,
-        title: Text(
-          widget.club.name,
-          style: GoogleFonts.quicksand(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).accentColor),
-        ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        elevation: 0.7,
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(FlutterIcons.plus_square_o_faw),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OHSPostPage(
-                            club: widget.club,
-                          ))).then((value) {
-                if (value == false) {
-                  return;
-                }
-                setState(() {
-                  clubFuture = OneHealingSpace.fetchPosts(sortBy);
-                });
-              });
-            },
+        appBar: AppBar(
+          brightness: Brightness.light,
+          centerTitle: false,
+          titleSpacing: 0.0,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.club.name,
+                style: GoogleFonts.quicksand(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+              Text(
+                widget.club.description,
+                style: GoogleFonts.quicksand(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+            ],
           ),
-          IconButton(
-            icon: Icon(AntDesign.team),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OHSMembersPage(
-                            members: widget.club.memberList,
-                            club: widget.club,
-                            isCourse: false,
-                          )));
-            },
-          ),
-          IconButton(
-            icon: ShaderMask(
-                shaderCallback: (bounds) => gradient.createShader(
-                      Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                    ),
-                child: Icon(Icons.calendar_today, color: Colors.white)),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OHSCalendarPage(
-                            club: widget.club,
-                          )));
-            },
-          )
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: refresh,
-        child: Stack(
-          children: <Widget>[
-            ListView(
-              children: <Widget>[
-                SizedBox(
+          backgroundColor: color,
+          elevation: 0.0,
+          iconTheme: IconThemeData(color: Colors.black),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 15, right: 15.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OHSMembersPage(
+                                members: widget.club.memberList,
+                                club: widget.club,
+                                isCourse: false,
+                              )));
+                },
+                child: Container(
                   height: 10,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(20.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Feather.users, color: Colors.black, size: 20.0),
+                      SizedBox(width: 5.0),
+                      Text(widget.club.memberCount.toString(),
+                          style: GoogleFonts.quicksand(
+                              color: Colors.black, fontWeight: FontWeight.bold))
+                    ],
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        if (sortBy == 0) {
-                          sortBy = 1;
-                        } else {
-                          sortBy = 0;
-                        }
-                        clubFuture = OneHealingSpace.fetchPosts(sortBy);
-                      });
-                    },
-                    child: Center(
-                      child: Text(
-                        "Sorting by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        style: GoogleFonts.quicksand(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).buttonColor),
+              ),
+            ),
+
+            // IconButton(
+            //   icon: Icon(FlutterIcons.plus_square_o_faw),
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => OHSPostPage(
+            //                   club: widget.club,
+            //                 ))).then((value) {
+            //       if (value == false) {
+            //         return;
+            //       }
+            //       setState(() {
+            //         clubFuture = OneHealingSpace.fetchPosts(sortBy);
+            //       });
+            //     });
+            //   },
+            // ),
+            // IconButton(
+            //   icon: Icon(AntDesign.team),
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => OHSMembersPage(
+            //                   members: widget.club.memberList,
+            //                   club: widget.club,
+            //                   isCourse: false,
+            //                 )));
+            //   },
+            // ),
+            // IconButton(
+            //   icon: ShaderMask(
+            //       shaderCallback: (bounds) => gradient.createShader(
+            //             Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+            //           ),
+            //       child: Icon(Icons.calendar_today, color: Colors.white)),
+            //   onPressed: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => OHSCalendarPage(
+            //                   club: widget.club,
+            //                 )));
+            //   },
+            // )
+          ],
+        ),
+        body: RefreshIndicator(
+          onRefresh: refresh,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CourseCalendarPage(
+                                    course: null, club: widget.club)));
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        height: iconContainerHeight,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Visibility(
+                          visible: iconContainerHeight != 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(AntDesign.calendar,
+                                  color: Colors.black, size: 20.0),
+                              SizedBox(width: 5.0),
+                              Text('View Shared Calendar',
+                                  style: GoogleFonts.quicksand(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500))
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                FutureBuilder(
-                  future: clubFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount:
-                            snapshot.data != null ? snapshot.data.length : 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          Post post = snapshot.data[index];
-                          var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
-                              post.timeStamp);
-
-                          Function a = () async {
-                            var res = await OneHealingSpace.deletePostWithUser(
-                                post.id, post.userId, post.university);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
-                              });
-                              previewMessage("Post Deleted", context);
-                            } else {
-                              previewMessage("Error deleting post!", context);
-                            }
-                          };
-                          Function f = () async {
-                            var res = await OneHealingSpace.deletePost(post.id);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
-                              });
-                              previewMessage("Post Deleted", context);
-                            } else {
-                              previewMessage("Error deleting post!", context);
-                            }
-                          };
-
-                          Function b = () async {
-                            var res = await block(post.userId, post.university);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
-                              });
-                              previewMessage("User blocked.", context);
-                            }
-                          };
-
-                          Function h = () async {
-                            var res = await hidePost(post.id);
-                            Navigator.pop(context);
-                            if (res) {
-                              setState(() {
-                                clubFuture = OneHealingSpace.fetchPosts(sortBy);
-                              });
-                              previewMessage("Post hidden from feed.", context);
-                            }
-                          };
-
-                          return OHSPostWidget(
-                              key: ValueKey(post.id),
-                              post: post,
-                              timeAgo: timeago.format(timeAgo),
-                              club: widget.club,
-                              deletePost: f,
-                              block: b,
-                              hide: h,
-                              deleteAsAdmin: a);
-                        },
-                      );
-                    } else if (snapshot.hasError) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height / 1.4,
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.face,
-                                color: Theme.of(context).accentColor,
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0)),
+                      child: Container(
+                        color: Theme.of(context).backgroundColor,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              color: Theme.of(context).dividerColor,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    15.0, 7.0, 15.0, 7.0),
+                                child: Row(
+                                  children: [
+                                    Unicon(UniconData.uniSortAmountUp,
+                                        size: 20.0,
+                                        color: Colors.grey.shade600),
+                                    SizedBox(width: 5.0),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          if (sortBy == 0) {
+                                            sortBy = 1;
+                                          } else {
+                                            sortBy = 0;
+                                          }
+                                          clubFuture =
+                                              OneHealingSpace.fetchPosts(
+                                                  sortBy);
+                                        });
+                                      },
+                                      child: Text(
+                                        "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                                            .toUpperCase(),
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.grey.shade600),
+                                      ),
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Unicon(UniconData.uniArrowDown,
+                                        size: 20.0,
+                                        color: Colors.grey.shade600),
+                                  ],
+                                ),
                               ),
-                              SizedBox(width: 10),
-                              Text(
-                                "Could not load posts :(",
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
+                            ),
+                            SizedBox(height: 5.0),
+                            Flexible(
+                              child: FutureBuilder(
+                                future: clubFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: ListView.builder(
+                                        controller: _controller,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
+                                        itemCount: snapshot.data != null
+                                            ? snapshot.data.length
+                                            : 0,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          Post post = snapshot.data[index];
+                                          var timeAgo = new DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                              post.timeStamp);
+
+                                          Function a = () async {
+                                            var res = await OneHealingSpace
+                                                .deletePostWithUser(
+                                                    post.id,
+                                                    post.userId,
+                                                    post.university);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture =
+                                                    OneHealingSpace.fetchPosts(
+                                                        sortBy);
+                                              });
+                                              previewMessage(
+                                                  "Post Deleted", context);
+                                            } else {
+                                              previewMessage(
+                                                  "Error deleting post!",
+                                                  context);
+                                            }
+                                          };
+                                          Function f = () async {
+                                            var res = await OneHealingSpace
+                                                .deletePost(post.id);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture =
+                                                    OneHealingSpace.fetchPosts(
+                                                        sortBy);
+                                              });
+                                              previewMessage(
+                                                  "Post Deleted", context);
+                                            } else {
+                                              previewMessage(
+                                                  "Error deleting post!",
+                                                  context);
+                                            }
+                                          };
+
+                                          Function b = () async {
+                                            var res = await block(
+                                                post.userId, post.university);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture =
+                                                    OneHealingSpace.fetchPosts(
+                                                        sortBy);
+                                              });
+                                              previewMessage(
+                                                  "User blocked.", context);
+                                            }
+                                          };
+
+                                          Function h = () async {
+                                            var res = await hidePost(post.id);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture =
+                                                    OneHealingSpace.fetchPosts(
+                                                        sortBy);
+                                              });
+                                              previewMessage(
+                                                  "Post hidden from feed.",
+                                                  context);
+                                            }
+                                          };
+
+                                          return OHSPostWidget(
+                                              key: ValueKey(post.id),
+                                              post: post,
+                                              timeAgo: timeago.format(timeAgo,
+                                                  locale: 'en_short'),
+                                              club: widget.club,
+                                              deletePost: f,
+                                              block: b,
+                                              hide: h,
+                                              deleteAsAdmin: a);
+                                        },
+                                      ),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.4,
+                                        child: Center(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.face,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Could not load posts :(",
+                                                style: GoogleFonts.quicksand(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: LoadingIndicator(
+                                              indicatorType:
+                                                  Indicator.ballClipRotate,
+                                              color: Theme.of(context)
+                                                  .accentColor),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.4,
+                                        child: Center(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.face,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "There are no posts :(",
+                                                style: GoogleFonts.quicksand(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return Center(
-                        child: SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: LoadingIndicator(
-                              indicatorType: Indicator.ballBeat,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      );
-                    } else {
-                      return Container(
-                        height: MediaQuery.of(context).size.height / 1.4,
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.face,
-                                color: Theme.of(context).accentColor,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                "There are no posts :(",
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            )
-          ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+        floatingActionButton: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+                backgroundColor: color,
+                elevation: 0.0,
+                child: Unicon(UniconData.uniPlus, color: Colors.black),
+                onPressed: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OHSPostPage(
+                                club: widget.club,
+                              ))).then((value) {
+                    if (value == false) {
+                      return;
+                    }
+                    setState(() {
+                      clubFuture = OneHealingSpace.fetchPosts(sortBy);
+                    });
+                  });
+                })));
+  }
+
+  void _scrollListener() {
+    if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+      if (iconContainerHeight != 0)
+        setState(() {
+          iconContainerHeight = 0;
+        });
+    }
+    if (_controller.position.userScrollDirection == ScrollDirection.forward) {
+      if (iconContainerHeight == 0)
+        setState(() {
+          iconContainerHeight = 55;
+        });
+    }
   }
 
   Future<Null> refresh() async {
@@ -339,5 +549,13 @@ class _OHSMainPageState extends State<OHSMainPage> {
     // TODO: implement initState
     super.initState();
     clubFuture = OneHealingSpace.fetchPosts(sortBy);
+    _controller = ScrollController()..addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
   }
 }

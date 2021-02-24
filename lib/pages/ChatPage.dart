@@ -279,27 +279,31 @@ class _ChatPageState extends State<ChatPage>
         backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: true,
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              widget.receiver.name,
-              style: GoogleFonts.quicksand(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).accentColor),
-            ),
-            // Text(
-            //   "Meet & Make New Friends",
-            //   style: GoogleFonts.lexendDeca(
-            //     GoogleFonts.quicksand: GoogleFonts.quicksand(
-            //         fontSize: 12,
-            //         fontWeight: FontWeight.w500,
-            //         color: Colors.black),
-            //   ),
-            // ),
-          ],
-        ),
+        // title: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: [
+        //     Text(
+        //       widget.receiver.name,
+        //       style: TextStyle(
+        //           fontFamily: "Futura1",
+        //           fontSize: 16,
+        //           fontWeight: FontWeight.w700,
+        //           color: Theme.of(context).accentColor),
+        //     ),
+        //     // Text(
+        //     //   "Meet & Make New Friends",
+        //     //   style: GoogleFonts.lexendDeca(
+        //     //     GoogleFonts.quicksand: GoogleFonts.quicksand(
+        //     //         fontSize: 12,
+        //     //         fontWeight: FontWeight.w500,
+        //     //         color: Colors.black),
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
+        title: userBar(),
+        titleSpacing: 0.0,
+        leadingWidth: 30,
         actions: <Widget>[
           IconButton(
             icon: Unicon(UniconData.uniUser,
@@ -522,6 +526,66 @@ class _ChatPageState extends State<ChatPage>
       bottomNavigationBar: Padding(
           padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0), child: chatBox),
     );
+  }
+
+  Widget userBar() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Hero(
+        tag: widget.receiver.id,
+        child: Container(
+            child: Row(children: [
+          widget.receiver.profileImgUrl == null ||
+                  widget.receiver.profileImgUrl == ''
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    color: Theme.of(context).dividerColor,
+                    child: Center(
+                      child: Icon(Feather.feather,
+                          color: Colors.black, size: 15.0),
+                    ),
+                  ),
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Image.network(
+                    widget.receiver.profileImgUrl,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: Center(
+                          child: SizedBox(
+                              width: 10,
+                              height: 10,
+                              child: LoadingIndicator(
+                                indicatorType: Indicator.ballClipRotate,
+                                color: Theme.of(context).accentColor,
+                              )),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+          SizedBox(width: 5.0),
+          Text(
+            widget.receiver.name,
+            style: TextStyle(
+                fontFamily: "Futura1",
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).accentColor),
+          )
+        ])),
+      )
+    ]);
   }
 
   @override

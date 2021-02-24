@@ -71,7 +71,7 @@ class _RoomPageState extends State<RoomPage> {
                     Flexible(
                         child: Container(
                       decoration: BoxDecoration(
-                          color: Theme.of(context).dividerColor,
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.circular(20.0)),
                       child: TextField(
                         onTap: () {
@@ -185,8 +185,9 @@ class _RoomPageState extends State<RoomPage> {
                     widget.room.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).accentColor),
                   ),

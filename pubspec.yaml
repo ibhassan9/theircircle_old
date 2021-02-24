@@ -92,6 +92,9 @@ dependencies:
   tabbar: ^0.1.1
   flutter_unicons: ^0.0.1
   integration_test: ^1.0.2+2
+  animated_bottom_navigation_bar: ^0.2.1
+  like_button: ^1.0.4
+  flash: ^1.3.2
 
 dev_dependencies:
   flutter_test:
@@ -128,6 +131,35 @@ flutter:
         weight: 600
       - asset: assets/fonts/Bold.ttf
         weight: 700
+  - family: Futura
+    fonts:
+      - asset: assets/fonts/Futura-Maxi-CG-Bold-Regular.ttf
+        weight: 700
+  - family: Futura1
+    fonts:
+      - asset: assets/fonts/Futura-Maxi-CG-Demi-Regular.ttf
+        weight: 700
+  - family: Futura2
+    fonts:
+      - asset: assets/fonts/Futura-Maxi-CG-Light-Regular.ttf
+        weight: 700
+  - family: Futura3
+    fonts:
+      - asset: assets/fonts/Futura-Maxi-CG-Book-Regular.ttf
+        weight: 700
+  - family: Book
+    fonts:
+      - asset: assets/fonts/Futura-Book.ttf
+        weight: 700
+  - family: Bold
+    fonts:
+      - asset: assets/fonts/Futura-Bold.ttf
+        weight: 700
+  - family: Medium
+    fonts:
+      - asset: assets/fonts/Futura-Medium.ttf
+        weight: 700
+      
 
   assets:
     - assets/images/

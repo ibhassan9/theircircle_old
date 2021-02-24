@@ -13,6 +13,7 @@ import 'package:unify/Components/text_field_container.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
+import 'package:unify/pages/ShareFeelingPage.dart';
 
 class PostPage extends StatefulWidget {
   final Club club;
@@ -29,10 +30,12 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   TextEditingController contentController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
   TextEditingController pollOptionOneController = TextEditingController();
   TextEditingController pollOptionTwoController = TextEditingController();
 
   int clength = 300;
+  int titleLength = 100;
   int poll1length = 30;
   int poll2length = 30;
   bool isAnonymous = false;
@@ -42,6 +45,7 @@ class _PostPageState extends State<PostPage> {
   bool pollVisible = false;
   String pollButtonText = "Poll time? Create one!";
   String title = "What's on your mind?";
+  String feeling;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +60,9 @@ class _PostPageState extends State<PostPage> {
             onPressed: () => Navigator.pop(context, false)),
         title: Text(
           widget.intro ? "Introduce yourself!" : "NEW POST",
-          style: GoogleFonts.quicksand(
-              fontSize: 15,
+          style: TextStyle(
+              fontFamily: "Futura1",
+              fontSize: 13,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
@@ -87,7 +92,92 @@ class _PostPageState extends State<PostPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
-                    children: [descriptionField(), tagWidget()],
+                    children: [
+                      descriptionField(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          tagWidget(),
+                          SizedBox(width: 5.0),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) =>
+                                        ShareFeelingPage()).then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      feeling = value;
+                                    });
+                                  }
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(
+                                    10.0, 0.0, 10.0, 0.0),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .buttonColor
+                                        .withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(
+                                        3.0)), //             <--- BoxDecoration here
+                                child: feeling != null
+                                    ? Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(Constants.feelings[feeling],
+                                              style: TextStyle(fontSize: 18.0)),
+                                          SizedBox(width: 5.0),
+                                          Text(
+                                            'Feeling $feeling',
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor),
+                                          ),
+                                        ],
+                                      )
+                                    : Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text('😝',
+                                              style: TextStyle(fontSize: 18.0)),
+                                          SizedBox(width: 5.0),
+                                          Text(
+                                            'Share a feeling!',
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 5.0),
+                          Visibility(
+                            visible: feeling != null,
+                            child: InkWell(
+                              onTap: () {
+                                if (feeling != null) {
+                                  setState(() {
+                                    feeling = null;
+                                  });
+                                }
+                              },
+                              child: Icon(FlutterIcons.x_fea,
+                                  size: 20.0,
+                                  color: Theme.of(context).accentColor),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -100,7 +190,8 @@ class _PostPageState extends State<PostPage> {
             color: Colors.grey[400],
           ),
           SizedBox(height: 10.0),
-          anonymous()
+          anonymous(),
+          Divider(),
         ],
       ),
     );
@@ -152,22 +243,24 @@ class _PostPageState extends State<PostPage> {
 
   Widget createButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          10.0, 10.0, 10.0, kBottomNavigationBarHeight),
+      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20),
       child: InkWell(
         onTap: () async {
           var first = await isFirstLaunch();
           if (first) {
             return;
           }
-          if (contentController.text.isEmpty) {
+          if (contentController.text.isEmpty && feeling == null) {
             return;
           }
           if (pollVisible && pollOptionOneController.text.isEmpty ||
               pollVisible && pollOptionTwoController.text.isEmpty) {
             return;
           }
-          if (clength < 0 || poll1length < 0 || poll2length < 0) {
+          if (clength < 0 ||
+              poll1length < 0 ||
+              poll2length < 0 ||
+              titleLength < 0) {
             return;
           }
           if (imag != null && f != null) {
@@ -231,8 +324,9 @@ class _PostPageState extends State<PostPage> {
                   )
                 : Text(
                     'POST',
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
                   ),
@@ -333,6 +427,7 @@ class _PostPageState extends State<PostPage> {
     return Flexible(
       child: Column(
         children: [
+          titleField(),
           field1(),
           Divider(),
           field2(),
@@ -351,7 +446,9 @@ class _PostPageState extends State<PostPage> {
     Post post;
     if (pollVisible) {
       post = Post(
-          content: contentController.text,
+          content: contentController.text.trim().isEmpty && feeling != null
+              ? 'Is Feeling $feeling'
+              : contentController.text.trim(),
           isAnonymous: isAnonymous,
           questionOne: pollOptionOneController.text,
           questionOneLikeCount: 0,
@@ -359,9 +456,19 @@ class _PostPageState extends State<PostPage> {
           questionTwoLikeCount: 0);
     } else {
       post = Post(
-        content: contentController.text,
+        content: contentController.text.trim().isEmpty && feeling != null
+            ? 'Is Feeling $feeling'
+            : contentController.text.trim(),
         isAnonymous: isAnonymous,
       );
+    }
+
+    if (feeling != null) {
+      post.feeling = feeling;
+    }
+
+    if (titleController.text.trim().isNotEmpty) {
+      post.title = titleController.text;
     }
 
     var res = imag == null
@@ -387,7 +494,9 @@ class _PostPageState extends State<PostPage> {
       clength = 300;
       poll1length = 30;
       poll2length = 30;
+      titleLength = 100;
     });
+    titleController.clear();
     contentController.clear();
     pollOptionOneController.clear();
     pollOptionTwoController.clear();
@@ -403,6 +512,38 @@ class _PostPageState extends State<PostPage> {
     } else {
       return false;
     }
+  }
+
+  Widget titleField() {
+    return TextField(
+      controller: titleController,
+      textInputAction: TextInputAction.newline,
+      maxLines: null,
+      onChanged: (value) {
+        var newLength = 100 - value.length;
+        setState(() {
+          titleLength = newLength;
+        });
+      },
+      decoration: new InputDecoration(
+          suffix: Text(
+            titleLength.toString(),
+            style: GoogleFonts.quicksand(
+                color: titleLength < 0 ? Colors.red : Colors.grey),
+          ),
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          contentPadding:
+              EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
+          hintText: 'Insert short title'),
+      style: GoogleFonts.quicksand(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).accentColor),
+    );
   }
 
   Widget field1() {
@@ -462,7 +603,7 @@ class _PostPageState extends State<PostPage> {
             errorBorder: InputBorder.none,
             disabledBorder: InputBorder.none,
             contentPadding:
-                EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
+                EdgeInsets.only(left: 0, bottom: 11, top: 0, right: 15),
             hintText: "Insert Option 1..."),
         style: GoogleFonts.quicksand(
             fontSize: 14,
@@ -514,5 +655,6 @@ class _PostPageState extends State<PostPage> {
     contentController.dispose();
     pollOptionOneController.dispose();
     pollOptionTwoController.dispose();
+    titleController.dispose();
   }
 }

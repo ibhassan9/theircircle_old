@@ -104,9 +104,10 @@ class _RoomWidgetState extends State<RoomWidget> {
                                       ? '• ${widget.room.name}'
                                       : widget.room.name,
                                   maxLines: 1,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
+                                  style: TextStyle(
+                                      fontFamily: "Futura1",
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
                                       color: Theme.of(context).accentColor),
                                 ),
                               ),

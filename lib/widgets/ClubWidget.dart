@@ -89,10 +89,13 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      widget.club.name,
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
+                                      widget.club.name.trim().isNotEmpty
+                                          ? widget.club.name
+                                          : 'No name available',
+                                      style: TextStyle(
+                                          fontFamily: "Futura1",
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
                                           color: Theme.of(context).accentColor),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,

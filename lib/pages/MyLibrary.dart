@@ -67,7 +67,8 @@ class _MyLibraryState extends State<MyLibrary> {
       elevation: 0.0,
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text("MY LIBRARY",
-          style: GoogleFonts.quicksand(
+          style: TextStyle(
+              fontFamily: "Futura1",
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor)),

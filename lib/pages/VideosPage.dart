@@ -80,7 +80,8 @@ class _VideosPageState extends State<VideosPage> {
               refresh();
             },
             child: Text("EXPLORE",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: "Futura",
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: Colors.white)),
@@ -107,7 +108,7 @@ class _VideosPageState extends State<VideosPage> {
                       carouselController: _carouselController,
                       options: CarouselOptions(
                           enableInfiniteScroll: false,
-                          viewportFraction: 1.0,
+                          viewportFraction: 0.99999,
                           autoPlay: false,
                           scrollDirection: Axis.vertical,
                           height: MediaQuery.of(context).size.height),

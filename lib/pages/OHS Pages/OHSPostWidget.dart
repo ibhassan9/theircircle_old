@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:like_button/like_button.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share/share.dart';
 import 'package:unify/Components/Constants.dart';
@@ -92,7 +93,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 10.0),
+              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -128,55 +129,60 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         }
                       },
                       child: widget.post.isAnonymous
-                          ? CircleAvatar(
-                              child: ShaderMask(
-                                shaderCallback: (bounds) =>
-                                    gradient.createShader(
-                                  Rect.fromLTWH(
-                                      0, 0, bounds.width, bounds.height),
-                                ),
-                                child: Icon(AppIcons.anonymous,
-                                    color: Colors.white),
+                          ? Container(
+                              width: 30,
+                              height: 30,
+                              child: Center(
+                                child: Icon(Feather.feather,
+                                    color: Theme.of(context).backgroundColor,
+                                    size: 15.0),
                               ),
-                              backgroundColor: Colors.transparent)
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).buttonColor,
+                                  borderRadius: BorderRadius.circular(25.0)),
+                            )
                           : imgUrl == null || imgUrl == ''
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.blue,
-                                  child: Text(
-                                      widget.post.username.substring(0, 1),
-                                      style: GoogleFonts.quicksand(
-                                          color: Colors.white)))
-                              : Hero(
-                                  tag: widget.post.id,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.network(
-                                      imgUrl,
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.cover,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: Center(
-                                            child: SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child: LoadingIndicator(
-                                                  indicatorType: Indicator
-                                                      .ballScaleMultiple,
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                )),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      color: Theme.of(context).dividerColor,
+                                      child: Center(
+                                        child: Text(
+                                            widget.post.username
+                                                .substring(0, 1),
+                                            style: GoogleFonts.quicksand(
+                                                color: Colors.white)),
+                                      )),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Image.network(
+                                    imgUrl,
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return SizedBox(
+                                        height: 30,
+                                        width: 30,
+                                        child: Center(
+                                          child: SizedBox(
+                                              width: 10,
+                                              height: 10,
+                                              child: LoadingIndicator(
+                                                indicatorType:
+                                                    Indicator.ballClipRotate,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              )),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                     ),
@@ -194,32 +200,78 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                             firebaseAuth.currentUser.uid
                                         ? "You"
                                         : widget.post.isAnonymous
-                                            ? "Anonymous"
+                                            ? "Anon"
                                             : widget.post.username,
                                     style: GoogleFonts.quicksand(
-                                        fontSize: 13,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w700,
                                         color: widget.post.userId ==
                                                 firebaseAuth.currentUser.uid
-                                            ? Colors.blue
+                                            ? Colors.indigo
                                             : Theme.of(context).accentColor),
+                                  ),
+                                  Text(
+                                    " • ${widget.timeAgo}",
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).buttonColor),
                                   ),
                                 ],
                               ),
-                              Visibility(
-                                visible: widget.post.tcQuestion != null,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 3.0, bottom: 3.0),
-                                  child: Text(
-                                    'answered a question!',
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.blue),
-                                  ),
-                                ),
-                              ),
+
+                              _user != null
+                                  ? _user.createdAt != null &&
+                                          DateTime.now()
+                                                  .difference(DateTime
+                                                      .fromMillisecondsSinceEpoch(
+                                                          _user.createdAt))
+                                                  .inDays <
+                                              5
+                                      ? Text(
+                                          DateTime.now()
+                                                      .difference(DateTime
+                                                          .fromMillisecondsSinceEpoch(
+                                                              _user.createdAt))
+                                                      .inDays <
+                                                  5
+                                              ? 'Recently Joined'
+                                              : '',
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.red),
+                                        )
+                                      : Visibility(
+                                          visible: _user.about != null &&
+                                              _user.about.isNotEmpty &&
+                                              widget.post.isAnonymous == false,
+                                          child: Text(
+                                            _user.about != null
+                                                ? _user.about
+                                                : 'No bio available',
+                                            maxLines: 1,
+                                            style: GoogleFonts.quicksand(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.red),
+                                          ),
+                                        )
+                                  : Container(),
+                              // Visibility(
+                              //   visible: widget.post.tcQuestion != null,
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.only(
+                              //         top: 3.0, bottom: 3.0),
+                              //     child: Text(
+                              //       'answered a question!',
+                              //       style: GoogleFonts.quicksand(
+                              //           fontSize: 12,
+                              //           fontWeight: FontWeight.w500,
+                              //           color: Colors.blue),
+                              //     ),
+                              //   ),
+                              // ),
 
                               // Visibility(
                               //   visible: _user.about != null,
@@ -235,14 +287,14 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               // )
                             ],
                           ),
-                          SizedBox(height: 2.5),
-                          Text(
-                            "${widget.timeAgo}",
-                            style: GoogleFonts.quicksand(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).buttonColor),
-                          ),
+                          // SizedBox(height: 2.5),
+                          // Text(
+                          //   "${widget.timeAgo}",
+                          //   style: GoogleFonts.quicksand(
+                          //       fontSize: 12,
+                          //       fontWeight: FontWeight.w500,
+                          //       color: Theme.of(context).buttonColor),
+                          // ),
                         ]),
                   ])),
                   Visibility(
@@ -558,10 +610,13 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               ),
             ),
             Wrap(children: [_postContent()]),
-            Container(
-              height: 10.0,
-              width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).dividerColor,
+            // Container(
+            //   height: 10.0,
+            //   width: MediaQuery.of(context).size.width,
+            //   color: Theme.of(context).dividerColor,
+            // )
+            Divider(
+              thickness: 1.0,
             )
           ],
         ),
@@ -581,19 +636,26 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               // ends here
               Container(
                   margin: EdgeInsets.only(
-                      top: 10.0, left: 10.0, right: 10.0, bottom: 5.0),
+                      top: 0.0, left: 10.0, right: 10.0, bottom: 5.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       widget.post.tcQuestion != null
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: Text(
-                                widget.post.tcQuestion,
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).accentColor,
+                              padding: const EdgeInsets.only(bottom: 4.0),
+                              child: ShaderMask(
+                                shaderCallback: (bounds) =>
+                                    gradient.createShader(
+                                  Rect.fromLTWH(
+                                      0, 0, bounds.width, bounds.height),
+                                ),
+                                child: Text(
+                                  widget.post.tcQuestion,
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ))
                           : Container(),
@@ -608,7 +670,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         },
                         text: widget.post.content,
                         style: GoogleFonts.quicksand(
-                            fontSize: 15,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                         linkStyle: GoogleFonts.quicksand(color: Colors.blue),
@@ -911,7 +973,6 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                       ImageChunkEvent loadingProgress) {
                                     if (loadingProgress == null) return child;
                                     return SizedBox(
-                                      height: 200,
                                       width: MediaQuery.of(context).size.width,
                                       child: Center(
                                         child: SizedBox(
@@ -961,107 +1022,219 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //     ),
               //   ],
               // ),
-              Divider(thickness: 2.0, color: Theme.of(context).dividerColor),
-              SizedBox(height: 7.5),
+              SizedBox(height: 5.0),
               Container(
                 margin: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        InkWell(
-                            onTap: () async {
-                              if (widget.post.isLiked) {
-                                widget.post.isLiked = false;
-                                widget.post.likeCount -= 1;
-                                var res =
-                                    await OneHealingSpace.unlike(widget.post);
-                                if (res) {
-                                  if (this.mounted) {
-                                    setState(() {});
-                                  }
-                                }
-                              } else {
-                                var user = await getUserWithUniversity(
-                                    widget.post.userId, widget.post.university);
-                                var token = user.device_token;
-                                if (user.id != firebaseAuth.currentUser.uid) {
-                                  // TODO:- send push notification
+                    // Row(
+                    //   children: <Widget>[
+                    //     InkWell(
+                    //         onTap: () async {
+                    //           if (widget.post.isLiked) {
+                    //             widget.post.isLiked = false;
+                    //             widget.post.likeCount -= 1;
+                    //             var res =
+                    //                 await OneHealingSpace.unlike(widget.post);
+                    //             if (res) {
+                    //               if (this.mounted) {
+                    //                 setState(() {});
+                    //               }
+                    //             }
+                    //           } else {
+                    //             var user = await getUserWithUniversity(
+                    //                 widget.post.userId, widget.post.university);
+                    //             var token = user.device_token;
+                    //             if (user.id != firebaseAuth.currentUser.uid) {
+                    //               // TODO:- send push notification
 
-                                  // if (widget.club == null &&
-                                  //     widget.course == null) {
-                                  //   await sendPush(0, token,
-                                  //       widget.post.content, widget.post.id);
-                                  // } else if (widget.club != null) {
-                                  //   await sendPushClub(widget.club, 0, token,
-                                  //       widget.post.content, widget.post.id);
-                                  // } else {
-                                  //   await sendPushCourse(
-                                  //       widget.course,
-                                  //       0,
-                                  //       token,
-                                  //       widget.post.content,
-                                  //       widget.post.id);
-                                  // }
-                                }
-                                widget.post.isLiked = true;
-                                widget.post.likeCount += 1;
-                                var res =
-                                    await OneHealingSpace.like(widget.post);
-                                if (res) {
-                                  if (this.mounted) {
-                                    setState(() {});
-                                  }
-                                }
-                              }
-                            },
-                            child: Icon(FlutterIcons.like_sli,
-                                color: widget.post.isLiked
-                                    ? Colors.red
-                                    : Theme.of(context).buttonColor,
-                                size: 20)),
-                        SizedBox(width: 10.0),
-                        Container(
-                          margin: EdgeInsets.only(left: 3.0),
-                          child: Text(
-                            widget.post.likeCount == 0
-                                ? "No Likes"
-                                : widget.post.likeCount == 1
-                                    ? widget.post.likeCount.toString() + " Like"
-                                    : widget.post.likeCount.toString() +
-                                        " Likes",
-                            style: GoogleFonts.quicksand(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).buttonColor),
-                          ),
-                        )
-                      ],
+                    //               // if (widget.club == null &&
+                    //               //     widget.course == null) {
+                    //               //   await sendPush(0, token,
+                    //               //       widget.post.content, widget.post.id);
+                    //               // } else if (widget.club != null) {
+                    //               //   await sendPushClub(widget.club, 0, token,
+                    //               //       widget.post.content, widget.post.id);
+                    //               // } else {
+                    //               //   await sendPushCourse(
+                    //               //       widget.course,
+                    //               //       0,
+                    //               //       token,
+                    //               //       widget.post.content,
+                    //               //       widget.post.id);
+                    //               // }
+                    //             }
+                    //             widget.post.isLiked = true;
+                    //             widget.post.likeCount += 1;
+                    //             var res =
+                    //                 await OneHealingSpace.like(widget.post);
+                    //             if (res) {
+                    //               if (this.mounted) {
+                    //                 setState(() {});
+                    //               }
+                    //             }
+                    //           }
+                    //         },
+                    //         child: Icon(FlutterIcons.like_sli,
+                    //             color: widget.post.isLiked
+                    //                 ? Colors.red
+                    //                 : Theme.of(context).buttonColor,
+                    //             size: 20)),
+                    //     SizedBox(width: 10.0),
+                    //     Container(
+                    //       margin: EdgeInsets.only(left: 3.0),
+                    //       child: Text(
+                    //         widget.post.likeCount == 0
+                    //             ? "No Likes"
+                    //             : widget.post.likeCount == 1
+                    //                 ? widget.post.likeCount.toString() + " Like"
+                    //                 : widget.post.likeCount.toString() +
+                    //                     " Likes",
+                    //         style: GoogleFonts.quicksand(
+                    //             fontSize: 13,
+                    //             fontWeight: FontWeight.w500,
+                    //             color: Theme.of(context).buttonColor),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Icon(AntDesign.message1,
+                    //         color: Theme.of(context).buttonColor, size: 20),
+                    //     SizedBox(width: 10.0),
+                    //     Container(
+                    //       margin: EdgeInsets.only(left: 3.0),
+                    //       child: Text(
+                    //         widget.post.commentCount == 0
+                    //             ? "No Comments"
+                    //             : widget.post.commentCount == 1
+                    //                 ? widget.post.commentCount.toString() +
+                    //                     " Comment"
+                    //                 : widget.post.commentCount.toString() +
+                    //                     " Comments",
+                    //         style: GoogleFonts.quicksand(
+                    //             fontSize: 13,
+                    //             fontWeight: FontWeight.w500,
+                    //             color: Theme.of(context).buttonColor),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    // InkWell(
+                    //   onTap: () async {
+                    //     final RenderBox box = context.findRenderObject();
+                    //     var title = widget.post.isAnonymous
+                    //         ? "Anonymous: "
+                    //         : "${widget.post.username}: ";
+                    //     var content =
+                    //         title + widget.post.content + " - TheirCircle";
+                    //     await Share.share(content,
+                    //         subject: "TheirCircle",
+                    //         sharePositionOrigin:
+                    //             box.localToGlobal(Offset.zero) & box.size);
+                    //   },
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Icon(AntDesign.sharealt,
+                    //           color: Theme.of(context).buttonColor, size: 20),
+                    //       SizedBox(width: 10.0),
+                    //       Container(
+                    //         margin: EdgeInsets.only(left: 3.0),
+                    //         child: Text(
+                    //           "Share",
+                    //           style: GoogleFonts.quicksand(
+                    //               fontSize: 13,
+                    //               fontWeight: FontWeight.w500,
+                    //               color: Theme.of(context).buttonColor),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    LikeButton(
+                      likeCountAnimationType: LikeCountAnimationType.all,
+                      isLiked: widget.post.isLiked,
+                      likeCount: widget.post.likeCount,
+                      size: 20.0,
+                      circleColor: CircleColor(
+                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                      bubblesColor: BubblesColor(
+                          dotPrimaryColor: Color(0xff33b5e5),
+                          dotSecondaryColor: Color(0xff0099cc)),
+                      onTap: (_) async {
+                        if (widget.post.isLiked) {
+                          widget.post.isLiked = false;
+                          widget.post.likeCount -= 1;
+                          var res = await OneHealingSpace.unlike(widget.post);
+                          if (res) {
+                            if (this.mounted) {
+                              setState(() {});
+                            }
+                          }
+                        } else {
+                          var user = await getUserWithUniversity(
+                              widget.post.userId, widget.post.university);
+                          var token = user.device_token;
+                          if (user.id != firebaseAuth.currentUser.uid) {
+                            // TODO:- send push notification
+
+                            // if (widget.club == null &&
+                            //     widget.course == null) {
+                            //   await sendPush(0, token,
+                            //       widget.post.content, widget.post.id);
+                            // } else if (widget.club != null) {
+                            //   await sendPushClub(widget.club, 0, token,
+                            //       widget.post.content, widget.post.id);
+                            // } else {
+                            //   await sendPushCourse(
+                            //       widget.course,
+                            //       0,
+                            //       token,
+                            //       widget.post.content,
+                            //       widget.post.id);
+                            // }
+                          }
+                          widget.post.isLiked = true;
+                          widget.post.likeCount += 1;
+                          var res = await OneHealingSpace.like(widget.post);
+                          if (res) {
+                            if (this.mounted) {
+                              setState(() {});
+                            }
+                          }
+                        }
+                        return widget.post.isLiked;
+                      },
                     ),
+                    SizedBox(width: 30.0),
                     Row(
                       children: <Widget>[
-                        Icon(AntDesign.message1,
-                            color: Theme.of(context).buttonColor, size: 20),
-                        SizedBox(width: 10.0),
+                        Icon(FlutterIcons.comments_faw5s,
+                            color:
+                                Theme.of(context).buttonColor.withOpacity(0.2),
+                            size: 20),
+                        SizedBox(width: 5.0),
                         Container(
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
                             widget.post.commentCount == 0
-                                ? "No Comments"
+                                ? 0.toString()
                                 : widget.post.commentCount == 1
-                                    ? widget.post.commentCount.toString() +
-                                        " Comment"
-                                    : widget.post.commentCount.toString() +
-                                        " Comments",
+                                    ? widget.post.commentCount.toString()
+                                    : widget.post.commentCount.toString(),
                             style: GoogleFonts.quicksand(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).buttonColor),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .buttonColor
+                                    .withOpacity(0.8)),
                           ),
                         )
                       ],
                     ),
+                    SizedBox(width: 30.0),
                     InkWell(
                       onTap: () async {
                         final RenderBox box = context.findRenderObject();
@@ -1077,18 +1250,16 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                       },
                       child: Row(
                         children: <Widget>[
-                          Icon(AntDesign.sharealt,
-                              color: Theme.of(context).buttonColor, size: 20),
-                          SizedBox(width: 10.0),
+                          Icon(FlutterIcons.share_alt_faw5s,
+                              color: Colors.indigo, size: 15),
+                          SizedBox(width: 5.0),
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
-                            child: Text(
-                              "Share",
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).buttonColor),
-                            ),
+                            child: Text("Share",
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.indigo)),
                           )
                         ],
                       ),
@@ -1096,7 +1267,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                   ],
                 ),
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: 10.0),
               // comment != null && !widget.fromComments
               //     ? Padding(
               //         padding: const EdgeInsets.only(left: 0.0),

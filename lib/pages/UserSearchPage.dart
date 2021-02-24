@@ -63,7 +63,8 @@ class _UserSearchPageState extends State<UserSearchPage>
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "Search students..."),
-            style: GoogleFonts.quicksand(
+            style: TextStyle(
+                fontFamily: "Futura1",
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),

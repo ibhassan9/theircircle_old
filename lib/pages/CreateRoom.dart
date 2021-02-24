@@ -49,8 +49,9 @@ class _CreateRoomState extends State<CreateRoom> {
         centerTitle: false,
         title: Text(
           "Create Room",
-          style: GoogleFonts.quicksand(
-              fontSize: 20,
+          style: TextStyle(
+              fontFamily: "Futura1",
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
@@ -224,8 +225,9 @@ class _CreateRoomState extends State<CreateRoom> {
                   )
                 : Text(
                     'Create',
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
                   ),

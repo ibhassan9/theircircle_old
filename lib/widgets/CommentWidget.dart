@@ -1,3 +1,4 @@
+import 'package:bubble/bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -10,9 +11,16 @@ import 'package:unify/Models/user.dart' as u;
 
 class CommentWidget extends StatefulWidget {
   final Comment comment;
+  final Function respond;
   final String timeAgo;
+  final bool isVideo;
 
-  CommentWidget({Key key, @required this.comment, this.timeAgo})
+  CommentWidget(
+      {Key key,
+      @required this.comment,
+      this.timeAgo,
+      this.respond,
+      this.isVideo = false})
       : super(key: key);
 
   @override
@@ -84,89 +92,161 @@ class _CommentWidgetState extends State<CommentWidget> {
       child: Container(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            imgUrl == null || imgUrl == ''
-                ? CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.grey[300],
-                    child: Text(widget.comment.username.substring(0, 1),
-                        style: GoogleFonts.quicksand(
-                            fontSize: 13,
-                            color: Theme.of(context).backgroundColor)))
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.network(
-                      imgUrl,
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          height: 25,
-                          width: 25,
-                          child: Center(
-                            child: SizedBox(
-                                width: 10,
-                                height: 10,
-                                child: LoadingIndicator(
-                                  indicatorType: Indicator.ballClipRotate,
-                                  color: Theme.of(context).accentColor,
-                                )),
-                          ),
-                        );
-                      },
+            Align(
+              alignment: Alignment.centerLeft,
+              child: imgUrl == null || imgUrl == ''
+                  ? CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.grey[300],
+                      child: Text(widget.comment.username.substring(0, 1),
+                          style: GoogleFonts.quicksand(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black)))
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.network(
+                        imgUrl,
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: SizedBox(
+                                  width: 10,
+                                  height: 10,
+                                  child: LoadingIndicator(
+                                    indicatorType: Indicator.ballClipRotate,
+                                    color: Theme.of(context).accentColor,
+                                  )),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-            SizedBox(width: 10.0),
+            ),
+            SizedBox(width: 0.0),
             Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          widget.comment.userId == firebaseAuth.currentUser.uid
-                              ? "You"
-                              : widget.comment.username,
-                          style: GoogleFonts.quicksand(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: widget.comment.userId ==
-                                      firebaseAuth.currentUser.uid
-                                  ? Theme.of(context).accentColor
-                                  : Theme.of(context).accentColor),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Bubble(
+                        margin: BubbleEdges.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                        shadowColor: Colors.transparent,
+                        alignment: Alignment.centerLeft,
+                        nip: BubbleNip.no,
+                        nipWidth: 1,
+                        nipHeight: 1,
+                        nipRadius: 0.5,
+                        stick: true,
+                        radius: Radius.circular(20.0),
+                        color: Colors.transparent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 0.0, left: 5.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    widget.comment.userId ==
+                                            firebaseAuth.currentUser.uid
+                                        ? "You"
+                                        : widget.comment.username,
+                                    style: TextStyle(
+                                        fontFamily: "Futura1",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: widget.comment.userId ==
+                                                firebaseAuth.currentUser.uid
+                                            ? Theme.of(context).accentColor
+                                            : Theme.of(context).accentColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 3.0),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: Text(
+                                widget.comment.content,
+                                maxLines: null,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          widget.timeAgo,
-                          style: GoogleFonts.quicksand(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.5)),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5.0),
-                  Text(
-                    widget.comment.content,
-                    maxLines: null,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
-                  ),
-                  Divider(
-                    color: Theme.of(context).dividerColor,
-                    thickness: 1.0,
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 5.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.timeAgo,
+                            style: TextStyle(
+                                fontFamily: "Futura1",
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context)
+                                    .accentColor
+                                    .withOpacity(0.5)),
+                          ),
+                          Visibility(
+                            visible: widget.isVideo == false,
+                            child: Text(
+                              ' • ',
+                              style: TextStyle(
+                                  fontFamily: "Futura1",
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.9)),
+                            ),
+                          ),
+                          Visibility(
+                            visible: widget.isVideo == false,
+                            child: InkWell(
+                              onTap: () {
+                                widget.respond();
+                              },
+                              child: Text(
+                                'Reply',
+                                style: TextStyle(
+                                    fontFamily: "Futura1",
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context)
+                                        .accentColor
+                                        .withOpacity(0.9)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(),
+                  ],
+                ),
               ),
             ),
           ],

@@ -43,6 +43,8 @@ class Post {
   String university; // only used by OHS
   String type;
   String typeId;
+  String title;
+  String feeling;
 
   Post(
       {this.id,
@@ -67,7 +69,9 @@ class Post {
       this.tcQuestion,
       this.university,
       this.type,
-      this.typeId});
+      this.typeId,
+      this.title,
+      this.feeling});
 }
 
 class Video {
@@ -160,11 +164,19 @@ Future<bool> createPost(Post post) async {
     "imgUrl": post.imgUrl
   };
 
+  if (post.title != null) {
+    data['title'] = post.title;
+  }
+
   if (post.questionOne != null && post.questionTwo != null) {
     data['questionOne'] = post.questionOne;
     data['questionTwo'] = post.questionTwo;
     data['questionOneLikeCount'] = 0;
     data['questionTwoLikeCount'] = 0;
+  }
+
+  if (post.feeling != null) {
+    data['feeling'] = post.feeling;
   }
 
   if (post.tcQuestion != null) {
@@ -219,6 +231,14 @@ Future<Post> fetchPost(String postId) async {
     post.commentCount = value['comments'].length;
   } else {
     post.commentCount = 0;
+  }
+
+  if (value['title'] != null) {
+    post.title = value['title'];
+  }
+
+  if (value['feeling'] != null) {
+    post.feeling = value['feeling'];
   }
 
   if (value['questionOne'] != null && value['questionTwo'] != null) {
@@ -298,6 +318,14 @@ Future<Post> fetchCoursePost(String postId, String id) async {
     post.commentCount = 0;
   }
 
+  if (value['title'] != null) {
+    post.title = value['title'];
+  }
+
+  if (value['feeling'] != null) {
+    post.feeling = value['feeling'];
+  }
+
   if (value['questionOne'] != null && value['questionTwo'] != null) {
     if (value['votes'] != null) {
       List<int> voteCounts = getVotes(value['votes']);
@@ -371,6 +399,14 @@ Future<Post> fetchClubPost(String postId, String id) async {
     post.commentCount = value['comments'].length;
   } else {
     post.commentCount = 0;
+  }
+
+  if (value['title'] != null) {
+    post.title = value['title'];
+  }
+
+  if (value['feeling'] != null) {
+    post.feeling = value['feeling'];
   }
 
   if (value['questionOne'] != null && value['questionTwo'] != null) {
@@ -529,6 +565,14 @@ Future<List<Post>> fetchPosts(int sortBy) async {
       post.commentCount = 0;
     }
 
+    if (value['title'] != null) {
+      post.title = value['title'];
+    }
+
+    if (value['feeling'] != null) {
+      post.feeling = value['feeling'];
+    }
+
     if (value['questionOne'] != null && value['questionTwo'] != null) {
       if (value['votes'] != null) {
         List<int> voteCounts = getVotes(value['votes']);
@@ -675,8 +719,16 @@ Future<bool> createCoursePost(Post post, Course course) async {
     "isAnonymous": post.isAnonymous,
     "courseId": post.courseId,
     "commentCount": 0,
-    "imgUrl": post.imgUrl
+    "imgUrl": post.imgUrl,
   };
+
+  if (post.title != null) {
+    data['title'] = post.title;
+  }
+
+  if (post.feeling != null) {
+    data['feeling'] = post.feeling;
+  }
 
   if (post.questionOne != null && post.questionTwo != null) {
     data['questionOne'] = post.questionOne;
@@ -751,6 +803,14 @@ Future<bool> createClubPost(Post post, Club club) async {
     "commentCount": 0,
     "imgUrl": post.imgUrl
   };
+
+  if (post.title != null) {
+    data['title'] = post.title;
+  }
+
+  if (post.feeling != null) {
+    data['feeling'] = post.feeling;
+  }
 
   if (post.questionOne != null && post.questionTwo != null) {
     data['questionOne'] = post.questionOne;
@@ -1006,6 +1066,10 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
       post.commentCount = value['comments'].length;
     } else {
       post.commentCount = 0;
+    }
+
+    if (value['title'] != null) {
+      post.title = value['title'];
     }
 
     if (value['questionOne'] != null && value['questionTwo'] != null) {
@@ -1345,6 +1409,10 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
       post.commentCount = value['comments'].length;
     } else {
       post.commentCount = 0;
+    }
+
+    if (value['title'] != null) {
+      post.title = value['title'];
     }
 
     if (value['questionOne'] != null && value['questionTwo'] != null) {

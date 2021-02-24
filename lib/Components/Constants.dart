@@ -146,6 +146,51 @@ class Constants {
     }
   }
 
+  static Map<String, String> feelings = {
+    "Ashamed": "😳",
+    "Withdrawn": "🥴",
+    "Indifferent": "😐",
+    "Sorry": "😔",
+    "Crazy": "🤪",
+    "Cold": "🥶",
+    "Bashful": "😳",
+    "Depressed": "😞",
+    "Enraged": "😡",
+    "Frightened": "😨",
+    "Interested": "😏",
+    "Shy": "🥺",
+    "Hopeful": "🕊️",
+    "Regretful": "😞",
+    "Scared": "😨",
+    "Stubborn": "😒",
+    "Suspicious": "🤨",
+    "Thirsty": "🚰",
+    "Guilty": "😔",
+    "Nervous": "😰",
+    "Embarrassed": "🤭",
+    "Confident": "😎",
+    "Disgusted": "🤢",
+    "Proud": "😁",
+    "Lonely": "😔",
+    "Frustrated": "😤",
+    "Hurt": "🤕",
+    "Hungry": "😋",
+    "Sick": "🤒",
+    "Tired": "🥱",
+    "Surprised": "😮",
+    "Thoughtful": "💭",
+    "Pained": "😢",
+    "Optimistic": "😌",
+    "Relieved": "😌",
+    "Puzzled": "🤔",
+    "Shocked": "🤯",
+    "Relaxed": "⛱️",
+    "Lucky": "🍀",
+    "Confused": "😕",
+    "Worried": "😟",
+    "Accomplished": "🤗",
+  };
+
   static Color color() {
     Random random = new Random();
     int index = random.nextInt(6);

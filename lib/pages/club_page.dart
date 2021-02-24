@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/pages/join_requests_list.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/members_list_page.dart';
@@ -46,7 +47,8 @@ class _ClubPageState extends State<ClubPage> {
             children: [
               Text(
                 widget.club.name,
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: "Futura1",
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
@@ -238,105 +240,128 @@ class _ClubPageState extends State<ClubPage> {
                               child: FutureBuilder(
                                 future: clubFuture,
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return ListView.builder(
-                                      controller: _controller,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      physics: AlwaysScrollableScrollPhysics(),
-                                      itemCount: snapshot.data != null
-                                          ? snapshot.data.length
-                                          : 0,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        Post post = snapshot.data[index];
-                                        var timeAgo = new DateTime
-                                                .fromMillisecondsSinceEpoch(
-                                            post.timeStamp);
-                                        Function f = () async {
-                                          var res = await deletePost(
-                                              post.id, null, widget.club);
-                                          Navigator.pop(context);
-                                          if (res) {
-                                            setState(() {
-                                              clubFuture = fetchClubPosts(
-                                                  widget.club, sortBy);
-                                            });
-                                            previewMessage(
-                                                "Post Deleted", context);
-                                          } else {
-                                            previewMessage(
-                                                "Error deleting post!",
-                                                context);
-                                          }
-                                        };
+                                  if (snapshot.hasData &&
+                                      snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: ListView.builder(
+                                        controller: _controller,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
+                                        itemCount: snapshot.data != null
+                                            ? snapshot.data.length
+                                            : 0,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          Post post = snapshot.data[index];
+                                          var timeAgo = new DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                              post.timeStamp);
+                                          Function f = () async {
+                                            var res = await deletePost(
+                                                post.id, null, widget.club);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture = fetchClubPosts(
+                                                    widget.club, sortBy);
+                                              });
+                                              previewMessage(
+                                                  "Post Deleted", context);
+                                            } else {
+                                              previewMessage(
+                                                  "Error deleting post!",
+                                                  context);
+                                            }
+                                          };
 
-                                        Function b = () async {
-                                          var res = await block(
-                                              post.userId, post.userId);
-                                          Navigator.pop(context);
-                                          if (res) {
-                                            setState(() {
-                                              clubFuture = fetchClubPosts(
-                                                  widget.club, sortBy);
-                                            });
-                                            previewMessage(
-                                                "User blocked.", context);
-                                          }
-                                        };
+                                          Function b = () async {
+                                            var res = await block(
+                                                post.userId, post.userId);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture = fetchClubPosts(
+                                                    widget.club, sortBy);
+                                              });
+                                              previewMessage(
+                                                  "User blocked.", context);
+                                            }
+                                          };
 
-                                        Function h = () async {
-                                          var res = await hidePost(post.id);
-                                          Navigator.pop(context);
-                                          if (res) {
-                                            setState(() {
-                                              clubFuture = fetchClubPosts(
-                                                  widget.club, sortBy);
-                                            });
-                                            previewMessage(
-                                                "Post hidden from feed.",
-                                                context);
-                                          }
-                                        };
+                                          Function h = () async {
+                                            var res = await hidePost(post.id);
+                                            Navigator.pop(context);
+                                            if (res) {
+                                              setState(() {
+                                                clubFuture = fetchClubPosts(
+                                                    widget.club, sortBy);
+                                              });
+                                              previewMessage(
+                                                  "Post hidden from feed.",
+                                                  context);
+                                            }
+                                          };
 
-                                        return PostWidget(
-                                            key: ValueKey(post.id),
-                                            post: post,
-                                            timeAgo: timeago.format(timeAgo,
-                                                locale: 'en_short'),
-                                            club: widget.club,
-                                            deletePost: f,
-                                            block: b,
-                                            hide: h);
-                                      },
+                                          return PostWidget(
+                                              key: ValueKey(post.id),
+                                              post: post,
+                                              timeAgo: timeago.format(timeAgo,
+                                                  locale: 'en_short'),
+                                              club: widget.club,
+                                              deletePost: f,
+                                              block: b,
+                                              hide: h);
+                                        },
+                                      ),
+                                    );
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: LoadingIndicator(
+                                            indicatorType:
+                                                Indicator.ballClipRotate,
+                                            color:
+                                                Theme.of(context).accentColor,
+                                          )),
                                     );
                                   } else {
-                                    return Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              1.4,
-                                      child: Center(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.face,
-                                              color:
-                                                  Theme.of(context).accentColor,
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              "There are no posts :(",
-                                              style: GoogleFonts.quicksand(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
-                                            ),
-                                          ],
+                                    return AnimatedSwitcher(
+                                      duration: Duration(seconds: 1),
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.4,
+                                        child: Center(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.face,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "There are no posts :(",
+                                                style: GoogleFonts.quicksand(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     );

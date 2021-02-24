@@ -49,8 +49,8 @@ import 'package:unify/pages/UserPage.dart';
 import 'package:unify/Widgets/UserWidget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/pages/WebPage.dart';
-import 'package:unify/Widgets/WelcomeWidget.dart';
 import 'package:unify/widgets/TodaysQuestionWidget.dart';
+import 'package:unify/widgets/WelcomeWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -84,7 +84,7 @@ class _MainPageState extends State<MainPage>
 
   Stream<Event> notificationStream;
 
-  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pinkAccent]);
+  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.purple]);
   Gradient gradient1 =
       LinearGradient(colors: [Colors.purple, Colors.pink, Colors.blue]);
 
@@ -102,14 +102,20 @@ class _MainPageState extends State<MainPage>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
+        centerTitle: true,
 
-        title: Text(
-          "Theircircle",
-          style: GoogleFonts.pacifico(
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
+        title: ShaderMask(
+          shaderCallback: (bounds) => gradient.createShader(
+            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+          ),
+          child: Text(
+            "Theircircle",
+            style: TextStyle(
+                fontFamily: "Futura",
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Colors.white),
+          ),
         ),
         // leading: Padding(
         //   padding: const EdgeInsets.only(left: 8.0),
@@ -155,13 +161,17 @@ class _MainPageState extends State<MainPage>
         //   ],
         // ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Feather.search,
-                size: 25.0, color: Theme.of(context).accentColor),
-            onPressed: () {
+          InkWell(
+            onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => UserSearchPage()));
             },
+            child: CircleAvatar(
+              radius: 18.0,
+              backgroundColor: Colors.grey.shade300,
+              child: Unicon(UniconData.uniSearch,
+                  size: 20.0, color: Theme.of(context).accentColor),
+            ),
           ),
           // IconButton(
           //   icon: Icon(FlutterIcons.video_library_mdi,
@@ -197,13 +207,30 @@ class _MainPageState extends State<MainPage>
           //   },
           // ),
 
-          IconButton(
-            icon: Icon(Feather.message_square,
-                size: 25.0, color: Theme.of(context).accentColor),
-            onPressed: () {
-              widget.goToChat();
-            },
-          )
+          //notifications(),
+          SizedBox(width: 5.0),
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: InkWell(
+              onTap: () {
+                widget.goToChat();
+              },
+              child: CircleAvatar(
+                radius: 18.0,
+                backgroundColor: Colors.grey.shade300,
+                child: Unicon(UniconData.uniChat,
+                    size: 20.0, color: Theme.of(context).accentColor),
+              ),
+            ),
+          ),
+
+          // IconButton(
+          //   icon: Unicon(UniconData.uniChat,
+          //       size: 25.0, color: Theme.of(context).accentColor),
+          //   onPressed: () {
+          //     widget.goToChat();
+          //   },
+          // )
 
           // IconButton(
           //   icon: Icon(AntDesign.logout,
@@ -225,6 +252,8 @@ class _MainPageState extends State<MainPage>
               //   height: 100,
               //   child: getStories(),
               // ),
+              WelcomeWidget(),
+              questionWidget(),
               Container(
                 color: Theme.of(context).dividerColor,
                 child: Padding(
@@ -343,11 +372,11 @@ class _MainPageState extends State<MainPage>
         ]),
       ),
       floatingActionButton: Container(
-        width: 40,
-        height: 40,
+        width: 50,
+        height: 50,
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).accentColor,
-          elevation: 0.0,
+          elevation: 5.0,
           child: Unicon(UniconData.uniPlus,
               color: Theme.of(context).backgroundColor),
           onPressed: () async {
@@ -754,7 +783,7 @@ class _MainPageState extends State<MainPage>
                 //     MaterialPageRoute(
                 //         builder: (context) => NotificationsPage()));
               },
-              child: Icon(Feather.bell,
+              child: Unicon(UniconData.uniBell,
                   size: 25, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
@@ -788,7 +817,7 @@ class _MainPageState extends State<MainPage>
               //     MaterialPageRoute(
               //         builder: (context) => NotificationsPage()));
             },
-            child: Icon(Feather.bell,
+            child: Unicon(UniconData.uniBell,
                 size: 25, color: Theme.of(context).accentColor),
           );
         }

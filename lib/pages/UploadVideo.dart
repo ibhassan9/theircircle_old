@@ -50,9 +50,10 @@ class _UploadVideoState extends State<UploadVideo> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           'Create',
-          style: GoogleFonts.quicksand(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
+          style: TextStyle(
+              fontFamily: "Futura1",
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
       ),
@@ -199,9 +200,10 @@ class _UploadVideoState extends State<UploadVideo> {
                     ))
                 : Text(
                     'PUBLISH',
-                    style: GoogleFonts.quicksand(
+                    style: TextStyle(
+                        fontFamily: "Futura1",
                         fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w700,
                         color: Colors.white),
                   ),
           ),

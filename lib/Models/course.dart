@@ -230,7 +230,7 @@ Future<List<PostUser>> fetchMemberList(Course course, Club club) async {
   for (var value in values.values) {
     DataSnapshot s = await db.child(value).once();
     Map<dynamic, dynamic> v = s.value;
-    var user = PostUser(id: s.key, email: v['email'], name: v['name']);
+    PostUser user = await getUser(s.key);
     p.add(user);
   }
 

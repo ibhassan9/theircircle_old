@@ -146,8 +146,9 @@ class _CoursesPageState extends State<CoursesPage>
                       child: Center(
                           child: Text(
                         "GPA Calculator",
-                        style: GoogleFonts.quicksand(
-                            fontSize: 14,
+                        style: TextStyle(
+                            fontFamily: "Futura1",
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
                       )),
@@ -188,8 +189,8 @@ class _CoursesPageState extends State<CoursesPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 40,
-                                    height: 40,
+                                    width: 20,
+                                    height: 20,
                                     child: LoadingIndicator(
                                       indicatorType: Indicator.ballClipRotate,
                                       color: Theme.of(context).accentColor,

@@ -43,9 +43,10 @@ class _RoomInfoPageState extends State<RoomInfoPage>
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
         title: Text(widget.room.isAdmin ? 'Manage Room' : 'Room Info',
-            style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                fontSize: 16.0,
+            style: TextStyle(
+                fontFamily: "Futura1",
+                fontWeight: FontWeight.w700,
+                fontSize: 14.0,
                 color: Theme.of(context).accentColor)),
         actions: [
           Visibility(
@@ -170,15 +171,15 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                               Text(widget.room.name,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 16.0,
+                                  style: TextStyle(
+                                      fontFamily: "Futura1",
+                                      fontSize: 13.0,
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).accentColor)),
-                              Text(
-                                  widget.room.description +
-                                      widget.room.description,
+                              Text(widget.room.description,
                                   maxLines: 4,
                                   style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.w500,
                                       fontSize: 13.0,
                                       color: Theme.of(context).buttonColor)),
                             ],
@@ -259,9 +260,10 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                                         .currentUser.uid
                                                 ? 'You'
                                                 : user.name,
-                                            style: GoogleFonts.quicksand(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16.0,
+                                            style: TextStyle(
+                                                fontFamily: "Futura1",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 13.0,
                                                 color: Theme.of(context)
                                                     .accentColor)),
                                         Text(
@@ -281,7 +283,10 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                               ),
                             ),
                             widget.room.adminId == user.id
-                                ? Text('Admin')
+                                ? Text('Admin',
+                                    style: TextStyle(
+                                      fontFamily: "Futura1",
+                                    ))
                                 : widget.room.adminId ==
                                         FirebaseAuth.instance.currentUser.uid
                                     ? IconButton(
@@ -348,8 +353,10 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                               ? 'Leave Room'
                               : ''
                           : '',
-                  style:
-                      GoogleFonts.quicksand(fontSize: 13.0, color: Colors.red)),
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red)),
             ),
           ],
         ),

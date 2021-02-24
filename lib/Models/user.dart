@@ -46,6 +46,7 @@ class PostUser {
   String why;
   List<dynamic> interests;
   List<dynamic> accomplishments;
+  int createdAt;
 
   //                               fetchUserNetworkProfile(widget.user.id, widget.user.university)
   //     .then((value) {
@@ -75,7 +76,8 @@ class PostUser {
       this.about,
       this.why,
       this.interests,
-      this.accomplishments});
+      this.accomplishments,
+      this.createdAt});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -201,6 +203,7 @@ Future registerUser(
       "verification": code,
       "device_token": token,
       "appear": true,
+      "createdAt": result.user.metadata.creationTime.millisecondsSinceEpoch
     }).then((res) async {
       Navigator.push(
         context,
@@ -257,6 +260,10 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];
+  }
+
+  if (value['createdAt'] != null) {
+    user.createdAt = value['createdAt'];
   }
 
   if (value['why'] != null) {
@@ -317,6 +324,10 @@ Future<PostUser> getUser(String id) async {
 
   if (value['accomplishments'] != null) {
     user.accomplishments = value['accomplishments'];
+  }
+
+  if (value['createdAt'] != null) {
+    user.createdAt = value['createdAt'];
   }
 
   if (value['why'] != null) {
@@ -529,6 +540,10 @@ Future<List<PostUser>> myCampusUsers() async {
 
       if (value['why'] != null) {
         user.why = value['why'];
+      }
+
+      if (value['createdAt'] != null) {
+        user.createdAt = value['createdAt'];
       }
 
       if (value['interests'] != null) {

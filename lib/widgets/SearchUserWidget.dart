@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
@@ -18,6 +19,8 @@ class SearchUserWidget extends StatefulWidget {
 
 class _SearchUserWidgetState extends State<SearchUserWidget> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  Color color;
 
   Widget build(BuildContext context) {
     return Padding(
@@ -86,8 +89,9 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       widget.peer.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.quicksand(
-                          fontSize: 15,
+                      style: TextStyle(
+                          fontFamily: "Futura1",
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
@@ -99,10 +103,11 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                           : "No bio available.",
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.quicksand(
-                          fontSize: 13,
+                      style: TextStyle(
+                          fontFamily: 'Futura3',
+                          fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
+                          color: Theme.of(context).buttonColor),
                     ),
                   ],
                 ),
@@ -128,18 +133,19 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
               },
               child: Container(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 7.0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                     child: Text(
                       'Message',
-                      style: GoogleFonts.quicksand(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
+                      style: TextStyle(
+                          fontFamily: "Futura2",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
                   ),
                   decoration: BoxDecoration(
-                      color: Colors.deepPurpleAccent,
-                      borderRadius: BorderRadius.circular(3.0))),
+                      color: Colors.pinkAccent[400],
+                      borderRadius: BorderRadius.circular(1.0))),
             )
           ],
         ),
@@ -151,5 +157,6 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    color = Constants.color();
   }
 }

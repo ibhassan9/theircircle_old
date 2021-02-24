@@ -37,32 +37,34 @@ class _NotificationWidgetState extends State<NotificationWidget>
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       imgUrl == null || imgUrl == ''
                           ? CircleAvatar(
-                              radius: 15,
+                              radius: 25,
                               backgroundColor: Colors.grey[300],
                             )
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: Image.network(
                                 imgUrl,
-                                width: 30,
-                                height: 30,
+                                width: 50,
+                                height: 50,
                                 fit: BoxFit.cover,
                                 loadingBuilder: (BuildContext context,
                                     Widget child,
                                     ImageChunkEvent loadingProgress) {
                                   if (loadingProgress == null) return child;
                                   return SizedBox(
-                                    height: 30,
-                                    width: 30,
+                                    height: 50,
+                                    width: 50,
                                     child: Center(
                                       child: SizedBox(
-                                          width: 30,
-                                          height: 30,
+                                          width: 10,
+                                          height: 10,
                                           child: LoadingIndicator(
                                             indicatorType:
                                                 Indicator.ballClipRotate,
@@ -78,35 +80,48 @@ class _NotificationWidgetState extends State<NotificationWidget>
                       Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              name,
-                              maxLines: null,
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).accentColor),
+                            Row(
+                              children: [
+                                Text(
+                                  name,
+                                  maxLines: null,
+                                  style: TextStyle(
+                                      fontFamily: "Futura1",
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context).accentColor),
+                                ),
+                                Text(
+                                  ' • ',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontFamily: "Futura1",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).buttonColor),
+                                ),
+                                Text(
+                                  timeago.format(
+                                      new DateTime.fromMillisecondsSinceEpoch(
+                                          widget.notification.timestamp)),
+                                  maxLines: null,
+                                  style: TextStyle(
+                                      fontFamily: "Futura1",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).buttonColor),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 3.0),
-                            Text(
-                              body,
-                              maxLines: null,
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).accentColor),
-                            ),
-                            SizedBox(height: 7.0),
-                            Text(
-                              timeago.format(
-                                  new DateTime.fromMillisecondsSinceEpoch(
-                                      widget.notification.timestamp)),
-                              maxLines: null,
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey[500]),
-                            ),
+                            Text(body,
+                                maxLines: null,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).buttonColor)),
                           ],
                         ),
                       ),

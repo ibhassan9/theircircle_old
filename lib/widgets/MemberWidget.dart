@@ -22,31 +22,33 @@ class MemberWidget extends StatefulWidget {
   _MemberWidgetState createState() => _MemberWidgetState();
 }
 
-class _MemberWidgetState extends State<MemberWidget> {
+class _MemberWidgetState extends State<MemberWidget>
+    with AutomaticKeepAliveClientMixin {
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
   TextEditingController bioC = TextEditingController();
   TextEditingController sC = TextEditingController();
   TextEditingController igC = TextEditingController();
   TextEditingController lC = TextEditingController();
 
-  String imgUrl = '';
-  PostUser user;
+  // String imgUrl = '';
+  // PostUser user;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
       child: InkWell(
         onTap: () {
-          if (user == null) {
+          if (widget.user == null) {
             return;
           }
-          if (user.id == _fAuth.currentUser.uid) {
+          if (widget.user.id == _fAuth.currentUser.uid) {
             showBarModalBottomSheet(
                 context: context,
                 builder: (context) => ProfilePage(
-                      user: user,
-                      heroTag: user.id,
+                      user: widget.user,
+                      heroTag: widget.user.id,
                       isMyProfile: true,
                     ));
             // Navigator.push(
@@ -57,7 +59,7 @@ class _MemberWidgetState extends State<MemberWidget> {
             showBarModalBottomSheet(
                 context: context,
                 builder: (context) =>
-                    ProfilePage(user: user, heroTag: user.id));
+                    ProfilePage(user: widget.user, heroTag: widget.user.id));
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(
@@ -66,7 +68,7 @@ class _MemberWidgetState extends State<MemberWidget> {
           }
           //showProfile(widget.user, context, bioC, sC, igC, lC, null, null);
         },
-        child: user != null
+        child: widget.user != null
             ? Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -79,21 +81,21 @@ class _MemberWidgetState extends State<MemberWidget> {
                         Container(
                           child: Row(
                             children: <Widget>[
-                              imgUrl == null || imgUrl == ''
+                              widget.user.profileImgUrl == null ||
+                                      widget.user.profileImgUrl == ''
                                   ? CircleAvatar(
                                       backgroundColor: Colors.grey[400],
                                       child: Text(
                                           widget.user.name.substring(0, 1),
                                           style: GoogleFonts.quicksand(
-                                              color: Theme.of(context)
-                                                  .backgroundColor)))
+                                              color: Colors.black)))
                                   : Hero(
-                                      tag: user.id,
+                                      tag: widget.user.id,
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(100),
                                         child: Image.network(
-                                          imgUrl,
+                                          widget.user.profileImgUrl,
                                           width: 40,
                                           height: 40,
                                           fit: BoxFit.cover,
@@ -122,20 +124,37 @@ class _MemberWidgetState extends State<MemberWidget> {
                                       ),
                                     ),
                               SizedBox(width: 10.0),
-                              Text(
-                                _fAuth.currentUser.uid == widget.user.id
-                                    ? 'You'
-                                    : widget.user.name,
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _fAuth.currentUser.uid == widget.user.id
+                                        ? 'You'
+                                        : widget.user.name,
+                                    style: TextStyle(
+                                        fontFamily: "Futura1",
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).accentColor),
+                                  ),
+                                  Text(
+                                    widget.user.about != null &&
+                                            widget.user.about.isNotEmpty
+                                        ? widget.user.about
+                                        : 'No bio available',
+                                    style: TextStyle(
+                                        fontFamily: "Medium",
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).accentColor),
+                                  ),
+                                ],
                               )
                             ],
                           ),
                         ),
                         widget.isCourse == false
-                            ? user.id == widget.club.adminId
+                            ? widget.user.id == widget.club.adminId
                                 ? Container(
                                     child: Padding(
                                       padding: const EdgeInsets.fromLTRB(
@@ -155,7 +174,8 @@ class _MemberWidgetState extends State<MemberWidget> {
                                 : Visibility(
                                     visible: _fAuth.currentUser.uid ==
                                             widget.club.adminId &&
-                                        _fAuth.currentUser.uid != user.id,
+                                        _fAuth.currentUser.uid !=
+                                            widget.user.id,
                                     child: InkWell(
                                         onTap: () {
                                           widget.delete();
@@ -166,7 +186,6 @@ class _MemberWidgetState extends State<MemberWidget> {
                                             size: 20.0)))
                             : SizedBox(),
                       ]),
-                  Divider(),
                 ]))
             : Container(),
       ),
@@ -176,11 +195,15 @@ class _MemberWidgetState extends State<MemberWidget> {
   @override
   void initState() {
     super.initState();
-    getUser(widget.user.id).then((value) {
-      setState(() {
-        imgUrl = value.profileImgUrl;
-        user = value;
-      });
-    });
+    // getUserWithUniversity(widget.user.id, widget.user.university).then((value) {
+    //   setState(() {
+    //     imgUrl = value.profileImgUrl;
+    //     user = value;
+    //   });
+
+    //   print("this is user " + user.name);
+    // });
   }
+
+  bool get wantKeepAlive => true;
 }

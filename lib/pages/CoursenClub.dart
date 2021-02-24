@@ -33,8 +33,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Courses",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: selected == 0
                             ? Theme.of(context).accentColor
@@ -63,8 +64,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Communities",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: selected == 1
                             ? Theme.of(context).accentColor
@@ -93,8 +95,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Rooms",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontFamily: "Futura1",
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: selected == 2
                             ? Theme.of(context).accentColor
