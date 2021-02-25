@@ -301,7 +301,14 @@ class _RoomPageState extends State<RoomPage> {
                                             .withOpacity(0.7)),
                                   ),
                                   ChatBubbleRightGroup(
-                                      msg: msg, scroll: scroll),
+                                      msg: msg,
+                                      scroll: scroll,
+                                      meLastSender: index == 0
+                                          ? true
+                                          : messages[index - 1].senderId !=
+                                                  firebaseAuth
+                                                      .currentUser.uid ||
+                                              formattedDate != formattedNow),
                                 ],
                               ),
                             );
@@ -321,7 +328,15 @@ class _RoomPageState extends State<RoomPage> {
                                             .accentColor
                                             .withOpacity(0.7)),
                                   ),
-                                  ChatBubbleLeftGroup(msg: msg, scroll: scroll),
+                                  ChatBubbleLeftGroup(
+                                      msg: msg,
+                                      scroll: scroll,
+                                      meLastSender: index == 0
+                                          ? true
+                                          : messages[index - 1].senderId !=
+                                                  firebaseAuth
+                                                      .currentUser.uid ||
+                                              formattedDate != formattedNow),
                                 ],
                               ),
                             );
@@ -336,10 +351,22 @@ class _RoomPageState extends State<RoomPage> {
                             if (_formattedDate == formattedDate) {
                               if (msg.senderId == myID) {
                                 return ChatBubbleRightGroup(
-                                    msg: msg, scroll: scroll);
+                                    msg: msg,
+                                    scroll: scroll,
+                                    meLastSender: index == 0
+                                        ? true
+                                        : messages[index - 1].senderId !=
+                                                firebaseAuth.currentUser.uid ||
+                                            formattedDate != formattedNow);
                               } else {
                                 return ChatBubbleLeftGroup(
-                                    msg: msg, scroll: scroll);
+                                    msg: msg,
+                                    scroll: scroll,
+                                    meLastSender: index == 0
+                                        ? true
+                                        : messages[index - 1].senderId !=
+                                                firebaseAuth.currentUser.uid ||
+                                            formattedDate != formattedNow);
                               }
                             } else {
                               if (msg.senderId == myID) {
@@ -359,7 +386,15 @@ class _RoomPageState extends State<RoomPage> {
                                                 .withOpacity(0.7)),
                                       ),
                                       ChatBubbleRightGroup(
-                                          msg: msg, scroll: scroll),
+                                          msg: msg,
+                                          scroll: scroll,
+                                          meLastSender: index == 0
+                                              ? true
+                                              : messages[index - 1].senderId !=
+                                                      firebaseAuth
+                                                          .currentUser.uid ||
+                                                  formattedDate !=
+                                                      formattedNow),
                                     ],
                                   ),
                                 );
@@ -379,7 +414,16 @@ class _RoomPageState extends State<RoomPage> {
                                                 .accentColor
                                                 .withOpacity(0.7)),
                                       ),
-                                      ChatBubbleLeftGroup(msg: msg),
+                                      ChatBubbleLeftGroup(
+                                          msg: msg,
+                                          scroll: scroll,
+                                          meLastSender: index == 0
+                                              ? true
+                                              : messages[index - 1].senderId !=
+                                                      firebaseAuth
+                                                          .currentUser.uid ||
+                                                  formattedDate !=
+                                                      formattedNow),
                                     ],
                                   ),
                                 );
@@ -388,10 +432,22 @@ class _RoomPageState extends State<RoomPage> {
                           } else {
                             if (msg.senderId == myID) {
                               return ChatBubbleRightGroup(
-                                  msg: msg, scroll: scroll);
+                                  msg: msg,
+                                  scroll: scroll,
+                                  meLastSender: index == 0
+                                      ? true
+                                      : messages[index - 1].senderId !=
+                                              firebaseAuth.currentUser.uid ||
+                                          formattedDate != formattedNow);
                             } else {
                               return ChatBubbleLeftGroup(
-                                  msg: msg, scroll: scroll);
+                                  msg: msg,
+                                  scroll: scroll,
+                                  meLastSender: index == 0
+                                      ? true
+                                      : messages[index - 1].senderId !=
+                                              firebaseAuth.currentUser.uid ||
+                                          formattedDate != formattedNow);
                             }
                           }
                         }

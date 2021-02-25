@@ -41,46 +41,43 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
               },
               child: Container(
                   child: Row(children: [
-                Hero(
-                  tag: widget.peer.id,
-                  child: widget.peer.profileImgUrl == null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            color: Colors.grey,
-                            child: Icon(AntDesign.user,
-                                color: Colors.white, size: 15.0),
-                          ),
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.network(
-                            widget.peer.profileImgUrl,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Center(
-                                  child: SizedBox(
-                                      width: 30,
-                                      height: 30,
-                                      child: LoadingIndicator(
-                                        indicatorType: Indicator.ballClipRotate,
-                                        color: Theme.of(context).accentColor,
-                                      )),
-                                ),
-                              );
-                            },
-                          ),
+                widget.peer.profileImgUrl == null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.grey,
+                          child: Icon(AntDesign.user,
+                              color: Colors.white, size: 15.0),
                         ),
-                ),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.network(
+                          widget.peer.profileImgUrl,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: Center(
+                                child: SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: LoadingIndicator(
+                                      indicatorType: Indicator.ballClipRotate,
+                                      color: Theme.of(context).accentColor,
+                                    )),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                 SizedBox(width: 15.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +87,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontFamily: "Futura1",
+                          fontFamily: "Futura3",
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -137,15 +134,15 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                     child: Text(
                       'Message',
                       style: TextStyle(
-                          fontFamily: "Futura2",
+                          fontFamily: "Futura3",
                           fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.lightBlue[600]),
                     ),
                   ),
                   decoration: BoxDecoration(
-                      color: Colors.pinkAccent[400],
-                      borderRadius: BorderRadius.circular(1.0))),
+                      border: Border.all(color: Colors.lightBlue[600]),
+                      borderRadius: BorderRadius.circular(20.0))),
             )
           ],
         ),

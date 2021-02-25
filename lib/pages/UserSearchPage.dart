@@ -64,9 +64,9 @@ class _UserSearchPageState extends State<UserSearchPage>
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "Search students..."),
             style: TextStyle(
-                fontFamily: "Futura1",
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
+                fontFamily: "Futura3",
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
           ),
         ),

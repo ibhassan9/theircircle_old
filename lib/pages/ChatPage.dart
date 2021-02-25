@@ -302,8 +302,14 @@ class _ChatPageState extends State<ChatPage>
         //   ],
         // ),
         title: userBar(),
-        titleSpacing: 0.0,
+        titleSpacing: 10.0,
         leadingWidth: 30,
+        leading: IconButton(
+          icon: Icon(FlutterIcons.arrow_back_mdi),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         actions: <Widget>[
           IconButton(
             icon: Unicon(UniconData.uniUser,
@@ -416,8 +422,21 @@ class _ChatPageState extends State<ChatPage>
                                             .withOpacity(0.7)),
                                   ),
                                   ChatBubbleRight(
-                                    msg: msg,
-                                  ),
+                                      msg: msg,
+                                      scroll: scroll,
+                                      meLastSender: index == 0
+                                          ? true
+                                          : messages[index - 1].senderId ==
+                                                      firebaseAuth
+                                                          .currentUser.uid ||
+                                                  (formattedDate !=
+                                                          formattedNow &&
+                                                      messages[index - 1]
+                                                              .senderId ==
+                                                          firebaseAuth
+                                                              .currentUser.uid)
+                                              ? false
+                                              : true),
                                 ],
                               ),
                             );
@@ -437,7 +456,17 @@ class _ChatPageState extends State<ChatPage>
                                             .accentColor
                                             .withOpacity(0.7)),
                                   ),
-                                  ChatBubbleLeft(msg: msg, scroll: scroll),
+                                  ChatBubbleLeft(
+                                      user: widget.receiver,
+                                      msg: msg,
+                                      scroll: scroll,
+                                      meLastSender: index == 0
+                                          ? true
+                                          : messages[index - 1].senderId ==
+                                                      msg.senderId ||
+                                                  formattedDate != formattedNow
+                                              ? false
+                                              : true),
                                 ],
                               ),
                             );
@@ -452,10 +481,37 @@ class _ChatPageState extends State<ChatPage>
                             if (_formattedDate == formattedDate) {
                               if (msg.senderId == myID) {
                                 return ChatBubbleRight(
-                                  msg: msg,
-                                );
+                                    msg: msg,
+                                    scroll: scroll,
+                                    meLastSender: index == 0
+                                        ? true
+                                        : messages[index - 1].senderId ==
+                                                    firebaseAuth
+                                                        .currentUser.uid ||
+                                                (formattedDate !=
+                                                        formattedNow &&
+                                                    messages[index - 1]
+                                                            .senderId ==
+                                                        firebaseAuth
+                                                            .currentUser.uid)
+                                            ? false
+                                            : true);
                               } else {
-                                return ChatBubbleLeft(msg: msg, scroll: scroll);
+                                return ChatBubbleLeft(
+                                    user: widget.receiver,
+                                    msg: msg,
+                                    scroll: scroll,
+                                    meLastSender: index == 0
+                                        ? true
+                                        : messages[index - 1].senderId ==
+                                                    msg.senderId ||
+                                                (formattedDate !=
+                                                        formattedNow &&
+                                                    messages[index - 1]
+                                                            .senderId ==
+                                                        msg.senderId)
+                                            ? false
+                                            : true);
                               }
                             } else {
                               if (msg.senderId == myID) {
@@ -475,8 +531,23 @@ class _ChatPageState extends State<ChatPage>
                                                 .withOpacity(0.7)),
                                       ),
                                       ChatBubbleRight(
-                                        msg: msg,
-                                      ),
+                                          msg: msg,
+                                          scroll: scroll,
+                                          meLastSender: index == 0
+                                              ? true
+                                              : messages[index - 1].senderId ==
+                                                          firebaseAuth
+                                                              .currentUser
+                                                              .uid ||
+                                                      (formattedDate !=
+                                                              formattedNow &&
+                                                          messages[index - 1]
+                                                                  .senderId ==
+                                                              firebaseAuth
+                                                                  .currentUser
+                                                                  .uid)
+                                                  ? false
+                                                  : true),
                                     ],
                                   ),
                                 );
@@ -496,7 +567,21 @@ class _ChatPageState extends State<ChatPage>
                                                 .accentColor
                                                 .withOpacity(0.7)),
                                       ),
-                                      ChatBubbleLeft(msg: msg, scroll: scroll),
+                                      ChatBubbleLeft(
+                                          user: widget.receiver,
+                                          msg: msg,
+                                          scroll: scroll,
+                                          meLastSender: index == 0
+                                              ? true
+                                              : messages[index - 1].senderId ==
+                                                          msg.senderId ||
+                                                      (formattedDate !=
+                                                              formattedNow &&
+                                                          messages[index - 1]
+                                                                  .senderId ==
+                                                              msg.senderId)
+                                                  ? false
+                                                  : true),
                                     ],
                                   ),
                                 );
@@ -505,10 +590,35 @@ class _ChatPageState extends State<ChatPage>
                           } else {
                             if (msg.senderId == myID) {
                               return ChatBubbleRight(
-                                msg: msg,
-                              );
+                                  msg: msg,
+                                  scroll: scroll,
+                                  meLastSender: index == 0
+                                      ? true
+                                      : messages[index - 1].senderId ==
+                                                  firebaseAuth
+                                                      .currentUser.uid ||
+                                              (formattedDate != formattedNow &&
+                                                  messages[index - 1]
+                                                          .senderId ==
+                                                      firebaseAuth
+                                                          .currentUser.uid)
+                                          ? false
+                                          : true);
                             } else {
-                              return ChatBubbleLeft(msg: msg, scroll: scroll);
+                              return ChatBubbleLeft(
+                                  user: widget.receiver,
+                                  msg: msg,
+                                  scroll: scroll,
+                                  meLastSender: index == 0
+                                      ? true
+                                      : messages[index - 1].senderId ==
+                                                  msg.senderId ||
+                                              (formattedDate != formattedNow &&
+                                                  messages[index - 1]
+                                                          .senderId ==
+                                                      msg.senderId)
+                                          ? false
+                                          : true);
                             }
                           }
                         }
@@ -530,61 +640,51 @@ class _ChatPageState extends State<ChatPage>
 
   Widget userBar() {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Hero(
-        tag: widget.receiver.id,
-        child: Container(
-            child: Row(children: [
-          widget.receiver.profileImgUrl == null ||
-                  widget.receiver.profileImgUrl == ''
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).dividerColor,
-                    child: Center(
-                      child: Icon(Feather.feather,
-                          color: Colors.black, size: 15.0),
-                    ),
-                  ),
-                )
-              : ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Image.network(
-                    widget.receiver.profileImgUrl,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: Center(
-                          child: SizedBox(
-                              width: 10,
-                              height: 10,
-                              child: LoadingIndicator(
-                                indicatorType: Indicator.ballClipRotate,
-                                color: Theme.of(context).accentColor,
-                              )),
-                        ),
-                      );
-                    },
+      Container(
+          child: Row(children: [
+        widget.receiver.profileImgUrl == null ||
+                widget.receiver.profileImgUrl == ''
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  color: Theme.of(context).dividerColor,
+                  child: Center(
+                    child:
+                        Icon(Feather.feather, color: Colors.black, size: 15.0),
                   ),
                 ),
-          SizedBox(width: 5.0),
-          Text(
-            widget.receiver.name,
-            style: TextStyle(
-                fontFamily: "Futura1",
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).accentColor),
-          )
-        ])),
-      )
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.network(
+                  widget.receiver.profileImgUrl,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: Container(
+                          width: 40,
+                          height: 40,
+                          color: Theme.of(context).dividerColor),
+                    );
+                  },
+                ),
+              ),
+        SizedBox(width: 5.0),
+        Text(
+          widget.receiver.name.split(' ').first,
+          style: TextStyle(
+              fontFamily: "Futura1",
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).accentColor),
+        )
+      ]))
     ]);
   }
 

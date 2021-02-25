@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -108,21 +109,20 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
         child: InkWell(
           onTap: () {
-            // showMaterialModalBottomSheet(
-            //     animationCurve: Curves.easeInCubic,
-            //     context: context,
-            //     expand: true,
-            //     builder: (context) => ChatPage(
-            //           receiver: widget.peer,
-            //           chatId: widget.chatId,
-            //         )).then((value) {});
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatPage(
-                          receiver: widget.peer,
-                          chatId: widget.chatId,
-                        ))).then((value) {});
+            showMaterialModalBottomSheet(
+                context: context,
+                expand: true,
+                builder: (context) => ChatPage(
+                      receiver: widget.peer,
+                      chatId: widget.chatId,
+                    )).then((value) {});
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => ChatPage(
+            //               receiver: widget.peer,
+            //               chatId: widget.chatId,
+            //             ))).then((value) {});
           },
           child: Hero(
             tag: widget.peer.id,
@@ -194,9 +194,9 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                           Text(
                                             widget.peer.name,
                                             style: TextStyle(
-                                                fontFamily: "Futura1",
+                                                fontFamily: "Futura3",
                                                 fontSize: 14,
-                                                fontWeight: FontWeight.w700,
+                                                fontWeight: FontWeight.w600,
                                                 color: Theme.of(context)
                                                     .accentColor),
                                           ),
@@ -214,7 +214,18 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                     ),
                                     SizedBox(height: 1.0),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
+                                        widget.lastMessageSenderId ==
+                                                widget.peer.id
+                                            ? Icon(
+                                                FlutterIcons.message_circle_fea,
+                                                size: 20.0,
+                                                color: Colors.lightBlue)
+                                            : Icon(FlutterIcons.reply_ent,
+                                                size: 20.0, color: Colors.pink),
+                                        SizedBox(width: 5.0),
                                         widget.lastMessageSenderId !=
                                                 widget.peer.id
                                             ? Padding(
@@ -223,27 +234,27 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                 child: Text(
                                                   'You:',
                                                   style: GoogleFonts.quicksand(
-                                                      fontSize: 15,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       color: Theme.of(context)
-                                                          .accentColor),
+                                                          .buttonColor),
                                                 ),
                                               )
                                             : Container(),
                                         Flexible(
                                           child: Text(
-                                            widget.lastMessage != null
-                                                ? widget.lastMessage
-                                                : '',
-                                            maxLines: null,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 15,
+                                              widget.lastMessage != null
+                                                  ? widget.lastMessage
+                                                  : '',
+                                              maxLines: null,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
-                                                    .accentColor),
-                                          ),
+                                                    .buttonColor,
+                                              )),
                                         ),
                                       ],
                                     ),

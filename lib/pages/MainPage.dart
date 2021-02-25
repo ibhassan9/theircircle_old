@@ -103,19 +103,17 @@ class _MainPageState extends State<MainPage>
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: true,
-
-        title: ShaderMask(
-          shaderCallback: (bounds) => gradient.createShader(
-            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-          ),
-          child: Text(
-            "Theircircle",
-            style: TextStyle(
-                fontFamily: "Futura",
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                color: Colors.white),
-          ),
+// ShaderMask(
+//           shaderCallback: (bounds) => gradient.createShader(
+//             Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+//           ),
+        title: Text(
+          "Theircircle",
+          style: TextStyle(
+              fontFamily: "Futura",
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).accentColor),
         ),
         // leading: Padding(
         //   padding: const EdgeInsets.only(left: 8.0),
@@ -140,7 +138,7 @@ class _MainPageState extends State<MainPage>
         //         color: Theme.of(context).accentColor, size: 20.0),
         //   ),
         // ),
-        leadingWidth: 35.0,
+        leadingWidth: MediaQuery.of(context).size.width / 3,
         // title: Column(
         //   crossAxisAlignment: CrossAxisAlignment.start,
         //   children: [
@@ -160,17 +158,56 @@ class _MainPageState extends State<MainPage>
         //     ),
         //   ],
         // ),
+        leading: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: InkWell(
+                onTap: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => UserSearchPage()));
+                },
+                child: CircleAvatar(
+                  radius: 18.0,
+                  backgroundColor:
+                      Theme.of(context).accentColor.withOpacity(0.05),
+                  child: notifications(),
+                  // child: Unicon(UniconData.uniUser,
+                  //     size: 20.0, color: Theme.of(context).accentColor),
+                ),
+              ),
+            ),
+            SizedBox(width: 5.0),
+            InkWell(
+              onTap: () {
+                showMaterialModalBottomSheet(
+                    context: context, builder: (context) => FilterPage());
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => UserSearchPage()));
+              },
+              child: CircleAvatar(
+                radius: 18.0,
+                backgroundColor:
+                    Theme.of(context).accentColor.withOpacity(0.05),
+                child: Unicon(UniconData.uniFilter,
+                    size: 20.0, color: Theme.of(context).accentColor),
+              ),
+            ),
+          ],
+        ),
         actions: <Widget>[
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserSearchPage()));
+              showMaterialModalBottomSheet(
+                  context: context, builder: (context) => UserSearchPage());
             },
             child: CircleAvatar(
               radius: 18.0,
-              backgroundColor: Colors.grey.shade300,
-              child: Unicon(UniconData.uniSearch,
-                  size: 20.0, color: Theme.of(context).accentColor),
+              backgroundColor: Theme.of(context).accentColor.withOpacity(0.05),
+              child:
+                  Unicon(UniconData.uniSearch, size: 20.0, color: Colors.pink),
             ),
           ),
           // IconButton(
@@ -217,9 +254,10 @@ class _MainPageState extends State<MainPage>
               },
               child: CircleAvatar(
                 radius: 18.0,
-                backgroundColor: Colors.grey.shade300,
-                child: Unicon(UniconData.uniChat,
-                    size: 20.0, color: Theme.of(context).accentColor),
+                backgroundColor:
+                    Theme.of(context).accentColor.withOpacity(0.05),
+                child:
+                    Unicon(UniconData.uniChat, size: 20.0, color: Colors.blue),
               ),
             ),
           ),
@@ -242,134 +280,141 @@ class _MainPageState extends State<MainPage>
         ],
         elevation: 1.0,
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.black,
       body: RefreshIndicator(
         onRefresh: refresh,
-        child: Stack(children: [
-          ListView(
-            children: <Widget>[
-              // Container(
-              //   height: 100,
-              //   child: getStories(),
-              // ),
-              WelcomeWidget(),
-              questionWidget(),
-              Container(
-                color: Theme.of(context).dividerColor,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
-                  child: Row(
-                    children: [
-                      Unicon(UniconData.uniSortAmountUp,
-                          size: 20.0, color: Colors.grey.shade600),
-                      SizedBox(width: 5.0),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            if (sortBy == 0) {
-                              sortBy = 1;
-                            } else {
-                              sortBy = 0;
-                            }
-                            _postFuture = fetchPosts(sortBy);
-                          });
-                        },
-                        child: Text(
-                          "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
-                              .toUpperCase(),
-                          style: GoogleFonts.quicksand(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.grey.shade600),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0)),
+          child: Container(
+            color: Theme.of(context).backgroundColor,
+            height: MediaQuery.of(context).size.height,
+            child: ListView(
+              children: <Widget>[
+                // Container(
+                //   height: 100,
+                //   child: getStories(),
+                // ),
+                WelcomeWidget(),
+                questionWidget(),
+                Container(
+                  color: Theme.of(context).dividerColor,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
+                    child: Row(
+                      children: [
+                        Unicon(UniconData.uniSortAmountUp,
+                            size: 20.0, color: Colors.grey.shade600),
+                        SizedBox(width: 5.0),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (sortBy == 0) {
+                                sortBy = 1;
+                              } else {
+                                sortBy = 0;
+                              }
+                              _postFuture = fetchPosts(sortBy);
+                            });
+                          },
+                          child: Text(
+                            "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                                .toUpperCase(),
+                            style: GoogleFonts.quicksand(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.grey.shade600),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 5.0),
-                      Unicon(UniconData.uniArrowDown,
-                          size: 20.0, color: Colors.grey.shade600),
-                    ],
+                        SizedBox(width: 5.0),
+                        Unicon(UniconData.uniArrowDown,
+                            size: 20.0, color: Colors.grey.shade600),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Text('Rooms', style: GoogleFonts.quicksand()),
-              //       InkWell(
-              //         onTap: () {
-              //           Navigator.push(context,
-              //               MaterialPageRoute(builder: (context) => Rooms()));
-              //         },
-              //         child: Row(
-              //           crossAxisAlignment: CrossAxisAlignment.center,
-              //           children: [
-              //             Text('See All',
-              //                 style: GoogleFonts.quicksand(
-              //                     fontSize: 12,
-              //                     color: Theme.of(context).buttonColor)),
-              //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // rooms(),
-              promoWidget(),
-              //WelcomeWidget(),
-              //questionWidget(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                child: Text(
-                  "Recent University News".toUpperCase(),
-                  style: GoogleFonts.quicksand(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).accentColor),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text('Rooms', style: GoogleFonts.quicksand()),
+                //       InkWell(
+                //         onTap: () {
+                //           Navigator.push(context,
+                //               MaterialPageRoute(builder: (context) => Rooms()));
+                //         },
+                //         child: Row(
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           children: [
+                //             Text('See All',
+                //                 style: GoogleFonts.quicksand(
+                //                     fontSize: 12,
+                //                     color: Theme.of(context).buttonColor)),
+                //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // rooms(),
+                promoWidget(),
+                //WelcomeWidget(),
+                //questionWidget(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
+                  child: Text(
+                    "Recent University News".toUpperCase(),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).accentColor),
+                  ),
                 ),
-              ),
-              newsListWidget(),
-              //Divider(),
-              // Padding(
-              //   padding: const EdgeInsets.all(15),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Text(
-              //         "Campus Feed",
-              //         style: GoogleFonts.quicksand(
-              //             fontSize: 13,
-              //             fontWeight: FontWeight.w500,
-              //             color: Theme.of(context).accentColor),
-              //       ),
-              //       InkWell(
-              //         onTap: () {
-              //           setState(() {
-              //             if (sortBy == 0) {
-              //               sortBy = 1;
-              //             } else {
-              //               sortBy = 0;
-              //             }
-              //             _postFuture = fetchPosts(sortBy);
-              //           });
-              //         },
-              //         child: Text(
-              //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-              //           style: GoogleFonts.quicksand(
-              //               fontSize: 14,
-              //               fontWeight: FontWeight.w800,
-              //               color: Colors.grey.shade600),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              //Divider(),
-              postWidget()
-            ],
+                newsListWidget(),
+                //Divider(),
+                // Padding(
+                //   padding: const EdgeInsets.all(15),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         "Campus Feed",
+                //         style: GoogleFonts.quicksand(
+                //             fontSize: 13,
+                //             fontWeight: FontWeight.w500,
+                //             color: Theme.of(context).accentColor),
+                //       ),
+                //       InkWell(
+                //         onTap: () {
+                //           setState(() {
+                //             if (sortBy == 0) {
+                //               sortBy = 1;
+                //             } else {
+                //               sortBy = 0;
+                //             }
+                //             _postFuture = fetchPosts(sortBy);
+                //           });
+                //         },
+                //         child: Text(
+                //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                //           style: GoogleFonts.quicksand(
+                //               fontSize: 14,
+                //               fontWeight: FontWeight.w800,
+                //               color: Colors.grey.shade600),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                //Divider(),
+                postWidget()
+              ],
+            ),
           ),
-        ]),
+        ),
       ),
       floatingActionButton: Container(
         width: 50,

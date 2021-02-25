@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage>
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: true,
         title: Text(
           '',
@@ -147,30 +147,39 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
         ],
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: ListView(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                body(),
-                Flexible(
-                  child: PageView(
-                    onPageChanged: (index) {
-                      setState(() {
-                        selectedOption = index;
-                      });
-                    },
-                    controller: _controller,
-                    children: [userPosts(), userVideos()],
-                  ),
+      backgroundColor: Colors.black,
+      body: ClipRRect(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20.0),
+            bottomRight: Radius.circular(20.0)),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Theme.of(context).backgroundColor,
+          child: ListView(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    body(),
+                    Flexible(
+                      child: PageView(
+                        onPageChanged: (index) {
+                          setState(() {
+                            selectedOption = index;
+                          });
+                        },
+                        controller: _controller,
+                        children: [userPosts(), userVideos()],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       // body: ListView(
       //     physics: AlwaysScrollableScrollPhysics(),

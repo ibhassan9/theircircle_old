@@ -134,101 +134,100 @@ class _CoursePageState extends State<CoursePage> {
         ),
         body: RefreshIndicator(
           onRefresh: refresh,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CourseCalendarPage(
-                                      course: widget.course, club: null)));
-                        },
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 200),
-                          height: iconContainerHeight,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Visibility(
-                            visible: iconContainerHeight != 0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(AntDesign.calendar,
-                                    color: Colors.white, size: 20.0),
-                                SizedBox(width: 5.0),
-                                Text('View Shared Calendar',
-                                    style: GoogleFonts.quicksand(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500))
-                              ],
-                            ),
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CourseCalendarPage(
+                                    course: widget.course, club: null)));
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        height: iconContainerHeight,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Visibility(
+                          visible: iconContainerHeight != 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(AntDesign.calendar,
+                                  color: Colors.white, size: 20.0),
+                              SizedBox(width: 5.0),
+                              Text('View Shared Calendar',
+                                  style: GoogleFonts.quicksand(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500))
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                color: Theme.of(context).dividerColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      15.0, 7.0, 15.0, 7.0),
-                                  child: Row(
-                                    children: [
-                                      Unicon(UniconData.uniSortAmountUp,
-                                          size: 20.0,
-                                          color: Colors.grey.shade600),
-                                      SizedBox(width: 5.0),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            if (sortBy == 0) {
-                                              sortBy = 1;
-                                            } else {
-                                              sortBy = 0;
-                                            }
-                                            courseFuture = fetchCoursePosts(
-                                                widget.course, sortBy);
-                                          });
-                                        },
-                                        child: Text(
-                                          "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
-                                              .toUpperCase(),
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w800,
-                                              color: Colors.grey.shade600),
-                                        ),
+                  ),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              color: Theme.of(context).dividerColor,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    15.0, 7.0, 15.0, 7.0),
+                                child: Row(
+                                  children: [
+                                    Unicon(UniconData.uniSortAmountUp,
+                                        size: 20.0,
+                                        color: Colors.grey.shade600),
+                                    SizedBox(width: 5.0),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          if (sortBy == 0) {
+                                            sortBy = 1;
+                                          } else {
+                                            sortBy = 0;
+                                          }
+                                          courseFuture = fetchCoursePosts(
+                                              widget.course, sortBy);
+                                        });
+                                      },
+                                      child: Text(
+                                        "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                                            .toUpperCase(),
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.grey.shade600),
                                       ),
-                                      SizedBox(width: 5.0),
-                                      Unicon(UniconData.uniArrowDown,
-                                          size: 20.0,
-                                          color: Colors.grey.shade600),
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Unicon(UniconData.uniArrowDown,
+                                        size: 20.0,
+                                        color: Colors.grey.shade600),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              FutureBuilder(
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Flexible(
+                              child: FutureBuilder(
                                 future: courseFuture,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData &&
@@ -358,15 +357,15 @@ class _CoursePageState extends State<CoursePage> {
                                   }
                                 },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
         // bottomNavigationBar: Padding(

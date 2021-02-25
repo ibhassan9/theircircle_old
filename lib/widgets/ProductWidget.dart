@@ -99,9 +99,9 @@ class _ProductWidgetState extends State<ProductWidget> {
             ),
           ),
           ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
+            borderRadius: BorderRadius.circular(5.0),
             child: Container(
-              height: 200,
+              height: 230,
               decoration: BoxDecoration(
                 color: Colors.grey[100],
               ),
@@ -118,8 +118,9 @@ class _ProductWidgetState extends State<ProductWidget> {
             widget.prod.title + r' • $' + widget.prod.price,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.quicksand(
-                fontSize: 14,
+            style: TextStyle(
+                fontFamily: "Futura1",
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
           ),

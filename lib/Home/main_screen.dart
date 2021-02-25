@@ -118,13 +118,13 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PageView(
-      physics: ClampingScrollPhysics(),
-      controller: _mainController,
-      children: [
-        Scaffold(
-          extendBody: false,
-          body: PageView(
+    return Scaffold(
+      extendBody: false,
+      body: PageView(
+        physics: ClampingScrollPhysics(),
+        controller: _mainController,
+        children: [
+          PageView(
             controller: _pageController,
             physics: NeverScrollableScrollPhysics(),
             onPageChanged: onPageChanged,
@@ -148,207 +148,213 @@ class _MainScreenState extends State<MainScreen>
               )
             ],
           ),
-          // floatingActionButton: FloatingActionButton(
-          //   elevation: 8,
-          //   backgroundColor: Color(0xffffa400),
-          //   child: Icon(
-          //     Feather.tv,
-          //     color: Colors.white,
-          //   ),
-          //   onPressed: () {
-          //     _pageController.jumpToPage(2);
-          //     setState(() {
-          //       _pages = 2;
-          //     });
-          //   },
-          // ),
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: AnimatedBottomNavigationBar(
-            notchSmoothness: NotchSmoothness.softEdge,
-            backgroundColor:
-                _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,
-            splashColor: Colors.deepPurpleAccent,
-            splashSpeedInMilliseconds: 500,
-            gapLocation: GapLocation.none,
-            activeColor:
-                _pages == 2 ? Colors.white : Theme.of(context).accentColor,
-            inactiveColor: Theme.of(context).buttonColor,
-            icons: [
-              Feather.home,
-              Feather.award,
-              Feather.tv,
-              Feather.shopping_bag,
-              Feather.user
-            ],
-            activeIndex: _pages,
-            onTap: (index) {
-              _pageController.animateToPage(index,
-                  duration: Duration(milliseconds: 10),
-                  curve: Curves.elasticIn);
-              setState(() {
-                _pages = index;
-              });
-            },
-          ),
-          // bottomNavigationBar: Container(
-          //   height: MediaQuery.of(context).size.height * 0.1,
-          //   decoration: BoxDecoration(
-          //       color: _pages == 2
-          //           ? Colors.black.withOpacity(0.99)
-          //           : Theme.of(context).backgroundColor,
-          //       border: Border(
-          //           top: BorderSide(
-          //               color: Theme.of(context).accentColor.withOpacity(0.1),
-          //               width: 1.0))),
-          //   child: Padding(
-          //     padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 0.0),
-          //     child: Row(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //       children: [
-          //         InkWell(
-          //           onTap: () {
-          //             _pageController.jumpToPage(0);
-          //             setState(() {
-          //               _pages = 0;
-          //             });
-          //           },
-          //           child: Column(
-          //             children: [
-          //               Icon(Feather.home,
-          //                   color: _pages == 2
-          //                       ? Colors.white
-          //                       : _pages == 0
-          //                           ? Theme.of(context).accentColor
-          //                           : Theme.of(context).buttonColor,
-          //                   size: 27),
-          //               SizedBox(height: 5.0),
-          //               CircleAvatar(
-          //                 radius: 3.0,
-          //                 backgroundColor: _pages == 0
-          //                     ? Theme.of(context).accentColor
-          //                     : Colors.transparent,
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //         InkWell(
-          //           onTap: () {
-          //             _pageController.jumpToPage(1);
-          //             setState(() {
-          //               _pages = 1;
-          //             });
-          //           },
-          //           child: Column(
-          //             children: [
-          //               Icon(Feather.award,
-          //                   color: _pages == 2
-          //                       ? Colors.white
-          //                       : _pages == 1
-          //                           ? Theme.of(context).accentColor
-          //                           : Theme.of(context).buttonColor,
-          //                   size: 27.0),
-          //               SizedBox(height: 5.0),
-          //               CircleAvatar(
-          //                 radius: 3.0,
-          //                 backgroundColor: _pages == 1
-          //                     ? Theme.of(context).accentColor
-          //                     : Colors.transparent,
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //         InkWell(
-          //           onTap: () {
-          //             _pageController.jumpToPage(2);
-          //             setState(() {
-          //               _pages = 2;
-          //             });
-          //           },
-          //           child: Column(
-          //             children: [
-          //               Icon(Feather.tv,
-          //                   color: _pages == 2
-          //                       ? Colors.white
-          //                       : Theme.of(context).buttonColor,
-          //                   size: 27.0),
-          //               SizedBox(height: 5.0),
-          //               CircleAvatar(
-          //                 radius: 3.0,
-          //                 backgroundColor:
-          //                     _pages == 2 ? Colors.white : Colors.transparent,
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //         InkWell(
-          //           onTap: () {
-          //             _pageController.jumpToPage(3);
-          //             setState(() {
-          //               _pages = 3;
-          //             });
-          //           },
-          //           child: Column(
-          //             children: [
-          //               Icon(Feather.shopping_bag,
-          //                   color: _pages == 2
-          //                       ? Colors.white
-          //                       : _pages == 3
-          //                           ? Theme.of(context).accentColor
-          //                           : Theme.of(context).buttonColor,
-          //                   size: 27.0),
-          //               SizedBox(height: 5.0),
-          //               CircleAvatar(
-          //                 radius: 3.0,
-          //                 backgroundColor: _pages == 3
-          //                     ? Theme.of(context).accentColor
-          //                     : Colors.transparent,
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //         InkWell(
-          //           onTap: () async {
-          //             var id = firebaseAuth.currentUser.uid;
-          //             var _user = await getUser(id);
-          //             setState(() {
-          //               user = _user;
-          //             });
-          //             _pageController.jumpToPage(4);
-          //             setState(() {
-          //               _pages = 4;
-          //             });
-          //           },
-          //           child: Column(
-          //             children: [
-          //               Icon(Feather.user,
-          //                   color: _pages == 2
-          //                       ? Colors.white
-          //                       : _pages == 4
-          //                           ? Theme.of(context).accentColor
-          //                           : Theme.of(context).buttonColor,
-          //                   size: 27.0),
-          //               SizedBox(height: 5.0),
-          //               CircleAvatar(
-          //                 radius: 3.0,
-          //                 backgroundColor: _pages == 4
-          //                     ? Theme.of(context).accentColor
-          //                     : Colors.transparent,
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-        ),
-        MyMatchesPage(backFromChat: () {
+          MyMatchesPage(backFromChat: () {
+            _mainController.animateToPage(0,
+                duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+          })
+        ],
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   elevation: 8,
+      //   backgroundColor: Color(0xffffa400),
+      //   child: Icon(
+      //     Feather.tv,
+      //     color: Colors.white,
+      //   ),
+      //   onPressed: () {
+      //     _pageController.jumpToPage(2);
+      //     setState(() {
+      //       _pages = 2;
+      //     });
+      //   },
+      // ),
+      // floatingActionButtonLocation:
+      //     FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        notchSmoothness: NotchSmoothness.softEdge,
+        backgroundColor: _pages == 2 ? Colors.black : Colors.black,
+        splashColor: Colors.deepPurpleAccent,
+        splashSpeedInMilliseconds: 500,
+        gapLocation: GapLocation.none,
+        activeColor: _pages == 0
+            ? Colors.purpleAccent
+            : _pages == 1
+                ? Color(0xffDB5461)
+                : _pages == 2
+                    ? Colors.pink
+                    : _pages == 3
+                        ? Colors.teal
+                        : Colors.orange,
+        inactiveColor: Theme.of(context).buttonColor,
+        icons: [
+          Feather.home,
+          Feather.award,
+          Feather.tv,
+          Feather.shopping_bag,
+          Feather.user
+        ],
+        activeIndex: _pages,
+        onTap: (index) {
           _mainController.animateToPage(0,
-              duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-        })
-      ],
+              duration: Duration(milliseconds: 10), curve: Curves.elasticIn);
+          _pageController.jumpToPage(index);
+          setState(() {
+            _pages = index;
+          });
+        },
+      ),
+      // bottomNavigationBar: Container(
+      //   height: MediaQuery.of(context).size.height * 0.1,
+      //   decoration: BoxDecoration(
+      //       color: _pages == 2
+      //           ? Colors.black.withOpacity(0.99)
+      //           : Theme.of(context).backgroundColor,
+      //       border: Border(
+      //           top: BorderSide(
+      //               color: Theme.of(context).accentColor.withOpacity(0.1),
+      //               width: 1.0))),
+      //   child: Padding(
+      //     padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 0.0),
+      //     child: Row(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //       children: [
+      //         InkWell(
+      //           onTap: () {
+      //             _pageController.jumpToPage(0);
+      //             setState(() {
+      //               _pages = 0;
+      //             });
+      //           },
+      //           child: Column(
+      //             children: [
+      //               Icon(Feather.home,
+      //                   color: _pages == 2
+      //                       ? Colors.white
+      //                       : _pages == 0
+      //                           ? Theme.of(context).accentColor
+      //                           : Theme.of(context).buttonColor,
+      //                   size: 27),
+      //               SizedBox(height: 5.0),
+      //               CircleAvatar(
+      //                 radius: 3.0,
+      //                 backgroundColor: _pages == 0
+      //                     ? Theme.of(context).accentColor
+      //                     : Colors.transparent,
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //         InkWell(
+      //           onTap: () {
+      //             _pageController.jumpToPage(1);
+      //             setState(() {
+      //               _pages = 1;
+      //             });
+      //           },
+      //           child: Column(
+      //             children: [
+      //               Icon(Feather.award,
+      //                   color: _pages == 2
+      //                       ? Colors.white
+      //                       : _pages == 1
+      //                           ? Theme.of(context).accentColor
+      //                           : Theme.of(context).buttonColor,
+      //                   size: 27.0),
+      //               SizedBox(height: 5.0),
+      //               CircleAvatar(
+      //                 radius: 3.0,
+      //                 backgroundColor: _pages == 1
+      //                     ? Theme.of(context).accentColor
+      //                     : Colors.transparent,
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //         InkWell(
+      //           onTap: () {
+      //             _pageController.jumpToPage(2);
+      //             setState(() {
+      //               _pages = 2;
+      //             });
+      //           },
+      //           child: Column(
+      //             children: [
+      //               Icon(Feather.tv,
+      //                   color: _pages == 2
+      //                       ? Colors.white
+      //                       : Theme.of(context).buttonColor,
+      //                   size: 27.0),
+      //               SizedBox(height: 5.0),
+      //               CircleAvatar(
+      //                 radius: 3.0,
+      //                 backgroundColor:
+      //                     _pages == 2 ? Colors.white : Colors.transparent,
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //         InkWell(
+      //           onTap: () {
+      //             _pageController.jumpToPage(3);
+      //             setState(() {
+      //               _pages = 3;
+      //             });
+      //           },
+      //           child: Column(
+      //             children: [
+      //               Icon(Feather.shopping_bag,
+      //                   color: _pages == 2
+      //                       ? Colors.white
+      //                       : _pages == 3
+      //                           ? Theme.of(context).accentColor
+      //                           : Theme.of(context).buttonColor,
+      //                   size: 27.0),
+      //               SizedBox(height: 5.0),
+      //               CircleAvatar(
+      //                 radius: 3.0,
+      //                 backgroundColor: _pages == 3
+      //                     ? Theme.of(context).accentColor
+      //                     : Colors.transparent,
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //         InkWell(
+      //           onTap: () async {
+      //             var id = firebaseAuth.currentUser.uid;
+      //             var _user = await getUser(id);
+      //             setState(() {
+      //               user = _user;
+      //             });
+      //             _pageController.jumpToPage(4);
+      //             setState(() {
+      //               _pages = 4;
+      //             });
+      //           },
+      //           child: Column(
+      //             children: [
+      //               Icon(Feather.user,
+      //                   color: _pages == 2
+      //                       ? Colors.white
+      //                       : _pages == 4
+      //                           ? Theme.of(context).accentColor
+      //                           : Theme.of(context).buttonColor,
+      //                   size: 27.0),
+      //               SizedBox(height: 5.0),
+      //               CircleAvatar(
+      //                 radius: 3.0,
+      //                 backgroundColor: _pages == 4
+      //                     ? Theme.of(context).accentColor
+      //                     : Colors.transparent,
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 

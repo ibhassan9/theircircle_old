@@ -365,13 +365,12 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      "Futura1",
+                                                                      "Futura3",
                                                                   fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
-                                                                  color: Colors
-                                                                      .deepOrangeAccent,
+                                                                  color: color,
                                                                 ))
                                                             : _user != null
                                                                 ? _user.createdAt !=
@@ -1354,10 +1353,8 @@ class _PostWidgetState extends State<PostWidget> {
                     SizedBox(width: 30.0),
                     Row(
                       children: <Widget>[
-                        Icon(FlutterIcons.comments_faw5s,
-                            color:
-                                Theme.of(context).buttonColor.withOpacity(0.2),
-                            size: 20),
+                        Unicon(UniconData.uniChat,
+                            color: Colors.lightBlue, size: 20),
                         SizedBox(width: 5.0),
                         Container(
                           margin: EdgeInsets.only(left: 3.0),
@@ -1370,9 +1367,7 @@ class _PostWidgetState extends State<PostWidget> {
                             style: GoogleFonts.quicksand(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context)
-                                    .buttonColor
-                                    .withOpacity(0.8)),
+                                color: Colors.lightBlue),
                           ),
                         )
                       ],
@@ -1394,7 +1389,7 @@ class _PostWidgetState extends State<PostWidget> {
                       child: Row(
                         children: <Widget>[
                           Icon(FlutterIcons.share_alt_faw5s,
-                              color: Colors.indigo, size: 15),
+                              color: Colors.lightBlue, size: 15),
                           SizedBox(width: 5.0),
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
@@ -1402,7 +1397,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 style: GoogleFonts.quicksand(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.indigo)),
+                                    color: Colors.lightBlue)),
                           )
                         ],
                       ),

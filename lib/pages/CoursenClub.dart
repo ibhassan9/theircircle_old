@@ -15,6 +15,7 @@ class _CoursenClubState extends State<CoursenClub> {
   int selected = 0;
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0.0,
         title: Row(
@@ -118,14 +119,23 @@ class _CoursenClubState extends State<CoursenClub> {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
       ),
-      body: PageView(
-        onPageChanged: (index) {
-          setState(() {
-            selected = index;
-          });
-        },
-        controller: controller,
-        children: <Widget>[CoursesPage(), ClubsPage(), Rooms()],
+      body: ClipRRect(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20.0),
+            bottomRight: Radius.circular(20.0)),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Theme.of(context).backgroundColor,
+          child: PageView(
+            onPageChanged: (index) {
+              setState(() {
+                selected = index;
+              });
+            },
+            controller: controller,
+            children: <Widget>[CoursesPage(), ClubsPage(), Rooms()],
+          ),
+        ),
       ),
     );
   }
