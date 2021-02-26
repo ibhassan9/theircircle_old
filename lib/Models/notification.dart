@@ -76,7 +76,8 @@ Future<Null> sendToAll() async {
             'priority': 'high',
             'data': <String, dynamic>{
               'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'status': 'done'
+              'status': 'done',
+              'sound': 'default'
             },
             'to': token,
           },
@@ -324,12 +325,13 @@ Future<Null> send(String token, String receiverId) async {
             <String, dynamic>{
               'notification': <String, dynamic>{
                 'body':
-                    "Answer our question of the day: How do you deal with negative criticism?",
+                    "Answer our question of the day: What is the worst pickup line you've ever heard? 🤔",
               },
               'priority': 'high',
               'data': <String, dynamic>{
                 'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                'status': 'done'
+                'status': 'done',
+                'sound': 'default'
               },
               'to': token,
             },
@@ -404,7 +406,8 @@ Future<Null> sendWelcome(
           'priority': 'high',
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done'
+            'status': 'done',
+            'sound': 'default'
           },
           'to': token,
         },

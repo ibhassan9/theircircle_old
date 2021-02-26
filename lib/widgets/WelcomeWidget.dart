@@ -37,7 +37,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                 : "Hey,"
                             : "Hey,",
                         style: TextStyle(
-                            fontFamily: "Futura1",
+                            fontFamily: "Futura3",
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -45,7 +45,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                       Text(
                         "Here is your university digest",
                         style: TextStyle(
-                            fontFamily: "Futura1",
+                            fontFamily: "Futura3",
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),

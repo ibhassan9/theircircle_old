@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/pages/Suggestions/InitialPage.dart';
 import 'package:unify/pages/TodaysQuestionPage.dart';
 
 class TodaysQuestionWidget extends StatefulWidget {
@@ -19,20 +20,24 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
       child: InkWell(
         onTap: () {
-          if (widget.question == null) {
-            return;
-          }
+          // if (widget.question == null) {
+          //   return;
+          // }
+          // Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) =>
+          //                 TodaysQuestionPage(question: widget.question)))
+          //     .then((value) {
+          //   if (value == false) {
+          //     return;
+          //   }
+          //   widget.refresh();
+          // });
           Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          TodaysQuestionPage(question: widget.question)))
-              .then((value) {
-            if (value == false) {
-              return;
-            }
-            widget.refresh();
-          });
+              context,
+              MaterialPageRoute(
+                  builder: (context) => InitialSuggestionsPage()));
         },
         child: Container(
           height: 50.0,
