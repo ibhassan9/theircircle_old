@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
+import 'package:unify/pages/Suggestions/SuggestionSwipePage.dart';
 
 class SuggestionLoading extends StatefulWidget {
   @override
@@ -9,6 +11,9 @@ class SuggestionLoading extends StatefulWidget {
 }
 
 class _SuggestionLoadingState extends State<SuggestionLoading> {
+  TMDB tmdb = TMDB(ApiKeys('cdb97765a1083aad5b2fee61d77d1cb7',
+      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZGI5Nzc2NWExMDgzYWFkNWIyZmVlNjFkNzdkMWNiNyIsInN1YiI6IjYwMzhhODMyNjdiNjEzMDA0MzVjZmQ1YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DdeL5btjigZuyZco8LjcuypBh5qHHb6UGyNMoSgKXUk'));
+  TmdbService service = TmdbService('cdb97765a1083aad5b2fee61d77d1cb7');
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -44,5 +49,14 @@ class _SuggestionLoadingState extends State<SuggestionLoading> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    service.initConfiguration().then((value) {
+      service.movie.getPopular().then((value) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    SuggestionSwipePage(data: value.results)));
+      });
+    });
   }
 }
