@@ -44,8 +44,12 @@ class _InitialSuggestionsPageState extends State<InitialSuggestionsPage> {
     return Center(
       child: InkWell(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => SuggestionLoading()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SuggestionLoading(
+                        type: type,
+                      )));
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -6,6 +6,8 @@ import 'package:tmdb_dart/tmdb_dart.dart';
 import 'package:unify/pages/Suggestions/SuggestionSwipePage.dart';
 
 class SuggestionLoading extends StatefulWidget {
+  final int type;
+  SuggestionLoading({Key key, @required this.type}) : super(key: key);
   @override
   _SuggestionLoadingState createState() => _SuggestionLoadingState();
 }
@@ -50,13 +52,36 @@ class _SuggestionLoadingState extends State<SuggestionLoading> {
     // TODO: implement initState
     super.initState();
     service.initConfiguration().then((value) {
-      service.movie.getPopular().then((value) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    SuggestionSwipePage(data: value.results)));
-      });
+      switch (widget.type) {
+        case 0:
+          MovieSearchSettings settings = MovieSearchSettings(
+              quality: QualitySettings(
+                  backdropQuality: AssetQuality.High,
+                  posterQuality: AssetQuality.High));
+          service.movie.getPopular(settings: settings).then((value) {
+            value.results.shuffle();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SuggestionSwipePage(
+                        movies: value.results, type: widget.type)));
+          });
+          break;
+        case 1:
+          TvSearchSettings settings = TvSearchSettings(
+              quality: QualitySettings(
+                  backdropQuality: AssetQuality.High,
+                  posterQuality: AssetQuality.High));
+          service.tv.getPopular(settings: settings).then((value) {
+            value.results.shuffle();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SuggestionSwipePage(
+                        tvs: value.results, type: widget.type)));
+          });
+          break;
+      }
     });
   }
 }
