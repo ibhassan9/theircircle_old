@@ -15,7 +15,7 @@ class _CoursenClubState extends State<CoursenClub> {
   int selected = 0;
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         elevation: 0.0,
         title: Row(

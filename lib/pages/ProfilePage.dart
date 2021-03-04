@@ -147,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
         ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: ClipRRect(
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20.0),

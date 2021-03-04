@@ -280,7 +280,7 @@ class _MainPageState extends State<MainPage>
         ],
         elevation: 1.0,
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: RefreshIndicator(
         onRefresh: refresh,
         child: ClipRRect(

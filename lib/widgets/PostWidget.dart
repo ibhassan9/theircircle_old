@@ -365,12 +365,14 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      "Futura3",
+                                                                      "Futura1",
                                                                   fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
-                                                                  color: color,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor,
                                                                 ))
                                                             : _user != null
                                                                 ? _user.createdAt !=
@@ -818,9 +820,9 @@ class _PostWidgetState extends State<PostWidget> {
                               child: Text(
                                 widget.post.title,
                                 style: TextStyle(
-                                    fontFamily: "Futura1",
+                                    fontFamily: "Futura",
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
                               ),
                             )

@@ -172,7 +172,8 @@ class _MainScreenState extends State<MainScreen>
       //     FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         notchSmoothness: NotchSmoothness.softEdge,
-        backgroundColor: _pages == 2 ? Colors.black : Colors.black,
+        backgroundColor:
+            _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,
         splashColor: Colors.deepPurpleAccent,
         splashSpeedInMilliseconds: 500,
         gapLocation: GapLocation.none,

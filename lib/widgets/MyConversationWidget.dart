@@ -219,12 +219,12 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                       children: [
                                         widget.lastMessageSenderId ==
                                                 widget.peer.id
-                                            ? Icon(
-                                                FlutterIcons.message_circle_fea,
+                                            ? Icon(Feather.message_square,
                                                 size: 20.0,
                                                 color: Colors.lightBlue)
-                                            : Icon(FlutterIcons.reply_ent,
-                                                size: 20.0, color: Colors.pink),
+                                            : Icon(FlutterIcons.send_mdi,
+                                                size: 15.0,
+                                                color: Colors.deepPurpleAccent),
                                         SizedBox(width: 5.0),
                                         widget.lastMessageSenderId !=
                                                 widget.peer.id

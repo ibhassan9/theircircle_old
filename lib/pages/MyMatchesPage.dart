@@ -50,7 +50,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
         } else if (info.visibleFraction == 0.0) {}
       },
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           actions: [
             Padding(
