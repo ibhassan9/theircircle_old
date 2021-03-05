@@ -107,13 +107,23 @@ class _MainPageState extends State<MainPage>
 //           shaderCallback: (bounds) => gradient.createShader(
 //             Rect.fromLTWH(0, 0, bounds.width, bounds.height),
 //           ),
-        title: Text(
-          "Theircircle",
-          style: TextStyle(
-              fontFamily: "Futura",
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Constants.checkUniversity() == 0
+                  ? 'University of Toronto'
+                  : Constants.checkUniversity() == 1
+                      ? "York University"
+                      : "Western University",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).accentColor),
+            ),
+            //Icon(FlutterIcons.arrow_drop_down_mdi)
+          ],
         ),
         // leading: Padding(
         //   padding: const EdgeInsets.only(left: 8.0),
@@ -138,7 +148,6 @@ class _MainPageState extends State<MainPage>
         //         color: Theme.of(context).accentColor, size: 20.0),
         //   ),
         // ),
-        leadingWidth: MediaQuery.of(context).size.width / 3,
         // title: Column(
         //   crossAxisAlignment: CrossAxisAlignment.start,
         //   children: [
@@ -179,37 +188,37 @@ class _MainPageState extends State<MainPage>
                 ),
               ),
             ),
-            SizedBox(width: 5.0),
-            InkWell(
-              onTap: () {
-                showMaterialModalBottomSheet(
-                    context: context, builder: (context) => FilterPage());
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => UserSearchPage()));
-              },
-              child: CircleAvatar(
-                radius: 18.0,
-                backgroundColor:
-                    Theme.of(context).accentColor.withOpacity(0.05),
-                child: Unicon(UniconData.uniFilter,
-                    size: 20.0, color: Theme.of(context).accentColor),
-              ),
-            ),
+            // SizedBox(width: 5.0),
+            // InkWell(
+            //   onTap: () {
+            //     showMaterialModalBottomSheet(
+            //         context: context, builder: (context) => FilterPage());
+            //     // Navigator.push(context,
+            //     //     MaterialPageRoute(builder: (context) => UserSearchPage()));
+            //   },
+            //   child: CircleAvatar(
+            //     radius: 18.0,
+            //     backgroundColor:
+            //         Theme.of(context).accentColor.withOpacity(0.05),
+            //     child: Unicon(UniconData.uniFilter,
+            //         size: 20.0, color: Theme.of(context).accentColor),
+            //   ),
+            // ),
           ],
         ),
         actions: <Widget>[
-          InkWell(
-            onTap: () {
-              showMaterialModalBottomSheet(
-                  context: context, builder: (context) => UserSearchPage());
-            },
-            child: CircleAvatar(
-              radius: 18.0,
-              backgroundColor: Theme.of(context).accentColor.withOpacity(0.05),
-              child:
-                  Unicon(UniconData.uniSearch, size: 20.0, color: Colors.pink),
-            ),
-          ),
+          // InkWell(
+          //   onTap: () {
+          //     showMaterialModalBottomSheet(
+          //         context: context, builder: (context) => UserSearchPage());
+          //   },
+          //   child: CircleAvatar(
+          //     radius: 18.0,
+          //     backgroundColor: Theme.of(context).accentColor.withOpacity(0.05),
+          //     child:
+          //         Unicon(UniconData.uniSearch, size: 20.0, color: Colors.pink),
+          //   ),
+          // ),
           // IconButton(
           //   icon: Icon(FlutterIcons.video_library_mdi,
           //       color: Theme.of(context).accentColor),

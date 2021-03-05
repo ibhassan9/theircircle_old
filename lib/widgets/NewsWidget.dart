@@ -17,6 +17,8 @@ class _NewsWidgetState extends State<NewsWidget>
     with AutomaticKeepAliveClientMixin {
   String url;
   String imgUrl;
+  Color color;
+
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
@@ -42,8 +44,7 @@ class _NewsWidgetState extends State<NewsWidget>
           child: Container(
             width: MediaQuery.of(context).size.width / 2,
             decoration: BoxDecoration(
-                color:
-                    imgUrl == null ? Constants.color() : Colors.grey.shade300,
+                color: imgUrl == null ? color : Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(10.0)),
             child: imgUrl == null
                 ? Column(
@@ -159,6 +160,7 @@ class _NewsWidgetState extends State<NewsWidget>
     super.initState();
     url = widget.news.url;
     imgUrl = widget.news.imgUrl;
+    color = Constants.color();
   }
 
   bool get wantKeepAlive => true;

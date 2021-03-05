@@ -41,8 +41,8 @@ class _BuyNSellState extends State<BuyNSell>
         title: Text(
           "Store",
           style: TextStyle(
-              fontFamily: "Futura1",
-              fontSize: 19,
+              fontFamily: "Futura",
+              fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
@@ -243,7 +243,11 @@ class _BuyNSellState extends State<BuyNSell>
                                           );
                                   },
                                 )
-                              : Center(child: Text('No products found'))
+                              : Center(
+                                  child: Text('Nothing to see here :(',
+                                      style: GoogleFonts.quicksand(
+                                          color: Theme.of(context).accentColor,
+                                          fontWeight: FontWeight.w500)))
                           : Center(
                               child: SizedBox(
                                   width: 20,

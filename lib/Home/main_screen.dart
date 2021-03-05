@@ -89,7 +89,8 @@ class _MainScreenState extends State<MainScreen>
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        if (message['screen'] == "CHAT_PAGE") {
+        if (message['screen'] == "ROOM_PAGE" ||
+            message['screen'] == "CHAT_PAGE") {
           return;
         }
         floatNotification(notification: message);

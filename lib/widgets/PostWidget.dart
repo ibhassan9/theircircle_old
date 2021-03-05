@@ -251,8 +251,10 @@ class _PostWidgetState extends State<PostWidget> {
                                                                               0,
                                                                               1),
                                                                       style: GoogleFonts.quicksand(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
                                                                           color:
-                                                                              Colors.white)),
+                                                                              Theme.of(context).accentColor)),
                                                                 )),
                                                           )
                                                         : ClipRRect(
@@ -319,10 +321,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                                       : widget
                                                                           .post
                                                                           .username,
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      "Futura1",
-                                                                  fontSize: 12,
+                                                              style: GoogleFonts.quicksand(
+                                                                  fontSize: 14,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
@@ -340,9 +340,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                             ),
                                                             Text(
                                                               " • ${widget.timeAgo}",
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      "Futura1",
+                                                              style: GoogleFonts.quicksand(
                                                                   fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight

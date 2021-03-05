@@ -98,6 +98,7 @@ dependencies:
   tmdb_dart: ^0.1.1
   tmdb_api: ^1.2.5
   flip_card: ^0.4.4
+  flutter_dropdown: ^0.0.8
 
 dev_dependencies:
   flutter_test:

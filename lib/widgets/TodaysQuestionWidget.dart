@@ -20,24 +20,24 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
       child: InkWell(
         onTap: () {
-          // if (widget.question == null) {
-          //   return;
-          // }
-          // Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) =>
-          //                 TodaysQuestionPage(question: widget.question)))
-          //     .then((value) {
-          //   if (value == false) {
-          //     return;
-          //   }
-          //   widget.refresh();
-          // });
+          if (widget.question == null) {
+            return;
+          }
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => InitialSuggestionsPage()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TodaysQuestionPage(question: widget.question)))
+              .then((value) {
+            if (value == false) {
+              return;
+            }
+            widget.refresh();
+          });
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => InitialSuggestionsPage()));
         },
         child: Container(
           height: 50.0,
