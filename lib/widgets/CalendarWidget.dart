@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 
 class CalendarWidget extends StatefulWidget {
@@ -16,7 +17,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     TableCalendar tCalendar = TableCalendar(
       availableCalendarFormats: {CalendarFormat.week: 'Week'},
       initialCalendarFormat: CalendarFormat.week,
-      onDaySelected: (dt, lst) async {
+      onDaySelected: (dt, lst, lst1) async {
         setState(() {
           dateTimeSelected = dt;
         });

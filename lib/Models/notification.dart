@@ -325,7 +325,7 @@ Future<Null> send(String token, String receiverId) async {
             <String, dynamic>{
               'notification': <String, dynamic>{
                 'body':
-                    "Answer our question of the day: What is the worst pickup line you've ever heard? 🤔",
+                    "Answer our question of the day: Should university education be free?",
               },
               'priority': 'high',
               'data': <String, dynamic>{

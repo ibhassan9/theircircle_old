@@ -24,8 +24,15 @@ class PostDetailPage extends StatefulWidget {
   final Course course;
   final Club club;
   final String timeAgo;
+  final bool isDiffUni;
 
-  PostDetailPage({Key key, this.post, this.course, this.club, this.timeAgo})
+  PostDetailPage(
+      {Key key,
+      this.post,
+      this.course,
+      this.club,
+      this.timeAgo,
+      this.isDiffUni = false})
       : super(key: key);
   @override
   _PostDetailPageState createState() => _PostDetailPageState();
@@ -337,20 +344,47 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           switch (widget.post.type) {
                             case 'post':
                               this.setState(() {
-                                commentFuture =
-                                    fetchComments(widget.post, null, null);
+                                commentFuture = fetchComments(
+                                    widget.post,
+                                    null,
+                                    null,
+                                    widget.post.university != null
+                                        ? widget.post.university
+                                        : Constants.checkUniversity() == 0
+                                            ? 'UofT'
+                                            : Constants.checkUniversity() == 1
+                                                ? 'YorkU'
+                                                : 'WesternU');
                               });
                               break;
                             case 'club':
                               this.setState(() {
-                                commentFuture = fetchComments(widget.post, null,
-                                    Club(id: widget.post.typeId));
+                                commentFuture = fetchComments(
+                                    widget.post,
+                                    null,
+                                    Club(id: widget.post.typeId),
+                                    widget.post.university != null
+                                        ? widget.post.university
+                                        : Constants.checkUniversity() == 0
+                                            ? 'UofT'
+                                            : Constants.checkUniversity() == 1
+                                                ? 'YorkU'
+                                                : 'WesternU');
                               });
                               break;
                             case 'course':
                               this.setState(() {
-                                commentFuture = fetchComments(widget.post,
-                                    Course(id: widget.post.typeId), null);
+                                commentFuture = fetchComments(
+                                    widget.post,
+                                    Course(id: widget.post.typeId),
+                                    null,
+                                    widget.post.university != null
+                                        ? widget.post.university
+                                        : (Constants.checkUniversity() == 0
+                                            ? 'UofT'
+                                            : Constants.checkUniversity() == 1
+                                                ? 'YorkU'
+                                                : 'WesternU'));
                               });
                               break;
                             case 'onehealingspace':
@@ -362,14 +396,32 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             default:
                               this.setState(() {
                                 commentFuture = fetchComments(
-                                    widget.post, widget.course, widget.club);
+                                    widget.post,
+                                    widget.course,
+                                    widget.club,
+                                    widget.post.university != null
+                                        ? widget.post.university
+                                        : Constants.checkUniversity() == 0
+                                            ? 'UofT'
+                                            : Constants.checkUniversity() == 1
+                                                ? 'YorkU'
+                                                : 'WesternU');
                               });
                               break;
                           }
                         } else {
                           this.setState(() {
                             commentFuture = fetchComments(
-                                widget.post, widget.course, widget.club);
+                                widget.post,
+                                widget.course,
+                                widget.club,
+                                widget.post.university != null
+                                    ? widget.post.university
+                                    : Constants.checkUniversity() == 0
+                                        ? 'UofT'
+                                        : Constants.checkUniversity() == 1
+                                            ? 'YorkU'
+                                            : 'WesternU');
                           });
                         }
                       }
@@ -401,7 +453,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
         leadingWidth: 30.0,
         // title: Text(
         //   "Comments",
-        //   style: GoogleFonts.quicksand(
+        //   style: TextStyle(
+        //fontFamily: Constants.fontFamily,
         //       fontSize: 20,
         //       fontWeight: FontWeight.w500,
         //       color: Theme.of(context).accentColor),
@@ -523,10 +576,12 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                       curve: Curves.easeIn));
                             };
                             return CommentWidget(
-                                comment: comment,
-                                timeAgo:
-                                    timeago.format(timeAgo, locale: 'en_short'),
-                                respond: reply);
+                              comment: comment,
+                              uni: widget.post.university,
+                              timeAgo:
+                                  timeago.format(timeAgo, locale: 'en_short'),
+                              respond: reply,
+                            );
                           },
                         );
                       } else {
@@ -564,7 +619,19 @@ class _PostDetailPageState extends State<PostDetailPage> {
       ),
       bottomNavigationBar: Padding(
           padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-          child: commentBox),
+          child: widget.isDiffUni
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text(
+                    "Commenting is disabled for different universities",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  ),
+                )
+              : commentBox),
     );
   }
 
@@ -636,7 +703,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         color: Theme.of(context).dividerColor,
                         child: Center(
                           child: Icon(Feather.feather,
-                              color: Colors.black, size: 15.0),
+                              color: Theme.of(context).accentColor, size: 15.0),
                         ),
                       ),
                     )
@@ -684,8 +751,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 : widget.post.username
                                     .trim()
                                     .replaceAll(' ', '\n'),
-                    style: TextStyle(
-                        fontFamily: "Futura1",
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color:
@@ -709,7 +775,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
               //         top: 3.0, bottom: 3.0),
               //     child: Text(
               //       'answered a question!',
-              //       style: GoogleFonts.quicksand(
+              //       style: TextStyle(
+              //  fontFamily: Constants.fontFamily,
               //           fontSize: 12,
               //           fontWeight: FontWeight.w500,
               //           color: Colors.indigo),
@@ -722,7 +789,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
               //     _user.about != null
               //         ? _user.about
               //         : 'No bio available',
-              //     style: GoogleFonts.quicksand(
+              //     style: TextStyle(
+              //    fontFamily: Constants.fontFamily,
               //         fontSize: 12,
               //         fontWeight: FontWeight.w600,
               //         color: Colors.grey[500]),
@@ -733,8 +801,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ? Text(
                       'is feeling ${widget.post.feeling.toLowerCase()} ' +
                           Constants.feelings[widget.post.feeling],
-                      style: TextStyle(
-                        fontFamily: "Futura1",
+                      style: GoogleFonts.quicksand(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: color,
@@ -752,19 +819,47 @@ class _PostDetailPageState extends State<PostDetailPage> {
       switch (widget.post.type) {
         case 'post':
           this.setState(() {
-            commentFuture = fetchComments(widget.post, null, null);
+            commentFuture = fetchComments(
+                widget.post,
+                null,
+                null,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
         case 'club':
           this.setState(() {
-            commentFuture =
-                fetchComments(widget.post, null, Club(id: widget.post.typeId));
+            commentFuture = fetchComments(
+                widget.post,
+                null,
+                Club(id: widget.post.typeId),
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
         case 'course':
           this.setState(() {
             commentFuture = fetchComments(
-                widget.post, Course(id: widget.post.typeId), null);
+                widget.post,
+                Course(id: widget.post.typeId),
+                null,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
         case 'onehealingspace':
@@ -774,14 +869,33 @@ class _PostDetailPageState extends State<PostDetailPage> {
           break;
         default:
           this.setState(() {
-            commentFuture =
-                fetchComments(widget.post, widget.course, widget.club);
+            commentFuture = fetchComments(
+                widget.post,
+                widget.course,
+                widget.club,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
       }
     } else {
       this.setState(() {
-        commentFuture = fetchComments(widget.post, widget.course, widget.club);
+        commentFuture = fetchComments(
+            widget.post,
+            widget.course,
+            widget.club,
+            widget.post.university != null
+                ? widget.post.university
+                : Constants.checkUniversity() == 0
+                    ? 'UofT'
+                    : Constants.checkUniversity() == 1
+                        ? 'YorkU'
+                        : 'WesternU');
       });
     }
   }
@@ -795,19 +909,47 @@ class _PostDetailPageState extends State<PostDetailPage> {
       switch (widget.post.type) {
         case 'post':
           this.setState(() {
-            commentFuture = fetchComments(widget.post, null, null);
+            commentFuture = fetchComments(
+                widget.post,
+                null,
+                null,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
         case 'club':
           this.setState(() {
-            commentFuture =
-                fetchComments(widget.post, null, Club(id: widget.post.typeId));
+            commentFuture = fetchComments(
+                widget.post,
+                null,
+                Club(id: widget.post.typeId),
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
         case 'course':
           this.setState(() {
             commentFuture = fetchComments(
-                widget.post, Course(id: widget.post.typeId), null);
+                widget.post,
+                Course(id: widget.post.typeId),
+                null,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
         case 'onehealingspace':
@@ -817,14 +959,33 @@ class _PostDetailPageState extends State<PostDetailPage> {
           break;
         default:
           this.setState(() {
-            commentFuture =
-                fetchComments(widget.post, widget.course, widget.club);
+            commentFuture = fetchComments(
+                widget.post,
+                widget.course,
+                widget.club,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU');
           });
           break;
       }
     } else {
       this.setState(() {
-        commentFuture = fetchComments(widget.post, widget.course, widget.club);
+        commentFuture = fetchComments(
+            widget.post,
+            widget.course,
+            widget.club,
+            widget.post.university != null
+                ? widget.post.university
+                : Constants.checkUniversity() == 0
+                    ? 'UofT'
+                    : Constants.checkUniversity() == 1
+                        ? 'YorkU'
+                        : 'WesternU');
       });
     }
 

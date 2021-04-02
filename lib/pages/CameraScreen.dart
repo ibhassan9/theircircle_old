@@ -95,8 +95,9 @@
 //         brightness: Brightness.dark,
 //         iconTheme: IconThemeData(color: Colors.white),
 //         title: Text('CREATE',
-//             style: GoogleFonts.poppins(
-//               GoogleFonts.quicksand: GoogleFonts.quicksand(
+//             style: GoogleFonts.quicksand(
+//               GoogleFonts.overpass: TextStyle(
+//    fontFamily: Constants.fontFamily,
 //                   fontSize: 15,
 //                   fontWeight: FontWeight.w700,
 //                   color: Colors.white),
@@ -159,7 +160,8 @@
 //     if (controller == null || !controller.value.isInitialized) {
 //       return const Text(
 //         'Tap a camera',
-//         style: GoogleFonts.quicksand(
+//         style: TextStyle(
+//    fontFamily: Constants.fontFamily,
 //           color: Colors.white,
 //           fontSize: 24.0,
 //           fontWeight: FontWeight.w900,

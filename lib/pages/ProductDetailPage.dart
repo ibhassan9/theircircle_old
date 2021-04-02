@@ -25,83 +25,106 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.transparent,
+        leadingWidth: 50,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: CircleAvatar(
+              radius: 20.0,
+              backgroundColor: Colors.white,
+              child: Icon(FlutterIcons.x_fea, color: Colors.black, size: 20.0),
+            ),
+          ),
+        ),
         actions: [
           Visibility(
             visible:
                 widget.prod.sellerId != FirebaseAuth.instance.currentUser.uid,
-            child: IconButton(
-              icon: Icon(FlutterIcons.more_horiz_mdi),
-              onPressed: () {
-                final act = CupertinoActionSheet(
-                  title: Text(
-                    "What's wrong with this listing?",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).accentColor),
-                  ),
-                  actions: <Widget>[
-                    CupertinoActionSheetAction(
-                        child: Text(
-                          "It's suspicious or spam",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          //showSnackBar();
-                        }),
-                    CupertinoActionSheetAction(
-                        child: Text(
-                          "It's abusive or harmful",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          //showSnackBar();
-                        }),
-                    CupertinoActionSheetAction(
-                        child: Text(
-                          "It expresses intentions of self-harm or suicide",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          //showSnackBar();
-                        }),
-                    CupertinoActionSheetAction(
-                        child: Text(
-                          "It promotes sexual/inappropriate content",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          //showSnackBar();
-                        }),
-                  ],
-                );
-                showCupertinoModalPopup(
-                    context: context, builder: (BuildContext context) => act);
-              },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: InkWell(
+                onTap: () async {
+                  final act = CupertinoActionSheet(
+                    title: Text(
+                      "What's wrong with this listing?",
+                      style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).accentColor),
+                    ),
+                    actions: <Widget>[
+                      CupertinoActionSheetAction(
+                          child: Text(
+                            "It's suspicious or spam",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            //showSnackBar();
+                          }),
+                      CupertinoActionSheetAction(
+                          child: Text(
+                            "It's abusive or harmful",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            //showSnackBar();
+                          }),
+                      CupertinoActionSheetAction(
+                          child: Text(
+                            "It expresses intentions of self-harm or suicide",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            //showSnackBar();
+                          }),
+                      CupertinoActionSheetAction(
+                          child: Text(
+                            "It promotes sexual/inappropriate content",
+                            style: GoogleFonts.quicksand(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            //showSnackBar();
+                          }),
+                    ],
+                  );
+                  showCupertinoModalPopup(
+                      context: context, builder: (BuildContext context) => act);
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 20.0,
+                  child: Icon(FlutterIcons.more_horiz_mdi,
+                      color: Colors.black, size: 20.0),
+                ),
+              ),
             ),
-          )
+          ),
         ],
         title: Text(
-          'Shop',
+          '',
           style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -114,10 +137,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   Widget body() {
     return ListView(
+      padding: const EdgeInsets.only(top: 0),
       shrinkWrap: true,
       children: [
         Container(
-          height: MediaQuery.of(context).size.height / 2.5,
+          height: MediaQuery.of(context).size.height / 2,
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -182,8 +206,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Text(
                     widget.prod.sellerId ==
                             FirebaseAuth.instance.currentUser.uid
-                        ? 'Product by you'
-                        : 'Product by ' + widget.prod.sellerName,
+                        ? 'Listed by you'
+                        : 'Listed by ' + widget.prod.sellerName,
                     style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -289,7 +313,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     color: widget.prod.sellerId ==
                             FirebaseAuth.instance.currentUser.uid
                         ? Colors.redAccent
-                        : Colors.blue,
+                        : Colors.blue.shade700,
                     borderRadius: BorderRadius.circular(3.0)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

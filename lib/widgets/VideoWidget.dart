@@ -9,6 +9,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
@@ -94,167 +95,289 @@ class _VideoWidgetState extends State<VideoWidget>
               isPaused = true;
             }
           },
-          child: ClipRRect(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.black54,
-              child: Stack(
-                children: [
-                  CustomPaint(
-                    foregroundPainter: CustomFadingEffectPainer(),
-                    child: Container(
-                      child: Stack(
-                        children: [
-                          aspectRatio != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(0.0),
-                                  child: Container(
-                                    color: Colors.black54,
-                                    child: Hero(
-                                      tag: widget.video.id,
-                                      child: Image.network(
-                                          widget.video.thumbnailUrl,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          fit: aspectRatio < 0.6
-                                              ? BoxFit.cover
-                                              : BoxFit.contain,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return SizedBox(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Center(
-                                              child: SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                  child: LoadingIndicator(
-                                                    indicatorType: Indicator
-                                                        .ballScaleMultiple,
-                                                    color: Theme.of(context)
-                                                        .accentColor,
-                                                  )),
-                                            ));
-                                      }),
-                                    ),
-                                  ))
-                              : Container(),
-                          initialized && aspectRatio != null
-                              ? _controller.value.aspectRatio < 0.6
-                                  ? SizedBox.expand(
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: SizedBox(
-                                          width:
-                                              _controller.value.size?.width ??
-                                                  0,
-                                          height:
-                                              _controller.value.size?.height ??
-                                                  0,
-                                          child: VideoPlayer(_controller),
-                                        ),
-                                      ),
-                                    )
-                                  : SizedBox.expand(
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: SizedBox(
-                                            // width: _controller.value.size?.width ?? 0,
-                                            // height: _controller.value.size?.height ?? 0,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height,
-                                            child: Chewie(
-                                              controller: _chewieController,
-                                            )),
-                                      ),
-                                    )
-                              : Container(),
-                          Center(
-                            child: Container(
-                              child: Center(
-                                child: SizedBox(
-                                  width: 100,
-                                  height: 100,
-                                  child: FlareActor(
-                                    'assets/anim/like.flr',
-                                    controller: flareControls,
-                                    color: Colors.grey,
-                                    animation: 'idle',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: ClipRect(
+                clipBehavior: Clip.hardEdge,
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.black54,
+                  child: Stack(
+                    children: [
+                      CustomPaint(
+                        foregroundPainter: CustomFadingEffectPainer(),
+                        child: Container(
+                          child: Stack(
                             children: [
-                              userInfo(),
-                              SizedBox(height: 15.0),
-                              caption(),
-                              SizedBox(height: 10.0),
-                              Container(
-                                height: 20.0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 12,
-                                      width: 12,
-                                      child: LoadingIndicator(
-                                          indicatorType:
-                                              Indicator.audioEqualizer,
-                                          color: Colors.white),
+                              aspectRatio != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                      child: Container(
+                                        color: Colors.black54,
+                                        child: Hero(
+                                          tag: widget.video.id,
+                                          child: Image.network(
+                                              widget.video.thumbnailUrl,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: aspectRatio < 0.6
+                                                  ? BoxFit.cover
+                                                  : BoxFit.contain,
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent
+                                                          loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return SizedBox(
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Center(
+                                                  child: SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child: LoadingIndicator(
+                                                        indicatorType: Indicator
+                                                            .ballScaleMultiple,
+                                                        color: Theme.of(context)
+                                                            .accentColor,
+                                                      )),
+                                                ));
+                                          }),
+                                        ),
+                                      ))
+                                  : Container(),
+                              initialized && aspectRatio != null
+                                  ? _controller.value.aspectRatio < 0.6
+                                      ? SizedBox.expand(
+                                          child: FittedBox(
+                                            fit: BoxFit.cover,
+                                            child: SizedBox(
+                                              width: _controller
+                                                      .value.size?.width ??
+                                                  0,
+                                              height: _controller
+                                                      .value.size?.height ??
+                                                  0,
+                                              child: VideoPlayer(_controller),
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox.expand(
+                                          child: FittedBox(
+                                            fit: BoxFit.cover,
+                                            child: SizedBox(
+                                                // width: _controller.value.size?.width ?? 0,
+                                                // height: _controller.value.size?.height ?? 0,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
+                                                child: Chewie(
+                                                  controller: _chewieController,
+                                                )),
+                                          ),
+                                        )
+                                  : Container(),
+                              Center(
+                                child: Container(
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: 100,
+                                      height: 100,
+                                      child: FlareActor(
+                                        'assets/anim/like.flr',
+                                        controller: flareControls,
+                                        color: Colors.grey,
+                                        animation: 'idle',
+                                      ),
                                     ),
-                                    SizedBox(width: 5.0),
-                                    Text(
-                                        "Original audio • ${widget.video.name}",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white)),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 15.0),
-                          institution(),
-                          SizedBox(height: 10.0),
-                          bottomBar(context),
-                        ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                      Positioned(
+                        bottom: 0.0,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      userInfo(),
+                                      SizedBox(height: 5.0),
+                                      caption(),
+                                      // SizedBox(height: 5.0),
+                                      // institution()
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 3.0),
+                              Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      if (widget.video.userId ==
+                                          firebaseAuth.currentUser.uid) {
+                                        showDelete(context);
+                                      } else {
+                                        showReport(context);
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 22.0,
+                                      backgroundColor:
+                                          Colors.grey.withOpacity(0.4),
+                                      child: Icon(Icons.more_horiz,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  InkWell(
+                                    onTap: () async {
+                                      if (widget.video.isLiked) {
+                                        setState(() {
+                                          widget.video.isLiked = false;
+                                          widget.video.likeCount -= 1;
+                                        });
+                                        await VideoApi.unlike(widget.video);
+                                      } else {
+                                        setState(() {
+                                          widget.video.isLiked = true;
+                                          widget.video.likeCount += 1;
+                                        });
+                                        await VideoApi.like(widget.video);
+                                        await sendPushVideo(
+                                            0,
+                                            token,
+                                            widget.video.caption,
+                                            widget.video.id,
+                                            widget.video.userId);
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 22.0,
+                                      backgroundColor:
+                                          Colors.grey.withOpacity(0.4),
+                                      child: Icon(AntDesign.heart,
+                                          color: widget.video.isLiked
+                                              ? Colors.red
+                                              : Colors.white,
+                                          size: 20.0),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  InkWell(
+                                    onTap: () {
+                                      showBarModalBottomSheet(
+                                        context: context,
+                                        builder: (context) => Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                1.2,
+                                            child: VideoComments(
+                                                video: widget.video)),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 22.0,
+                                      backgroundColor:
+                                          Colors.grey.withOpacity(0.4),
+                                      child: Icon(Feather.message_circle,
+                                          color: Colors.white, size: 20.0),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        // child: Padding(
+                        //   padding:
+                        //       const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
+                        //   child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //       Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           userInfo(),
+                        //           SizedBox(height: 15.0),
+                        //           caption(),
+                        //           SizedBox(height: 10.0),
+                        //           Container(
+                        //             height: 20.0,
+                        //             child: Row(
+                        //               mainAxisAlignment:
+                        //                   MainAxisAlignment.start,
+                        //               children: [
+                        //                 SizedBox(
+                        //                   height: 12,
+                        //                   width: 12,
+                        //                   child: LoadingIndicator(
+                        //                       indicatorType:
+                        //                           Indicator.audioEqualizer,
+                        //                       color: Colors.white),
+                        //                 ),
+                        //                 SizedBox(width: 5.0),
+                        //                 Text(
+                        //                     "Original audio • ${widget.video.name}",
+                        //                     maxLines: 2,
+                        //                     overflow: TextOverflow.ellipsis,
+                        //                     style: TextStyle(
+                        //     fontFamily: Constants.fontFamily,
+                        //                         fontSize: 13,
+                        //                         fontWeight: FontWeight.w500,
+                        //                         color: Colors.white)),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       SizedBox(height: 15.0),
+                        //       institution(),
+                        //       SizedBox(height: 10.0),
+                        //       bottomBar(context),
+                        //     ],
+                        //   ),
+                        // ),
+                      ),
+                      // Container(
+                      //   height: 50,
+                      //   width: MediaQuery.of(context).size.width,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.black,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -272,17 +395,14 @@ class _VideoWidgetState extends State<VideoWidget>
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2.0),
-        color: Colors.white.withOpacity(0.8),
+        color: Colors.grey.shade100.withOpacity(0.1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Text(
           university,
-          style: TextStyle(
-              fontFamily: "Futura1",
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
-              color: Colors.black),
+          style: GoogleFonts.quicksand(
+              fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
     );
@@ -323,35 +443,45 @@ class _VideoWidgetState extends State<VideoWidget>
                 ),
               ),
         SizedBox(width: 10.0),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Text(
                   widget.video.userId == firebaseAuth.currentUser.uid
-                      ? 'Posted by you'
-                      : widget.video.name,
-                  style: TextStyle(
-                      fontFamily: "Futura1",
-                      fontSize: 12,
+                      ? 'You'
+                      : '@' +
+                          widget.video.name.replaceAll(" ", '').toLowerCase(),
+                  style: GoogleFonts.quicksand(
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
                 ),
               ),
-              SizedBox(width: 5.0),
-              Padding(
-                padding: const EdgeInsets.only(top: 3.0),
-                child: Text(
-                  widget.timeAgo,
-                  style: TextStyle(
-                      fontFamily: "Futura1",
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[300]),
-                ),
+              Text(
+                widget.video.university == "UofT"
+                    ? "University of Toronto"
+                    : widget.video.university == "YorkU"
+                        ? "York University"
+                        : "Western University",
+                style: GoogleFonts.quicksand(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 3.0),
+              //   child: Text(
+              //     widget.timeAgo,
+              //     style: TextStyle(
+              //   fontFamily: Constants.fontFamily,
+              //         fontSize: 10,
+              //         fontWeight: FontWeight.w500,
+              //         color: Colors.grey[300]),
+              //   ),
+              // ),
               // SizedBox(height: 5.0),
               // institution()
             ])
@@ -658,7 +788,8 @@ class _VideoWidgetState extends State<VideoWidget>
         // CupertinoActionSheetAction(
         //     child: Text(
         //       "Hide this video.",
-        //       style: GoogleFonts.quicksand(
+        //       style: TextStyle(
+        //    fontFamily: Constants.fontFamily,
         //           fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
         //     ),
         //     onPressed: () {
@@ -666,14 +797,16 @@ class _VideoWidgetState extends State<VideoWidget>
         //       final act = CupertinoActionSheet(
         //         title: Text(
         //           "PROCEED?",
-        //           style: GoogleFonts.quicksand(
+        //           style: TextStyle(
+        // fontFamily: Constants.fontFamily,
         //               fontSize: 13,
         //               fontWeight: FontWeight.w500,
         //               color: Theme.of(context).accentColor),
         //         ),
         //         message: Text(
         //           "Are you sure you want to hide this video?",
-        //           style: GoogleFonts.quicksand(
+        //           style: TextStyle(
+        //  fontFamily: Constants.fontFamily,
         //               fontSize: 13,
         //               fontWeight: FontWeight.w500,
         //               color: Theme.of(context).accentColor),
@@ -682,7 +815,8 @@ class _VideoWidgetState extends State<VideoWidget>
         //           CupertinoActionSheetAction(
         //               child: Text(
         //                 "YES",
-        //                 style: GoogleFonts.quicksand(
+        //                 style: TextStyle(
+        //   fontFamily: Constants.fontFamily,
         //                     fontSize: 13,
         //                     fontWeight: FontWeight.w500,
         //                     color: Theme.of(context).accentColor),
@@ -691,7 +825,8 @@ class _VideoWidgetState extends State<VideoWidget>
         //           CupertinoActionSheetAction(
         //               child: Text(
         //                 "Cancel",
-        //                 style: GoogleFonts.quicksand(
+        //                 style: TextStyle(
+        // fontFamily: Constants.fontFamily,
         //                     fontSize: 13,
         //                     fontWeight: FontWeight.w500,
         //                     color: Colors.red),

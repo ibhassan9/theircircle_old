@@ -265,7 +265,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               //         top: 3.0, bottom: 3.0),
                               //     child: Text(
                               //       'answered a question!',
-                              //       style: GoogleFonts.quicksand(
+                              //       style: TextStyle(
+                              //    fontFamily: Constants.fontFamily,
                               //           fontSize: 12,
                               //           fontWeight: FontWeight.w500,
                               //           color: Colors.blue),
@@ -279,7 +280,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               //     _user.about != null
                               //         ? _user.about
                               //         : 'No bio available',
-                              //     style: GoogleFonts.quicksand(
+                              //     style: TextStyle(
+                              //   fontFamily: Constants.fontFamily,
                               //         fontSize: 12,
                               //         fontWeight: FontWeight.w600,
                               //         color: Colors.grey[500]),
@@ -290,7 +292,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                           // SizedBox(height: 2.5),
                           // Text(
                           //   "${widget.timeAgo}",
-                          //   style: GoogleFonts.quicksand(
+                          //   style: TextStyle(
+                          //     fontFamily: Constants.fontFamily,
                           //       fontSize: 12,
                           //       fontWeight: FontWeight.w500,
                           //       color: Theme.of(context).buttonColor),
@@ -362,8 +365,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "YES",
-                                                    style: GoogleFonts
-                                                        .didactGothic(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -384,8 +387,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                               CupertinoActionSheetAction(
                                                   child: Text(
                                                     "Cancel",
-                                                    style: GoogleFonts
-                                                        .didactGothic(
+                                                    style:
+                                                        GoogleFonts.quicksand(
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -659,22 +662,30 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 ),
                               ))
                           : Container(),
-                      SelectableLinkify(
-                        onOpen: (link) async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WebPage(
-                                      title: link.text,
-                                      selectedUrl: link.url)));
-                        },
-                        text: widget.post.content,
-                        style: GoogleFonts.quicksand(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                        linkStyle: GoogleFonts.quicksand(color: Colors.blue),
-                      ),
+
+                      Text(widget.post.content.trimRight(),
+                          style: GoogleFonts.quicksand(
+                              fontSize: 15.5,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor)),
+                      // SelectableLinkify(
+                      //   onOpen: (link) async {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => WebPage(
+                      //                 title: link.text,
+                      //                 selectedUrl: link.url)));
+                      //   },
+                      //   text: widget.post.content,
+                      //   style: TextStyle(
+                      //     fontFamily: Constants.fontFamily,
+                      //       fontSize: 16,
+                      //       fontWeight: FontWeight.w500,
+                      //       color: Theme.of(context).accentColor),
+                      //   linkStyle: TextStyle(
+                      //fontFamily: Constants.fontFamily,color: Colors.blue),
+                      // ),
                       widget.post.userId == widget.club.adminId &&
                               widget.post.isAnonymous == false
                           ? Padding(
@@ -1004,7 +1015,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //           : widget.post.likeCount == 1
               //               ? widget.post.likeCount.toString() + " Like"
               //               : widget.post.likeCount.toString() + " Likes",
-              //       style: GoogleFonts.quicksand(
+              //       style: TextStyle(
+              //fontFamily: Constants.fontFamily,
               //           fontSize: 13,
               //           fontWeight: FontWeight.w500,
               //           color: Colors.grey[700]),
@@ -1015,7 +1027,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //           : widget.post.commentCount == 1
               //               ? widget.post.commentCount.toString() + " Comment"
               //               : widget.post.commentCount.toString() + " Comments",
-              //       style: GoogleFonts.quicksand(
+              //       style: TextStyle(
+              //fontFamily: Constants.fontFamily,
               //           fontSize: 13,
               //           fontWeight: FontWeight.w500,
               //           color: Colors.grey[700]),
@@ -1091,7 +1104,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                     //                 ? widget.post.likeCount.toString() + " Like"
                     //                 : widget.post.likeCount.toString() +
                     //                     " Likes",
-                    //         style: GoogleFonts.quicksand(
+                    //         style: TextStyle(
+                    //fontFamily: Constants.fontFamily,
                     //             fontSize: 13,
                     //             fontWeight: FontWeight.w500,
                     //             color: Theme.of(context).buttonColor),
@@ -1114,7 +1128,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                     //                     " Comment"
                     //                 : widget.post.commentCount.toString() +
                     //                     " Comments",
-                    //         style: GoogleFonts.quicksand(
+                    //         style: TextStyle(
+                    // fontFamily: Constants.fontFamily,
                     //             fontSize: 13,
                     //             fontWeight: FontWeight.w500,
                     //             color: Theme.of(context).buttonColor),
@@ -1144,7 +1159,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                     //         margin: EdgeInsets.only(left: 3.0),
                     //         child: Text(
                     //           "Share",
-                    //           style: GoogleFonts.quicksand(
+                    //           style: TextStyle(
+                    //fontFamily: Constants.fontFamily,
                     //               fontSize: 13,
                     //               fontWeight: FontWeight.w500,
                     //               color: Theme.of(context).buttonColor),
@@ -1275,7 +1291,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //           comment.userId == firebaseAuth.currentUser.uid
               //               ? "You"
               //               : comment.username,
-              //           style: GoogleFonts.quicksand(
+              //           style: TextStyle(
+              // fontFamily: Constants.fontFamily,
               //               fontSize: 13,
               //               fontWeight: FontWeight.w500,
               //               color: Colors.deepPurpleAccent),
@@ -1297,7 +1314,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //               child: Text(comment.content,
               //                   maxLines: null,
               //                   overflow: TextOverflow.ellipsis,
-              //                   style: GoogleFonts.quicksand(
+              //                   style: TextStyle(
+              //  fontFamily: Constants.fontFamily,
               //                       fontSize: 13,
               //                       fontWeight: FontWeight.w500,
               //                       color: Theme.of(context).accentColor)),

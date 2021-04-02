@@ -93,7 +93,8 @@
 //                                   backgroundColor: Colors.deepPurpleAccent,
 //                                   child: Text(
 //                                       widget.post.username.substring(0, 1),
-//                                       style: GoogleFonts.quicksand(color: Colors.white)))
+//                                       style: TextStyle(
+//fontFamily: Constants.fontFamily,color: Colors.white)))
 //                               : ClipRRect(
 //                                   borderRadius: BorderRadius.circular(100),
 //                                   child: Image.network(
@@ -140,7 +141,7 @@
 //                                 : widget.post.isAnonymous
 //                                     ? "Anonymous"
 //                                     : widget.post.username,
-//                             style: GoogleFonts.poppins(
+//                             style: GoogleFonts.quicksand(
 //                                 fontSize: 15,
 //                                 fontWeight: FontWeight.w700,
 //                                 color: widget.post.userId ==
@@ -151,7 +152,7 @@
 //                           SizedBox(height: 2.5),
 //                           Text(
 //                             "${widget.timeAgo}",
-//                             style: GoogleFonts.poppins(
+//                             style: GoogleFonts.quicksand(
 //                                 fontSize: 13,
 //                                 fontWeight: FontWeight.w500,
 //                                 color: Colors.grey),
@@ -194,11 +195,12 @@
 //                                     title: link.text, selectedUrl: link.url)));
 //                       },
 //                       text: widget.post.content,
-//                       style: GoogleFonts.poppins(
+//                       style: GoogleFonts.quicksand(
 //                           fontSize: 15,
 //                           fontWeight: FontWeight.w500,
 //                           color: Colors.black),
-//                       linkStyle: GoogleFonts.quicksand(color: Colors.red),
+//                       linkStyle: TextStyle(
+//fontFamily: Constants.fontFamily,color: Colors.red),
 //                     )),
 //                 widget.post.questionOne != null &&
 //                         widget.post.questionTwo != null
@@ -263,7 +265,7 @@
 //                                                   .toString() +
 //                                               "%)"
 //                                           : widget.post.questionOne,
-//                                       style: GoogleFonts.poppins(
+//                                       style: GoogleFonts.quicksand(
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w700,
 //                                           color: textColor),
@@ -329,7 +331,7 @@
 //                                                   .toString() +
 //                                               "%)"
 //                                           : widget.post.questionTwo,
-//                                       style: GoogleFonts.poppins(
+//                                       style: GoogleFonts.quicksand(
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w700,
 //                                           color: textColor),
@@ -356,7 +358,7 @@
 //                   widget.post.whichOption == 1
 //                       ? 'You voted: ${widget.post.questionOne}'
 //                       : 'You voted: ${widget.post.questionTwo}',
-//                   style: GoogleFonts.poppins(
+//                   style: GoogleFonts.quicksand(
 //                       fontSize: 15,
 //                       fontWeight: FontWeight.w500,
 //                       color: Colors.blueGrey),
@@ -380,7 +382,7 @@
 //                 SizedBox(width: 5.0),
 //                 Text(
 //                   'View Poll Results',
-//                   style: GoogleFonts.poppins(
+//                   style: GoogleFonts.quicksand(
 //                       fontSize: 15,
 //                       fontWeight: FontWeight.w500,
 //                       color: Colors.blueGrey),
@@ -500,7 +502,7 @@
 //                             : widget.post.likeCount == 1
 //                                 ? widget.post.likeCount.toString() + " Like"
 //                                 : widget.post.likeCount.toString() + " Likes",
-//                         style: GoogleFonts.poppins(
+//                         style: GoogleFonts.quicksand(
 //                             fontSize: 13,
 //                             fontWeight: FontWeight.w500,
 //                             color: Colors.grey),
@@ -523,7 +525,7 @@
 //                                     " Comment"
 //                                 : widget.post.commentCount.toString() +
 //                                     " Comments",
-//                         style: GoogleFonts.poppins(
+//                         style: GoogleFonts.quicksand(
 //                             fontSize: 13,
 //                             fontWeight: FontWeight.w500,
 //                             color: Colors.grey),
@@ -553,7 +555,7 @@
 //                         margin: EdgeInsets.only(left: 3.0),
 //                         child: Text(
 //                           "Share",
-//                           style: GoogleFonts.poppins(
+//                           style: GoogleFonts.quicksand(
 //                               fontSize: 13,
 //                               fontWeight: FontWeight.w500,
 //                               color: Colors.grey),
@@ -579,8 +581,9 @@
 //     final snackBar = SnackBar(
 //         backgroundColor: Theme.of(context).backgroundColor,
 //         content: Text('Your report has been received.',
-//             style: GoogleFonts.poppins(
-//               GoogleFonts.quicksand: GoogleFonts.quicksand(
+//             style: GoogleFonts.quicksand(
+//               GoogleFonts.overpass: TextStyle(
+//fontFamily: Constants.fontFamily,
 //                   fontSize: 15,
 //                   fontWeight: FontWeight.w500,
 //                   color: Theme.of(context).accentColor),

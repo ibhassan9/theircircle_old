@@ -7,6 +7,7 @@ import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/match.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
@@ -106,173 +107,191 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
         )
       ],
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-        child: InkWell(
-          onTap: () {
-            showMaterialModalBottomSheet(
-                context: context,
-                expand: true,
-                builder: (context) => ChatPage(
-                      receiver: widget.peer,
-                      chatId: widget.chatId,
-                    )).then((value) {});
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ChatPage(
-            //               receiver: widget.peer,
-            //               chatId: widget.chatId,
-            //             ))).then((value) {});
-          },
-          child: Hero(
-            tag: widget.peer.id,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                children: [
-                  Row(
+        padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              color: Theme.of(context).cardColor),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+            child: InkWell(
+              onTap: () {
+                showMaterialModalBottomSheet(
+                    context: context,
+                    expand: true,
+                    builder: (context) => ChatPage(
+                          receiver: widget.peer,
+                          chatId: widget.chatId,
+                        )).then((value) {});
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => ChatPage(
+                //               receiver: widget.peer,
+                //               chatId: widget.chatId,
+                //             ))).then((value) {});
+              },
+              child: Hero(
+                tag: widget.peer.id,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
                     children: [
-                      widget.peer != null
-                          ? widget.peer.profileImgUrl == null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(40),
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    color: Colors.deepPurpleAccent,
-                                    child: Icon(AntDesign.user,
-                                        size: 15.0, color: Colors.white),
-                                  ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.network(
-                                    widget.peer.profileImgUrl,
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return SizedBox(
-                                        height: 50,
-                                        width: 50,
-                                        child: Center(
-                                          child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: LoadingIndicator(
-                                                indicatorType:
-                                                    Indicator.ballClipRotate,
-                                                color: Theme.of(context)
-                                                    .accentColor,
-                                              )),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                          : SizedBox(),
-                      SizedBox(width: 15.0),
-                      Flexible(
-                        child: Container(
-                          child: widget.peer != null
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            widget.peer.name,
-                                            style: TextStyle(
-                                                fontFamily: "Futura3",
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: Theme.of(context)
-                                                    .accentColor),
-                                          ),
-                                          Text(
-                                            widget.timeAgo,
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor
-                                                    .withOpacity(0.5)),
-                                          ),
-                                        ],
+                      Row(
+                        children: [
+                          widget.peer != null
+                              ? widget.peer.profileImgUrl == null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: Container(
+                                        width: 40,
+                                        height: 40,
+                                        color: Colors.deepPurpleAccent,
+                                        child: Icon(AntDesign.user,
+                                            size: 15.0, color: Colors.white),
                                       ),
-                                    ),
-                                    SizedBox(height: 1.0),
-                                    Row(
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.network(
+                                        widget.peer.profileImgUrl,
+                                        width: 40,
+                                        height: 40,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return SizedBox(
+                                            height: 40,
+                                            width: 40,
+                                            child: Center(
+                                              child: SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child: LoadingIndicator(
+                                                    indicatorType: Indicator
+                                                        .ballClipRotate,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                  )),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                              : SizedBox(),
+                          SizedBox(width: 15.0),
+                          Flexible(
+                            child: Container(
+                              child: widget.peer != null
+                                  ? Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        widget.lastMessageSenderId ==
-                                                widget.peer.id
-                                            ? Icon(Feather.message_square,
-                                                size: 20.0,
-                                                color: Colors.lightBlue)
-                                            : Icon(FlutterIcons.send_mdi,
-                                                size: 15.0,
-                                                color: Colors.deepPurpleAccent),
-                                        SizedBox(width: 5.0),
-                                        widget.lastMessageSenderId !=
-                                                widget.peer.id
-                                            ? Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 5.0),
-                                                child: Text(
-                                                  'You:',
+                                        Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                widget.peer.name,
+                                                style: GoogleFonts.quicksand(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor),
+                                              ),
+                                              Text(" "),
+                                              Text(
+                                                widget.timeAgo,
+                                                style: GoogleFonts.quicksand(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .accentColor
+                                                        .withOpacity(0.5)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 1.0),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            widget.lastMessageSenderId ==
+                                                    widget.peer.id
+                                                ? Icon(Feather.message_circle,
+                                                    size: 15.0,
+                                                    color: Colors.lightBlue)
+                                                : Icon(FlutterIcons.send_mdi,
+                                                    size: 15.0,
+                                                    color: Colors
+                                                        .deepPurpleAccent),
+                                            SizedBox(width: 5.0),
+                                            widget.lastMessageSenderId !=
+                                                    widget.peer.id
+                                                ? Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 5.0),
+                                                    child: Text(
+                                                      'You:',
+                                                      style:
+                                                          GoogleFonts.quicksand(
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .buttonColor),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            Flexible(
+                                              child: Text(
+                                                  widget.lastMessage != null
+                                                      ? widget.lastMessage
+                                                      : '',
+                                                  maxLines: null,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: GoogleFonts.quicksand(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .buttonColor),
-                                                ),
-                                              )
-                                            : Container(),
-                                        Flexible(
-                                          child: Text(
-                                              widget.lastMessage != null
-                                                  ? widget.lastMessage
-                                                  : '',
-                                              maxLines: null,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .buttonColor,
-                                              )),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .buttonColor,
+                                                  )),
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                    ),
-                                  ],
-                                )
-                              : SizedBox(),
-                        ),
+                                    )
+                                  : SizedBox(),
+                            ),
+                          ),
+                          Visibility(
+                              visible: widget.seen == false,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: CircleAvatar(
+                                    radius: 4.0, backgroundColor: Colors.blue),
+                              )),
+                        ],
                       ),
-                      Visibility(
-                          visible: widget.seen == false,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: CircleAvatar(
-                                radius: 4.0, backgroundColor: Colors.blue),
-                          )),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

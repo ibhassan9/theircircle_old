@@ -415,8 +415,8 @@ Future<Null> scrapeCoursesYork(String faculty, String subject) async {
     if (scrape2.isNotEmpty) {
       scrape2.removeAt(0);
       scrape2.removeAt(0);
-      scrape2.removeWhere(
-          (item) => item['title'].toString().contains('Fall/Winter 2020-2021'));
+      scrape2.removeWhere((item) =>
+          item['title'].toString().contains('Fall/Woverpass 2020-2021'));
 
       var chunks = partition(scrape2, 3);
 

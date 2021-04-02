@@ -101,7 +101,8 @@ class _CoursesPageState extends State<CoursesPage>
       //     //   child: Text(
       //     //     "Request a course",
       //     //     style: GoogleFonts.lexendDeca(
-      //     //       GoogleFonts.quicksand: GoogleFonts.quicksand(
+      //     //       GoogleFonts.overpass: TextStyle(
+      //fontFamily: Constants.fontFamily,
       //     //           fontSize: 15,
       //     //           fontWeight: FontWeight.w500,
       //     //           color: Colors.black),
@@ -113,7 +114,8 @@ class _CoursesPageState extends State<CoursesPage>
       //   title: Text(
       //     "Courses",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.quicksand: GoogleFonts.quicksand(
+      //       GoogleFonts.overpass: TextStyle(
+      //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
       //           color: Theme.of(context).accentColor),
@@ -146,8 +148,7 @@ class _CoursesPageState extends State<CoursesPage>
                       child: Center(
                           child: Text(
                         "GPA Calculator",
-                        style: TextStyle(
-                            fontFamily: "Futura1",
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),

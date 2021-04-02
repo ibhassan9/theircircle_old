@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Home/main_screen.dart';
 import 'package:unify/Models/post.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -50,8 +51,7 @@ class _UploadVideoState extends State<UploadVideo> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           'Create',
-          style: TextStyle(
-              fontFamily: "Futura1",
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -200,8 +200,7 @@ class _UploadVideoState extends State<UploadVideo> {
                     ))
                 : Text(
                     'PUBLISH',
-                    style: TextStyle(
-                        fontFamily: "Futura1",
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
@@ -241,7 +240,8 @@ class _UploadVideoState extends State<UploadVideo> {
     //           3.0)), //             <--- BoxDecoration here
     //   child: Text('@ Friends',
     //       style: GoogleFonts.lexendDeca(
-    //         GoogleFonts.quicksand: GoogleFonts.quicksand(
+    //         GoogleFonts.overpass: TextStyle(
+    //fontFamily: Constants.fontFamily,
     //             fontSize: 11,
     //             fontWeight: FontWeight.w400,
     //             color: Theme.of(context).accentColor),

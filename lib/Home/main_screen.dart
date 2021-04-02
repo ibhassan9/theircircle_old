@@ -86,34 +86,42 @@ class _MainScreenState extends State<MainScreen>
     _pageController = PageController(
         initialPage: widget.initialPage != null ? widget.initialPage : _pages,
         keepPage: true);
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        if (message['screen'] == "ROOM_PAGE" ||
-            message['screen'] == "CHAT_PAGE") {
-          return;
-        }
-        floatNotification(notification: message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        handleNotification(message).then((value) {
-          navigate(value);
-        });
-      },
-      onResume: (Map<String, dynamic> message) async {
-        handleNotification(message).then((value) {
-          navigate(value);
-        });
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {});
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    _firebaseMessaging.getInitialMessage().then((RemoteMessage message) {
+      if (message != null) {}
     });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {});
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
+
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     if (message['screen'] == "ROOM_PAGE" ||
+    //         message['screen'] == "CHAT_PAGE") {
+    //       return;
+    //     }
+    //     floatNotification(notification: message);
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     handleNotification(message).then((value) {
+    //       navigate(value);
+    //     });
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     handleNotification(message).then((value) {
+    //       navigate(value);
+    //     });
+    //   },
+    // );
+    // _firebaseMessaging.requestNotificationPermissions(
+    //     const IosNotificationSettings(
+    //         sound: true, badge: true, alert: true, provisional: true));
+    // _firebaseMessaging.onIosSettingsRegistered
+    //     .listen((IosNotificationSettings settings) {});
+    // _firebaseMessaging.getToken().then((String token) {
+    //   assert(token != null);
+    // });
   }
 
   @override
@@ -172,6 +180,8 @@ class _MainScreenState extends State<MainScreen>
       // floatingActionButtonLocation:
       //     FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
+        height: 30,
+        iconSize: 22,
         notchSmoothness: NotchSmoothness.softEdge,
         backgroundColor:
             _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,

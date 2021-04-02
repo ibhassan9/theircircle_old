@@ -193,6 +193,7 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
                                     comment.timeStamp);
                             return CommentWidget(
                                 comment: comment,
+                                isVideo: true,
                                 timeAgo: timeago.format(timeAgo));
                           },
                         );

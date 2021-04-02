@@ -11,6 +11,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
@@ -292,7 +293,8 @@ class _VideoPreviewState extends State<VideoPreview>
         //     Text("DIET_ • Denzel Curry, Kenny Beats",
         //         maxLines: 2,
         //         overflow: TextOverflow.ellipsis,
-        //         style: GoogleFonts.quicksand(
+        //         style: TextStyle(
+        // fontFamily: Constants.fontFamily,
         //             fontSize: 13,
         //             fontWeight: FontWeight.w500,
         //             color: Colors.white)),

@@ -157,7 +157,7 @@ class Constants {
     "Depressed": "😞",
     "Enraged": "😡",
     "Frightened": "😨",
-    "Interested": "😏",
+    "interested": "😏",
     "Shy": "🥺",
     "Hopeful": "🕊️",
     "Regretful": "😞",
@@ -191,6 +191,8 @@ class Constants {
     "Accomplished": "🤗",
   };
 
+  static String fontFamily = 'Didact Gothic';
+
   static Color color() {
     Random random = new Random();
     int index = random.nextInt(6);
@@ -212,7 +214,42 @@ class Constants {
         break;
       case 4:
         {
-          return Colors.pink[900];
+          return Colors.pink;
+        }
+        break;
+      case 5:
+        {
+          return Colors.blue;
+        }
+        break;
+      default:
+        {
+          return Colors.indigo;
+        }
+        break;
+    }
+  }
+
+  static Color colorIndex(int index) {
+    switch (index) {
+      case 1:
+        {
+          return Colors.deepOrangeAccent;
+        }
+        break;
+      case 2:
+        {
+          return Colors.deepPurpleAccent;
+        }
+        break;
+      case 3:
+        {
+          return Colors.deepOrangeAccent;
+        }
+        break;
+      case 4:
+        {
+          return Colors.pink[300];
         }
         break;
       case 5:
@@ -236,7 +273,7 @@ class Constants {
     "Banking": ["Investment banking", "Online banking", "Retail banking"],
     "Business": [],
     "Construction": [],
-    "Design": ["Fashion design", "Graphic design", "Interior design"],
+    "Design": ["Fashion design", "Graphic design", "interior design"],
     "Economics": [],
     "Engineering": [],
     "Entrepreneurship": [],

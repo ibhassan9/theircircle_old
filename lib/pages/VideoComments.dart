@@ -115,9 +115,8 @@ class _VideoCommentsState extends State<VideoComments> {
         ),
         title: Text(
           "Comments",
-          style: TextStyle(
-              fontFamily: "Futura1",
-              fontSize: 13,
+          style: GoogleFonts.quicksand(
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),

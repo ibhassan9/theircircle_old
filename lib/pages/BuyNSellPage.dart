@@ -40,8 +40,7 @@ class _BuyNSellState extends State<BuyNSell>
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Store",
-          style: TextStyle(
-              fontFamily: "Futura",
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -60,7 +59,7 @@ class _BuyNSellState extends State<BuyNSell>
                 radius: 20.0,
                 backgroundColor:
                     Theme.of(context).accentColor.withOpacity(0.05),
-                child: Icon(FlutterIcons.library_mco,
+                child: Icon(FlutterIcons.bookmark_o_faw,
                     color: Theme.of(context).accentColor)
                 // child: Unicon(UniconData.uniUser,
                 //     size: 20.0, color: Theme.of(context).accentColor),
@@ -90,7 +89,7 @@ class _BuyNSellState extends State<BuyNSell>
                   radius: 20.0,
                   backgroundColor:
                       Theme.of(context).accentColor.withOpacity(0.05),
-                  child: Icon(FlutterIcons.create_mdi,
+                  child: Icon(FlutterIcons.plus_circle_outline_mco,
                       color: Theme.of(context).accentColor)),
             ),
           ),
@@ -207,7 +206,7 @@ class _BuyNSellState extends State<BuyNSell>
                                           crossAxisCount: 2,
                                           crossAxisSpacing: 10.0,
                                           mainAxisSpacing: 0.0,
-                                          childAspectRatio: 50 / 80),
+                                          childAspectRatio: 50 / 85),
                                   itemCount:
                                       _isSearching == false && prodList != null
                                           ? prodList.length

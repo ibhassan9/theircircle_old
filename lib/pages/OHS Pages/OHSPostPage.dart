@@ -124,7 +124,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
       //                   ? "Posting as yourself"
       //                   : "Posting Anonymously",
       //               style: GoogleFonts.lexendDeca(
-      //                 GoogleFonts.quicksand: GoogleFonts.quicksand(
+      //                 GoogleFonts.overpass: TextStyle(
+      // fontFamily: Constants.fontFamily,
       //                     fontSize: 13,
       //                     fontWeight: FontWeight.w500,
       //                     color: Colors.blue),
@@ -193,7 +194,8 @@ class _OHSPostPageState extends State<OHSPostPage> {
       //         child: Text(
       //           pollButtonText,
       //           style: GoogleFonts.lexendDeca(
-      //             GoogleFonts.quicksand: GoogleFonts.quicksand(
+      //             GoogleFonts.overpass: TextStyle(
+      //fontFamily: Constants.fontFamily,
       //                 fontSize: 13,
       //                 fontWeight: FontWeight.w700,
       //                 color: Colors.white),

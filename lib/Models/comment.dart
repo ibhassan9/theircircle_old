@@ -39,21 +39,14 @@ var clubpostDBYorkU =
     FirebaseDatabase.instance.reference().child('clubposts').child('YorkU');
 
 Future<List<Comment>> fetchComments(
-    Post post, c.Course course, Club club) async {
+    Post post, c.Course course, Club club, String uni) async {
   List<Comment> c = [];
   var uniKey = Constants.checkUniversity();
   var cDB = FirebaseDatabase.instance.reference().child('posts');
   var courseCDB = FirebaseDatabase.instance.reference().child('courseposts');
   var clubCDB = FirebaseDatabase.instance.reference().child('clubposts');
   var db = club == null && course == null
-      ? cDB
-          .child(uniKey == 0
-              ? 'UofT'
-              : uniKey == 1
-                  ? 'YorkU'
-                  : 'WesternU')
-          .child(post.id)
-          .child('comments')
+      ? cDB.child(uni).child(post.id).child('comments')
       : club != null
           ? clubCDB
               .child(uniKey == 0

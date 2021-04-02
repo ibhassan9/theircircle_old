@@ -4,6 +4,7 @@ import 'package:tabbar/tabbar.dart';
 import 'package:unify/pages/Rooms.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/pages/courses_page.dart';
+import 'package:unify/Components/Constants.dart';
 
 class CoursenClub extends StatefulWidget {
   @override
@@ -34,10 +35,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Courses",
-                    style: TextStyle(
-                        fontFamily: "Futura1",
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: selected == 0
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
@@ -65,10 +65,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Communities",
-                    style: TextStyle(
-                        fontFamily: "Futura1",
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: selected == 1
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
@@ -96,10 +95,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Rooms",
-                    style: TextStyle(
-                        fontFamily: "Futura1",
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: selected == 2
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),

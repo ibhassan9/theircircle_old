@@ -92,10 +92,9 @@ class _ClubWidgetState extends State<ClubWidget> {
                                       widget.club.name.trim().isNotEmpty
                                           ? widget.club.name
                                           : 'No name available',
-                                      style: TextStyle(
-                                          fontFamily: "Futura1",
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
@@ -127,8 +126,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                 CupertinoActionSheetAction(
                                                     child: Text(
                                                       "YES",
-                                                      style: GoogleFonts
-                                                          .lexendDeca(
+                                                      style:
+                                                          GoogleFonts.quicksand(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -143,8 +142,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                 CupertinoActionSheetAction(
                                                     child: Text(
                                                       "Cancel",
-                                                      style: GoogleFonts
-                                                          .lexendDeca(
+                                                      style:
+                                                          GoogleFonts.quicksand(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight

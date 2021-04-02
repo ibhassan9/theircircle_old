@@ -45,8 +45,7 @@ class _CoursePageState extends State<CoursePage> {
             children: [
               Text(
                 widget.course.code,
-                style: TextStyle(
-                    fontFamily: "Futura1",
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
@@ -377,7 +376,8 @@ class _CoursePageState extends State<CoursePage> {
         //       child: Text(
         //         "Create a Poll",
         //         style: GoogleFonts.lexendDeca(
-        //           GoogleFonts.quicksand: GoogleFonts.quicksand(
+        //           GoogleFonts.overpass: TextStyle(
+        //fontFamily: Constants.fontFamily,
         //               fontSize: 17,
         //               fontWeight: FontWeight.w700,
         //               color: Colors.white),

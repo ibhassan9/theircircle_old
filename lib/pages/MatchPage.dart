@@ -10,6 +10,7 @@ import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/MatchWidget.dart';
 import 'package:unify/widgets/MatchWidgetPersonal.dart';
+import 'package:unify/Components/Constants.dart';
 
 class MatchPage extends StatefulWidget {
   @override

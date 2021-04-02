@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/PollResultWidget.dart';
 

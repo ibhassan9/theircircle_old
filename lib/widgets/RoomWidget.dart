@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/room.dart';
@@ -24,10 +25,13 @@ class RoomWidget extends StatefulWidget {
 
 class _RoomWidgetState extends State<RoomWidget> {
   Color color;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        //TODO:- CHECK IF ROOM STILL LIVE
+
         if (widget.room.isLocked == false ||
             widget.room.adminId == FirebaseAuth.instance.currentUser.uid) {
           Navigator.push(
@@ -47,6 +51,7 @@ class _RoomWidgetState extends State<RoomWidget> {
         padding: const EdgeInsets.all(10.0),
         child: Container(
           decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Padding(
@@ -54,26 +59,45 @@ class _RoomWidgetState extends State<RoomWidget> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(AntDesign.team, color: Colors.white, size: 15.0),
-                        Text(
-                          widget.room.members.length.toString(),
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
+                Flexible(
+                  flex: 0,
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(5.0),
                         ),
-                      ],
-                    ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(AntDesign.team,
+                                  color: Colors.white, size: 15.0),
+                              Text(
+                                widget.room.members.length.toString(),
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5.0),
+                      Visibility(
+                        visible: widget.room.inRoom || widget.room.isAdmin,
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: LoadingIndicator(
+                              indicatorType: Indicator.ballScale, color: color),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -90,23 +114,22 @@ class _RoomWidgetState extends State<RoomWidget> {
                         children: <Widget>[
                           Row(
                             children: [
-                              widget.room.isLocked
-                                  ? Unicon(UniconData.uniLock,
-                                      color: Theme.of(context).accentColor,
-                                      size: 15.0)
-                                  : Container(),
-                              widget.room.isLocked
-                                  ? SizedBox(width: 5.0)
-                                  : Container(),
+                              // widget.room.isLocked
+                              //     ? Unicon(UniconData.uniLock,
+                              //         color: Theme.of(context).accentColor,
+                              //         size: 15.0)
+                              //     : Container(),
+                              // widget.room.isLocked
+                              //     ? SizedBox(width: 5.0)
+                              //     : Container(),
                               Flexible(
                                 child: Text(
                                   widget.room.isLocked
-                                      ? '• ${widget.room.name}'
+                                      ? '🔒 • ${widget.room.name}'
                                       : widget.room.name,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontFamily: "Futura1",
-                                      fontSize: 13,
+                                  maxLines: 2,
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: Theme.of(context).accentColor),
                                 ),
@@ -114,9 +137,9 @@ class _RoomWidgetState extends State<RoomWidget> {
                             ],
                           ),
                           Text(
-                            widget.room.description,
+                            "🗣️ " + widget.room.description,
                             style: GoogleFonts.quicksand(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
                             overflow: TextOverflow.ellipsis,
@@ -125,25 +148,47 @@ class _RoomWidgetState extends State<RoomWidget> {
                         ],
                       )),
                       SizedBox(height: 5.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                              widget.room.isAdmin
-                                  ? 'Created by you'.toUpperCase()
-                                  : 'View Room'.toUpperCase(),
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.lightBlue)),
-                        ],
-                      )
+                      Text(
+                        "Current Members:",
+                        style: GoogleFonts.quicksand(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: _buildMembersList(),
+                      ),
+                      SizedBox(height: 5.0),
+                      Text(
+                          widget.room.members.length.toString() + " student(s)",
+                          style: GoogleFonts.quicksand(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: color)),
+                      SizedBox(height: 5.0),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: <Widget>[
+                      //     Text(
+                      //         widget.room.isAdmin
+                      //             ? 'Created by you'.toUpperCase()
+                      //             : 'View Room'.toUpperCase(),
+                      //         style: TextStyle(
+                      // fontFamily: Constants.fontFamily,
+                      //             fontSize: 12,
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Colors.lightBlue)),
+                      //   ],
+                      // )
                     ],
                   ),
                 ),
                 SizedBox(width: 3.0),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(25),
                   child: CachedNetworkImage(
                     imageUrl: widget.room.imageUrl,
                     width: 50,
@@ -164,6 +209,24 @@ class _RoomWidgetState extends State<RoomWidget> {
         ),
       ),
     );
+  }
+
+  _buildMembersList() {
+    List<Widget> members = [];
+
+    for (var member in widget.room.members) {
+      members.add(
+        Text(
+            member.id == FirebaseAuth.instance.currentUser.uid
+                ? 'You'
+                : member.name,
+            style: GoogleFonts.quicksand(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).accentColor)),
+      );
+    }
+    return members;
   }
 
   // String status() {

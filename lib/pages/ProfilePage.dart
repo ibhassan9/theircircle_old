@@ -61,9 +61,10 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
           '',
@@ -171,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage>
                           });
                         },
                         controller: _controller,
-                        children: [userPosts(), userVideos()],
+                        children: [userPosts(), userVideos(), interests()],
                       ),
                     ),
                   ],
@@ -198,10 +199,9 @@ class _ProfilePageState extends State<ProfilePage>
           SizedBox(height: 10.0),
           Text(
             user.name,
-            style: TextStyle(
-                fontFamily: "Futura1",
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
+            style: GoogleFonts.quicksand(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
           ),
           SizedBox(
@@ -284,8 +284,7 @@ class _ProfilePageState extends State<ProfilePage>
                                       10.0, 0.0, 10.0, 0.0),
                                   child: Text(
                                     'Edit Profile',
-                                    style: TextStyle(
-                                        fontFamily: "Futura1",
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).accentColor),
@@ -361,14 +360,10 @@ class _ProfilePageState extends State<ProfilePage>
           ),
           Divider(),
           about(),
-          SizedBox(height: 10.0),
-          interests(),
-          Divider(
-            color: Theme.of(context).dividerColor,
-            thickness: 1.0,
-          ),
+          SizedBox(height: 20.0),
+          //interests(),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
                 onTap: () {
@@ -382,23 +377,35 @@ class _ProfilePageState extends State<ProfilePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Unicon(UniconData.uniPostcard,
-                        color: selectedOption == 0
-                            ? Theme.of(context).accentColor
-                            : Colors.grey[400]),
+                    Text(
+                      "POSTS",
+                      style: GoogleFonts.quicksand(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: selectedOption == 0
+                              ? Colors.pink
+                              : Theme.of(context).accentColor),
+                    ),
                     SizedBox(height: 5.0),
                     selectedOption == 0
                         ? Container(
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: 2.0,
-                            color: Theme.of(context).accentColor)
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.pink),
+                          )
                         : Container(
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: 2.0,
-                            color: Colors.transparent)
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.transparent),
+                          )
                   ],
                 ),
               ),
+              SizedBox(width: 15.0),
               InkWell(
                 onTap: () {
                   setState(() {
@@ -411,29 +418,78 @@ class _ProfilePageState extends State<ProfilePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Unicon(UniconData.uniPlayCircle,
-                        color: selectedOption == 1
-                            ? Theme.of(context).accentColor
-                            : Colors.grey[400]),
+                    Text(
+                      "VIDEOS",
+                      style: GoogleFonts.quicksand(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: selectedOption == 1
+                              ? Colors.pink
+                              : Theme.of(context).accentColor),
+                    ),
                     SizedBox(height: 5.0),
                     selectedOption == 1
                         ? Container(
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: 2.0,
-                            color: Theme.of(context).accentColor)
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.pink),
+                            width: 5,
+                            height: 5,
+                          )
                         : Container(
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: 2.0,
-                            color: Colors.transparent)
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.transparent),
+                            width: 5,
+                            height: 5,
+                          )
+                  ],
+                ),
+              ),
+              SizedBox(width: 15.0),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedOption = 2;
+                  });
+                  _controller.animateToPage(2,
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.easeIn);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "INTERESTS",
+                      style: GoogleFonts.quicksand(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: selectedOption == 2
+                              ? Colors.pink
+                              : Theme.of(context).accentColor),
+                    ),
+                    SizedBox(height: 5.0),
+                    selectedOption == 2
+                        ? Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.pink),
+                            width: 5,
+                            height: 5,
+                          )
+                        : Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.transparent),
+                          )
                   ],
                 ),
               )
             ],
           ),
-          Container(
-              height: 1,
-              width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).dividerColor),
+          SizedBox(height: 10.0)
           // ListView(
           //   physics: NeverScrollableScrollPhysics(),
           //   scrollDirection: Axis.vertical,
@@ -722,12 +778,12 @@ class _ProfilePageState extends State<ProfilePage>
                         ImageChunkEvent loadingProgress) {
                       if (loadingProgress == null) return child;
                       return SizedBox(
-                        height: 100,
-                        width: 100,
+                        height: 50,
+                        width: 50,
                         child: Center(
                           child: SizedBox(
-                              width: 50,
-                              height: 50,
+                              width: 30,
+                              height: 30,
                               child: LoadingIndicator(
                                 indicatorType: Indicator.ballClipRotate,
                                 color: Colors.white,
@@ -839,33 +895,38 @@ class _ProfilePageState extends State<ProfilePage>
 
   Widget interests() {
     return user.interests != null && user.interests.isNotEmpty
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Text(
-              //   "I'm interested in",
-              //   style: GoogleFonts.lexendDeca(
-              //     GoogleFonts.quicksand: GoogleFonts.quicksand(
-              //         fontSize: 15,
-              //         fontWeight: FontWeight.w500,
-              //         color: Theme.of(context).accentColor),
-              //   ),
-              // ),
-              // Divider(),
-              Container(
-                height: 40.0,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: _buildChoicesList(),
-                  ),
-                ),
-              ),
-              SizedBox(height: 5.0),
-            ],
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+            child: Wrap(children: _buildChoicesList()),
           )
+        // ? Column(
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       // Text(
+        //       //   "I'm interested in",
+        //       //   style: GoogleFonts.lexendDeca(
+        //       //     GoogleFonts.inter: TextStyle(
+        //    fontFamily: Constants.fontFamily,
+        //       //         fontSize: 15,
+        //       //         fontWeight: FontWeight.w500,
+        //       //         color: Theme.of(context).accentColor),
+        //       //   ),
+        //       // ),
+        //       // Divider(),
+        //       Container(
+        //         height: 40.0,
+        //         width: MediaQuery.of(context).size.width,
+        //         child: Center(
+        //           child: ListView(
+        //             shrinkWrap: true,
+        //             scrollDirection: Axis.horizontal,
+        //             children: _buildChoicesList(),
+        //           ),
+        //         ),
+        //       ),
+        //       SizedBox(height: 5.0),
+        //     ],
+        //   )
         : SizedBox();
   }
 

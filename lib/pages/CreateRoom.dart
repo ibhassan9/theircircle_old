@@ -48,9 +48,8 @@ class _CreateRoomState extends State<CreateRoom> {
             onPressed: () => Navigator.pop(context, false)),
         centerTitle: false,
         title: Text(
-          "Create Room",
-          style: TextStyle(
-              fontFamily: "Futura1",
+          "",
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -68,9 +67,11 @@ class _CreateRoomState extends State<CreateRoom> {
 
   Widget body() {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
       child: ListView(
         children: [
+          Center(child: picture()),
+          SizedBox(height: 15.0),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +86,6 @@ class _CreateRoomState extends State<CreateRoom> {
                   ),
                 ),
               ),
-              picture()
             ],
           ),
           Divider(
@@ -100,44 +100,116 @@ class _CreateRoomState extends State<CreateRoom> {
   }
 
   Widget anonymous() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Container(
-            child: Row(
-          children: [
-            Unicon(UniconData.uniLock,
-                size: 17.0, color: Theme.of(context).buttonColor),
-            SizedBox(width: 10.0),
-            Text(
-              'Locked Room?',
-              style: GoogleFonts.quicksand(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).buttonColor),
-            ),
-          ],
-        )),
         InkWell(
           onTap: () {
-            if (isLocked) {
-              this.setState(() {
-                isLocked = false;
-              });
-            } else {
-              this.setState(() {
-                isLocked = true;
-              });
-            }
+            this.setState(() {
+              isLocked = false;
+            });
           },
-          child: Icon(
-              isLocked == false
-                  ? FlutterIcons.md_radio_button_off_ion
-                  : FlutterIcons.md_radio_button_on_ion,
-              size: 20,
-              color: isLocked == false
-                  ? Theme.of(context).buttonColor
-                  : Colors.deepPurpleAccent),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).dividerColor,
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Unicon(UniconData.uniGlobe,
+                            size: 17.0, color: Theme.of(context).accentColor),
+                      ),
+                    ),
+                    SizedBox(width: 10.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Public',
+                            style: GoogleFonts.quicksand(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).accentColor)),
+                        Text(
+                          'Anyone can join this room',
+                          style: GoogleFonts.quicksand(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).buttonColor),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                  isLocked == true
+                      ? FlutterIcons.md_radio_button_off_ion
+                      : FlutterIcons.md_radio_button_on_ion,
+                  size: 20,
+                  color: isLocked == true
+                      ? Theme.of(context).buttonColor
+                      : Colors.deepPurpleAccent),
+            ],
+          ),
+        ),
+        Divider(),
+        InkWell(
+          onTap: () {
+            this.setState(() {
+              isLocked = true;
+            });
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).dividerColor,
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Unicon(UniconData.uniLock,
+                            size: 17.0, color: Theme.of(context).accentColor),
+                      ),
+                    ),
+                    SizedBox(width: 10.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Private',
+                            style: GoogleFonts.quicksand(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).accentColor)),
+                        Text(
+                          'Only invited users can join',
+                          style: GoogleFonts.quicksand(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).buttonColor),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                  isLocked == false
+                      ? FlutterIcons.md_radio_button_off_ion
+                      : FlutterIcons.md_radio_button_on_ion,
+                  size: 20,
+                  color: isLocked == false
+                      ? Theme.of(context).buttonColor
+                      : Colors.deepPurpleAccent),
+            ],
+          ),
         ),
       ],
     );
@@ -145,8 +217,7 @@ class _CreateRoomState extends State<CreateRoom> {
 
   Widget createButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          10.0, 10.0, 10.0, kBottomNavigationBarHeight),
+      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20),
       child: InkWell(
         onTap: () async {
           var first = await isFirstLaunch();
@@ -174,7 +245,7 @@ class _CreateRoomState extends State<CreateRoom> {
             if (approval) {
               var res = await post();
               if (res) {
-                Navigator.pop(context);
+                Navigator.pop(context, true);
               } else {
                 setState(() {
                   isPosting = false;
@@ -207,30 +278,35 @@ class _CreateRoomState extends State<CreateRoom> {
             }
           }
         },
-        child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.deepPurpleAccent,
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: Center(
-            child: isPosting
-                ? SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: LoadingIndicator(
-                      indicatorType: Indicator.ballClipRotate,
-                      color: Colors.white,
-                    ),
-                  )
-                : Text(
-                    'Create',
-                    style: TextStyle(
-                        fontFamily: "Futura1",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),
-                  ),
+        child: Hero(
+          tag: 'btn3',
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Center(
+                child: isPosting
+                    ? SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.ballClipRotate,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        'Start Room',
+                        style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Theme.of(context).backgroundColor),
+                      ),
+              ),
+            ),
           ),
         ),
       ),
@@ -253,10 +329,10 @@ class _CreateRoomState extends State<CreateRoom> {
             }
           },
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(3.0),
+            borderRadius: BorderRadius.circular(50.0),
             child: Container(
-              height: 85.0,
-              width: 85.0,
+              height: 100.0,
+              width: 100.0,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
               ),
@@ -301,6 +377,7 @@ class _CreateRoomState extends State<CreateRoom> {
       child: Column(
         children: [
           field1(),
+          SizedBox(height: 10.0),
           field2(),
         ],
       ),
@@ -340,66 +417,76 @@ class _CreateRoomState extends State<CreateRoom> {
   }
 
   Widget field1() {
-    return TextField(
-      controller: nameController,
-      textInputAction: TextInputAction.newline,
-      maxLines: null,
-      onChanged: (value) {
-        var newLength = 50 - value.length;
-        setState(() {
-          clength = newLength;
-        });
-      },
-      decoration: new InputDecoration(
-          suffix: Text(
-            clength.toString(),
-            style: GoogleFonts.quicksand(
-                color: clength < 0 ? Colors.red : Colors.grey),
-          ),
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          contentPadding:
-              EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
-          hintText: title),
-      style: GoogleFonts.quicksand(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).accentColor),
+    return Container(
+      decoration: BoxDecoration(
+          color: Theme.of(context).dividerColor,
+          borderRadius: BorderRadius.circular(5.0)),
+      child: TextField(
+        controller: nameController,
+        textInputAction: TextInputAction.newline,
+        maxLines: null,
+        onChanged: (value) {
+          var newLength = 50 - value.length;
+          setState(() {
+            clength = newLength;
+          });
+        },
+        decoration: new InputDecoration(
+            suffix: Text(
+              clength.toString(),
+              style: GoogleFonts.quicksand(
+                  color: clength < 0 ? Colors.red : Colors.grey),
+            ),
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            contentPadding:
+                EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+            hintText: title),
+        style: GoogleFonts.quicksand(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
+      ),
     );
   }
 
   Widget field2() {
-    return TextField(
-      controller: descriptionController,
-      textInputAction: TextInputAction.done,
-      maxLines: null,
-      onChanged: (value) {
-        var newLength = 100 - value.length;
-        setState(() {
-          dlength = newLength;
-        });
-      },
-      decoration: new InputDecoration(
-          suffix: Text(
-            dlength.toString(),
-            style: GoogleFonts.quicksand(
-                color: dlength < 0 ? Colors.red : Colors.grey),
-          ),
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          contentPadding:
-              EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
-          hintText: description),
-      style: GoogleFonts.quicksand(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).accentColor),
+    return Container(
+      decoration: BoxDecoration(
+          color: Theme.of(context).dividerColor,
+          borderRadius: BorderRadius.circular(5.0)),
+      child: TextField(
+        controller: descriptionController,
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        onChanged: (value) {
+          var newLength = 100 - value.length;
+          setState(() {
+            dlength = newLength;
+          });
+        },
+        decoration: new InputDecoration(
+            suffix: Text(
+              dlength.toString(),
+              style: GoogleFonts.quicksand(
+                  color: dlength < 0 ? Colors.red : Colors.grey),
+            ),
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            contentPadding:
+                EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+            hintText: description),
+        style: GoogleFonts.quicksand(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).accentColor),
+      ),
     );
   }
 

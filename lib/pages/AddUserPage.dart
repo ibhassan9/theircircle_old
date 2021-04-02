@@ -8,6 +8,7 @@ import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/AddUserWidget.dart';
 import 'package:unify/widgets/SearchUserWidget.dart';
+import 'package:unify/Components/Constants.dart';
 
 class AddUserPage extends StatefulWidget {
   final Room room;
@@ -149,7 +150,8 @@ class _AddUserPageState extends State<AddUserPage>
               //             contentPadding: EdgeInsets.only(
               //                 left: 15, bottom: 11, top: 11, right: 15),
               //             hintText: "Search students..."),
-              //         style: GoogleFonts.quicksand(
+              //         style: TextStyle(
+              // fontFamily: Constants.fontFamily,
               //             fontSize: 15,
               //             fontWeight: FontWeight.w500,
               //             color: Theme.of(context).accentColor),

@@ -60,8 +60,7 @@ class _PostPageState extends State<PostPage> {
             onPressed: () => Navigator.pop(context, false)),
         title: Text(
           widget.intro ? "Introduce yourself!" : "NEW POST",
-          style: TextStyle(
-              fontFamily: "Futura1",
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -128,7 +127,8 @@ class _PostPageState extends State<PostPage> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(Constants.feelings[feeling],
-                                              style: TextStyle(fontSize: 18.0)),
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 18.0)),
                                           SizedBox(width: 5.0),
                                           Text(
                                             'Feeling $feeling',
@@ -144,7 +144,8 @@ class _PostPageState extends State<PostPage> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text('😝',
-                                              style: TextStyle(fontSize: 18.0)),
+                                              style: GoogleFonts.quicksand(
+                                                  fontSize: 18.0)),
                                           SizedBox(width: 5.0),
                                           Text(
                                             'Share a feeling!',
@@ -324,8 +325,7 @@ class _PostPageState extends State<PostPage> {
                   )
                 : Text(
                     'POST',
-                    style: TextStyle(
-                        fontFamily: "Futura1",
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),

@@ -528,107 +528,112 @@ Future<List<Post>> fetchUserPost(PostUser user) async {
 }
 
 Future<List<Post>> fetchPosts(int sortBy) async {
-  var uniKey = Constants.checkUniversity();
+  var uniKeys = [
+    Constants.checkUniversity() == 0
+        ? 'UofT'
+        : Constants.checkUniversity() == 1
+            ? 'YorkU'
+            : 'WesternU'
+  ];
   List<Post> p = List<Post>();
-  var db =
-      FirebaseDatabase.instance.reference().child("posts").child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
-
-  var snapshot = await db.once();
   var blockList = await getBlocks();
   var hiddenList = await getHiddenList();
 
-  Map<dynamic, dynamic> values = snapshot.value;
+  for (var uniKey in uniKeys) {
+    print(uniKey);
+    var db = FirebaseDatabase.instance.reference().child("posts").child(uniKey);
+    var snapshot = await db.once();
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var filters = prefs.getStringList('filters');
+    Map<dynamic, dynamic> values = snapshot.value;
 
-  values.forEach((key, value) {
-    var post = Post(
-        id: key,
-        userId: value['userId'],
-        username: value['name'],
-        content: value['content'],
-        timeStamp: value['timeStamp'],
-        isAnonymous:
-            value['isAnonymous'] != null ? value['isAnonymous'] : false,
-        courseId: value['courseId'],
-        likeCount: value['likes'] != null ? value['likes'].length : 0,
-        imgUrl: value['imgUrl']);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var filters = prefs.getStringList('filters');
 
-    if (value['comments'] != null) {
-      post.commentCount = value['comments'].length;
-    } else {
-      post.commentCount = 0;
-    }
+    values.forEach((key, value) {
+      var post = Post(
+          id: key,
+          userId: value['userId'],
+          username: value['name'],
+          content: value['content'],
+          timeStamp: value['timeStamp'],
+          isAnonymous:
+              value['isAnonymous'] != null ? value['isAnonymous'] : false,
+          courseId: value['courseId'],
+          likeCount: value['likes'] != null ? value['likes'].length : 0,
+          imgUrl: value['imgUrl'],
+          university: uniKey);
 
-    if (value['title'] != null) {
-      post.title = value['title'];
-    }
-
-    if (value['feeling'] != null) {
-      post.feeling = value['feeling'];
-    }
-
-    if (value['questionOne'] != null && value['questionTwo'] != null) {
-      if (value['votes'] != null) {
-        List<int> voteCounts = getVotes(value['votes']);
-        post.questionOneLikeCount = voteCounts[0];
-        post.questionTwoLikeCount = voteCounts[1];
+      if (value['comments'] != null) {
+        post.commentCount = value['comments'].length;
       } else {
-        post.questionOneLikeCount = 0;
-        post.questionTwoLikeCount = 0;
+        post.commentCount = 0;
       }
-      post.questionOne = value['questionOne'];
-      post.questionTwo = value['questionTwo'];
-    }
 
-    if (value['votes'] != null) {
-      var voted = checkIsVoted(value['votes']);
-      post.votes = value['votes'];
-      post.isVoted = voted;
-      if (voted) {
-        int option = whichOption(value['votes']);
-        if (option != 0) {
-          post.whichOption = option;
+      if (value['title'] != null) {
+        post.title = value['title'];
+      }
+
+      if (value['feeling'] != null) {
+        post.feeling = value['feeling'];
+      }
+
+      if (value['questionOne'] != null && value['questionTwo'] != null) {
+        if (value['votes'] != null) {
+          List<int> voteCounts = getVotes(value['votes']);
+          post.questionOneLikeCount = voteCounts[0];
+          post.questionTwoLikeCount = voteCounts[1];
+        } else {
+          post.questionOneLikeCount = 0;
+          post.questionTwoLikeCount = 0;
         }
+        post.questionOne = value['questionOne'];
+        post.questionTwo = value['questionTwo'];
       }
-    } else {
-      post.isVoted = false;
-    }
 
-    if (value['likes'] != null) {
-      var liked = checkIsLiked(value['likes']);
-      post.isLiked = liked;
-    } else {
-      post.isLiked = false;
-    }
+      if (value['votes'] != null) {
+        var voted = checkIsVoted(value['votes']);
+        post.votes = value['votes'];
+        post.isVoted = voted;
+        if (voted) {
+          int option = whichOption(value['votes']);
+          if (option != 0) {
+            post.whichOption = option;
+          }
+        }
+      } else {
+        post.isVoted = false;
+      }
 
-    if (value['tcQuestion'] != null) {
-      post.tcQuestion = value['tcQuestion'];
-    }
+      if (value['likes'] != null) {
+        var liked = checkIsLiked(value['likes']);
+        post.isLiked = liked;
+      } else {
+        post.isLiked = false;
+      }
 
-    var i = 0;
+      if (value['tcQuestion'] != null) {
+        post.tcQuestion = value['tcQuestion'];
+      }
 
-    if (post.userId != firebaseAuth.currentUser.uid) {
-      if (filters != null) {
-        for (var filter in filters) {
-          if (post.content.toLowerCase().contains(filter.toLowerCase())) {
-            i += 1;
+      var i = 0;
+
+      if (post.userId != firebaseAuth.currentUser.uid) {
+        if (filters != null) {
+          for (var filter in filters) {
+            if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+              i += 1;
+            }
           }
         }
       }
-    }
 
-    if (i == 0 &&
-        blockList.containsKey(post.userId) == false &&
-        hiddenList.contains(post.id) == false) {
-      p.add(post);
-    }
-  });
+      if (i == 0 &&
+          blockList.containsKey(post.userId) == false &&
+          hiddenList.contains(post.id) == false) {
+        p.add(post);
+      }
+    });
+  }
 
   if (sortBy == 0) {
     p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
@@ -899,17 +904,27 @@ Future<String> uploadImageToStorage(File file) async {
     final String storageId = (millSeconds.toString());
     final String today = ('$month-$date');
 
-    StorageReference ref = FirebaseStorage.instance
-        .ref()
-        .child("files")
-        .child(today)
-        .child(storageId);
-    StorageUploadTask uploadTask = ref.putFile(file);
+    FirebaseStorage storage = FirebaseStorage.instance;
 
-    var snapShot = await uploadTask.onComplete;
+    Reference ref = storage.ref().child('files').child(today).child(storageId);
+    UploadTask uploadTask = ref.putFile(file);
+    await uploadTask.then((res) async {
+      await res.ref.getDownloadURL().then((value) {
+        urlString = value;
+      });
+    });
 
-    var url = await snapShot.ref.getDownloadURL();
-    var urlString = url.toString();
+    // StorageReference ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child("files")
+    //     .child(today)
+    //     .child(storageId);
+    // StorageUploadTask uploadTask = ref.putFile(file);
+
+    // var snapShot = await uploadTask.onComplete;
+
+    // var url = await snapShot.ref.getDownloadURL();
+    // var urlString = url.toString();
 
     return urlString;
   } catch (error) {
@@ -918,7 +933,7 @@ Future<String> uploadImageToStorage(File file) async {
 }
 
 Future<List> getImageString() async {
-  String urlString;
+  var urlString;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -932,19 +947,29 @@ Future<List> getImageString() async {
     final f = await picker.getImage(source: ImageSource.gallery);
     var image = Image.file(File(f.path));
 
-    StorageReference ref = FirebaseStorage.instance
-        .ref()
-        .child("files")
-        .child(today)
-        .child(storageId);
-    var file = File(f.path);
-    StorageUploadTask uploadTask = ref.putFile(file);
+    FirebaseStorage storage = FirebaseStorage.instance;
 
-    var snapShot = await uploadTask.onComplete;
+    Reference ref = storage.ref().child('files').child(today).child(storageId);
+    UploadTask uploadTask = ref.putFile(File(f.path));
+    await uploadTask.then((res) async {
+      await res.ref.getDownloadURL().then((value) {
+        urlString = value;
+      });
+    });
 
-    var url = await snapShot.ref.getDownloadURL();
+    // StorageReference ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child("files")
+    //     .child(today)
+    //     .child(storageId);
+    // var file = File(f.path);
+    // StorageUploadTask uploadTask = ref.putFile(file);
 
-    List lst = [url, image];
+    // var snapShot = await uploadTask.onComplete;
+
+    // var url = await snapShot.ref.getDownloadURL();
+
+    List lst = [urlString, image];
 
     return lst;
   } catch (error) {
@@ -1505,6 +1530,8 @@ class VideoApi {
   }
 
   static Future<List<String>> uploadVideoToStorage(File file) async {
+    String urlString;
+    String thumbUrlString;
     try {
       var bytes = await VideoThumbnail.thumbnailData(
         video: file.path,
@@ -1520,17 +1547,28 @@ class VideoApi {
       final String storageId = (millSeconds.toString());
       final String today = ('$month-$date');
 
-      StorageReference ref = FirebaseStorage.instance
-          .ref()
-          .child("files")
-          .child(today)
-          .child(storageId);
-      StorageUploadTask uploadTask = ref.putFile(file);
+      FirebaseStorage storage = FirebaseStorage.instance;
 
-      var snapShot = await uploadTask.onComplete;
+      Reference ref =
+          storage.ref().child('files').child(today).child(storageId);
+      UploadTask uploadTask = ref.putFile(file);
+      await uploadTask.then((res) async {
+        await res.ref.getDownloadURL().then((value) {
+          urlString = value;
+        });
+      });
 
-      var url = await snapShot.ref.getDownloadURL();
-      var urlString = url.toString();
+      // StorageReference ref = FirebaseStorage.instance
+      //     .ref()
+      //     .child("files")
+      //     .child(today)
+      //     .child(storageId);
+      // StorageUploadTask uploadTask = ref.putFile(file);
+
+      // var snapShot = await uploadTask.onComplete;
+
+      // var url = await snapShot.ref.getDownloadURL();
+      // var urlString = url.toString();
 
       final DateTime now1 = DateTime.now();
       final int millSeconds1 = now1.millisecondsSinceEpoch;
@@ -1539,17 +1577,27 @@ class VideoApi {
       final String storageId1 = (millSeconds1.toString());
       final String today1 = ('$month1-$date1');
 
-      StorageReference r = FirebaseStorage.instance
-          .ref()
-          .child('files')
-          .child(today1)
-          .child(storageId1);
-      StorageUploadTask upTask = r.putData(bytes);
+      FirebaseStorage s = FirebaseStorage.instance;
 
-      var snap = await upTask.onComplete;
+      Reference r = s.ref().child('files').child(today1).child(storageId1);
+      UploadTask u = r.putData(bytes);
+      await u.then((res) async {
+        await res.ref.getDownloadURL().then((value) {
+          thumbUrlString = value;
+        });
+      });
 
-      var thumbUrl = await snap.ref.getDownloadURL();
-      var thumbUrlString = thumbUrl.toString();
+      // StorageReference r = FirebaseStorage.instance
+      //     .ref()
+      //     .child('files')
+      //     .child(today1)
+      //     .child(storageId1);
+      // StorageUploadTask upTask = r.putData(bytes);
+
+      // var snap = await upTask.onComplete;
+
+      // var thumbUrl = await snap.ref.getDownloadURL();
+      // var thumbUrlString = thumbUrl.toString();
 
       return [urlString, thumbUrlString];
     } catch (error) {
@@ -1875,7 +1923,7 @@ List<String> postContents = [
   "Hi, I am doing a minor in CS and it says on the academic calendar that I can take 1.5 credits of third and fourth year computer science courses. However, on almost every computer science course in third and fourth year, it says that CSC290 is a prerequisite for that particular course, but I can't take CSC290 right now because I don't have eligibility into the CS major/specialist program. Can someone give me clarification on this?",
   "Can we apply for another program anytime throughout the year or is it during summer only?",
   "I wanted to keep one course (fsc239-Y) but i think i'm gonna have to drop it, i feel really indecisive about what i want to do and i'd rather not end up with what i predict to be a horrible grade in this course. what happens if i drop this being my only course for the year?:(",
-  "I am taking BIO207 in the winter term and was wondering if anyone had Williams and if she focuses on the lectures or the textbook readings. also if anyone has a list of the reading schedule she had from the summer and could send it to me that would be great!",
+  "I am taking BIO207 in the woverpass term and was wondering if anyone had Williams and if she focuses on the lectures or the textbook readings. also if anyone has a list of the reading schedule she had from the summer and could send it to me that would be great!",
   "Heyo, has anyone worked for IEC before? If yes, could u tell me how was the experience? I am thinking about applying.",
   "Does anyone know what the independent research projects ( PSY40XH5) are and how to apply ?",
   "I wonder if there is any chance to nc one of the courses that I took in first year. (I’m in my second yr now) I was not informed about any of cr/ncr thing in my first semester. That’s why I couldn’t nc that course. That course mark is rlly affecting my gpa a lot (in a bad way ofc).",
@@ -1885,7 +1933,7 @@ List<String> postContents = [
   "is there any way we can set up some petition or file a complaint or something to the CS department to remove the autofail for this year. I know instructors are having a tough time with online delivery of classes but we students are also struggling as well. We're already in a bad situation because of covid, some of us may be struggling with finances, and sick family members. Putting this additional restriction on us makes it all the more difficult. You may tell us to take less courses next time or simply repeat a course but some of us can't afford to spend the time or money doing so, and that has been amplified by the state of the world right now.",
   "What are some easy courses that fulfill the writing requirement for the commerce program? I suck at writing so trynna find something easy",
   "Do u guys think campus will be closed completely with the new lockdown? I have in person lab courses :(",
-  "hey! i’ll be taking 148 in the winter semester and i’ve been seeing many posts about how 148 isn’t easy and many people end up retaking it. could someone explain to me what exactly is difficult about the course and leave any advice? how similar is it to 108? Anything i should practice or learn to prepare? thanks (: side note: i just finished 108 and i did pretty good (although that exam dropped my grade like crazy but thankfully passed), i feel like i have a pretty good grasp on the fundamentals taught in 108. and found that the structure of the course was alright, i enjoyed PCRS (except for spatial skills, that killed me). i will admit though, test questions were definitely designed to trick you rather than test your knowledge.",
+  "hey! i’ll be taking 148 in the woverpass semester and i’ve been seeing many posts about how 148 isn’t easy and many people end up retaking it. could someone explain to me what exactly is difficult about the course and leave any advice? how similar is it to 108? Anything i should practice or learn to prepare? thanks (: side note: i just finished 108 and i did pretty good (although that exam dropped my grade like crazy but thankfully passed), i feel like i have a pretty good grasp on the fundamentals taught in 108. and found that the structure of the course was alright, i enjoyed PCRS (except for spatial skills, that killed me). i will admit though, test questions were definitely designed to trick you rather than test your knowledge.",
 ];
 
 List<String> userIds = [

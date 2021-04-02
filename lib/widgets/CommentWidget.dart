@@ -14,13 +14,15 @@ class CommentWidget extends StatefulWidget {
   final Function respond;
   final String timeAgo;
   final bool isVideo;
+  final String uni;
 
   CommentWidget(
       {Key key,
       @required this.comment,
       this.timeAgo,
       this.respond,
-      this.isVideo = false})
+      this.isVideo = false,
+      this.uni})
       : super(key: key);
 
   @override
@@ -168,10 +170,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             firebaseAuth.currentUser.uid
                                         ? "You"
                                         : widget.comment.username,
-                                    style: TextStyle(
-                                        fontFamily: "Futura1",
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w600,
                                         color: widget.comment.userId ==
                                                 firebaseAuth.currentUser.uid
                                             ? Theme.of(context).accentColor
@@ -202,9 +203,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                         children: [
                           Text(
                             widget.timeAgo,
-                            style: TextStyle(
-                                fontFamily: "Futura1",
-                                fontSize: 10,
+                            style: GoogleFonts.quicksand(
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context)
                                     .accentColor
@@ -214,9 +214,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                             visible: widget.isVideo == false,
                             child: Text(
                               ' • ',
-                              style: TextStyle(
-                                  fontFamily: "Futura1",
-                                  fontSize: 10,
+                              style: GoogleFonts.quicksand(
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context)
                                       .accentColor
@@ -231,9 +230,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                               },
                               child: Text(
                                 'Reply',
-                                style: TextStyle(
-                                    fontFamily: "Futura1",
-                                    fontSize: 10,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context)
                                         .accentColor
@@ -259,11 +257,18 @@ class _CommentWidgetState extends State<CommentWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('this is uni');
     if (widget.comment.university != null) {
       u
           .getUserWithUniversity(
               widget.comment.userId, widget.comment.university)
           .then((value) {
+        setState(() {
+          imgUrl = value.profileImgUrl;
+        });
+      });
+    } else if (widget.uni != null) {
+      u.getUserWithUniversity(widget.comment.userId, widget.uni).then((value) {
         setState(() {
           imgUrl = value.profileImgUrl;
         });

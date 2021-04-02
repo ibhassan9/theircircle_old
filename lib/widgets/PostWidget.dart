@@ -8,8 +8,10 @@ import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share/share.dart';
+import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Models/comment.dart';
@@ -66,13 +68,14 @@ class _PostWidgetState extends State<PostWidget> {
   double containerWidth = 50.0;
   Color color;
   Color textColor;
-  Color option1Color = Colors.indigo;
-  Color option2Color = Colors.indigo;
+  Color option1Color = Colors.teal;
+  Color option2Color = Colors.blueGrey[300];
   Color outsideOptionColor = Colors.transparent;
   double width1;
   double width2;
   PostUser _user;
-  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.blue]);
+  Gradient gradient =
+      LinearGradient(colors: [Color(0xFF1777F2), Color(0xFF1777F2)]);
 
   Widget build(BuildContext context) {
     return _user != null
@@ -121,10 +124,18 @@ class _PostWidgetState extends State<PostWidget> {
                   context: context,
                   expand: true,
                   builder: (context) => PostDetailPage(
-                      post: widget.post,
-                      course: widget.course,
-                      club: widget.club,
-                      timeAgo: widget.timeAgo),
+                    post: widget.post,
+                    course: widget.course,
+                    club: widget.club,
+                    timeAgo: widget.timeAgo,
+                    isDiffUni: widget.post.university != null &&
+                        (widget.post.university !=
+                            (Constants.checkUniversity() == 0
+                                ? 'UofT'
+                                : Constants.checkUniversity() == 1
+                                    ? 'YorkU'
+                                    : 'WesternU')),
+                  ),
                 );
                 // Navigator.push(
                 //     context,
@@ -135,110 +146,93 @@ class _PostWidgetState extends State<PostWidget> {
                 //             club: widget.club,
                 //             timeAgo: widget.timeAgo)));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 0.0, right: 0.0),
-                              child: Column(
-                                children: [
-                                  widget.fromComments
-                                      ? Container()
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                                child: Row(children: [
-                                              InkWell(
-                                                onTap: () async {
-                                                  var user = await getUser(
-                                                      widget.post.userId);
-                                                  if (widget.post.userId !=
-                                                      fAuth.currentUser.uid) {
-                                                    // if (widget.post.isAnonymous == false) {
-                                                    //   showProfile(
-                                                    //       user, context, bioC, sC, igC, lC, null, null);
-                                                    // }
-                                                    if (widget
-                                                            .post.isAnonymous ==
-                                                        false) {
-                                                      showBarModalBottomSheet(
-                                                          context: context,
-                                                          expand: true,
-                                                          builder: (context) =>
-                                                              ProfilePage(
-                                                                  user: user,
-                                                                  heroTag:
-                                                                      null));
-
-                                                      // Navigator.push(
-                                                      //     context,
-                                                      //     MaterialPageRoute(
-                                                      //         builder: (context) => ProfilePage(
-                                                      //             user: user, heroTag: widget.post.id)));
-                                                    }
-                                                  } else {
-                                                    // showProfile(
-                                                    //     user, context, bioC, sC, igC, lC, null, null);
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 0.0, right: 0.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                widget.fromComments
+                                    ? Container()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                              child: Row(children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                var user = await getUser(
+                                                    widget.post.userId);
+                                                if (widget.post.userId !=
+                                                    fAuth.currentUser.uid) {
+                                                  // if (widget.post.isAnonymous == false) {
+                                                  //   showProfile(
+                                                  //       user, context, bioC, sC, igC, lC, null, null);
+                                                  // }
+                                                  if (widget.post.isAnonymous ==
+                                                      false) {
                                                     showBarModalBottomSheet(
                                                         context: context,
                                                         expand: true,
                                                         builder: (context) =>
                                                             ProfilePage(
-                                                              user: user,
-                                                              heroTag: null,
-                                                              isMyProfile: true,
-                                                            ));
+                                                                user: user,
+                                                                heroTag: null));
 
                                                     // Navigator.push(
                                                     //     context,
                                                     //     MaterialPageRoute(
                                                     //         builder: (context) => ProfilePage(
-                                                    //               user: user,
-                                                    //               heroTag: widget.post.id,
-                                                    //               isMyProfile: true,
-                                                    //             )));
+                                                    //             user: user, heroTag: widget.post.id)));
                                                   }
-                                                },
+                                                } else {
+                                                  // showProfile(
+                                                  //     user, context, bioC, sC, igC, lC, null, null);
+                                                  showBarModalBottomSheet(
+                                                      context: context,
+                                                      expand: true,
+                                                      builder: (context) =>
+                                                          ProfilePage(
+                                                            user: user,
+                                                            heroTag: null,
+                                                            isMyProfile: true,
+                                                          ));
+
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //         builder: (context) => ProfilePage(
+                                                  //               user: user,
+                                                  //               heroTag: widget.post.id,
+                                                  //               isMyProfile: true,
+                                                  //             )));
+                                                }
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        10.0, 0.0, 0.0, 5.0),
                                                 child: widget.post.isAnonymous
-                                                    ? Container(
-                                                        width: 30,
-                                                        height: 30,
-                                                        child: Center(
-                                                          child: Icon(
-                                                              Feather.feather,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 15.0),
-                                                        ),
-                                                        decoration: BoxDecoration(
-                                                            color: color,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        25.0)),
-                                                      )
+                                                    ? Container()
                                                     : imgUrl == null ||
                                                             imgUrl == ''
                                                         ? ClipRRect(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        25),
+                                                                        20),
                                                             child: Container(
-                                                                width: 30,
-                                                                height: 30,
+                                                                width: 40,
+                                                                height: 40,
                                                                 color: Theme.of(
                                                                         context)
                                                                     .dividerColor,
@@ -252,7 +246,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                               1),
                                                                       style: GoogleFonts.quicksand(
                                                                           fontWeight: FontWeight
-                                                                              .bold,
+                                                                              .w500,
                                                                           color:
                                                                               Theme.of(context).accentColor)),
                                                                 )),
@@ -261,12 +255,12 @@ class _PostWidgetState extends State<PostWidget> {
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        25),
+                                                                        20),
                                                             child:
                                                                 Image.network(
                                                               imgUrl,
-                                                              width: 30,
-                                                              height: 30,
+                                                              width: 40,
+                                                              height: 40,
                                                               fit: BoxFit.cover,
                                                               loadingBuilder:
                                                                   (BuildContext
@@ -297,129 +291,156 @@ class _PostWidgetState extends State<PostWidget> {
                                                             ),
                                                           ),
                                               ),
-                                              SizedBox(width: 5.0),
-                                              Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              widget.post.userId ==
-                                                                      firebaseAuth
-                                                                          .currentUser
-                                                                          .uid
-                                                                  ? "You"
-                                                                  : widget.post
-                                                                          .isAnonymous
-                                                                      ? "Anon"
-                                                                      : widget
-                                                                          .post
-                                                                          .username,
-                                                              style: GoogleFonts.quicksand(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: widget
-                                                                              .post
-                                                                              .userId ==
-                                                                          firebaseAuth
-                                                                              .currentUser
-                                                                              .uid
-                                                                      ? Colors
-                                                                          .indigo
-                                                                      : Theme.of(
-                                                                              context)
-                                                                          .accentColor),
-                                                            ),
-                                                            Text(
-                                                              " • ${widget.timeAgo}",
-                                                              style: GoogleFonts.quicksand(
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .buttonColor),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        widget.post.feeling !=
-                                                                null
-                                                            ? Text(
-                                                                'is feeling ${widget.post.feeling.toLowerCase()} ' +
-                                                                    Constants
-                                                                            .feelings[
-                                                                        widget
+                                            ),
+                                            widget.post.isAnonymous
+                                                ? Container()
+                                                : SizedBox(width: 8.0),
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            widget.post.userId ==
+                                                                    firebaseAuth
+                                                                        .currentUser
+                                                                        .uid
+                                                                ? ("You" +
+                                                                    (widget.post.feeling !=
+                                                                            null
+                                                                        ? " are feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
+                                                                        : ""))
+                                                                : widget.post
+                                                                        .isAnonymous
+                                                                    ? ("Anon" +
+                                                                        (widget.post.feeling !=
+                                                                                null
+                                                                            ? " is feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
+                                                                            : ""))
+                                                                    : widget
+                                                                        .post
+                                                                        .username,
+                                                            style: GoogleFonts.quicksand(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                color: widget
                                                                             .post
-                                                                            .feeling],
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      "Futura1",
-                                                                  fontSize: 12,
+                                                                            .userId ==
+                                                                        firebaseAuth
+                                                                            .currentUser
+                                                                            .uid
+                                                                    ? Colors
+                                                                        .indigo
+                                                                    : Theme.of(
+                                                                            context)
+                                                                        .accentColor),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                '${widget.timeAgo.replaceAll('~', '')} • ',
+                                                                style: GoogleFonts
+                                                                    .quicksand(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .accentColor,
-                                                                ))
-                                                            : _user != null
-                                                                ? _user.createdAt !=
-                                                                            null &&
-                                                                        DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(_user.createdAt)).inDays <
-                                                                            5
-                                                                    ? Text(
-                                                                        DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(_user.createdAt)).inDays <
-                                                                                5
-                                                                            ? 'Recently Joined'
-                                                                            : '',
-                                                                        style: TextStyle(
-                                                                            fontFamily:
-                                                                                "Futura1",
-                                                                            fontSize:
-                                                                                10,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            color: Colors.pink),
-                                                                      )
-                                                                    : Visibility(
-                                                                        visible: _user.about !=
-                                                                                null &&
-                                                                            _user
-                                                                                .about.isNotEmpty &&
-                                                                            widget.post.isAnonymous ==
-                                                                                false,
-                                                                        child:
-                                                                            Text(
-                                                                          _user.about != null
-                                                                              ? _user.about
-                                                                              : 'No bio available',
-                                                                          maxLines:
-                                                                              1,
-                                                                          style: TextStyle(
-                                                                              fontFamily: "Futura1",
-                                                                              fontSize: 10,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.blue.shade700),
-                                                                        ),
-                                                                      )
-                                                                : Container()
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 0.0),
-                                                  ])
-                                            ])),
-                                            Visibility(
-                                              visible: !widget.fromComments,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      600],
+                                                                  fontSize:
+                                                                      12.0,
+                                                                ),
+                                                              ),
+                                                              Icon(
+                                                                Icons.public,
+                                                                color: Colors
+                                                                    .grey[600],
+                                                                size: 12.0,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      _user != null
+                                                          ? _user.createdAt !=
+                                                                      null &&
+                                                                  DateTime.now()
+                                                                          .difference(
+                                                                              DateTime.fromMillisecondsSinceEpoch(_user.createdAt))
+                                                                          .inDays <
+                                                                      5
+                                                              ? Text(
+                                                                  DateTime.now()
+                                                                              .difference(DateTime.fromMillisecondsSinceEpoch(_user.createdAt))
+                                                                              .inDays <
+                                                                          5
+                                                                      ? 'Recently Joined'
+                                                                      : '',
+                                                                  style: GoogleFonts.quicksand(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .pink),
+                                                                )
+                                                              : Visibility(
+                                                                  visible: _user
+                                                                              .about !=
+                                                                          null &&
+                                                                      _user
+                                                                          .about
+                                                                          .isNotEmpty &&
+                                                                      widget.post
+                                                                              .isAnonymous ==
+                                                                          false,
+                                                                  child: Text(
+                                                                    _user.about !=
+                                                                            null
+                                                                        ? _user
+                                                                            .about
+                                                                        : 'No bio available',
+                                                                    maxLines: 1,
+                                                                    style: GoogleFonts.quicksand(
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        color: Color(
+                                                                            0xFF1777F2)),
+                                                                  ),
+                                                                )
+                                                          : Container()
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 0.0),
+                                                ])
+                                          ])),
+                                          Visibility(
+                                            visible: !widget.fromComments,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10.0),
                                               child: InkWell(
                                                 onTap: () {
                                                   final act =
@@ -467,7 +488,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Delete Post",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -520,7 +541,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -538,7 +559,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's suspicious or spam",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -555,7 +576,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's abusive or harmful",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -572,7 +593,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It expresses intentions of self-harm or suicide",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -589,7 +610,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It promotes sexual/inappropriate content",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -606,7 +627,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Hide this post.",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -623,7 +644,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: GoogleFonts.didactGothic(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -631,7 +652,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to hide this post?",
-                                                                          style: GoogleFonts.didactGothic(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -648,7 +669,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: GoogleFonts.didactGothic(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -664,7 +685,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Block this user",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -681,7 +702,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: GoogleFonts.didactGothic(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -689,7 +710,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to block this user?",
-                                                                          style: GoogleFonts.didactGothic(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -706,7 +727,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: GoogleFonts.didactGothic(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -722,7 +743,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: GoogleFonts.didactGothic(
+                                                                      style: GoogleFonts.quicksand(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -749,24 +770,24 @@ class _PostWidgetState extends State<PostWidget> {
                                                         .accentColor),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                  Wrap(children: [_postContent()]),
-                                  // Container(
-                                  //   height: 10,
-                                  //   width: MediaQuery.of(context).size.width,
-                                  //   color: Theme.of(context).dividerColor,
-                                  // )
-                                ],
-                              ),
+                                          ),
+                                        ],
+                                      ),
+                                Wrap(children: [_postContent()]),
+                                // Container(
+                                //   height: 10,
+                                //   width: MediaQuery.of(context).size.width,
+                                //   color: Theme.of(context).dividerColor,
+                                // )
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Divider(thickness: 1.0),
-                  ],
-                ),
+                  ),
+                  // Divider(thickness: 1.0),
+                ],
               ),
             ),
           )
@@ -794,33 +815,29 @@ class _PostWidgetState extends State<PostWidget> {
                     children: [
                       widget.post.tcQuestion != null
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              child: ShaderMask(
-                                shaderCallback: (bounds) =>
-                                    gradient.createShader(
-                                  Rect.fromLTWH(
-                                      0, 0, bounds.width, bounds.height),
-                                ),
-                                child: Text(
-                                  widget.post.tcQuestion,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
+                              padding: const EdgeInsets.only(
+                                  bottom: 4.0, left: 10.0, right: 10.0),
+                              child: Text(
+                                widget.post.tcQuestion,
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blue,
                                 ),
                               ))
                           : Container(),
                       widget.post.title != null
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 4.0, top: 5.0),
+                              padding: const EdgeInsets.only(
+                                  bottom: 10.0,
+                                  top: 5.0,
+                                  left: 10.0,
+                                  right: 10.0),
                               child: Text(
                                 widget.post.title,
-                                style: TextStyle(
-                                    fontFamily: "Futura",
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
                                     color: Theme.of(context).accentColor),
                               ),
                             )
@@ -831,31 +848,41 @@ class _PostWidgetState extends State<PostWidget> {
                                       widget.post.feeling.toLowerCase())
                           ? Container()
                           : Padding(
-                              padding: const EdgeInsets.only(bottom: 5.0),
-                              child: SelectableLinkify(
-                                onOpen: (link) async {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WebPage(
-                                              title: link.text,
-                                              selectedUrl: link.url)));
-                                },
-                                text: widget.post.content.trimRight(),
-                                style: GoogleFonts.quicksand(
-                                    fontSize: widget.fromComments ? 15.5 : 15.5,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).accentColor),
-                                linkStyle:
-                                    GoogleFonts.quicksand(color: Colors.indigo),
+                              padding: const EdgeInsets.only(
+                                  bottom: 0.0, left: 10.0, right: 10.0),
+                              child: Text(widget.post.content.trimRight(),
+                                  style: GoogleFonts.quicksand(
+                                      fontSize:
+                                          widget.fromComments ? 15.5 : 15.5,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).accentColor))
+                              // child: SelectableLinkify(
+                              //   onOpen: (link) async {
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) => WebPage(
+                              //                 title: link.text,
+                              //                 selectedUrl: link.url)));
+                              //   },
+                              //   text: widget.post.content.trimRight(),
+                              //   style:  GoogleFonts.quicksand(
+                              //
+                              //       fontSize: widget.fromComments ? 15.5 : 15.5,
+                              //       fontWeight: FontWeight.w500,
+                              //       color: Theme.of(context).accentColor),
+                              //   linkStyle:
+                              //        GoogleFonts.quicksand(
+                              // color: Colors.indigo),
+                              // ),
                               ),
-                            ),
                       widget.club != null
                           ? widget.post.userId == widget.club.adminId &&
                                   widget.post.isAnonymous == false &&
                                   widget.club != null
                               ? Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
+                                  padding: const EdgeInsets.only(
+                                      top: 15.0, left: 10.0, right: 10.0),
                                   child: Container(
                                     color: Colors.grey,
                                     child: Padding(
@@ -878,7 +905,8 @@ class _PostWidgetState extends State<PostWidget> {
                           ? Container(
                               width: MediaQuery.of(context).size.width,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
+                                padding: const EdgeInsets.only(
+                                    bottom: 10.0, left: 10.0, right: 10.0),
                                 child: Column(
                                   children: [
                                     SizedBox(height: 10.0),
@@ -939,8 +967,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                     .size
                                                     .width,
                                             decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .shadowColor,
+                                                color: option1Color,
                                                 borderRadius:
                                                     widthPercentage(1) == 1.0
                                                         ? BorderRadius.circular(
@@ -1075,7 +1102,7 @@ class _PostWidgetState extends State<PostWidget> {
                 visible: widget.post.isVoted && widget.post.whichOption != 0,
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(top: 10.0, left: 0.0, right: 0.0),
+                      const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                   child: Row(
                     children: [
                       Icon(FlutterIcons.vote_mco,
@@ -1144,7 +1171,7 @@ class _PostWidgetState extends State<PostWidget> {
                       padding: const EdgeInsets.only(
                           top: 10.0, left: 0.0, right: 0.0, bottom: 10.0),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(0.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           color: Colors.grey[300],
@@ -1187,187 +1214,301 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                     )
                   : Container(),
-              // SizedBox(height: 15.0),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       widget.post.likeCount == 0
-              //           ? "No Likes"
-              //           : widget.post.likeCount == 1
-              //               ? widget.post.likeCount.toString() + " Like"
-              //               : widget.post.likeCount.toString() + " Likes",
-              //       style: GoogleFonts.quicksand(
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w500,
-              //           color: Colors.grey[700]),
-              //     ),
-              //     Text(
-              //       widget.post.commentCount == 0
-              //           ? "No Comments"
-              //           : widget.post.commentCount == 1
-              //               ? widget.post.commentCount.toString() + " Comment"
-              //               : widget.post.commentCount.toString() + " Comments",
-              //       style: GoogleFonts.quicksand(
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w500,
-              //           color: Colors.grey[700]),
-              //     ),
-              //   ],
-              // ),
-              SizedBox(height: 5.0),
-              Container(
+              SizedBox(height: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    // Row(
-                    //   children: <Widget>[
-                    //     InkWell(
-                    //         onTap: () async {
-                    //           if (widget.post.isLiked) {
-                    //             widget.post.isLiked = false;
-                    //             widget.post.likeCount -= 1;
-                    //             var res = await unlike(
-                    //                 widget.post, widget.club, widget.course);
-                    //             if (res) {
-                    //               if (this.mounted) {
-                    //                 setState(() {});
-                    //               }
-                    //             }
-                    //           } else {
-                    //             var user = await getUser(widget.post.userId);
-                    //             var token = user.device_token;
-                    //             if (user.id != firebaseAuth.currentUser.uid) {
-                    //               if (widget.club == null &&
-                    //                   widget.course == null) {
-                    //                 await sendPush(
-                    //                     0,
-                    //                     token,
-                    //                     widget.post.content,
-                    //                     widget.post.id,
-                    //                     user.id);
-                    //               } else if (widget.club != null) {
-                    //                 await sendPushClub(
-                    //                     widget.club,
-                    //                     0,
-                    //                     token,
-                    //                     widget.post.content,
-                    //                     widget.post.id,
-                    //                     user.id);
-                    //               } else {
-                    //                 await sendPushCourse(
-                    //                     widget.course,
-                    //                     0,
-                    //                     token,
-                    //                     widget.post.content,
-                    //                     widget.post.id,
-                    //                     user.id);
-                    //               }
-                    //             }
-                    //             widget.post.isLiked = true;
-                    //             widget.post.likeCount += 1;
-                    //             var res = await like(
-                    //                 widget.post, widget.club, widget.course);
-                    //             if (res) {
-                    //               if (this.mounted) {
-                    //                 setState(() {});
-                    //               }
-                    //             }
-                    //           }
-                    //         },
-                    //         child: Icon(FlutterIcons.heart_faw5s,
-                    //             color: widget.post.isLiked
-                    //                 ? Colors.red
-                    //                 : Theme.of(context)
-                    //                     .buttonColor
-                    //                     .withOpacity(0.2),
-                    //             size: 20)),
-                    //     SizedBox(width: 5.0),
-                    //     Container(
-                    //       margin: EdgeInsets.only(left: 3.0),
-                    //       child: Text(
-                    //         widget.post.likeCount == 0
-                    //             ? 0.toString()
-                    //             : widget.post.likeCount == 1
-                    //                 ? widget.post.likeCount.toString()
-                    //                 : widget.post.likeCount.toString(),
-                    //         style: GoogleFonts.quicksand(
-                    //             fontSize: 14,
-                    //             fontWeight: FontWeight.w600,
-                    //             color: Theme.of(context)
-                    //                 .buttonColor
-                    //                 .withOpacity(0.8)),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    LikeButton(
-                      likeCountAnimationType: LikeCountAnimationType.all,
-                      isLiked: widget.post.isLiked,
-                      likeCount: widget.post.likeCount,
-                      size: 20.0,
-                      circleColor: CircleColor(
-                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                      bubblesColor: BubblesColor(
-                          dotPrimaryColor: Color(0xff33b5e5),
-                          dotSecondaryColor: Color(0xff0099cc)),
-                      onTap: (_) async {
-                        if (widget.post.isLiked) {
-                          widget.post.isLiked = false;
-                          widget.post.likeCount -= 1;
-                          var res = await unlike(
-                              widget.post, widget.club, widget.course);
-                          if (res) {
-                            if (this.mounted) {
-                              setState(() {});
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4.0),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF1777F2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        FlutterIcons.heart_ant,
+                        size: 10.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 4.0),
+                    Expanded(
+                      child: Text(
+                        '${widget.post.likeCount}',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '${widget.post.commentCount} Comments',
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).buttonColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        if (widget.post.university != null) {
+                          if (widget.post.university !=
+                              (Constants.checkUniversity() == 0
+                                  ? 'UofT'
+                                  : Constants.checkUniversity() == 1
+                                      ? 'YorkU'
+                                      : 'WesternU')) {
+                            Toast.show(
+                                'Cannot like content from other universities :(',
+                                context);
+                            return false;
+                          } else {
+                            if (widget.post.isLiked) {
+                              widget.post.isLiked = false;
+                              widget.post.likeCount -= 1;
+                              var res = await unlike(
+                                  widget.post, widget.club, widget.course);
+                              if (res) {
+                                if (this.mounted) {
+                                  setState(() {});
+                                }
+                              }
+                            } else {
+                              var user = await getUser(widget.post.userId);
+                              var token = user.device_token;
+                              if (user.id != firebaseAuth.currentUser.uid) {
+                                if (widget.club == null &&
+                                    widget.course == null) {
+                                  await sendPush(0, token, widget.post.content,
+                                      widget.post.id, user.id);
+                                } else if (widget.club != null) {
+                                  await sendPushClub(
+                                      widget.club,
+                                      0,
+                                      token,
+                                      widget.post.content,
+                                      widget.post.id,
+                                      user.id);
+                                } else {
+                                  await sendPushCourse(
+                                      widget.course,
+                                      0,
+                                      token,
+                                      widget.post.content,
+                                      widget.post.id,
+                                      user.id);
+                                }
+                              }
+                              widget.post.isLiked = true;
+                              widget.post.likeCount += 1;
+                              var res = await like(
+                                  widget.post, widget.club, widget.course);
+                              if (res) {
+                                if (this.mounted) {
+                                  setState(() {});
+                                }
+                              }
                             }
+                            return widget.post.isLiked;
                           }
                         } else {
-                          var user = await getUser(widget.post.userId);
-                          var token = user.device_token;
-                          if (user.id != firebaseAuth.currentUser.uid) {
-                            if (widget.club == null && widget.course == null) {
-                              await sendPush(0, token, widget.post.content,
-                                  widget.post.id, user.id);
-                            } else if (widget.club != null) {
-                              await sendPushClub(widget.club, 0, token,
-                                  widget.post.content, widget.post.id, user.id);
-                            } else {
-                              await sendPushCourse(widget.course, 0, token,
-                                  widget.post.content, widget.post.id, user.id);
+                          if (widget.post.isLiked) {
+                            widget.post.isLiked = false;
+                            widget.post.likeCount -= 1;
+                            var res = await unlike(
+                                widget.post, widget.club, widget.course);
+                            if (res) {
+                              if (this.mounted) {
+                                setState(() {});
+                              }
                             }
-                          }
-                          widget.post.isLiked = true;
-                          widget.post.likeCount += 1;
-                          var res = await like(
-                              widget.post, widget.club, widget.course);
-                          if (res) {
-                            if (this.mounted) {
-                              setState(() {});
+                          } else {
+                            var user = await getUser(widget.post.userId);
+                            var token = user.device_token;
+                            if (user.id != firebaseAuth.currentUser.uid) {
+                              if (widget.club == null &&
+                                  widget.course == null) {
+                                await sendPush(0, token, widget.post.content,
+                                    widget.post.id, user.id);
+                              } else if (widget.club != null) {
+                                await sendPushClub(
+                                    widget.club,
+                                    0,
+                                    token,
+                                    widget.post.content,
+                                    widget.post.id,
+                                    user.id);
+                              } else {
+                                await sendPushCourse(
+                                    widget.course,
+                                    0,
+                                    token,
+                                    widget.post.content,
+                                    widget.post.id,
+                                    user.id);
+                              }
+                            }
+                            widget.post.isLiked = true;
+                            widget.post.likeCount += 1;
+                            var res = await like(
+                                widget.post, widget.club, widget.course);
+                            if (res) {
+                              if (this.mounted) {
+                                setState(() {});
+                              }
                             }
                           }
                         }
-                        return widget.post.isLiked;
                       },
+                      child: Row(
+                        children: [
+                          Icon(
+                            widget.post.isLiked
+                                ? FlutterIcons.thumb_up_mco
+                                : FlutterIcons.thumb_up_outline_mco,
+                            color: widget.post.isLiked
+                                ? Color(0xFF1777F2)
+                                : Theme.of(context).buttonColor,
+                            size: 20.0,
+                          ),
+                          SizedBox(width: 5.0),
+                          Text('Like')
+                        ],
+                      ),
                     ),
+                    // LikeButton(
+                    //   likeCountAnimationType: LikeCountAnimationType.all,
+                    //   isLiked: widget.post.isLiked,
+                    //   likeCount: widget.post.likeCount,
+                    //   size: 20.0,
+                    //   circleColor: CircleColor(
+                    //       start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                    //   bubblesColor: BubblesColor(
+                    //       dotPrimaryColor: Color(0xff33b5e5),
+                    //       dotSecondaryColor: Color(0xff0099cc)),
+                    //   onTap: (_) async {
+                    //     if (widget.post.university != null) {
+                    //       if (widget.post.university !=
+                    //           (Constants.checkUniversity() == 0
+                    //               ? 'UofT'
+                    //               : Constants.checkUniversity() == 1
+                    //                   ? 'YorkU'
+                    //                   : 'WesternU')) {
+                    //         Toast.show(
+                    //             'Cannot like content from other universities :(',
+                    //             context);
+                    //         return false;
+                    //       } else {
+                    //         if (widget.post.isLiked) {
+                    //           widget.post.isLiked = false;
+                    //           widget.post.likeCount -= 1;
+                    //           var res = await unlike(
+                    //               widget.post, widget.club, widget.course);
+                    //           if (res) {
+                    //             if (this.mounted) {
+                    //               setState(() {});
+                    //             }
+                    //           }
+                    //         } else {
+                    //           var user = await getUser(widget.post.userId);
+                    //           var token = user.device_token;
+                    //           if (user.id != firebaseAuth.currentUser.uid) {
+                    //             if (widget.club == null &&
+                    //                 widget.course == null) {
+                    //               await sendPush(0, token, widget.post.content,
+                    //                   widget.post.id, user.id);
+                    //             } else if (widget.club != null) {
+                    //               await sendPushClub(
+                    //                   widget.club,
+                    //                   0,
+                    //                   token,
+                    //                   widget.post.content,
+                    //                   widget.post.id,
+                    //                   user.id);
+                    //             } else {
+                    //               await sendPushCourse(
+                    //                   widget.course,
+                    //                   0,
+                    //                   token,
+                    //                   widget.post.content,
+                    //                   widget.post.id,
+                    //                   user.id);
+                    //             }
+                    //           }
+                    //           widget.post.isLiked = true;
+                    //           widget.post.likeCount += 1;
+                    //           var res = await like(
+                    //               widget.post, widget.club, widget.course);
+                    //           if (res) {
+                    //             if (this.mounted) {
+                    //               setState(() {});
+                    //             }
+                    //           }
+                    //         }
+                    //         return widget.post.isLiked;
+                    //       }
+                    //     } else {
+                    //       if (widget.post.isLiked) {
+                    //         widget.post.isLiked = false;
+                    //         widget.post.likeCount -= 1;
+                    //         var res = await unlike(
+                    //             widget.post, widget.club, widget.course);
+                    //         if (res) {
+                    //           if (this.mounted) {
+                    //             setState(() {});
+                    //           }
+                    //         }
+                    //       } else {
+                    //         var user = await getUser(widget.post.userId);
+                    //         var token = user.device_token;
+                    //         if (user.id != firebaseAuth.currentUser.uid) {
+                    //           if (widget.club == null && widget.course == null) {
+                    //             await sendPush(0, token, widget.post.content,
+                    //                 widget.post.id, user.id);
+                    //           } else if (widget.club != null) {
+                    //             await sendPushClub(widget.club, 0, token,
+                    //                 widget.post.content, widget.post.id, user.id);
+                    //           } else {
+                    //             await sendPushCourse(widget.course, 0, token,
+                    //                 widget.post.content, widget.post.id, user.id);
+                    //           }
+                    //         }
+                    //         widget.post.isLiked = true;
+                    //         widget.post.likeCount += 1;
+                    //         var res = await like(
+                    //             widget.post, widget.club, widget.course);
+                    //         if (res) {
+                    //           if (this.mounted) {
+                    //             setState(() {});
+                    //           }
+                    //         }
+                    //       }
+                    //       return widget.post.isLiked;
+                    //     }
+                    //   },
+                    // ),
                     SizedBox(width: 30.0),
                     Row(
                       children: <Widget>[
                         Unicon(UniconData.uniChat,
-                            color: Colors.lightBlue, size: 20),
+                            color: Theme.of(context).buttonColor, size: 20),
                         SizedBox(width: 5.0),
                         Container(
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
-                            widget.post.commentCount == 0
-                                ? 0.toString()
-                                : widget.post.commentCount == 1
-                                    ? widget.post.commentCount.toString()
-                                    : widget.post.commentCount.toString(),
+                            'Comment',
                             style: GoogleFonts.quicksand(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.lightBlue),
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).buttonColor),
                           ),
                         )
                       ],
@@ -1389,19 +1530,36 @@ class _PostWidgetState extends State<PostWidget> {
                       child: Row(
                         children: <Widget>[
                           Icon(FlutterIcons.share_alt_faw5s,
-                              color: Colors.lightBlue, size: 15),
+                              color: Color(0xFF1777F2), size: 15),
                           SizedBox(width: 5.0),
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text("Share",
                                 style: GoogleFonts.quicksand(
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.lightBlue)),
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF1777F2))),
                           )
                         ],
                       ),
                     ),
+                    // widget.post.university != null
+                    //     ? Text(
+                    //         widget.post.university == 'UofT'
+                    //             ? 'University of Toronto'
+                    //             : widget.post.university == 'YorkU'
+                    //                 ? 'York University'
+                    //                 : 'Western University',
+                    //         style:  GoogleFonts.quicksand(
+                    //
+                    //             fontSize: 13,
+                    //             fontWeight: FontWeight.w600,
+                    //             color: widget.post.university == 'UofT'
+                    //                 ? Color(0xFF1777F2)
+                    //                 : widget.post.university == 'YorkU'
+                    //                     ? Colors.red
+                    //                     : Colors.orange))
+                    //     : Container(),
                   ],
                 ),
               ),
@@ -1413,7 +1571,8 @@ class _PostWidgetState extends State<PostWidget> {
               //           comment.userId == firebaseAuth.currentUser.uid
               //               ? "You"
               //               : comment.username,
-              //           style: GoogleFonts.quicksand(
+              //           style:  GoogleFonts.quicksand(
+              //
               //               fontSize: 13,
               //               fontWeight: FontWeight.w500,
               //               color: Theme.of(context).accentColor),
@@ -1431,7 +1590,8 @@ class _PostWidgetState extends State<PostWidget> {
               //                 child: Text(comment.content,
               //                     maxLines: null,
               //                     overflow: TextOverflow.ellipsis,
-              //                     style: GoogleFonts.quicksand(
+              //                     style:  GoogleFonts.quicksand(
+              //
               //                         fontSize: 13,
               //                         fontWeight: FontWeight.w500,
               //                         color: Theme.of(context).accentColor)),
@@ -1449,6 +1609,8 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
         ),
+        SizedBox(height: 10.0),
+        Container(height: 7.0, color: Theme.of(context).dividerColor)
       ],
     );
   }
@@ -1475,30 +1637,81 @@ class _PostWidgetState extends State<PostWidget> {
     // TODO: implement initState
     super.initState();
     color = Constants.color();
-    getUser(widget.post.userId).then((value) {
-      imgUrl = value.profileImgUrl;
-      token = value.device_token;
-      _user = value;
-      setState(() {
-        if (widget.post.isVoted) {
-          width1 = MediaQuery.of(context).size.width * widthPercentage(1);
-          width2 = MediaQuery.of(context).size.width * widthPercentage(2);
-        } else {
-          width1 = MediaQuery.of(context).size.width;
-          width2 = MediaQuery.of(context).size.width;
-        }
-      });
-      fetchComments(widget.post, widget.course, widget.club).then((value) {
-        if (value.length > 0 && value != null) {
-          Comment c = value.last;
-          if (this.mounted) {
-            setState(() {
-              comment = c;
-            });
+    if (widget.post.university != null) {
+      getUserWithUniversity(widget.post.userId, widget.post.university)
+          .then((value) {
+        imgUrl = value.profileImgUrl;
+        token = value.device_token;
+        _user = value;
+        setState(() {
+          if (widget.post.isVoted) {
+            width1 = MediaQuery.of(context).size.width * widthPercentage(1);
+            width2 = MediaQuery.of(context).size.width * widthPercentage(2);
+          } else {
+            width1 = MediaQuery.of(context).size.width;
+            width2 = MediaQuery.of(context).size.width;
           }
-        }
+        });
+        fetchComments(
+                widget.post,
+                widget.course,
+                widget.club,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU')
+            .then((value) {
+          if (value.length > 0 && value != null) {
+            Comment c = value.last;
+            if (this.mounted) {
+              setState(() {
+                comment = c;
+              });
+            }
+          }
+        });
       });
-    });
+    } else {
+      getUser(widget.post.userId).then((value) {
+        imgUrl = value.profileImgUrl;
+        token = value.device_token;
+        _user = value;
+        setState(() {
+          if (widget.post.isVoted) {
+            width1 = MediaQuery.of(context).size.width * widthPercentage(1);
+            width2 = MediaQuery.of(context).size.width * widthPercentage(2);
+          } else {
+            width1 = MediaQuery.of(context).size.width;
+            width2 = MediaQuery.of(context).size.width;
+          }
+        });
+        fetchComments(
+                widget.post,
+                widget.course,
+                widget.club,
+                widget.post.university != null
+                    ? widget.post.university
+                    : Constants.checkUniversity() == 0
+                        ? 'UofT'
+                        : Constants.checkUniversity() == 1
+                            ? 'YorkU'
+                            : 'WesternU')
+            .then((value) {
+          if (value.length > 0 && value != null) {
+            Comment c = value.last;
+            if (this.mounted) {
+              setState(() {
+                comment = c;
+              });
+            }
+          }
+        });
+      });
+    }
+
     // setState(() {
     //   width1 = MediaQuery.of(context).size.width;
     //   width2 = MediaQuery.of(context).size.width;

@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
@@ -100,8 +101,7 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                       children: [
                         Text(
                           widget.peer.name.trim(),
-                          style: TextStyle(
-                              fontFamily: "Futura1",
+                          style: GoogleFonts.quicksand(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).accentColor),

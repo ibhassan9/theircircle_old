@@ -12,6 +12,7 @@ import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/pages/OHS%20Pages/MainPage.dart';
 import 'package:unify/pages/club_page.dart';
+import 'package:unify/Components/Constants.dart';
 
 class ClubsPage extends StatefulWidget {
   @override
@@ -152,7 +153,8 @@ class _ClubsPageState extends State<ClubsPage>
       //   title: Text(
       //     "Communities",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.quicksand: GoogleFonts.quicksand(
+      //       GoogleFonts.overpass: TextStyle(
+      //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
       //           color: Theme.of(context).accentColor),

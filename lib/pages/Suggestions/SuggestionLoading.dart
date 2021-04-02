@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import 'package:tmdb_dart/tmdb_dart.dart';
@@ -39,8 +40,7 @@ class _SuggestionLoadingState extends State<SuggestionLoading> {
           SizedBox(height: 30.0),
           Text(
             'Curating a list for you...',
-            style: TextStyle(
-                fontFamily: "Futura3", color: Theme.of(context).accentColor),
+            style: GoogleFonts.quicksand(color: Theme.of(context).accentColor),
           ),
         ],
       )),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart' as noti;
@@ -87,8 +88,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   name,
                                   maxLines: null,
-                                  style: TextStyle(
-                                      fontFamily: "Futura1",
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                       color: Theme.of(context).accentColor),
@@ -96,8 +96,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   ' • ',
                                   maxLines: 1,
-                                  style: TextStyle(
-                                      fontFamily: "Futura1",
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
@@ -107,8 +106,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                       new DateTime.fromMillisecondsSinceEpoch(
                                           widget.notification.timestamp)),
                                   maxLines: null,
-                                  style: TextStyle(
-                                      fontFamily: "Futura1",
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),

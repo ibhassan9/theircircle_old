@@ -51,7 +51,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
   @override
   Widget build(BuildContext context) {
     TableCalendar tCalendar = TableCalendar(
-      onDaySelected: (dt, lst) {
+      onDaySelected: (dt, lst, lst1) {
         setState(() {
           dateTimeSelected = dt;
         });

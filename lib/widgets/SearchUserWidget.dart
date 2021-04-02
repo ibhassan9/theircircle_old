@@ -24,127 +24,135 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
 
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-      child: InkWell(
-        onTap: () {},
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: () {
-                //widget.show();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfilePage(
-                            user: widget.peer, heroTag: widget.peer.id)));
-              },
-              child: Container(
-                  child: Row(children: [
-                widget.peer.profileImgUrl == null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          color: Colors.grey,
-                          child: Icon(AntDesign.user,
-                              color: Colors.white, size: 15.0),
+      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(10.0)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+          child: InkWell(
+            onTap: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    //widget.show();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(
+                                user: widget.peer, heroTag: widget.peer.id)));
+                  },
+                  child: Container(
+                      child: Row(children: [
+                    widget.peer.profileImgUrl == null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              color: Colors.grey,
+                              child: Icon(AntDesign.user,
+                                  color: Colors.white, size: 15.0),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: Image.network(
+                              widget.peer.profileImgUrl,
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: Center(
+                                    child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: LoadingIndicator(
+                                          indicatorType:
+                                              Indicator.ballClipRotate,
+                                          color: Theme.of(context).accentColor,
+                                        )),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                    SizedBox(width: 15.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.peer.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
                         ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Image.network(
-                          widget.peer.profileImgUrl,
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: Center(
-                                child: SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: LoadingIndicator(
-                                      indicatorType: Indicator.ballClipRotate,
-                                      color: Theme.of(context).accentColor,
-                                    )),
-                              ),
-                            );
-                          },
+                        Text(
+                          widget.peer.about != null
+                              ? widget.peer.about.isNotEmpty
+                                  ? widget.peer.about
+                                  : "No bio available."
+                              : "No bio available.",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.quicksand(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).buttonColor),
+                        ),
+                      ],
+                    ),
+                  ])),
+                ),
+                InkWell(
+                  onTap: () {
+                    var chatId = '';
+                    var myID = firebaseAuth.currentUser.uid;
+                    var peerId = widget.peer.id;
+                    if (myID.hashCode <= peerId.hashCode) {
+                      chatId = '$myID-$peerId';
+                    } else {
+                      chatId = '$peerId-$myID';
+                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                                  receiver: widget.peer,
+                                  chatId: chatId,
+                                )));
+                  },
+                  child: Container(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                        child: Text(
+                          'Message',
+                          style: GoogleFonts.quicksand(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                              color: Theme.of(context).accentColor),
                         ),
                       ),
-                SizedBox(width: 15.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.peer.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: "Futura3",
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
-                    ),
-                    Text(
-                      widget.peer.about != null
-                          ? widget.peer.about.isNotEmpty
-                              ? widget.peer.about
-                              : "No bio available."
-                          : "No bio available.",
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: 'Futura3',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).buttonColor),
-                    ),
-                  ],
-                ),
-              ])),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).dividerColor,
+                          borderRadius: BorderRadius.circular(20.0))),
+                )
+              ],
             ),
-            InkWell(
-              onTap: () {
-                var chatId = '';
-                var myID = firebaseAuth.currentUser.uid;
-                var peerId = widget.peer.id;
-                if (myID.hashCode <= peerId.hashCode) {
-                  chatId = '$myID-$peerId';
-                } else {
-                  chatId = '$peerId-$myID';
-                }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                              receiver: widget.peer,
-                              chatId: chatId,
-                            )));
-              },
-              child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                    child: Text(
-                      'Message',
-                      style: TextStyle(
-                          fontFamily: "Futura3",
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.lightBlue[600]),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.lightBlue[600]),
-                      borderRadius: BorderRadius.circular(20.0))),
-            )
-          ],
+          ),
         ),
       ),
     );

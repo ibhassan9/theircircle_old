@@ -85,9 +85,9 @@ DatabaseReference usersDBref =
     FirebaseDatabase.instance.reference().child('users');
 
 Future signInUser(String email, String password, BuildContext context) async {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   await _firebaseMessaging.setAutoInitEnabled(true);
-  await _firebaseMessaging.deleteInstanceID();
+  await _firebaseMessaging.deleteToken();
   var token = await _firebaseMessaging.getToken();
   await firebaseAuth
       .signInWithEmailAndPassword(email: email, password: password)
@@ -650,17 +650,27 @@ Future<String> uploadImageToStorage(File file) async {
     final String storageId = (millSeconds.toString());
     final String today = ('$month-$date');
 
-    StorageReference ref = FirebaseStorage.instance
-        .ref()
-        .child("files")
-        .child(today)
-        .child(storageId);
-    StorageUploadTask uploadTask = ref.putFile(file);
+    FirebaseStorage storage = FirebaseStorage.instance;
 
-    var snapShot = await uploadTask.onComplete;
+    Reference ref = storage.ref().child('files').child(today).child(storageId);
+    UploadTask uploadTask = ref.putFile(file);
+    await uploadTask.then((res) async {
+      await res.ref.getDownloadURL().then((value) {
+        urlString = value;
+      });
+    });
 
-    var url = await snapShot.ref.getDownloadURL();
-    var urlString = url.toString();
+    // StorageReference ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child("files")
+    //     .child(today)
+    //     .child(storageId);
+    // StorageUploadTask uploadTask = ref.putFile(file);
+
+    // var snapShot = await uploadTask.onComplete;
+
+    // var url = await snapShot.ref.getDownloadURL();
+    // var urlString = url.toString();
 
     return urlString;
   } catch (error) {
@@ -742,7 +752,7 @@ Future<bool> unblock(String userId) async {
 }
 
 Future<List> getImageString() async {
-  String urlString;
+  var url;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -756,17 +766,27 @@ Future<List> getImageString() async {
     final f = await picker.getImage(source: ImageSource.gallery);
     var image = Image.file(File(f.path));
 
-    StorageReference ref = FirebaseStorage.instance
-        .ref()
-        .child("files")
-        .child(today)
-        .child(storageId);
-    var file = File(f.path);
-    StorageUploadTask uploadTask = ref.putFile(file);
+    FirebaseStorage storage = FirebaseStorage.instance;
 
-    var snapShot = await uploadTask.onComplete;
+    Reference ref = storage.ref().child('files').child(today).child(storageId);
+    UploadTask uploadTask = ref.putFile(File(f.path));
+    await uploadTask.then((res) async {
+      await res.ref.getDownloadURL().then((value) {
+        url = value;
+      });
+    });
 
-    var url = await snapShot.ref.getDownloadURL();
+    // StorageReference ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child("files")
+    //     .child(today)
+    //     .child(storageId);
+    // var file = File(f.path);
+    // StorageUploadTask uploadTask = ref.putFile(file);
+
+    // var snapShot = await uploadTask.onComplete;
+
+    // var url = await snapShot.ref.getDownloadURL();
 
     List lst = [url, image];
 
@@ -986,8 +1006,9 @@ Future<bool> updateProfile(
 //                         Center(
 //                             child: Text(
 //                           me.name == null ? "" : me.name,
-//                           style: GoogleFonts.poppins(
-//                             GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                           style: GoogleFonts.quicksand(
+//                             GoogleFonts.inter: TextStyle(
+//fontFamily: Constants.fontFamily,
 //                                 fontSize: 15,
 //                                 fontWeight: FontWeight.w500,
 //                                 color: Theme.of(context).accentColor),
@@ -1017,15 +1038,17 @@ Future<bool> updateProfile(
 //                                               me.bio == null || me.bio.isEmpty
 //                                                   ? Constants.dummyDescription
 //                                                   : me.bio,
-//                                           hintStyle: GoogleFonts.poppins(
-//                                             GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                           hintStyle: GoogleFonts.quicksand(
+//                                             GoogleFonts.inter: TextStyle(
+// fontFamily: Constants.fontFamily,
 //                                                 fontSize: 13,
 //                                                 fontWeight: FontWeight.w500,
 //                                                 color: Colors.grey.shade700),
 //                                           )),
 //                                       maxLines: null,
-//                                       style: GoogleFonts.poppins(
-//                                         GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                       style: GoogleFonts.quicksand(
+//                                         GoogleFonts.inter: TextStyle(
+//fontFamily: Constants.fontFamily,
 //                                             fontSize: 13,
 //                                             fontWeight: FontWeight.w500,
 //                                             color: Colors.grey.shade700),
@@ -1037,8 +1060,9 @@ Future<bool> updateProfile(
 //                                         ? "No bio available"
 //                                         : me.bio,
 //                                     textAlign: TextAlign.center,
-//                                     style: GoogleFonts.poppins(
-//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                     style: GoogleFonts.quicksand(
+//                                       GoogleFonts.inter: TextStyle(
+// fontFamily: Constants.fontFamily,
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
@@ -1073,8 +1097,9 @@ Future<bool> updateProfile(
 //                                                 : 'Block this user'
 //                                             : '',
 //                                         textAlign: TextAlign.center,
-//                                         style: GoogleFonts.poppins(
-//                                           GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                         style: GoogleFonts.quicksand(
+//                                           GoogleFonts.inter: TextStyle(
+//fontFamily: Constants.fontFamily,
 //                                               fontSize: 15,
 //                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.blue),
@@ -1107,8 +1132,9 @@ Future<bool> updateProfile(
 //                                       user.appear
 //                                           ? "Hide from 'Students on TheirCircle'"
 //                                           : "Appear on 'Students on TheirCircle'",
-//                                       style: GoogleFonts.poppins(
-//                                           GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                       style: GoogleFonts.quicksand(
+//                                           GoogleFonts.inter: TextStyle(
+//fontFamily: Constants.fontFamily,
 //                                               fontSize: 13,
 //                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.blue)))
@@ -1148,15 +1174,17 @@ Future<bool> updateProfile(
 //                                             ? "Insert Snapchat Handle"
 //                                             : "Snapchat Handle Unavailable"
 //                                         : me.snapchatHandle,
-//                                     hintStyle: GoogleFonts.poppins(
-//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                     hintStyle: GoogleFonts.quicksand(
+//                                       GoogleFonts.inter: TextStyle(
+// fontFamily: Constants.fontFamily,
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
-//                                 style: GoogleFonts.poppins(
-//                                   GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                 style: GoogleFonts.quicksand(
+//                                   GoogleFonts.inter: TextStyle(
+//fontFamily: Constants.fontFamily,
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: Theme.of(context).accentColor),
@@ -1191,15 +1219,17 @@ Future<bool> updateProfile(
 //                                             ? "Insert Instagram Handle"
 //                                             : "Instagram Handle Unavailable"
 //                                         : me.instagramHandle,
-//                                     hintStyle: GoogleFonts.poppins(
-//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                     hintStyle: GoogleFonts.quicksand(
+//                                       GoogleFonts.inter: TextStyle(
+// fontFamily: Constants.fontFamily,
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
-//                                 style: GoogleFonts.poppins(
-//                                   GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                 style: GoogleFonts.quicksand(
+//                                   GoogleFonts.inter: TextStyle(
+//  fontFamily: Constants.fontFamily,
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: Theme.of(context).accentColor),
@@ -1234,15 +1264,17 @@ Future<bool> updateProfile(
 //                                             ? "Insert LinkedIn Handle"
 //                                             : "LinkedIn Handle Unavailable"
 //                                         : me.linkedinHandle,
-//                                     hintStyle: GoogleFonts.poppins(
-//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                     hintStyle: GoogleFonts.quicksand(
+//                                       GoogleFonts.inter: TextStyle(
+//  fontFamily: Constants.fontFamily,
 //                                           fontSize: 13,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Theme.of(context).accentColor),
 //                                     )),
 //                                 maxLines: null,
-//                                 style: GoogleFonts.poppins(
-//                                   GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                 style: GoogleFonts.quicksand(
+//                                   GoogleFonts.inter: TextStyle(
+//  fontFamily: Constants.fontFamily,
 //                                       fontSize: 13,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: Theme.of(context).accentColor),
@@ -1286,8 +1318,9 @@ Future<bool> updateProfile(
 //                                       SizedBox(width: 10.0),
 //                                       Text(
 //                                         "Send a message",
-//                                         style: GoogleFonts.poppins(
-//                                           GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                         style: GoogleFonts.quicksand(
+//                                           GoogleFonts.inter: TextStyle(
+// fontFamily: Constants.fontFamily,
 //                                               fontSize: 15,
 //                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.white),
@@ -1337,8 +1370,9 @@ Future<bool> updateProfile(
 //                                 child: Center(
 //                                   child: Text(
 //                                     "Update Profile",
-//                                     style: GoogleFonts.poppins(
-//                                       GoogleFonts.quicksand: GoogleFonts.quicksand(
+//                                     style: GoogleFonts.quicksand(
+//                                       GoogleFonts.inter: TextStyle(
+//  fontFamily: Constants.fontFamily,
 //                                           fontSize: 15,
 //                                           fontWeight: FontWeight.w500,
 //                                           color: Colors.white),

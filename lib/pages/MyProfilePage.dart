@@ -459,7 +459,7 @@ class _MyProfilePageState extends State<MyProfilePage>
       child: ChoiceChip(
         selectedColor: Colors.grey,
         label: Text(
-          '+ Add Interest',
+          '+ Add interest',
           style: GoogleFonts.quicksand(
               fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
         ),

@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/CameraScreen.dart';
@@ -68,35 +69,65 @@ class _VideosPageState extends State<VideosPage> {
           brightness: Brightness.dark,
           elevation: 0.0,
           iconTheme: IconThemeData(color: Colors.white),
-          leading: IconButton(
-            icon: Icon(FlutterIcons.photo_album_mdi, color: Colors.white),
-            onPressed: () async {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyLibrary()));
-            },
+          // leading: IconButton(
+          //   icon: Icon(FlutterIcons.photo_album_mdi, color: Colors.white),
+          //   onPressed: () async {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => MyLibrary()));
+          //   },
+          // ),
+          leadingWidth: 50,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyLibrary()));
+              },
+              child: CircleAvatar(
+                radius: 20.0,
+                backgroundColor: Colors.grey.withOpacity(0.4),
+                child: Icon(FlutterIcons.library_books_mco,
+                    color: Colors.white, size: 20.0),
+              ),
+            ),
           ),
           title: InkWell(
             onTap: () {
               refresh();
             },
-            child: Text("EXPLORE",
-                style: TextStyle(
-                    fontFamily: "Futura",
+            child: Text("Explore",
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w900,
                     color: Colors.white)),
           ),
           actions: [
-            IconButton(
-              icon: Icon(FlutterIcons.video_camera_faw, color: Colors.white),
-              onPressed: () async {
-                await selectVideo();
-              },
+            // IconButton(
+            //   icon: Icon(FlutterIcons.video_camera_faw, color: Colors.white),
+            //   onPressed: () async {
+            //     await selectVideo();
+            //   },
+            // )
+
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: InkWell(
+                onTap: () async {
+                  await selectVideo();
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey.withOpacity(0.4),
+                  radius: 20.0,
+                  child: Icon(FlutterIcons.plus_circle_outline_mco,
+                      color: Colors.white, size: 20.0),
+                ),
+              ),
             )
           ],
         ),
         extendBodyBehindAppBar: true,
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Colors.black,
         body: RefreshIndicator(
             onRefresh: refresh,
             child: StreamBuilder(
@@ -113,7 +144,7 @@ class _VideosPageState extends State<VideosPage> {
                           scrollDirection: Axis.vertical,
                           height: MediaQuery.of(context).size.height),
                       itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
+                      itemBuilder: (context, index, index1) {
                         Video video = videos[index];
                         var timeAgo = new DateTime.fromMillisecondsSinceEpoch(
                             video.timeStamp);

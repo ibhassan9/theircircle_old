@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/SearchUserWidget.dart';
 
@@ -33,43 +34,77 @@ class _UserSearchPageState extends State<UserSearchPage>
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0.5,
-          centerTitle: true,
+          elevation: 0,
+          centerTitle: false,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Unicon(UniconData.uniArrowLeft,
-                  color: Theme.of(context).accentColor),
+          // leading: InkWell(
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(left: 10.0),
+          //     child: Unicon(UniconData.uniArrowLeft,
+          //         color: Theme.of(context).accentColor),
+          //   ),
+          // ),
+          leading: Container(),
+          leadingWidth: 0,
+          title: Container(
+            height: 40,
+            decoration: BoxDecoration(
+                color: Theme.of(context).dividerColor,
+                borderRadius: BorderRadius.circular(20)),
+            child: Row(
+              children: [
+                SizedBox(width: 10.0),
+                Icon(FlutterIcons.search_fea,
+                    size: 20.0, color: Theme.of(context).accentColor),
+                Flexible(
+                  child: TextField(
+                    textInputAction: TextInputAction.done,
+                    controller: searchingController,
+                    onChanged: (value) {
+                      setState(() {
+                        filter = value;
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(
+                            left: 10, bottom: 11.5, top: 11, right: 15),
+                        hintText: "Search"),
+                    style: GoogleFonts.quicksand(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).accentColor),
+                  ),
+                ),
+              ],
             ),
           ),
-          leadingWidth: 35,
-          title: TextField(
-            textInputAction: TextInputAction.done,
-            controller: searchingController,
-            onChanged: (value) {
-              setState(() {
-                filter = value;
-              });
-            },
-            decoration: new InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                contentPadding:
-                    EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                hintText: "Search students..."),
-            style: TextStyle(
-                fontFamily: "Futura3",
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).accentColor),
-          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+              child: Center(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).accentColor.withOpacity(0.7)),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -98,7 +133,8 @@ class _UserSearchPageState extends State<UserSearchPage>
             //             contentPadding: EdgeInsets.only(
             //                 left: 15, bottom: 11, top: 11, right: 15),
             //             hintText: "Search students..."),
-            //         style: GoogleFonts.quicksand(
+            //         style: TextStyle(
+            // fontFamily: Constants.fontFamily,
             //             fontSize: 15,
             //             fontWeight: FontWeight.w500,
             //             color: Theme.of(context).accentColor),

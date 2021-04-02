@@ -12,8 +12,7 @@ class ShareFeelingPage extends StatelessWidget {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "How are you feeling today?",
-          style: TextStyle(
-              fontFamily: "Futura1",
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -49,8 +48,7 @@ class ShareFeelingPage extends StatelessWidget {
                       children: [
                         Text(
                           '$emoji',
-                          style: TextStyle(
-                              fontFamily: "Medium",
+                          style: GoogleFonts.quicksand(
                               color: Colors.white,
                               fontSize: 25,
                               fontWeight: FontWeight.bold),

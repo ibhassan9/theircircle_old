@@ -6,6 +6,7 @@ import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/product.dart';
 
@@ -142,7 +143,7 @@ class _SellProductPageState extends State<SellProductPage> {
         child: Container(
           height: 60,
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Colors.teal,
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: Center(

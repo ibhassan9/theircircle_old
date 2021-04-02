@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/Suggestions/SuggestionLoading.dart';
 
@@ -24,9 +25,8 @@ class _InitialSuggestionsPageState extends State<InitialSuggestionsPage> {
             Center(
               child: Text(
                 'What are you looking for?',
-                style: TextStyle(
-                    fontFamily: "Futura3",
-                    color: Theme.of(context).accentColor),
+                style:
+                    GoogleFonts.quicksand(color: Theme.of(context).accentColor),
               ),
             ),
             SizedBox(height: 10.0),
@@ -81,8 +81,7 @@ class _InitialSuggestionsPageState extends State<InitialSuggestionsPage> {
                             : type == 2
                                 ? 'Food'
                                 : 'Activities/Games',
-                    style:
-                        TextStyle(fontFamily: "Futura3", color: Colors.white),
+                    style: GoogleFonts.quicksand(color: Colors.white),
                   ),
                 ],
               ),

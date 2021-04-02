@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:unify/Components/Constants.dart';
@@ -58,10 +59,15 @@ class _MyMatchesPageState extends State<MyMatchesPage>
               child: InkWell(
                   onTap: () {
                     Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserSearchPage()))
-                        .then((value) {});
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            child: UserSearchPage()));
+                    // Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => UserSearchPage()))
+                    //     .then((value) {});
                   },
                   child: CircleAvatar(
                       backgroundColor:
@@ -86,14 +92,13 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                         Theme.of(context).buttonColor.withOpacity(0.05),
                     radius: 25.0,
                     child: Icon(Feather.home,
-                        size: 20.0, color: Colors.deepPurpleAccent))),
+                        size: 20.0, color: Theme.of(context).accentColor))),
           ),
           leadingWidth: 50.0,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
             "Chat",
-            style: TextStyle(
-                fontFamily: "Futura3",
+            style: GoogleFonts.quicksand(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
@@ -219,9 +224,9 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                           seen: chat.seen,
                                           lastMessageSenderId:
                                               chat.lastMessageSenderId),
-                                      Divider(
-                                          color: Theme.of(context).dividerColor,
-                                          thickness: 0.5)
+                                      // Divider(
+                                      //     color: Theme.of(context).dividerColor,
+                                      //     thickness: 0.5)
                                       // Padding(
                                       //   padding: const EdgeInsets.all(8.0),
                                       //   child: Divider(),
@@ -337,8 +342,9 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //               ),
                   //               SizedBox(width: 10),
                   //               Text("You haven't started any conversations yet :(",
-                  //                   style: GoogleFonts.poppins(
-                  //                     GoogleFonts.quicksand: GoogleFonts.quicksand(
+                  //                   style: GoogleFonts.quicksand(
+                  //                     GoogleFonts.overpass: TextStyle(
+                  // fontFamily: Constants.fontFamily,
                   //                         fontSize: 14,
                   //                         fontWeight: FontWeight.w500,
                   //                         color: Colors.grey),
@@ -360,8 +366,9 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //                 ),
                   //                 SizedBox(width: 10),
                   //                 Text("You haven't started any conversations yet :(",
-                  //                     style: GoogleFonts.poppins(
-                  //                       GoogleFonts.quicksand: GoogleFonts.quicksand(
+                  //                     style: GoogleFonts.quicksand(
+                  //                       GoogleFonts.overpass: TextStyle(
+                  //   fontFamily: Constants.fontFamily,
                   //                           fontSize: 14,
                   //                           fontWeight: FontWeight.w500,
                   //                           color: Colors.grey),

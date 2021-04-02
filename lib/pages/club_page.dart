@@ -47,8 +47,7 @@ class _ClubPageState extends State<ClubPage> {
             children: [
               Text(
                 widget.club.name,
-                style: TextStyle(
-                    fontFamily: "Futura1",
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),

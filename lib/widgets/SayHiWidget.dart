@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 
 class SayHiWidget extends StatefulWidget {
@@ -25,12 +26,12 @@ class _SayHiWidgetState extends State<SayHiWidget>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(FlutterIcons.nature_people_mdi,
-                  color: Theme.of(context).accentColor, size: 40),
+                  color: Theme.of(context).accentColor, size: 30),
               SizedBox(height: 15.0),
               Text("Need an opener? A simple 'hey' can go a long way!",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
-                      fontSize: 15,
+                      fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor))
             ],

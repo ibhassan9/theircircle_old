@@ -12,6 +12,7 @@ import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
@@ -42,13 +43,23 @@ class _RoomInfoPageState extends State<RoomInfoPage>
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
-        title: Text(widget.room.isAdmin ? 'Manage Room' : 'Room Info',
-            style: TextStyle(
-                fontFamily: "Futura1",
+        title: Text(widget.room.isAdmin ? 'Manage' : 'Room Info',
+            style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.w700,
-                fontSize: 14.0,
+                fontSize: 16.0,
                 color: Theme.of(context).accentColor)),
         actions: [
+          Visibility(
+            visible:
+                widget.room.adminId == FirebaseAuth.instance.currentUser.uid,
+            child: IconButton(
+              icon: Unicon(UniconData.uniEdit,
+                  color: Theme.of(context).accentColor),
+              onPressed: () {
+                startEditing();
+              },
+            ),
+          ),
           Visibility(
             visible:
                 FirebaseAuth.instance.currentUser.uid == widget.room.adminId,
@@ -97,43 +108,45 @@ class _RoomInfoPageState extends State<RoomInfoPage>
         child: ListView(
           physics: AlwaysScrollableScrollPhysics(),
           children: [
-            Visibility(
-              visible: widget.room.inRoom == false &&
-                  widget.room.adminId != FirebaseAuth.instance.currentUser.uid,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      gradient:
-                          LinearGradient(colors: [Colors.purple, Colors.pink])),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        "Don't miss out! Join this room.",
-                        textAlign: TextAlign.center,
-                        maxLines: null,
-                        style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w500, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Text('INFO',
-                style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0,
-                    color: Theme.of(context).accentColor)),
-            SizedBox(height: 20.0),
+            // Visibility(
+            //   visible: widget.room.inRoom == false &&
+            //       widget.room.adminId != FirebaseAuth.instance.currentUser.uid,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(bottom: 25.0),
+            //     child: Container(
+            //       decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.circular(5.0),
+            //           gradient:
+            //               LinearGradient(colors: [Colors.purple, Colors.pink])),
+            //       child: Center(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(15.0),
+            //           child: Text(
+            //             "Don't miss out! Join this room.",
+            //             textAlign: TextAlign.center,
+            //             maxLines: null,
+            //             style: TextStyle(
+            //fontFamily: Constants.fontFamily,
+            //                 fontWeight: FontWeight.w500, color: Colors.white),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Text('INFO',
+            //     style: GoogleFonts.quicksand(
+            //         fontWeight: FontWeight.w500,
+            //         fontSize: 16.0,
+            //         color: Theme.of(context).accentColor)),
+            // SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
                   child: Container(
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         InkWell(
                           onTap: () async {
@@ -151,36 +164,40 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                             }
                           },
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(30),
                             child: imag != null && f != null
                                 ? Image.file(f,
-                                    width: 50, height: 50, fit: BoxFit.cover)
+                                    width: 60, height: 60, fit: BoxFit.cover)
                                 : CachedNetworkImage(
                                     imageUrl: widget.room.imageUrl,
-                                    width: 50,
-                                    height: 50,
+                                    width: 60,
+                                    height: 60,
                                     fit: BoxFit.cover,
                                   ),
                           ),
                         ),
-                        SizedBox(width: 15.0),
-                        Flexible(
+                        SizedBox(height: 10.0),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(widget.room.name,
-                                  maxLines: 1,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontFamily: "Futura1",
-                                      fontSize: 13.0,
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).accentColor)),
+                              SizedBox(height: 5.0),
                               Text(widget.room.description,
                                   maxLines: 4,
+                                  textAlign: TextAlign.center,
                                   style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 13.0,
+                                      fontSize: 14.0,
                                       color: Theme.of(context).buttonColor)),
                             ],
                           ),
@@ -189,17 +206,6 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: widget.room.adminId ==
-                      FirebaseAuth.instance.currentUser.uid,
-                  child: IconButton(
-                    icon: Unicon(UniconData.uniEdit,
-                        color: Theme.of(context).accentColor),
-                    onPressed: () {
-                      startEditing();
-                    },
-                  ),
-                )
               ],
             ),
             SizedBox(height: 25.0),
@@ -260,10 +266,9 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                                         .currentUser.uid
                                                 ? 'You'
                                                 : user.name,
-                                            style: TextStyle(
-                                                fontFamily: "Futura1",
+                                            style: GoogleFonts.quicksand(
                                                 fontWeight: FontWeight.w700,
-                                                fontSize: 13.0,
+                                                fontSize: 14.0,
                                                 color: Theme.of(context)
                                                     .accentColor)),
                                         Text(
@@ -284,9 +289,8 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                             ),
                             widget.room.adminId == user.id
                                 ? Text('Admin',
-                                    style: TextStyle(
-                                      fontFamily: "Futura1",
-                                    ))
+                                    style: GoogleFonts.quicksand(
+                                        fontWeight: FontWeight.w700))
                                 : widget.room.adminId ==
                                         FirebaseAuth.instance.currentUser.uid
                                     ? IconButton(
@@ -313,51 +317,52 @@ class _RoomInfoPageState extends State<RoomInfoPage>
             SizedBox(
               height: 20.0,
             ),
-            InkWell(
-              onTap: () async {
-                if (widget.room.inRoom) {
-                  Room.leave(roomId: widget.room.id).then((value) {
-                    if (value) {
-                      setState(() {
-                        widget.room.inRoom = false;
-                        widget.room.members.removeWhere((element) =>
-                            element.id ==
-                            FirebaseAuth.instance.currentUser.uid);
-                        Navigator.pop(context);
-                        Navigator.pop(context, true);
-                      });
-                    }
-                  });
-                } else {
-                  Room.join(roomId: widget.room.id).then((value) async {
-                    if (value) {
-                      await getUser(FirebaseAuth.instance.currentUser.uid)
-                          .then((user) {
-                        setState(() {
-                          widget.room.inRoom = true;
-                          widget.room.members.add(user);
-                        });
-                      });
-                    }
-                  });
-                }
-              },
-              child: Text(
-                  widget.room.inRoom == false &&
-                          widget.room.adminId !=
-                              FirebaseAuth.instance.currentUser.uid
-                      ? 'Join Room'
-                      : widget.room.inRoom
-                          ? widget.room.adminId !=
-                                  FirebaseAuth.instance.currentUser.uid
-                              ? 'Leave Room'
-                              : ''
-                          : '',
-                  style: GoogleFonts.quicksand(
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red)),
-            ),
+            // InkWell(
+            //   onTap: () async {
+            //     if (widget.room.inRoom) {
+            //       Room.leave(roomId: widget.room.id).then((value) {
+            //         if (value) {
+            //           setState(() {
+            //             widget.room.inRoom = false;
+            //             widget.room.members.removeWhere((element) =>
+            //                 element.id ==
+            //                 FirebaseAuth.instance.currentUser.uid);
+            //             Navigator.pop(context);
+            //             Navigator.pop(context, true);
+            //           });
+            //         }
+            //       });
+            //     } else {
+            //       Room.join(roomId: widget.room.id).then((value) async {
+            //         if (value) {
+            //           await getUser(FirebaseAuth.instance.currentUser.uid)
+            //               .then((user) {
+            //             setState(() {
+            //               widget.room.inRoom = true;
+            //               widget.room.members.add(user);
+            //             });
+            //           });
+            //         }
+            //       });
+            //     }
+            //   },
+            //   child: Text(
+            //       widget.room.inRoom == false &&
+            //               widget.room.adminId !=
+            //                   FirebaseAuth.instance.currentUser.uid
+            //           ? 'Join Room'
+            //           : widget.room.inRoom
+            //               ? widget.room.adminId !=
+            //                       FirebaseAuth.instance.currentUser.uid
+            //                   ? 'Leave Room'
+            //                   : ''
+            //               : '',
+            //       style: TextStyle(
+            //  fontFamily: Constants.fontFamily,
+            //           fontSize: 13.0,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.red)),
+            // ),
           ],
         ),
       ),
@@ -428,7 +433,8 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     decoration: new InputDecoration(
                         // suffix: Text(
                         //   clength.toString(),
-                        //   style: GoogleFonts.quicksand(color: clength < 0 ? Colors.red : Colors.grey),
+                        //   style: TextStyle(
+                        //fontFamily: Constants.fontFamily,color: clength < 0 ? Colors.red : Colors.grey),
                         // ),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -458,7 +464,8 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     decoration: new InputDecoration(
                         // suffix: Text(
                         //   clength.toString(),
-                        //   style: GoogleFonts.quicksand(color: clength < 0 ? Colors.red : Colors.grey),
+                        //   style: TextStyle(
+                        //fontFamily: Constants.fontFamily,color: clength < 0 ? Colors.red : Colors.grey),
                         // ),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -620,6 +627,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                         .removeWhere((element) => element.id == user.id);
                     members.removeWhere((element) => element.id == user.id);
                   });
+                  Navigator.pop(context);
                 }
               }),
           CupertinoActionSheetAction(
@@ -667,7 +675,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                 Room.delete(id: widget.room.id).then((value) {
                   Navigator.pop(context);
                   Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 });
               }),
           CupertinoActionSheetAction(

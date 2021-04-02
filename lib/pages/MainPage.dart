@@ -21,13 +21,16 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Components/theme.dart';
 import 'package:unify/Components/theme_notifier.dart';
+import 'package:unify/Models/room.dart';
 import 'package:unify/pages/CameraScreen.dart';
 import 'package:unify/pages/CreateRoom.dart';
 import 'package:unify/pages/MatchPage.dart';
 import 'package:unify/pages/MyProfilePage.dart';
+import 'package:unify/pages/MyReferral.dart';
 import 'package:unify/pages/NotificationsPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/pages/Rooms.dart';
+import 'package:unify/pages/TodaysQuestionPage.dart';
 import 'package:unify/pages/UserSearchPage.dart';
 import 'package:unify/pages/VideosPage.dart';
 import 'package:unify/pages/clubs_page.dart';
@@ -35,6 +38,8 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/courses_page.dart';
 import 'package:unify/pages/FilterPage.dart';
 import 'package:unify/widgets/CalendarWidget.dart';
+import 'package:unify/widgets/CompleteProfileWidget.dart';
+import 'package:unify/widgets/CreateRoomButtonMain.dart';
 import 'package:unify/widgets/PostWidget.dart';
 import 'package:unify/Widgets/MenuWidget.dart';
 import 'package:unify/Models/news.dart';
@@ -49,6 +54,7 @@ import 'package:unify/pages/UserPage.dart';
 import 'package:unify/Widgets/UserWidget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/pages/WebPage.dart';
+import 'package:unify/widgets/RoomWidgetMain.dart';
 import 'package:unify/widgets/TodaysQuestionWidget.dart';
 import 'package:unify/widgets/WelcomeWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -79,12 +85,14 @@ class _MainPageState extends State<MainPage>
   Future<List<Post>> _postFuture;
   Future<List<u.PostUser>> _userFuture;
   Future<String> _questionFuture;
+  Future<List<Room>> _roomFuture;
   int sortBy = 0;
   String imgUrl;
+  bool doneLoading = true;
 
   Stream<Event> notificationStream;
 
-  Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.purple]);
+  Gradient gradient = LinearGradient(colors: [Colors.teal, Colors.blue]);
   Gradient gradient1 =
       LinearGradient(colors: [Colors.purple, Colors.pink, Colors.blue]);
 
@@ -97,420 +105,413 @@ class _MainPageState extends State<MainPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    //final themeNotifier = Provider.of<ThemeNotifier>(context);
-    //_darkTheme = (themeNotifier.getTheme() == darkTheme);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: true,
-// ShaderMask(
-//           shaderCallback: (bounds) => gradient.createShader(
-//             Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-//           ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              Constants.checkUniversity() == 0
-                  ? 'University of Toronto'
-                  : Constants.checkUniversity() == 1
-                      ? "York University"
-                      : "Western University",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).accentColor),
-            ),
-            //Icon(FlutterIcons.arrow_drop_down_mdi)
-          ],
-        ),
-        // leading: Padding(
-        //   padding: const EdgeInsets.only(left: 8.0),
-        //   child: notifications(),
-        // ),
-        // leading: Padding(
-        //   padding: const EdgeInsets.only(left: 10.0),
-        //   child: InkWell(
-        //     onTap: () {
-        //       Navigator.push(context,
-        //               MaterialPageRoute(builder: (context) => FilterPage()))
-        //           .then((value) {
-        //         if (value == false) {
-        //           return;
-        //         }
-        //         setState(() {
-        //           _postFuture = fetchPosts(sortBy);
-        //         });
-        //       });
-        //     },
-        //     child: Unicon(UniconData.uniFilter,
-        //         color: Theme.of(context).accentColor, size: 20.0),
-        //   ),
-        // ),
-        // title: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     ShaderMask(
-        //       shaderCallback: (bounds) => gradient.createShader(
-        //         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-        //       ),
-        //       child: Text(
-        //         "TheirCircle",
-        //         style: GoogleFonts.pacifico(
-        //           GoogleFonts.quicksand: GoogleFonts.quicksand(
-        //               fontSize: 25,
-        //               fontWeight: FontWeight.w800,
-        //               color: Colors.white),
-        //         ),
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        leading: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: InkWell(
-                onTap: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => UserSearchPage()));
-                },
-                child: CircleAvatar(
-                  radius: 18.0,
-                  backgroundColor:
-                      Theme.of(context).accentColor.withOpacity(0.05),
-                  child: notifications(),
-                  // child: Unicon(UniconData.uniUser,
-                  //     size: 20.0, color: Theme.of(context).accentColor),
-                ),
-              ),
-            ),
-            // SizedBox(width: 5.0),
-            // InkWell(
-            //   onTap: () {
-            //     showMaterialModalBottomSheet(
-            //         context: context, builder: (context) => FilterPage());
-            //     // Navigator.push(context,
-            //     //     MaterialPageRoute(builder: (context) => UserSearchPage()));
-            //   },
-            //   child: CircleAvatar(
-            //     radius: 18.0,
-            //     backgroundColor:
-            //         Theme.of(context).accentColor.withOpacity(0.05),
-            //     child: Unicon(UniconData.uniFilter,
-            //         size: 20.0, color: Theme.of(context).accentColor),
-            //   ),
-            // ),
-          ],
-        ),
-        actions: <Widget>[
-          // InkWell(
-          //   onTap: () {
-          //     showMaterialModalBottomSheet(
-          //         context: context, builder: (context) => UserSearchPage());
-          //   },
-          //   child: CircleAvatar(
-          //     radius: 18.0,
-          //     backgroundColor: Theme.of(context).accentColor.withOpacity(0.05),
-          //     child:
-          //         Unicon(UniconData.uniSearch, size: 20.0, color: Colors.pink),
-          //   ),
-          // ),
-          // IconButton(
-          //   icon: Icon(FlutterIcons.video_library_mdi,
-          //       color: Theme.of(context).accentColor),
-          //   onPressed: () {
-          //     Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => VideosPage()));
-          //   },
-          // ),
-          // IconButton(
-          //   icon: Unicon(UniconData.uniSearch,
-          //       size: 25.0, color: Theme.of(context).accentColor),
-          //   onPressed: () {
-          //     Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => UserSearchPage()));
-          //   },
-          // ),
-
-          // IconButton(
-          //   icon: Icon(FlutterIcons.filter_outline_mco,
-          //       color: Theme.of(context).accentColor),
-          //   onPressed: () {
-          //     Navigator.push(context,
-          //             MaterialPageRoute(builder: (context) => FilterPage()))
-          //         .then((value) {
-          //       if (value == false) {
-          //         return;
-          //       }
-          //       setState(() {
-          //         _postFuture = fetchPosts(sortBy);
-          //       });
-          //     });
-          //   },
-          // ),
-
-          //notifications(),
-          SizedBox(width: 5.0),
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: InkWell(
-              onTap: () {
-                widget.goToChat();
-              },
-              child: CircleAvatar(
-                radius: 18.0,
-                backgroundColor:
-                    Theme.of(context).accentColor.withOpacity(0.05),
-                child:
-                    Unicon(UniconData.uniChat, size: 20.0, color: Colors.blue),
-              ),
-            ),
-          ),
-
-          // IconButton(
-          //   icon: Unicon(UniconData.uniChat,
-          //       size: 25.0, color: Theme.of(context).accentColor),
-          //   onPressed: () {
-          //     widget.goToChat();
-          //   },
-          // )
-
-          // IconButton(
-          //   icon: Icon(AntDesign.logout,
-          //       color: Theme.of(context).accentColor, size: 20),
-          //   onPressed: () async {
-          //     callLogout();
-          //   },
-          // )
-        ],
-        elevation: 1.0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).backgroundColor,
+      //   centerTitle: false,
+      //   title: Row(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: [
+      //       Text("theircircle",
+      //           textAlign: TextAlign.center,
+      //           style: TextStyle(
+      //               fontFamily: 'Avenir Next',
+      //               color: Colors.blue,
+      //               fontSize: 25,
+      //               fontWeight: FontWeight.w700)),
+      //     ],
+      //   ),
+      //   actions: <Widget>[],
+      //   elevation: 1.0,
+      // ),
       backgroundColor: Theme.of(context).backgroundColor,
-      body: RefreshIndicator(
-        onRefresh: refresh,
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0)),
-          child: Container(
-            color: Theme.of(context).backgroundColor,
-            height: MediaQuery.of(context).size.height,
-            child: ListView(
-              children: <Widget>[
-                // Container(
-                //   height: 100,
-                //   child: getStories(),
-                // ),
-                WelcomeWidget(),
-                questionWidget(),
-                Container(
-                  color: Theme.of(context).dividerColor,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
-                    child: Row(
+      body: Stack(
+        children: [
+          NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                new SliverAppBar(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  title: new Text("TheirCircle",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.pacifico(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500)),
+                  pinned: false,
+                  floating: true,
+                  snap: true,
+                  forceElevated: innerBoxIsScrolled,
+                  actions: [
+                    Row(
                       children: [
-                        Unicon(UniconData.uniSortAmountUp,
-                            size: 20.0, color: Colors.grey.shade600),
-                        SizedBox(width: 5.0),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (sortBy == 0) {
-                                sortBy = 1;
-                              } else {
-                                sortBy = 0;
-                              }
-                              _postFuture = fetchPosts(sortBy);
-                            });
-                          },
-                          child: Text(
-                            "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
-                                .toUpperCase(),
-                            style: GoogleFonts.quicksand(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.grey.shade600),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: InkWell(
+                            onTap: () {
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => UserSearchPage()));
+                            },
+                            child: CircleAvatar(
+                              radius: 18.0,
+                              backgroundColor: Theme.of(context)
+                                  .accentColor
+                                  .withOpacity(0.05),
+                              child: notifications(),
+                              // child: Unicon(UniconData.uniUser,
+                              //     size: 20.0, color: Theme.of(context).accentColor),
+                            ),
                           ),
                         ),
-                        SizedBox(width: 5.0),
-                        Unicon(UniconData.uniArrowDown,
-                            size: 20.0, color: Colors.grey.shade600),
+                      ],
+                    ),
+                    SizedBox(width: 5.0),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15.0),
+                      child: InkWell(
+                        onTap: () {
+                          widget.goToChat();
+                        },
+                        child: CircleAvatar(
+                          radius: 18.0,
+                          backgroundColor:
+                              Theme.of(context).accentColor.withOpacity(0.05),
+                          child: Unicon(UniconData.uniChat,
+                              size: 20.0, color: Colors.blue),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ];
+            },
+            body: Visibility(
+              visible: doneLoading == true,
+              child: RefreshIndicator(
+                onRefresh: refresh,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(0.0),
+                      bottomRight: Radius.circular(0.0)),
+                  child: Container(
+                    color: Theme.of(context).backgroundColor,
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView(
+                      padding: const EdgeInsets.all(0),
+                      children: <Widget>[
+                        // Container(
+                        //   height: 100,
+                        //   child: getStories(),
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+                          child: WelcomeWidget(
+                            create: () {
+                              // await noti.sendNewQuestionToAll();
+                              showBarModalBottomSheet(
+                                      context: context,
+                                      expand: true,
+                                      builder: (context) => PostPage())
+                                  .then((refresh) {
+                                if (refresh == false) {
+                                  return;
+                                }
+                                setState(() {
+                                  _postFuture = fetchPosts(sortBy);
+                                });
+                              });
+                            },
+                            answerQuestion: () async {
+                              var question = await _questionFuture;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TodaysQuestionPage(
+                                          question: question))).then((value) {
+                                if (value == false) {
+                                  return;
+                                }
+                                refresh();
+                              });
+                            },
+                            startRoom: () => print("test"),
+                          ),
+                        ),
+                        questionWidget(),
+                        Container(
+                          color: Theme.of(context).dividerColor,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
+                            child: Row(
+                              children: [
+                                Unicon(UniconData.uniSortAmountUp,
+                                    size: 20.0, color: Colors.grey.shade600),
+                                SizedBox(width: 5.0),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      if (sortBy == 0) {
+                                        sortBy = 1;
+                                      } else {
+                                        sortBy = 0;
+                                      }
+                                      _postFuture = fetchPosts(sortBy);
+                                    });
+                                  },
+                                  child: Text(
+                                    "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                                        .toUpperCase(),
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.grey.shade600),
+                                  ),
+                                ),
+                                SizedBox(width: 5.0),
+                                Unicon(UniconData.uniArrowDown,
+                                    size: 20.0, color: Colors.grey.shade600),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Text('Rooms', style: TextStyle(
+                        //fontFamily: 'Helvetica Neue',)),
+                        //       InkWell(
+                        //         onTap: () {
+                        //           Navigator.push(context,
+                        //               MaterialPageRoute(builder: (context) => Rooms()));
+                        //         },
+                        //         child: Row(
+                        //           crossAxisAlignment: CrossAxisAlignment.center,
+                        //           children: [
+                        //             Text('See All',
+                        //                 style: TextStyle(
+                        //fontFamily: 'Helvetica Neue',
+                        //                     fontSize: 12,
+                        //                     color: Theme.of(context).buttonColor)),
+                        //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
+                          child: Text('Live Rooms',
+                              style: GoogleFonts.quicksand(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        rooms(),
+                        promoWidget(),
+                        //WelcomeWidget(),
+                        //questionWidget(),
+                        // Padding(
+                        //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
+                        //   child: Text(
+                        //     "Recent University News".toUpperCase(),
+                        //     style: TextStyle(
+                        //         fontFamily: 'Helvetica Neue',
+                        //         fontSize: 13,
+                        //         fontWeight: FontWeight.w600,
+                        //         color: Theme.of(context).accentColor),
+                        //   ),
+                        // ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
+                          child: Text('Latest Articles',
+                              style: GoogleFonts.quicksand(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        newsListWidget(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Container(
+                            color: Theme.of(context).dividerColor,
+                            height: 8.0,
+                          ),
+                        ),
+                        //Divider(),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(15),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Text(
+                        //         "Campus Feed",
+                        //         style: TextStyle(
+                        //fontFamily: 'Helvetica Neue',
+                        //             fontSize: 13,
+                        //             fontWeight: FontWeight.w500,
+                        //             color: Theme.of(context).accentColor),
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () {
+                        //           setState(() {
+                        //             if (sortBy == 0) {
+                        //               sortBy = 1;
+                        //             } else {
+                        //               sortBy = 0;
+                        //             }
+                        //             _postFuture = fetchPosts(sortBy);
+                        //           });
+                        //         },
+                        //         child: Text(
+                        //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                        //           style: TextStyle(
+                        //fontFamily: 'Helvetica Neue',
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w800,
+                        //               color: Colors.grey.shade600),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        //Divider(),
+                        postWidget()
                       ],
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text('Rooms', style: GoogleFonts.quicksand()),
-                //       InkWell(
-                //         onTap: () {
-                //           Navigator.push(context,
-                //               MaterialPageRoute(builder: (context) => Rooms()));
-                //         },
-                //         child: Row(
-                //           crossAxisAlignment: CrossAxisAlignment.center,
-                //           children: [
-                //             Text('See All',
-                //                 style: GoogleFonts.quicksand(
-                //                     fontSize: 12,
-                //                     color: Theme.of(context).buttonColor)),
-                //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // rooms(),
-                promoWidget(),
-                //WelcomeWidget(),
-                //questionWidget(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                  child: Text(
-                    "Recent University News".toUpperCase(),
-                    style: GoogleFonts.quicksand(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).accentColor),
-                  ),
-                ),
-                newsListWidget(),
-                //Divider(),
-                // Padding(
-                //   padding: const EdgeInsets.all(15),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         "Campus Feed",
-                //         style: GoogleFonts.quicksand(
-                //             fontSize: 13,
-                //             fontWeight: FontWeight.w500,
-                //             color: Theme.of(context).accentColor),
-                //       ),
-                //       InkWell(
-                //         onTap: () {
-                //           setState(() {
-                //             if (sortBy == 0) {
-                //               sortBy = 1;
-                //             } else {
-                //               sortBy = 0;
-                //             }
-                //             _postFuture = fetchPosts(sortBy);
-                //           });
-                //         },
-                //         child: Text(
-                //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                //           style: GoogleFonts.quicksand(
-                //               fontSize: 14,
-                //               fontWeight: FontWeight.w800,
-                //               color: Colors.grey.shade600),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                //Divider(),
-                postWidget()
-              ],
+              ),
             ),
           ),
-        ),
+          Visibility(
+            visible: doneLoading == false,
+            child: Center(
+              child: SizedBox(
+                  height: 0.0,
+                  width: 0.0,
+                  child: LoadingIndicator(
+                      indicatorType: Indicator.ballScaleMultiple,
+                      color: Theme.of(context).accentColor)),
+            ),
+          ),
+        ],
       ),
-      floatingActionButton: Container(
-        width: 50,
-        height: 50,
-        child: FloatingActionButton(
-          backgroundColor: Theme.of(context).accentColor,
-          elevation: 5.0,
-          child: Unicon(UniconData.uniPlus,
-              color: Theme.of(context).backgroundColor),
-          onPressed: () async {
-            showBarModalBottomSheet(
-                context: context,
-                expand: true,
-                builder: (context) => PostPage()).then((refresh) {
-              if (refresh == false) {
-                return;
-              }
-              setState(() {
-                _postFuture = fetchPosts(sortBy);
-              });
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).accentColor,
+        mini: true,
+        child: Unicon(UniconData.uniPlus,
+            color: Theme.of(context).backgroundColor),
+        onPressed: () async {
+          // await noti.sendNewQuestionToAll();
+          showBarModalBottomSheet(
+              context: context,
+              expand: true,
+              builder: (context) => PostPage()).then((refresh) {
+            if (refresh == false) {
+              return;
+            }
+            setState(() {
+              _postFuture = fetchPosts(sortBy);
             });
-          },
-        ),
+          });
+        },
       ),
     );
   }
 
   Widget rooms() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
       child: Container(
-        height: 100,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            physics: AlwaysScrollableScrollPhysics(),
-            itemCount: 25,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  if (index == 0) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CreateRoom()));
-                  }
-                },
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(right: 5.0),
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).dividerColor,
-                              borderRadius: BorderRadius.circular(5.0)),
-                          child: index == 0
-                              ? Icon(FlutterIcons.add_mdi,
-                                  color: Theme.of(context).accentColor)
-                              : SizedBox(),
-                        ),
-                        SizedBox(height: 5.0),
-                        Container(
-                          width: 60,
-                          child: Center(
-                            child: Text(
-                                index == 0 ? 'Create' : 'Community Chat',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(fontSize: 10.0),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                        top: 0.0,
-                        right: 3.0,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          radius: 5.0,
-                        )),
-                  ],
-                ),
-              );
-            }),
-      ),
+          height: 150,
+          child: FutureBuilder(
+            future: _roomFuture,
+            builder: (context, snap) {
+              if (snap.hasData &&
+                  snap.connectionState == ConnectionState.done) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: snap.data.length + 1,
+                    itemBuilder: (context, index) {
+                      Function reloadRooms = () {
+                        setState(() {
+                          _roomFuture = Room.fetchAll();
+                        });
+                      };
+                      if (index == 0) {
+                        return CreateRoomButtonMain(reloadRooms: reloadRooms);
+                      } else {
+                        Room room = snap.data[index - 1];
+                        return RoomWidgetMain(room: room, reload: reloadRooms);
+                      }
+                      // return index == 0 ? InkWell(
+                      //   onTap: () {
+                      //     if (index == 0) {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => CreateRoom()));
+                      //     }
+                      //   },
+                      //   child: Stack(
+                      //     children: [
+                      //       Column(
+                      //         children: [
+                      //           Container(
+                      //             margin: const EdgeInsets.only(right: 5.0),
+                      //             width: 60,
+                      //             height: 60,
+                      //             decoration: BoxDecoration(
+                      //                 color: Theme.of(context).dividerColor,
+                      //                 borderRadius: BorderRadius.circular(5.0)),
+                      //             child: index == 0
+                      //                 ? Icon(FlutterIcons.add_mdi,
+                      //                     color: Theme.of(context).accentColor)
+                      //                 : SizedBox(),
+                      //           ),
+                      //           SizedBox(height: 5.0),
+                      //           Container(
+                      //             width: 60,
+                      //             child: Center(
+                      //               child: Text(
+                      //                   index == 0 ? 'Create' : room.name,
+                      //                   textAlign: TextAlign.center,
+                      //                   style:
+                      //                       GoogleFonts.quicksand(fontSize: 10.0),
+                      //                   maxLines: 2,
+                      //                   overflow: TextOverflow.ellipsis),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       Positioned(
+                      //           top: 0.0,
+                      //           right: 3.0,
+                      //           child: CircleAvatar(
+                      //             backgroundColor: Colors.blue,
+                      //             radius: 5.0,
+                      //           )),
+                      //     ],
+                      //   ),
+                      // );
+                    });
+              } else {
+                return AnimatedSwitcher(
+                    duration: Duration(seconds: 1), child: Container());
+              }
+            },
+          )),
     );
   }
 
@@ -585,6 +586,7 @@ class _MainPageState extends State<MainPage>
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
+      _roomFuture = Room.fetchAll();
       isFirstLaunch();
     });
   }
@@ -599,6 +601,7 @@ class _MainPageState extends State<MainPage>
       _postFuture = fetchPosts(sortBy);
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
+      _roomFuture = Room.fetchAll();
     });
     this.setState(() {});
   }
@@ -1018,39 +1021,47 @@ class _MainPageState extends State<MainPage>
     return Visibility(
       visible: uni != null,
       child: Container(
-        height: 100,
+        height: 200,
         child: FutureBuilder(
             future: _newsFuture,
             builder: (context, snap) {
               if (snap.connectionState == ConnectionState.waiting)
-                return Center(
-                    child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotate,
-                          color: Theme.of(context).accentColor,
-                        )));
+                return AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  child: Center(
+                      child: SizedBox(
+                          width: 0,
+                          height: 0,
+                          child: LoadingIndicator(
+                            indicatorType: Indicator.ballClipRotate,
+                            color: Theme.of(context).accentColor,
+                          ))),
+                );
               else if (snap.hasData)
-                return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemCount: snap.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    News news = snap.data[index];
-                    return AnimatedSwitcher(
-                      duration: Duration(seconds: 1),
-                      child: NewsWidget(
-                        news: news,
-                      ),
-                    );
-                  },
+                return AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: snap.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      News news = snap.data[index];
+                      return AnimatedSwitcher(
+                        duration: Duration(seconds: 1),
+                        child: NewsWidget(
+                          news: news,
+                        ),
+                      );
+                    },
+                  ),
                 );
               else if (snap.hasError)
-                return Container();
+                return AnimatedSwitcher(
+                    duration: Duration(seconds: 1), child: Container());
               else
-                return Container();
+                return AnimatedSwitcher(
+                    duration: Duration(seconds: 1), child: Container());
             }),
       ),
     );
@@ -1058,7 +1069,7 @@ class _MainPageState extends State<MainPage>
 
   Widget postWidget() {
     return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
+      padding: const EdgeInsets.all(0.0),
       child: FutureBuilder(
           future: _postFuture,
           builder: (context, snap) {
@@ -1067,24 +1078,26 @@ class _MainPageState extends State<MainPage>
                 duration: Duration(seconds: 1),
                 child: Center(
                     child: SizedBox(
-                        width: 20,
-                        height: 20,
+                        width: 0,
+                        height: 0,
                         child: LoadingIndicator(
                           indicatorType: Indicator.ballClipRotate,
                           color: Theme.of(context).accentColor,
                         ))),
               );
             } else if (snap.hasData) {
-              var r = 0;
+              var r = 4;
               return AnimatedSwitcher(
                 duration: Duration(seconds: 1),
                 child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 5.0),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: snap.data != null ? snap.data.length : 0,
+                  itemCount: snap.data != null ? snap.data.length + 1 : 0,
                   itemBuilder: (BuildContext context, int index) {
-                    Post post = snap.data[index];
+                    Post post =
+                        index > r ? snap.data[index - 1] : snap.data[index];
                     Function f = () async {
                       var res = await deletePost(post.id, null, null);
                       Navigator.pop(context);
@@ -1120,13 +1133,26 @@ class _MainPageState extends State<MainPage>
                     };
                     var timeAgo =
                         new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-                    return PostWidget(
-                        key: ValueKey(post.id),
-                        post: post,
-                        timeAgo: timeago.format(timeAgo, locale: 'en_short'),
-                        deletePost: f,
-                        block: b,
-                        hide: h);
+                    if (index == r) {
+                      return user.about != null ||
+                              user.about.isEmpty ||
+                              user.instagramHandle != null ||
+                              user.instagramHandle.isEmpty ||
+                              user.snapchatHandle != null ||
+                              user.snapchatHandle.isEmpty ||
+                              user.profileImgUrl != null ||
+                              user.profileImgUrl.isEmpty
+                          ? CompleteProfileWidget()
+                          : Container();
+                    } else {
+                      return PostWidget(
+                          key: ValueKey(post.id),
+                          post: post,
+                          timeAgo: timeago.format(timeAgo, locale: 'en_short'),
+                          deletePost: f,
+                          block: b,
+                          hide: h);
+                    }
                   },
                 ),
               );

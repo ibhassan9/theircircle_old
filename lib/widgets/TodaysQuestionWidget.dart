@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/Suggestions/InitialPage.dart';
 import 'package:unify/pages/TodaysQuestionPage.dart';
 
@@ -42,8 +43,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.deepPurple[400], Colors.pinkAccent]),
+              gradient: LinearGradient(colors: [Colors.teal, Colors.blue]),
               borderRadius: BorderRadius.circular(5.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +57,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
                 "We've got a question for you!",
                 style: GoogleFonts.quicksand(
                     fontSize: 13,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
             ],

@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       title: 'TheirCircle',
       theme: ThemeData(
           //fontFamily: 'Gilroy',
+          visualDensity: VisualDensity.adaptivePlatformDensity,
           buttonColor: Colors.grey.shade700,
           splashColor: Colors.white,
           primarySwatch: Colors.grey,
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
           cardColor: Colors.white),
       darkTheme: ThemeData(
           //fontFamily: 'Gilroy',
+          visualDensity: VisualDensity.adaptivePlatformDensity,
           buttonColor: Colors.grey.shade200,
           splashColor: Color.fromRGBO(36, 35, 49, 1.0),
           primarySwatch: Colors.grey,
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
           dividerColor: Colors.black12,
           appBarTheme: AppBarTheme(brightness: Brightness.dark),
           shadowColor: Colors.deepPurpleAccent,
-          cardColor: Color.fromRGBO(36, 35, 49, 1.0)),
+          cardColor: Colors.black12),
       debugShowCheckedModeBanner: false,
       home: firebaseAuth.currentUser != null ? MainScreen() : WelcomeScreen(),
     );

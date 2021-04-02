@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/pages/CreateRoom.dart';
 import 'package:unify/widgets/RoomWidget.dart';
@@ -24,7 +25,8 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
       //   elevation: 0.0,
       //   title: Text(
       //     'Rooms',
-      //     style: GoogleFonts.quicksand(
+      //     style: TextStyle(
+      //fontFamily: Constants.fontFamily,
       //         fontSize: 25.0,
       //         color: Theme.of(context).accentColor,
       //         fontWeight: FontWeight.w600),
@@ -118,31 +120,32 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        width: 40,
-        height: 40,
-        child: FloatingActionButton(
-          heroTag: 'btn3',
-          backgroundColor: Colors.deepPurpleAccent,
-          child: Icon(Entypo.plus, color: Colors.white),
-          onPressed: () async {
-            Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CreateRoom()))
-                .then((value) {
-              if (value == true) {
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'btn3',
+        elevation: 1.5,
+        backgroundColor: Colors.teal,
+        label: Text("Start a room",
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Colors.white)),
+        onPressed: () async {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateRoom())).then((v) {
+            if (v == true) {
+              setState(() {
+                loaded = false;
+              });
+              Room.fetchAll().then((value) {
                 setState(() {
-                  loaded = false;
+                  rooms = value;
+                  loaded = true;
                 });
-                Room.fetchAll().then((value) {
-                  setState(() {
-                    rooms = value;
-                    loaded = true;
-                  });
-                });
-              }
-            });
-          },
-        ),
+                value.where((element) => element.id == v);
+              });
+            }
+          });
+        },
       ),
     );
   }

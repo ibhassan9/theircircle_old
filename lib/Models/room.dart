@@ -412,6 +412,7 @@ Future<List<PostUser>> getMembers(Map<dynamic, dynamic> members) async {
 }
 
 Future<String> uploadImageToStorage(File file) async {
+  String urlString;
   try {
     final DateTime now = DateTime.now();
     final int millSeconds = now.millisecondsSinceEpoch;
@@ -420,17 +421,27 @@ Future<String> uploadImageToStorage(File file) async {
     final String storageId = (millSeconds.toString());
     final String today = ('$month-$date');
 
-    StorageReference ref = FirebaseStorage.instance
-        .ref()
-        .child("files")
-        .child(today)
-        .child(storageId);
-    StorageUploadTask uploadTask = ref.putFile(file);
+    FirebaseStorage storage = FirebaseStorage.instance;
 
-    var snapShot = await uploadTask.onComplete;
+    Reference ref = storage.ref().child('files').child(today).child(storageId);
+    UploadTask uploadTask = ref.putFile(file);
+    await uploadTask.then((res) async {
+      await res.ref.getDownloadURL().then((value) {
+        urlString = value;
+      });
+    });
 
-    var url = await snapShot.ref.getDownloadURL();
-    var urlString = url.toString();
+    // StorageReference ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child("files")
+    //     .child(today)
+    //     .child(storageId);
+    // StorageUploadTask uploadTask = ref.putFile(file);
+
+    // var snapShot = await uploadTask.onComplete;
+
+    // var url = await snapShot.ref.getDownloadURL();
+    // var urlString = url.toString();
 
     return urlString;
   } catch (error) {

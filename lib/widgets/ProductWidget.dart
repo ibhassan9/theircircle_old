@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/pages/ProductDetailPage.dart';
 import 'package:unify/pages/VideosPage.dart';
@@ -118,10 +119,9 @@ class _ProductWidgetState extends State<ProductWidget> {
             widget.prod.title + r' • $' + widget.prod.price,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                fontFamily: "Futura1",
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+            style: GoogleFonts.quicksand(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
           ),
           Text(

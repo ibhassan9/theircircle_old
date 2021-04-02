@@ -57,7 +57,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                 Icon(FlutterIcons.add_mdi, color: Colors.white, size: 17.0),
                 SizedBox(width: 5.0),
                 Text(
-                  "Add Interest",
+                  "Add interest",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                       fontSize: 13,
@@ -350,7 +350,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   ),
                   SizedBox(height: 15.0),
                   Text(
-                    'My Interests',
+                    'My interests',
                     textAlign: TextAlign.left,
                     style: GoogleFonts.quicksand(
                         fontSize: 15,
@@ -515,7 +515,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
       child: ChoiceChip(
         selectedColor: Colors.grey,
         label: Text(
-          '+ Add Interest',
+          '+ Add interest',
           style: GoogleFonts.quicksand(
               fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
         ),

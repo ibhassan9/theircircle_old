@@ -127,7 +127,8 @@ class _ChatPageState extends State<ChatPage>
                                         // Text(
                                         //   r'$ ' + prod.price,
                                         //   style: GoogleFonts.lexendDeca(
-                                        //     GoogleFonts.quicksand: GoogleFonts.quicksand(
+                                        //     GoogleFonts.overpass: TextStyle(
+                                        //  fontFamily: Constants.fontFamily,
                                         //         fontSize: 13,
                                         //         fontWeight: FontWeight.w700,
                                         //         color: Colors.black),
@@ -293,7 +294,8 @@ class _ChatPageState extends State<ChatPage>
         //     // Text(
         //     //   "Meet & Make New Friends",
         //     //   style: GoogleFonts.lexendDeca(
-        //     //     GoogleFonts.quicksand: GoogleFonts.quicksand(
+        //     //     GoogleFonts.overpass: TextStyle(
+        //   fontFamily: Constants.fontFamily,
         //     //         fontSize: 12,
         //     //         fontWeight: FontWeight.w500,
         //     //         color: Colors.black),
@@ -651,8 +653,8 @@ class _ChatPageState extends State<ChatPage>
                   height: 40,
                   color: Theme.of(context).dividerColor,
                   child: Center(
-                    child:
-                        Icon(Feather.feather, color: Colors.black, size: 15.0),
+                    child: Icon(Feather.feather,
+                        color: Theme.of(context).accentColor, size: 15.0),
                   ),
                 ),
               )
@@ -676,13 +678,27 @@ class _ChatPageState extends State<ChatPage>
                 ),
               ),
         SizedBox(width: 5.0),
-        Text(
-          widget.receiver.name.split(' ').first,
-          style: TextStyle(
-              fontFamily: "Futura1",
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: Theme.of(context).accentColor),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.receiver.name.split(' ').first,
+              style: GoogleFonts.quicksand(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).accentColor),
+            ),
+            widget.receiver.about != null && widget.receiver.about.isNotEmpty
+                ? Text(
+                    widget.receiver.about,
+                    maxLines: 1,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                  )
+                : Container(),
+          ],
         )
       ]))
     ]);

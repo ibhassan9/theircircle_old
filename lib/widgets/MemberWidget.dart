@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
@@ -131,8 +132,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                     _fAuth.currentUser.uid == widget.user.id
                                         ? 'You'
                                         : widget.user.name,
-                                    style: TextStyle(
-                                        fontFamily: "Futura1",
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).accentColor),
@@ -142,8 +142,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                             widget.user.about.isNotEmpty
                                         ? widget.user.about
                                         : 'No bio available',
-                                    style: TextStyle(
-                                        fontFamily: "Medium",
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).accentColor),

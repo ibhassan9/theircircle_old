@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/user.dart';
@@ -36,10 +37,9 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 3.0),
               child: Text(
                 'YOU',
-                style: TextStyle(
-                    fontFamily: "Futura1",
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
+                style: GoogleFonts.quicksand(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
                     color: Colors.purple),
               ),
             ),
@@ -49,7 +49,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(width: 3.0, color: Colors.purple),
+                Container(width: 1.5, color: Colors.purple),
                 // imgUrl == null || imgUrl == ''
                 //     ? Container(
                 //         width: 25,
@@ -100,7 +100,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 'Listing not available',
-                                                style: TextStyle(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black),
@@ -171,7 +171,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: GoogleFonts
-                                                              .lexendDeca(
+                                                              .quicksand(
                                                             textStyle: TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight:
@@ -196,7 +196,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: GoogleFonts
-                                                              .lexendDeca(
+                                                              .quicksand(
                                                             textStyle: TextStyle(
                                                                 fontSize: 12,
                                                                 fontWeight:

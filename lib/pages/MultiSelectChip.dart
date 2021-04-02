@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toast/toast.dart';
+import 'package:unify/Components/Constants.dart';
 
 class MultiSelectChip extends StatefulWidget {
   final Map<String, dynamic> reportList;
@@ -13,7 +14,7 @@ class MultiSelectChip extends StatefulWidget {
 class _MultiSelectChipState extends State<MultiSelectChip> {
   List<String> selectedChoices = List();
   String filter;
-  String title = 'Choose up to 20 interests';
+  String title = 'Choose up to 20 overpassests';
 
   _buildChoiceList() {
     if (widget.sChoices != null && widget.sChoices.isNotEmpty) {
@@ -50,7 +51,8 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
                     selectedChoices.remove(key);
                   });
                 } else {
-                  Toast.show('You can only choose up to 20 interests.', context,
+                  Toast.show(
+                      'You can only choose up to 20 overpassests.', context,
                       duration: Toast.LENGTH_LONG);
                 }
               }
@@ -88,7 +90,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
                     });
                   } else {
                     Toast.show(
-                        'You can only choose up to 20 interests.', context,
+                        'You can only choose up to 20 overpassests.', context,
                         duration: Toast.LENGTH_LONG);
                   }
                 }
@@ -140,7 +142,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
                 disabledBorder: InputBorder.none,
                 contentPadding:
                     EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
-                hintText: "Search Interests",
+                hintText: "Search overpassests",
                 hintStyle: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,

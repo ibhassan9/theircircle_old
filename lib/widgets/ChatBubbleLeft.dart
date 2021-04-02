@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/user.dart';
@@ -38,10 +39,9 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
               padding: const EdgeInsets.only(top: 10.0, bottom: 3.0),
               child: Text(
                 widget.user.name.split(' ').first.toUpperCase(),
-                style: TextStyle(
-                    fontFamily: "Futura1",
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
+                style: GoogleFonts.quicksand(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
                     color: Colors.blue),
               ),
             ),
@@ -51,7 +51,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(width: 3.0, color: Colors.blue),
+                Container(width: 1.5, color: Colors.blue),
                 // imgUrl == null || imgUrl == ''
                 //     ? Container(
                 //         width: 25,
@@ -88,7 +88,8 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
+                                padding: const EdgeInsets.only(
+                                    bottom: 5.0, right: 10.0),
                                 child: Stack(
                                   children: [
                                     prodNull != null && prodNull == true
@@ -102,7 +103,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 'Listing not available',
-                                                style: TextStyle(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black),
@@ -173,7 +174,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: GoogleFonts
-                                                              .lexendDeca(
+                                                              .quicksand(
                                                             textStyle: TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight:
@@ -198,7 +199,7 @@ class _ChatBubbleLeftState extends State<ChatBubbleLeft> {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: GoogleFonts
-                                                              .lexendDeca(
+                                                              .quicksand(
                                                             textStyle: TextStyle(
                                                                 fontSize: 12,
                                                                 fontWeight:

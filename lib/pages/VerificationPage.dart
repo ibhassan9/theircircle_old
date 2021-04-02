@@ -28,7 +28,7 @@ class _VerificationPageState extends State<VerificationPage> {
         centerTitle: false,
         title: Text(
           "Code Verification",
-          style: TextStyle(
+          style: GoogleFonts.quicksand(
               fontSize: 20,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -41,7 +41,7 @@ class _VerificationPageState extends State<VerificationPage> {
             children: <Widget>[
               Text(
                 "We have sent a verification code to the email you have provided. Please enter it below to verify your account.",
-                style: TextStyle(
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -49,7 +49,7 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               SizedBox(height: 20),
               VerificationCode(
-                textStyle: TextStyle(
+                textStyle: GoogleFonts.quicksand(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -63,7 +63,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Clear",
-                    style: TextStyle(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.blue),

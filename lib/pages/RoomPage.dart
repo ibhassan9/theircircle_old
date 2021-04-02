@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,11 +33,13 @@ class RoomPage extends StatefulWidget {
   _RoomPageState createState() => _RoomPageState();
 }
 
-class _RoomPageState extends State<RoomPage> {
+class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
   TextEditingController chatController = TextEditingController();
   var uniKey = Constants.checkUniversity();
   var myID = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance.reference().child('rooms');
+  int eventCount = 0;
+  int removedCount = 0;
   ScrollController _scrollController = new ScrollController();
   Stream<Event> myChat;
   bool seen = false;
@@ -68,10 +71,53 @@ class _RoomPageState extends State<RoomPage> {
                     // Unicon(UniconData.uniImage,
                     //     color: Theme.of(context).accentColor),
                     // SizedBox(width: 5.0),
+                    InkWell(
+                      onTap: () {
+                        if (widget.room.adminId ==
+                            FirebaseAuth.instance.currentUser.uid) {
+                          Room.delete(id: widget.room.id).then((value) {
+                            if (value) {
+                              Navigator.pop(context, true);
+                            }
+                          });
+                        } else {
+                          Room.leave(roomId: widget.room.id).then((value) {
+                            if (value) {
+                              setState(() {
+                                widget.room.inRoom = false;
+                                widget.room.members.removeWhere((element) =>
+                                    element.id ==
+                                    FirebaseAuth.instance.currentUser.uid);
+                                Navigator.pop(context, true);
+                              });
+                            }
+                          });
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.teal,
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          child: Text(
+                            widget.room.adminId ==
+                                    FirebaseAuth.instance.currentUser.uid
+                                ? "End"
+                                : "Leave",
+                            style: GoogleFonts.quicksand(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5.0),
                     Flexible(
                         child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.transparent,
+                          color: Theme.of(context).dividerColor,
                           borderRadius: BorderRadius.circular(20.0)),
                       child: TextField(
                         onTap: () {
@@ -92,10 +138,10 @@ class _RoomPageState extends State<RoomPage> {
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
-                              left: 15, bottom: 11, top: 11, right: 15),
+                              left: 15, bottom: 5, top: 5, right: 15),
                           hintText: "Insert message here",
                           hintStyle: GoogleFonts.quicksand(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
@@ -159,53 +205,53 @@ class _RoomPageState extends State<RoomPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        toolbarHeight: 100,
+        elevation: 30.0,
+        shadowColor: Theme.of(context).dividerColor.withOpacity(0.5),
+        centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: false,
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        leadingWidth: 20,
-        title: Row(
+        title: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(20.0),
               child: CachedNetworkImage(
-                imageUrl: widget.room.imageUrl,
-                width: 30,
-                height: 30,
-                fit: BoxFit.cover,
-              ),
+                  imageUrl: widget.room.imageUrl,
+                  width: 35.0,
+                  height: 35.0,
+                  fit: BoxFit.cover),
             ),
-            SizedBox(width: 10.0),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.room.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: "Futura1",
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).accentColor),
-                  ),
-                  Text(
-                    widget.room.members.length.toString() + ' member(s)',
-                    style: GoogleFonts.quicksand(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).buttonColor),
-                  ),
-                ],
-              ),
+            SizedBox(height: 5.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  widget.room.name,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).accentColor),
+                ),
+                SizedBox(height: 3.0),
+                Text(
+                  widget.room.members.length.toString() + ' members',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).buttonColor),
+                ),
+              ],
             ),
           ],
         ),
         actions: <Widget>[
           IconButton(
-            icon: Unicon(UniconData.uniInfoCircle, color: Colors.blue),
+            icon: Unicon(UniconData.uniInfoCircle,
+                color: Theme.of(context).accentColor),
             onPressed: () {
               Navigator.push(
                   context,
@@ -214,8 +260,78 @@ class _RoomPageState extends State<RoomPage> {
             },
           )
         ],
-        elevation: 0.5,
       ),
+      // appBar: AppBar(
+      //   brightness: Theme.of(context).brightness,
+      //   backgroundColor: Theme.of(context).backgroundColor,
+      //   centerTitle: false,
+      //   iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+      //   leadingWidth: 0,
+      //   leading: Container(),
+      //   toolbarHeight: 100,
+      //   title: Row(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       ClipRRect(
+      //         borderRadius: BorderRadius.circular(15),
+      //         child: CachedNetworkImage(
+      //           imageUrl: widget.room.imageUrl,
+      //           width: 30,
+      //           height: 30,
+      //           fit: BoxFit.cover,
+      //         ),
+      //       ),
+      //       SizedBox(width: 10.0),
+      //       Flexible(
+      //         child: Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           mainAxisAlignment: MainAxisAlignment.start,
+      //           children: [
+      //             Text(
+      //               "The topic of discussion is:",
+      //               maxLines: 1,
+      //               overflow: TextOverflow.ellipsis,
+      //               style: GoogleFonts.quicksand(
+      //                   fontSize: 11,
+      //                   fontWeight: FontWeight.w500,
+      //                   color: Theme.of(context).accentColor),
+      //             ),
+      //             SizedBox(height: 3.0),
+      //             Text(
+      //               widget.room.name,
+      //               maxLines: 2,
+      //               overflow: TextOverflow.ellipsis,
+      //               style: GoogleFonts.quicksand(
+      //                   fontSize: 13,
+      //                   fontWeight: FontWeight.w600,
+      //                   color: Theme.of(context).accentColor),
+      //             ),
+      //             SizedBox(height: 3.0),
+      //             Text(
+      //               widget.room.members.length.toString() + ' member(s)',
+      //               style: GoogleFonts.quicksand(
+      //                   fontSize: 13,
+      //                   fontWeight: FontWeight.w500,
+      //                   color: Theme.of(context).buttonColor),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Unicon(UniconData.uniInfoCircle, color: Colors.blue),
+      //       onPressed: () {
+      //         Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //                 builder: (context) => RoomInfoPage(room: widget.room)));
+      //       },
+      //     )
+      //   ],
+      //   elevation: 0.5,
+      // ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -305,10 +421,17 @@ class _RoomPageState extends State<RoomPage> {
                                       scroll: scroll,
                                       meLastSender: index == 0
                                           ? true
-                                          : messages[index - 1].senderId !=
-                                                  firebaseAuth
-                                                      .currentUser.uid ||
-                                              formattedDate != formattedNow),
+                                          : messages[index - 1].senderId ==
+                                                      firebaseAuth
+                                                          .currentUser.uid ||
+                                                  (formattedDate !=
+                                                          formattedNow &&
+                                                      messages[index - 1]
+                                                              .senderId ==
+                                                          firebaseAuth
+                                                              .currentUser.uid)
+                                              ? false
+                                              : true),
                                 ],
                               ),
                             );
@@ -333,10 +456,15 @@ class _RoomPageState extends State<RoomPage> {
                                       scroll: scroll,
                                       meLastSender: index == 0
                                           ? true
-                                          : messages[index - 1].senderId !=
-                                                  firebaseAuth
-                                                      .currentUser.uid ||
-                                              formattedDate != formattedNow),
+                                          : messages[index - 1].senderId ==
+                                                      msg.senderId ||
+                                                  (formattedDate !=
+                                                          formattedNow &&
+                                                      messages[index - 1]
+                                                              .senderId ==
+                                                          msg.senderId)
+                                              ? false
+                                              : true),
                                 ],
                               ),
                             );
@@ -355,18 +483,32 @@ class _RoomPageState extends State<RoomPage> {
                                     scroll: scroll,
                                     meLastSender: index == 0
                                         ? true
-                                        : messages[index - 1].senderId !=
-                                                firebaseAuth.currentUser.uid ||
-                                            formattedDate != formattedNow);
+                                        : messages[index - 1].senderId ==
+                                                    firebaseAuth
+                                                        .currentUser.uid ||
+                                                (formattedDate !=
+                                                        formattedNow &&
+                                                    messages[index - 1]
+                                                            .senderId ==
+                                                        firebaseAuth
+                                                            .currentUser.uid)
+                                            ? false
+                                            : true);
                               } else {
                                 return ChatBubbleLeftGroup(
                                     msg: msg,
                                     scroll: scroll,
                                     meLastSender: index == 0
                                         ? true
-                                        : messages[index - 1].senderId !=
-                                                firebaseAuth.currentUser.uid ||
-                                            formattedDate != formattedNow);
+                                        : messages[index - 1].senderId ==
+                                                    msg.senderId ||
+                                                (formattedDate !=
+                                                        formattedNow &&
+                                                    messages[index - 1]
+                                                            .senderId ==
+                                                        msg.senderId)
+                                            ? false
+                                            : true);
                               }
                             } else {
                               if (msg.senderId == myID) {
@@ -390,11 +532,19 @@ class _RoomPageState extends State<RoomPage> {
                                           scroll: scroll,
                                           meLastSender: index == 0
                                               ? true
-                                              : messages[index - 1].senderId !=
-                                                      firebaseAuth
-                                                          .currentUser.uid ||
-                                                  formattedDate !=
-                                                      formattedNow),
+                                              : messages[index - 1].senderId ==
+                                                          firebaseAuth
+                                                              .currentUser
+                                                              .uid ||
+                                                      (formattedDate !=
+                                                              formattedNow &&
+                                                          messages[index - 1]
+                                                                  .senderId ==
+                                                              firebaseAuth
+                                                                  .currentUser
+                                                                  .uid)
+                                                  ? false
+                                                  : true),
                                     ],
                                   ),
                                 );
@@ -419,11 +569,15 @@ class _RoomPageState extends State<RoomPage> {
                                           scroll: scroll,
                                           meLastSender: index == 0
                                               ? true
-                                              : messages[index - 1].senderId !=
-                                                      firebaseAuth
-                                                          .currentUser.uid ||
-                                                  formattedDate !=
-                                                      formattedNow),
+                                              : messages[index - 1].senderId ==
+                                                          msg.senderId ||
+                                                      (formattedDate !=
+                                                              formattedNow &&
+                                                          messages[index - 1]
+                                                                  .senderId ==
+                                                              msg.senderId)
+                                                  ? false
+                                                  : true),
                                     ],
                                   ),
                                 );
@@ -436,18 +590,30 @@ class _RoomPageState extends State<RoomPage> {
                                   scroll: scroll,
                                   meLastSender: index == 0
                                       ? true
-                                      : messages[index - 1].senderId !=
-                                              firebaseAuth.currentUser.uid ||
-                                          formattedDate != formattedNow);
+                                      : messages[index - 1].senderId ==
+                                                  firebaseAuth
+                                                      .currentUser.uid ||
+                                              (formattedDate != formattedNow &&
+                                                  messages[index - 1]
+                                                          .senderId ==
+                                                      firebaseAuth
+                                                          .currentUser.uid)
+                                          ? false
+                                          : true);
                             } else {
                               return ChatBubbleLeftGroup(
                                   msg: msg,
                                   scroll: scroll,
                                   meLastSender: index == 0
                                       ? true
-                                      : messages[index - 1].senderId !=
-                                              firebaseAuth.currentUser.uid ||
-                                          formattedDate != formattedNow);
+                                      : messages[index - 1].senderId ==
+                                                  msg.senderId ||
+                                              (formattedDate != formattedNow &&
+                                                  messages[index - 1]
+                                                          .senderId ==
+                                                      msg.senderId)
+                                          ? false
+                                          : true);
                             }
                           }
                         }
@@ -469,6 +635,7 @@ class _RoomPageState extends State<RoomPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     var chats = db
         .child(uniKey == 0
             ? 'UofT'
@@ -477,7 +644,77 @@ class _RoomPageState extends State<RoomPage> {
                 : 'WesternU')
         .child(widget.room.id)
         .child('chat');
+    if (FirebaseAuth.instance.currentUser.uid != widget.room.adminId) {
+      if (widget.room.inRoom) {
+      } else {
+        Room.join(roomId: widget.room.id).then((value) async {
+          if (value) {
+            await u.getUser(FirebaseAuth.instance.currentUser.uid).then((user) {
+              if (this.mounted) {
+                setState(() {
+                  widget.room.inRoom = true;
+                  widget.room.members.add(user);
+                });
+              }
+            });
+          }
+        });
+      }
+    }
     myChat = chats.onValue;
+    db
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(widget.room.id)
+        .child('members')
+        .onChildRemoved
+        .listen((event) {
+      eventCount += 1;
+      print(event.snapshot.key);
+      print('event listening');
+      if (eventCount > 1) {
+        return;
+      }
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.NO_HEADER,
+        animType: AnimType.BOTTOMSLIDE,
+        body: Column(
+          children: [
+            Text(
+              event.snapshot.key == FirebaseAuth.instance.currentUser.uid
+                  ? "You have been removed from this room"
+                  : "This room has been ended.",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                  color: Theme.of(context).accentColor,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 10.0),
+            Text(
+              event.snapshot.key == FirebaseAuth.instance.currentUser.uid
+                  ? 'Please refrain from joining in the next 20 minutes to prevent account suspension.'
+                  : "You can start your own room by clicking on the 'Start a room' button",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                  color: Theme.of(context).accentColor,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        dismissOnTouchOutside: false,
+        dismissOnBackKeyPress: false,
+        btnOkColor: Colors.teal,
+        btnOkOnPress: () {
+          //Navigator.pop(context);
+          Navigator.pop(context, true);
+          eventCount = 0;
+        },
+      )..show();
+    });
   }
 
   void sendPush({String text}) {
@@ -491,8 +728,44 @@ class _RoomPageState extends State<RoomPage> {
   @override
   void dispose() {
     // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
     chatController.dispose();
     _scrollController.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    // print(state);
+
+    // if (state == AppLifecycleState.inactive) {
+    //   if (widget.room.adminId == FirebaseAuth.instance.currentUser.uid) {
+    //   } else {
+    //     Room.leave(roomId: widget.room.id).then((value) {
+    //       if (value) {
+    //         setState(() {
+    //           widget.room.inRoom = false;
+    //           widget.room.members.removeWhere((element) =>
+    //               element.id == FirebaseAuth.instance.currentUser.uid);
+    //         });
+    //         //Navigator.pop(context, true);
+    //       }
+    //     });
+    //   }
+    // } else if (state == AppLifecycleState.resumed) {
+    //   Navigator.pop(context, true);
+    // }
+
+    // final isBackground = state == AppLifecycleState.paused;
+
+    // if (isBackground) {}
+
+    /* if (isBackground) {
+      // service.stop();
+    } else {
+      // service.start();
+    }*/
   }
 }
