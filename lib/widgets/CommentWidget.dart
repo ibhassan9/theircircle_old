@@ -125,7 +125,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                   width: 10,
                                   height: 10,
                                   child: LoadingIndicator(
-                                    indicatorType: Indicator.ballClipRotate,
+                                    indicatorType: Indicator.circleStrokeSpin,
                                     color: Theme.of(context).accentColor,
                                   )),
                             ),

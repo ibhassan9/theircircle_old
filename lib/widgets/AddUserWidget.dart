@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -67,33 +68,13 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                             )
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(25),
-                              child: Image.network(
-                                widget.peer.profileImgUrl,
-                                width: 50,
-                                height: 50,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.peer.profileImgUrl,
+                                height: 50.0,
+                                width: 50.0,
                                 fit: BoxFit.cover,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: Center(
-                                      child: SizedBox(
-                                          width: 30,
-                                          height: 30,
-                                          child: LoadingIndicator(
-                                            indicatorType:
-                                                Indicator.ballClipRotate,
-                                            color:
-                                                Theme.of(context).accentColor,
-                                          )),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                                color: Theme.of(context).dividerColor,
+                              )),
                     ),
                     SizedBox(width: 15.0),
                     Column(

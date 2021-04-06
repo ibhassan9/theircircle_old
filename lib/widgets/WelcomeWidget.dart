@@ -126,7 +126,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
     //   ),
     // );
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
       child: Container(
           color: Theme.of(context).backgroundColor,
           child: Column(

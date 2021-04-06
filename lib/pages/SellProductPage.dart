@@ -152,7 +152,7 @@ class _SellProductPageState extends State<SellProductPage> {
                     width: 40,
                     height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballClipRotate,
+                      indicatorType: Indicator.circleStrokeSpin,
                       color: Colors.white,
                     ),
                   )

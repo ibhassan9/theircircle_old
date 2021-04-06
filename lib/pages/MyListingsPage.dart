@@ -157,7 +157,7 @@ class _MyListingsState extends State<MyListings> {
                               width: 40,
                               height: 40,
                               child: LoadingIndicator(
-                                indicatorType: Indicator.ballClipRotate,
+                                indicatorType: Indicator.circleStrokeSpin,
                                 color: Theme.of(context).accentColor,
                               )))
                 ],

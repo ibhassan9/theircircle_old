@@ -67,7 +67,7 @@ class _AddUserPageState extends State<AddUserPage>
                           width: 10,
                           height: 10,
                           child: LoadingIndicator(
-                              indicatorType: Indicator.ballClipRotate,
+                              indicatorType: Indicator.circleStrokeSpin,
                               color: Theme.of(context).accentColor)),
                     ),
                   )
@@ -164,7 +164,7 @@ class _AddUserPageState extends State<AddUserPage>
                       width: 30,
                       height: 30,
                       child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotate,
+                          indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor))
                   : ListView.builder(
                       shrinkWrap: true,

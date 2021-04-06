@@ -67,7 +67,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                                 width: 20,
                                 height: 20,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.ballClipRotate,
+                                  indicatorType: Indicator.circleStrokeSpin,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),

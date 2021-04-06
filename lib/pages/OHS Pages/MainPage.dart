@@ -41,12 +41,11 @@ class _OHSMainPageState extends State<OHSMainPage> {
   Gradient gradient = LinearGradient(colors: [Colors.blue, Colors.pink]);
   var iconContainerHeight = 55.00;
   ScrollController _controller;
-  Color color = Color(0xffF5F5DC);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: color,
+        backgroundColor: Colors.orange,
         bottomNavigationBar: Container(
           color: Theme.of(context).backgroundColor,
           margin: EdgeInsets.only(bottom: 0.0),
@@ -70,7 +69,8 @@ class _OHSMainPageState extends State<OHSMainPage> {
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: color, borderRadius: BorderRadius.circular(25.0)),
+                  color: Theme.of(context).dividerColor,
+                  borderRadius: BorderRadius.circular(25.0)),
               width: MediaQuery.of(context).size.width,
               height: 50.0,
               margin: EdgeInsets.fromLTRB(60.0, 5.0, 60.0, 20.0),
@@ -117,7 +117,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
               ),
             ],
           ),
-          backgroundColor: color,
+          backgroundColor: Colors.orange,
           elevation: 0.0,
           iconTheme: IconThemeData(color: Colors.black),
           actions: <Widget>[
@@ -446,7 +446,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                           width: 20,
                                           child: LoadingIndicator(
                                               indicatorType:
-                                                  Indicator.ballClipRotate,
+                                                  Indicator.circleStrokeSpin,
                                               color: Theme.of(context)
                                                   .accentColor),
                                         ),
@@ -503,7 +503,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
             width: 40,
             height: 40,
             child: FloatingActionButton(
-                backgroundColor: color,
+                backgroundColor: Theme.of(context).dividerColor,
                 elevation: 0.0,
                 child: Unicon(UniconData.uniPlus, color: Colors.black),
                 onPressed: () async {

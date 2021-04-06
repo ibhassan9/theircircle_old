@@ -52,7 +52,7 @@ class _MyLibraryState extends State<MyLibrary> {
                         height: 40.0,
                         width: 40.0,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotate,
+                          indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor,
                         )));
               }

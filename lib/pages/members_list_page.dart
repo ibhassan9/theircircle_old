@@ -74,7 +74,7 @@ class _MembersListPageState extends State<MembersListPage>
                             width: 40,
                             height: 40,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.ballClipRotate,
+                              indicatorType: Indicator.circleStrokeSpin,
                               color: Theme.of(context).accentColor,
                             )));
                   else if (snap.hasData &&

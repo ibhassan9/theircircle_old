@@ -114,7 +114,7 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
                         height: 20,
                         width: 20,
                         child: LoadingIndicator(
-                            indicatorType: Indicator.ballClipRotate,
+                            indicatorType: Indicator.circleStrokeSpin,
                             color: Theme.of(context).accentColor)),
                   ),
           ],

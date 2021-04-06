@@ -42,7 +42,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.blue, Colors.pink]),
+              colors: [Colors.blue, Colors.teal]),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),

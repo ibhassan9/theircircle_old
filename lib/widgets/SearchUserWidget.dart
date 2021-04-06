@@ -78,7 +78,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                         height: 20,
                                         child: LoadingIndicator(
                                           indicatorType:
-                                              Indicator.ballClipRotate,
+                                              Indicator.circleStrokeSpin,
                                           color: Theme.of(context).accentColor,
                                         )),
                                   ),

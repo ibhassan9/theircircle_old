@@ -105,265 +105,279 @@ class _RoomInfoPageState extends State<RoomInfoPage>
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: ListView(
-          physics: AlwaysScrollableScrollPhysics(),
-          children: [
-            // Visibility(
-            //   visible: widget.room.inRoom == false &&
-            //       widget.room.adminId != FirebaseAuth.instance.currentUser.uid,
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(bottom: 25.0),
-            //     child: Container(
-            //       decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(5.0),
-            //           gradient:
-            //               LinearGradient(colors: [Colors.purple, Colors.pink])),
-            //       child: Center(
-            //         child: Padding(
-            //           padding: const EdgeInsets.all(15.0),
-            //           child: Text(
-            //             "Don't miss out! Join this room.",
-            //             textAlign: TextAlign.center,
-            //             maxLines: null,
-            //             style: TextStyle(
-            //fontFamily: Constants.fontFamily,
-            //                 fontWeight: FontWeight.w500, color: Colors.white),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Text('INFO',
-            //     style: GoogleFonts.quicksand(
-            //         fontWeight: FontWeight.w500,
-            //         fontSize: 16.0,
-            //         color: Theme.of(context).accentColor)),
-            // SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            if (widget.room.isAdmin) {
-                              var res = await getImage();
-                              if (res.isNotEmpty) {
-                                var image = res[0] as Image;
-                                var file = res[1] as File;
-                                this.setState(() {
-                                  imag = image;
-                                  f = file;
-                                });
-                                savePhoto();
+        child: RefreshIndicator(
+          onRefresh: () async {
+            Room.fetch(id: widget.room.id).then((value) {
+              setState(() {
+                widget.room.imageUrl = value.imageUrl;
+                widget.room.name = value.name;
+                widget.room.members = value.members;
+                widget.room.description = value.description;
+              });
+            });
+          },
+          child: ListView(
+            physics: AlwaysScrollableScrollPhysics(),
+            children: [
+              // Visibility(
+              //   visible: widget.room.inRoom == false &&
+              //       widget.room.adminId != FirebaseAuth.instance.currentUser.uid,
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(bottom: 25.0),
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(5.0),
+              //           gradient:
+              //               LinearGradient(colors: [Colors.purple, Colors.pink])),
+              //       child: Center(
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(15.0),
+              //           child: Text(
+              //             "Don't miss out! Join this room.",
+              //             textAlign: TextAlign.center,
+              //             maxLines: null,
+              //             style: TextStyle(
+              //fontFamily: Constants.fontFamily,
+              //                 fontWeight: FontWeight.w500, color: Colors.white),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Text('INFO',
+              //     style: GoogleFonts.quicksand(
+              //         fontWeight: FontWeight.w500,
+              //         fontSize: 16.0,
+              //         color: Theme.of(context).accentColor)),
+              // SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              if (widget.room.isAdmin) {
+                                var res = await getImage();
+                                if (res.isNotEmpty) {
+                                  var image = res[0] as Image;
+                                  var file = res[1] as File;
+                                  this.setState(() {
+                                    imag = image;
+                                    f = file;
+                                  });
+                                  savePhoto();
+                                }
                               }
-                            }
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: imag != null && f != null
-                                ? Image.file(f,
-                                    width: 60, height: 60, fit: BoxFit.cover)
-                                : CachedNetworkImage(
-                                    imageUrl: widget.room.imageUrl,
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover,
-                                  ),
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: imag != null && f != null
+                                  ? Image.file(f,
+                                      width: 60, height: 60, fit: BoxFit.cover)
+                                  : CachedNetworkImage(
+                                      imageUrl: widget.room.imageUrl,
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10.0),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(widget.room.name,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).accentColor)),
-                              SizedBox(height: 5.0),
-                              Text(widget.room.description,
-                                  maxLines: 4,
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.quicksand(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14.0,
-                                      color: Theme.of(context).buttonColor)),
-                            ],
+                          SizedBox(height: 10.0),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(widget.room.name,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).accentColor)),
+                                SizedBox(height: 5.0),
+                                Text(widget.room.description,
+                                    maxLines: 4,
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.quicksand(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14.0,
+                                        color: Theme.of(context).buttonColor)),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 25.0),
-            Text('MEMBERS',
-                style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0,
-                    color: Theme.of(context).accentColor)),
-            SizedBox(height: 20.0),
-            doneLoading
-                ? ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: widget.room.members.length,
-                    itemBuilder: (context, index) {
-                      PostUser user = widget.room.members[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfilePage(
-                                            isFromChat: false,
-                                            isFromMain: false,
-                                            isMyProfile: user.id ==
-                                                FirebaseAuth
-                                                    .instance.currentUser.uid,
-                                            user: user,
-                                            heroTag: user.id)));
-                              },
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(25),
-                                      child: CachedNetworkImage(
-                                        imageUrl: user.profileImgUrl != null
-                                            ? user.profileImgUrl
-                                            : '',
-                                        width: 50,
-                                        height: 50,
-                                        fit: BoxFit.cover,
+                ],
+              ),
+              SizedBox(height: 25.0),
+              Text('MEMBERS',
+                  style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.0,
+                      color: Theme.of(context).accentColor)),
+              SizedBox(height: 20.0),
+              doneLoading
+                  ? ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: widget.room.members.length,
+                      itemBuilder: (context, index) {
+                        PostUser user = widget.room.members[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProfilePage(
+                                              isFromChat: false,
+                                              isFromMain: false,
+                                              isMyProfile: user.id ==
+                                                  FirebaseAuth
+                                                      .instance.currentUser.uid,
+                                              user: user,
+                                              heroTag: user.id)));
+                                },
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(25),
+                                        child: CachedNetworkImage(
+                                          imageUrl: user.profileImgUrl != null
+                                              ? user.profileImgUrl
+                                              : '',
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 15.0),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            user.id ==
-                                                    FirebaseAuth.instance
-                                                        .currentUser.uid
-                                                ? 'You'
-                                                : user.name,
-                                            style: GoogleFonts.quicksand(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14.0,
-                                                color: Theme.of(context)
-                                                    .accentColor)),
-                                        Text(
-                                            user.about != null &&
-                                                    user.about.isNotEmpty
-                                                ? user.about
-                                                : 'No bio available',
-                                            style: GoogleFonts.quicksand(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12.0,
-                                                color: Theme.of(context)
-                                                    .buttonColor)),
-                                      ],
-                                    ),
-                                  ],
+                                      SizedBox(width: 15.0),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              user.id ==
+                                                      FirebaseAuth.instance
+                                                          .currentUser.uid
+                                                  ? 'You'
+                                                  : user.name,
+                                              style: GoogleFonts.quicksand(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14.0,
+                                                  color: Theme.of(context)
+                                                      .accentColor)),
+                                          Text(
+                                              user.about != null &&
+                                                      user.about.isNotEmpty
+                                                  ? user.about
+                                                  : 'No bio available',
+                                              style: GoogleFonts.quicksand(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12.0,
+                                                  color: Theme.of(context)
+                                                      .buttonColor)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            widget.room.adminId == user.id
-                                ? Text('Admin',
-                                    style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.w700))
-                                : widget.room.adminId ==
-                                        FirebaseAuth.instance.currentUser.uid
-                                    ? IconButton(
-                                        icon: Icon(
-                                          FlutterIcons.minus_circle_faw,
-                                          size: 20.0,
-                                          color: Colors.red,
-                                        ),
-                                        onPressed: () async {
-                                          remove(user: user);
-                                        },
-                                      )
-                                    : Container()
-                          ],
-                        ),
-                      );
-                    })
-                : SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: LoadingIndicator(
-                        indicatorType: Indicator.ballClipRotate,
-                        color: Theme.of(context).accentColor)),
-            SizedBox(
-              height: 20.0,
-            ),
-            // InkWell(
-            //   onTap: () async {
-            //     if (widget.room.inRoom) {
-            //       Room.leave(roomId: widget.room.id).then((value) {
-            //         if (value) {
-            //           setState(() {
-            //             widget.room.inRoom = false;
-            //             widget.room.members.removeWhere((element) =>
-            //                 element.id ==
-            //                 FirebaseAuth.instance.currentUser.uid);
-            //             Navigator.pop(context);
-            //             Navigator.pop(context, true);
-            //           });
-            //         }
-            //       });
-            //     } else {
-            //       Room.join(roomId: widget.room.id).then((value) async {
-            //         if (value) {
-            //           await getUser(FirebaseAuth.instance.currentUser.uid)
-            //               .then((user) {
-            //             setState(() {
-            //               widget.room.inRoom = true;
-            //               widget.room.members.add(user);
-            //             });
-            //           });
-            //         }
-            //       });
-            //     }
-            //   },
-            //   child: Text(
-            //       widget.room.inRoom == false &&
-            //               widget.room.adminId !=
-            //                   FirebaseAuth.instance.currentUser.uid
-            //           ? 'Join Room'
-            //           : widget.room.inRoom
-            //               ? widget.room.adminId !=
-            //                       FirebaseAuth.instance.currentUser.uid
-            //                   ? 'Leave Room'
-            //                   : ''
-            //               : '',
-            //       style: TextStyle(
-            //  fontFamily: Constants.fontFamily,
-            //           fontSize: 13.0,
-            //           fontWeight: FontWeight.bold,
-            //           color: Colors.red)),
-            // ),
-          ],
+                              widget.room.adminId == user.id
+                                  ? Text('Admin',
+                                      style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.w700))
+                                  : widget.room.adminId ==
+                                          FirebaseAuth.instance.currentUser.uid
+                                      ? IconButton(
+                                          icon: Icon(
+                                            FlutterIcons.minus_circle_faw,
+                                            size: 20.0,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () async {
+                                            remove(user: user);
+                                          },
+                                        )
+                                      : Container()
+                            ],
+                          ),
+                        );
+                      })
+                  : Center(
+                      child: SizedBox(
+                          width: 10,
+                          height: 10,
+                          child: LoadingIndicator(
+                              indicatorType: Indicator.circleStrokeSpin,
+                              color: Theme.of(context).accentColor)),
+                    ),
+              SizedBox(
+                height: 20.0,
+              ),
+              // InkWell(
+              //   onTap: () async {
+              //     if (widget.room.inRoom) {
+              //       Room.leave(roomId: widget.room.id).then((value) {
+              //         if (value) {
+              //           setState(() {
+              //             widget.room.inRoom = false;
+              //             widget.room.members.removeWhere((element) =>
+              //                 element.id ==
+              //                 FirebaseAuth.instance.currentUser.uid);
+              //             Navigator.pop(context);
+              //             Navigator.pop(context, true);
+              //           });
+              //         }
+              //       });
+              //     } else {
+              //       Room.join(roomId: widget.room.id).then((value) async {
+              //         if (value) {
+              //           await getUser(FirebaseAuth.instance.currentUser.uid)
+              //               .then((user) {
+              //             setState(() {
+              //               widget.room.inRoom = true;
+              //               widget.room.members.add(user);
+              //             });
+              //           });
+              //         }
+              //       });
+              //     }
+              //   },
+              //   child: Text(
+              //       widget.room.inRoom == false &&
+              //               widget.room.adminId !=
+              //                   FirebaseAuth.instance.currentUser.uid
+              //           ? 'Join Room'
+              //           : widget.room.inRoom
+              //               ? widget.room.adminId !=
+              //                       FirebaseAuth.instance.currentUser.uid
+              //                   ? 'Leave Room'
+              //                   : ''
+              //               : '',
+              //       style: TextStyle(
+              //  fontFamily: Constants.fontFamily,
+              //           fontSize: 13.0,
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.red)),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -516,7 +530,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                   height: 20,
                                   width: 20,
                                   child: LoadingIndicator(
-                                      indicatorType: Indicator.ballClipRotate,
+                                      indicatorType: Indicator.circleStrokeSpin,
                                       color: Colors.white))
                               : Text(
                                   'Update',
@@ -594,7 +608,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
   void remove({PostUser user}) {
     final act = CupertinoActionSheet(
         title: Text(
-          'Delete Room',
+          'Remove ${user.name}',
           style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -709,6 +723,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
     Room.allMembers(room: widget.room).then((value) {
       setState(() {
         members = value;
+        widget.room.members = members;
         doneLoading = true;
       });
     });

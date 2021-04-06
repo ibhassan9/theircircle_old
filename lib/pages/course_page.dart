@@ -314,7 +314,7 @@ class _CoursePageState extends State<CoursePage> {
                                           height: 20,
                                           child: LoadingIndicator(
                                             indicatorType:
-                                                Indicator.ballClipRotate,
+                                                Indicator.circleStrokeSpin,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

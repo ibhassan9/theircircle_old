@@ -185,6 +185,9 @@ Future registerUser(
   }
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   var uniKey = checkUniversityWithEmail(email);
+  if (uniKey == null) {
+    return;
+  }
   var token = await _firebaseMessaging.getToken();
   await firebaseAuth
       .createUserWithEmailAndPassword(email: email, password: password)

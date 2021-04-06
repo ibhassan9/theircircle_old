@@ -248,7 +248,7 @@ class _VideoPreviewState extends State<VideoPreview>
                         width: 30,
                         child: Center(
                             child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotate,
+                          indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor,
                         )),
                       );

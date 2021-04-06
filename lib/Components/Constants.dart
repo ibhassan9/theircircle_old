@@ -29,7 +29,6 @@ class Constants {
       "http://www.theircircleapp.com/privacy_policy.html";
   static String dummyImageUrl =
       'https://www.publicdomainpictures.net/pictures/240000/velka/beautiful-girl-in-the-park-smiling.jpg';
-
   static String theircartiOS =
       'https://apps.apple.com/ca/app/theircart/id1516132456';
   static String theircartA =
@@ -135,14 +134,48 @@ class Constants {
     )..show();
   }
 
+  static roomNA(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.NO_HEADER,
+      animType: AnimType.BOTTOMSLIDE,
+      body: Column(
+        children: [
+          Text(
+            'This room is not available anymore.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+                color: Theme.of(context).accentColor,
+                fontWeight: FontWeight.w500),
+          ),
+          SizedBox(height: 10.0),
+          Text(
+            'Create your own room!',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.quicksand(
+                color: Theme.of(context).accentColor,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+      dismissOnTouchOutside: true,
+      dismissOnBackKeyPress: true,
+      btnOkColor: Colors.teal,
+      btnOkOnPress: () {},
+    )..show();
+  }
+
   static int checkUniversity() {
     var userEmail = fAuth.currentUser.email;
-    if (userEmail.contains('utoronto')) {
+    if (userEmail.contains('@utoronto.ca') ||
+        userEmail.contains('@mail.utoronto.ca')) {
       return 0;
-    } else if (userEmail.contains('yorku')) {
+    } else if (userEmail.contains('@my.yorku.ca')) {
       return 1;
-    } else {
+    } else if (userEmail.contains('@uwo.ca')) {
       return 2;
+    } else {
+      return null;
     }
   }
 

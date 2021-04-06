@@ -221,7 +221,7 @@ class _ChatPageState extends State<ChatPage>
                                 height: 10,
                                 width: 10,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.ballClipRotate,
+                                  indicatorType: Indicator.circleStrokeSpin,
                                   color: Theme.of(context).accentColor,
                                 )),
                           )
@@ -276,45 +276,52 @@ class _ChatPageState extends State<ChatPage>
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
-        backgroundColor: Theme.of(context).backgroundColor,
+        toolbarHeight: 100,
+        elevation: 30.0,
+        shadowColor: Theme.of(context).dividerColor.withOpacity(0.5),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        // title: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     Text(
-        //       widget.receiver.name,
-        //       style: TextStyle(
-        //           fontFamily: "Futura1",
-        //           fontSize: 16,
-        //           fontWeight: FontWeight.w700,
-        //           color: Theme.of(context).accentColor),
-        //     ),
-        //     // Text(
-        //     //   "Meet & Make New Friends",
-        //     //   style: GoogleFonts.lexendDeca(
-        //     //     GoogleFonts.overpass: TextStyle(
-        //   fontFamily: Constants.fontFamily,
-        //     //         fontSize: 12,
-        //     //         fontWeight: FontWeight.w500,
-        //     //         color: Colors.black),
-        //     //   ),
-        //     // ),
-        //   ],
-        // ),
-        title: userBar(),
-        titleSpacing: 10.0,
-        leadingWidth: 30,
-        leading: IconButton(
-          icon: Icon(FlutterIcons.arrow_back_mdi),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        backgroundColor: Theme.of(context).backgroundColor,
+        title: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: CachedNetworkImage(
+                  imageUrl: widget.receiver.profileImgUrl,
+                  width: 35.0,
+                  height: 35.0,
+                  fit: BoxFit.cover),
+            ),
+            SizedBox(height: 5.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  widget.receiver.name,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).accentColor),
+                ),
+                SizedBox(height: 3.0),
+                Text(
+                  widget.receiver.about != null ? widget.receiver.about : '',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).buttonColor),
+                ),
+              ],
+            ),
+          ],
         ),
         actions: <Widget>[
           IconButton(
-            icon: Unicon(UniconData.uniUser,
+            icon: Icon(FlutterIcons.person_mdi,
                 color: Theme.of(context).accentColor),
             onPressed: () {
               // showBarModalBottomSheet(
@@ -334,7 +341,6 @@ class _ChatPageState extends State<ChatPage>
             },
           ),
         ],
-        elevation: 0.5,
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -716,6 +722,11 @@ class _ChatPageState extends State<ChatPage>
                 : 'WesternU')
         .child(widget.chatId);
     myChat = chats.onValue;
+    // chats.onChildAdded.listen((event) {
+    //   print('event received');
+    //   _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+    //       duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    // });
     prod = widget.prod;
   }
 

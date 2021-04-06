@@ -77,7 +77,8 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                             FirebaseAuth.instance.currentUser.uid) {
                           Room.delete(id: widget.room.id).then((value) {
                             if (value) {
-                              Navigator.pop(context, true);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
                             }
                           });
                         } else {
@@ -88,7 +89,8 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                 widget.room.members.removeWhere((element) =>
                                     element.id ==
                                     FirebaseAuth.instance.currentUser.uid);
-                                Navigator.pop(context, true);
+                                Navigator.of(context)
+                                    .popUntil((route) => route.isFirst);
                               });
                             }
                           });
@@ -158,7 +160,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                 height: 10,
                                 width: 10,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.ballClipRotate,
+                                  indicatorType: Indicator.circleStrokeSpin,
                                   color: Theme.of(context).accentColor,
                                 )),
                           )
@@ -668,6 +670,54 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
             : uniKey == 1
                 ? 'YorkU'
                 : 'WesternU')
+        .onChildRemoved
+        .listen((event) {
+      removedCount += 1;
+      print(event.snapshot.key);
+      if (removedCount > 1) {
+        return;
+      }
+      if (event.snapshot.key == widget.room.id) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.NO_HEADER,
+          animType: AnimType.BOTTOMSLIDE,
+          body: Column(
+            children: [
+              Text(
+                "This room has been ended.",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "You can start your own room by clicking on the 'Start a room' button",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          dismissOnTouchOutside: false,
+          dismissOnBackKeyPress: false,
+          btnOkColor: Colors.teal,
+          btnOkOnPress: () {
+            //Navigator.pop(context);
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            eventCount = 0;
+          },
+        )..show();
+      }
+    });
+    db
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
         .child(widget.room.id)
         .child('members')
         .onChildRemoved
@@ -678,42 +728,45 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       if (eventCount > 1) {
         return;
       }
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.NO_HEADER,
-        animType: AnimType.BOTTOMSLIDE,
-        body: Column(
-          children: [
-            Text(
-              event.snapshot.key == FirebaseAuth.instance.currentUser.uid
-                  ? "You have been removed from this room"
-                  : "This room has been ended.",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                  color: Theme.of(context).accentColor,
-                  fontWeight: FontWeight.w500),
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              event.snapshot.key == FirebaseAuth.instance.currentUser.uid
-                  ? 'Please refrain from joining in the next 20 minutes to prevent account suspension.'
-                  : "You can start your own room by clicking on the 'Start a room' button",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                  color: Theme.of(context).accentColor,
-                  fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        dismissOnTouchOutside: false,
-        dismissOnBackKeyPress: false,
-        btnOkColor: Colors.teal,
-        btnOkOnPress: () {
-          //Navigator.pop(context);
-          Navigator.pop(context, true);
-          eventCount = 0;
-        },
-      )..show();
+      if (event.snapshot.key == FirebaseAuth.instance.currentUser.uid) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.NO_HEADER,
+          animType: AnimType.BOTTOMSLIDE,
+          body: Column(
+            children: [
+              Text(
+                "You have been removed from this room",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                'Please refrain from joining in the next 20 minutes to prevent account suspension.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          dismissOnTouchOutside: false,
+          dismissOnBackKeyPress: false,
+          btnOkColor: Colors.teal,
+          btnOkOnPress: () {
+            //Navigator.pop(context);
+            setState(() {
+              widget.room.members.removeWhere((element) =>
+                  element.id == FirebaseAuth.instance.currentUser.uid);
+              widget.room.inRoom = false;
+            });
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            eventCount = 0;
+          },
+        )..show();
+      }
     });
   }
 

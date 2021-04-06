@@ -357,7 +357,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                           width: 40,
                           height: 40,
                           child: LoadingIndicator(
-                            indicatorType: Indicator.ballClipRotate,
+                            indicatorType: Indicator.circleStrokeSpin,
                             color: Theme.of(context).accentColor,
                           )),
                     ),
@@ -622,7 +622,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                         width: 40,
                         height: 40,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotate,
+                          indicatorType: Indicator.circleStrokeSpin,
                           color: Colors.white,
                         )))
                 : Row(mainAxisAlignment: MainAxisAlignment.center, children: [

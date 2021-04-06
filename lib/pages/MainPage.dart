@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -174,6 +175,10 @@ class _MainPageState extends State<MainPage>
                       child: InkWell(
                         onTap: () {
                           widget.goToChat();
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => MyReferral()));
                         },
                         child: CircleAvatar(
                           radius: 18.0,
@@ -192,202 +197,194 @@ class _MainPageState extends State<MainPage>
               visible: doneLoading == true,
               child: RefreshIndicator(
                 onRefresh: refresh,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(0.0),
-                      bottomRight: Radius.circular(0.0)),
-                  child: Container(
-                    color: Theme.of(context).backgroundColor,
-                    height: MediaQuery.of(context).size.height,
-                    child: ListView(
-                      padding: const EdgeInsets.all(0),
-                      children: <Widget>[
-                        // Container(
-                        //   height: 100,
-                        //   child: getStories(),
-                        // ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: WelcomeWidget(
-                            create: () {
-                              // await noti.sendNewQuestionToAll();
-                              showBarModalBottomSheet(
-                                      context: context,
-                                      expand: true,
-                                      builder: (context) => PostPage())
-                                  .then((refresh) {
-                                if (refresh == false) {
-                                  return;
-                                }
+                child: ListView(
+                  padding: const EdgeInsets.all(0),
+                  children: <Widget>[
+                    // Container(
+                    //   height: 100,
+                    //   child: getStories(),
+                    // ),
+                    promoWidget(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5.0),
+                      child: WelcomeWidget(
+                        create: () {
+                          // await noti.sendNewQuestionToAll();
+                          showBarModalBottomSheet(
+                              context: context,
+                              expand: true,
+                              builder: (context) => PostPage()).then((refresh) {
+                            if (refresh == false) {
+                              return;
+                            }
+                            setState(() {
+                              _postFuture = fetchPosts(sortBy);
+                            });
+                          });
+                        },
+                        answerQuestion: () async {
+                          var question = await _questionFuture;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TodaysQuestionPage(
+                                      question: question))).then((value) {
+                            if (value == false) {
+                              return;
+                            }
+                            refresh();
+                          });
+                        },
+                        startRoom: () => print("test"),
+                      ),
+                    ),
+                    questionWidget(),
+                    Container(
+                      color: Theme.of(context).dividerColor,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
+                        child: Row(
+                          children: [
+                            Unicon(UniconData.uniSortAmountUp,
+                                size: 20.0, color: Colors.grey.shade600),
+                            SizedBox(width: 5.0),
+                            InkWell(
+                              onTap: () {
                                 setState(() {
+                                  if (sortBy == 0) {
+                                    sortBy = 1;
+                                  } else {
+                                    sortBy = 0;
+                                  }
                                   _postFuture = fetchPosts(sortBy);
                                 });
-                              });
-                            },
-                            answerQuestion: () async {
-                              var question = await _questionFuture;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TodaysQuestionPage(
-                                          question: question))).then((value) {
-                                if (value == false) {
-                                  return;
-                                }
-                                refresh();
-                              });
-                            },
-                            startRoom: () => print("test"),
-                          ),
-                        ),
-                        questionWidget(),
-                        Container(
-                          color: Theme.of(context).dividerColor,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
-                            child: Row(
-                              children: [
-                                Unicon(UniconData.uniSortAmountUp,
-                                    size: 20.0, color: Colors.grey.shade600),
-                                SizedBox(width: 5.0),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      if (sortBy == 0) {
-                                        sortBy = 1;
-                                      } else {
-                                        sortBy = 0;
-                                      }
-                                      _postFuture = fetchPosts(sortBy);
-                                    });
-                                  },
-                                  child: Text(
-                                    "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
-                                        .toUpperCase(),
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.grey.shade600),
-                                  ),
-                                ),
-                                SizedBox(width: 5.0),
-                                Unicon(UniconData.uniArrowDown,
-                                    size: 20.0, color: Colors.grey.shade600),
-                              ],
+                              },
+                              child: Text(
+                                "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
+                                    .toUpperCase(),
+                                style: TextStyle(
+                                    fontFamily: 'Neue Helvetica',
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.grey.shade600),
+                              ),
                             ),
-                          ),
+                            SizedBox(width: 5.0),
+                            Unicon(UniconData.uniArrowDown,
+                                size: 20.0, color: Colors.grey.shade600),
+                          ],
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       Text('Rooms', style: TextStyle(
-                        //fontFamily: 'Helvetica Neue',)),
-                        //       InkWell(
-                        //         onTap: () {
-                        //           Navigator.push(context,
-                        //               MaterialPageRoute(builder: (context) => Rooms()));
-                        //         },
-                        //         child: Row(
-                        //           crossAxisAlignment: CrossAxisAlignment.center,
-                        //           children: [
-                        //             Text('See All',
-                        //                 style: TextStyle(
-                        //fontFamily: 'Helvetica Neue',
-                        //                     fontSize: 12,
-                        //                     color: Theme.of(context).buttonColor)),
-                        //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
-                          child: Text('Live Rooms',
-                              style: GoogleFonts.quicksand(
-                                  color: Theme.of(context).accentColor,
-                                  fontSize: 17.0,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        rooms(),
-                        promoWidget(),
-                        //WelcomeWidget(),
-                        //questionWidget(),
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                        //   child: Text(
-                        //     "Recent University News".toUpperCase(),
-                        //     style: TextStyle(
-                        //         fontFamily: 'Helvetica Neue',
-                        //         fontSize: 13,
-                        //         fontWeight: FontWeight.w600,
-                        //         color: Theme.of(context).accentColor),
-                        //   ),
-                        // ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
-                          child: Text('Latest Articles',
-                              style: GoogleFonts.quicksand(
-                                  color: Theme.of(context).accentColor,
-                                  fontSize: 17.0,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        newsListWidget(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Container(
-                            color: Theme.of(context).dividerColor,
-                            height: 8.0,
-                          ),
-                        ),
-                        //Divider(),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(15),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       Text(
-                        //         "Campus Feed",
-                        //         style: TextStyle(
-                        //fontFamily: 'Helvetica Neue',
-                        //             fontSize: 13,
-                        //             fontWeight: FontWeight.w500,
-                        //             color: Theme.of(context).accentColor),
-                        //       ),
-                        //       InkWell(
-                        //         onTap: () {
-                        //           setState(() {
-                        //             if (sortBy == 0) {
-                        //               sortBy = 1;
-                        //             } else {
-                        //               sortBy = 0;
-                        //             }
-                        //             _postFuture = fetchPosts(sortBy);
-                        //           });
-                        //         },
-                        //         child: Text(
-                        //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                        //           style: TextStyle(
-                        //fontFamily: 'Helvetica Neue',
-                        //               fontSize: 14,
-                        //               fontWeight: FontWeight.w800,
-                        //               color: Colors.grey.shade600),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        //Divider(),
-                        postWidget()
-                      ],
+                      ),
                     ),
-                  ),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text('Rooms', style: TextStyle(
+                    //fontFamily: 'Helvetica Neue',)),
+                    //       InkWell(
+                    //         onTap: () {
+                    //           Navigator.push(context,
+                    //               MaterialPageRoute(builder: (context) => Rooms()));
+                    //         },
+                    //         child: Row(
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: [
+                    //             Text('See All',
+                    //                 style: TextStyle(
+                    //fontFamily: 'Helvetica Neue',
+                    //                     fontSize: 12,
+                    //                     color: Theme.of(context).buttonColor)),
+                    //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
+                      child: Text('Live Rooms',
+                          style: TextStyle(
+                              fontFamily: 'Neue Helvetica',
+                              color: Theme.of(context).accentColor,
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    rooms(),
+
+                    //WelcomeWidget(),
+                    //questionWidget(),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
+                    //   child: Text(
+                    //     "Recent University News".toUpperCase(),
+                    //     style: TextStyle(
+                    //         fontFamily: 'Helvetica Neue',
+                    //         fontSize: 13,
+                    //         fontWeight: FontWeight.w600,
+                    //         color: Theme.of(context).accentColor),
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
+                      child: Text('Latest Articles',
+                          style: TextStyle(
+                              fontFamily: 'Neue Helvetica',
+                              color: Theme.of(context).accentColor,
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    newsListWidget(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Container(
+                        color: Theme.of(context).dividerColor,
+                        height: 8.0,
+                      ),
+                    ),
+                    //Divider(),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(15),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         "Campus Feed",
+                    //         style: TextStyle(
+                    //fontFamily: 'Helvetica Neue',
+                    //             fontSize: 13,
+                    //             fontWeight: FontWeight.w500,
+                    //             color: Theme.of(context).accentColor),
+                    //       ),
+                    //       InkWell(
+                    //         onTap: () {
+                    //           setState(() {
+                    //             if (sortBy == 0) {
+                    //               sortBy = 1;
+                    //             } else {
+                    //               sortBy = 0;
+                    //             }
+                    //             _postFuture = fetchPosts(sortBy);
+                    //           });
+                    //         },
+                    //         child: Text(
+                    //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                    //           style: TextStyle(
+                    //fontFamily: 'Helvetica Neue',
+                    //               fontSize: 14,
+                    //               fontWeight: FontWeight.w800,
+                    //               color: Colors.grey.shade600),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    //Divider(),
+                    postWidget()
+                  ],
                 ),
               ),
             ),
@@ -430,7 +427,7 @@ class _MainPageState extends State<MainPage>
 
   Widget rooms() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 10.0, 0.0),
       child: Container(
           height: 150,
           child: FutureBuilder(
@@ -488,7 +485,9 @@ class _MainPageState extends State<MainPage>
                       //                   index == 0 ? 'Create' : room.name,
                       //                   textAlign: TextAlign.center,
                       //                   style:
-                      //                       GoogleFonts.quicksand(fontSize: 10.0),
+                      //                       TextStyle(
+                      //                fontFamily:
+                      //'Neue Helvetica',fontSize: 10.0),
                       //                   maxLines: 2,
                       //                   overflow: TextOverflow.ellipsis),
                       //             ),
@@ -536,7 +535,8 @@ class _MainPageState extends State<MainPage>
               radius: 5.0,
               backgroundColor: Colors.deepPurpleAccent,
               child: Text(this.user.name.substring(0, 1),
-                  style: GoogleFonts.quicksand(color: Colors.white)))
+                  style: TextStyle(
+                      fontFamily: 'Neue Helvetica', color: Colors.white)))
           : Hero(
               tag: UniqueKey().toString(),
               child: ClipRRect(
@@ -557,7 +557,7 @@ class _MainPageState extends State<MainPage>
                             width: 20,
                             height: 20,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.ballClipRotate,
+                              indicatorType: Indicator.circleStrokeSpin,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -643,7 +643,8 @@ class _MainPageState extends State<MainPage>
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -651,7 +652,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -659,7 +661,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -667,7 +670,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -675,7 +679,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -683,7 +688,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -691,7 +697,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -699,7 +706,8 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -709,7 +717,8 @@ class _MainPageState extends State<MainPage>
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: GoogleFonts.quicksand(
+                  style: TextStyle(
+                      fontFamily: 'Neue Helvetica',
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -765,14 +774,16 @@ class _MainPageState extends State<MainPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.quicksand(
+          style: TextStyle(
+              fontFamily: 'Neue Helvetica',
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.quicksand(
+          style: TextStyle(
+              fontFamily: 'Neue Helvetica',
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -781,7 +792,8 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -801,7 +813,8 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.quicksand(
+                style: TextStyle(
+                    fontFamily: 'Neue Helvetica',
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -854,7 +867,8 @@ class _MainPageState extends State<MainPage>
                       backgroundColor: Colors.red,
                       child: Text(
                         '',
-                        style: GoogleFonts.quicksand(
+                        style: TextStyle(
+                            fontFamily: 'Neue Helvetica',
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: Colors.white),
@@ -949,9 +963,9 @@ class _MainPageState extends State<MainPage>
     return promo != null && promo.isNotEmpty
         ? Padding(
             key: ValueKey(promo),
-            padding: const EdgeInsets.all(0.0),
+            padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(0.0),
+              borderRadius: BorderRadius.circular(20.0),
               child: Container(
                   height: 200,
                   decoration: BoxDecoration(
@@ -1033,7 +1047,7 @@ class _MainPageState extends State<MainPage>
                           width: 0,
                           height: 0,
                           child: LoadingIndicator(
-                            indicatorType: Indicator.ballClipRotate,
+                            indicatorType: Indicator.circleStrokeSpin,
                             color: Theme.of(context).accentColor,
                           ))),
                 );
@@ -1081,12 +1095,17 @@ class _MainPageState extends State<MainPage>
                         width: 0,
                         height: 0,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotate,
+                          indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor,
                         ))),
               );
             } else if (snap.hasData) {
-              var r = 4;
+              var r;
+              Random rnd;
+              int min = 0;
+              int max = snap.data.length;
+              rnd = new Random();
+              r = min + rnd.nextInt(max - min);
               return AnimatedSwitcher(
                 duration: Duration(seconds: 1),
                 child: ListView.builder(
@@ -1171,7 +1190,8 @@ class _MainPageState extends State<MainPage>
                       SizedBox(width: 10),
                       Text(
                         "Cannot find any posts :(",
-                        style: GoogleFonts.quicksand(
+                        style: TextStyle(
+                            fontFamily: 'Neue Helvetica',
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey),

@@ -319,7 +319,7 @@ class _PostPageState extends State<PostPage> {
                     width: 40,
                     height: 40,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballClipRotate,
+                      indicatorType: Indicator.circleStrokeSpin,
                       color: Colors.white,
                     ),
                   )

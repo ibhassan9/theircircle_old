@@ -29,9 +29,12 @@ class _RoomWidgetState extends State<RoomWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        //TODO:- CHECK IF ROOM STILL LIVE
-
+      onTap: () async {
+        bool live = await Room.isLive(id: widget.room.id);
+        if (!live) {
+          Constants.roomNA(context);
+          return;
+        }
         if (widget.room.isLocked == false ||
             widget.room.adminId == FirebaseAuth.instance.currentUser.uid) {
           Navigator.push(

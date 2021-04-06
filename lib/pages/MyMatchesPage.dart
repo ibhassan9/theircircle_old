@@ -156,7 +156,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                 height: 30,
                                 width: 30,
                                 child: LoadingIndicator(
-                                    indicatorType: Indicator.ballClipRotate,
+                                    indicatorType: Indicator.circleStrokeSpin,
                                     color: Theme.of(context).accentColor)));
                       } else {
                         return Container(

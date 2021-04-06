@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/pages/RoomPage.dart';
 
@@ -20,8 +21,12 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
       child: InkWell(
-        onTap: () {
-          //TODO:- CHECK IF ROOM STILL LIVE
+        onTap: () async {
+          bool live = await Room.isLive(id: widget.room.id);
+          if (!live) {
+            Constants.roomNA(context);
+            return;
+          }
           if (widget.room.isLocked == false ||
               widget.room.adminId == FirebaseAuth.instance.currentUser.uid) {
             Navigator.push(
@@ -54,11 +59,11 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
                         top: 0.0,
                         right: 0,
                         child: CircleAvatar(
-                          radius: 6.0,
+                          radius: 7.0,
                           backgroundColor: Theme.of(context).backgroundColor,
                           child: SizedBox(
-                              height: 20,
-                              width: 20,
+                              height: 30,
+                              width: 30,
                               child: LoadingIndicator(
                                   indicatorType: Indicator.ballScaleMultiple,
                                   color: Colors.teal)),

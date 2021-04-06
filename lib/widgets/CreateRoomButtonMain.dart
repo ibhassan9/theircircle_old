@@ -14,39 +14,41 @@ class CreateRoomButtonMain extends StatefulWidget {
 
 class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        Navigator.push(
-                context, MaterialPageRoute(builder: (context) => CreateRoom()))
-            .then((v) {
-          if (v == true) {
-            widget.reloadRooms();
-          }
-        });
-      },
-      child: Column(
-        children: [
-          Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).dividerColor,
-                  borderRadius: BorderRadius.circular(15.0)),
-              child: Icon(FlutterIcons.add_mdi,
-                  color: Theme.of(context).accentColor)),
-          SizedBox(height: 5.0),
-          Container(
-            width: 60,
-            child: Center(
-              child: Text('Create',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                      fontSize: 12.0, fontWeight: FontWeight.w600),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis),
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: InkWell(
+        onTap: () async {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateRoom())).then((v) {
+            if (v == true) {
+              widget.reloadRooms();
+            }
+          });
+        },
+        child: Column(
+          children: [
+            Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor,
+                    borderRadius: BorderRadius.circular(15.0)),
+                child: Icon(FlutterIcons.add_mdi,
+                    color: Theme.of(context).accentColor)),
+            SizedBox(height: 5.0),
+            Container(
+              width: 60,
+              child: Center(
+                child: Text('Create',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 12.0, fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

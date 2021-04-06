@@ -195,7 +195,7 @@ class _UploadVideoState extends State<UploadVideo> {
                     height: 40.0,
                     width: 40.0,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.ballClipRotate,
+                      indicatorType: Indicator.circleStrokeSpin,
                       color: Colors.white,
                     ))
                 : Text(

@@ -79,7 +79,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                                           height: 20,
                                           child: LoadingIndicator(
                                             indicatorType:
-                                                Indicator.ballClipRotate,
+                                                Indicator.circleStrokeSpin,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

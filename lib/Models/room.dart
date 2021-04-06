@@ -32,6 +32,25 @@ class Room {
       this.inRoom,
       this.isRequested});
 
+  static Future<bool> isLive({String id}) async {
+    var uniKey = Constants.checkUniversity();
+    var db = FirebaseDatabase.instance
+        .reference()
+        .child('rooms')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(id);
+    DataSnapshot snapshot = await db.once();
+    if (snapshot.value != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static Future<bool> create(
       {String name,
       String description,

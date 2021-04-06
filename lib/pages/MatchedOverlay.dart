@@ -97,7 +97,7 @@ class MatchedOverlay extends ModalRoute<void> {
                                 width: 140,
                                 child: Center(
                                     child: LoadingIndicator(
-                                  indicatorType: Indicator.ballClipRotate,
+                                  indicatorType: Indicator.circleStrokeSpin,
                                   color: Theme.of(context).accentColor,
                                 )),
                               );

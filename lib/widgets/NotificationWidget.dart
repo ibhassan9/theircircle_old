@@ -68,7 +68,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                           height: 10,
                                           child: LoadingIndicator(
                                             indicatorType:
-                                                Indicator.ballClipRotate,
+                                                Indicator.circleStrokeSpin,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

@@ -176,7 +176,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                               height: 10,
                                               child: LoadingIndicator(
                                                 indicatorType:
-                                                    Indicator.ballClipRotate,
+                                                    Indicator.circleStrokeSpin,
                                                 color: Theme.of(context)
                                                     .accentColor,
                                               )),
@@ -991,7 +991,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                             height: 20,
                                             child: LoadingIndicator(
                                               indicatorType:
-                                                  Indicator.ballClipRotate,
+                                                  Indicator.circleStrokeSpin,
                                               color: Colors.white,
                                             )),
                                       ),

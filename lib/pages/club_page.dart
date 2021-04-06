@@ -326,7 +326,7 @@ class _ClubPageState extends State<ClubPage> {
                                           height: 20,
                                           child: LoadingIndicator(
                                             indicatorType:
-                                                Indicator.ballClipRotate,
+                                                Indicator.circleStrokeSpin,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),
