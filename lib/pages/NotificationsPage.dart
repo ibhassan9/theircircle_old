@@ -62,7 +62,7 @@ class _NotificationsPageState extends State<NotificationsPage>
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text(
         "Activity",
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.manrope(
             fontSize: 15,
             fontWeight: FontWeight.w700,
             color: Theme.of(context).accentColor),

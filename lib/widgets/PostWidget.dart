@@ -11,6 +11,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share/share.dart';
+import 'package:simple_url_preview/simple_url_preview.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/app_icons.dart';
@@ -68,14 +69,18 @@ class _PostWidgetState extends State<PostWidget> {
   double containerWidth = 50.0;
   Color color;
   Color textColor;
-  Color option1Color = Colors.teal;
-  Color option2Color = Colors.blueGrey[300];
+  Color option1Color = Colors.blueGrey[300].withOpacity(0.5);
+  Color option2Color = Colors.blueGrey[300].withOpacity(0.5);
   Color outsideOptionColor = Colors.transparent;
   double width1;
   double width2;
   PostUser _user;
   Gradient gradient =
-      LinearGradient(colors: [Color(0xFF1777F2), Color(0xFF1777F2)]);
+      LinearGradient(colors: [Colors.blue, Colors.deepPurpleAccent]);
+  Gradient gradient2 = LinearGradient(
+      colors: [Colors.deepOrangeAccent, Colors.deepPurpleAccent]);
+  Gradient transparent =
+      LinearGradient(colors: [Colors.transparent, Colors.transparent]);
 
   Widget build(BuildContext context) {
     return _user != null
@@ -241,11 +246,10 @@ class _PostWidgetState extends State<PostWidget> {
                                                                       widget
                                                                           .post
                                                                           .username
-                                                                          .substring(0,
+                                                                          .substring(
+                                                                              0,
                                                                               1),
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontWeight: FontWeight
                                                                               .w500,
                                                                           color:
@@ -274,8 +278,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                                     null)
                                                                   return child;
                                                                 return SizedBox(
-                                                                  height: 30,
-                                                                  width: 30,
+                                                                  height: 40,
+                                                                  width: 40,
                                                                   child: Center(
                                                                     child: SizedBox(
                                                                         width: 10,
@@ -327,20 +331,30 @@ class _PostWidgetState extends State<PostWidget> {
                                                                     (widget.post.feeling !=
                                                                             null
                                                                         ? " are feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
-                                                                        : ""))
+                                                                        : widget.post.tcQuestion !=
+                                                                                null
+                                                                            ? " answered a question 🤔"
+                                                                            : ""))
                                                                 : widget.post
                                                                         .isAnonymous
-                                                                    ? ("Anon" +
+                                                                    ? ("✨ Anon" +
                                                                         (widget.post.feeling !=
                                                                                 null
                                                                             ? " is feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
-                                                                            : ""))
+                                                                            : widget.post.tcQuestion !=
+                                                                                    null
+                                                                                ? " answered a question 🤔"
+                                                                                : ""))
                                                                     : widget
                                                                         .post
                                                                         .username,
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Neue Helvetica',
+                                                            style: GoogleFonts.manrope(
+                                                                fontSize: widget
+                                                                            .post
+                                                                            .feeling !=
+                                                                        null
+                                                                    ? 14.0
+                                                                    : 14.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -360,8 +374,9 @@ class _PostWidgetState extends State<PostWidget> {
                                                             children: [
                                                               Text(
                                                                 '${widget.timeAgo.replaceAll('~', '')} • ',
-                                                                style: GoogleFonts
-                                                                    .quicksand(
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .manrope(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
@@ -397,9 +412,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           5
                                                                       ? 'Recently Joined'
                                                                       : '',
-                                                                  style: TextStyle(
-                                                                      fontFamily:
-                                                                          'Neue Helvetica',
+                                                                  style: GoogleFonts.manrope(
                                                                       fontSize:
                                                                           14,
                                                                       fontWeight:
@@ -425,9 +438,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             .about
                                                                         : 'No bio available',
                                                                     maxLines: 1,
-                                                                    style: TextStyle(
-                                                                        fontFamily:
-                                                                            'Neue Helvetica',
+                                                                    style: GoogleFonts.manrope(
                                                                         fontSize:
                                                                             10,
                                                                         fontWeight:
@@ -459,14 +470,14 @@ class _PostWidgetState extends State<PostWidget> {
                                                                   .uid
                                                           ? "OPTIONS"
                                                           : "REPORT",
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'Neue Helvetica',
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Theme.of(context)
+                                                      style:
+                                                          GoogleFonts.manrope(
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Theme.of(
+                                                                      context)
                                                                   .accentColor),
                                                     ),
                                                     message: Text(
@@ -476,14 +487,14 @@ class _PostWidgetState extends State<PostWidget> {
                                                                   .uid
                                                           ? "What would you like to do?"
                                                           : "What is the issue?",
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'Neue Helvetica',
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Theme.of(context)
+                                                      style:
+                                                          GoogleFonts.manrope(
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Theme.of(
+                                                                      context)
                                                                   .accentColor),
                                                     ),
                                                     actions:
@@ -495,9 +506,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Delete Post",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -510,16 +519,14 @@ class _PostWidgetState extends State<PostWidget> {
                                                                       final act = CupertinoActionSheet(
                                                                           title: Text(
                                                                             'Delete Post',
-                                                                            style: TextStyle(
-                                                                                fontFamily: 'Neue Helvetica',
+                                                                            style: GoogleFonts.manrope(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Theme.of(context).accentColor),
                                                                           ),
                                                                           message: Text(
                                                                             'Are you sure you want to delete this post?',
-                                                                            style: TextStyle(
-                                                                                fontFamily: 'Neue Helvetica',
+                                                                            style: GoogleFonts.manrope(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Theme.of(context).accentColor),
@@ -528,7 +535,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             CupertinoActionSheetAction(
                                                                                 child: Text(
                                                                                   "YES",
-                                                                                  style: TextStyle(fontFamily: 'Neue Helvetica', fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                  style: GoogleFonts.manrope(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                                 ),
                                                                                 onPressed: () {
                                                                                   widget.deletePost();
@@ -537,7 +544,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             CupertinoActionSheetAction(
                                                                                 child: Text(
                                                                                   "Cancel",
-                                                                                  style: TextStyle(fontFamily: 'Neue Helvetica', fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                  style: GoogleFonts.manrope(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                                 ),
                                                                                 onPressed: () {
                                                                                   Navigator.pop(context);
@@ -552,9 +559,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -572,9 +577,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's suspicious or spam",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -591,9 +594,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's abusive or harmful",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -610,9 +611,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It expresses intentions of self-harm or suicide",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -629,9 +628,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It promotes sexual/inappropriate content",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -648,9 +645,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Hide this post.",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -667,8 +662,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Neue Helvetica',
+                                                                          style: GoogleFonts.manrope(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -676,8 +670,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to hide this post?",
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Neue Helvetica',
+                                                                          style: GoogleFonts.manrope(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -686,7 +679,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "YES",
-                                                                                style: TextStyle(fontFamily: 'Neue Helvetica', fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                style: GoogleFonts.manrope(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                               ),
                                                                               onPressed: () async {
                                                                                 await widget.hide();
@@ -694,7 +687,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: TextStyle(fontFamily: 'Neue Helvetica', fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.manrope(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -710,9 +703,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Block this user",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -729,8 +720,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Neue Helvetica',
+                                                                          style: GoogleFonts.manrope(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -738,8 +728,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to block this user?",
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Neue Helvetica',
+                                                                          style: GoogleFonts.manrope(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -748,7 +737,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "YES",
-                                                                                style: TextStyle(fontFamily: 'Neue Helvetica', fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                style: GoogleFonts.manrope(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                               ),
                                                                               onPressed: () async {
                                                                                 await widget.block();
@@ -756,7 +745,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: TextStyle(fontFamily: 'Neue Helvetica', fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.manrope(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -772,9 +761,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Neue Helvetica',
+                                                                      style: GoogleFonts.manrope(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -848,13 +835,19 @@ class _PostWidgetState extends State<PostWidget> {
                           ? Padding(
                               padding: const EdgeInsets.only(
                                   bottom: 4.0, left: 10.0, right: 10.0),
-                              child: Text(
-                                widget.post.tcQuestion,
-                                style: TextStyle(
-                                  fontFamily: 'Neue Helvetica',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context).accentColor,
+                              child: ShaderMask(
+                                shaderCallback: (bounds) =>
+                                    gradient.createShader(
+                                  Rect.fromLTWH(
+                                      0, 0, bounds.width, bounds.height),
+                                ),
+                                child: Text(
+                                  widget.post.tcQuestion,
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ))
                           : Container(),
@@ -867,10 +860,9 @@ class _PostWidgetState extends State<PostWidget> {
                                   right: 10.0),
                               child: Text(
                                 widget.post.title,
-                                style: TextStyle(
-                                    fontFamily: 'Neue Helvetica',
+                                style: GoogleFonts.manrope(
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
                               ),
                             )
@@ -884,11 +876,9 @@ class _PostWidgetState extends State<PostWidget> {
                               padding: const EdgeInsets.only(
                                   bottom: 0.0, left: 10.0, right: 10.0),
                               child: Text(widget.post.content.trimRight(),
-                                  style: TextStyle(
-                                      fontFamily: 'Neue Helvetica',
-                                      fontSize:
-                                          widget.fromComments ? 15.5 : 15.5,
-                                      fontWeight: FontWeight.w400,
+                                  style: GoogleFonts.manrope(
+                                      fontSize: widget.fromComments ? 15 : 15,
+                                      fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor))
                               // child: SelectableLinkify(
                               //   onOpen: (link) async {
@@ -900,16 +890,29 @@ class _PostWidgetState extends State<PostWidget> {
                               //                 selectedUrl: link.url)));
                               //   },
                               //   text: widget.post.content.trimRight(),
-                              //   style:  TextStyle(fontFamily: 'Neue Helvetica',
+                              //   style:  GoogleFonts.manrope(
                               //
                               //       fontSize: widget.fromComments ? 15.5 : 15.5,
                               //       fontWeight: FontWeight.w500,
                               //       color: Theme.of(context).accentColor),
                               //   linkStyle:
-                              //        TextStyle(fontFamily: 'Neue Helvetica',
+                              //        GoogleFonts.manrope(
                               // color: Colors.indigo),
                               // ),
                               ),
+                      // grabUrls(content: widget.post.content.trimRight())
+                      //             .length >
+                      //         0
+                      //     ? SizedBox(
+                      //         height: 100,
+                      //         width: 100,
+                      //         child: SimpleUrlPreview(
+                      //             url: grabUrls(
+                      //                     content:
+                      //                         widget.post.content.trimRight())
+                      //                 .first),
+                      //       )
+                      //     : Container(),
                       widget.club != null
                           ? widget.post.userId == widget.club.adminId &&
                                   widget.post.isAnonymous == false &&
@@ -924,8 +927,7 @@ class _PostWidgetState extends State<PostWidget> {
                                           8.0, 3.0, 8.0, 3.0),
                                       child: Text(
                                         "Admin",
-                                        style: TextStyle(
-                                            fontFamily: 'Neue Helvetica',
+                                        style: GoogleFonts.manrope(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white),
@@ -1025,8 +1027,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionOne,
-                                              style: TextStyle(
-                                                  fontFamily: 'Neue Helvetica',
+                                              style: GoogleFonts.manrope(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -1117,8 +1118,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionTwo,
-                                              style: TextStyle(
-                                                  fontFamily: 'Neue Helvetica',
+                                              style: GoogleFonts.manrope(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -1149,8 +1149,7 @@ class _PostWidgetState extends State<PostWidget> {
                         widget.post.whichOption == 1
                             ? 'You voted: ${widget.post.questionOne}'
                             : 'You voted: ${widget.post.questionTwo}',
-                        style: TextStyle(
-                            fontFamily: 'Neue Helvetica',
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).buttonColor),
@@ -1194,8 +1193,7 @@ class _PostWidgetState extends State<PostWidget> {
                               : 'View Poll Results (' +
                                   pollCount().toString() +
                                   ' votes)',
-                          style: TextStyle(
-                              fontFamily: 'Neue Helvetica',
+                          style: GoogleFonts.manrope(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -1208,11 +1206,12 @@ class _PostWidgetState extends State<PostWidget> {
               widget.post.imgUrl != null
                   ? Padding(
                       padding: const EdgeInsets.only(
-                          top: 10.0, left: 0.0, right: 0.0, bottom: 10.0),
+                          top: 10.0, left: 10.0, right: 10.0, bottom: 10.0),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(0.0),
+                        borderRadius: BorderRadius.circular(10.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
+                          height: 200,
                           color: Colors.grey[300],
                           child: FullScreenWidget(
                             backgroundColor: Colors.brown,
@@ -1222,9 +1221,8 @@ class _PostWidgetState extends State<PostWidget> {
                                 child: Image.network(
                                   widget.post.imgUrl,
                                   width: MediaQuery.of(context).size.width,
-
-                                  //height:
-                                  //MediaQuery.of(context).size.height / 2,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height / 2,
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
@@ -1274,17 +1272,18 @@ class _PostWidgetState extends State<PostWidget> {
                     Expanded(
                       child: Text(
                         '${widget.post.likeCount}',
-                        style: TextStyle(
-                          fontFamily: 'Neue Helvetica',
+                        style: GoogleFonts.manrope(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
                         ),
                       ),
                     ),
                     Text(
-                      '${widget.post.commentCount} Comments',
-                      style: TextStyle(
-                        fontFamily: 'Neue Helvetica',
+                      '${widget.post.commentCount} ' +
+                          (widget.post.commentCount.toString() == '1'
+                              ? "Comment"
+                              : "Comments"),
+                      style: GoogleFonts.manrope(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).buttonColor,
                       ),
@@ -1546,8 +1545,7 @@ class _PostWidgetState extends State<PostWidget> {
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
                             'Comment',
-                            style: TextStyle(
-                                fontFamily: 'Neue Helvetica',
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).buttonColor),
@@ -1577,8 +1575,7 @@ class _PostWidgetState extends State<PostWidget> {
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text("Share",
-                                style: TextStyle(
-                                    fontFamily: 'Neue Helvetica',
+                                style: GoogleFonts.manrope(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF1777F2))),
@@ -1593,7 +1590,7 @@ class _PostWidgetState extends State<PostWidget> {
                     //             : widget.post.university == 'YorkU'
                     //                 ? 'York University'
                     //                 : 'Western University',
-                    //         style:  TextStyle(fontFamily: 'Neue Helvetica',
+                    //         style:  GoogleFonts.manrope(
                     //
                     //             fontSize: 13,
                     //             fontWeight: FontWeight.w600,
@@ -1614,7 +1611,7 @@ class _PostWidgetState extends State<PostWidget> {
               //           comment.userId == firebaseAuth.currentUser.uid
               //               ? "You"
               //               : comment.username,
-              //           style:  TextStyle(fontFamily: 'Neue Helvetica',
+              //           style:  GoogleFonts.manrope(
               //
               //               fontSize: 13,
               //               fontWeight: FontWeight.w500,
@@ -1633,7 +1630,7 @@ class _PostWidgetState extends State<PostWidget> {
               //                 child: Text(comment.content,
               //                     maxLines: null,
               //                     overflow: TextOverflow.ellipsis,
-              //                     style:  TextStyle(fontFamily: 'Neue Helvetica',
+              //                     style:  GoogleFonts.manrope(
               //
               //                         fontSize: 13,
               //                         fontWeight: FontWeight.w500,
@@ -1667,8 +1664,7 @@ class _PostWidgetState extends State<PostWidget> {
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: TextStyle(
-              fontFamily: 'Neue Helvetica',
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -1687,15 +1683,17 @@ class _PostWidgetState extends State<PostWidget> {
         imgUrl = value.profileImgUrl;
         token = value.device_token;
         _user = value;
-        setState(() {
-          if (widget.post.isVoted) {
-            width1 = MediaQuery.of(context).size.width * widthPercentage(1);
-            width2 = MediaQuery.of(context).size.width * widthPercentage(2);
-          } else {
-            width1 = MediaQuery.of(context).size.width;
-            width2 = MediaQuery.of(context).size.width;
-          }
-        });
+        if (this.mounted) {
+          setState(() {
+            if (widget.post.isVoted) {
+              width1 = MediaQuery.of(context).size.width * widthPercentage(1);
+              width2 = MediaQuery.of(context).size.width * widthPercentage(2);
+            } else {
+              width1 = MediaQuery.of(context).size.width;
+              width2 = MediaQuery.of(context).size.width;
+            }
+          });
+        }
         fetchComments(
                 widget.post,
                 widget.course,
@@ -1723,15 +1721,18 @@ class _PostWidgetState extends State<PostWidget> {
         imgUrl = value.profileImgUrl;
         token = value.device_token;
         _user = value;
-        setState(() {
-          if (widget.post.isVoted) {
-            width1 = MediaQuery.of(context).size.width * widthPercentage(1);
-            width2 = MediaQuery.of(context).size.width * widthPercentage(2);
-          } else {
-            width1 = MediaQuery.of(context).size.width;
-            width2 = MediaQuery.of(context).size.width;
-          }
-        });
+        if (this.mounted) {
+          setState(() {
+            if (widget.post.isVoted) {
+              width1 = MediaQuery.of(context).size.width * widthPercentage(1);
+              width2 = MediaQuery.of(context).size.width * widthPercentage(2);
+            } else {
+              width1 = MediaQuery.of(context).size.width;
+              width2 = MediaQuery.of(context).size.width;
+            }
+          });
+        }
+
         fetchComments(
                 widget.post,
                 widget.course,
@@ -1760,6 +1761,18 @@ class _PostWidgetState extends State<PostWidget> {
     //   width1 = MediaQuery.of(context).size.width;
     //   width2 = MediaQuery.of(context).size.width;
     // });
+  }
+
+  List<String> grabUrls({String content}) {
+    List<String> urls = [];
+    RegExp exp =
+        new RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+    Iterable<RegExpMatch> matches = exp.allMatches(content);
+
+    matches.forEach((match) {
+      urls.add(content.substring(match.start, match.end));
+    });
+    return urls;
   }
 
   double widthPercentage(int option) {

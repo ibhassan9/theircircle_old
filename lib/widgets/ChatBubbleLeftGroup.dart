@@ -57,8 +57,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                               const EdgeInsets.only(top: 10.0, bottom: 3.0),
                           child: Text(
                             user.name.split(' ').first,
-                            style: TextStyle(
-                                fontFamily: 'San Francisco',
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: color),
@@ -132,9 +131,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                                                       .all(8.0),
                                                               child: Text(
                                                                 'Listing not available',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'San Francisco',
+                                                                style: GoogleFonts.manrope(
                                                                     fontSize:
                                                                         13,
                                                                     fontWeight:
@@ -220,8 +217,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                                                               1,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'San Francisco',
+                                                                          style: GoogleFonts.manrope(
                                                                               fontSize: 15,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Colors.black),
@@ -229,7 +225,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                                                         // Text(
                                                                         //   r'$ ' + prod.price,
                                                                         //   style: GoogleFonts.lexendDeca(
-                                                                        //     textStyle: TextStyle(
+                                                                        //     textStyle: GoogleFonts.manrope(
                                                                         //         fontSize: 13,
                                                                         //         fontWeight: FontWeight.w500,
                                                                         //         color: Colors.black),
@@ -241,8 +237,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                                                               2,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'San Francisco',
+                                                                          style: GoogleFonts.manrope(
                                                                               fontSize: 12,
                                                                               fontWeight: FontWeight.w400,
                                                                               color: Colors.black),
@@ -263,32 +258,34 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                                 children: [
                                                   Text(
                                                     widget.msg.messageText,
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'San Francisco',
+                                                    style: GoogleFonts.manrope(
                                                         fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Theme.of(context)
-                                                            .accentColor),
-                                                  ),
-                                                  SizedBox(width: 5.0),
-                                                  Text(
-                                                    ' • ' +
-                                                        timeago.format(
-                                                            DateTime.fromMillisecondsSinceEpoch(
-                                                                widget.msg
-                                                                    .timestamp),
-                                                            locale: 'en_short'),
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'San Francisco',
-                                                        fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color: Theme.of(context)
-                                                            .buttonColor),
-                                                  )
+                                                            .accentColor),
+                                                  ),
+                                                  // SizedBox(width: 5.0),
+                                                  // Text(
+                                                  //   ' • ' +
+                                                  //       timeago
+                                                  //           .format(
+                                                  //               DateTime.fromMillisecondsSinceEpoch(
+                                                  //                   widget.msg
+                                                  //                       .timestamp),
+                                                  //               locale:
+                                                  //                   'en_short')
+                                                  //           .replaceAll(
+                                                  //               '~', ''),
+                                                  //   style:
+                                                  //       GoogleFonts.manrope(
+                                                  //           fontSize: 10,
+                                                  //           fontWeight:
+                                                  //               FontWeight.w500,
+                                                  //           color: Theme.of(
+                                                  //                   context)
+                                                  //               .buttonColor),
+                                                  // )
                                                 ],
                                               ),
                                             ],
@@ -303,29 +300,28 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                             children: [
                                               Text(
                                                 widget.msg.messageText,
-                                                style: TextStyle(
-                                                    fontFamily: 'San Francisco',
+                                                style: GoogleFonts.manrope(
                                                     fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
+                                                    fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
                                                         .accentColor),
                                               ),
-                                              SizedBox(width: 5.0),
-                                              Text(
-                                                ' • ' +
-                                                    timeago.format(
-                                                        DateTime
-                                                            .fromMillisecondsSinceEpoch(
-                                                                widget.msg
-                                                                    .timestamp),
-                                                        locale: 'en_short'),
-                                                style: TextStyle(
-                                                    fontFamily: 'San Francisco',
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Theme.of(context)
-                                                        .buttonColor),
-                                              )
+                                              // SizedBox(width: 5.0),
+                                              // Text(
+                                              //   ' • ' +
+                                              //       timeago
+                                              //           .format(
+                                              //               DateTime.fromMillisecondsSinceEpoch(
+                                              //                   widget.msg
+                                              //                       .timestamp),
+                                              //               locale: 'en_short')
+                                              //           .replaceAll('~', ''),
+                                              //   style: GoogleFonts.manrope(
+                                              //       fontSize: 10,
+                                              //       fontWeight: FontWeight.w500,
+                                              //       color: Theme.of(context)
+                                              //           .buttonColor),
+                                              // )
                                             ],
                                           ),
                                         ),

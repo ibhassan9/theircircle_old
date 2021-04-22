@@ -56,8 +56,8 @@ class MatchedOverlay extends ModalRoute<void> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text('Congrats!',
-                  style: GoogleFonts.quicksand(
-                      color: Colors.white, fontSize: 30.0),
+                  style:
+                      GoogleFonts.manrope(color: Colors.white, fontSize: 30.0),
                   textAlign: TextAlign.center),
               SizedBox(height: 30.0),
               user.profileImgUrl == null
@@ -108,13 +108,13 @@ class MatchedOverlay extends ModalRoute<void> {
                     ),
               SizedBox(height: 15.0),
               Text('You and ${user.name} are now friends!',
-                  style: GoogleFonts.quicksand(
-                      color: Colors.white, fontSize: 25.0),
+                  style:
+                      GoogleFonts.manrope(color: Colors.white, fontSize: 25.0),
                   textAlign: TextAlign.center),
               SizedBox(height: 15.0),
               Text('Tap anywhere to close',
-                  style: GoogleFonts.quicksand(
-                      color: Colors.white, fontSize: 15.0),
+                  style:
+                      GoogleFonts.manrope(color: Colors.white, fontSize: 15.0),
                   textAlign: TextAlign.center),
             ],
           ),

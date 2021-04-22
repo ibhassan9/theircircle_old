@@ -36,7 +36,7 @@ class MenuWidget extends StatelessWidget {
                       SizedBox(width: 5.0),
                       Text(
                         "Courses",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
@@ -71,7 +71,7 @@ class MenuWidget extends StatelessWidget {
                       SizedBox(width: 5.0),
                       Text(
                         "Clubs",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),

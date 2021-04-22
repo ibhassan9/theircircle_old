@@ -32,7 +32,7 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
                 width: 100,
                 decoration: BoxDecoration(
                     color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(15.0)),
+                    borderRadius: BorderRadius.circular(25.0)),
                 child: Icon(FlutterIcons.add_mdi,
                     color: Theme.of(context).accentColor)),
             SizedBox(height: 5.0),
@@ -41,7 +41,7 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
               child: Center(
                 child: Text('Create',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 12.0, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),

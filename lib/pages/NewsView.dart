@@ -34,8 +34,8 @@ class NewsView extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: SizedBox(
-                        width: 40,
-                        height: 40,
+                        width: 15,
+                        height: 15,
                         child: LoadingIndicator(
                           indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor,

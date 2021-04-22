@@ -98,7 +98,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
             "Chat",
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
@@ -153,8 +153,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                           ConnectionState.waiting) {
                         return Center(
                             child: SizedBox(
-                                height: 30,
-                                width: 30,
+                                height: 15,
+                                width: 15,
                                 child: LoadingIndicator(
                                     indicatorType: Indicator.circleStrokeSpin,
                                     color: Theme.of(context).accentColor)));
@@ -173,7 +173,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                 SizedBox(height: 10),
                                 Text(
                                   "Your chat list is empty",
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.manrope(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey),
@@ -200,7 +200,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                     new DateTime.fromMillisecondsSinceEpoch(
                                         chat.timestamp);
                                 var time =
-                                    timeago.format(timeAgo, locale: 'en_short');
+                                    timeago.format(timeAgo, locale: 'en');
                                 Function reload = () {
                                   setState(() {
                                     myStream = db.onValue;
@@ -291,7 +291,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "Your chat list is empty :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -342,8 +342,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //               ),
                   //               SizedBox(width: 10),
                   //               Text("You haven't started any conversations yet :(",
-                  //                   style: GoogleFonts.quicksand(
-                  //                     GoogleFonts.overpass: TextStyle(
+                  //                   style: GoogleFonts.manrope(
+                  //                     GoogleFonts.overpass: GoogleFonts.manrope(
                   // fontFamily: Constants.fontFamily,
                   //                         fontSize: 14,
                   //                         fontWeight: FontWeight.w500,
@@ -366,8 +366,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //                 ),
                   //                 SizedBox(width: 10),
                   //                 Text("You haven't started any conversations yet :(",
-                  //                     style: GoogleFonts.quicksand(
-                  //                       GoogleFonts.overpass: TextStyle(
+                  //                     style: GoogleFonts.manrope(
+                  //                       GoogleFonts.overpass: GoogleFonts.manrope(
                   //   fontFamily: Constants.fontFamily,
                   //                           fontSize: 14,
                   //                           fontWeight: FontWeight.w500,

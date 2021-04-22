@@ -60,7 +60,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                           padding: const EdgeInsets.only(top: 0.0, bottom: 3.0),
                           child: Text(
                             'You',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
@@ -135,7 +135,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                       .all(8.0),
                                                               child: Text(
                                                                 'Listing not available',
-                                                                style: GoogleFonts.quicksand(
+                                                                style: GoogleFonts.manrope(
                                                                     fontSize:
                                                                         13,
                                                                     fontWeight:
@@ -221,18 +221,15 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                               1,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style:
-                                                                              GoogleFonts.quicksand(
-                                                                            textStyle: TextStyle(
-                                                                                fontSize: 15,
-                                                                                fontWeight: FontWeight.w700,
-                                                                                color: Colors.black),
-                                                                          ),
+                                                                          style: GoogleFonts.manrope(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w700,
+                                                                              color: Colors.black),
                                                                         ),
                                                                         // Text(
                                                                         //   r'$ ' + prod.price,
                                                                         //   style: GoogleFonts.lexendDeca(
-                                                                        //     textStyle: TextStyle(
+                                                                        //     textStyle: GoogleFonts.manrope(
                                                                         //         fontSize: 13,
                                                                         //         fontWeight: FontWeight.w500,
                                                                         //         color: Colors.black),
@@ -244,13 +241,10 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                               2,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style:
-                                                                              GoogleFonts.quicksand(
-                                                                            textStyle: TextStyle(
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.black),
-                                                                          ),
+                                                                          style: GoogleFonts.manrope(
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.black),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -268,32 +262,34 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                 children: [
                                                   Text(
                                                     widget.msg.messageText,
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor),
+                                                    style: GoogleFonts.manrope(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Theme.of(context)
+                                                            .accentColor),
                                                   ),
-                                                  SizedBox(width: 5.0),
-                                                  Text(
-                                                    ' • ' +
-                                                        timeago.format(
-                                                            DateTime.fromMillisecondsSinceEpoch(
-                                                                widget.msg
-                                                                    .timestamp),
-                                                            locale: 'en_short'),
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 10,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .buttonColor),
-                                                  )
+                                                  // SizedBox(width: 5.0),
+                                                  // Text(
+                                                  //   ' • ' +
+                                                  //       timeago
+                                                  //           .format(
+                                                  //               DateTime.fromMillisecondsSinceEpoch(
+                                                  //                   widget.msg
+                                                  //                       .timestamp),
+                                                  //               locale:
+                                                  //                   'en_short')
+                                                  //           .replaceAll(
+                                                  //               '~', ''),
+                                                  //   style:
+                                                  //       GoogleFonts.manrope(
+                                                  //           fontSize: 10,
+                                                  //           fontWeight:
+                                                  //               FontWeight.w500,
+                                                  //           color: Theme.of(
+                                                  //                   context)
+                                                  //               .buttonColor),
+                                                  // )
                                                 ],
                                               ),
                                             ],
@@ -308,27 +304,28 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                             children: [
                                               Text(
                                                 widget.msg.messageText,
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.manrope(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
                                                         .accentColor),
                                               ),
-                                              SizedBox(width: 5.0),
-                                              Text(
-                                                ' • ' +
-                                                    timeago.format(
-                                                        DateTime
-                                                            .fromMillisecondsSinceEpoch(
-                                                                widget.msg
-                                                                    .timestamp),
-                                                        locale: 'en_short'),
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Theme.of(context)
-                                                        .buttonColor),
-                                              )
+                                              // SizedBox(width: 5.0),
+                                              // Text(
+                                              //   ' • ' +
+                                              //       timeago
+                                              //           .format(
+                                              //               DateTime.fromMillisecondsSinceEpoch(
+                                              //                   widget.msg
+                                              //                       .timestamp),
+                                              //               locale: 'en_short')
+                                              //           .replaceAll('~', ''),
+                                              //   style: GoogleFonts.manrope(
+                                              //       fontSize: 10,
+                                              //       fontWeight: FontWeight.w500,
+                                              //       color: Theme.of(context)
+                                              //           .buttonColor),
+                                              // )
                                             ],
                                           ),
                                         ),

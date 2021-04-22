@@ -79,77 +79,86 @@ class _MemberWidgetState extends State<MemberWidget>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
-                          child: Row(
-                            children: <Widget>[
-                              widget.user.profileImgUrl == null ||
-                                      widget.user.profileImgUrl == ''
-                                  ? CircleAvatar(
-                                      backgroundColor: Colors.grey[400],
-                                      child: Text(
-                                          widget.user.name.substring(0, 1),
-                                          style: GoogleFonts.quicksand(
-                                              color: Colors.black)))
-                                  : Hero(
-                                      tag: widget.user.id,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: Image.network(
-                                          widget.user.profileImgUrl,
-                                          width: 40,
-                                          height: 40,
-                                          fit: BoxFit.cover,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
-                                            return SizedBox(
-                                              height: 40,
-                                              width: 40,
-                                              child: Center(
-                                                child: SizedBox(
-                                                    width: 20,
-                                                    height: 20,
-                                                    child: LoadingIndicator(
-                                                      indicatorType: Indicator
-                                                          .ballScaleMultiple,
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                    )),
-                                              ),
-                                            );
-                                          },
+                        Flexible(
+                          child: Container(
+                            child: Row(
+                              children: <Widget>[
+                                widget.user.profileImgUrl == null ||
+                                        widget.user.profileImgUrl == ''
+                                    ? CircleAvatar(
+                                        backgroundColor: Colors.grey[400],
+                                        child: Text(
+                                            widget.user.name.substring(0, 1),
+                                            style: GoogleFonts.manrope(
+                                                color: Colors.black)))
+                                    : Hero(
+                                        tag: widget.user.id,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: Image.network(
+                                            widget.user.profileImgUrl,
+                                            width: 40,
+                                            height: 40,
+                                            fit: BoxFit.cover,
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent
+                                                        loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return SizedBox(
+                                                height: 40,
+                                                width: 40,
+                                                child: Center(
+                                                  child: SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child: LoadingIndicator(
+                                                        indicatorType: Indicator
+                                                            .ballScaleMultiple,
+                                                        color: Theme.of(context)
+                                                            .accentColor,
+                                                      )),
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         ),
                                       ),
-                                    ),
-                              SizedBox(width: 10.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _fAuth.currentUser.uid == widget.user.id
-                                        ? 'You'
-                                        : widget.user.name,
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
+                                SizedBox(width: 10.0),
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _fAuth.currentUser.uid == widget.user.id
+                                            ? 'You'
+                                            : widget.user.name,
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Theme.of(context).accentColor),
+                                      ),
+                                      Text(
+                                        widget.user.about != null &&
+                                                widget.user.about.isNotEmpty
+                                            ? widget.user.about
+                                            : 'No bio available',
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Theme.of(context).accentColor),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    widget.user.about != null &&
-                                            widget.user.about.isNotEmpty
-                                        ? widget.user.about
-                                        : 'No bio available',
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).accentColor),
-                                  ),
-                                ],
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         widget.isCourse == false
@@ -160,7 +169,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                           10.0, 7.0, 10.0, 7.0),
                                       child: Text(
                                         'Admin',
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manrope(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white),

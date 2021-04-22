@@ -46,13 +46,26 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
           children: [
             Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      width: 100,
-                      height: 100,
-                      imageUrl: widget.room.imageUrl),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).dividerColor.withOpacity(0.2),
+                        blurRadius: 4,
+                        spreadRadius: 4,
+                        offset: Offset(0, 0), // Shadow position
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                        imageUrl: widget.room.imageUrl),
+                  ),
                 ),
                 widget.room.inRoom
                     ? Positioned(
@@ -66,7 +79,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
                               width: 30,
                               child: LoadingIndicator(
                                   indicatorType: Indicator.ballScaleMultiple,
-                                  color: Colors.teal)),
+                                  color: Colors.deepOrangeAccent)),
                         ),
                       )
                     : SizedBox()
@@ -78,7 +91,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
               child: Center(
                 child: Text(widget.room.name,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 12.0, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),

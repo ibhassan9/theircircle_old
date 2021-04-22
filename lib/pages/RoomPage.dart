@@ -55,8 +55,9 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
-            border:
-                Border(top: BorderSide(color: Theme.of(context).dividerColor))),
+            border: Border(
+                top: BorderSide(
+                    color: Theme.of(context).dividerColor.withOpacity(0.3)))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Container(
@@ -98,7 +99,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.teal,
+                            color: Colors.deepPurpleAccent,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Padding(
                           padding:
@@ -108,7 +109,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                     FirebaseAuth.instance.currentUser.uid
                                 ? "End"
                                 : "Leave",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -119,8 +120,9 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                     Flexible(
                         child: Container(
                       decoration: BoxDecoration(
-                          color: Theme.of(context).dividerColor,
-                          borderRadius: BorderRadius.circular(20.0)),
+                          color:
+                              Theme.of(context).dividerColor.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(30.0)),
                       child: TextField(
                         onTap: () {
                           Timer(
@@ -142,12 +144,12 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 5, top: 5, right: 15),
                           hintText: "Insert message here",
-                          hintStyle: GoogleFonts.quicksand(
+                          hintStyle: GoogleFonts.manrope(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -208,7 +210,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         toolbarHeight: 100,
-        elevation: 30.0,
+        elevation: 0.0,
         shadowColor: Theme.of(context).dividerColor.withOpacity(0.5),
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -232,7 +234,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).accentColor),
@@ -241,7 +243,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                 Text(
                   widget.room.members.length.toString() + ' members',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).buttonColor),
@@ -293,7 +295,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       //               "The topic of discussion is:",
       //               maxLines: 1,
       //               overflow: TextOverflow.ellipsis,
-      //               style: GoogleFonts.quicksand(
+      //               style: GoogleFonts.manrope(
       //                   fontSize: 11,
       //                   fontWeight: FontWeight.w500,
       //                   color: Theme.of(context).accentColor),
@@ -303,7 +305,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       //               widget.room.name,
       //               maxLines: 2,
       //               overflow: TextOverflow.ellipsis,
-      //               style: GoogleFonts.quicksand(
+      //               style: GoogleFonts.manrope(
       //                   fontSize: 13,
       //                   fontWeight: FontWeight.w600,
       //                   color: Theme.of(context).accentColor),
@@ -311,7 +313,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       //             SizedBox(height: 3.0),
       //             Text(
       //               widget.room.members.length.toString() + ' member(s)',
-      //               style: GoogleFonts.quicksand(
+      //               style: GoogleFonts.manrope(
       //                   fontSize: 13,
       //                   fontWeight: FontWeight.w500,
       //                   color: Theme.of(context).buttonColor),
@@ -407,16 +409,28 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                    formattedDate == formattedNow
-                                        ? "Today"
-                                        : formattedDate,
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                  Container(
+                                    decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.7)),
+                                            .dividerColor
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10.0, 5.0, 10.0, 5.0),
+                                      child: Text(
+                                        formattedDate == formattedNow
+                                            ? "Today"
+                                            : formattedDate,
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.7)),
+                                      ),
+                                    ),
                                   ),
                                   ChatBubbleRightGroup(
                                       msg: msg,
@@ -442,16 +456,28 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                    formattedDate == formattedNow
-                                        ? "Today"
-                                        : formattedDate,
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                  Container(
+                                    decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.7)),
+                                            .dividerColor
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10.0, 5.0, 10.0, 5.0),
+                                      child: Text(
+                                        formattedDate == formattedNow
+                                            ? "Today"
+                                            : formattedDate,
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.7)),
+                                      ),
+                                    ),
                                   ),
                                   ChatBubbleLeftGroup(
                                       msg: msg,
@@ -518,16 +544,28 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Column(
                                     children: [
-                                      Text(
-                                        formattedDate == formattedNow
-                                            ? "Today"
-                                            : formattedDate,
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
+                                      Container(
+                                        decoration: BoxDecoration(
                                             color: Theme.of(context)
-                                                .accentColor
-                                                .withOpacity(0.7)),
+                                                .dividerColor
+                                                .withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10.0, 5.0, 10.0, 5.0),
+                                          child: Text(
+                                            formattedDate == formattedNow
+                                                ? "Today"
+                                                : formattedDate,
+                                            style: GoogleFonts.manrope(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.7)),
+                                          ),
+                                        ),
                                       ),
                                       ChatBubbleRightGroup(
                                           msg: msg,
@@ -555,16 +593,28 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Column(
                                     children: [
-                                      Text(
-                                        formattedDate == formattedNow
-                                            ? "Today"
-                                            : formattedDate,
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
+                                      Container(
+                                        decoration: BoxDecoration(
                                             color: Theme.of(context)
-                                                .accentColor
-                                                .withOpacity(0.7)),
+                                                .dividerColor
+                                                .withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10.0, 5.0, 10.0, 5.0),
+                                          child: Text(
+                                            formattedDate == formattedNow
+                                                ? "Today"
+                                                : formattedDate,
+                                            style: GoogleFonts.manrope(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.7)),
+                                          ),
+                                        ),
                                       ),
                                       ChatBubbleLeftGroup(
                                           msg: msg,
@@ -687,7 +737,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 "This room has been ended.",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -695,7 +745,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 "You can start your own room by clicking on the 'Start a room' button",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -738,7 +788,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 "You have been removed from this room",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -746,7 +796,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 'Please refrain from joining in the next 20 minutes to prevent account suspension.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),

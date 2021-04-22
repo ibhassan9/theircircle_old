@@ -6,6 +6,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:custom_switch/custom_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flash/flash.dart';
@@ -77,6 +78,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   void initState() {
     super.initState();
+    updateUserToken();
     if (widget.initialPage != null) {
       setState(() {
         _pages = widget.initialPage;
@@ -94,6 +96,32 @@ class _MainScreenState extends State<MainScreen>
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {});
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
+
+    var uniKey = Constants.checkUniversity();
+    FirebaseDatabase.instance
+        .reference()
+        .child('users')
+        .child(uniKey == 0
+            ? 'UofT'
+            : uniKey == 1
+                ? 'YorkU'
+                : 'WesternU')
+        .child(FirebaseAuth.instance.currentUser.uid)
+        .child('status')
+        .onValue
+        .listen((event) {
+      if (event.snapshot.value == 1) {
+        FirebaseAuth.instance.signOut().then((value) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.remove('uni');
+          prefs.remove('name');
+          prefs.remove('filters');
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => WelcomeScreen()));
+        });
+      }
+    });
 
     // _firebaseMessaging.configure(
     //   onMessage: (Map<String, dynamic> message) async {
@@ -180,7 +208,7 @@ class _MainScreenState extends State<MainScreen>
       // floatingActionButtonLocation:
       //     FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
-        height: 30,
+        height: 35,
         iconSize: 22,
         notchSmoothness: NotchSmoothness.softEdge,
         backgroundColor:
@@ -189,7 +217,7 @@ class _MainScreenState extends State<MainScreen>
         splashSpeedInMilliseconds: 500,
         gapLocation: GapLocation.none,
         activeColor: _pages == 0
-            ? Colors.purpleAccent
+            ? Colors.deepOrangeAccent
             : _pages == 1
                 ? Color(0xffDB5461)
                 : _pages == 2
@@ -199,7 +227,7 @@ class _MainScreenState extends State<MainScreen>
                         : Colors.orange,
         inactiveColor: Theme.of(context).buttonColor,
         icons: [
-          Feather.home,
+          FlutterIcons.circle_notch_faw5s,
           Feather.award,
           Feather.tv,
           Feather.shopping_bag,
@@ -476,14 +504,14 @@ class _MainScreenState extends State<MainScreen>
           child: FlashBar(
             title: Text(
               notification['aps']['alert']['title'].toString(),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).accentColor),
             ),
             message: Text(
               notification['aps']['alert']['body'].toString(),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).accentColor),

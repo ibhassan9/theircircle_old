@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             Text(
               "SIGNUP",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -62,7 +62,7 @@ class _BodyState extends State<Body> {
                     backgroundColor: Theme.of(context).backgroundColor,
                     content: Text(
                       'Creating your account. Please wait.',
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -80,13 +80,13 @@ class _BodyState extends State<Body> {
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: RichText(
                 text: TextSpan(
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 10, color: Theme.of(context).accentColor),
                   children: <TextSpan>[
                     TextSpan(text: "By signing up you agree to our "),
                     TextSpan(
                         text: "Terms and Conditions",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 10, color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
@@ -102,7 +102,7 @@ class _BodyState extends State<Body> {
                     TextSpan(text: " and have read our "),
                     TextSpan(
                         text: "Privacy Policy",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 10, color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

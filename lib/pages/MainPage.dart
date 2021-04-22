@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart' as p;
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:unify/Components/app_icons.dart';
@@ -41,6 +42,7 @@ import 'package:unify/pages/FilterPage.dart';
 import 'package:unify/widgets/CalendarWidget.dart';
 import 'package:unify/widgets/CompleteProfileWidget.dart';
 import 'package:unify/widgets/CreateRoomButtonMain.dart';
+import 'package:unify/widgets/InviteFriendWidget.dart';
 import 'package:unify/widgets/PostWidget.dart';
 import 'package:unify/Widgets/MenuWidget.dart';
 import 'package:unify/Models/news.dart';
@@ -115,7 +117,7 @@ class _MainPageState extends State<MainPage>
       //     children: [
       //       Text("theircircle",
       //           textAlign: TextAlign.center,
-      //           style: TextStyle(
+      //           style: GoogleFonts.manrope(
       //               fontFamily: 'Avenir Next',
       //               color: Colors.blue,
       //               fontSize: 25,
@@ -134,44 +136,67 @@ class _MainPageState extends State<MainPage>
               return <Widget>[
                 new SliverAppBar(
                   backgroundColor: Theme.of(context).backgroundColor,
-                  title: new Text("TheirCircle",
+                  leading: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: InkWell(
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => UserSearchPage()));
+                      },
+                      child: CircleAvatar(
+                        radius: 25.0,
+                        backgroundColor:
+                            Theme.of(context).accentColor.withOpacity(0.05),
+                        child: notifications(),
+                        // child: Unicon(UniconData.uniUser,
+                        //     size: 20.0, color: Theme.of(context).accentColor),
+                      ),
+                    ),
+                  ),
+                  title: new Text("THEIRCIRCLE",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.pacifico(
+                      style: GoogleFonts.lato(
                           color: Theme.of(context).accentColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500)),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700)),
                   pinned: false,
                   floating: true,
                   snap: true,
                   forceElevated: innerBoxIsScrolled,
                   actions: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: InkWell(
-                            onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => UserSearchPage()));
-                            },
-                            child: CircleAvatar(
-                              radius: 18.0,
-                              backgroundColor: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.05),
-                              child: notifications(),
-                              // child: Unicon(UniconData.uniUser,
-                              //     size: 20.0, color: Theme.of(context).accentColor),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 5.0),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => MyReferral()));
+                    //   },
+                    //   child: CircleAvatar(
+                    //       radius: 25.0,
+                    //       backgroundColor:
+                    //           Theme.of(context).accentColor.withOpacity(0.05),
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Icon(FlutterIcons.trophy_award_mco,
+                    //               size: 20.0,
+                    //               color: Theme.of(context).accentColor),
+                    //           SizedBox(width: 0.0),
+                    //           Center(
+                    //               child: Text('30',
+                    //                   style: GoogleFonts.manrope(
+                    //
+                    //                       fontWeight: FontWeight.w700,
+                    //                       color: Theme.of(context).accentColor,
+                    //                       fontSize: 15.0))),
+                    //         ],
+                    //       )),
+                    // ),
+
                     Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
+                      padding: const EdgeInsets.only(right: 10.0),
                       child: InkWell(
                         onTap: () {
                           widget.goToChat();
@@ -181,7 +206,7 @@ class _MainPageState extends State<MainPage>
                           //         builder: (context) => MyReferral()));
                         },
                         child: CircleAvatar(
-                          radius: 18.0,
+                          radius: 25.0,
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.05),
                           child: Unicon(UniconData.uniChat,
@@ -205,84 +230,66 @@ class _MainPageState extends State<MainPage>
                     //   child: getStories(),
                     // ),
                     promoWidget(),
+
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
-                      child: WelcomeWidget(
-                        create: () {
-                          // await noti.sendNewQuestionToAll();
-                          showBarModalBottomSheet(
-                              context: context,
-                              expand: true,
-                              builder: (context) => PostPage()).then((refresh) {
-                            if (refresh == false) {
-                              return;
-                            }
-                            setState(() {
-                              _postFuture = fetchPosts(sortBy);
+                      padding: const EdgeInsets.only(bottom: 0.0),
+                      child: FadeIn(
+                        from: SlideFrom.TOP,
+                        child: WelcomeWidget(
+                          create: () {
+                            // await noti.sendNewQuestionToAll();
+                            showBarModalBottomSheet(
+                                    context: context,
+                                    expand: true,
+                                    builder: (context) => PostPage())
+                                .then((refresh) {
+                              if (refresh == false) {
+                                return;
+                              }
+                              setState(() {
+                                _postFuture = fetchPosts(sortBy);
+                              });
                             });
-                          });
-                        },
-                        answerQuestion: () async {
-                          var question = await _questionFuture;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TodaysQuestionPage(
-                                      question: question))).then((value) {
-                            if (value == false) {
-                              return;
-                            }
-                            refresh();
-                          });
-                        },
-                        startRoom: () => print("test"),
-                      ),
-                    ),
-                    questionWidget(),
-                    Container(
-                      color: Theme.of(context).dividerColor,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
-                        child: Row(
-                          children: [
-                            Unicon(UniconData.uniSortAmountUp,
-                                size: 20.0, color: Colors.grey.shade600),
-                            SizedBox(width: 5.0),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  if (sortBy == 0) {
-                                    sortBy = 1;
-                                  } else {
-                                    sortBy = 0;
-                                  }
-                                  _postFuture = fetchPosts(sortBy);
-                                });
-                              },
-                              child: Text(
-                                "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
-                                    .toUpperCase(),
-                                style: TextStyle(
-                                    fontFamily: 'Neue Helvetica',
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.grey.shade600),
-                              ),
-                            ),
-                            SizedBox(width: 5.0),
-                            Unicon(UniconData.uniArrowDown,
-                                size: 20.0, color: Colors.grey.shade600),
-                          ],
+                          },
+                          answerQuestion: () async {
+                            var question = await _questionFuture;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TodaysQuestionPage(
+                                        question: question))).then((value) {
+                              if (value == false) {
+                                return;
+                              }
+                              refresh();
+                            });
+                          },
+                          startRoom: () => print("test"),
                         ),
                       ),
                     ),
+                    questionWidget(),
+                    FadeIn(
+                      from: SlideFrom.TOP,
+                      fade: true,
+                      child: InkWell(
+                          onTap: () async {
+                            final RenderBox box = context.findRenderObject();
+                            var title = Constants.inviteTitle;
+                            await Share.share(title,
+                                subject: "TheirCircle",
+                                sharePositionOrigin:
+                                    box.localToGlobal(Offset.zero) & box.size);
+                          },
+                          child: InviteFriendsWidget()),
+                    ),
+
                     // Padding(
                     //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
                     //   child: Row(
                     //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //     children: [
-                    //       Text('Rooms', style: TextStyle(
+                    //       Text('Rooms', style: GoogleFonts.manrope(
                     //fontFamily: 'Helvetica Neue',)),
                     //       InkWell(
                     //         onTap: () {
@@ -293,7 +300,7 @@ class _MainPageState extends State<MainPage>
                     //           crossAxisAlignment: CrossAxisAlignment.center,
                     //           children: [
                     //             Text('See All',
-                    //                 style: TextStyle(
+                    //                 style: GoogleFonts.manrope(
                     //fontFamily: 'Helvetica Neue',
                     //                     fontSize: 12,
                     //                     color: Theme.of(context).buttonColor)),
@@ -304,11 +311,11 @@ class _MainPageState extends State<MainPage>
                     //     ],
                     //   ),
                     // ),
+                    //
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
                       child: Text('Live Rooms',
-                          style: TextStyle(
-                              fontFamily: 'Neue Helvetica',
+                          style: GoogleFonts.manrope(
                               color: Theme.of(context).accentColor,
                               fontSize: 17.0,
                               fontWeight: FontWeight.bold)),
@@ -321,7 +328,7 @@ class _MainPageState extends State<MainPage>
                     //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                     //   child: Text(
                     //     "Recent University News".toUpperCase(),
-                    //     style: TextStyle(
+                    //     style: GoogleFonts.manrope(
                     //         fontFamily: 'Helvetica Neue',
                     //         fontSize: 13,
                     //         fontWeight: FontWeight.w600,
@@ -331,8 +338,7 @@ class _MainPageState extends State<MainPage>
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
                       child: Text('Latest Articles',
-                          style: TextStyle(
-                              fontFamily: 'Neue Helvetica',
+                          style: GoogleFonts.manrope(
                               color: Theme.of(context).accentColor,
                               fontSize: 17.0,
                               fontWeight: FontWeight.bold)),
@@ -341,7 +347,6 @@ class _MainPageState extends State<MainPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
-                        color: Theme.of(context).dividerColor,
                         height: 8.0,
                       ),
                     ),
@@ -353,7 +358,7 @@ class _MainPageState extends State<MainPage>
                     //     children: [
                     //       Text(
                     //         "Campus Feed",
-                    //         style: TextStyle(
+                    //         style: GoogleFonts.manrope(
                     //fontFamily: 'Helvetica Neue',
                     //             fontSize: 13,
                     //             fontWeight: FontWeight.w500,
@@ -372,7 +377,7 @@ class _MainPageState extends State<MainPage>
                     //         },
                     //         child: Text(
                     //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                    //           style: TextStyle(
+                    //           style: GoogleFonts.manrope(
                     //fontFamily: 'Helvetica Neue',
                     //               fontSize: 14,
                     //               fontWeight: FontWeight.w800,
@@ -383,6 +388,44 @@ class _MainPageState extends State<MainPage>
                     //   ),
                     // ),
                     //Divider(),
+                    Container(
+                      color: Theme.of(context).backgroundColor,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 7.0, 15.0, 7.0),
+                        child: Row(
+                          children: [
+                            Unicon(UniconData.uniSortAmountUp,
+                                size: 20.0, color: Colors.grey.shade600),
+                            SizedBox(width: 5.0),
+                            InkWell(
+                              onTap: () {
+                                // setState(() {
+                                //   if (sortBy == 0) {
+                                //     sortBy = 1;
+                                //   } else {
+                                //     sortBy = 0;
+                                //   }
+                                //   _postFuture = fetchPosts(sortBy);
+                                // });
+                                showSortBy();
+                              },
+                              child: Text(
+                                "SORTING BY: ${sortBy == 0 ? 'Recent' : sortBy == 1 ? 'You first' : sortBy == 2 ? 'Polls' : 'Daily Questions Answered'}"
+                                    .toUpperCase(),
+                                style: GoogleFonts.manrope(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.grey.shade600),
+                              ),
+                            ),
+                            SizedBox(width: 5.0),
+                            Unicon(UniconData.uniArrowDown,
+                                size: 20.0, color: Colors.grey.shade600),
+                          ],
+                        ),
+                      ),
+                    ),
                     postWidget()
                   ],
                 ),
@@ -403,12 +446,11 @@ class _MainPageState extends State<MainPage>
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).accentColor,
-        mini: true,
-        child: Unicon(UniconData.uniPlus,
-            color: Theme.of(context).backgroundColor),
+        backgroundColor: Colors.deepOrangeAccent,
+        mini: false,
+        child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
-          // await noti.sendNewQuestionToAll();
+          //await noti.sendNewQuestionToAll();
           showBarModalBottomSheet(
               context: context,
               expand: true,
@@ -425,9 +467,132 @@ class _MainPageState extends State<MainPage>
     );
   }
 
+  void showSortBy() {
+    showBarModalBottomSheet(
+        context: context,
+        expand: false,
+        builder: (context) => sortingContainer());
+  }
+
+  Widget sortingContainer() {
+    return Container(
+      height: MediaQuery.of(context).size.height / 3,
+      color: Colors.black,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              'Filter By',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.manrope(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  sortBy = 0;
+                  _postFuture = fetchPosts(sortBy);
+                });
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(Feather.clock, color: Colors.white),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'Recents',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.manrope(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  sortBy = 1;
+                  _postFuture = fetchPosts(sortBy);
+                });
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(Feather.user, color: Colors.white),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'Your Posts',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.manrope(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  sortBy = 2;
+                  _postFuture = fetchPosts(sortBy);
+                });
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(FlutterIcons.poll_mco, color: Colors.white),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'Polls',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.manrope(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  sortBy = 3;
+                  _postFuture = fetchPosts(sortBy);
+                });
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(FlutterIcons.question_answer_mdi, color: Colors.white),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'Daily Questions Answered',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.manrope(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.0)
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget rooms() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 10.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
       child: Container(
           height: 150,
           child: FutureBuilder(
@@ -485,9 +650,9 @@ class _MainPageState extends State<MainPage>
                       //                   index == 0 ? 'Create' : room.name,
                       //                   textAlign: TextAlign.center,
                       //                   style:
-                      //                       TextStyle(
+                      //                       GoogleFonts.manrope(
                       //                fontFamily:
-                      //'Neue Helvetica',fontSize: 10.0),
+                      //'Avenir',fontSize: 10.0),
                       //                   maxLines: 2,
                       //                   overflow: TextOverflow.ellipsis),
                       //             ),
@@ -535,8 +700,7 @@ class _MainPageState extends State<MainPage>
               radius: 5.0,
               backgroundColor: Colors.deepPurpleAccent,
               child: Text(this.user.name.substring(0, 1),
-                  style: TextStyle(
-                      fontFamily: 'Neue Helvetica', color: Colors.white)))
+                  style: GoogleFonts.manrope(color: Colors.white)))
           : Hero(
               tag: UniqueKey().toString(),
               child: ClipRRect(
@@ -554,8 +718,8 @@ class _MainPageState extends State<MainPage>
                       width: 20,
                       child: Center(
                         child: SizedBox(
-                            width: 20,
-                            height: 20,
+                            width: 15,
+                            height: 15,
                             child: LoadingIndicator(
                               indicatorType: Indicator.circleStrokeSpin,
                               color: Theme.of(context).accentColor,
@@ -643,8 +807,7 @@ class _MainPageState extends State<MainPage>
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -652,8 +815,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -661,8 +823,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -670,8 +831,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -679,8 +839,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -688,8 +847,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -697,8 +855,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -706,8 +863,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -717,8 +873,7 @@ class _MainPageState extends State<MainPage>
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: TextStyle(
-                      fontFamily: 'Neue Helvetica',
+                  style: GoogleFonts.manrope(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -774,16 +929,14 @@ class _MainPageState extends State<MainPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: TextStyle(
-              fontFamily: 'Neue Helvetica',
+          style: GoogleFonts.manrope(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: TextStyle(
-              fontFamily: 'Neue Helvetica',
+          style: GoogleFonts.manrope(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -792,8 +945,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -813,8 +965,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: TextStyle(
-                    fontFamily: 'Neue Helvetica',
+                style: GoogleFonts.manrope(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -867,8 +1018,7 @@ class _MainPageState extends State<MainPage>
                       backgroundColor: Colors.red,
                       child: Text(
                         '',
-                        style: TextStyle(
-                            fontFamily: 'Neue Helvetica',
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: Colors.white),
@@ -939,12 +1089,12 @@ class _MainPageState extends State<MainPage>
                         ImageChunkEvent loadingProgress) {
                       if (loadingProgress == null) return child;
                       return SizedBox(
-                        height: 25,
-                        width: 25,
+                        height: 15,
+                        width: 15,
                         child: Center(
                           child: SizedBox(
-                              width: 25,
-                              height: 25,
+                              width: 15,
+                              height: 15,
                               child: LoadingIndicator(
                                 indicatorType: Indicator.ballScaleRipple,
                                 color: Colors.white,
@@ -1026,7 +1176,14 @@ class _MainPageState extends State<MainPage>
               },
             );
           } else {
-            return Container();
+            return TodaysQuestionWidget(
+              question: 'Loading Daily Question...',
+              refresh: () {
+                setState(() {
+                  _postFuture = fetchPosts(sortBy);
+                });
+              },
+            );
           }
         });
   }
@@ -1035,7 +1192,7 @@ class _MainPageState extends State<MainPage>
     return Visibility(
       visible: uni != null,
       child: Container(
-        height: 200,
+        height: 250,
         child: FutureBuilder(
             future: _newsFuture,
             builder: (context, snap) {
@@ -1190,8 +1347,7 @@ class _MainPageState extends State<MainPage>
                       SizedBox(width: 10),
                       Text(
                         "Cannot find any posts :(",
-                        style: TextStyle(
-                            fontFamily: 'Neue Helvetica',
+                        style: GoogleFonts.manrope(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.grey),

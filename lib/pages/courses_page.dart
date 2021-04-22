@@ -38,7 +38,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -60,7 +60,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -101,7 +101,7 @@ class _CoursesPageState extends State<CoursesPage>
       //     //   child: Text(
       //     //     "Request a course",
       //     //     style: GoogleFonts.lexendDeca(
-      //     //       GoogleFonts.overpass: TextStyle(
+      //     //       GoogleFonts.overpass: GoogleFonts.manrope(
       //fontFamily: Constants.fontFamily,
       //     //           fontSize: 15,
       //     //           fontWeight: FontWeight.w500,
@@ -114,7 +114,7 @@ class _CoursesPageState extends State<CoursesPage>
       //   title: Text(
       //     "Courses",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.overpass: TextStyle(
+      //       GoogleFonts.overpass: GoogleFonts.manrope(
       //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
@@ -148,7 +148,7 @@ class _CoursesPageState extends State<CoursesPage>
                       child: Center(
                           child: Text(
                         "GPA Calculator",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
@@ -172,12 +172,12 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 20, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.quicksand(
+                      hintStyle: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -190,8 +190,8 @@ class _CoursesPageState extends State<CoursesPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 20,
-                                    height: 20,
+                                    width: 15,
+                                    height: 15,
                                     child: LoadingIndicator(
                                       indicatorType: Indicator.circleStrokeSpin,
                                       color: Theme.of(context).accentColor,
@@ -243,7 +243,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "Cannot find any courses :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -267,7 +267,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no courses :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),

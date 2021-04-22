@@ -35,21 +35,28 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
             return;
           }
 
-          // showBarModalBottomSheet(
-          //     context: context,
-          //     builder: (context) => questionContainer(),
-          //     expand: true);
-          Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          TodaysQuestionPage(question: widget.question)))
+          showBarModalBottomSheet(
+                  context: context,
+                  builder: (context) =>
+                      TodaysQuestionPage(question: widget.question),
+                  expand: true)
               .then((value) {
             if (value == false) {
               return;
             }
             widget.refresh();
           });
+          // Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) =>
+          //                 TodaysQuestionPage(question: widget.question)))
+          //     .then((value) {
+          //   if (value == false) {
+          //     return;
+          //   }
+          //   widget.refresh();
+          // });
           // Navigator.push(
           //     context,
           //     MaterialPageRoute(
@@ -58,7 +65,8 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.teal, Colors.blue]),
+              gradient: LinearGradient(
+                  colors: [Colors.deepOrangeAccent, Colors.deepPurpleAccent]),
               borderRadius: BorderRadius.circular(5.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +78,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
               SizedBox(width: 15.0),
               Text(
                 "We've got a question for you!",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),

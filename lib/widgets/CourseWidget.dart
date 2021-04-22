@@ -53,7 +53,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                         Icon(AntDesign.team, color: Colors.white, size: 15.0),
                         Text(
                           "${widget.course.memberCount}",
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Colors.white),
@@ -76,14 +76,14 @@ class _CourseWidgetState extends State<CourseWidget> {
                         children: <Widget>[
                           Text(
                             widget.course.code,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
                           ),
                           Text(
                             widget.course.name,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -116,7 +116,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                             },
                             child: Text(
                               status(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.lightBlue),

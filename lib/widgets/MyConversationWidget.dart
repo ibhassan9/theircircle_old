@@ -63,14 +63,14 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
             final act = CupertinoActionSheet(
               title: Text(
                 "PROCEED?",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
               message: Text(
                 "Are you sure you want to delete this chat? This will not clear the conversation.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -79,7 +79,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "YES",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -91,7 +91,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "Cancel",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.red),
@@ -198,24 +198,23 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               MediaQuery.of(context).size.width,
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
                                                 widget.peer.name,
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w500,
+                                                style: GoogleFonts.manrope(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
                                                     color: Theme.of(context)
                                                         .accentColor),
                                               ),
-                                              Text(" "),
                                               Text(
-                                                widget.timeAgo,
-                                                style: GoogleFonts.quicksand(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
+                                                widget.timeAgo.toUpperCase(),
+                                                style: GoogleFonts.manrope(
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w700,
                                                     color: Theme.of(context)
                                                         .accentColor
                                                         .withOpacity(0.5)),
@@ -228,16 +227,16 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            widget.lastMessageSenderId ==
-                                                    widget.peer.id
-                                                ? Icon(Feather.message_circle,
-                                                    size: 15.0,
-                                                    color: Colors.lightBlue)
-                                                : Icon(FlutterIcons.send_mdi,
-                                                    size: 15.0,
-                                                    color: Colors
-                                                        .deepPurpleAccent),
-                                            SizedBox(width: 5.0),
+                                            // widget.lastMessageSenderId ==
+                                            //         widget.peer.id
+                                            //     ? Icon(Feather.message_circle,
+                                            //         size: 15.0,
+                                            //         color: Colors.lightBlue)
+                                            //     : Icon(FlutterIcons.send_mdi,
+                                            //         size: 15.0,
+                                            //         color: Colors
+                                            //             .deepPurpleAccent),
+                                            // SizedBox(width: 5.0),
                                             widget.lastMessageSenderId !=
                                                     widget.peer.id
                                                 ? Padding(
@@ -246,15 +245,15 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                             right: 5.0),
                                                     child: Text(
                                                       'You:',
-                                                      style:
-                                                          GoogleFonts.quicksand(
-                                                              fontSize: 13,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Theme.of(
+                                                      style: GoogleFonts.manrope(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: widget.seen
+                                                              ? Theme.of(
                                                                       context)
-                                                                  .buttonColor),
+                                                                  .buttonColor
+                                                              : Colors.blue),
                                                     ),
                                                   )
                                                 : Container(),
@@ -263,14 +262,16 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                   widget.lastMessage != null
                                                       ? widget.lastMessage
                                                       : '',
-                                                  maxLines: null,
+                                                  maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.manrope(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
-                                                    color: Theme.of(context)
-                                                        .buttonColor,
+                                                    color: widget.seen
+                                                        ? Theme.of(context)
+                                                            .buttonColor
+                                                        : Colors.blue,
                                                   )),
                                             ),
                                           ],

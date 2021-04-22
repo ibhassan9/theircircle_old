@@ -11,6 +11,7 @@ import 'package:unify/Home/main_screen.dart';
 import 'package:unify/pages/MainPage.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
+import 'package:unify/pages/VerificationPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TheirCircle',
       theme: ThemeData(
-          //fontFamily: 'Gilroy',
+          //
           visualDensity: VisualDensity.adaptivePlatformDensity,
           buttonColor: Colors.grey.shade700,
           splashColor: Colors.white,
@@ -50,19 +51,19 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           accentColor: Colors.black,
           accentIconTheme: IconThemeData(color: Colors.white),
-          dividerColor: Colors.blueGrey[50],
+          dividerColor: Colors.blueGrey[100],
           appBarTheme: AppBarTheme(brightness: Brightness.light),
           shadowColor: Colors.deepPurpleAccent[100],
           cardColor: Colors.white),
       darkTheme: ThemeData(
-          //fontFamily: 'Gilroy',
+          //
           visualDensity: VisualDensity.adaptivePlatformDensity,
           buttonColor: Colors.grey.shade200,
           splashColor: Color.fromRGBO(36, 35, 49, 1.0),
           primarySwatch: Colors.grey,
           primaryColor: Colors.black,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xff1F201E),
+          backgroundColor: Colors.black,
           accentColor: Colors.white,
           accentIconTheme: IconThemeData(color: Colors.black),
           dividerColor: Colors.black12,

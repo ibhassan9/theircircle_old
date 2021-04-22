@@ -30,7 +30,7 @@ class _SayHiWidgetState extends State<SayHiWidget>
               SizedBox(height: 15.0),
               Text("Need an opener? A simple 'hey' can go a long way!",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor))

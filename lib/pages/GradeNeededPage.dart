@@ -31,7 +31,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
             centerTitle: false,
             title: Text(
               'Final Grade Needed Calculator',
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).accentColor),
@@ -55,7 +55,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                         child: Center(
                           child: Text(
                             'Sections',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -68,7 +68,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                         child: Center(
                           child: Text(
                             'Grade (%)',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -81,7 +81,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                         child: Center(
                           child: Text(
                             'Weight (%)',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -132,7 +132,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                 children: [
                   Text(
                     'Final grade you wish to receive: ',
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -166,12 +166,12 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                                 contentPadding: EdgeInsets.only(
                                     left: 11, bottom: 11, top: 11, right: 11),
                                 hintText: '0.0',
-                                hintStyle: GoogleFonts.quicksand(
+                                hintStyle: GoogleFonts.manrope(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white),
                               ),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
@@ -179,7 +179,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                           ),
                           Text(
                             '%',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
@@ -245,7 +245,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                       children: [
                         Text(
                           'CALCULATE',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
@@ -279,7 +279,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                     : '${(value * 100).toStringAsFixed(1)}%',
                 textAlign: TextAlign.center,
                 maxLines: null,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 40,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -293,7 +293,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                     : 'You need ${(value * 100).toStringAsFixed(1)}% in your upcoming assignments/quizzes/tests to achieve a final grade of ${requiredValue.toStringAsFixed(1)}%',
                 textAlign: TextAlign.center,
                 maxLines: null,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -322,7 +322,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
             child: Center(
               child: Text(
                 'Section #$index',
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -355,12 +355,12 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                       contentPadding: EdgeInsets.only(
                           left: 11, bottom: 11, top: 11, right: 11),
                       hintText: '0.0',
-                      hintStyle: GoogleFonts.quicksand(
+                      hintStyle: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Colors.white),
                     ),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -368,7 +368,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                 ),
                 Text(
                   '%',
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -405,12 +405,12 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                         contentPadding: EdgeInsets.only(
                             left: 11, bottom: 11, top: 11, right: 11),
                         hintText: '0.0',
-                        hintStyle: GoogleFonts.quicksand(
+                        hintStyle: GoogleFonts.manrope(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
                       ),
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Colors.white),
@@ -418,7 +418,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                   ),
                   Text(
                     '%',
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
@@ -456,7 +456,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
                 SizedBox(width: 7.0),
                 Text(
                   'Add Section',
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
                       color: Theme.of(context).accentColor),
@@ -476,7 +476,7 @@ class _GradeNeededPageState extends State<GradeNeededPage> {
               children: [
                 Text(
                   'Remove Section',
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
                       color: Colors.red),

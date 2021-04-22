@@ -359,6 +359,24 @@ Future<List<News>> scrapeYorkUNews() async {
   return news;
 }
 
+Future<String> grabImgUrl({String url}) async {
+  String uri = '';
+  await yorkUScraper
+      .loadWebPage(url.replaceAll('https://yfile.news.yorku.ca', ''))
+      .then((value) {
+    var scrape2 = yorkUScraper.getElement(
+        'div.hfeed > div.container > section.primary > article > div.entry > div.wp-caption > img',
+        ['src']);
+    var element = scrape2.first;
+    var attributes = element['attributes'];
+    var src = attributes['src'];
+    uri = src;
+  }).catchError((e) {
+    uri = '';
+  });
+  return uri;
+}
+
 Future<List<News>> scrapeWesternUNews() async {
   List<News> news = [];
   if (await westernUScraper.loadWebPage('/campus/')) {

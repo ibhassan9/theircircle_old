@@ -43,7 +43,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
     //                     const SizedBox(width: 10.0),
     //                     Text(
     //                       "What's on your mind today?",
-    //                       style: GoogleFonts.quicksand(),
+    //                       style: GoogleFonts.manrope(),
     //                     )
     //                   ],
     //                 ),
@@ -83,7 +83,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
     //                         Icon(FlutterIcons.md_happy_ion, size: 15.0),
     //                         SizedBox(width: 5.0),
     //                         Text("Answer Question",
-    //                             style: GoogleFonts.quicksand(
+    //                             style: GoogleFonts.manrope(
     //                                 color: Theme.of(context).accentColor)),
     //                       ],
     //                     ),
@@ -111,7 +111,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
     //                         Icon(FlutterIcons.more_vert_mdi, size: 15.0),
     //                         SizedBox(width: 5.0),
     //                         Text("Start a room",
-    //                             style: GoogleFonts.quicksand(
+    //                             style: GoogleFonts.manrope(
     //                                 color: Theme.of(context).accentColor)),
     //                       ],
     //                     ),
@@ -145,14 +145,14 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                 ? "Hello $name,"
                                 : "Hello,"
                             : "Hello,",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                       ),
                       Text(
                         "Here is your university digest",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -181,7 +181,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
               //             const SizedBox(width: 10.0),
               //             Text(
               //               "What's on your mind today?",
-              //               style: GoogleFonts.quicksand(
+              //               style: GoogleFonts.manrope(
               //                   fontWeight: FontWeight.w500),
               //             )
               //           ],

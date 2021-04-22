@@ -59,8 +59,9 @@ class _ChatPageState extends State<ChatPage>
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
-            border:
-                Border(top: BorderSide(color: Theme.of(context).dividerColor))),
+            border: Border(
+                top: BorderSide(
+                    color: Theme.of(context).dividerColor.withOpacity(0.3)))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Container(
@@ -119,7 +120,7 @@ class _ChatPageState extends State<ChatPage>
                                               ' • ' +
                                               r'$' +
                                               prod.price,
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.manrope(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.black),
@@ -127,7 +128,7 @@ class _ChatPageState extends State<ChatPage>
                                         // Text(
                                         //   r'$ ' + prod.price,
                                         //   style: GoogleFonts.lexendDeca(
-                                        //     GoogleFonts.overpass: TextStyle(
+                                        //     GoogleFonts.overpass: GoogleFonts.manrope(
                                         //  fontFamily: Constants.fontFamily,
                                         //         fontSize: 13,
                                         //         fontWeight: FontWeight.w700,
@@ -138,7 +139,7 @@ class _ChatPageState extends State<ChatPage>
                                           prod.description,
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.manrope(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.black),
@@ -180,8 +181,9 @@ class _ChatPageState extends State<ChatPage>
                     Flexible(
                         child: Container(
                       decoration: BoxDecoration(
-                          color: Theme.of(context).dividerColor,
-                          borderRadius: BorderRadius.circular(20.0)),
+                          color:
+                              Theme.of(context).dividerColor.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(30.0)),
                       child: TextField(
                         onTap: () {
                           Timer(
@@ -203,12 +205,12 @@ class _ChatPageState extends State<ChatPage>
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
                           hintText: "Insert message here",
-                          hintStyle: GoogleFonts.quicksand(
+                          hintStyle: GoogleFonts.manrope(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -276,44 +278,51 @@ class _ChatPageState extends State<ChatPage>
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        toolbarHeight: 100,
-        elevation: 30.0,
+        elevation: 0.0,
         shadowColor: Theme.of(context).dividerColor.withOpacity(0.5),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Theme.of(context).backgroundColor,
-        title: Column(
+        titleSpacing: 0.0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: CachedNetworkImage(
-                  imageUrl: widget.receiver.profileImgUrl,
+                  imageUrl: widget.receiver.profileImgUrl != null
+                      ? widget.receiver.profileImgUrl
+                      : Constants.dummyProfilePicture,
                   width: 35.0,
                   height: 35.0,
                   fit: BoxFit.cover),
             ),
-            SizedBox(height: 5.0),
+            SizedBox(width: 5.0),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.receiver.name,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).accentColor),
                 ),
-                SizedBox(height: 3.0),
                 Text(
-                  widget.receiver.about != null ? widget.receiver.about : '',
+                  widget.receiver.university == "UofT"
+                      ? 'University of Toronto'
+                      : widget.receiver.university == 'YorkU'
+                          ? 'York University'
+                          : 'Western University',
+                  maxLines: 2,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                      fontSize: 11,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.manrope(
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).buttonColor),
+                      color: Theme.of(context).buttonColor.withOpacity(0.5)),
                 ),
               ],
             ),
@@ -321,8 +330,8 @@ class _ChatPageState extends State<ChatPage>
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FlutterIcons.person_mdi,
-                color: Theme.of(context).accentColor),
+            icon: Icon(FlutterIcons.user_o_faw,
+                size: 20.0, color: Theme.of(context).buttonColor),
             onPressed: () {
               // showBarModalBottomSheet(
               //     context: context,
@@ -418,16 +427,28 @@ class _ChatPageState extends State<ChatPage>
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                    formattedDate == formattedNow
-                                        ? "Today"
-                                        : formattedDate,
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                  Container(
+                                    decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.7)),
+                                            .dividerColor
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10.0, 5.0, 10.0, 5.0),
+                                      child: Text(
+                                        formattedDate == formattedNow
+                                            ? "Today"
+                                            : formattedDate,
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.7)),
+                                      ),
+                                    ),
                                   ),
                                   ChatBubbleRight(
                                       msg: msg,
@@ -453,16 +474,28 @@ class _ChatPageState extends State<ChatPage>
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                    formattedDate == formattedNow
-                                        ? "Today"
-                                        : formattedDate,
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                  Container(
+                                    decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.7)),
+                                            .dividerColor
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10.0, 5.0, 10.0, 5.0),
+                                      child: Text(
+                                        formattedDate == formattedNow
+                                            ? "Today"
+                                            : formattedDate,
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.7)),
+                                      ),
+                                    ),
                                   ),
                                   ChatBubbleLeft(
                                       user: widget.receiver,
@@ -527,16 +560,28 @@ class _ChatPageState extends State<ChatPage>
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Column(
                                     children: [
-                                      Text(
-                                        formattedDate == formattedNow
-                                            ? "Today"
-                                            : formattedDate,
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
+                                      Container(
+                                        decoration: BoxDecoration(
                                             color: Theme.of(context)
-                                                .accentColor
-                                                .withOpacity(0.7)),
+                                                .dividerColor
+                                                .withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10.0, 5.0, 10.0, 5.0),
+                                          child: Text(
+                                            formattedDate == formattedNow
+                                                ? "Today"
+                                                : formattedDate,
+                                            style: GoogleFonts.manrope(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.7)),
+                                          ),
+                                        ),
                                       ),
                                       ChatBubbleRight(
                                           msg: msg,
@@ -564,16 +609,28 @@ class _ChatPageState extends State<ChatPage>
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Column(
                                     children: [
-                                      Text(
-                                        formattedDate == formattedNow
-                                            ? "Today"
-                                            : formattedDate,
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
+                                      Container(
+                                        decoration: BoxDecoration(
                                             color: Theme.of(context)
-                                                .accentColor
-                                                .withOpacity(0.7)),
+                                                .dividerColor
+                                                .withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10.0, 5.0, 10.0, 5.0),
+                                          child: Text(
+                                            formattedDate == formattedNow
+                                                ? "Today"
+                                                : formattedDate,
+                                            style: GoogleFonts.manrope(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.7)),
+                                          ),
+                                        ),
                                       ),
                                       ChatBubbleLeft(
                                           user: widget.receiver,
@@ -689,7 +746,7 @@ class _ChatPageState extends State<ChatPage>
           children: [
             Text(
               widget.receiver.name.split(' ').first,
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).accentColor),
@@ -698,7 +755,7 @@ class _ChatPageState extends State<ChatPage>
                 ? Text(
                     widget.receiver.about,
                     maxLines: 1,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),

@@ -3,11 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_unicons/unicons.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share/share.dart';
+import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Models/OHS.dart';
@@ -86,543 +89,709 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                     club: widget.club,
                     timeAgo: widget.timeAgo)));
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 5.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                      child: Row(children: [
-                    InkWell(
-                      onTap: () async {
-                        var user = await getUserWithUniversity(
-                            widget.post.userId, widget.post.university);
-                        if (widget.post.userId != fAuth.currentUser.uid) {
-                          // if (widget.post.isAnonymous == false) {
-                          //   showProfile(
-                          //       user, context, bioC, sC, igC, lC, null, null);
-                          // }
-                          if (widget.post.isAnonymous == false) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePage(
-                                        user: user, heroTag: widget.post.id)));
-                          }
-                        } else {
-                          // showProfile(
-                          //     user, context, bioC, sC, igC, lC, null, null);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfilePage(
-                                        user: user,
-                                        heroTag: widget.post.id,
-                                        isMyProfile: true,
-                                      )));
-                        }
-                      },
-                      child: widget.post.isAnonymous
-                          ? Container(
-                              width: 30,
-                              height: 30,
-                              child: Center(
-                                child: Icon(Feather.feather,
-                                    color: Theme.of(context).backgroundColor,
-                                    size: 15.0),
-                              ),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).buttonColor,
-                                  borderRadius: BorderRadius.circular(25.0)),
-                            )
-                          : imgUrl == null || imgUrl == ''
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      color: Theme.of(context).dividerColor,
-                                      child: Center(
-                                        child: Text(
-                                            widget.post.username
-                                                .substring(0, 1),
-                                            style: GoogleFonts.quicksand(
-                                                color: Colors.white)),
-                                      )),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.network(
-                                    imgUrl,
-                                    width: 30,
-                                    height: 30,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: Center(
-                                          child: SizedBox(
-                                              width: 10,
-                                              height: 10,
-                                              child: LoadingIndicator(
-                                                indicatorType:
-                                                    Indicator.circleStrokeSpin,
-                                                color: Theme.of(context)
-                                                    .accentColor,
-                                              )),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                    ),
-                    SizedBox(width: 10.0),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.fromComments
+                            ? Container()
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    widget.post.userId ==
-                                            firebaseAuth.currentUser.uid
-                                        ? "You"
-                                        : widget.post.isAnonymous
-                                            ? "Anon"
-                                            : widget.post.username,
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: widget.post.userId ==
-                                                firebaseAuth.currentUser.uid
-                                            ? Colors.indigo
-                                            : Theme.of(context).accentColor),
-                                  ),
-                                  Text(
-                                    " • ${widget.timeAgo}",
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context).buttonColor),
-                                  ),
-                                ],
-                              ),
+                                  Container(
+                                      child: Row(children: [
+                                    InkWell(
+                                      onTap: () async {
+                                        var user = await getUserWithUniversity(
+                                            widget.post.userId,
+                                            widget.post.university);
+                                        if (widget.post.userId !=
+                                            fAuth.currentUser.uid) {
+                                          // if (widget.post.isAnonymous == false) {
+                                          //   showProfile(
+                                          //       user, context, bioC, sC, igC, lC, null, null);
+                                          // }
+                                          if (widget.post.isAnonymous ==
+                                              false) {
+                                            showBarModalBottomSheet(
+                                                context: context,
+                                                expand: true,
+                                                builder: (context) =>
+                                                    ProfilePage(
+                                                        user: user,
+                                                        heroTag: null));
 
-                              _user != null
-                                  ? _user.createdAt != null &&
-                                          DateTime.now()
-                                                  .difference(DateTime
-                                                      .fromMillisecondsSinceEpoch(
-                                                          _user.createdAt))
-                                                  .inDays <
-                                              5
-                                      ? Text(
-                                          DateTime.now()
-                                                      .difference(DateTime
-                                                          .fromMillisecondsSinceEpoch(
-                                                              _user.createdAt))
-                                                      .inDays <
-                                                  5
-                                              ? 'Recently Joined'
-                                              : '',
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.red),
-                                        )
-                                      : Visibility(
-                                          visible: _user.about != null &&
-                                              _user.about.isNotEmpty &&
-                                              widget.post.isAnonymous == false,
-                                          child: Text(
-                                            _user.about != null
-                                                ? _user.about
-                                                : 'No bio available',
-                                            maxLines: 1,
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.red),
-                                          ),
-                                        )
-                                  : Container(),
-                              // Visibility(
-                              //   visible: widget.post.tcQuestion != null,
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.only(
-                              //         top: 3.0, bottom: 3.0),
-                              //     child: Text(
-                              //       'answered a question!',
-                              //       style: TextStyle(
-                              //    fontFamily: Constants.fontFamily,
-                              //           fontSize: 12,
-                              //           fontWeight: FontWeight.w500,
-                              //           color: Colors.blue),
-                              //     ),
-                              //   ),
-                              // ),
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) => ProfilePage(
+                                            //             user: user, heroTag: widget.post.id)));
+                                          }
+                                        } else {
+                                          // showProfile(
+                                          //     user, context, bioC, sC, igC, lC, null, null);
+                                          showBarModalBottomSheet(
+                                              context: context,
+                                              expand: true,
+                                              builder: (context) => ProfilePage(
+                                                    user: user,
+                                                    heroTag: null,
+                                                    isMyProfile: true,
+                                                  ));
 
-                              // Visibility(
-                              //   visible: _user.about != null,
-                              //   child: Text(
-                              //     _user.about != null
-                              //         ? _user.about
-                              //         : 'No bio available',
-                              //     style: TextStyle(
-                              //   fontFamily: Constants.fontFamily,
-                              //         fontSize: 12,
-                              //         fontWeight: FontWeight.w600,
-                              //         color: Colors.grey[500]),
-                              //   ),
-                              // )
-                            ],
-                          ),
-                          // SizedBox(height: 2.5),
-                          // Text(
-                          //   "${widget.timeAgo}",
-                          //   style: TextStyle(
-                          //     fontFamily: Constants.fontFamily,
-                          //       fontSize: 12,
-                          //       fontWeight: FontWeight.w500,
-                          //       color: Theme.of(context).buttonColor),
-                          // ),
-                        ]),
-                  ])),
-                  Visibility(
-                    visible: !widget.fromComments,
-                    child: InkWell(
-                      onTap: () {
-                        final act = CupertinoActionSheet(
-                          title: Text(
-                            widget.post.userId ==
-                                        firebaseAuth.currentUser.uid ||
-                                    widget.club.adminId ==
-                                        firebaseAuth.currentUser.uid
-                                ? "OPTIONS"
-                                : "REPORT",
-                            style: GoogleFonts.quicksand(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
-                          message: Text(
-                            widget.post.userId ==
-                                        firebaseAuth.currentUser.uid ||
-                                    widget.club.adminId ==
-                                        firebaseAuth.currentUser.uid
-                                ? "What would you like to do?"
-                                : "What is the issue?",
-                            style: GoogleFonts.quicksand(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                          ),
-                          actions: widget.post.userId ==
-                                      firebaseAuth.currentUser.uid ||
-                                  widget.club.adminId ==
-                                      firebaseAuth.currentUser.uid
-                              ? [
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "Delete Post",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Theme.of(context).accentColor),
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) => ProfilePage(
+                                          //               user: user,
+                                          //               heroTag: widget.post.id,
+                                          //               isMyProfile: true,
+                                          //             )));
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10.0, 0.0, 0.0, 5.0),
+                                        child: widget.post.isAnonymous
+                                            ? Container()
+                                            : imgUrl == null || imgUrl == ''
+                                                ? ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    child: Container(
+                                                        width: 40,
+                                                        height: 40,
+                                                        color: Theme.of(context)
+                                                            .dividerColor,
+                                                        child: Center(
+                                                          child: Text(
+                                                              widget
+                                                                  .post.username
+                                                                  .substring(
+                                                                      0, 1),
+                                                              style: GoogleFonts.manrope(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor)),
+                                                        )),
+                                                  )
+                                                : ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    child: Image.network(
+                                                      imgUrl,
+                                                      width: 40,
+                                                      height: 40,
+                                                      fit: BoxFit.cover,
+                                                      loadingBuilder: (BuildContext
+                                                              context,
+                                                          Widget child,
+                                                          ImageChunkEvent
+                                                              loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) return child;
+                                                        return SizedBox(
+                                                          height: 40,
+                                                          width: 40,
+                                                          child: Center(
+                                                            child: SizedBox(
+                                                                width: 10,
+                                                                height: 10,
+                                                                child:
+                                                                    LoadingIndicator(
+                                                                  indicatorType:
+                                                                      Indicator
+                                                                          .circleStrokeSpin,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor,
+                                                                )),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
                                       ),
-                                      onPressed: () {
-                                        final act = CupertinoActionSheet(
+                                    ),
+                                    widget.post.isAnonymous
+                                        ? Container()
+                                        : SizedBox(width: 8.0),
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    widget.post.userId ==
+                                                            firebaseAuth
+                                                                .currentUser.uid
+                                                        ? ("You" +
+                                                            (widget.post.feeling !=
+                                                                    null
+                                                                ? " are feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
+                                                                : widget.post
+                                                                            .tcQuestion !=
+                                                                        null
+                                                                    ? " answered a question 🤔"
+                                                                    : ""))
+                                                        : widget.post
+                                                                .isAnonymous
+                                                            ? ("✨ Anon" +
+                                                                (widget.post.feeling !=
+                                                                        null
+                                                                    ? " is feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
+                                                                    : widget.post.tcQuestion !=
+                                                                            null
+                                                                        ? " answered a question 🤔"
+                                                                        : ""))
+                                                            : widget
+                                                                .post.username,
+                                                    style: GoogleFonts.manrope(
+                                                        fontSize: widget.post
+                                                                    .feeling !=
+                                                                null
+                                                            ? 15.0
+                                                            : 15.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: widget.post
+                                                                    .userId ==
+                                                                firebaseAuth
+                                                                    .currentUser
+                                                                    .uid
+                                                            ? Colors.indigo
+                                                            : Theme.of(context)
+                                                                .accentColor),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        '${widget.timeAgo.replaceAll('~', '')} • ',
+                                                        style:
+                                                            GoogleFonts.manrope(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Colors.grey[600],
+                                                          fontSize: 12.0,
+                                                        ),
+                                                      ),
+                                                      Icon(
+                                                        Icons.public,
+                                                        color: Colors.grey[600],
+                                                        size: 12.0,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              _user != null
+                                                  ? _user.createdAt != null &&
+                                                          DateTime.now()
+                                                                  .difference(DateTime
+                                                                      .fromMillisecondsSinceEpoch(
+                                                                          _user
+                                                                              .createdAt))
+                                                                  .inDays <
+                                                              5
+                                                      ? Text(
+                                                          DateTime.now()
+                                                                      .difference(
+                                                                          DateTime.fromMillisecondsSinceEpoch(
+                                                                              _user.createdAt))
+                                                                      .inDays <
+                                                                  5
+                                                              ? 'Recently Joined'
+                                                              : '',
+                                                          style: GoogleFonts
+                                                              .manrope(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Colors
+                                                                      .pink),
+                                                        )
+                                                      : Visibility(
+                                                          visible: _user.about !=
+                                                                  null &&
+                                                              _user.about
+                                                                  .isNotEmpty &&
+                                                              widget.post
+                                                                      .isAnonymous ==
+                                                                  false,
+                                                          child: Text(
+                                                            _user.about != null
+                                                                ? _user.about
+                                                                : 'No bio available',
+                                                            maxLines: 1,
+                                                            style: GoogleFonts.manrope(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                    0xFF1777F2)),
+                                                          ),
+                                                        )
+                                                  : Container()
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.0),
+                                        ])
+                                  ])),
+                                  Visibility(
+                                    visible: !widget.fromComments,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          final act = CupertinoActionSheet(
                                             title: Text(
-                                              'Delete Post',
-                                              style: GoogleFonts.quicksand(
+                                              widget.post.userId ==
+                                                          firebaseAuth
+                                                              .currentUser
+                                                              .uid ||
+                                                      widget.club.adminId ==
+                                                          firebaseAuth
+                                                              .currentUser.uid
+                                                  ? "OPTIONS"
+                                                  : "REPORT",
+                                              style: GoogleFonts.manrope(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
                                                       .accentColor),
                                             ),
                                             message: Text(
-                                              'Are you sure you want to delete this post?',
-                                              style: GoogleFonts.quicksand(
+                                              widget.post.userId ==
+                                                          firebaseAuth
+                                                              .currentUser
+                                                              .uid ||
+                                                      widget.club.adminId ==
+                                                          firebaseAuth
+                                                              .currentUser.uid
+                                                  ? "What would you like to do?"
+                                                  : "What is the issue?",
+                                              style: GoogleFonts.manrope(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
                                                       .accentColor),
                                             ),
-                                            actions: [
-                                              CupertinoActionSheetAction(
-                                                  child: Text(
-                                                    "YES",
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor),
-                                                  ),
-                                                  onPressed: () {
-                                                    if (widget.club.adminId ==
-                                                        firebaseAuth
-                                                            .currentUser.uid) {
-                                                      widget.deleteAsAdmin();
-                                                    } else {
-                                                      widget.deletePost();
-                                                    }
-                                                    Navigator.pop(context);
-                                                  }),
-                                              CupertinoActionSheetAction(
-                                                  child: Text(
-                                                    "Cancel",
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.red),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  }),
-                                            ]);
-                                        showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                act);
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "Cancel",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.red),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                ]
-                              : [
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "It's suspicious or spam",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
+                                            actions:
+                                                widget.post.userId ==
+                                                            firebaseAuth
+                                                                .currentUser
+                                                                .uid ||
+                                                        widget.club.adminId ==
+                                                            firebaseAuth
+                                                                .currentUser.uid
+                                                    ? [
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "Delete Post",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor),
+                                                            ),
+                                                            onPressed: () {
+                                                              final act =
+                                                                  CupertinoActionSheet(
+                                                                      title:
+                                                                          Text(
+                                                                        'Delete Post',
+                                                                        style: GoogleFonts.manrope(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Theme.of(context).accentColor),
+                                                                      ),
+                                                                      message:
+                                                                          Text(
+                                                                        'Are you sure you want to delete this post?',
+                                                                        style: GoogleFonts.manrope(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Theme.of(context).accentColor),
+                                                                      ),
+                                                                      actions: [
+                                                                    CupertinoActionSheetAction(
+                                                                        child:
+                                                                            Text(
+                                                                          "YES",
+                                                                          style: GoogleFonts.manrope(
+                                                                              fontSize: 13,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Theme.of(context).accentColor),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          if (widget.club.adminId ==
+                                                                              firebaseAuth.currentUser.uid) {
+                                                                            widget.deleteAsAdmin();
+                                                                          } else {
+                                                                            widget.deletePost();
+                                                                          }
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        }),
+                                                                    CupertinoActionSheetAction(
+                                                                        child:
+                                                                            Text(
+                                                                          "Cancel",
+                                                                          style: GoogleFonts.manrope(
+                                                                              fontSize: 13,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.red),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        }),
+                                                                  ]);
+                                                              showCupertinoModalPopup(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                              context) =>
+                                                                          act);
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "Cancel",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }),
+                                                      ]
+                                                    : [
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "It's suspicious or spam",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showSnackBar();
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "It's abusive or harmful",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showSnackBar();
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "It expresses intentions of self-harm or suicide",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showSnackBar();
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "It promotes sexual/inappropriate content",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .accentColor),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showSnackBar();
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "Hide this post.",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              final act =
+                                                                  CupertinoActionSheet(
+                                                                title: Text(
+                                                                  "PROCEED?",
+                                                                  style: GoogleFonts.manrope(
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .accentColor),
+                                                                ),
+                                                                message: Text(
+                                                                  "Are you sure you want to hide this post?",
+                                                                  style: GoogleFonts.manrope(
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .accentColor),
+                                                                ),
+                                                                actions: [
+                                                                  CupertinoActionSheetAction(
+                                                                      child:
+                                                                          Text(
+                                                                        "YES",
+                                                                        style: GoogleFonts.manrope(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Theme.of(context).accentColor),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        await widget
+                                                                            .hide();
+                                                                      }),
+                                                                  CupertinoActionSheetAction(
+                                                                      child:
+                                                                          Text(
+                                                                        "Cancel",
+                                                                        style: GoogleFonts.manrope(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Colors.red),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }),
+                                                                ],
+                                                              );
+                                                              showCupertinoModalPopup(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                              context) =>
+                                                                          act);
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "Block this user",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              final act =
+                                                                  CupertinoActionSheet(
+                                                                title: Text(
+                                                                  "PROCEED?",
+                                                                  style: GoogleFonts.manrope(
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .accentColor),
+                                                                ),
+                                                                message: Text(
+                                                                  "Are you sure you want to block this user?",
+                                                                  style: GoogleFonts.manrope(
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .accentColor),
+                                                                ),
+                                                                actions: [
+                                                                  CupertinoActionSheetAction(
+                                                                      child:
+                                                                          Text(
+                                                                        "YES",
+                                                                        style: GoogleFonts.manrope(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Theme.of(context).accentColor),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        await widget
+                                                                            .block();
+                                                                      }),
+                                                                  CupertinoActionSheetAction(
+                                                                      child:
+                                                                          Text(
+                                                                        "Cancel",
+                                                                        style: GoogleFonts.manrope(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Colors.red),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }),
+                                                                ],
+                                                              );
+                                                              showCupertinoModalPopup(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                              context) =>
+                                                                          act);
+                                                            }),
+                                                        CupertinoActionSheetAction(
+                                                            child: Text(
+                                                              "Cancel",
+                                                              style: GoogleFonts.manrope(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }),
+                                                      ],
+                                          );
+                                          showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  act);
+                                        },
+                                        child: Icon(FlutterIcons.more_horiz_mdi,
                                             color:
                                                 Theme.of(context).accentColor),
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        showSnackBar();
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "It's abusive or harmful",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Theme.of(context).accentColor),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        showSnackBar();
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "It expresses intentions of self-harm or suicide",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Theme.of(context).accentColor),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        showSnackBar();
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "It promotes sexual/inappropriate content",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Theme.of(context).accentColor),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        showSnackBar();
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "Hide this post.",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.red),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        final act = CupertinoActionSheet(
-                                          title: Text(
-                                            "PROCEED?",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
-                                          ),
-                                          message: Text(
-                                            "Are you sure you want to hide this post?",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
-                                          ),
-                                          actions: [
-                                            CupertinoActionSheetAction(
-                                                child: Text(
-                                                  "YES",
-                                                  style: GoogleFonts.quicksand(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .accentColor),
-                                                ),
-                                                onPressed: () async {
-                                                  await widget.hide();
-                                                }),
-                                            CupertinoActionSheetAction(
-                                                child: Text(
-                                                  "Cancel",
-                                                  style: GoogleFonts.quicksand(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.red),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                }),
-                                          ],
-                                        );
-                                        showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                act);
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "Block this user",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.red),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        final act = CupertinoActionSheet(
-                                          title: Text(
-                                            "PROCEED?",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
-                                          ),
-                                          message: Text(
-                                            "Are you sure you want to block this user?",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
-                                          ),
-                                          actions: [
-                                            CupertinoActionSheetAction(
-                                                child: Text(
-                                                  "YES",
-                                                  style: GoogleFonts.quicksand(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .accentColor),
-                                                ),
-                                                onPressed: () async {
-                                                  await widget.block();
-                                                }),
-                                            CupertinoActionSheetAction(
-                                                child: Text(
-                                                  "Cancel",
-                                                  style: GoogleFonts.quicksand(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.red),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                }),
-                                          ],
-                                        );
-                                        showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                act);
-                                      }),
-                                  CupertinoActionSheetAction(
-                                      child: Text(
-                                        "Cancel",
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.red),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
+                                    ),
+                                  ),
                                 ],
-                        );
-                        showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) => act);
-                      },
-                      child: Icon(FlutterIcons.more_horiz_mdi,
-                          color: Theme.of(context).accentColor),
+                              ),
+                        Wrap(children: [_postContent()]),
+                        // Container(
+                        //   height: 10,
+                        //   width: MediaQuery.of(context).size.width,
+                        //   color: Theme.of(context).dividerColor,
+                        // )
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Wrap(children: [_postContent()]),
-            // Container(
-            //   height: 10.0,
-            //   width: MediaQuery.of(context).size.width,
-            //   color: Theme.of(context).dividerColor,
-            // )
-            Divider(
-              thickness: 1.0,
-            )
-          ],
-        ),
+          ),
+          // Divider(thickness: 1.0),
+        ],
       ),
     );
   }
@@ -639,13 +808,17 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               // ends here
               Container(
                   margin: EdgeInsets.only(
-                      top: 0.0, left: 10.0, right: 10.0, bottom: 5.0),
+                      top: widget.fromComments ? 0.0 : 7.0,
+                      left: 0.0,
+                      right: 0.0,
+                      bottom: 0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       widget.post.tcQuestion != null
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
+                              padding: const EdgeInsets.only(
+                                  bottom: 4.0, left: 10.0, right: 10.0),
                               child: ShaderMask(
                                 shaderCallback: (bounds) =>
                                     gradient.createShader(
@@ -654,237 +827,294 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 ),
                                 child: Text(
                                   widget.post.tcQuestion,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 14,
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                   ),
                                 ),
                               ))
                           : Container(),
-
-                      Text(widget.post.content.trimRight(),
-                          style: GoogleFonts.quicksand(
-                              fontSize: 15.5,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor)),
-                      // SelectableLinkify(
-                      //   onOpen: (link) async {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => WebPage(
-                      //                 title: link.text,
-                      //                 selectedUrl: link.url)));
-                      //   },
-                      //   text: widget.post.content,
-                      //   style: TextStyle(
-                      //     fontFamily: Constants.fontFamily,
-                      //       fontSize: 16,
-                      //       fontWeight: FontWeight.w500,
-                      //       color: Theme.of(context).accentColor),
-                      //   linkStyle: TextStyle(
-                      //fontFamily: Constants.fontFamily,color: Colors.blue),
-                      // ),
-                      widget.post.userId == widget.club.adminId &&
-                              widget.post.isAnonymous == false
+                      widget.post.title != null
                           ? Padding(
-                              padding: const EdgeInsets.only(top: 15.0),
-                              child: Container(
-                                color: Colors.grey,
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      8.0, 3.0, 8.0, 3.0),
-                                  child: Text(
-                                    "Admin",
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                  ),
-                                ),
+                              padding: const EdgeInsets.only(
+                                  bottom: 10.0,
+                                  top: 5.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Text(
+                                widget.post.title,
+                                style: GoogleFonts.manrope(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
                               ),
                             )
+                          : Container(),
+                      widget.post.feeling != null &&
+                              (widget.post.content.trim().toLowerCase() ==
+                                  'is feeling ' +
+                                      widget.post.feeling.toLowerCase())
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 0.0, left: 10.0, right: 10.0),
+                              child: Text(widget.post.content.trimRight(),
+                                  style: GoogleFonts.manrope(
+                                      fontSize:
+                                          widget.fromComments ? 15.5 : 15.5,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).accentColor))
+                              // child: SelectableLinkify(
+                              //   onOpen: (link) async {
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) => WebPage(
+                              //                 title: link.text,
+                              //                 selectedUrl: link.url)));
+                              //   },
+                              //   text: widget.post.content.trimRight(),
+                              //   style:  GoogleFonts.manrope(
+                              //
+                              //       fontSize: widget.fromComments ? 15.5 : 15.5,
+                              //       fontWeight: FontWeight.w500,
+                              //       color: Theme.of(context).accentColor),
+                              //   linkStyle:
+                              //        GoogleFonts.manrope(
+                              // color: Colors.indigo),
+                              // ),
+                              ),
+                      // grabUrls(content: widget.post.content.trimRight())
+                      //             .length >
+                      //         0
+                      //     ? SizedBox(
+                      //         height: 100,
+                      //         width: 100,
+                      //         child: SimpleUrlPreview(
+                      //             url: grabUrls(
+                      //                     content:
+                      //                         widget.post.content.trimRight())
+                      //                 .first),
+                      //       )
+                      //     : Container(),
+                      widget.club != null
+                          ? widget.post.userId == widget.club.adminId &&
+                                  widget.post.isAnonymous == false &&
+                                  widget.club != null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15.0, left: 10.0, right: 10.0),
+                                  child: Container(
+                                    color: Colors.grey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          8.0, 3.0, 8.0, 3.0),
+                                      child: Text(
+                                        "Admin",
+                                        style: GoogleFonts.manrope(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container()
                           : Container(),
                       widget.post.questionOne != null &&
                               widget.post.questionTwo != null
                           ? Container(
                               width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 10.0),
-                                  InkWell(
-                                    onTap: () async {
-                                      if (widget.post.isVoted) {
-                                        return;
-                                      }
-                                      //TODO: PUSH NOTIFICATION
-                                      // sendPushPoll(
-                                      //     token,
-                                      //     "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
-                                      //     widget.club,
-                                      //     null,
-                                      //     widget.post.id);
-                                      setState(() {
-                                        widget.post.isVoted = true;
-                                        widget.post.whichOption = 1;
-                                        widget.post.questionOneLikeCount += 1;
-                                      });
-                                      width1 =
-                                          MediaQuery.of(context).size.width *
-                                              widthPercentage(1);
-                                      width2 =
-                                          MediaQuery.of(context).size.width *
-                                              widthPercentage(2);
-                                      await OneHealingSpace.vote(
-                                          widget.post, 1);
-                                    },
-                                    child: Stack(
-                                      alignment:
-                                          AlignmentDirectional.centerStart,
-                                      children: [
-                                        Container(
-                                          height: containerWidth,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                              color: outsideOptionColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0)),
-                                        ),
-                                        AnimatedContainer(
-                                          duration: Duration(seconds: 1),
-                                          height: containerWidth,
-                                          width: widget.post.isVoted
-                                              ? width1 != null
-                                                  ? width1
-                                                  : MediaQuery.of(context)
-                                                      .size
-                                                      .width
-                                              : MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  Theme.of(context).shadowColor,
-                                              borderRadius: widthPercentage(
-                                                          1) ==
-                                                      1.0
-                                                  ? BorderRadius.circular(5.0)
-                                                  : BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(5.0),
-                                                      bottomLeft:
-                                                          Radius.circular(
-                                                              5.0))),
-                                        ),
-                                        Center(
-                                          child: Text(
-                                            widget.post.isVoted
-                                                ? widget.post.questionOne +
-                                                    " (" +
-                                                    (widthPercentage(1) * 100)
-                                                        .toInt()
-                                                        .toString() +
-                                                    "%)"
-                                                : widget.post.questionOne,
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 10.0, left: 10.0, right: 10.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10.0),
+                                    InkWell(
+                                      onTap: () async {
+                                        if (widget.post.isVoted) {
+                                          return;
+                                        }
+                                        if (widget.post.userId !=
+                                            firebaseAuth.currentUser.uid) {
+                                          // sendPushPoll(
+                                          //     token,
+                                          //     "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
+                                          //     widget.club,
+                                          //     widget.course,
+                                          //     widget.post.id,
+                                          //     widget.post.userId);
+                                        }
+
+                                        setState(() {
+                                          widget.post.isVoted = true;
+                                          widget.post.whichOption = 1;
+                                          widget.post.questionOneLikeCount += 1;
+                                        });
+                                        width1 =
+                                            MediaQuery.of(context).size.width *
+                                                widthPercentage(1);
+                                        width2 =
+                                            MediaQuery.of(context).size.width *
+                                                widthPercentage(2);
+                                        await OneHealingSpace.vote(
+                                            widget.post, 1);
+                                      },
+                                      child: Stack(
+                                        alignment:
+                                            AlignmentDirectional.centerStart,
+                                        children: [
+                                          Container(
+                                            height: containerWidth,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                color: outsideOptionColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0)),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 5.0),
-                                  InkWell(
-                                    onTap: () async {
-                                      if (widget.post.isVoted) {
-                                        return;
-                                      }
-                                      // TODO: PUSH NOTIFICATION
-                                      // sendPushPoll(
-                                      //     token,
-                                      //     "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
-                                      //     widget.club,
-                                      //     null,
-                                      //     widget.post.id);
-                                      // TODO: - Vote second option
-                                      setState(() {
-                                        widget.post.isVoted = true;
-                                        widget.post.whichOption = 2;
-                                        widget.post.questionTwoLikeCount += 1;
-                                      });
-                                      width1 =
-                                          MediaQuery.of(context).size.width *
-                                              widthPercentage(1);
-                                      width2 =
-                                          MediaQuery.of(context).size.width *
-                                              widthPercentage(2);
-                                      await OneHealingSpace.vote(
-                                          widget.post, 2);
-                                    },
-                                    child: Stack(
-                                      alignment:
-                                          AlignmentDirectional.centerStart,
-                                      children: [
-                                        Container(
-                                          height: containerWidth,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                              color: outsideOptionColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0)),
-                                        ),
-                                        AnimatedContainer(
-                                          duration: Duration(seconds: 1),
-                                          height: containerWidth,
-                                          width: widget.post.isVoted
-                                              ? width2 != null
-                                                  ? width2
-                                                  : MediaQuery.of(context)
-                                                      .size
-                                                      .width
-                                              : MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                          decoration: BoxDecoration(
-                                              color: option2Color,
-                                              borderRadius: widthPercentage(
-                                                          2) ==
-                                                      1.0
-                                                  ? BorderRadius.circular(5.0)
-                                                  : BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(5.0),
-                                                      bottomLeft:
-                                                          Radius.circular(
-                                                              5.0))),
-                                        ),
-                                        Center(
-                                          child: Text(
-                                            widget.post.isVoted
-                                                ? widget.post.questionTwo +
-                                                    " (" +
-                                                    (widthPercentage(2) * 100)
-                                                        .toInt()
-                                                        .toString() +
-                                                    "%)"
-                                                : widget.post.questionTwo,
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .accentColor),
+                                          AnimatedContainer(
+                                            duration: Duration(seconds: 1),
+                                            height: containerWidth,
+                                            width: widget.post.isVoted
+                                                ? width1 != null
+                                                    ? width1
+                                                    : MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                : MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                            decoration: BoxDecoration(
+                                                color: option1Color,
+                                                borderRadius:
+                                                    widthPercentage(1) == 1.0
+                                                        ? BorderRadius.circular(
+                                                            5.0)
+                                                        : BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    5.0),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    5.0))),
                                           ),
-                                        ),
-                                      ],
+                                          Center(
+                                            child: Text(
+                                              widget.post.isVoted
+                                                  ? widget.post.questionOne +
+                                                      " (" +
+                                                      (widthPercentage(1) * 100)
+                                                          .toInt()
+                                                          .toString() +
+                                                      "%)"
+                                                  : widget.post.questionOne,
+                                              style: GoogleFonts.manrope(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .accentColor),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    SizedBox(height: 5.0),
+                                    InkWell(
+                                      onTap: () async {
+                                        if (widget.post.isVoted) {
+                                          return;
+                                        }
+                                        if (widget.post.userId !=
+                                            firebaseAuth.currentUser.uid) {
+                                          // sendPushPoll(
+                                          //     token,
+                                          //     "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
+                                          //     widget.club,
+                                          //     widget.course,
+                                          //     widget.post.id,
+                                          //     widget.post.userId);
+                                        }
+
+                                        setState(() {
+                                          widget.post.isVoted = true;
+                                          widget.post.whichOption = 2;
+                                          widget.post.questionTwoLikeCount += 1;
+                                        });
+                                        width1 =
+                                            MediaQuery.of(context).size.width *
+                                                widthPercentage(1);
+                                        width2 =
+                                            MediaQuery.of(context).size.width *
+                                                widthPercentage(2);
+                                        await OneHealingSpace.vote(
+                                            widget.post, 2);
+                                      },
+                                      child: Stack(
+                                        alignment:
+                                            AlignmentDirectional.centerStart,
+                                        children: [
+                                          Container(
+                                            height: containerWidth,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                color: outsideOptionColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0)),
+                                          ),
+                                          AnimatedContainer(
+                                            duration: Duration(seconds: 1),
+                                            height: containerWidth,
+                                            width: widget.post.isVoted
+                                                ? width2 != null
+                                                    ? width2
+                                                    : MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                : MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                            decoration: BoxDecoration(
+                                                color: option2Color,
+                                                borderRadius:
+                                                    widthPercentage(2) == 1.0
+                                                        ? BorderRadius.circular(
+                                                            5.0)
+                                                        : BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    5.0),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    5.0))),
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              widget.post.isVoted
+                                                  ? widget.post.questionTwo +
+                                                      " (" +
+                                                      (widthPercentage(2) * 100)
+                                                          .toInt()
+                                                          .toString() +
+                                                      "%)"
+                                                  : widget.post.questionTwo,
+                                              style: GoogleFonts.manrope(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .accentColor),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           : Container()
@@ -904,7 +1134,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         widget.post.whichOption == 1
                             ? 'You voted: ${widget.post.questionOne}'
                             : 'You voted: ${widget.post.questionTwo}',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).buttonColor),
@@ -948,7 +1178,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               : 'View Poll Results (' +
                                   pollCount().toString() +
                                   ' votes)',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -961,12 +1191,11 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               widget.post.imgUrl != null
                   ? Padding(
                       padding: const EdgeInsets.only(
-                          top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+                          top: 10.0, left: 10.0, right: 10.0, bottom: 10.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 200,
                           color: Colors.grey[300],
                           child: FullScreenWidget(
                             backgroundColor: Colors.brown,
@@ -976,8 +1205,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 child: Image.network(
                                   widget.post.imgUrl,
                                   width: MediaQuery.of(context).size.width,
-                                  //height:
-                                  //MediaQuery.of(context).size.height / 2,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height / 2,
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
@@ -992,7 +1221,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                             child: LoadingIndicator(
                                               indicatorType:
                                                   Indicator.circleStrokeSpin,
-                                              color: Colors.white,
+                                              color:
+                                                  Theme.of(context).accentColor,
                                             )),
                                       ),
                                     );
@@ -1005,181 +1235,54 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                       ),
                     )
                   : Container(),
-              // SizedBox(height: 15.0),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       widget.post.likeCount == 0
-              //           ? "No Likes"
-              //           : widget.post.likeCount == 1
-              //               ? widget.post.likeCount.toString() + " Like"
-              //               : widget.post.likeCount.toString() + " Likes",
-              //       style: TextStyle(
-              //fontFamily: Constants.fontFamily,
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w500,
-              //           color: Colors.grey[700]),
-              //     ),
-              //     Text(
-              //       widget.post.commentCount == 0
-              //           ? "No Comments"
-              //           : widget.post.commentCount == 1
-              //               ? widget.post.commentCount.toString() + " Comment"
-              //               : widget.post.commentCount.toString() + " Comments",
-              //       style: TextStyle(
-              //fontFamily: Constants.fontFamily,
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w500,
-              //           color: Colors.grey[700]),
-              //     ),
-              //   ],
-              // ),
-              SizedBox(height: 5.0),
-              Container(
-                margin: EdgeInsets.only(left: 10.0, right: 10.0),
+              SizedBox(height: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    // Row(
-                    //   children: <Widget>[
-                    //     InkWell(
-                    //         onTap: () async {
-                    //           if (widget.post.isLiked) {
-                    //             widget.post.isLiked = false;
-                    //             widget.post.likeCount -= 1;
-                    //             var res =
-                    //                 await OneHealingSpace.unlike(widget.post);
-                    //             if (res) {
-                    //               if (this.mounted) {
-                    //                 setState(() {});
-                    //               }
-                    //             }
-                    //           } else {
-                    //             var user = await getUserWithUniversity(
-                    //                 widget.post.userId, widget.post.university);
-                    //             var token = user.device_token;
-                    //             if (user.id != firebaseAuth.currentUser.uid) {
-                    //               // TODO:- send push notification
-
-                    //               // if (widget.club == null &&
-                    //               //     widget.course == null) {
-                    //               //   await sendPush(0, token,
-                    //               //       widget.post.content, widget.post.id);
-                    //               // } else if (widget.club != null) {
-                    //               //   await sendPushClub(widget.club, 0, token,
-                    //               //       widget.post.content, widget.post.id);
-                    //               // } else {
-                    //               //   await sendPushCourse(
-                    //               //       widget.course,
-                    //               //       0,
-                    //               //       token,
-                    //               //       widget.post.content,
-                    //               //       widget.post.id);
-                    //               // }
-                    //             }
-                    //             widget.post.isLiked = true;
-                    //             widget.post.likeCount += 1;
-                    //             var res =
-                    //                 await OneHealingSpace.like(widget.post);
-                    //             if (res) {
-                    //               if (this.mounted) {
-                    //                 setState(() {});
-                    //               }
-                    //             }
-                    //           }
-                    //         },
-                    //         child: Icon(FlutterIcons.like_sli,
-                    //             color: widget.post.isLiked
-                    //                 ? Colors.red
-                    //                 : Theme.of(context).buttonColor,
-                    //             size: 20)),
-                    //     SizedBox(width: 10.0),
-                    //     Container(
-                    //       margin: EdgeInsets.only(left: 3.0),
-                    //       child: Text(
-                    //         widget.post.likeCount == 0
-                    //             ? "No Likes"
-                    //             : widget.post.likeCount == 1
-                    //                 ? widget.post.likeCount.toString() + " Like"
-                    //                 : widget.post.likeCount.toString() +
-                    //                     " Likes",
-                    //         style: TextStyle(
-                    //fontFamily: Constants.fontFamily,
-                    //             fontSize: 13,
-                    //             fontWeight: FontWeight.w500,
-                    //             color: Theme.of(context).buttonColor),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // Row(
-                    //   children: <Widget>[
-                    //     Icon(AntDesign.message1,
-                    //         color: Theme.of(context).buttonColor, size: 20),
-                    //     SizedBox(width: 10.0),
-                    //     Container(
-                    //       margin: EdgeInsets.only(left: 3.0),
-                    //       child: Text(
-                    //         widget.post.commentCount == 0
-                    //             ? "No Comments"
-                    //             : widget.post.commentCount == 1
-                    //                 ? widget.post.commentCount.toString() +
-                    //                     " Comment"
-                    //                 : widget.post.commentCount.toString() +
-                    //                     " Comments",
-                    //         style: TextStyle(
-                    // fontFamily: Constants.fontFamily,
-                    //             fontSize: 13,
-                    //             fontWeight: FontWeight.w500,
-                    //             color: Theme.of(context).buttonColor),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     final RenderBox box = context.findRenderObject();
-                    //     var title = widget.post.isAnonymous
-                    //         ? "Anonymous: "
-                    //         : "${widget.post.username}: ";
-                    //     var content =
-                    //         title + widget.post.content + " - TheirCircle";
-                    //     await Share.share(content,
-                    //         subject: "TheirCircle",
-                    //         sharePositionOrigin:
-                    //             box.localToGlobal(Offset.zero) & box.size);
-                    //   },
-                    //   child: Row(
-                    //     children: <Widget>[
-                    //       Icon(AntDesign.sharealt,
-                    //           color: Theme.of(context).buttonColor, size: 20),
-                    //       SizedBox(width: 10.0),
-                    //       Container(
-                    //         margin: EdgeInsets.only(left: 3.0),
-                    //         child: Text(
-                    //           "Share",
-                    //           style: TextStyle(
-                    //fontFamily: Constants.fontFamily,
-                    //               fontSize: 13,
-                    //               fontWeight: FontWeight.w500,
-                    //               color: Theme.of(context).buttonColor),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    LikeButton(
-                      likeCountAnimationType: LikeCountAnimationType.all,
-                      isLiked: widget.post.isLiked,
-                      likeCount: widget.post.likeCount,
-                      size: 20.0,
-                      circleColor: CircleColor(
-                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                      bubblesColor: BubblesColor(
-                          dotPrimaryColor: Color(0xff33b5e5),
-                          dotSecondaryColor: Color(0xff0099cc)),
-                      onTap: (_) async {
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4.0),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF1777F2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        FlutterIcons.heart_ant,
+                        size: 10.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 4.0),
+                    Expanded(
+                      child: Text(
+                        '${widget.post.likeCount}',
+                        style: GoogleFonts.manrope(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '${widget.post.commentCount} ' +
+                          (widget.post.commentCount.toString() == '1'
+                              ? "Comment"
+                              : "Comments"),
+                      style: GoogleFonts.manrope(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).buttonColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () async {
                         if (widget.post.isLiked) {
                           widget.post.isLiked = false;
                           widget.post.likeCount -= 1;
@@ -1194,22 +1297,26 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               widget.post.userId, widget.post.university);
                           var token = user.device_token;
                           if (user.id != firebaseAuth.currentUser.uid) {
-                            // TODO:- send push notification
-
                             // if (widget.club == null &&
                             //     widget.course == null) {
-                            //   await sendPush(0, token,
-                            //       widget.post.content, widget.post.id);
+                            //   await sendPush(0, token, widget.post.content,
+                            //       widget.post.id, user.id);
                             // } else if (widget.club != null) {
-                            //   await sendPushClub(widget.club, 0, token,
-                            //       widget.post.content, widget.post.id);
+                            //   await sendPushClub(
+                            //       widget.club,
+                            //       0,
+                            //       token,
+                            //       widget.post.content,
+                            //       widget.post.id,
+                            //       user.id);
                             // } else {
                             //   await sendPushCourse(
                             //       widget.course,
                             //       0,
                             //       token,
                             //       widget.post.content,
-                            //       widget.post.id);
+                            //       widget.post.id,
+                            //       user.id);
                             // }
                           }
                           widget.post.isLiked = true;
@@ -1223,29 +1330,147 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         }
                         return widget.post.isLiked;
                       },
+                      child: Row(
+                        children: [
+                          Icon(
+                            widget.post.isLiked
+                                ? FlutterIcons.thumb_up_mco
+                                : FlutterIcons.thumb_up_outline_mco,
+                            color: widget.post.isLiked
+                                ? Color(0xFF1777F2)
+                                : Theme.of(context).buttonColor,
+                            size: 20.0,
+                          ),
+                          SizedBox(width: 5.0),
+                          Text('Like')
+                        ],
+                      ),
                     ),
+                    // LikeButton(
+                    //   likeCountAnimationType: LikeCountAnimationType.all,
+                    //   isLiked: widget.post.isLiked,
+                    //   likeCount: widget.post.likeCount,
+                    //   size: 20.0,
+                    //   circleColor: CircleColor(
+                    //       start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                    //   bubblesColor: BubblesColor(
+                    //       dotPrimaryColor: Color(0xff33b5e5),
+                    //       dotSecondaryColor: Color(0xff0099cc)),
+                    //   onTap: (_) async {
+                    //     if (widget.post.university != null) {
+                    //       if (widget.post.university !=
+                    //           (Constants.checkUniversity() == 0
+                    //               ? 'UofT'
+                    //               : Constants.checkUniversity() == 1
+                    //                   ? 'YorkU'
+                    //                   : 'WesternU')) {
+                    //         Toast.show(
+                    //             'Cannot like content from other universities :(',
+                    //             context);
+                    //         return false;
+                    //       } else {
+                    //         if (widget.post.isLiked) {
+                    //           widget.post.isLiked = false;
+                    //           widget.post.likeCount -= 1;
+                    //           var res = await unlike(
+                    //               widget.post, widget.club, widget.course);
+                    //           if (res) {
+                    //             if (this.mounted) {
+                    //               setState(() {});
+                    //             }
+                    //           }
+                    //         } else {
+                    //           var user = await getUser(widget.post.userId);
+                    //           var token = user.device_token;
+                    //           if (user.id != firebaseAuth.currentUser.uid) {
+                    //             if (widget.club == null &&
+                    //                 widget.course == null) {
+                    //               await sendPush(0, token, widget.post.content,
+                    //                   widget.post.id, user.id);
+                    //             } else if (widget.club != null) {
+                    //               await sendPushClub(
+                    //                   widget.club,
+                    //                   0,
+                    //                   token,
+                    //                   widget.post.content,
+                    //                   widget.post.id,
+                    //                   user.id);
+                    //             } else {
+                    //               await sendPushCourse(
+                    //                   widget.course,
+                    //                   0,
+                    //                   token,
+                    //                   widget.post.content,
+                    //                   widget.post.id,
+                    //                   user.id);
+                    //             }
+                    //           }
+                    //           widget.post.isLiked = true;
+                    //           widget.post.likeCount += 1;
+                    //           var res = await like(
+                    //               widget.post, widget.club, widget.course);
+                    //           if (res) {
+                    //             if (this.mounted) {
+                    //               setState(() {});
+                    //             }
+                    //           }
+                    //         }
+                    //         return widget.post.isLiked;
+                    //       }
+                    //     } else {
+                    //       if (widget.post.isLiked) {
+                    //         widget.post.isLiked = false;
+                    //         widget.post.likeCount -= 1;
+                    //         var res = await unlike(
+                    //             widget.post, widget.club, widget.course);
+                    //         if (res) {
+                    //           if (this.mounted) {
+                    //             setState(() {});
+                    //           }
+                    //         }
+                    //       } else {
+                    //         var user = await getUser(widget.post.userId);
+                    //         var token = user.device_token;
+                    //         if (user.id != firebaseAuth.currentUser.uid) {
+                    //           if (widget.club == null && widget.course == null) {
+                    //             await sendPush(0, token, widget.post.content,
+                    //                 widget.post.id, user.id);
+                    //           } else if (widget.club != null) {
+                    //             await sendPushClub(widget.club, 0, token,
+                    //                 widget.post.content, widget.post.id, user.id);
+                    //           } else {
+                    //             await sendPushCourse(widget.course, 0, token,
+                    //                 widget.post.content, widget.post.id, user.id);
+                    //           }
+                    //         }
+                    //         widget.post.isLiked = true;
+                    //         widget.post.likeCount += 1;
+                    //         var res = await like(
+                    //             widget.post, widget.club, widget.course);
+                    //         if (res) {
+                    //           if (this.mounted) {
+                    //             setState(() {});
+                    //           }
+                    //         }
+                    //       }
+                    //       return widget.post.isLiked;
+                    //     }
+                    //   },
+                    // ),
                     SizedBox(width: 30.0),
                     Row(
                       children: <Widget>[
-                        Icon(FlutterIcons.comments_faw5s,
-                            color:
-                                Theme.of(context).buttonColor.withOpacity(0.2),
-                            size: 20),
+                        Unicon(UniconData.uniChat,
+                            color: Theme.of(context).buttonColor, size: 20),
                         SizedBox(width: 5.0),
                         Container(
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
-                            widget.post.commentCount == 0
-                                ? 0.toString()
-                                : widget.post.commentCount == 1
-                                    ? widget.post.commentCount.toString()
-                                    : widget.post.commentCount.toString(),
-                            style: GoogleFonts.quicksand(
+                            'Comment',
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context)
-                                    .buttonColor
-                                    .withOpacity(0.8)),
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).buttonColor),
                           ),
                         )
                       ],
@@ -1267,66 +1492,87 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                       child: Row(
                         children: <Widget>[
                           Icon(FlutterIcons.share_alt_faw5s,
-                              color: Colors.indigo, size: 15),
+                              color: Color(0xFF1777F2), size: 15),
                           SizedBox(width: 5.0),
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text("Share",
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manrope(
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.indigo)),
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF1777F2))),
                           )
                         ],
                       ),
                     ),
+                    // widget.post.university != null
+                    //     ? Text(
+                    //         widget.post.university == 'UofT'
+                    //             ? 'University of Toronto'
+                    //             : widget.post.university == 'YorkU'
+                    //                 ? 'York University'
+                    //                 : 'Western University',
+                    //         style:  GoogleFonts.manrope(
+                    //
+                    //             fontSize: 13,
+                    //             fontWeight: FontWeight.w600,
+                    //             color: widget.post.university == 'UofT'
+                    //                 ? Color(0xFF1777F2)
+                    //                 : widget.post.university == 'YorkU'
+                    //                     ? Colors.red
+                    //                     : Colors.orange))
+                    //     : Container(),
                   ],
                 ),
               ),
-              SizedBox(height: 10.0),
+              // SizedBox(height: 15.0),
               // comment != null && !widget.fromComments
               //     ? Padding(
-              //         padding: const EdgeInsets.only(left: 0.0),
+              //         padding: const EdgeInsets.only(left: 0.0, bottom: 5.0),
               //         child: Text(
               //           comment.userId == firebaseAuth.currentUser.uid
               //               ? "You"
               //               : comment.username,
-              //           style: TextStyle(
-              // fontFamily: Constants.fontFamily,
+              //           style:  GoogleFonts.manrope(
+              //
               //               fontSize: 13,
               //               fontWeight: FontWeight.w500,
-              //               color: Colors.deepPurpleAccent),
+              //               color: Theme.of(context).accentColor),
               //         ),
               //       )
               //     : SizedBox(),
               // comment != null && !widget.fromComments
               //     ? Container(
-              //         height: 50,
               //         child: Row(
               //           children: [
-              //             Container(
-              //               height: 20.0,
-              //               width: 3.0,
-              //               color: Colors.deepPurpleAccent,
-              //             ),
-              //             SizedBox(width: 10.0),
+              //             SizedBox(width: 15.0),
               //             Flexible(
-              //               child: Text(comment.content,
-              //                   maxLines: null,
-              //                   overflow: TextOverflow.ellipsis,
-              //                   style: TextStyle(
-              //  fontFamily: Constants.fontFamily,
-              //                       fontSize: 13,
-              //                       fontWeight: FontWeight.w500,
-              //                       color: Theme.of(context).accentColor)),
+              //               child: Padding(
+              //                 padding: const EdgeInsets.only(right: 15.0),
+              //                 child: Text(comment.content,
+              //                     maxLines: null,
+              //                     overflow: TextOverflow.ellipsis,
+              //                     style:  GoogleFonts.manrope(
+              //
+              //                         fontSize: 13,
+              //                         fontWeight: FontWeight.w500,
+              //                         color: Theme.of(context).accentColor)),
+              //               ),
               //             )
               //           ],
               //         ),
+              //       )
+              //     : SizedBox(),
+              // comment != null && !widget.fromComments
+              //     ? SizedBox(
+              //         height: 10.0,
               //       )
               //     : SizedBox()
             ],
           ),
         ),
+        SizedBox(height: 10.0),
+        Container(height: 7.0, color: Theme.of(context).dividerColor)
       ],
     );
   }
@@ -1341,7 +1587,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

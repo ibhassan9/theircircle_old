@@ -51,7 +51,7 @@ class _UploadVideoState extends State<UploadVideo> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           'Create',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -79,7 +79,7 @@ class _UploadVideoState extends State<UploadVideo> {
             SizedBox(width: 10.0),
             Text(
               'Allow comments',
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -192,15 +192,15 @@ class _UploadVideoState extends State<UploadVideo> {
           child: Center(
             child: isUploading
                 ? SizedBox(
-                    height: 40.0,
-                    width: 40.0,
+                    height: 15.0,
+                    width: 15.0,
                     child: LoadingIndicator(
                       indicatorType: Indicator.circleStrokeSpin,
                       color: Colors.white,
                     ))
                 : Text(
                     'PUBLISH',
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
@@ -240,7 +240,7 @@ class _UploadVideoState extends State<UploadVideo> {
     //           3.0)), //             <--- BoxDecoration here
     //   child: Text('@ Friends',
     //       style: GoogleFonts.lexendDeca(
-    //         GoogleFonts.overpass: TextStyle(
+    //         GoogleFonts.overpass: GoogleFonts.manrope(
     //fontFamily: Constants.fontFamily,
     //             fontSize: 11,
     //             fontWeight: FontWeight.w400,
@@ -265,7 +265,7 @@ class _UploadVideoState extends State<UploadVideo> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: 'Describe your video'),
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.manrope(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),

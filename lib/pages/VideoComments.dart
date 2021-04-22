@@ -62,7 +62,7 @@ class _VideoCommentsState extends State<VideoComments> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Comment Here"),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -115,7 +115,7 @@ class _VideoCommentsState extends State<VideoComments> {
         ),
         title: Text(
           "Comments",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -168,7 +168,7 @@ class _VideoCommentsState extends State<VideoComments> {
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no comments :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -188,7 +188,7 @@ class _VideoCommentsState extends State<VideoComments> {
           : Center(
               child: Text(
                 "Comments are disabled",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),

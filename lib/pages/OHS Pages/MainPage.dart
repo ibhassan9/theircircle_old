@@ -45,7 +45,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.pink,
         bottomNavigationBar: Container(
           color: Theme.of(context).backgroundColor,
           margin: EdgeInsets.only(bottom: 0.0),
@@ -69,7 +69,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).dividerColor,
+                  color: Theme.of(context).accentColor,
                   borderRadius: BorderRadius.circular(25.0)),
               width: MediaQuery.of(context).size.width,
               height: 50.0,
@@ -83,10 +83,10 @@ class _OHSMainPageState extends State<OHSMainPage> {
                     SizedBox(width: 10.0),
                     Text(
                       'Book an appointment',
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Theme.of(context).backgroundColor),
                     ),
                   ],
                 ),
@@ -95,7 +95,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
           ),
         ),
         appBar: AppBar(
-          brightness: Brightness.light,
+          brightness: Brightness.dark,
           centerTitle: false,
           titleSpacing: 0.0,
           title: Column(
@@ -103,23 +103,23 @@ class _OHSMainPageState extends State<OHSMainPage> {
             children: [
               Text(
                 widget.club.name,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black),
+                    color: Colors.white),
               ),
               Text(
                 widget.club.description,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black),
+                    color: Colors.white),
               ),
             ],
           ),
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.pink,
           elevation: 0.0,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.white),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 15, right: 15.0),
@@ -143,11 +143,11 @@ class _OHSMainPageState extends State<OHSMainPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Feather.users, color: Colors.black, size: 20.0),
+                      Icon(Feather.users, color: Colors.white, size: 20.0),
                       SizedBox(width: 5.0),
                       Text(widget.club.memberCount.toString(),
-                          style: GoogleFonts.quicksand(
-                              color: Colors.black, fontWeight: FontWeight.bold))
+                          style: GoogleFonts.manrope(
+                              color: Colors.white, fontWeight: FontWeight.bold))
                     ],
                   ),
                 ),
@@ -232,11 +232,11 @@ class _OHSMainPageState extends State<OHSMainPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(AntDesign.calendar,
-                                  color: Colors.black, size: 20.0),
+                                  color: Colors.white, size: 20.0),
                               SizedBox(width: 5.0),
                               Text('View Shared Calendar',
-                                  style: GoogleFonts.quicksand(
-                                      color: Colors.black,
+                                  style: GoogleFonts.manrope(
+                                      color: Colors.white,
                                       fontWeight: FontWeight.w500))
                             ],
                           ),
@@ -280,7 +280,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                       child: Text(
                                         "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
                                             .toUpperCase(),
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manrope(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w800,
                                             color: Colors.grey.shade600),
@@ -425,7 +425,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                               SizedBox(width: 10),
                                               Text(
                                                 "Could not load posts :(",
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.manrope(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -442,8 +442,8 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                       duration: Duration(seconds: 1),
                                       child: Center(
                                         child: SizedBox(
-                                          height: 20,
-                                          width: 20,
+                                          height: 15,
+                                          width: 15,
                                           child: LoadingIndicator(
                                               indicatorType:
                                                   Indicator.circleStrokeSpin,
@@ -474,7 +474,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                               SizedBox(width: 10),
                                               Text(
                                                 "There are no posts :(",
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.manrope(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)

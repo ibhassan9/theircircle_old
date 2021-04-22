@@ -20,14 +20,14 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
     return TextFieldContainer(
       child: TextField(
         controller: widget.controller,
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.manrope(
             fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
         obscureText: isObscure,
         onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
           hintText: "Password",
-          hintStyle: GoogleFonts.quicksand(
+          hintStyle: GoogleFonts.manrope(
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           icon: Icon(
             Icons.lock,

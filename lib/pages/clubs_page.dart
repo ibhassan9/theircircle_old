@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/OHS.dart';
+import 'package:unify/Models/user.dart';
 import 'package:unify/Widgets/ClubWidget.dart';
 import 'package:unify/Widgets/CourseWidget.dart';
 import 'package:unify/Models/club.dart';
@@ -51,7 +52,7 @@ class _ClubsPageState extends State<ClubsPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Create a Virtual Community",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -72,7 +73,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -89,7 +90,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your community here..."),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -103,7 +104,7 @@ class _ClubsPageState extends State<ClubsPage>
                         Text(
                             "Privacy " +
                                 (switchVal == true ? "(Private)" : "(Public)"),
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor)),
@@ -153,7 +154,7 @@ class _ClubsPageState extends State<ClubsPage>
       //   title: Text(
       //     "Communities",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.overpass: TextStyle(
+      //       GoogleFonts.overpass: GoogleFonts.manrope(
       //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
@@ -194,12 +195,12 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 20, bottom: 11, top: 11, right: 15),
                       hintText: "Search Communities...",
-                      hintStyle: GoogleFonts.quicksand(
+                      hintStyle: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -238,8 +239,8 @@ class _ClubsPageState extends State<ClubsPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 20,
-                                    height: 20,
+                                    width: 15,
+                                    height: 15,
                                     child: LoadingIndicator(
                                       indicatorType: Indicator.circleStrokeSpin,
                                       color: Theme.of(context).accentColor,
@@ -325,7 +326,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       SizedBox(width: 10),
                                       Text(
                                         "Cannot find any clubs :(",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.manrope(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -351,7 +352,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no clubs :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -374,7 +375,13 @@ class _ClubsPageState extends State<ClubsPage>
           backgroundColor: Colors.deepPurpleAccent,
           child: Icon(Entypo.plus, color: Colors.white),
           onPressed: () async {
-            addClubDialog();
+            await checkPoints().then((points) {
+              if (points > 100) {
+                addClubDialog();
+              } else {
+                // cannot create club because of points
+              }
+            });
           },
         ),
       ),
@@ -432,7 +439,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     SizedBox(width: 10.0),
                                     Text(
                                       'Featured Club',
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white),
@@ -490,7 +497,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       : _oneHealingSpace.inClub
                                           ? 'Leave Community'
                                           : 'Join Community',
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.manrope(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white),

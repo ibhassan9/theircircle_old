@@ -36,7 +36,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
       appBar: AppBar(
         title: Text(
           "Poll Results",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -60,11 +60,11 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 child: Text(
                   widget.questionOne,
                   style: selectedOption == 1
-                      ? GoogleFonts.quicksand(
+                      ? GoogleFonts.manrope(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                           color: Colors.blue)
-                      : GoogleFonts.quicksand(
+                      : GoogleFonts.manrope(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -72,7 +72,7 @@ class _PollResultsPageState extends State<PollResultsPage> {
               ),
               Text(
                 " | ",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: Theme.of(context).accentColor),
@@ -86,11 +86,11 @@ class _PollResultsPageState extends State<PollResultsPage> {
                 child: Text(
                   widget.questionTwo,
                   style: selectedOption == 2
-                      ? GoogleFonts.quicksand(
+                      ? GoogleFonts.manrope(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                           color: Colors.blue)
-                      : GoogleFonts.quicksand(
+                      : GoogleFonts.manrope(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),

@@ -637,10 +637,18 @@ Future<List<Post>> fetchPosts(int sortBy) async {
 
   if (sortBy == 0) {
     p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
-  } else {
+  } else if (sortBy == 1) {
     p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
         .toString()
         .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+  } else if (sortBy == 2) {
+    p.sort((a, b) => (b.questionOne != null)
+        .toString()
+        .compareTo((a.questionOne != null).toString()));
+  } else {
+    p.sort((a, b) => (b.tcQuestion != null)
+        .toString()
+        .compareTo((a.tcQuestion != null).toString()));
   }
   return p;
 }
@@ -1155,10 +1163,18 @@ Future<List<Post>> fetchCoursePosts(Course course, int sortBy) async {
   });
   if (sortBy == 0) {
     p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
-  } else {
+  } else if (sortBy == 1) {
     p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
         .toString()
         .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+  } else if (sortBy == 2) {
+    p.sort((a, b) => (b.questionOne != null)
+        .toString()
+        .compareTo((a.questionOne != null).toString()));
+  } else {
+    p.sort((a, b) => (b.tcQuestion != null)
+        .toString()
+        .compareTo((a.tcQuestion != null).toString()));
   }
   return p;
 }
@@ -1499,10 +1515,18 @@ Future<List<Post>> fetchClubPosts(Club club, int sortBy) async {
 
   if (sortBy == 0) {
     p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
-  } else {
+  } else if (sortBy == 1) {
     p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
         .toString()
         .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+  } else if (sortBy == 2) {
+    p.sort((a, b) => (b.questionOne != null)
+        .toString()
+        .compareTo((a.questionOne != null).toString()));
+  } else {
+    p.sort((a, b) => (b.tcQuestion != null)
+        .toString()
+        .compareTo((a.tcQuestion != null).toString()));
   }
   return p;
 }

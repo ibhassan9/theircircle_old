@@ -54,7 +54,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   final act = CupertinoActionSheet(
                     title: Text(
                       "What's wrong with this listing?",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).accentColor),
@@ -63,7 +63,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It's suspicious or spam",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -75,7 +75,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It's abusive or harmful",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -87,7 +87,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It expresses intentions of self-harm or suicide",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -99,7 +99,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It promotes sexual/inappropriate content",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -125,7 +125,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ],
         title: Text(
           '',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -191,8 +191,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           width: 20,
                           child: Center(
                             child: SizedBox(
-                                width: 20,
-                                height: 20,
+                                width: 15,
+                                height: 15,
                                 child: LoadingIndicator(
                                   indicatorType: Indicator.circleStrokeSpin,
                                   color: Theme.of(context).accentColor,
@@ -208,7 +208,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             FirebaseAuth.instance.currentUser.uid
                         ? 'Listed by you'
                         : 'Listed by ' + widget.prod.sellerName,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -224,7 +224,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         new DateTime.fromMillisecondsSinceEpoch(
                             widget.prod.timeStamp),
                         locale: 'en_short'),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -239,7 +239,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Text(
             widget.prod.title,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -249,7 +249,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 15.0),
           child: Text(
             r'$' + widget.prod.price,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -323,7 +323,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               FirebaseAuth.instance.currentUser.uid
                           ? 'Remove Listing'
                           : 'Contact Seller',
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -342,7 +342,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
           child: Text(
             'Description',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -352,7 +352,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Text(
             widget.prod.description,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),

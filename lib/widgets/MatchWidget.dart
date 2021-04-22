@@ -46,7 +46,7 @@ class _MatchWidgetState extends State<MatchWidget> {
                         children: [
                           Text(
                             widget.user.name,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 shadows: <Shadow>[
                                   Shadow(
                                     offset: Offset(0.0, 0.0),
@@ -67,7 +67,7 @@ class _MatchWidgetState extends State<MatchWidget> {
                             widget.user.about != null
                                 ? widget.user.about
                                 : 'No Information Available...',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 shadows: <Shadow>[
                                   Shadow(
                                     offset: Offset(0.0, 0.0),

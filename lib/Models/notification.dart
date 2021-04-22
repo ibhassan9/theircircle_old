@@ -12,6 +12,7 @@ import 'package:unify/Models/post.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/Screens/Welcome/components/body.dart';
 import 'package:unify/pages/VideoPreview.dart';
 import 'package:unify/pages/club_page.dart';
 import 'package:unify/pages/course_page.dart';
@@ -325,7 +326,7 @@ Future<Null> send(String token, String receiverId) async {
             <String, dynamic>{
               'notification': <String, dynamic>{
                 'body':
-                    "Answer our question of the day: Should university education be free?",
+                    "May your examination results be filled with good grades. All the very best to you!",
               },
               'priority': 'high',
               'data': <String, dynamic>{
@@ -339,6 +340,65 @@ Future<Null> send(String token, String receiverId) async {
       .then((value) {
     print('Sent to ' + receiverId);
   });
+}
+
+Future<Null> sendRoomNotification(String body) async {
+  List<String> tokenIds = [];
+  var user1db =
+      FirebaseDatabase.instance.reference().child('users').child('UofT');
+  var user2db =
+      FirebaseDatabase.instance.reference().child('users').child('YorkU');
+  var user3db =
+      FirebaseDatabase.instance.reference().child('users').child('WesternU');
+
+  DataSnapshot user1snap = await user1db.once();
+  DataSnapshot user2snap = await user2db.once();
+  DataSnapshot user3snap = await user3db.once();
+
+  Map<dynamic, dynamic> users1 = user1snap.value;
+  Map<dynamic, dynamic> users2 = user2snap.value;
+  Map<dynamic, dynamic> users3 = user3snap.value;
+
+  for (var value in users1.values) {
+    var token = value['device_token'];
+    tokenIds.add(token);
+  }
+
+  for (var value in users2.values) {
+    var token = value['device_token'];
+    tokenIds.add(token);
+  }
+
+  for (var value in users3.values) {
+    var token = value['device_token'];
+    tokenIds.add(token);
+  }
+
+  for (var token in tokenIds) {
+    await http
+        .post('https://fcm.googleapis.com/fcm/send',
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization': 'key=${Constants.serverToken}',
+            },
+            body: json.encode(
+              <String, dynamic>{
+                'notification': <String, dynamic>{
+                  'body': body,
+                },
+                'priority': 'high',
+                'data': <String, dynamic>{
+                  'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                  'status': 'done',
+                  'sound': 'default'
+                },
+                'to': token,
+              },
+            ))
+        .then((value) {
+      print('Sent');
+    });
+  }
 }
 
 Future<Null> pushAddedToRoom({Room room, String receiverId}) async {

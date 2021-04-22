@@ -35,7 +35,7 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Courses",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: selected == 0
@@ -65,7 +65,7 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Communities",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: selected == 1
@@ -95,7 +95,7 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Rooms",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: selected == 2

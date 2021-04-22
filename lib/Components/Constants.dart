@@ -33,6 +33,10 @@ class Constants {
       'https://apps.apple.com/ca/app/theircart/id1516132456';
   static String theircartA =
       'https://play.google.com/store/apps/details?id=com.theircart.app&hl=en_GB';
+  static String dummyProfilePicture =
+      'https://firebasestorage.googleapis.com/v0/b/unifyapp-67728.appspot.com/o/dummies%2Fdummyprofile.png?alt=media&token=422551c6-cc23-4ee8-aea6-df6dd0ec2884';
+  static String inviteTitle =
+      "Hey! I have invited you to join TheirCircle - A platform for students. Here is the link! https://www.theircircleapp.com";
 
   static Color mainColor = Colors.teal;
 
@@ -48,7 +52,7 @@ class Constants {
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -56,7 +60,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -64,7 +68,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -72,7 +76,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -80,7 +84,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -88,7 +92,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -96,7 +100,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -104,7 +108,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -114,7 +118,7 @@ class Constants {
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -134,6 +138,30 @@ class Constants {
     )..show();
   }
 
+  static notEnoughPointsDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.NO_HEADER,
+      body: StatefulBuilder(builder: (context, setState) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                'This room is not available anymore.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.manrope(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        );
+      }),
+    )..show();
+  }
+
   static roomNA(BuildContext context) {
     AwesomeDialog(
       context: context,
@@ -144,7 +172,7 @@ class Constants {
           Text(
             'This room is not available anymore.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w500),
           ),
@@ -152,7 +180,7 @@ class Constants {
           Text(
             'Create your own room!',
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w500),
           ),

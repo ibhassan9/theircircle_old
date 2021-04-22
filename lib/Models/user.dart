@@ -47,6 +47,7 @@ class PostUser {
   List<dynamic> interests;
   List<dynamic> accomplishments;
   int createdAt;
+  int points;
 
   //                               fetchUserNetworkProfile(widget.user.id, widget.user.university)
   //     .then((value) {
@@ -77,7 +78,8 @@ class PostUser {
       this.why,
       this.interests,
       this.accomplishments,
-      this.createdAt});
+      this.createdAt,
+      this.points});
 }
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -99,7 +101,7 @@ Future signInUser(String email, String password, BuildContext context) async {
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text(
             'This account is temporarily banned.',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -126,7 +128,7 @@ Future signInUser(String email, String password, BuildContext context) async {
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text(
             'Please wait...',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -157,13 +159,30 @@ Future signInUser(String email, String password, BuildContext context) async {
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Problem logging in. Please try again.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ));
     Scaffold.of(context).showSnackBar(snackBar);
   });
+}
+
+Future<Null> updateUserToken() async {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  var uniKey = Constants.checkUniversity();
+  var token = await _firebaseMessaging.getToken();
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(firebaseAuth.currentUser.uid)
+      .child('device_token');
+  db.set(token);
 }
 
 Future registerUser(
@@ -175,7 +194,7 @@ Future registerUser(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Please use your university email to sign up.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -223,7 +242,7 @@ Future registerUser(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Problem creating account / email might already be in use.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -280,6 +299,11 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
   if (value['about'] != null) {
     user.about = value['about'];
   }
+
+  if (value['points'] != null) {
+    user.points = value['points'];
+  }
+
   return user;
 }
 
@@ -344,6 +368,11 @@ Future<PostUser> getUser(String id) async {
   if (value['about'] != null) {
     user.about = value['about'];
   }
+
+  if (value['points'] != null) {
+    user.points = value['points'];
+  }
+
   return user;
 }
 
@@ -859,551 +888,6 @@ Future<bool> updateProfile(
   }
 }
 
-// showProfile(
-//     PostUser me,
-//     BuildContext context,
-//     TextEditingController bioController,
-//     TextEditingController snapchatController,
-//     TextEditingController instagramController,
-//     TextEditingController linkedinController,
-//     Function a,
-//     Function b,
-//     {bool isFromChat = false}) async {
-//   var user = await getUser(firebaseAuth.currentUser.uid);
-//   bool object_avail = true;
-//   Image imag;
-//   File f;
-//   AwesomeDialog(
-//       context: context,
-//       animType: AnimType.SCALE,
-//       dialogType: DialogType.NO_HEADER,
-//       body: StatefulBuilder(builder: (context, setState) {
-//         return object_avail
-//             ? GestureDetector(
-//                 behavior: HitTestBehavior.opaque,
-//                 onPanDown: (_) {
-//                   FocusScope.of(context).requestFocus(FocusNode());
-//                 },
-//                 child: Stack(
-//                   children: [
-//                     ListView(
-//                       shrinkWrap: true,
-//                       scrollDirection: Axis.vertical,
-//                       physics: AlwaysScrollableScrollPhysics(),
-//                       children: [
-//                         me.profileImgUrl == null
-//                             ? me.id == firebaseAuth.currentUser.uid
-//                                 ? imag != null
-//                                     ? InkWell(
-//                                         onTap: () async {
-//                                           var res = await getImage();
-//                                           if (res.isNotEmpty) {
-//                                             var image = res[0] as Image;
-//                                             var file = res[1] as File;
-//                                             setState(() {
-//                                               imag = image;
-//                                               f = file;
-//                                             });
-//                                           }
-//                                         },
-//                                         child: CircleAvatar(
-//                                           radius: 50.0,
-//                                           child: ClipRRect(
-//                                               borderRadius:
-//                                                   BorderRadius.circular(100),
-//                                               child: Image.file(f,
-//                                                   fit: BoxFit.cover,
-//                                                   width: 100,
-//                                                   height: 100)),
-//                                         ),
-//                                       )
-//                                     : CircleAvatar(
-//                                         backgroundColor: Colors.grey,
-//                                         radius: 50.0,
-//                                         child: InkWell(
-//                                             onTap: () async {
-//                                               var res = await getImage();
-//                                               if (res.isNotEmpty) {
-//                                                 var image = res[0] as Image;
-//                                                 var file = res[1] as File;
-//                                                 setState(() {
-//                                                   imag = image;
-//                                                   f = file;
-//                                                 });
-//                                               }
-//                                             },
-//                                             child: Icon(FlutterIcons.user_ant,
-//                                                 color: Colors.white)))
-//                                 : CircleAvatar(
-//                                     backgroundColor: Colors.grey,
-//                                     radius: 50.0,
-//                                     child: Icon(FlutterIcons.user_ant,
-//                                         color: Colors.white))
-//                             : Center(
-//                                 child: InkWell(
-//                                   onTap: () async {
-//                                     if (me.id == firebaseAuth.currentUser.uid) {
-//                                       var res = await getImage();
-//                                       if (res.isNotEmpty) {
-//                                         var image = res[0] as Image;
-//                                         var file = res[1] as File;
-//                                         setState(() {
-//                                           imag = image;
-//                                           f = file;
-//                                         });
-//                                       }
-//                                     }
-//                                   },
-//                                   child: imag != null
-//                                       ? ClipRRect(
-//                                           borderRadius:
-//                                               BorderRadius.circular(100),
-//                                           child: Image.file(f,
-//                                               fit: BoxFit.cover,
-//                                               width: 100,
-//                                               height: 100))
-//                                       : ClipRRect(
-//                                           borderRadius:
-//                                               BorderRadius.circular(100),
-//                                           child: Image.network(
-//                                             me.profileImgUrl,
-//                                             width: 100,
-//                                             height: 100,
-//                                             fit: BoxFit.cover,
-//                                             loadingBuilder:
-//                                                 (BuildContext context,
-//                                                     Widget child,
-//                                                     ImageChunkEvent
-//                                                         loadingProgress) {
-//                                               if (loadingProgress == null)
-//                                                 return child;
-//                                               return SizedBox(
-//                                                 height: 100,
-//                                                 width: 100,
-//                                                 child: Center(
-//                                                   child:
-//                                                       CircularProgressIndicator(
-//                                                     strokeWidth: 2.0,
-//                                                     valueColor:
-//                                                         new AlwaysStoppedAnimation<
-//                                                                 Color>(
-//                                                             Colors
-//                                                                 .grey.shade600),
-//                                                     value: loadingProgress
-//                                                                 .expectedTotalBytes !=
-//                                                             null
-//                                                         ? loadingProgress
-//                                                                 .cumulativeBytesLoaded /
-//                                                             loadingProgress
-//                                                                 .expectedTotalBytes
-//                                                         : null,
-//                                                   ),
-//                                                 ),
-//                                               );
-//                                             },
-//                                           ),
-//                                         ),
-//                                 ),
-//                               ),
-//                         SizedBox(height: 10.0),
-//                         Center(
-//                             child: Text(
-//                           me.name == null ? "" : me.name,
-//                           style: GoogleFonts.quicksand(
-//                             GoogleFonts.inter: TextStyle(
-//fontFamily: Constants.fontFamily,
-//                                 fontSize: 15,
-//                                 fontWeight: FontWeight.w500,
-//                                 color: Theme.of(context).accentColor),
-//                           ),
-//                         )),
-//                         SizedBox(height: 5.0),
-//                         Center(
-//                             child: me.id == firebaseAuth.currentUser.uid
-//                                 ? Padding(
-//                                     padding: const EdgeInsets.only(
-//                                         left: 10.0, right: 10.0),
-//                                     child: TextField(
-//                                       textInputAction: TextInputAction.done,
-//                                       controller: bioController
-//                                         ..text =
-//                                             me.bio == null || me.bio.isEmpty
-//                                                 ? ""
-//                                                 : me.bio,
-//                                       textAlign: TextAlign.center,
-//                                       decoration: InputDecoration(
-//                                           border: InputBorder.none,
-//                                           focusedBorder: InputBorder.none,
-//                                           enabledBorder: InputBorder.none,
-//                                           errorBorder: InputBorder.none,
-//                                           disabledBorder: InputBorder.none,
-//                                           hintText:
-//                                               me.bio == null || me.bio.isEmpty
-//                                                   ? Constants.dummyDescription
-//                                                   : me.bio,
-//                                           hintStyle: GoogleFonts.quicksand(
-//                                             GoogleFonts.inter: TextStyle(
-// fontFamily: Constants.fontFamily,
-//                                                 fontSize: 13,
-//                                                 fontWeight: FontWeight.w500,
-//                                                 color: Colors.grey.shade700),
-//                                           )),
-//                                       maxLines: null,
-//                                       style: GoogleFonts.quicksand(
-//                                         GoogleFonts.inter: TextStyle(
-//fontFamily: Constants.fontFamily,
-//                                             fontSize: 13,
-//                                             fontWeight: FontWeight.w500,
-//                                             color: Colors.grey.shade700),
-//                                       ),
-//                                     ),
-//                                   )
-//                                 : Text(
-//                                     me.bio == null
-//                                         ? "No bio available"
-//                                         : me.bio,
-//                                     textAlign: TextAlign.center,
-//                                     style: GoogleFonts.quicksand(
-//                                       GoogleFonts.inter: TextStyle(
-// fontFamily: Constants.fontFamily,
-//                                           fontSize: 13,
-//                                           fontWeight: FontWeight.w500,
-//                                           color: Theme.of(context).accentColor),
-//                                     ),
-//                                   )),
-//                         SizedBox(height: 10.0),
-//                         Center(
-//                             child: me.id == firebaseAuth.currentUser.uid
-//                                 ? Container()
-//                                 : InkWell(
-//                                     onTap: () async {
-//                                       if (me.isBlocked) {
-//                                         var res = await unblock(me.id);
-//                                         if (res) {
-//                                           setState(() {
-//                                             me.isBlocked = false;
-//                                           });
-//                                         }
-//                                       } else {
-//                                         var res = await block(me.id);
-//                                         if (res) {
-//                                           setState(() {
-//                                             me.isBlocked = true;
-//                                           });
-//                                         }
-//                                       }
-//                                     },
-//                                     child: Text(
-//                                         me.isBlocked != null
-//                                             ? me.isBlocked
-//                                                 ? 'Unblock this user'
-//                                                 : 'Block this user'
-//                                             : '',
-//                                         textAlign: TextAlign.center,
-//                                         style: GoogleFonts.quicksand(
-//                                           GoogleFonts.inter: TextStyle(
-//fontFamily: Constants.fontFamily,
-//                                               fontSize: 15,
-//                                               fontWeight: FontWeight.w500,
-//                                               color: Colors.blue),
-//                                         )),
-//                                   )),
-//                         SizedBox(height: 5.0),
-//                         Visibility(
-//                           visible: user.id == me.id,
-//                           child: InkWell(
-//                             onTap: () async {
-//                               var appear = user.appear ? false : true;
-//                               var res = await changeAppear(appear);
-//                               if (res) {
-//                                 setState(() {
-//                                   user.appear = appear;
-//                                 });
-//                               }
-//                             },
-//                             child: Row(
-//                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                 children: [
-//                                   Icon(
-//                                       user.appear == false
-//                                           ? FlutterIcons.eye_ant
-//                                           : FlutterIcons.eye_off_fea,
-//                                       color: Colors.blue,
-//                                       size: 20.0),
-//                                   SizedBox(width: 5.0),
-//                                   Text(
-//                                       user.appear
-//                                           ? "Hide from 'Students on TheirCircle'"
-//                                           : "Appear on 'Students on TheirCircle'",
-//                                       style: GoogleFonts.quicksand(
-//                                           GoogleFonts.inter: TextStyle(
-//fontFamily: Constants.fontFamily,
-//                                               fontSize: 13,
-//                                               fontWeight: FontWeight.w500,
-//                                               color: Colors.blue)))
-//                                 ]),
-//                           ),
-//                         ),
-//                         Divider(),
-//                         SizedBox(height: 10.0),
-//                         Column(
-//                           children: [
-//                             Padding(
-//                               padding: const EdgeInsets.only(
-//                                   left: 10.0, right: 10.0),
-//                               child: TextField(
-//                                 enabled: me.id == firebaseAuth.currentUser.uid,
-//                                 textInputAction: TextInputAction.done,
-//                                 controller: snapchatController
-//                                   ..text = me.snapchatHandle == null ||
-//                                           me.snapchatHandle.isEmpty
-//                                       ? me.id == firebaseAuth.currentUser.uid
-//                                           ? ""
-//                                           : "Snapchat Handle Unavailable"
-//                                       : me.snapchatHandle,
-//                                 textAlign: TextAlign.center,
-//                                 decoration: InputDecoration(
-//                                     prefixIcon: Icon(
-//                                         FlutterIcons.snapchat_ghost_faw,
-//                                         color: Colors.black),
-//                                     border: InputBorder.none,
-//                                     focusedBorder: InputBorder.none,
-//                                     enabledBorder: InputBorder.none,
-//                                     errorBorder: InputBorder.none,
-//                                     disabledBorder: InputBorder.none,
-//                                     hintText: me.snapchatHandle == null ||
-//                                             me.snapchatHandle.isEmpty
-//                                         ? me.id == firebaseAuth.currentUser.uid
-//                                             ? "Insert Snapchat Handle"
-//                                             : "Snapchat Handle Unavailable"
-//                                         : me.snapchatHandle,
-//                                     hintStyle: GoogleFonts.quicksand(
-//                                       GoogleFonts.inter: TextStyle(
-// fontFamily: Constants.fontFamily,
-//                                           fontSize: 13,
-//                                           fontWeight: FontWeight.w500,
-//                                           color: Theme.of(context).accentColor),
-//                                     )),
-//                                 maxLines: null,
-//                                 style: GoogleFonts.quicksand(
-//                                   GoogleFonts.inter: TextStyle(
-//fontFamily: Constants.fontFamily,
-//                                       fontSize: 13,
-//                                       fontWeight: FontWeight.w500,
-//                                       color: Theme.of(context).accentColor),
-//                                 ),
-//                               ),
-//                             ),
-//                             Padding(
-//                               padding: const EdgeInsets.only(
-//                                   left: 10.0, right: 10.0),
-//                               child: TextField(
-//                                 enabled: me.id == firebaseAuth.currentUser.uid,
-//                                 textInputAction: TextInputAction.done,
-//                                 controller: instagramController
-//                                   ..text = me.instagramHandle == null ||
-//                                           me.instagramHandle.isEmpty
-//                                       ? me.id == firebaseAuth.currentUser.uid
-//                                           ? ""
-//                                           : "Instagram Handle Unavailable"
-//                                       : me.instagramHandle,
-//                                 textAlign: TextAlign.center,
-//                                 decoration: InputDecoration(
-//                                     prefixIcon: Icon(FlutterIcons.instagram_faw,
-//                                         color: Colors.purple),
-//                                     border: InputBorder.none,
-//                                     focusedBorder: InputBorder.none,
-//                                     enabledBorder: InputBorder.none,
-//                                     errorBorder: InputBorder.none,
-//                                     disabledBorder: InputBorder.none,
-//                                     hintText: me.instagramHandle == null ||
-//                                             me.instagramHandle.isEmpty
-//                                         ? me.id == firebaseAuth.currentUser.uid
-//                                             ? "Insert Instagram Handle"
-//                                             : "Instagram Handle Unavailable"
-//                                         : me.instagramHandle,
-//                                     hintStyle: GoogleFonts.quicksand(
-//                                       GoogleFonts.inter: TextStyle(
-// fontFamily: Constants.fontFamily,
-//                                           fontSize: 13,
-//                                           fontWeight: FontWeight.w500,
-//                                           color: Theme.of(context).accentColor),
-//                                     )),
-//                                 maxLines: null,
-//                                 style: GoogleFonts.quicksand(
-//                                   GoogleFonts.inter: TextStyle(
-//  fontFamily: Constants.fontFamily,
-//                                       fontSize: 13,
-//                                       fontWeight: FontWeight.w500,
-//                                       color: Theme.of(context).accentColor),
-//                                 ),
-//                               ),
-//                             ),
-//                             Padding(
-//                               padding: const EdgeInsets.only(
-//                                   left: 10.0, right: 10.0),
-//                               child: TextField(
-//                                 enabled: me.id == firebaseAuth.currentUser.uid,
-//                                 textInputAction: TextInputAction.done,
-//                                 controller: linkedinController
-//                                   ..text = me.linkedinHandle == null ||
-//                                           me.linkedinHandle.isEmpty
-//                                       ? me.id == firebaseAuth.currentUser.uid
-//                                           ? ""
-//                                           : "LinkedIn Handle Unavailable"
-//                                       : me.linkedinHandle,
-//                                 textAlign: TextAlign.center,
-//                                 decoration: InputDecoration(
-//                                     prefixIcon: Icon(FlutterIcons.linkedin_faw,
-//                                         color: Colors.blue),
-//                                     border: InputBorder.none,
-//                                     focusedBorder: InputBorder.none,
-//                                     enabledBorder: InputBorder.none,
-//                                     errorBorder: InputBorder.none,
-//                                     disabledBorder: InputBorder.none,
-//                                     hintText: me.linkedinHandle == null ||
-//                                             me.linkedinHandle.isEmpty
-//                                         ? me.id == firebaseAuth.currentUser.uid
-//                                             ? "Insert LinkedIn Handle"
-//                                             : "LinkedIn Handle Unavailable"
-//                                         : me.linkedinHandle,
-//                                     hintStyle: GoogleFonts.quicksand(
-//                                       GoogleFonts.inter: TextStyle(
-//  fontFamily: Constants.fontFamily,
-//                                           fontSize: 13,
-//                                           fontWeight: FontWeight.w500,
-//                                           color: Theme.of(context).accentColor),
-//                                     )),
-//                                 maxLines: null,
-//                                 style: GoogleFonts.quicksand(
-//                                   GoogleFonts.inter: TextStyle(
-//  fontFamily: Constants.fontFamily,
-//                                       fontSize: 13,
-//                                       fontWeight: FontWeight.w500,
-//                                       color: Theme.of(context).accentColor),
-//                                 ),
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                         Visibility(
-//                           visible: me.id != firebaseAuth.currentUser.uid &&
-//                               isFromChat == false,
-//                           child: Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: InkWell(
-//                               onTap: () {
-//                                 var myID = firebaseAuth.currentUser.uid;
-//                                 var peerId = me.id;
-//                                 var chatId = '';
-//                                 if (myID.hashCode <= peerId.hashCode) {
-//                                   chatId = '$myID-$peerId';
-//                                 } else {
-//                                   chatId = '$peerId-$myID';
-//                                 }
-//                                 Navigator.push(
-//                                     context,
-//                                     MaterialPageRoute(
-//                                         builder: (context) => ChatPage(
-//                                             receiver: me, chatId: chatId)));
-//                               },
-//                               child: Container(
-//                                 height: 40,
-//                                 decoration: BoxDecoration(
-//                                     color: Colors.purple,
-//                                     borderRadius: BorderRadius.circular(5.0)),
-//                                 child: Center(
-//                                   child: Row(
-//                                     mainAxisAlignment: MainAxisAlignment.center,
-//                                     children: [
-//                                       Icon(FlutterIcons.send_faw,
-//                                           color: Colors.white, size: 15.0),
-//                                       SizedBox(width: 10.0),
-//                                       Text(
-//                                         "Send a message",
-//                                         style: GoogleFonts.quicksand(
-//                                           GoogleFonts.inter: TextStyle(
-// fontFamily: Constants.fontFamily,
-//                                               fontSize: 15,
-//                                               fontWeight: FontWeight.w500,
-//                                               color: Colors.white),
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                         Visibility(
-//                           visible: me.id == firebaseAuth.currentUser.uid,
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(
-//                                 left: 10.0, right: 10.0, top: 15.0),
-//                             child: InkWell(
-//                               onTap: () async {
-//                                 if (imag == null) {
-//                                   // just update bio
-//                                   a();
-//                                 } else {
-//                                   // image available, upload image
-//                                   var url = await uploadImageToStorage(f);
-//                                   // var res = await updateProfile(
-//                                   //     url,
-//                                   //     bioController.text,
-//                                   //     snapchatController.text,
-//                                   //     linkedinController.text,
-//                                   //     instagramController.text);
-//                                   // Navigator.pop(context);
-//                                   // if (res) {
-//                                   //   b();
-//                                   // }
-//                                   // bioController.clear();
-//                                   // snapchatController.clear();
-//                                   // linkedinController.clear();
-//                                   // instagramController.clear();
-//                                 }
-//                               },
-//                               child: Container(
-//                                 height: 40,
-//                                 decoration: BoxDecoration(
-//                                     color: Colors.purple,
-//                                     borderRadius: BorderRadius.circular(5.0)),
-//                                 child: Center(
-//                                   child: Text(
-//                                     "Update Profile",
-//                                     style: GoogleFonts.quicksand(
-//                                       GoogleFonts.inter: TextStyle(
-//  fontFamily: Constants.fontFamily,
-//                                           fontSize: 15,
-//                                           fontWeight: FontWeight.w500,
-//                                           color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     )
-//                   ],
-//                 ),
-//               )
-//             : Center(
-//                 child: CircularProgressIndicator(
-//                   valueColor: new AlwaysStoppedAnimation<Color>(
-//                       Theme.of(context).accentColor),
-//                   strokeWidth: 1.5,
-//                 ),
-//               );
-//       }),
-//       btnOkColor: Colors.deepOrange,
-//       btnOk: null)
-//     ..show();
-// }
-
 Future<bool> updateNetworkProfile(
     String about,
     String accomplishment1,
@@ -1485,4 +969,45 @@ Future<List<dynamic>> fetchUserNetworkProfile(
   }
 
   return items;
+}
+
+Future<bool> addPoints({int addedPoints}) async {
+  var uniKey = Constants.checkUniversity();
+  var uid = firebaseAuth.currentUser.uid;
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(uid)
+      .child('points');
+  DataSnapshot snap = await db.once();
+  int points = snap.value;
+  await db.set(points + addedPoints).then((value) {
+    return true;
+  }).catchError((e) {
+    return false;
+  });
+  return true;
+}
+
+Future<int> checkPoints() async {
+  var uniKey = Constants.checkUniversity();
+  var uid = firebaseAuth.currentUser.uid;
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('users')
+      .child(uniKey == 0
+          ? 'UofT'
+          : uniKey == 1
+              ? 'YorkU'
+              : 'WesternU')
+      .child(uid)
+      .child('points');
+  DataSnapshot snap = await db.once();
+  int points = snap.value;
+  return points;
 }

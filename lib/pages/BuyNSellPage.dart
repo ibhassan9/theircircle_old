@@ -40,7 +40,7 @@ class _BuyNSellState extends State<BuyNSell>
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Store",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -160,11 +160,11 @@ class _BuyNSellState extends State<BuyNSell>
                                 contentPadding: EdgeInsets.only(
                                     left: 0, bottom: 0, top: 0, right: 15),
                                 hintText: "Search Products...",
-                                hintStyle: GoogleFonts.quicksand(
+                                hintStyle: GoogleFonts.manrope(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor)),
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -187,7 +187,7 @@ class _BuyNSellState extends State<BuyNSell>
                           child: Text(
                             "Sell or drive with Theircart",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
@@ -244,13 +244,13 @@ class _BuyNSellState extends State<BuyNSell>
                                 )
                               : Center(
                                   child: Text('Nothing to see here :(',
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.manrope(
                                           color: Theme.of(context).accentColor,
                                           fontWeight: FontWeight.w500)))
                           : Center(
                               child: SizedBox(
-                                  width: 20,
-                                  height: 20,
+                                  width: 15,
+                                  height: 15,
                                   child: LoadingIndicator(
                                     indicatorType: Indicator.circleStrokeSpin,
                                     color: Theme.of(context).accentColor,

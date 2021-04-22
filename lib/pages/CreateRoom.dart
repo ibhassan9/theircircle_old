@@ -12,6 +12,7 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/text_field_container.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
+import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/room.dart';
 
@@ -49,7 +50,7 @@ class _CreateRoomState extends State<CreateRoom> {
         centerTitle: false,
         title: Text(
           "",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -129,13 +130,13 @@ class _CreateRoomState extends State<CreateRoom> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Public',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor)),
                         Text(
                           'Anyone can join this room',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -184,13 +185,13 @@ class _CreateRoomState extends State<CreateRoom> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Private',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor)),
                         Text(
                           'Only invited users can join',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -226,8 +227,8 @@ class _CreateRoomState extends State<CreateRoom> {
           }
           if (nameController.text.isEmpty ||
               descriptionController.text.isEmpty ||
-              f == null ||
-              imag == null) {
+              imag == null ||
+              f == null) {
             previewMessage(
                 'All fields are required, including an image.', context);
             return;
@@ -245,6 +246,10 @@ class _CreateRoomState extends State<CreateRoom> {
             if (approval) {
               var res = await post();
               if (res) {
+                sendRoomNotification(
+                    "Someone is talking about '${nameController.text}'. Tap in to discuss!");
+                nameController.clear();
+                descriptionController.clear();
                 Navigator.pop(context, true);
               } else {
                 setState(() {
@@ -268,6 +273,10 @@ class _CreateRoomState extends State<CreateRoom> {
             });
             var res = await post();
             if (res) {
+              sendRoomNotification(
+                  "Someone is talking about '${nameController.text}'. Tap in to discuss!");
+              nameController.clear();
+              descriptionController.clear();
               Navigator.pop(context, true);
             } else {
               // show error message
@@ -291,8 +300,8 @@ class _CreateRoomState extends State<CreateRoom> {
               child: Center(
                 child: isPosting
                     ? SizedBox(
-                        width: 40,
-                        height: 40,
+                        width: 15,
+                        height: 15,
                         child: LoadingIndicator(
                           indicatorType: Indicator.circleStrokeSpin,
                           color: Colors.white,
@@ -300,7 +309,7 @@ class _CreateRoomState extends State<CreateRoom> {
                       )
                     : Text(
                         'Start Room',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: Theme.of(context).backgroundColor),
@@ -400,8 +409,6 @@ class _CreateRoomState extends State<CreateRoom> {
       clength = 50;
       dlength = 300;
     });
-    nameController.clear();
-    descriptionController.clear();
     return result;
   }
 
@@ -434,7 +441,7 @@ class _CreateRoomState extends State<CreateRoom> {
         decoration: new InputDecoration(
             suffix: Text(
               clength.toString(),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   color: clength < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
@@ -445,7 +452,7 @@ class _CreateRoomState extends State<CreateRoom> {
             contentPadding:
                 EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
             hintText: title),
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.manrope(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -471,7 +478,7 @@ class _CreateRoomState extends State<CreateRoom> {
         decoration: new InputDecoration(
             suffix: Text(
               dlength.toString(),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.manrope(
                   color: dlength < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
@@ -482,7 +489,7 @@ class _CreateRoomState extends State<CreateRoom> {
             contentPadding:
                 EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
             hintText: description),
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.manrope(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),

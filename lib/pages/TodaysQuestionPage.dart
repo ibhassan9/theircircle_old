@@ -42,7 +42,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.blue, Colors.teal]),
+              colors: [Colors.deepOrangeAccent, Colors.deepPurpleAccent]),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
@@ -57,7 +57,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       'Note: This will be is a public post',
                       textAlign: TextAlign.center,
                       maxLines: null,
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -71,7 +71,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       widget.question,
                       textAlign: TextAlign.center,
                       maxLines: null,
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -91,7 +91,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       decoration: new InputDecoration(
                           suffix: Text(
                             clength.toString(),
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 color: clength < 0 ? Colors.red : Colors.white),
                           ),
                           border: InputBorder.none,
@@ -101,12 +101,12 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           disabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
-                          hintStyle: GoogleFonts.quicksand(
+                          hintStyle: GoogleFonts.manrope(
                               fontSize: 17,
                               fontWeight: FontWeight.w400,
                               color: Colors.white),
                           hintText: title),
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: Colors.white),
@@ -128,7 +128,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           Text(
                             'Post Anonymously',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white),
@@ -170,8 +170,8 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           backgroundColor: Colors.white,
                           child: isPosting
                               ? SizedBox(
-                                  width: 20,
-                                  height: 20,
+                                  width: 15,
+                                  height: 15,
                                   child: LoadingIndicator(
                                     indicatorType: Indicator.orbit,
                                     color: Colors.white,

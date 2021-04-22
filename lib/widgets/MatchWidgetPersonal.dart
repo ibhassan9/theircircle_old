@@ -59,7 +59,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                 Text(
                   "Add interest",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.manrope(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
@@ -141,7 +141,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                                 widget.user.name,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manrope(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black),
@@ -153,7 +153,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                                         ? 'York University'
                                         : 'Western University',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manrope(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black),
@@ -168,7 +168,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'About Myself',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.grey),
@@ -187,7 +187,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                     decoration: new InputDecoration(
                         suffix: Text(
                           aboutlength.toString(),
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               color:
                                   aboutlength < 0 ? Colors.red : Colors.grey),
                         ),
@@ -196,9 +196,9 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        hintStyle: GoogleFonts.quicksand(color: Colors.grey),
+                        hintStyle: GoogleFonts.manrope(color: Colors.grey),
                         hintText: aboutTitle),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
@@ -207,7 +207,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'My Accomplishments',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.grey),
@@ -228,7 +228,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         decoration: new InputDecoration(
                             suffix: Text(
                               acc1length.toString(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   color: acc1length < 0
                                       ? Colors.red
                                       : Colors.grey),
@@ -238,10 +238,9 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintStyle:
-                                GoogleFonts.quicksand(color: Colors.grey),
+                            hintStyle: GoogleFonts.manrope(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
@@ -259,7 +258,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         decoration: new InputDecoration(
                             suffix: Text(
                               acc2length.toString(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   color: acc2length < 0
                                       ? Colors.red
                                       : Colors.grey),
@@ -269,10 +268,9 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintStyle:
-                                GoogleFonts.quicksand(color: Colors.grey),
+                            hintStyle: GoogleFonts.manrope(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
@@ -290,7 +288,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         decoration: new InputDecoration(
                             suffix: Text(
                               acc3length.toString(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   color: acc3length < 0
                                       ? Colors.red
                                       : Colors.grey),
@@ -300,10 +298,9 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintStyle:
-                                GoogleFonts.quicksand(color: Colors.grey),
+                            hintStyle: GoogleFonts.manrope(color: Colors.grey),
                             hintText: accTitle),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.manrope(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
@@ -314,7 +311,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'Why am I here?',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.grey),
@@ -333,7 +330,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                     decoration: new InputDecoration(
                         suffix: Text(
                           whylength.toString(),
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               color: whylength < 0 ? Colors.red : Colors.grey),
                         ),
                         border: InputBorder.none,
@@ -341,9 +338,9 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        hintStyle: GoogleFonts.quicksand(color: Colors.grey),
+                        hintStyle: GoogleFonts.manrope(color: Colors.grey),
                         hintText: whyTitle),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
@@ -352,7 +349,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                   Text(
                     'My interests',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.grey),
@@ -432,7 +429,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                           child: Text(
                             'Select my interests',
                             textAlign: TextAlign.left,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
@@ -492,7 +489,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
                             child: Text(
                               'Update my profile',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
@@ -516,7 +513,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
         selectedColor: Colors.grey,
         label: Text(
           '+ Add interest',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
         ),
         onSelected: (selected) async {
@@ -543,7 +540,7 @@ class _MatchWidgetPersonalState extends State<MatchWidgetPersonal> {
           selectedColor: Colors.deepPurpleAccent,
           label: Text(
             interest,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.manrope(
                 fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
           ),
           onSelected: (selected) {

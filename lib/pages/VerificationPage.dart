@@ -25,31 +25,40 @@ class _VerificationPageState extends State<VerificationPage> {
         backgroundColor: Theme.of(context).backgroundColor,
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0.0,
-        centerTitle: false,
+        centerTitle: true,
         title: Text(
-          "Code Verification",
-          style: GoogleFonts.quicksand(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
+          "CODE VERIFICATION",
+          style: GoogleFonts.manrope(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 10.0),
           child: Column(
             children: <Widget>[
               Text(
-                "We have sent a verification code to the email you have provided. Please enter it below to verify your account.",
-                style: GoogleFonts.quicksand(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
+                "We have sent a code to verify your university email address.",
+                style: GoogleFonts.manrope(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
                     color: Theme.of(context).accentColor),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
+              Text(
+                "Sent to ${widget.email}",
+                style: GoogleFonts.manrope(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).buttonColor),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
               VerificationCode(
-                textStyle: GoogleFonts.quicksand(
+                textStyle: GoogleFonts.manrope(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -63,7 +72,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Clear",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.manrope(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.blue),
@@ -103,7 +112,7 @@ class _VerificationPageState extends State<VerificationPage> {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
     //         style: GoogleFonts.lexendDeca(
-    //           textStyle: TextStyle(
+    //           textStyle: GoogleFonts.manrope(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,
     //               color: Colors.white),

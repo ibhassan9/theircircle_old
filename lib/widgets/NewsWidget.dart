@@ -23,87 +23,39 @@ class _NewsWidgetState extends State<NewsWidget>
     super.build(context);
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, top: 0.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
-        child: InkWell(
-          onTap: () {
-            showBarModalBottomSheet(
-              context: context,
-              enableDrag: false,
-              expand: true,
-              builder: (context) => WebPage(
-                  title: widget.news.title, selectedUrl: widget.news.url),
-            );
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => WebPage(
-            //           title: widget.news.title, selectedUrl: widget.news.url)),
-            // );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width / 3.5,
-            decoration: BoxDecoration(
-                color: imgUrl == null ? color : Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(15.0)),
-            child: imgUrl == null
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Container(
-                          height: 3.0,
-                          width: 20.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Text(
-                          widget.news.title,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  )
-                : Stack(children: [
-                    CachedNetworkImage(
-                      imageUrl: widget.news.imgUrl,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      fit: BoxFit.cover,
-                      // loadingBuilder: (BuildContext context, Widget child,
-                      //     ImageChunkEvent loadingProgress) {
-                      //   if (loadingProgress == null) return child;
-                      //   return SizedBox(
-                      //     height: 200,
-                      //     width: MediaQuery.of(context).size.width,
-                      //     child: Center(
-                      //       child: SizedBox(
-                      //         width: 20,
-                      //         height: 20,
-                      //         child: CircularProgressIndicator(
-                      //           strokeWidth: 2.0,
-                      //           valueColor: new AlwaysStoppedAnimation<Color>(
-                      //               Colors.grey.shade600),
-                      //           value: loadingProgress.expectedTotalBytes !=
-                      //                   null
-                      //               ? loadingProgress.cumulativeBytesLoaded /
-                      //                   loadingProgress.expectedTotalBytes
-                      //               : null,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   );
-                      // },
-                    ),
+      child: imgUrl != null
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: InkWell(
+                onTap: () {
+                  showBarModalBottomSheet(
+                    context: context,
+                    enableDrag: false,
+                    expand: true,
+                    builder: (context) => WebPage(
+                        title: widget.news.title, selectedUrl: widget.news.url),
+                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => WebPage(
+                  //           title: widget.news.title, selectedUrl: widget.news.url)),
+                  // );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).dividerColor.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: Stack(children: [
+                    imgUrl != null || imgUrl != '' || imgUrl.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: imgUrl,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(),
                     Positioned(
                       bottom: 0,
                       right: 0,
@@ -136,7 +88,7 @@ class _NewsWidgetState extends State<NewsWidget>
                                   widget.news.title,
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.manrope(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white),
@@ -148,9 +100,10 @@ class _NewsWidgetState extends State<NewsWidget>
                       ),
                     ),
                   ]),
-          ),
-        ),
-      ),
+                ),
+              ),
+            )
+          : Container(),
     );
   }
 
@@ -160,6 +113,14 @@ class _NewsWidgetState extends State<NewsWidget>
     super.initState();
     url = widget.news.url;
     imgUrl = widget.news.imgUrl;
+    if (Constants.checkUniversity() == 1) {
+      grabImgUrl(url: url).then((value) {
+        print(value);
+        setState(() {
+          imgUrl = value;
+        });
+      });
+    }
     color = Constants.color();
   }
 

@@ -48,14 +48,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                   final act = CupertinoActionSheet(
                     title: Text(
                       "PROCEED?",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
                     message: Text(
                       "Are you sure you want to delete this comment?",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.manrope(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -64,7 +64,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "YES",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -75,7 +75,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "Cancel",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.red),
@@ -103,7 +103,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       radius: 25,
                       backgroundColor: Colors.grey[300],
                       child: Text(widget.comment.username.substring(0, 1),
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: Colors.black)))
@@ -170,7 +170,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             firebaseAuth.currentUser.uid
                                         ? "You"
                                         : widget.comment.username,
-                                    style: GoogleFonts.quicksand(
+                                    style: GoogleFonts.manrope(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         color: widget.comment.userId ==
@@ -187,7 +187,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                               child: Text(
                                 widget.comment.content,
                                 maxLines: null,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manrope(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -203,7 +203,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         children: [
                           Text(
                             widget.timeAgo,
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.manrope(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context)
@@ -214,7 +214,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                             visible: widget.isVideo == false,
                             child: Text(
                               ' • ',
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.manrope(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context)
@@ -230,7 +230,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                               },
                               child: Text(
                                 'Reply',
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.manrope(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context)

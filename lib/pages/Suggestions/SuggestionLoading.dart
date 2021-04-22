@@ -40,7 +40,7 @@ class _SuggestionLoadingState extends State<SuggestionLoading> {
           SizedBox(height: 30.0),
           Text(
             'Curating a list for you...',
-            style: GoogleFonts.quicksand(color: Theme.of(context).accentColor),
+            style: GoogleFonts.manrope(color: Theme.of(context).accentColor),
           ),
         ],
       )),

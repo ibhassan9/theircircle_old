@@ -95,7 +95,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                       children: [
                         Text(
                           widget.peer.name,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -105,7 +105,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                           'Voted: ' + widget.question,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.manrope(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),

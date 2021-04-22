@@ -114,7 +114,7 @@ class _AddUserPageState extends State<AddUserPage>
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Search students..."),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.manrope(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -150,7 +150,7 @@ class _AddUserPageState extends State<AddUserPage>
               //             contentPadding: EdgeInsets.only(
               //                 left: 15, bottom: 11, top: 11, right: 15),
               //             hintText: "Search students..."),
-              //         style: TextStyle(
+              //         style: GoogleFonts.manrope(
               // fontFamily: Constants.fontFamily,
               //             fontSize: 15,
               //             fontWeight: FontWeight.w500,
@@ -161,8 +161,8 @@ class _AddUserPageState extends State<AddUserPage>
               // ),
               loading
                   ? SizedBox(
-                      width: 30,
-                      height: 30,
+                      width: 15,
+                      height: 15,
                       child: LoadingIndicator(
                           indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor))

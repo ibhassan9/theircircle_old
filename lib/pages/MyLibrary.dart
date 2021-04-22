@@ -49,8 +49,8 @@ class _MyLibraryState extends State<MyLibrary> {
               } else {
                 return Center(
                     child: SizedBox(
-                        height: 40.0,
-                        width: 40.0,
+                        height: 15.0,
+                        width: 15.0,
                         child: LoadingIndicator(
                           indicatorType: Indicator.circleStrokeSpin,
                           color: Theme.of(context).accentColor,
@@ -67,7 +67,7 @@ class _MyLibraryState extends State<MyLibrary> {
       elevation: 0.0,
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text("MY LIBRARY",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.manrope(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor)),
