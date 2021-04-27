@@ -109,7 +109,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                     FirebaseAuth.instance.currentUser.uid
                                 ? "End"
                                 : "Leave",
-                            style: GoogleFonts.manrope(
+                            style: GoogleFonts.quicksand(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -144,12 +144,12 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 5, top: 5, right: 15),
                           hintText: "Insert message here",
-                          hintStyle: GoogleFonts.manrope(
+                          hintStyle: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -234,7 +234,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).accentColor),
@@ -243,7 +243,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                 Text(
                   widget.room.members.length.toString() + ' members',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).buttonColor),
@@ -295,7 +295,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       //               "The topic of discussion is:",
       //               maxLines: 1,
       //               overflow: TextOverflow.ellipsis,
-      //               style: GoogleFonts.manrope(
+      //               style: GoogleFonts.quicksand(
       //                   fontSize: 11,
       //                   fontWeight: FontWeight.w500,
       //                   color: Theme.of(context).accentColor),
@@ -305,7 +305,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       //               widget.room.name,
       //               maxLines: 2,
       //               overflow: TextOverflow.ellipsis,
-      //               style: GoogleFonts.manrope(
+      //               style: GoogleFonts.quicksand(
       //                   fontSize: 13,
       //                   fontWeight: FontWeight.w600,
       //                   color: Theme.of(context).accentColor),
@@ -313,7 +313,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       //             SizedBox(height: 3.0),
       //             Text(
       //               widget.room.members.length.toString() + ' member(s)',
-      //               style: GoogleFonts.manrope(
+      //               style: GoogleFonts.quicksand(
       //                   fontSize: 13,
       //                   fontWeight: FontWeight.w500,
       //                   color: Theme.of(context).buttonColor),
@@ -423,7 +423,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                         formattedDate == formattedNow
                                             ? "Today"
                                             : formattedDate,
-                                        style: GoogleFonts.manrope(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Theme.of(context)
@@ -470,7 +470,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                         formattedDate == formattedNow
                                             ? "Today"
                                             : formattedDate,
-                                        style: GoogleFonts.manrope(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Theme.of(context)
@@ -558,7 +558,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                             formattedDate == formattedNow
                                                 ? "Today"
                                                 : formattedDate,
-                                            style: GoogleFonts.manrope(
+                                            style: GoogleFonts.quicksand(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -607,7 +607,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                             formattedDate == formattedNow
                                                 ? "Today"
                                                 : formattedDate,
-                                            style: GoogleFonts.manrope(
+                                            style: GoogleFonts.quicksand(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -737,7 +737,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 "This room has been ended.",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -745,7 +745,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 "You can start your own room by clicking on the 'Start a room' button",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -788,7 +788,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 "You have been removed from this room",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -796,7 +796,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
               Text(
                 'Please refrain from joining in the next 20 minutes to prevent account suspension.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),

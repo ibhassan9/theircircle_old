@@ -33,7 +33,7 @@ class _RoundedButtonState extends State<RoundedButton> {
           onPressed: widget.press,
           child: Text(
             widget.text,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: widget.textColor),

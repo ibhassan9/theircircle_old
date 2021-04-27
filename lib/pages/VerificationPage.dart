@@ -5,11 +5,10 @@ import 'package:toast/toast.dart';
 import 'package:unify/Models/user.dart';
 
 class VerificationPage extends StatefulWidget {
-  final int code;
   final String uid;
   final String email;
   final String password;
-  VerificationPage({Key key, this.code, this.uid, this.email, this.password})
+  VerificationPage({Key key, this.uid, this.email, this.password})
       : super(key: key);
   @override
   _VerificationPageState createState() => _VerificationPageState();
@@ -28,7 +27,7 @@ class _VerificationPageState extends State<VerificationPage> {
         centerTitle: true,
         title: Text(
           "CODE VERIFICATION",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -40,8 +39,8 @@ class _VerificationPageState extends State<VerificationPage> {
           child: Column(
             children: <Widget>[
               Text(
-                "We have sent a code to verify your university email address.",
-                style: GoogleFonts.manrope(
+                "We have sent an email to verify your university email address.",
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Theme.of(context).accentColor),
@@ -50,53 +49,53 @@ class _VerificationPageState extends State<VerificationPage> {
               SizedBox(height: 20),
               Text(
                 "Sent to ${widget.email}",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: Theme.of(context).buttonColor),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
-              VerificationCode(
-                textStyle: GoogleFonts.manrope(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
-                keyboardType: TextInputType.number,
-                // in case underline color is null it will use primaryColor: Colors.red from Theme
-                underlineColor: Colors.amber,
-                length: 4,
-                // clearAll is NOT required, you can delete it
-                // takes any widget, so you can implement your design
-                clearAll: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    "Clear",
-                    style: GoogleFonts.manrope(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.blue),
-                  ),
-                ),
-                onCompleted: (String value) async {
-                  if (value == widget.code.toString()) {
-                    // do something
-                    showCorrect();
-                    var result = await updateVerification(widget.uid);
-                    if (result) {
-                      await signInUser(widget.email, widget.password, context);
-                    }
-                  } else {
-                    showWrong();
-                  }
-                },
-                onEditing: (bool value) {
-                  setState(() {
-                    _onEditing = value;
-                  });
-                  if (!_onEditing) FocusScope.of(context).unfocus();
-                },
-              ),
+              // VerificationCode(
+              //   textStyle: GoogleFonts.quicksand(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.w500,
+              //       color: Theme.of(context).accentColor),
+              //   keyboardType: TextInputType.number,
+              //   // in case underline color is null it will use primaryColor: Colors.red from Theme
+              //   underlineColor: Colors.amber,
+              //   length: 4,
+              //   // clearAll is NOT required, you can delete it
+              //   // takes any widget, so you can implement your design
+              //   clearAll: Padding(
+              //     padding: const EdgeInsets.all(20.0),
+              //     child: Text(
+              //       "Clear",
+              //       style: GoogleFonts.quicksand(
+              //           fontSize: 17,
+              //           fontWeight: FontWeight.w500,
+              //           color: Colors.blue),
+              //     ),
+              //   ),
+              //   onCompleted: (String value) async {
+              //     if (value == widget.code.toString()) {
+              //       // do something
+              //       showCorrect();
+              //       var result = await updateVerification(widget.uid);
+              //       if (result) {
+              //         await signInUser(widget.email, widget.password, context);
+              //       }
+              //     } else {
+              //       showWrong();
+              //     }
+              //   },
+              //   onEditing: (bool value) {
+              //     setState(() {
+              //       _onEditing = value;
+              //     });
+              //     if (!_onEditing) FocusScope.of(context).unfocus();
+              //   },
+              // ),
             ],
           ),
         ),
@@ -112,7 +111,7 @@ class _VerificationPageState extends State<VerificationPage> {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
     //         style: GoogleFonts.lexendDeca(
-    //           textStyle: GoogleFonts.manrope(
+    //           textStyle: GoogleFonts.quicksand(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,
     //               color: Colors.white),

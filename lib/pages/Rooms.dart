@@ -25,7 +25,7 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
       //   elevation: 0.0,
       //   title: Text(
       //     'Rooms',
-      //     style: GoogleFonts.manrope(
+      //     style: GoogleFonts.quicksand(
       //fontFamily: Constants.fontFamily,
       //         fontSize: 25.0,
       //         color: Theme.of(context).accentColor,
@@ -64,12 +64,12 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
                   contentPadding:
                       EdgeInsets.only(left: 20, bottom: 11, top: 11, right: 15),
                   hintText: "Search Rooms...",
-                  hintStyle: GoogleFonts.manrope(
+                  hintStyle: GoogleFonts.quicksand(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -125,7 +125,7 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
         elevation: 1.5,
         backgroundColor: Colors.teal,
         label: Text("Start a room",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)),

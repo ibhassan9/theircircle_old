@@ -37,7 +37,7 @@ class _SellProductPageState extends State<SellProductPage> {
             onPressed: () => Navigator.pop(context, false)),
         title: Text(
           "Post Product",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -158,7 +158,7 @@ class _SellProductPageState extends State<SellProductPage> {
                   )
                 : Text(
                     'Post Product',
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
@@ -325,7 +325,7 @@ class _SellProductPageState extends State<SellProductPage> {
       decoration: new InputDecoration(
           suffix: Text(
             clength.toString(),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 color: clength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
@@ -336,7 +336,7 @@ class _SellProductPageState extends State<SellProductPage> {
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: 'Product title'),
-      style: GoogleFonts.manrope(
+      style: GoogleFonts.quicksand(
           fontSize: 15,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).accentColor),
@@ -357,7 +357,7 @@ class _SellProductPageState extends State<SellProductPage> {
       decoration: new InputDecoration(
           suffix: Text(
             dlength.toString(),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 color: dlength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
@@ -368,7 +368,7 @@ class _SellProductPageState extends State<SellProductPage> {
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: "Describe your product here"),
-      style: GoogleFonts.manrope(
+      style: GoogleFonts.quicksand(
           fontSize: 15,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).accentColor),
@@ -391,7 +391,7 @@ class _SellProductPageState extends State<SellProductPage> {
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: "Price" + r' ($)'),
-      style: GoogleFonts.manrope(
+      style: GoogleFonts.quicksand(
           fontSize: 15,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).accentColor),

@@ -294,7 +294,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                   Text(
                                     widget.video.likeCount.toString(),
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.manrope(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white.withOpacity(0.7)),
@@ -324,7 +324,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                   Text(
                                     widget.video.commentCount.toString(),
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.manrope(
+                                    style: GoogleFonts.quicksand(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white.withOpacity(0.7),
@@ -368,7 +368,7 @@ class _VideoWidgetState extends State<VideoWidget>
                         //                     "Original audio • ${widget.video.name}",
                         //                     maxLines: 2,
                         //                     overflow: TextOverflow.ellipsis,
-                        //                     style: GoogleFonts.manrope(
+                        //                     style: GoogleFonts.quicksand(
                         //     fontFamily: Constants.fontFamily,
                         //                         fontSize: 13,
                         //                         fontWeight: FontWeight.w500,
@@ -419,7 +419,7 @@ class _VideoWidgetState extends State<VideoWidget>
         padding: const EdgeInsets.all(5.0),
         child: Text(
           university,
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
@@ -472,7 +472,7 @@ class _VideoWidgetState extends State<VideoWidget>
                       ? 'You'
                       : '@' +
                           widget.video.name.replaceAll(" ", '').toLowerCase(),
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
@@ -484,7 +484,7 @@ class _VideoWidgetState extends State<VideoWidget>
                     : widget.video.university == "YorkU"
                         ? "York University"
                         : "Western University",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
                     color: Colors.white),
@@ -493,7 +493,7 @@ class _VideoWidgetState extends State<VideoWidget>
               //   padding: const EdgeInsets.only(top: 3.0),
               //   child: Text(
               //     widget.timeAgo,
-              //     style: GoogleFonts.manrope(
+              //     style: GoogleFonts.quicksand(
               //   fontFamily: Constants.fontFamily,
               //         fontSize: 10,
               //         fontWeight: FontWeight.w500,
@@ -514,7 +514,7 @@ class _VideoWidgetState extends State<VideoWidget>
         Text(widget.video.caption,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)),
@@ -534,7 +534,7 @@ class _VideoWidgetState extends State<VideoWidget>
                 size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.likeCount.toString(),
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white)),
@@ -542,7 +542,7 @@ class _VideoWidgetState extends State<VideoWidget>
             Icon(AntDesign.message1, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.commentCount.toString(),
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white))
@@ -697,14 +697,14 @@ class _VideoWidgetState extends State<VideoWidget>
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to delete this video?',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -713,7 +713,7 @@ class _VideoWidgetState extends State<VideoWidget>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -725,7 +725,7 @@ class _VideoWidgetState extends State<VideoWidget>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -742,14 +742,14 @@ class _VideoWidgetState extends State<VideoWidget>
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "What is the issue?",
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -758,7 +758,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It's suspicious or spam",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -770,7 +770,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It's abusive or harmful",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -782,7 +782,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It expresses intentions of self-harm or suicide",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -794,7 +794,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It promotes sexual/inappropriate content",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -806,7 +806,7 @@ class _VideoWidgetState extends State<VideoWidget>
         // CupertinoActionSheetAction(
         //     child: Text(
         //       "Hide this video.",
-        //       style: GoogleFonts.manrope(
+        //       style: GoogleFonts.quicksand(
         //    fontFamily: Constants.fontFamily,
         //           fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
         //     ),
@@ -815,7 +815,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //       final act = CupertinoActionSheet(
         //         title: Text(
         //           "PROCEED?",
-        //           style: GoogleFonts.manrope(
+        //           style: GoogleFonts.quicksand(
         // fontFamily: Constants.fontFamily,
         //               fontSize: 13,
         //               fontWeight: FontWeight.w500,
@@ -823,7 +823,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //         ),
         //         message: Text(
         //           "Are you sure you want to hide this video?",
-        //           style: GoogleFonts.manrope(
+        //           style: GoogleFonts.quicksand(
         //  fontFamily: Constants.fontFamily,
         //               fontSize: 13,
         //               fontWeight: FontWeight.w500,
@@ -833,7 +833,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //           CupertinoActionSheetAction(
         //               child: Text(
         //                 "YES",
-        //                 style: GoogleFonts.manrope(
+        //                 style: GoogleFonts.quicksand(
         //   fontFamily: Constants.fontFamily,
         //                     fontSize: 13,
         //                     fontWeight: FontWeight.w500,
@@ -843,7 +843,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //           CupertinoActionSheetAction(
         //               child: Text(
         //                 "Cancel",
-        //                 style: GoogleFonts.manrope(
+        //                 style: GoogleFonts.quicksand(
         // fontFamily: Constants.fontFamily,
         //                     fontSize: 13,
         //                     fontWeight: FontWeight.w500,
@@ -860,7 +860,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "Block this user",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -868,14 +868,14 @@ class _VideoWidgetState extends State<VideoWidget>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to block this user?",
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -884,7 +884,7 @@ class _VideoWidgetState extends State<VideoWidget>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -896,7 +896,7 @@ class _VideoWidgetState extends State<VideoWidget>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -912,7 +912,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -929,7 +929,7 @@ class _VideoWidgetState extends State<VideoWidget>
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

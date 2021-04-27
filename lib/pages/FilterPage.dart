@@ -46,7 +46,7 @@ class _FilterPageState extends State<FilterPage>
         ],
         title: Text(
           "Filters",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -72,7 +72,7 @@ class _FilterPageState extends State<FilterPage>
                         contentPadding: EdgeInsets.only(
                             left: 15, bottom: 11, top: 11, right: 15),
                         hintText: "Insert word filter here..."),
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -98,7 +98,7 @@ class _FilterPageState extends State<FilterPage>
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 'Words added here will not appear in your timeline.',
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey),

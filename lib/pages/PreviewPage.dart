@@ -31,7 +31,7 @@ class _PreviewPageState extends State<PreviewPage> {
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'CREATE',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15, fontWeight: FontWeight.w700, color: Colors.black),
         ),
       ),

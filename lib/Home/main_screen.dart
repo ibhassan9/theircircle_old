@@ -504,14 +504,14 @@ class _MainScreenState extends State<MainScreen>
           child: FlashBar(
             title: Text(
               notification['aps']['alert']['title'].toString(),
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).accentColor),
             ),
             message: Text(
               notification['aps']['alert']['body'].toString(),
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).accentColor),

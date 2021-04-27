@@ -527,7 +527,8 @@ Future<List<Post>> fetchUserPost(PostUser user) async {
   return p;
 }
 
-Future<List<Post>> fetchPosts(int sortBy) async {
+Future<List<Post>> fetchPosts(int sortBy,
+    {String lastPostID = '', int lastPostTimeStamp = 0}) async {
   var uniKeys = [
     Constants.checkUniversity() == 0
         ? 'UofT'
@@ -542,97 +543,111 @@ Future<List<Post>> fetchPosts(int sortBy) async {
   for (var uniKey in uniKeys) {
     print(uniKey);
     var db = FirebaseDatabase.instance.reference().child("posts").child(uniKey);
-    var snapshot = await db.once();
+    var snapshot;
+
+    if (lastPostID == '' && lastPostTimeStamp == 0) {
+      snapshot = await db.orderByChild('timeStamp').limitToLast(10).once();
+    } else {
+      print("LIMITING");
+      snapshot = await db
+          .orderByChild('timeStamp')
+          .endAt(lastPostTimeStamp, key: lastPostID)
+          .limitToLast(10)
+          .once();
+    }
 
     Map<dynamic, dynamic> values = snapshot.value;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var filters = prefs.getStringList('filters');
 
-    values.forEach((key, value) {
-      var post = Post(
-          id: key,
-          userId: value['userId'],
-          username: value['name'],
-          content: value['content'],
-          timeStamp: value['timeStamp'],
-          isAnonymous:
-              value['isAnonymous'] != null ? value['isAnonymous'] : false,
-          courseId: value['courseId'],
-          likeCount: value['likes'] != null ? value['likes'].length : 0,
-          imgUrl: value['imgUrl'],
-          university: uniKey);
+    if (values != null) {
+      print(values);
+      values.forEach((key, value) {
+        var post = Post(
+            id: key,
+            userId: value['userId'],
+            username: value['name'],
+            content: value['content'],
+            timeStamp: value['timeStamp'],
+            isAnonymous:
+                value['isAnonymous'] != null ? value['isAnonymous'] : false,
+            courseId: value['courseId'],
+            likeCount: value['likes'] != null ? value['likes'].length : 0,
+            imgUrl: value['imgUrl'],
+            university: uniKey);
 
-      if (value['comments'] != null) {
-        post.commentCount = value['comments'].length;
-      } else {
-        post.commentCount = 0;
-      }
-
-      if (value['title'] != null) {
-        post.title = value['title'];
-      }
-
-      if (value['feeling'] != null) {
-        post.feeling = value['feeling'];
-      }
-
-      if (value['questionOne'] != null && value['questionTwo'] != null) {
-        if (value['votes'] != null) {
-          List<int> voteCounts = getVotes(value['votes']);
-          post.questionOneLikeCount = voteCounts[0];
-          post.questionTwoLikeCount = voteCounts[1];
+        if (value['comments'] != null) {
+          post.commentCount = value['comments'].length;
         } else {
-          post.questionOneLikeCount = 0;
-          post.questionTwoLikeCount = 0;
+          post.commentCount = 0;
         }
-        post.questionOne = value['questionOne'];
-        post.questionTwo = value['questionTwo'];
-      }
 
-      if (value['votes'] != null) {
-        var voted = checkIsVoted(value['votes']);
-        post.votes = value['votes'];
-        post.isVoted = voted;
-        if (voted) {
-          int option = whichOption(value['votes']);
-          if (option != 0) {
-            post.whichOption = option;
+        if (value['title'] != null) {
+          post.title = value['title'];
+        }
+
+        if (value['feeling'] != null) {
+          post.feeling = value['feeling'];
+        }
+
+        if (value['questionOne'] != null && value['questionTwo'] != null) {
+          if (value['votes'] != null) {
+            List<int> voteCounts = getVotes(value['votes']);
+            post.questionOneLikeCount = voteCounts[0];
+            post.questionTwoLikeCount = voteCounts[1];
+          } else {
+            post.questionOneLikeCount = 0;
+            post.questionTwoLikeCount = 0;
           }
+          post.questionOne = value['questionOne'];
+          post.questionTwo = value['questionTwo'];
         }
-      } else {
-        post.isVoted = false;
-      }
 
-      if (value['likes'] != null) {
-        var liked = checkIsLiked(value['likes']);
-        post.isLiked = liked;
-      } else {
-        post.isLiked = false;
-      }
+        if (value['votes'] != null) {
+          var voted = checkIsVoted(value['votes']);
+          post.votes = value['votes'];
+          post.isVoted = voted;
+          if (voted) {
+            int option = whichOption(value['votes']);
+            if (option != 0) {
+              post.whichOption = option;
+            }
+          }
+        } else {
+          post.isVoted = false;
+        }
 
-      if (value['tcQuestion'] != null) {
-        post.tcQuestion = value['tcQuestion'];
-      }
+        if (value['likes'] != null) {
+          var liked = checkIsLiked(value['likes']);
+          post.isLiked = liked;
+        } else {
+          post.isLiked = false;
+        }
 
-      var i = 0;
+        if (value['tcQuestion'] != null) {
+          post.tcQuestion = value['tcQuestion'];
+        }
 
-      if (post.userId != firebaseAuth.currentUser.uid) {
-        if (filters != null) {
-          for (var filter in filters) {
-            if (post.content.toLowerCase().contains(filter.toLowerCase())) {
-              i += 1;
+        var i = 0;
+
+        if (post.userId != firebaseAuth.currentUser.uid) {
+          if (filters != null) {
+            for (var filter in filters) {
+              if (post.content.toLowerCase().contains(filter.toLowerCase())) {
+                i += 1;
+              }
             }
           }
         }
-      }
 
-      if (i == 0 &&
-          blockList.containsKey(post.userId) == false &&
-          hiddenList.contains(post.id) == false) {
-        p.add(post);
-      }
-    });
+        if (i == 0 &&
+            blockList.containsKey(post.userId) == false &&
+            hiddenList.contains(post.id) == false) {
+          p.add(post);
+        }
+      });
+    }
   }
 
   if (sortBy == 0) {

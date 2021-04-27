@@ -88,7 +88,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   name,
                                   maxLines: null,
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                       color: Theme.of(context).accentColor),
@@ -96,7 +96,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   ' • ',
                                   maxLines: 1,
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
@@ -106,7 +106,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                       new DateTime.fromMillisecondsSinceEpoch(
                                           widget.notification.timestamp)),
                                   maxLines: null,
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
@@ -116,7 +116,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             SizedBox(height: 3.0),
                             Text(body,
                                 maxLines: null,
-                                style: GoogleFonts.manrope(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).buttonColor)),

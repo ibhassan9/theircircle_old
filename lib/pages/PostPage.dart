@@ -60,7 +60,7 @@ class _PostPageState extends State<PostPage> {
             onPressed: () => Navigator.pop(context, false)),
         title: Text(
           widget.intro ? "Introduce yourself!" : "NEW POST",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -127,12 +127,12 @@ class _PostPageState extends State<PostPage> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(Constants.feelings[feeling],
-                                              style: GoogleFonts.manrope(
+                                              style: GoogleFonts.quicksand(
                                                   fontSize: 18.0)),
                                           SizedBox(width: 5.0),
                                           Text(
                                             'Feeling $feeling',
-                                            style: GoogleFonts.manrope(
+                                            style: GoogleFonts.quicksand(
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -144,12 +144,12 @@ class _PostPageState extends State<PostPage> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text('😝',
-                                              style: GoogleFonts.manrope(
+                                              style: GoogleFonts.quicksand(
                                                   fontSize: 18.0)),
                                           SizedBox(width: 5.0),
                                           Text(
                                             'Share a feeling!',
-                                            style: GoogleFonts.manrope(
+                                            style: GoogleFonts.quicksand(
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -210,7 +210,7 @@ class _PostPageState extends State<PostPage> {
             SizedBox(width: 10.0),
             Text(
               'Post Anonymously',
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).buttonColor),
@@ -325,7 +325,7 @@ class _PostPageState extends State<PostPage> {
                   )
                 : Text(
                     'POST',
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
@@ -414,7 +414,7 @@ class _PostPageState extends State<PostPage> {
                 3.0)), //             <--- BoxDecoration here
         child: Text(
           pollVisible ? '🗳️ Remove Poll' : '🗳️ Create Poll',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 11,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -528,7 +528,7 @@ class _PostPageState extends State<PostPage> {
       decoration: new InputDecoration(
           suffix: Text(
             titleLength.toString(),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 color: titleLength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
@@ -539,7 +539,7 @@ class _PostPageState extends State<PostPage> {
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: 'Insert short title'),
-      style: GoogleFonts.manrope(
+      style: GoogleFonts.quicksand(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).accentColor),
@@ -560,7 +560,7 @@ class _PostPageState extends State<PostPage> {
       decoration: new InputDecoration(
           suffix: Text(
             clength.toString(),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 color: clength < 0 ? Colors.red : Colors.grey),
           ),
           border: InputBorder.none,
@@ -571,7 +571,7 @@ class _PostPageState extends State<PostPage> {
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
           hintText: title),
-      style: GoogleFonts.manrope(
+      style: GoogleFonts.quicksand(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).accentColor),
@@ -594,7 +594,7 @@ class _PostPageState extends State<PostPage> {
         decoration: new InputDecoration(
             suffix: Text(
               poll1length.toString(),
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   color: poll1length < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
@@ -605,7 +605,7 @@ class _PostPageState extends State<PostPage> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 0, right: 15),
             hintText: "Insert Option 1..."),
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -629,7 +629,7 @@ class _PostPageState extends State<PostPage> {
         decoration: new InputDecoration(
             suffix: Text(
               poll2length.toString(),
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   color: poll2length < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
@@ -640,7 +640,7 @@ class _PostPageState extends State<PostPage> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: "Insert Option 2..."),
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),

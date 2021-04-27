@@ -41,7 +41,7 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
               child: Center(
                 child: Text('Create',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 12.0, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),

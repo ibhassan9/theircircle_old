@@ -15,6 +15,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart' as p;
 import 'package:share/share.dart';
@@ -92,6 +93,13 @@ class _MainPageState extends State<MainPage>
   int sortBy = 0;
   String imgUrl;
   bool doneLoading = true;
+  String lastPostID = '';
+  int lastPostTimeStamp = 0;
+  List<Post> posts = [];
+  int r = 0;
+  bool loadingMore = false;
+
+  StreamController _streamController = StreamController<List<Post>>();
 
   Stream<Event> notificationStream;
 
@@ -109,24 +117,6 @@ class _MainPageState extends State<MainPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).backgroundColor,
-      //   centerTitle: false,
-      //   title: Row(
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     children: [
-      //       Text("theircircle",
-      //           textAlign: TextAlign.center,
-      //           style: GoogleFonts.manrope(
-      //               fontFamily: 'Avenir Next',
-      //               color: Colors.blue,
-      //               fontSize: 25,
-      //               fontWeight: FontWeight.w700)),
-      //     ],
-      //   ),
-      //   actions: <Widget>[],
-      //   elevation: 1.0,
-      // ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Stack(
         children: [
@@ -138,21 +128,11 @@ class _MainPageState extends State<MainPage>
                   backgroundColor: Theme.of(context).backgroundColor,
                   leading: Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => UserSearchPage()));
-                      },
-                      child: CircleAvatar(
-                        radius: 25.0,
-                        backgroundColor:
-                            Theme.of(context).accentColor.withOpacity(0.05),
-                        child: notifications(),
-                        // child: Unicon(UniconData.uniUser,
-                        //     size: 20.0, color: Theme.of(context).accentColor),
-                      ),
+                    child: CircleAvatar(
+                      radius: 25.0,
+                      backgroundColor:
+                          Theme.of(context).accentColor.withOpacity(0.05),
+                      child: notifications(),
                     ),
                   ),
                   title: new Text("THEIRCIRCLE",
@@ -166,44 +146,11 @@ class _MainPageState extends State<MainPage>
                   snap: true,
                   forceElevated: innerBoxIsScrolled,
                   actions: [
-                    // InkWell(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => MyReferral()));
-                    //   },
-                    //   child: CircleAvatar(
-                    //       radius: 25.0,
-                    //       backgroundColor:
-                    //           Theme.of(context).accentColor.withOpacity(0.05),
-                    //       child: Row(
-                    //         mainAxisAlignment: MainAxisAlignment.center,
-                    //         children: [
-                    //           Icon(FlutterIcons.trophy_award_mco,
-                    //               size: 20.0,
-                    //               color: Theme.of(context).accentColor),
-                    //           SizedBox(width: 0.0),
-                    //           Center(
-                    //               child: Text('30',
-                    //                   style: GoogleFonts.manrope(
-                    //
-                    //                       fontWeight: FontWeight.w700,
-                    //                       color: Theme.of(context).accentColor,
-                    //                       fontSize: 15.0))),
-                    //         ],
-                    //       )),
-                    // ),
-
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: InkWell(
                         onTap: () {
                           widget.goToChat();
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => MyReferral()));
                         },
                         child: CircleAvatar(
                           radius: 25.0,
@@ -220,214 +167,231 @@ class _MainPageState extends State<MainPage>
             },
             body: Visibility(
               visible: doneLoading == true,
-              child: RefreshIndicator(
-                onRefresh: refresh,
-                child: ListView(
-                  padding: const EdgeInsets.all(0),
-                  children: <Widget>[
-                    // Container(
-                    //   height: 100,
-                    //   child: getStories(),
-                    // ),
-                    promoWidget(),
-
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 0.0),
-                      child: FadeIn(
-                        from: SlideFrom.TOP,
-                        child: WelcomeWidget(
-                          create: () {
-                            // await noti.sendNewQuestionToAll();
-                            showBarModalBottomSheet(
-                                    context: context,
-                                    expand: true,
-                                    builder: (context) => PostPage())
-                                .then((refresh) {
-                              if (refresh == false) {
-                                return;
-                              }
-                              setState(() {
-                                _postFuture = fetchPosts(sortBy);
+              child: LazyLoadScrollView(
+                isLoading: loadingMore,
+                onEndOfPage: () async {
+                  setState(() {
+                    loadingMore = true;
+                  });
+                  fetchPosts(sortBy,
+                          lastPostID: lastPostID,
+                          lastPostTimeStamp: lastPostTimeStamp)
+                      .then((value) {
+                    setState(() {
+                      loadingMore = false;
+                      posts.removeLast();
+                      posts.addAll(value);
+                      lastPostID = posts.last.id;
+                      lastPostTimeStamp = posts.last.timeStamp;
+                    });
+                  });
+                },
+                child: RefreshIndicator(
+                  onRefresh: refresh,
+                  child: ListView(
+                    padding: const EdgeInsets.all(0),
+                    children: <Widget>[
+                      promoWidget(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 0.0),
+                        child: FadeIn(
+                          from: SlideFrom.TOP,
+                          child: WelcomeWidget(
+                            create: () {
+                              showBarModalBottomSheet(
+                                      context: context,
+                                      expand: true,
+                                      builder: (context) => PostPage())
+                                  .then((refresh) {
+                                if (refresh == false) {
+                                  return;
+                                }
+                                setState(() {
+                                  _postFuture = fetchPosts(sortBy);
+                                });
                               });
-                            });
-                          },
-                          answerQuestion: () async {
-                            var question = await _questionFuture;
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TodaysQuestionPage(
-                                        question: question))).then((value) {
-                              if (value == false) {
-                                return;
-                              }
-                              refresh();
-                            });
-                          },
-                          startRoom: () => print("test"),
+                            },
+                            answerQuestion: () async {
+                              var question = await _questionFuture;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TodaysQuestionPage(
+                                          question: question))).then((value) {
+                                if (value == false) {
+                                  return;
+                                }
+                                refresh();
+                              });
+                            },
+                            startRoom: () => print("test"),
+                          ),
                         ),
                       ),
-                    ),
-                    questionWidget(),
-                    FadeIn(
-                      from: SlideFrom.TOP,
-                      fade: true,
-                      child: InkWell(
-                          onTap: () async {
-                            final RenderBox box = context.findRenderObject();
-                            var title = Constants.inviteTitle;
-                            await Share.share(title,
-                                subject: "TheirCircle",
-                                sharePositionOrigin:
-                                    box.localToGlobal(Offset.zero) & box.size);
-                          },
-                          child: InviteFriendsWidget()),
-                    ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text('Rooms', style: GoogleFonts.manrope(
-                    //fontFamily: 'Helvetica Neue',)),
-                    //       InkWell(
-                    //         onTap: () {
-                    //           Navigator.push(context,
-                    //               MaterialPageRoute(builder: (context) => Rooms()));
-                    //         },
-                    //         child: Row(
-                    //           crossAxisAlignment: CrossAxisAlignment.center,
-                    //           children: [
-                    //             Text('See All',
-                    //                 style: GoogleFonts.manrope(
-                    //fontFamily: 'Helvetica Neue',
-                    //                     fontSize: 12,
-                    //                     color: Theme.of(context).buttonColor)),
-                    //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    //
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
-                      child: Text('Live Rooms',
-                          style: GoogleFonts.manrope(
-                              color: Theme.of(context).accentColor,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    rooms(),
-
-                    //WelcomeWidget(),
-                    //questionWidget(),
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                    //   child: Text(
-                    //     "Recent University News".toUpperCase(),
-                    //     style: GoogleFonts.manrope(
-                    //         fontFamily: 'Helvetica Neue',
-                    //         fontSize: 13,
-                    //         fontWeight: FontWeight.w600,
-                    //         color: Theme.of(context).accentColor),
-                    //   ),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
-                      child: Text('Latest Articles',
-                          style: GoogleFonts.manrope(
-                              color: Theme.of(context).accentColor,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    newsListWidget(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Container(
-                        height: 8.0,
+                      questionWidget(),
+                      FadeIn(
+                        from: SlideFrom.TOP,
+                        fade: true,
+                        child: InkWell(
+                            onTap: () async {
+                              final RenderBox box = context.findRenderObject();
+                              var title = Constants.inviteTitle;
+                              await Share.share(title,
+                                  subject: "TheirCircle",
+                                  sharePositionOrigin:
+                                      box.localToGlobal(Offset.zero) &
+                                          box.size);
+                            },
+                            child: InviteFriendsWidget()),
                       ),
-                    ),
-                    //Divider(),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(15),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text(
-                    //         "Campus Feed",
-                    //         style: GoogleFonts.manrope(
-                    //fontFamily: 'Helvetica Neue',
-                    //             fontSize: 13,
-                    //             fontWeight: FontWeight.w500,
-                    //             color: Theme.of(context).accentColor),
-                    //       ),
-                    //       InkWell(
-                    //         onTap: () {
-                    //           setState(() {
-                    //             if (sortBy == 0) {
-                    //               sortBy = 1;
-                    //             } else {
-                    //               sortBy = 0;
-                    //             }
-                    //             _postFuture = fetchPosts(sortBy);
-                    //           });
-                    //         },
-                    //         child: Text(
-                    //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                    //           style: GoogleFonts.manrope(
-                    //fontFamily: 'Helvetica Neue',
-                    //               fontSize: 14,
-                    //               fontWeight: FontWeight.w800,
-                    //               color: Colors.grey.shade600),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    //Divider(),
-                    Container(
-                      color: Theme.of(context).backgroundColor,
-                      child: Padding(
+
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text('Rooms', style: GoogleFonts.quicksand(
+                      //fontFamily: 'Helvetica Neue',)),
+                      //       InkWell(
+                      //         onTap: () {
+                      //           Navigator.push(context,
+                      //               MaterialPageRoute(builder: (context) => Rooms()));
+                      //         },
+                      //         child: Row(
+                      //           crossAxisAlignment: CrossAxisAlignment.center,
+                      //           children: [
+                      //             Text('See All',
+                      //                 style: GoogleFonts.quicksand(
+                      //fontFamily: 'Helvetica Neue',
+                      //                     fontSize: 12,
+                      //                     color: Theme.of(context).buttonColor)),
+                      //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      //
+                      Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(10.0, 7.0, 15.0, 7.0),
-                        child: Row(
-                          children: [
-                            Unicon(UniconData.uniSortAmountUp,
-                                size: 20.0, color: Colors.grey.shade600),
-                            SizedBox(width: 5.0),
-                            InkWell(
-                              onTap: () {
-                                // setState(() {
-                                //   if (sortBy == 0) {
-                                //     sortBy = 1;
-                                //   } else {
-                                //     sortBy = 0;
-                                //   }
-                                //   _postFuture = fetchPosts(sortBy);
-                                // });
-                                showSortBy();
-                              },
-                              child: Text(
-                                "SORTING BY: ${sortBy == 0 ? 'Recent' : sortBy == 1 ? 'You first' : sortBy == 2 ? 'Polls' : 'Daily Questions Answered'}"
-                                    .toUpperCase(),
-                                style: GoogleFonts.manrope(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.grey.shade600),
-                              ),
-                            ),
-                            SizedBox(width: 5.0),
-                            Unicon(UniconData.uniArrowDown,
-                                size: 20.0, color: Colors.grey.shade600),
-                          ],
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
+                        child: Text('Live Rooms',
+                            style: GoogleFonts.quicksand(
+                                color: Theme.of(context).accentColor,
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      rooms(),
+
+                      //WelcomeWidget(),
+                      //questionWidget(),
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
+                      //   child: Text(
+                      //     "Recent University News".toUpperCase(),
+                      //     style: GoogleFonts.quicksand(
+                      //         fontFamily: 'Helvetica Neue',
+                      //         fontSize: 13,
+                      //         fontWeight: FontWeight.w600,
+                      //         color: Theme.of(context).accentColor),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
+                        child: Text('Latest Articles',
+                            style: GoogleFonts.quicksand(
+                                color: Theme.of(context).accentColor,
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      newsListWidget(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Container(
+                          height: 8.0,
                         ),
                       ),
-                    ),
-                    postWidget()
-                  ],
+                      //Divider(),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(15),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(
+                      //         "Campus Feed",
+                      //         style: GoogleFonts.quicksand(
+                      //fontFamily: 'Helvetica Neue',
+                      //             fontSize: 13,
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Theme.of(context).accentColor),
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {
+                      //           setState(() {
+                      //             if (sortBy == 0) {
+                      //               sortBy = 1;
+                      //             } else {
+                      //               sortBy = 0;
+                      //             }
+                      //             _postFuture = fetchPosts(sortBy);
+                      //           });
+                      //         },
+                      //         child: Text(
+                      //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
+                      //           style: GoogleFonts.quicksand(
+                      //fontFamily: 'Helvetica Neue',
+                      //               fontSize: 14,
+                      //               fontWeight: FontWeight.w800,
+                      //               color: Colors.grey.shade600),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      //Divider(),
+                      Container(
+                        color: Theme.of(context).backgroundColor,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 7.0, 15.0, 7.0),
+                          child: Row(
+                            children: [
+                              Unicon(UniconData.uniSortAmountUp,
+                                  size: 20.0, color: Colors.grey.shade600),
+                              SizedBox(width: 5.0),
+                              InkWell(
+                                onTap: () {
+                                  // setState(() {
+                                  //   if (sortBy == 0) {
+                                  //     sortBy = 1;
+                                  //   } else {
+                                  //     sortBy = 0;
+                                  //   }
+                                  //   _postFuture = fetchPosts(sortBy);
+                                  // });
+                                  showSortBy();
+                                },
+                                child: Text(
+                                  "SORTING BY: ${sortBy == 0 ? 'Recent' : sortBy == 1 ? 'You first' : sortBy == 2 ? 'Polls' : 'Daily Questions Answered'}"
+                                      .toUpperCase(),
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.grey.shade600),
+                                ),
+                              ),
+                              SizedBox(width: 5.0),
+                              Unicon(UniconData.uniArrowDown,
+                                  size: 20.0, color: Colors.grey.shade600),
+                            ],
+                          ),
+                        ),
+                      ),
+                      postWidget()
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -450,7 +414,7 @@ class _MainPageState extends State<MainPage>
         mini: false,
         child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
-          //await noti.sendNewQuestionToAll();
+          // await noti.sendNewQuestionToAll();
           showBarModalBottomSheet(
               context: context,
               expand: true,
@@ -486,16 +450,19 @@ class _MainPageState extends State<MainPage>
             Text(
               'Filter By',
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),
             ),
             InkWell(
               onTap: () {
-                setState(() {
-                  sortBy = 0;
-                  _postFuture = fetchPosts(sortBy);
+                fetchPosts(0).then((value) {
+                  setState(() {
+                    sortBy = 0;
+                    posts = value;
+                    rand();
+                  });
                 });
                 Navigator.pop(context);
               },
@@ -506,7 +473,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Recents',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -516,9 +483,12 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                setState(() {
-                  sortBy = 1;
-                  _postFuture = fetchPosts(sortBy);
+                fetchPosts(1).then((value) {
+                  setState(() {
+                    sortBy = 1;
+                    posts = value;
+                    rand();
+                  });
                 });
                 Navigator.pop(context);
               },
@@ -529,7 +499,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Your Posts',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -539,9 +509,12 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                setState(() {
-                  sortBy = 2;
-                  _postFuture = fetchPosts(sortBy);
+                fetchPosts(2).then((value) {
+                  setState(() {
+                    sortBy = 2;
+                    posts = value;
+                    rand();
+                  });
                 });
                 Navigator.pop(context);
               },
@@ -552,7 +525,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Polls',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -562,9 +535,12 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                setState(() {
-                  sortBy = 3;
-                  _postFuture = fetchPosts(sortBy);
+                fetchPosts(3).then((value) {
+                  setState(() {
+                    sortBy = 3;
+                    posts = value;
+                    rand();
+                  });
                 });
                 Navigator.pop(context);
               },
@@ -575,7 +551,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Daily Questions Answered',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -650,7 +626,7 @@ class _MainPageState extends State<MainPage>
                       //                   index == 0 ? 'Create' : room.name,
                       //                   textAlign: TextAlign.center,
                       //                   style:
-                      //                       GoogleFonts.manrope(
+                      //                       GoogleFonts.quicksand(
                       //                fontFamily:
                       //'Avenir',fontSize: 10.0),
                       //                   maxLines: 2,
@@ -700,7 +676,7 @@ class _MainPageState extends State<MainPage>
               radius: 5.0,
               backgroundColor: Colors.deepPurpleAccent,
               child: Text(this.user.name.substring(0, 1),
-                  style: GoogleFonts.manrope(color: Colors.white)))
+                  style: GoogleFonts.quicksand(color: Colors.white)))
           : Hero(
               tag: UniqueKey().toString(),
               child: ClipRRect(
@@ -734,6 +710,18 @@ class _MainPageState extends State<MainPage>
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    contentController.dispose();
+    bioController.dispose();
+    snapchatController.dispose();
+    linkedinController.dispose();
+    instagramController.dispose();
+    _streamController.close();
+  }
+
+  @override
   void initState() {
     super.initState();
     notificationStream = FirebaseDatabase.instance
@@ -747,7 +735,12 @@ class _MainPageState extends State<MainPage>
           : uni == 0
               ? scrapeUofTNews()
               : scrapeWesternUNews();
-      _postFuture = fetchPosts(sortBy);
+      fetchPosts(sortBy).then((value) {
+        setState(() {
+          posts = value;
+          rand();
+        });
+      });
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
       _roomFuture = Room.fetchAll();
@@ -762,7 +755,12 @@ class _MainPageState extends State<MainPage>
           : uni == 0
               ? scrapeUofTNews()
               : scrapeWesternUNews();
-      _postFuture = fetchPosts(sortBy);
+      fetchPosts(sortBy).then((value) {
+        setState(() {
+          posts = value;
+          rand();
+        });
+      });
       _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
       _roomFuture = Room.fetchAll();
@@ -807,7 +805,7 @@ class _MainPageState extends State<MainPage>
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -815,7 +813,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -823,7 +821,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -831,7 +829,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -839,7 +837,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -847,7 +845,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -855,7 +853,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -863,7 +861,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -873,7 +871,7 @@ class _MainPageState extends State<MainPage>
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -929,14 +927,14 @@ class _MainPageState extends State<MainPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -945,7 +943,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -965,7 +963,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -1018,7 +1016,7 @@ class _MainPageState extends State<MainPage>
                       backgroundColor: Colors.red,
                       child: Text(
                         '',
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: Colors.white),
@@ -1240,40 +1238,23 @@ class _MainPageState extends State<MainPage>
 
   Widget postWidget() {
     return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: FutureBuilder(
-          future: _postFuture,
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                child: Center(
-                    child: SizedBox(
-                        width: 0,
-                        height: 0,
-                        child: LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
-                          color: Theme.of(context).accentColor,
-                        ))),
-              );
-            } else if (snap.hasData) {
-              var r;
-              Random rnd;
-              int min = 0;
-              int max = snap.data.length;
-              rnd = new Random();
-              r = min + rnd.nextInt(max - min);
-              return AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                child: ListView.builder(
+        padding: const EdgeInsets.all(0.0),
+        child: AnimatedSwitcher(
+          duration: Duration(seconds: 1),
+          child: posts.isEmpty
+              ? Container()
+              : ListView.builder(
                   padding: const EdgeInsets.only(top: 5.0),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: snap.data != null ? snap.data.length + 1 : 0,
+                  itemCount: posts.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Post post =
-                        index > r ? snap.data[index - 1] : snap.data[index];
+                    if (index == posts.length - 1) {
+                      lastPostID = posts.last.id;
+                      lastPostTimeStamp = posts.last.timeStamp;
+                    }
+                    Post post = index > r ? posts[index - 1] : posts[index];
                     Function f = () async {
                       var res = await deletePost(post.id, null, null);
                       Navigator.pop(context);
@@ -1331,36 +1312,15 @@ class _MainPageState extends State<MainPage>
                     }
                   },
                 ),
-              );
-            } else if (snap.hasError) {
-              return AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.face,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "Cannot find any posts :(",
-                        style: GoogleFonts.manrope(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return Text('');
-            }
-          }),
-    );
+        ));
+  }
+
+  rand() {
+    Random rnd;
+    int min = 0;
+    int max = posts.length;
+    rnd = new Random();
+    r = min + rnd.nextInt(max - min);
   }
 
   @override

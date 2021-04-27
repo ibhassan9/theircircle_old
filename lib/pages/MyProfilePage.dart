@@ -125,7 +125,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                 children: [
                   Text(
                     widget.user.name + ',',
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).accentColor),
@@ -141,7 +141,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                             : widget.user.university == 'YorkU'
                                 ? "York University"
                                 : "Western University",
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).buttonColor),
@@ -165,7 +165,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                       padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                       child: Text(
                         'Blocked Users',
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                             color: Colors.white),
@@ -177,7 +177,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           Divider(),
           Text(
             "About myself",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -186,7 +186,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           Divider(),
           Text(
             "What i've accomplished",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -202,12 +202,12 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
-              hintStyle: GoogleFonts.manrope(
+              hintStyle: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[500]),
             ),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -223,12 +223,12 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
-              hintStyle: GoogleFonts.manrope(
+              hintStyle: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[500]),
             ),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -244,12 +244,12 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert accomplishment here...",
-              hintStyle: GoogleFonts.manrope(
+              hintStyle: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[500]),
             ),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -257,7 +257,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           Divider(),
           Text(
             "My socials",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -273,12 +273,12 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert Snapchat handle here...",
-              hintStyle: GoogleFonts.manrope(
+              hintStyle: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[500]),
             ),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -294,12 +294,12 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert Instagram handle here...",
-              hintStyle: GoogleFonts.manrope(
+              hintStyle: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[500]),
             ),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -315,12 +315,12 @@ class _MyProfilePageState extends State<MyProfilePage>
               contentPadding:
                   EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
               hintText: "Insert LinkedIn handle here...",
-              hintStyle: GoogleFonts.manrope(
+              hintStyle: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[500]),
             ),
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -391,10 +391,10 @@ class _MyProfilePageState extends State<MyProfilePage>
         disabledBorder: InputBorder.none,
         contentPadding: EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
         hintText: "Insert about here",
-        hintStyle: GoogleFonts.manrope(
+        hintStyle: GoogleFonts.quicksand(
             fontSize: 13, fontWeight: FontWeight.w400, color: Colors.grey[500]),
       ),
-      style: GoogleFonts.manrope(
+      style: GoogleFonts.quicksand(
           fontSize: 13,
           fontWeight: FontWeight.w400,
           color: Theme.of(context).accentColor),
@@ -412,7 +412,7 @@ class _MyProfilePageState extends State<MyProfilePage>
     return result.isNotEmpty
         ? Text(
             result,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -426,7 +426,7 @@ class _MyProfilePageState extends State<MyProfilePage>
       children: [
         Text(
           "I'm interested in",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -460,7 +460,7 @@ class _MyProfilePageState extends State<MyProfilePage>
         selectedColor: Colors.grey,
         label: Text(
           '+ Add interest',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
         ),
         onSelected: (selected) async {
@@ -491,7 +491,7 @@ class _MyProfilePageState extends State<MyProfilePage>
             selectedColor: Colors.deepPurpleAccent,
             label: Text(
               interest,
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),
@@ -513,7 +513,7 @@ class _MyProfilePageState extends State<MyProfilePage>
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Places i've been to",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -537,7 +537,7 @@ class _MyProfilePageState extends State<MyProfilePage>
           avatar: Text('🇸🇩'),
           label: Text(
             'Sudan',
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
@@ -631,7 +631,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                     SizedBox(width: 10.0),
                     Text(
                       "UPDATE PROFILE",
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.white),

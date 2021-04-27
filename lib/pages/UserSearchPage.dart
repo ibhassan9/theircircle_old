@@ -77,7 +77,7 @@ class _UserSearchPageState extends State<UserSearchPage>
                         contentPadding: EdgeInsets.only(
                             left: 10, bottom: 11.5, top: 11, right: 15),
                         hintText: "Search"),
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).accentColor),
@@ -96,7 +96,7 @@ class _UserSearchPageState extends State<UserSearchPage>
                   },
                   child: Text(
                     "Cancel",
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).accentColor.withOpacity(0.7)),
@@ -133,7 +133,7 @@ class _UserSearchPageState extends State<UserSearchPage>
             //             contentPadding: EdgeInsets.only(
             //                 left: 15, bottom: 11, top: 11, right: 15),
             //             hintText: "Search students..."),
-            //         style: GoogleFonts.manrope(
+            //         style: GoogleFonts.quicksand(
             // fontFamily: Constants.fontFamily,
             //             fontSize: 15,
             //             fontWeight: FontWeight.w500,

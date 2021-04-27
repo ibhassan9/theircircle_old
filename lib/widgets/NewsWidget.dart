@@ -88,7 +88,7 @@ class _NewsWidgetState extends State<NewsWidget>
                                   widget.news.title,
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white),

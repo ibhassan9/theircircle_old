@@ -25,35 +25,35 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       },
       calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.manrope(
+        weekdayStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
-        weekendStyle: GoogleFonts.manrope(
+        weekendStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.manrope(
+        titleTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        formatButtonTextStyle: GoogleFonts.manrope(
+        formatButtonTextStyle: GoogleFonts.quicksand(
             fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.manrope(
+        weekdayStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        weekendStyle: GoogleFonts.manrope(
+        weekendStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        holidayStyle: GoogleFonts.manrope(
+        holidayStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        outsideHolidayStyle: GoogleFonts.manrope(
+        outsideHolidayStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        selectedStyle: GoogleFonts.manrope(
+        selectedStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        todayStyle: GoogleFonts.manrope(
+        todayStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        outsideStyle: GoogleFonts.manrope(
+        outsideStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        outsideWeekendStyle: GoogleFonts.manrope(
+        outsideWeekendStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        unavailableStyle: GoogleFonts.manrope(
+        unavailableStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );
@@ -66,7 +66,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           tCalendar,
           SizedBox(height: 10.0),
           Text("Nothing to show here...",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.black)),

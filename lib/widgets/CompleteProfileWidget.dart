@@ -9,7 +9,7 @@ class CompleteProfileWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text("Complete Your Profile",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.w600, fontSize: 17.0)),
         SizedBox(height: 15.0),
         SvgPicture.asset(
@@ -18,7 +18,7 @@ class CompleteProfileWidget extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text("Please complete your profile",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.w800, fontSize: 15.0)),
         SizedBox(height: 5.0),
         Padding(
@@ -26,7 +26,7 @@ class CompleteProfileWidget extends StatelessWidget {
           child: Text(
               "University students prefer to look at profiles that are complete. A complete profile helps other students identify your likings and connect with you easily.",
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   color: Theme.of(context).buttonColor,
                   fontWeight: FontWeight.w600,
                   fontSize: 13.0)),
@@ -38,7 +38,7 @@ class CompleteProfileWidget extends StatelessWidget {
         //   child: Padding(
         //     padding: const EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
         //     child: Text("Go To Profile",
-        //         style: GoogleFonts.manrope(
+        //         style: GoogleFonts.quicksand(
         //             color: Colors.black,
         //             fontWeight: FontWeight.w800,
         //             fontSize: 13.0)),

@@ -94,6 +94,7 @@ Future signInUser(String email, String password, BuildContext context) async {
   await firebaseAuth
       .signInWithEmailAndPassword(email: email, password: password)
       .then((result) async {
+    print('5');
     var uni = Constants.checkUniversity();
     PostUser _user = await getUser(result.user.uid);
     if (_user.status == 1) {
@@ -101,7 +102,7 @@ Future signInUser(String email, String password, BuildContext context) async {
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text(
             'This account is temporarily banned.',
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -123,43 +124,56 @@ Future signInUser(String email, String password, BuildContext context) async {
         .child('device_token')
         .set(token);
     await db;
-    if (_user.verified != 1) {
+    if (_user.verified == 0 && firebaseAuth.currentUser.emailVerified != true) {
       final snackBar = SnackBar(
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text(
             'Please wait...',
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
           ));
       Scaffold.of(context).showSnackBar(snackBar);
-      var code = await sendVerificationCode(email);
-      if (code == 0) {
-        return;
-      }
+      await sendVerificationEmail(firebaseAuth.currentUser);
+      firebaseAuth.signOut();
+      // var code = await sendVerificationCode(email);
+      // if (code == 0) {
+      //   return;
+      // }
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => VerificationPage(
-                  code: code,
-                  email: email,
-                  password: password,
-                  uid: result.user.uid)));
+                  email: email, password: password, uid: result.user.uid)));
     } else {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setInt('uni', uni);
-      prefs.setString('name', _user.name);
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MainScreen()));
+      if (firebaseAuth.currentUser.emailVerified || _user.verified == 1) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setInt('uni', uni);
+        prefs.setString('name', _user.name);
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
+      } else {
+        await sendVerificationEmail(firebaseAuth.currentUser);
+        // var code = await sendVerificationCode(email);
+        // if (code == 0) {
+        //   return;
+        // }
+        firebaseAuth.signOut();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VerificationPage(
+                    email: email, password: password, uid: result.user.uid)));
+      }
     }
   }).catchError((err) {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Problem logging in. Please try again.',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -194,7 +208,7 @@ Future registerUser(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Please use your university email to sign up.',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -211,7 +225,8 @@ Future registerUser(
   await firebaseAuth
       .createUserWithEmailAndPassword(email: email, password: password)
       .then((result) async {
-    int code = await sendVerificationCode(email);
+    int code = 0;
+    print(uniKey);
     usersDBref
         .child(uniKey == 0
             ? 'UofT'
@@ -227,27 +242,34 @@ Future registerUser(
       "appear": true,
       "createdAt": result.user.metadata.creationTime.millisecondsSinceEpoch
     }).then((res) async {
+      await sendVerificationEmail(result.user);
+      firebaseAuth.signOut();
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => VerificationPage(
-                code: code,
-                uid: result.user.uid,
-                email: email,
-                password: password)),
+                uid: result.user.uid, email: email, password: password)),
       );
     });
   }).catchError((err) {
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
-          'Problem creating account / email might already be in use.',
-          style: GoogleFonts.manrope(
+          'Sorry, could not create account.',
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ));
     Scaffold.of(context).showSnackBar(snackBar);
+  });
+}
+
+Future<Null> sendVerificationEmail(User user) async {
+  await user.sendEmailVerification().then((value) {
+    print("We've sent a verification email to ${user.email}");
+  }).onError((error, stackTrace) {
+    print("Error sending verification code");
   });
 }
 
@@ -615,16 +637,20 @@ Future<int> sendVerificationCode(String email) async {
   var code = verificationCode();
   final smtpServer = gmail(username, password);
   final message = Message()
-    ..from = Address(username, 'NOREPLYUNIFYAPP')
+    ..from = Address(username, 'NOREPLYTHEIRCIRCLEAPP')
     ..recipients.add(email)
     ..subject = 'Verification Code'
     ..text = 'Your Verification Code is: $code';
   // ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+  //
+
+  print(code);
 
   try {
     await send(message, smtpServer);
     return code;
   } on MailerException catch (e) {
+    print(e.message);
     return 0;
   }
 }

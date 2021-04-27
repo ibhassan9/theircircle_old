@@ -30,7 +30,7 @@ class _UserPageState extends State<UserPage> {
           title: Text(
             "Profile",
             textAlign: TextAlign.center,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
           elevation: 0.0,
@@ -130,7 +130,7 @@ class _UserPageState extends State<UserPage> {
                     Center(
                         child: Text(
                       user.name,
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
@@ -154,13 +154,13 @@ class _UserPageState extends State<UserPage> {
                                         user.bio == null || user.bio.isEmpty
                                             ? Constants.dummyDescription
                                             : user.bio,
-                                    hintStyle: GoogleFonts.manrope(
+                                    hintStyle: GoogleFonts.quicksand(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.grey.shade700),
                                   ),
                                   maxLines: null,
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey.shade700),
@@ -169,7 +169,7 @@ class _UserPageState extends State<UserPage> {
                             : Text(
                                 user.bio,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.manrope(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black),
@@ -194,8 +194,8 @@ class _UserPageState extends State<UserPage> {
                     //         child: Center(
                     //           child: Text(
                     //             "Update Profile",
-                    //             style: GoogleFonts.manrope(
-                    //               GoogleFonts.overpass: GoogleFonts.manrope(
+                    //             style: GoogleFonts.quicksand(
+                    //               GoogleFonts.overpass: GoogleFonts.quicksand(
                     //fontFamily: Constants.fontFamily,
                     //                   fontSize: 15,
                     //                   fontWeight: FontWeight.w500,

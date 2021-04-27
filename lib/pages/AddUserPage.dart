@@ -114,7 +114,7 @@ class _AddUserPageState extends State<AddUserPage>
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Search students..."),
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -150,7 +150,7 @@ class _AddUserPageState extends State<AddUserPage>
               //             contentPadding: EdgeInsets.only(
               //                 left: 15, bottom: 11, top: 11, right: 15),
               //             hintText: "Search students..."),
-              //         style: GoogleFonts.manrope(
+              //         style: GoogleFonts.quicksand(
               // fontFamily: Constants.fontFamily,
               //             fontSize: 15,
               //             fontWeight: FontWeight.w500,

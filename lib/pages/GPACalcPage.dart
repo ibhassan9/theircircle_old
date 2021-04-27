@@ -68,7 +68,7 @@ class _GPACalculatorState extends State<GPACalculator> {
           centerTitle: false,
           title: Text(
             'GPA Calculator',
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -92,7 +92,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                       child: Center(
                         child: Text(
                           'Courses',
-                          style: GoogleFonts.manrope(
+                          style: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -105,7 +105,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                       child: Center(
                         child: Text(
                           'Weight',
-                          style: GoogleFonts.manrope(
+                          style: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -118,7 +118,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                       child: Center(
                         child: Text(
                           'Final Grade',
-                          style: GoogleFonts.manrope(
+                          style: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -183,7 +183,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                 SizedBox(width: 7.0),
                 Text(
                   'Add Course',
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
                       color: Theme.of(context).accentColor),
@@ -201,7 +201,7 @@ class _GPACalculatorState extends State<GPACalculator> {
               children: [
                 Text(
                   'Remove Course',
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
                       color: Colors.red),
@@ -238,7 +238,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                   child: Center(
                     child: Text(
                       'Final Grade Needed Calculator',
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -271,7 +271,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                         SizedBox(width: 10.0),
                         Text(
                           'CALCULATE',
-                          style: GoogleFonts.manrope(
+                          style: GoogleFonts.quicksand(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: Colors.white),
@@ -304,7 +304,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                 calculateGPA().toStringAsFixed(2),
                 textAlign: TextAlign.center,
                 maxLines: null,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 40,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -316,7 +316,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                 'Your current GPA is ' + calculateGPA().toStringAsFixed(2),
                 textAlign: TextAlign.center,
                 maxLines: null,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -327,7 +327,7 @@ class _GPACalculatorState extends State<GPACalculator> {
                 'You have ' + countCredits().toString() + ' credit(s) achieved',
                 textAlign: TextAlign.center,
                 maxLines: null,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -436,7 +436,7 @@ class _GPACalculatorState extends State<GPACalculator> {
     return CupertinoActionSheetAction(
       child: Text(
         value.toString(),
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -455,7 +455,7 @@ class _GPACalculatorState extends State<GPACalculator> {
     return CupertinoActionSheetAction(
       child: Text(
         value,
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -533,7 +533,7 @@ class _GPACalculatorState extends State<GPACalculator> {
             child: Center(
               child: Text(
                 'Course #$index',
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
@@ -555,7 +555,7 @@ class _GPACalculatorState extends State<GPACalculator> {
               child: Center(
                 child: Text(
                   rows[index]['weight'].toString(),
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -581,7 +581,7 @@ class _GPACalculatorState extends State<GPACalculator> {
               child: Center(
                 child: Text(
                   getGrade(rows[index]['grade']),
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),

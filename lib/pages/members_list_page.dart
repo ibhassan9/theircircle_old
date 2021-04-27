@@ -35,7 +35,7 @@ class _MembersListPageState extends State<MembersListPage>
           brightness: Theme.of(context).brightness,
           title: Text(
             "Members",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -150,14 +150,14 @@ class _MembersListPageState extends State<MembersListPage>
     final act = CupertinoActionSheet(
       title: Text(
         "PROCEED?",
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "Are you sure you want to remove ${user.name} from your club?",
-        style: GoogleFonts.manrope(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -166,7 +166,7 @@ class _MembersListPageState extends State<MembersListPage>
         CupertinoActionSheetAction(
             child: Text(
               "YES",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -181,7 +181,7 @@ class _MembersListPageState extends State<MembersListPage>
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {

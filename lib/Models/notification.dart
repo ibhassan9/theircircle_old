@@ -326,7 +326,7 @@ Future<Null> send(String token, String receiverId) async {
             <String, dynamic>{
               'notification': <String, dynamic>{
                 'body':
-                    "May your examination results be filled with good grades. All the very best to you!",
+                    "Answer our daily question: What skill is definitely worth learning?",
               },
               'priority': 'high',
               'data': <String, dynamic>{

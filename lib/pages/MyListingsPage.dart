@@ -31,7 +31,7 @@ class _MyListingsState extends State<MyListings> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "My Listings",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 19,
               fontWeight: FontWeight.w800,
               color: Theme.of(context).accentColor),
@@ -94,11 +94,11 @@ class _MyListingsState extends State<MyListings> {
                             contentPadding: EdgeInsets.only(
                                 left: 0, bottom: 0, top: 0, right: 15),
                             hintText: "Search Products...",
-                            hintStyle: GoogleFonts.manrope(
+                            hintStyle: GoogleFonts.quicksand(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor)),
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),

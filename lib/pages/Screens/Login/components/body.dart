@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             Text(
               "LOGIN",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -61,7 +61,7 @@ class _BodyState extends State<Body> {
                     backgroundColor: Theme.of(context).backgroundColor,
                     content: Text(
                       'Logging you in. Please wait.',
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),

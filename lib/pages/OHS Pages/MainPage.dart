@@ -83,7 +83,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                     SizedBox(width: 10.0),
                     Text(
                       'Book an appointment',
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).backgroundColor),
@@ -103,14 +103,14 @@ class _OHSMainPageState extends State<OHSMainPage> {
             children: [
               Text(
                 widget.club.name,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
               Text(
                 widget.club.description,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
@@ -146,7 +146,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                       Icon(Feather.users, color: Colors.white, size: 20.0),
                       SizedBox(width: 5.0),
                       Text(widget.club.memberCount.toString(),
-                          style: GoogleFonts.manrope(
+                          style: GoogleFonts.quicksand(
                               color: Colors.white, fontWeight: FontWeight.bold))
                     ],
                   ),
@@ -235,7 +235,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                   color: Colors.white, size: 20.0),
                               SizedBox(width: 5.0),
                               Text('View Shared Calendar',
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500))
                             ],
@@ -280,7 +280,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                       child: Text(
                                         "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
                                             .toUpperCase(),
-                                        style: GoogleFonts.manrope(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w800,
                                             color: Colors.grey.shade600),
@@ -425,7 +425,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                               SizedBox(width: 10),
                                               Text(
                                                 "Could not load posts :(",
-                                                style: GoogleFonts.manrope(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -474,7 +474,7 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                               SizedBox(width: 10),
                                               Text(
                                                 "There are no posts :(",
-                                                style: GoogleFonts.manrope(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -503,9 +503,10 @@ class _OHSMainPageState extends State<OHSMainPage> {
             width: 40,
             height: 40,
             child: FloatingActionButton(
-                backgroundColor: Theme.of(context).dividerColor,
+                backgroundColor: Theme.of(context).accentColor.withOpacity(0.7),
                 elevation: 0.0,
-                child: Unicon(UniconData.uniPlus, color: Colors.black),
+                child: Unicon(UniconData.uniPlus,
+                    color: Theme.of(context).backgroundColor),
                 onPressed: () async {
                   Navigator.push(
                       context,

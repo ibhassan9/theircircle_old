@@ -47,14 +47,14 @@ class _ClubPageState extends State<ClubPage> {
             children: [
               Text(
                 widget.club.name,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
               Text(
                 widget.club.description,
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
@@ -91,7 +91,7 @@ class _ClubPageState extends State<ClubPage> {
                       Icon(Feather.users, color: Colors.white, size: 20.0),
                       SizedBox(width: 5.0),
                       Text(widget.club.memberCount.toString(),
-                          style: GoogleFonts.manrope(
+                          style: GoogleFonts.quicksand(
                               color: Colors.white, fontWeight: FontWeight.bold))
                     ],
                   ),
@@ -176,7 +176,7 @@ class _ClubPageState extends State<ClubPage> {
                                   color: Colors.white, size: 20.0),
                               SizedBox(width: 5.0),
                               Text('View Shared Calendar',
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500))
                             ],
@@ -218,7 +218,7 @@ class _ClubPageState extends State<ClubPage> {
                                       child: Text(
                                         "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
                                             .toUpperCase(),
-                                        style: GoogleFonts.manrope(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w800,
                                             color: Colors.grey.shade600),
@@ -353,7 +353,7 @@ class _ClubPageState extends State<ClubPage> {
                                               SizedBox(width: 10),
                                               Text(
                                                 "There are no posts :(",
-                                                style: GoogleFonts.manrope(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)

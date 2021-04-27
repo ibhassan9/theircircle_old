@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage>
         centerTitle: true,
         title: Text(
           '',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 25,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage>
                         child: Center(
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
-                            style: GoogleFonts.manrope(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage>
                         child: Center(
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
-                            style: GoogleFonts.manrope(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
@@ -200,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage>
           SizedBox(height: 10.0),
           Text(
             user.name,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -218,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage>
                     : widget.user.university == "YorkU"
                         ? "York University"
                         : "Western University",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),
@@ -250,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage>
                                   10.0, 0.0, 10.0, 0.0),
                               child: Text(
                                 'Message',
-                                style: GoogleFonts.manrope(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                     color: Theme.of(context).buttonColor),
@@ -285,7 +285,7 @@ class _ProfilePageState extends State<ProfilePage>
                                       10.0, 0.0, 10.0, 0.0),
                                   child: Text(
                                     'Edit Profile',
-                                    style: GoogleFonts.manrope(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).accentColor),
@@ -380,7 +380,7 @@ class _ProfilePageState extends State<ProfilePage>
                   children: [
                     Text(
                       "POSTS",
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: selectedOption == 0
@@ -421,7 +421,7 @@ class _ProfilePageState extends State<ProfilePage>
                   children: [
                     Text(
                       "VIDEOS",
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: selectedOption == 1
@@ -462,7 +462,7 @@ class _ProfilePageState extends State<ProfilePage>
                   children: [
                     Text(
                       "INTERESTS",
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: selectedOption == 2
@@ -585,7 +585,7 @@ class _ProfilePageState extends State<ProfilePage>
                 SizedBox(width: 10),
                 Text(
                   "Cannot find any videos :(",
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -607,7 +607,7 @@ class _ProfilePageState extends State<ProfilePage>
                 SizedBox(width: 10),
                 Text(
                   "Cannot find any videos :(",
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -729,7 +729,7 @@ class _ProfilePageState extends State<ProfilePage>
                     sameUniversity()
                         ? "Cannot find any posts :("
                         : "You cannot view posts from a different institution",
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -753,7 +753,7 @@ class _ProfilePageState extends State<ProfilePage>
                     sameUniversity()
                         ? "Cannot find any posts :("
                         : "You cannot view posts from a different institution",
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -816,7 +816,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Text(
             widget.user.about,
             textAlign: TextAlign.center,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -829,14 +829,14 @@ class _ProfilePageState extends State<ProfilePage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -845,7 +845,7 @@ class _ProfilePageState extends State<ProfilePage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -865,7 +865,7 @@ class _ProfilePageState extends State<ProfilePage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -892,7 +892,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Text(
             result,
             textAlign: TextAlign.center,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -912,7 +912,7 @@ class _ProfilePageState extends State<ProfilePage>
         //       // Text(
         //       //   "I'm interested in",
         //       //   style: GoogleFonts.lexendDeca(
-        //       //     GoogleFonts.inter: GoogleFonts.manrope(
+        //       //     GoogleFonts.inter: GoogleFonts.quicksand(
         //    fontFamily: Constants.fontFamily,
         //       //         fontSize: 15,
         //       //         fontWeight: FontWeight.w500,
@@ -1015,7 +1015,7 @@ class _ProfilePageState extends State<ProfilePage>
           selectedColor: Colors.pink,
           label: Text(
             interest,
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
@@ -1034,7 +1034,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Places i've been to",
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -1058,7 +1058,7 @@ class _ProfilePageState extends State<ProfilePage>
           avatar: Text('🇸🇩'),
           label: Text(
             'Sudan',
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
@@ -1098,7 +1098,7 @@ class _ProfilePageState extends State<ProfilePage>
       body: Center(
         child: Text(
           text,
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

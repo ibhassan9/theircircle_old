@@ -98,7 +98,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
             "Chat",
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
@@ -173,7 +173,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                 SizedBox(height: 10),
                                 Text(
                                   "Your chat list is empty",
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey),
@@ -291,7 +291,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "Your chat list is empty :(",
-                                      style: GoogleFonts.manrope(
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -342,8 +342,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //               ),
                   //               SizedBox(width: 10),
                   //               Text("You haven't started any conversations yet :(",
-                  //                   style: GoogleFonts.manrope(
-                  //                     GoogleFonts.overpass: GoogleFonts.manrope(
+                  //                   style: GoogleFonts.quicksand(
+                  //                     GoogleFonts.overpass: GoogleFonts.quicksand(
                   // fontFamily: Constants.fontFamily,
                   //                         fontSize: 14,
                   //                         fontWeight: FontWeight.w500,
@@ -366,8 +366,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //                 ),
                   //                 SizedBox(width: 10),
                   //                 Text("You haven't started any conversations yet :(",
-                  //                     style: GoogleFonts.manrope(
-                  //                       GoogleFonts.overpass: GoogleFonts.manrope(
+                  //                     style: GoogleFonts.quicksand(
+                  //                       GoogleFonts.overpass: GoogleFonts.quicksand(
                   //   fontFamily: Constants.fontFamily,
                   //                           fontSize: 14,
                   //                           fontWeight: FontWeight.w500,

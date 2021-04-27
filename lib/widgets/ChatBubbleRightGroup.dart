@@ -60,7 +60,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                           padding: const EdgeInsets.only(top: 0.0, bottom: 3.0),
                           child: Text(
                             'You',
-                            style: GoogleFonts.manrope(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
@@ -135,7 +135,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                       .all(8.0),
                                                               child: Text(
                                                                 'Listing not available',
-                                                                style: GoogleFonts.manrope(
+                                                                style: GoogleFonts.quicksand(
                                                                     fontSize:
                                                                         13,
                                                                     fontWeight:
@@ -221,7 +221,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                               1,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.manrope(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 15,
                                                                               fontWeight: FontWeight.w700,
                                                                               color: Colors.black),
@@ -229,7 +229,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                         // Text(
                                                                         //   r'$ ' + prod.price,
                                                                         //   style: GoogleFonts.lexendDeca(
-                                                                        //     textStyle: GoogleFonts.manrope(
+                                                                        //     textStyle: GoogleFonts.quicksand(
                                                                         //         fontSize: 13,
                                                                         //         fontWeight: FontWeight.w500,
                                                                         //         color: Colors.black),
@@ -241,7 +241,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                                               2,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.manrope(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 12,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Colors.black),
@@ -262,12 +262,14 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                 children: [
                                                   Text(
                                                     widget.msg.messageText,
-                                                    style: GoogleFonts.manrope(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Theme.of(context)
-                                                            .accentColor),
+                                                    style:
+                                                        GoogleFonts.quicksand(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .accentColor),
                                                   ),
                                                   // SizedBox(width: 5.0),
                                                   // Text(
@@ -282,7 +284,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                                   //           .replaceAll(
                                                   //               '~', ''),
                                                   //   style:
-                                                  //       GoogleFonts.manrope(
+                                                  //       GoogleFonts.quicksand(
                                                   //           fontSize: 10,
                                                   //           fontWeight:
                                                   //               FontWeight.w500,
@@ -304,7 +306,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                             children: [
                                               Text(
                                                 widget.msg.messageText,
-                                                style: GoogleFonts.manrope(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -320,7 +322,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                                               //                       .timestamp),
                                               //               locale: 'en_short')
                                               //           .replaceAll('~', ''),
-                                              //   style: GoogleFonts.manrope(
+                                              //   style: GoogleFonts.quicksand(
                                               //       fontSize: 10,
                                               //       fontWeight: FontWeight.w500,
                                               //       color: Theme.of(context)

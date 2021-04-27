@@ -38,7 +38,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -60,7 +60,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -101,7 +101,7 @@ class _CoursesPageState extends State<CoursesPage>
       //     //   child: Text(
       //     //     "Request a course",
       //     //     style: GoogleFonts.lexendDeca(
-      //     //       GoogleFonts.overpass: GoogleFonts.manrope(
+      //     //       GoogleFonts.overpass: GoogleFonts.quicksand(
       //fontFamily: Constants.fontFamily,
       //     //           fontSize: 15,
       //     //           fontWeight: FontWeight.w500,
@@ -114,7 +114,7 @@ class _CoursesPageState extends State<CoursesPage>
       //   title: Text(
       //     "Courses",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.overpass: GoogleFonts.manrope(
+      //       GoogleFonts.overpass: GoogleFonts.quicksand(
       //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
@@ -148,7 +148,7 @@ class _CoursesPageState extends State<CoursesPage>
                       child: Center(
                           child: Text(
                         "GPA Calculator",
-                        style: GoogleFonts.manrope(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
@@ -172,12 +172,12 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 20, bottom: 11, top: 11, right: 15),
                       hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.manrope(
+                      hintStyle: GoogleFonts.quicksand(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -243,7 +243,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "Cannot find any courses :(",
-                                      style: GoogleFonts.manrope(
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -267,7 +267,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no courses :(",
-                                      style: GoogleFonts.manrope(
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),

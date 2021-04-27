@@ -68,7 +68,7 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Comment Here"),
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -129,7 +129,7 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
         centerTitle: false,
         title: Text(
           "Comments",
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 20,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -212,7 +212,7 @@ class _OHSPostDetailState extends State<OHSPostDetail> {
                                 SizedBox(width: 10),
                                 Text(
                                   "There are no comments :(",
-                                  style: GoogleFonts.manrope(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor),

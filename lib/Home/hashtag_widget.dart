@@ -25,7 +25,7 @@ class _HashtagWidgetState extends State<HashtagWidget> {
             child: Text(
               "${widget.title}",
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),

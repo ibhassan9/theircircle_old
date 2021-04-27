@@ -44,7 +44,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
         title: Text(widget.room.isAdmin ? 'Manage' : 'Room Info',
-            style: GoogleFonts.manrope(
+            style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.w700,
                 fontSize: 16.0,
                 color: Theme.of(context).accentColor)),
@@ -136,7 +136,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               //             "Don't miss out! Join this room.",
               //             textAlign: TextAlign.center,
               //             maxLines: null,
-              //             style: GoogleFonts.manrope(
+              //             style: GoogleFonts.quicksand(
               //fontFamily: Constants.fontFamily,
               //                 fontWeight: FontWeight.w500, color: Colors.white),
               //           ),
@@ -146,7 +146,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               //   ),
               // ),
               // Text('INFO',
-              //     style: GoogleFonts.manrope(
+              //     style: GoogleFonts.quicksand(
               //         fontWeight: FontWeight.w500,
               //         fontSize: 16.0,
               //         color: Theme.of(context).accentColor)),
@@ -198,7 +198,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                     maxLines: 2,
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.manrope(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                         color: Theme.of(context).accentColor)),
@@ -206,7 +206,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                 Text(widget.room.description,
                                     maxLines: 4,
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.manrope(
+                                    style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14.0,
                                         color: Theme.of(context).buttonColor)),
@@ -221,7 +221,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               ),
               SizedBox(height: 25.0),
               Text('MEMBERS',
-                  style: GoogleFonts.manrope(
+                  style: GoogleFonts.quicksand(
                       fontWeight: FontWeight.w500,
                       fontSize: 16.0,
                       color: Theme.of(context).accentColor)),
@@ -277,7 +277,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                                           .currentUser.uid
                                                   ? 'You'
                                                   : user.name,
-                                              style: GoogleFonts.manrope(
+                                              style: GoogleFonts.quicksand(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 14.0,
                                                   color: Theme.of(context)
@@ -287,7 +287,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                                       user.about.isNotEmpty
                                                   ? user.about
                                                   : 'No bio available',
-                                              style: GoogleFonts.manrope(
+                                              style: GoogleFonts.quicksand(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 12.0,
                                                   color: Theme.of(context)
@@ -300,7 +300,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                               ),
                               widget.room.adminId == user.id
                                   ? Text('Admin',
-                                      style: GoogleFonts.manrope(
+                                      style: GoogleFonts.quicksand(
                                           fontWeight: FontWeight.w700))
                                   : widget.room.adminId ==
                                           FirebaseAuth.instance.currentUser.uid
@@ -370,7 +370,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               //                   ? 'Leave Room'
               //                   : ''
               //               : '',
-              //       style: GoogleFonts.manrope(
+              //       style: GoogleFonts.quicksand(
               //  fontFamily: Constants.fontFamily,
               //           fontSize: 13.0,
               //           fontWeight: FontWeight.bold,
@@ -428,12 +428,12 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('* Tap on the image to change it.',
-                      style: GoogleFonts.manrope(
+                      style: GoogleFonts.quicksand(
                           fontSize: 10.0,
                           color: Theme.of(context).buttonColor)),
                   SizedBox(height: 10.0),
                   Text('Room name:',
-                      style: GoogleFonts.manrope(fontSize: 13.0)),
+                      style: GoogleFonts.quicksand(fontSize: 13.0)),
                   TextField(
                     controller: nameEditController,
                     textInputAction: TextInputAction.newline,
@@ -447,7 +447,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     decoration: new InputDecoration(
                         // suffix: Text(
                         //   clength.toString(),
-                        //   style: GoogleFonts.manrope(
+                        //   style: GoogleFonts.quicksand(
                         //fontFamily: Constants.fontFamily,color: clength < 0 ? Colors.red : Colors.grey),
                         // ),
                         border: InputBorder.none,
@@ -458,13 +458,13 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                         contentPadding: EdgeInsets.only(
                             left: 0, bottom: 11, top: 0, right: 15),
                         hintText: widget.room.name),
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
                   ),
                   Text('Room description:',
-                      style: GoogleFonts.manrope(fontSize: 13.0)),
+                      style: GoogleFonts.quicksand(fontSize: 13.0)),
                   TextField(
                     controller: descriptionEditController,
                     textInputAction: TextInputAction.newline,
@@ -478,7 +478,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     decoration: new InputDecoration(
                         // suffix: Text(
                         //   clength.toString(),
-                        //   style: GoogleFonts.manrope(
+                        //   style: GoogleFonts.quicksand(
                         //fontFamily: Constants.fontFamily,color: clength < 0 ? Colors.red : Colors.grey),
                         // ),
                         border: InputBorder.none,
@@ -489,7 +489,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                         contentPadding: EdgeInsets.only(
                             left: 0, bottom: 11, top: 0, right: 15),
                         hintText: widget.room.description),
-                    style: GoogleFonts.manrope(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -534,8 +534,8 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                       color: Colors.white))
                               : Text(
                                   'Update',
-                                  style:
-                                      GoogleFonts.manrope(color: Colors.white),
+                                  style: GoogleFonts.quicksand(
+                                      color: Colors.white),
                                 ),
                         ),
                       ),
@@ -553,14 +553,14 @@ class _RoomInfoPageState extends State<RoomInfoPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Happy?',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Yes. Update New Photo',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -569,7 +569,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -588,7 +588,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -609,14 +609,14 @@ class _RoomInfoPageState extends State<RoomInfoPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Remove ${user.name}',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to remove this user?',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -625,7 +625,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -647,7 +647,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -664,14 +664,14 @@ class _RoomInfoPageState extends State<RoomInfoPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Delete Room',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to delete this room? This action cannot be reversed.',
-          style: GoogleFonts.manrope(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -680,7 +680,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -693,7 +693,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.manrope(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
