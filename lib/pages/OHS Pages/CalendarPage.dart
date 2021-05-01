@@ -50,7 +50,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
   @override
   Widget build(BuildContext context) {
     TableCalendar tCalendar = TableCalendar(
-      onDaySelected: (dt, lst, lst1) {
+      onDaySelected: (dt, lst) {
         setState(() {
           dateTimeSelected = dt;
         });
