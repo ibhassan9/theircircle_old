@@ -8,7 +8,6 @@ import 'package:unify/Widgets/MemberWidget.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart' as cour;
 import 'package:unify/Models/user.dart';
-import 'package:unify/Components/Constants.dart';
 
 class MembersListPage extends StatefulWidget {
   final List<PostUser> members;
@@ -74,7 +73,7 @@ class _MembersListPageState extends State<MembersListPage>
                             width: 15,
                             height: 15,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.circleStrokeSpin,
+                              indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor,
                             )));
                   else if (snap.hasData &&

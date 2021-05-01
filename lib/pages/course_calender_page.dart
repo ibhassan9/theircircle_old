@@ -1,18 +1,16 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Widgets/AssignmentWidget.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/notification.dart';
-import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class CourseCalendarPage extends StatefulWidget {
   final Course course;
@@ -29,7 +27,6 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController timeDueController = TextEditingController();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -208,16 +205,16 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
               setState(() {});
               if (widget.course != null) {
                 for (var member in widget.course.memberList) {
-                  if (member.id != firebaseAuth.currentUser.uid) {
-                    var token = member.device_token;
+                  if (member.id != FIR_UID) {
+                    var token = member.deviceToken;
                     await sendPushCourse(widget.course, 4, token,
                         assignment.title, null, member.id);
                   }
                 }
               } else {
                 for (var member in widget.club.memberList) {
-                  if (member.id != firebaseAuth.currentUser.uid) {
-                    var token = member.device_token;
+                  if (member.id != FIR_UID) {
+                    var token = member.deviceToken;
                     await sendPushClub(widget.club, 4, token, assignment.title,
                         null, member.id);
                   }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/widgets/PostWidget.dart';
 import 'package:unify/Home/hashtag_widget.dart';
 import 'package:unify/Models/post.dart';
-import 'package:unify/Models/user.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class HomePage extends StatefulWidget {

@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:toast/toast.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Widgets/CourseWidget.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/pages/GPACalcPage.dart';
@@ -190,11 +189,12 @@ class _CoursesPageState extends State<CoursesPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 15,
-                                    height: 15,
+                                    width: 40,
+                                    height: 40,
                                     child: LoadingIndicator(
-                                      indicatorType: Indicator.circleStrokeSpin,
-                                      color: Theme.of(context).accentColor,
+                                      indicatorType:
+                                          Indicator.ballClipRotateMultiple,
+                                      color: Colors.deepPurpleAccent,
                                     )));
                           else if (snap.hasData)
                             return ListView.builder(

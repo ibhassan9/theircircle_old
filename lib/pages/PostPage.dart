@@ -1,15 +1,12 @@
 import 'dart:io';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:polls/polls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
-import 'package:unify/Components/text_field_container.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
@@ -252,10 +249,14 @@ class _PostPageState extends State<PostPage> {
             return;
           }
           if (contentController.text.isEmpty && feeling == null) {
+            previewMessage(
+                'Please make sure all the fields are filled.', context);
             return;
           }
           if (pollVisible && pollOptionOneController.text.isEmpty ||
               pollVisible && pollOptionTwoController.text.isEmpty) {
+            previewMessage(
+                'Please make sure all the fields are filled.', context);
             return;
           }
           if (clength < 0 ||
@@ -319,7 +320,7 @@ class _PostPageState extends State<PostPage> {
                     width: 15,
                     height: 15,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.circleStrokeSpin,
+                      indicatorType: Indicator.ballClipRotateMultiple,
                       color: Colors.white,
                     ),
                   )
@@ -538,7 +539,7 @@ class _PostPageState extends State<PostPage> {
           disabledBorder: InputBorder.none,
           contentPadding:
               EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
-          hintText: 'Insert short title'),
+          hintText: 'Insert short title (Optional)'),
       style: GoogleFonts.quicksand(
           fontSize: 14,
           fontWeight: FontWeight.w500,

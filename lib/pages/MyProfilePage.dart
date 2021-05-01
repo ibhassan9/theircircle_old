@@ -9,6 +9,7 @@ import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/MultiSelectChip.dart';
 import 'package:unify/pages/MyBlockedUsers.dart';
 
@@ -357,7 +358,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                           width: 15,
                           height: 15,
                           child: LoadingIndicator(
-                            indicatorType: Indicator.circleStrokeSpin,
+                            indicatorType: Indicator.ballClipRotateMultiple,
                             color: Theme.of(context).accentColor,
                           )),
                     ),
@@ -622,7 +623,7 @@ class _MyProfilePageState extends State<MyProfilePage>
                         width: 15,
                         height: 15,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
+                          indicatorType: Indicator.ballClipRotateMultiple,
                           color: Colors.white,
                         )))
                 : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -643,7 +644,7 @@ class _MyProfilePageState extends State<MyProfilePage>
 
   goToChat() {
     var chatId = '';
-    var myID = firebaseAuth.currentUser.uid;
+    var myID = FIR_UID;
     var peerId = widget.user.id;
     if (myID.hashCode <= peerId.hashCode) {
       chatId = '$myID-$peerId';

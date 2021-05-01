@@ -1,4 +1,3 @@
-import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +7,6 @@ import 'package:unify/Models/message.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ProductDetailPage.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ChatBubbleLeftGroup extends StatefulWidget {
   final Message msg;
@@ -39,7 +37,9 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: CachedNetworkImage(
-                            imageUrl: user.profileImgUrl,
+                            imageUrl: user.profileImgUrl != null
+                                ? user.profileImgUrl
+                                : Constants.dummyProfilePicture,
                             width: 30,
                             height: 30,
                             fit: BoxFit.cover),

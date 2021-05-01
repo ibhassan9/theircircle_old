@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Widgets/FilterWidget.dart';
 import 'package:unify/pages/ReportPage.dart';
-import 'package:unify/Components/Constants.dart';
 
 class FilterPage extends StatefulWidget {
   @override
@@ -15,7 +13,6 @@ class FilterPage extends StatefulWidget {
 
 class _FilterPageState extends State<FilterPage>
     with AutomaticKeepAliveClientMixin {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController filterController = TextEditingController();
 
   List<String> filters = [];

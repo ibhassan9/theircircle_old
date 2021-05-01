@@ -1,21 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/match.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/ChatPage.dart';
 import 'package:unify/pages/UserSearchPage.dart';
 import 'package:unify/widgets/MyConversationWidget.dart';
-import 'package:unify/widgets/MyMatchWidget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:unify/pages/DB.dart';
 
 class MyMatchesPage extends StatefulWidget {
   final Function backFromChat;
@@ -28,7 +24,6 @@ class MyMatchesPage extends StatefulWidget {
 class _MyMatchesPageState extends State<MyMatchesPage>
     with AutomaticKeepAliveClientMixin {
   var db = FirebaseDatabase.instance.reference().child('users');
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Stream<Event> myStream;
 
@@ -133,7 +128,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                 ? values[key]['seen']
                                 : false;
                             var chatId = '';
-                            var myID = firebaseAuth.currentUser.uid;
+                            var myID = FIR_UID;
                             if (myID.hashCode <= peerId.hashCode) {
                               chatId = '$myID-$peerId';
                             } else {
@@ -156,7 +151,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                 height: 15,
                                 width: 15,
                                 child: LoadingIndicator(
-                                    indicatorType: Indicator.circleStrokeSpin,
+                                    indicatorType:
+                                        Indicator.ballClipRotateMultiple,
                                     color: Theme.of(context).accentColor)));
                       } else {
                         return Container(
@@ -408,16 +404,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
         blockList = value;
         hasInitialized = true;
       });
-      var uniKey = Constants.checkUniversity();
-      var myID = firebaseAuth.currentUser.uid;
-      db = db
-          .child(uniKey == 0
-              ? 'UofT'
-              : uniKey == 1
-                  ? 'YorkU'
-                  : 'WesternU')
-          .child(myID)
-          .child('chats');
+      var myID = FIR_UID;
+      db = db.child(Constants.uniString(uniKey)).child(myID).child('chats');
       myStream = db.onValue;
     });
   }

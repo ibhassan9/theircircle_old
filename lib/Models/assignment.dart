@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
-import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class Assignment {
   String id;
@@ -28,20 +27,11 @@ class Assignment {
       this.timeStamp});
 }
 
-FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
 Future<List<Assignment>> fetchAssignments(DateTime _date, Course course) async {
   String date = DateFormat('yyyy-MM-dd').format(_date);
-  var uniKey = Constants.checkUniversity();
-  List<Assignment> a = List<Assignment>();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child("assignments")
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  List<Assignment> a = [];
+  var db = ASSIGNMENTS_DB
+      .child(Constants.uniString(uniKey))
       .child(course.id)
       .child(date);
 
@@ -68,16 +58,9 @@ Future<List<Assignment>> fetchAssignments(DateTime _date, Course course) async {
 
 Future<List<Assignment>> fetchEventReminders(DateTime _date, Club club) async {
   String date = DateFormat('yyyy-MM-dd').format(_date);
-  var uniKey = Constants.checkUniversity();
-  List<Assignment> a = List<Assignment>();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child("eventreminders")
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  List<Assignment> a = [];
+  var db = EVENT_REMINDERS_DB
+      .child(Constants.uniString(uniKey))
       .child(club.id)
       .child(date);
 
@@ -105,16 +88,9 @@ Future<List<Assignment>> fetchEventReminders(DateTime _date, Club club) async {
 
 Future<bool> createAssignment(
     Assignment assignment, Course course, String date) async {
-  PostUser user = await getUser(firebaseAuth.currentUser.uid);
-  var uniKey = Constants.checkUniversity();
-  var key = FirebaseDatabase.instance
-      .reference()
-      .child('assignments')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  PostUser user = await getUser(FIR_UID);
+  var key = ASSIGNMENTS_DB
+      .child(Constants.uniString(uniKey))
       .child(course.id)
       .child(date)
       .push();
@@ -123,7 +99,7 @@ Future<bool> createAssignment(
     "description": assignment.description,
     "createdBy": user.name,
     "timeDue": assignment.timeDue,
-    "userId": firebaseAuth.currentUser.uid,
+    "userId": FIR_UID,
     "timeStamp": DateTime.now().millisecondsSinceEpoch
   };
 
@@ -138,15 +114,8 @@ Future<bool> createAssignment(
 
 Future<bool> deleteAssignment(
     Club club, Course course, Assignment a, String dateTime) async {
-  var uniKey = Constants.checkUniversity();
-  var assignmentDB = FirebaseDatabase.instance
-      .reference()
-      .child(course != null ? 'assignments' : 'eventreminders')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  var assignmentDB = (course != null ? ASSIGNMENTS_DB : EVENT_REMINDERS_DB)
+      .child(Constants.uniString(uniKey))
       .child(course != null ? course.id : club.id)
       .child(dateTime)
       .child(a.id);
@@ -158,16 +127,9 @@ Future<bool> deleteAssignment(
 
 Future<bool> createEventReminder(
     Assignment assignment, Club club, String date) async {
-  PostUser user = await getUser(firebaseAuth.currentUser.uid);
-  var uniKey = Constants.checkUniversity();
-  var key = FirebaseDatabase.instance
-      .reference()
-      .child('eventreminders')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  PostUser user = await getUser(FIR_UID);
+  var key = EVENT_REMINDERS_DB
+      .child(Constants.uniString(uniKey))
       .child(club.id)
       .child(date)
       .push();
@@ -176,7 +138,7 @@ Future<bool> createEventReminder(
     "description": assignment.description,
     "createdBy": user.name,
     "timeDue": assignment.timeDue,
-    "userId": firebaseAuth.currentUser.uid,
+    "userId": FIR_UID,
     "timeStamp": DateTime.now().millisecondsSinceEpoch
   };
 

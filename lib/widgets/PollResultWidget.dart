@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/ProfilePage.dart';
 
 class PollResultWidget extends StatefulWidget {
@@ -23,8 +22,6 @@ class PollResultWidget extends StatefulWidget {
 }
 
 class _PollResultWidgetState extends State<PollResultWidget> {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
@@ -78,8 +75,8 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                                           width: 20,
                                           height: 20,
                                           child: LoadingIndicator(
-                                            indicatorType:
-                                                Indicator.circleStrokeSpin,
+                                            indicatorType: Indicator
+                                                .ballClipRotateMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),
@@ -117,7 +114,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                 InkWell(
                   onTap: () {
                     var chatId = '';
-                    var myID = firebaseAuth.currentUser.uid;
+                    var myID = FIR_UID;
                     var peerId = widget.peer.id;
                     if (myID.hashCode <= peerId.hashCode) {
                       chatId = '$myID-$peerId';

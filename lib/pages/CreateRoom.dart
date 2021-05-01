@@ -1,18 +1,12 @@
 import 'dart:io';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:polls/polls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
-import 'package:unify/Components/text_field_container.dart';
-import 'package:unify/Models/club.dart';
-import 'package:unify/Models/course.dart';
-import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/room.dart';
 
@@ -246,8 +240,8 @@ class _CreateRoomState extends State<CreateRoom> {
             if (approval) {
               var res = await post();
               if (res) {
-                sendRoomNotification(
-                    "Someone is talking about '${nameController.text}'. Tap in to discuss!");
+                // sendRoomNotification(
+                //     "Someone is talking about '${nameController.text}'. Tap in to discuss!");
                 nameController.clear();
                 descriptionController.clear();
                 Navigator.pop(context, true);
@@ -273,8 +267,8 @@ class _CreateRoomState extends State<CreateRoom> {
             });
             var res = await post();
             if (res) {
-              sendRoomNotification(
-                  "Someone is talking about '${nameController.text}'. Tap in to discuss!");
+              // sendRoomNotification(
+              //     "Someone is talking about '${nameController.text}'. Tap in to discuss!");
               nameController.clear();
               descriptionController.clear();
               Navigator.pop(context, true);
@@ -303,7 +297,7 @@ class _CreateRoomState extends State<CreateRoom> {
                         width: 15,
                         height: 15,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
+                          indicatorType: Indicator.ballClipRotateMultiple,
                           color: Colors.white,
                         ),
                       )

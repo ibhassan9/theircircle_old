@@ -5,8 +5,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
-import 'package:unify/Components/Constants.dart';
-import 'package:unify/Home/main_screen.dart';
 import 'package:unify/Models/post.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -195,7 +193,7 @@ class _UploadVideoState extends State<UploadVideo> {
                     height: 15.0,
                     width: 15.0,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.circleStrokeSpin,
+                      indicatorType: Indicator.ballClipRotateMultiple,
                       color: Colors.white,
                     ))
                 : Text(

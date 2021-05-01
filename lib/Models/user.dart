@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mailer/mailer.dart';
@@ -19,10 +16,8 @@ import 'package:unify/Home/main_screen.dart';
 import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/match.dart';
-import 'package:unify/pages/ChatPage.dart';
-import 'package:unify/pages/MainPage.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/Models/course.dart';
-import 'package:unify/Models/post.dart';
 import 'package:unify/pages/VerificationPage.dart';
 
 class PostUser {
@@ -34,7 +29,7 @@ class PostUser {
   int clubCount;
   String bio;
   String profileImgUrl;
-  String device_token;
+  String deviceToken;
   bool appear;
   int status; // 1 = banned
   String snapchatHandle;
@@ -66,7 +61,7 @@ class PostUser {
       this.clubCount,
       this.bio,
       this.profileImgUrl,
-      this.device_token,
+      this.deviceToken,
       this.appear,
       this.status,
       this.snapchatHandle,
@@ -82,16 +77,12 @@ class PostUser {
       this.points});
 }
 
-FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-DatabaseReference usersDBref =
-    FirebaseDatabase.instance.reference().child('users');
-
 Future signInUser(String email, String password, BuildContext context) async {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   await _firebaseMessaging.setAutoInitEnabled(true);
   await _firebaseMessaging.deleteToken();
   var token = await _firebaseMessaging.getToken();
-  await firebaseAuth
+  await FIR_AUTH
       .signInWithEmailAndPassword(email: email, password: password)
       .then((result) async {
     print('5');
@@ -110,21 +101,17 @@ Future signInUser(String email, String password, BuildContext context) async {
       Scaffold.of(context).showSnackBar(snackBar);
       return;
     }
-    var uid = firebaseAuth.currentUser.uid;
-    var uniKey = Constants.checkUniversity();
+
+    ;
     var db = FirebaseDatabase.instance
         .reference()
         .child('users')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(uid)
+        .child(Constants.uniString(uniKey))
+        .child(FIR_UID)
         .child('device_token')
         .set(token);
     await db;
-    if (_user.verified == 0 && firebaseAuth.currentUser.emailVerified != true) {
+    if (_user.verified == 0 && FIR_AUTH.currentUser.emailVerified != true) {
       final snackBar = SnackBar(
           backgroundColor: Theme.of(context).backgroundColor,
           content: Text(
@@ -135,8 +122,8 @@ Future signInUser(String email, String password, BuildContext context) async {
                 color: Theme.of(context).accentColor),
           ));
       Scaffold.of(context).showSnackBar(snackBar);
-      await sendVerificationEmail(firebaseAuth.currentUser);
-      firebaseAuth.signOut();
+      await sendVerificationEmail(FIR_AUTH.currentUser);
+      FIR_AUTH.signOut();
       // var code = await sendVerificationCode(email);
       // if (code == 0) {
       //   return;
@@ -147,7 +134,7 @@ Future signInUser(String email, String password, BuildContext context) async {
               builder: (context) => VerificationPage(
                   email: email, password: password, uid: result.user.uid)));
     } else {
-      if (firebaseAuth.currentUser.emailVerified || _user.verified == 1) {
+      if (FIR_AUTH.currentUser.emailVerified || _user.verified == 1) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setInt('uni', uni);
         prefs.setString('name', _user.name);
@@ -155,12 +142,12 @@ Future signInUser(String email, String password, BuildContext context) async {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainScreen()));
       } else {
-        await sendVerificationEmail(firebaseAuth.currentUser);
+        await sendVerificationEmail(FIR_AUTH.currentUser);
         // var code = await sendVerificationCode(email);
         // if (code == 0) {
         //   return;
         // }
-        firebaseAuth.signOut();
+        FIR_AUTH.signOut();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -183,18 +170,12 @@ Future signInUser(String email, String password, BuildContext context) async {
 }
 
 Future<Null> updateUserToken() async {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  var uniKey = Constants.checkUniversity();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  ;
   var token = await _firebaseMessaging.getToken();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(firebaseAuth.currentUser.uid)
+  var db = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('device_token');
   db.set(token);
 }
@@ -222,19 +203,12 @@ Future registerUser(
     return;
   }
   var token = await _firebaseMessaging.getToken();
-  await firebaseAuth
+  await FIR_AUTH
       .createUserWithEmailAndPassword(email: email, password: password)
       .then((result) async {
     int code = 0;
     print(uniKey);
-    usersDBref
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(result.user.uid)
-        .set({
+    USERS_DB.child(Constants.uniString(uniKey)).child(result.user.uid).set({
       "email": email,
       "name": name,
       "verification": code,
@@ -243,7 +217,7 @@ Future registerUser(
       "createdAt": result.user.metadata.creationTime.millisecondsSinceEpoch
     }).then((res) async {
       await sendVerificationEmail(result.user);
-      firebaseAuth.signOut();
+      FIR_AUTH.signOut();
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -274,8 +248,7 @@ Future<Null> sendVerificationEmail(User user) async {
 }
 
 Future<PostUser> getUserWithUniversity(String id, String uni) async {
-  var userDB =
-      FirebaseDatabase.instance.reference().child('users').child(uni).child(id);
+  var userDB = USERS_DB.child(uni).child(id);
   var snapshot = await userDB.once();
   var blocks = await getBlocks();
 
@@ -290,7 +263,7 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
       clubCount: value['clubs'] != null ? value['clubs'].length : 0,
       bio: value['bio'] != null ? value['bio'] : "",
       profileImgUrl: value['profileImgUrl'],
-      device_token: value['device_token'],
+      deviceToken: value['device_token'],
       appear: value['appear'],
       status: value['status'] != null ? value['status'] : 0,
       snapchatHandle:
@@ -330,21 +303,8 @@ Future<PostUser> getUserWithUniversity(String id, String uni) async {
 }
 
 Future<PostUser> getUser(String id) async {
-  var uniKey = Constants.checkUniversity();
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(id);
-  var university = uniKey == 0
-      ? 'UofT'
-      : uniKey == 1
-          ? 'YorkU'
-          : 'WesternU';
+  var userDB = USERS_DB.child(Constants.uniString(uniKey)).child(id);
+  var university = Constants.uniString(uniKey);
   var snapshot = await userDB.once();
   var blocks = await getBlocks();
 
@@ -359,7 +319,7 @@ Future<PostUser> getUser(String id) async {
       clubCount: value['clubs'] != null ? value['clubs'].length : 0,
       bio: value['bio'] != null ? value['bio'] : "",
       profileImgUrl: value['profileImgUrl'],
-      device_token: value['device_token'],
+      deviceToken: value['device_token'],
       appear: value['appear'],
       status: value['status'] != null ? value['status'] : 0,
       snapchatHandle:
@@ -399,12 +359,11 @@ Future<PostUser> getUser(String id) async {
 }
 
 Future<List<PostUser>> allUsers() async {
-  var userDB = FirebaseDatabase.instance.reference().child('users');
-  var snapshot = await userDB.once();
+  var snapshot = await USERS_DB.once();
   List<PostUser> p = [];
   Map<dynamic, dynamic> values = snapshot.value;
 
-  values.remove(firebaseAuth.currentUser.uid);
+  values.remove(FIR_UID);
 
   for (var key in values.keys) {
     var value = values[key];
@@ -417,7 +376,7 @@ Future<List<PostUser>> allUsers() async {
         clubCount: value['clubs'] != null ? value['clubs'].length : 0,
         bio: value['bio'] != null ? value['bio'] : "",
         profileImgUrl: value['profileImgUrl'],
-        device_token: value['device_token'],
+        deviceToken: value['device_token'],
         appear: value['appear'],
         status: value['status'] != null ? value['status'] : 0,
         snapchatHandle:
@@ -435,14 +394,12 @@ Future<List<PostUser>> allUsers() async {
 Future<List<PostUser>> allStudents() async {
   List<String> universities = ['UofT', 'YorkU', 'WesternU'];
   List<PostUser> p = [];
-  var uniKey = Constants.checkUniversity();
   var university = universities[uniKey];
-  var userDB =
-      FirebaseDatabase.instance.reference().child('users').child(university);
+  var userDB = USERS_DB.child(university);
   var snapshot = await userDB.once();
   Map<dynamic, dynamic> values = snapshot.value;
 
-  values.remove(firebaseAuth.currentUser.uid);
+  values.remove(FIR_UID);
 
   for (var key in values.keys) {
     PostUser user = await getUserWithUniversity(key, university);
@@ -453,20 +410,14 @@ Future<List<PostUser>> allStudents() async {
 }
 
 Future<List<PostUser>> peopleList() async {
-  var uniKey = Constants.checkUniversity();
-  var userDB =
-      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
+  var userDB = USERS_DB.child(Constants.uniString(uniKey));
   var snapshot = await userDB.once();
   List<PostUser> p = [];
   Map<dynamic, dynamic> values = snapshot.value;
   var blocks = await getBlocks();
   var mylikes = await fetchMyLikes();
 
-  values.remove(firebaseAuth.currentUser.uid);
+  values.remove(FIR_UID);
 
   for (var key in values.keys) {
     var value = values[key];
@@ -480,7 +431,7 @@ Future<List<PostUser>> peopleList() async {
           clubCount: value['clubs'] != null ? value['clubs'].length : 0,
           bio: value['bio'] != null ? value['bio'] : "",
           profileImgUrl: value['profileImgUrl'],
-          device_token: value['device_token'],
+          deviceToken: value['device_token'],
           appear: value['appear'],
           status: value['status'] != null ? value['status'] : 0,
           snapchatHandle:
@@ -545,24 +496,14 @@ Future<Map<String, List<Assignment>>> fetchAllMyAssignments(
 }
 
 Future<List<PostUser>> myCampusUsers() async {
-  var uniKey = Constants.checkUniversity();
-  var userDB =
-      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
-  var university = uniKey == 0
-      ? 'UofT'
-      : uniKey == 1
-          ? 'YorkU'
-          : 'WesternU';
+  var userDB = USERS_DB.child(Constants.uniString(uniKey));
+  var university = Constants.uniString(uniKey);
   var snapshot = await userDB.once();
   List<PostUser> p = [];
   Map<dynamic, dynamic> values = snapshot.value;
   var blocks = await getBlocks();
 
-  values.remove(firebaseAuth.currentUser.uid);
+  values.remove(FIR_UID);
 
   for (var key in values.keys) {
     var value = values[key];
@@ -576,7 +517,7 @@ Future<List<PostUser>> myCampusUsers() async {
           clubCount: value['clubs'] != null ? value['clubs'].length : 0,
           bio: value['bio'] != null ? value['bio'] : "",
           profileImgUrl: value['profileImgUrl'],
-          device_token: value['device_token'],
+          deviceToken: value['device_token'],
           appear: value['appear'],
           status: value['status'] != null ? value['status'] : 0,
           snapchatHandle:
@@ -614,16 +555,9 @@ Future<List<PostUser>> myCampusUsers() async {
 }
 
 Future<bool> changeAppear(bool appear) async {
-  var uniKey = Constants.checkUniversity();
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(firebaseAuth.currentUser.uid)
+  var userDB = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('appear');
   userDB.set(appear).catchError((err) {
     return false;
@@ -674,16 +608,7 @@ Future<bool> sendReportEmail(String text) async {
 }
 
 Future<bool> updateVerification(String uid) async {
-  var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid);
+  var db = USERS_DB.child(Constants.uniString(uniKey)).child(uid);
   Map<String, dynamic> value = {"verification": 1};
   await db.update(value);
   return true;
@@ -718,18 +643,6 @@ Future<String> uploadImageToStorage(File file) async {
       });
     });
 
-    // StorageReference ref = FirebaseStorage.instance
-    //     .ref()
-    //     .child("files")
-    //     .child(today)
-    //     .child(storageId);
-    // StorageUploadTask uploadTask = ref.putFile(file);
-
-    // var snapShot = await uploadTask.onComplete;
-
-    // var url = await snapShot.ref.getDownloadURL();
-    // var urlString = url.toString();
-
     return urlString;
   } catch (error) {
     return "error";
@@ -737,17 +650,9 @@ Future<String> uploadImageToStorage(File file) async {
 }
 
 Future<Map<String, String>> getBlocks() async {
-  var uniKey = Constants.checkUniversity();
-  var uid = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid)
+  var db = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('blocks');
   var snapshot = await db.once();
 
@@ -765,17 +670,9 @@ Future<Map<String, String>> getBlocks() async {
 }
 
 Future<bool> block(String userId, String university) async {
-  var uniKey = Constants.checkUniversity();
-  var uid = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid)
+  var db = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('blocks')
       .child(userId);
   var uni = university == "University of Toronto"
@@ -790,17 +687,9 @@ Future<bool> block(String userId, String university) async {
 }
 
 Future<bool> unblock(String userId) async {
-  var uniKey = Constants.checkUniversity();
-  var uid = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid)
+  var db = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('blocks')
       .child(userId);
   await db.remove().catchError((err) {
@@ -834,18 +723,6 @@ Future<List> getImageString() async {
       });
     });
 
-    // StorageReference ref = FirebaseStorage.instance
-    //     .ref()
-    //     .child("files")
-    //     .child(today)
-    //     .child(storageId);
-    // var file = File(f.path);
-    // StorageUploadTask uploadTask = ref.putFile(file);
-
-    // var snapShot = await uploadTask.onComplete;
-
-    // var url = await snapShot.ref.getDownloadURL();
-
     List lst = [url, image];
 
     return lst;
@@ -876,17 +753,7 @@ Future<bool> updateProfile(
     String accomplishment3,
     String why,
     List<String> interests) async {
-  var uid = firebaseAuth.currentUser.uid;
-  var uniKey = Constants.checkUniversity();
-  var shareddb = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid);
+  var shareddb = USERS_DB.child(Constants.uniString(uniKey)).child(FIR_UID);
   var accomplishments = [accomplishment1, accomplishment2, accomplishment3];
   var accomplishmentsdb = shareddb.child('accomplishments');
   var aboutdb = shareddb.child('about');
@@ -921,16 +788,7 @@ Future<bool> updateNetworkProfile(
     String accomplishment3,
     String why,
     List<String> interests) async {
-  var uniKey = Constants.checkUniversity();
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(firebaseAuth.currentUser.uid);
+  var userDB = USERS_DB.child(Constants.uniString(uniKey)).child(FIR_UID);
 
   Map<dynamic, dynamic> values = {
     'about': about,
@@ -946,16 +804,9 @@ Future<bool> updateNetworkProfile(
 
 Future<List<dynamic>> fetchNetworkProfile() async {
   List<dynamic> items = [];
-  var uniKey = Constants.checkUniversity();
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(firebaseAuth.currentUser.uid)
+  var userDB = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('networking');
 
   DataSnapshot snapshot = await userDB.once();
@@ -976,12 +827,7 @@ Future<List<dynamic>> fetchNetworkProfile() async {
 Future<List<dynamic>> fetchUserNetworkProfile(
     String userId, String university) async {
   List<dynamic> items = [];
-  var userDB = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(university)
-      .child(userId)
-      .child('networking');
+  var userDB = USERS_DB.child(university).child(userId).child('networking');
   DataSnapshot snapshot = await userDB.once();
 
   if (snapshot.value != null) {
@@ -998,17 +844,9 @@ Future<List<dynamic>> fetchUserNetworkProfile(
 }
 
 Future<bool> addPoints({int addedPoints}) async {
-  var uniKey = Constants.checkUniversity();
-  var uid = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid)
+  var db = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('points');
   DataSnapshot snap = await db.once();
   int points = snap.value;
@@ -1021,17 +859,9 @@ Future<bool> addPoints({int addedPoints}) async {
 }
 
 Future<int> checkPoints() async {
-  var uniKey = Constants.checkUniversity();
-  var uid = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(uid)
+  var db = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('points');
   DataSnapshot snap = await db.once();
   int points = snap.value;

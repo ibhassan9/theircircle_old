@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tabbar/tabbar.dart';
 import 'package:unify/pages/Rooms.dart';
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/pages/courses_page.dart';
-import 'package:unify/Components/Constants.dart';
 
 class CoursenClub extends StatefulWidget {
   @override

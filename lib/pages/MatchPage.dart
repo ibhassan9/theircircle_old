@@ -4,13 +4,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/MatchedOverlay.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/MyMatchesPage.dart';
-import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/MatchWidget.dart';
 import 'package:unify/widgets/MatchWidgetPersonal.dart';
-import 'package:unify/Components/Constants.dart';
 
 class MatchPage extends StatefulWidget {
   @override
@@ -141,7 +139,7 @@ class _MatchPageState extends State<MatchPage>
                                 Function swipe = () {
                                   controller.triggerRight();
                                 };
-                                if (user.id == firebaseAuth.currentUser.uid) {
+                                if (user.id == FIR_UID) {
                                   return MatchWidgetPersonal(
                                       user: user, swipe: swipe);
                                 }
@@ -238,7 +236,7 @@ class _MatchPageState extends State<MatchPage>
     // TODO: implement initState
     super.initState();
     _students = allStudents();
-    getUser(firebaseAuth.currentUser.uid).then((value) {
+    getUser(FIR_UID).then((value) {
       setState(() {
         _user = value;
       });

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -199,7 +197,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                     await joinClub(widget.club);
                                     var user =
                                         await getUser(widget.club.adminId);
-                                    var token = user.device_token;
+                                    var token = user.deviceToken;
                                     await sendPushClub(widget.club, 6, token,
                                         "", null, user.id);
                                     setState(() {
@@ -219,7 +217,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                       await requestToJoin(widget.club);
                                       var user =
                                           await getUser(widget.club.adminId);
-                                      var token = user.device_token;
+                                      var token = user.deviceToken;
                                       await sendPushClub(widget.club, 5, token,
                                           "", null, user.id);
                                     }

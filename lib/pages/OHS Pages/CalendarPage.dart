@@ -29,7 +29,6 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController timeDueController = TextEditingController();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
   void initState() {

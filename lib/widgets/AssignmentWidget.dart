@@ -5,9 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/assignment.dart';
-import 'package:unify/pages/course_page.dart';
 import 'package:unify/Models/club.dart';
 
 class AssignmentWidget extends StatefulWidget {

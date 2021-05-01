@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -313,8 +310,8 @@ class _CoursePageState extends State<CoursePage> {
                                           width: 15,
                                           height: 15,
                                           child: LoadingIndicator(
-                                            indicatorType:
-                                                Indicator.circleStrokeSpin,
+                                            indicatorType: Indicator
+                                                .ballClipRotateMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

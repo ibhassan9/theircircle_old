@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -7,8 +6,6 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/AddUserWidget.dart';
-import 'package:unify/widgets/SearchUserWidget.dart';
-import 'package:unify/Components/Constants.dart';
 
 class AddUserPage extends StatefulWidget {
   final Room room;
@@ -36,8 +33,6 @@ class _AddUserPageState extends State<AddUserPage>
   bool updating = false;
   bool loading = true;
   List<PostUser> allUsers = [];
-
-  Future<List<PostUser>> _searchFuture = myCampusUsers();
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -67,7 +62,7 @@ class _AddUserPageState extends State<AddUserPage>
                           width: 10,
                           height: 10,
                           child: LoadingIndicator(
-                              indicatorType: Indicator.circleStrokeSpin,
+                              indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor)),
                     ),
                   )
@@ -86,7 +81,7 @@ class _AddUserPageState extends State<AddUserPage>
                         });
                         for (var user in selectedUsers) {
                           pushAddedToRoom(
-                              room: widget.room, receiverId: user.device_token);
+                              room: widget.room, receiverId: user.deviceToken);
                         }
                         Navigator.pop(context, true);
                       }
@@ -164,7 +159,7 @@ class _AddUserPageState extends State<AddUserPage>
                       width: 15,
                       height: 15,
                       child: LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
+                          indicatorType: Indicator.ballClipRotateMultiple,
                           color: Theme.of(context).accentColor))
                   : ListView.builder(
                       shrinkWrap: true,
@@ -225,9 +220,7 @@ class _AddUserPageState extends State<AddUserPage>
   }
 
   Future<Null> refresh() async {
-    this.setState(() {
-      _searchFuture = myCampusUsers();
-    });
+    this.setState(() {});
   }
 
   @override

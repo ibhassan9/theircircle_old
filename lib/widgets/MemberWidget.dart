@@ -4,11 +4,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
-import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/ProfilePage.dart';
 
 class MemberWidget extends StatefulWidget {

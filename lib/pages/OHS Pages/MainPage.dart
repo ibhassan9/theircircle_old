@@ -445,8 +445,8 @@ class _OHSMainPageState extends State<OHSMainPage> {
                                           height: 15,
                                           width: 15,
                                           child: LoadingIndicator(
-                                              indicatorType:
-                                                  Indicator.circleStrokeSpin,
+                                              indicatorType: Indicator
+                                                  .ballClipRotateMultiple,
                                               color: Theme.of(context)
                                                   .accentColor),
                                         ),

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/product.dart';
-import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -194,7 +191,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 width: 15,
                                 height: 15,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.circleStrokeSpin,
+                                  indicatorType:
+                                      Indicator.ballClipRotateMultiple,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),

@@ -1,34 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:like_button/like_button.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share/share.dart';
-import 'package:simple_url_preview/simple_url_preview.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
-import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Models/comment.dart';
-import 'package:unify/pages/MyProfilePage.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/PollResultsPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
-import 'package:unify/pages/course_page.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/pages/post_detail_page.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/WebPage.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class PostWidget extends StatefulWidget {
   final Post post;
@@ -58,7 +48,7 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   bool isLiked = false;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   TextEditingController bioC = TextEditingController();
   TextEditingController sC = TextEditingController();
   TextEditingController igC = TextEditingController();
@@ -97,8 +87,8 @@ class _PostWidgetState extends State<PostWidget> {
                 }
               } else {
                 var user = await getUser(widget.post.userId);
-                var token = user.device_token;
-                if (user.id != firebaseAuth.currentUser.uid) {
+                var token = user.deviceToken;
+                if (user.id != FIR_UID) {
                   if (widget.club == null && widget.course == null) {
                     await sendPush(
                         0, token, widget.post.content, widget.post.id, user.id);
@@ -171,288 +161,275 @@ class _PostWidgetState extends State<PostWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                              child: Row(children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                var user = await getUser(
-                                                    widget.post.userId);
-                                                if (widget.post.userId !=
-                                                    fAuth.currentUser.uid) {
-                                                  // if (widget.post.isAnonymous == false) {
-                                                  //   showProfile(
-                                                  //       user, context, bioC, sC, igC, lC, null, null);
-                                                  // }
-                                                  if (widget.post.isAnonymous ==
-                                                      false) {
+                                          Flexible(
+                                            child: Container(
+                                                child: Row(children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  var user = await getUser(
+                                                      widget.post.userId);
+                                                  if (widget.post.userId !=
+                                                      fAuth.currentUser.uid) {
+                                                    // if (widget.post.isAnonymous == false) {
+                                                    //   showProfile(
+                                                    //       user, context, bioC, sC, igC, lC, null, null);
+                                                    // }
+                                                    if (widget
+                                                            .post.isAnonymous ==
+                                                        false) {
+                                                      showBarModalBottomSheet(
+                                                          context: context,
+                                                          expand: true,
+                                                          builder: (context) =>
+                                                              ProfilePage(
+                                                                  user: user,
+                                                                  heroTag:
+                                                                      null));
+
+                                                      // Navigator.push(
+                                                      //     context,
+                                                      //     MaterialPageRoute(
+                                                      //         builder: (context) => ProfilePage(
+                                                      //             user: user, heroTag: widget.post.id)));
+                                                    }
+                                                  } else {
+                                                    // showProfile(
+                                                    //     user, context, bioC, sC, igC, lC, null, null);
                                                     showBarModalBottomSheet(
                                                         context: context,
                                                         expand: true,
                                                         builder: (context) =>
                                                             ProfilePage(
-                                                                user: user,
-                                                                heroTag: null));
+                                                              user: user,
+                                                              heroTag: null,
+                                                              isMyProfile: true,
+                                                            ));
 
                                                     // Navigator.push(
                                                     //     context,
                                                     //     MaterialPageRoute(
                                                     //         builder: (context) => ProfilePage(
-                                                    //             user: user, heroTag: widget.post.id)));
+                                                    //               user: user,
+                                                    //               heroTag: widget.post.id,
+                                                    //               isMyProfile: true,
+                                                    //             )));
                                                   }
-                                                } else {
-                                                  // showProfile(
-                                                  //     user, context, bioC, sC, igC, lC, null, null);
-                                                  showBarModalBottomSheet(
-                                                      context: context,
-                                                      expand: true,
-                                                      builder: (context) =>
-                                                          ProfilePage(
-                                                            user: user,
-                                                            heroTag: null,
-                                                            isMyProfile: true,
-                                                          ));
-
-                                                  // Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) => ProfilePage(
-                                                  //               user: user,
-                                                  //               heroTag: widget.post.id,
-                                                  //               isMyProfile: true,
-                                                  //             )));
-                                                }
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        10.0, 0.0, 0.0, 5.0),
-                                                child: widget.post.isAnonymous
-                                                    ? Container()
-                                                    : imgUrl == null ||
-                                                            imgUrl == ''
-                                                        ? ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                            child: Container(
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          10.0, 0.0, 0.0, 5.0),
+                                                  child: widget.post.isAnonymous
+                                                      ? Container()
+                                                      : imgUrl == null ||
+                                                              imgUrl == ''
+                                                          ? ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              child: Container(
+                                                                  width: 40,
+                                                                  height: 40,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .buttonColor
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                        widget
+                                                                            .post
+                                                                            .username
+                                                                            .substring(0,
+                                                                                1),
+                                                                        style: GoogleFonts.quicksand(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Theme.of(context).accentColor)),
+                                                                  )),
+                                                            )
+                                                          : ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              child:
+                                                                  Image.network(
+                                                                imgUrl,
                                                                 width: 40,
                                                                 height: 40,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .dividerColor,
-                                                                child: Center(
-                                                                  child: Text(
-                                                                      widget
-                                                                          .post
-                                                                          .username
-                                                                          .substring(
-                                                                              0,
-                                                                              1),
-                                                                      style: GoogleFonts.quicksand(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                              Theme.of(context).accentColor)),
-                                                                )),
-                                                          )
-                                                        : ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                            child:
-                                                                Image.network(
-                                                              imgUrl,
-                                                              width: 40,
-                                                              height: 40,
-                                                              fit: BoxFit.cover,
-                                                              loadingBuilder:
-                                                                  (BuildContext
-                                                                          context,
-                                                                      Widget
-                                                                          child,
-                                                                      ImageChunkEvent
-                                                                          loadingProgress) {
-                                                                if (loadingProgress ==
-                                                                    null)
-                                                                  return child;
-                                                                return SizedBox(
-                                                                  height: 40,
-                                                                  width: 40,
-                                                                  child: Center(
-                                                                    child: SizedBox(
-                                                                        width: 10,
-                                                                        height: 10,
-                                                                        child: LoadingIndicator(
-                                                                          indicatorType:
-                                                                              Indicator.circleStrokeSpin,
-                                                                          color:
-                                                                              Theme.of(context).accentColor,
-                                                                        )),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                              ),
-                                            ),
-                                            widget.post.isAnonymous
-                                                ? Container()
-                                                : SizedBox(width: 8.0),
-                                            Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                            widget.post.userId ==
-                                                                    firebaseAuth
-                                                                        .currentUser
-                                                                        .uid
-                                                                ? ("You" +
-                                                                    (widget.post.feeling !=
-                                                                            null
-                                                                        ? " are feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
-                                                                        : widget.post.tcQuestion !=
-                                                                                null
-                                                                            ? " answered a question 🤔"
-                                                                            : ""))
-                                                                : widget.post
-                                                                        .isAnonymous
-                                                                    ? ("✨ Anon" +
-                                                                        (widget.post.feeling !=
-                                                                                null
-                                                                            ? " is feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
-                                                                            : widget.post.tcQuestion !=
-                                                                                    null
-                                                                                ? " answered a question 🤔"
-                                                                                : ""))
-                                                                    : widget
-                                                                        .post
-                                                                        .username,
-                                                            style: GoogleFonts.quicksand(
-                                                                fontSize: widget
-                                                                            .post
-                                                                            .feeling !=
-                                                                        null
-                                                                    ? 14.0
-                                                                    : 14.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: widget
-                                                                            .post
-                                                                            .userId ==
-                                                                        firebaseAuth
-                                                                            .currentUser
-                                                                            .uid
-                                                                    ? Colors
-                                                                        .indigo
-                                                                    : Theme.of(
-                                                                            context)
-                                                                        .accentColor),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                '${widget.timeAgo.replaceAll('~', '')} • ',
-                                                                style: GoogleFonts
-                                                                    .quicksand(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      600],
-                                                                  fontSize:
-                                                                      12.0,
-                                                                ),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                loadingBuilder: (BuildContext
+                                                                        context,
+                                                                    Widget
+                                                                        child,
+                                                                    ImageChunkEvent
+                                                                        loadingProgress) {
+                                                                  if (loadingProgress ==
+                                                                      null)
+                                                                    return child;
+                                                                  return SizedBox(
+                                                                    height: 40,
+                                                                    width: 40,
+                                                                    child:
+                                                                        Center(
+                                                                      child: SizedBox(
+                                                                          width: 10,
+                                                                          height: 10,
+                                                                          child: LoadingIndicator(
+                                                                            indicatorType:
+                                                                                Indicator.ballClipRotateMultiple,
+                                                                            color:
+                                                                                Theme.of(context).accentColor,
+                                                                          )),
+                                                                    ),
+                                                                  );
+                                                                },
                                                               ),
-                                                              Icon(
-                                                                Icons.public,
-                                                                color: Colors
-                                                                    .grey[600],
-                                                                size: 12.0,
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      _user != null
-                                                          ? _user.createdAt !=
-                                                                      null &&
-                                                                  DateTime.now()
-                                                                          .difference(
-                                                                              DateTime.fromMillisecondsSinceEpoch(_user.createdAt))
-                                                                          .inDays <
-                                                                      5
-                                                              ? Text(
+                                                            ),
+                                                ),
+                                              ),
+                                              widget.post.isAnonymous
+                                                  ? Container()
+                                                  : SizedBox(width: 8.0),
+                                              Flexible(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      widget.post.userId ==
+                                                              FIR_UID
+                                                          ? ("You" +
+                                                              (widget.post.feeling !=
+                                                                      null
+                                                                  ? " are feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
+                                                                  : widget.post
+                                                                              .tcQuestion !=
+                                                                          null
+                                                                      ? " answered a question 🤔"
+                                                                      : ""))
+                                                          : widget.post
+                                                                  .isAnonymous
+                                                              ? ("✨ Anon" +
+                                                                  (widget.post.feeling !=
+                                                                          null
+                                                                      ? " is feeling ${widget.post.feeling.toLowerCase()} ${Constants.feelings[widget.post.feeling]}"
+                                                                      : widget.post.tcQuestion !=
+                                                                              null
+                                                                          ? " answered a question 🤔"
+                                                                          : ""))
+                                                              : widget.post
+                                                                  .username,
+                                                      style: GoogleFonts.quicksand(
+                                                          fontSize: widget.post
+                                                                      .feeling !=
+                                                                  null
+                                                              ? 14.0
+                                                              : 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: widget.post
+                                                                      .userId ==
+                                                                  FIR_UID
+                                                              ? Colors.indigo
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .accentColor),
+                                                    ),
+                                                    _user != null
+                                                        ? _user.createdAt !=
+                                                                    null &&
+                                                                DateTime.now()
+                                                                        .difference(
+                                                                            DateTime.fromMillisecondsSinceEpoch(_user.createdAt))
+                                                                        .inDays <
+                                                                    5
+                                                            ? Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        bottom:
+                                                                            2.0),
+                                                                child: Text(
                                                                   DateTime.now()
                                                                               .difference(DateTime.fromMillisecondsSinceEpoch(_user.createdAt))
                                                                               .inDays <
                                                                           5
-                                                                      ? 'Recently Joined'
+                                                                      ? '🎈 Recently Joined'
                                                                       : '',
                                                                   style: GoogleFonts.quicksand(
                                                                       fontSize:
-                                                                          14,
+                                                                          10,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      color: Colors
+                                                                          .red
+                                                                          .shade600),
+                                                                ),
+                                                              )
+                                                            : Visibility(
+                                                                visible: _user
+                                                                            .about !=
+                                                                        null &&
+                                                                    _user.about
+                                                                        .isNotEmpty &&
+                                                                    widget.post
+                                                                            .isAnonymous ==
+                                                                        false,
+                                                                child: Text(
+                                                                  _user.about !=
+                                                                          null
+                                                                      ? _user
+                                                                          .about
+                                                                      : 'No bio available',
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: GoogleFonts.quicksand(
+                                                                      fontSize:
+                                                                          10,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
-                                                                      color: Colors
-                                                                          .pink),
-                                                                )
-                                                              : Visibility(
-                                                                  visible: _user
-                                                                              .about !=
-                                                                          null &&
-                                                                      _user
-                                                                          .about
-                                                                          .isNotEmpty &&
-                                                                      widget.post
-                                                                              .isAnonymous ==
-                                                                          false,
-                                                                  child: Text(
-                                                                    _user.about !=
-                                                                            null
-                                                                        ? _user
-                                                                            .about
-                                                                        : 'No bio available',
-                                                                    maxLines: 1,
-                                                                    style: GoogleFonts.quicksand(
-                                                                        fontSize:
-                                                                            10,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        color: Color(
-                                                                            0xFF1777F2)),
-                                                                  ),
-                                                                )
-                                                          : Container()
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 0.0),
-                                                ])
-                                          ])),
+                                                                      color: Color(
+                                                                          0xFF1777F2)),
+                                                                ),
+                                                              )
+                                                        : Container(),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          '${widget.timeAgo.replaceAll('~', '')} • ',
+                                                          style: GoogleFonts
+                                                              .quicksand(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors
+                                                                .grey[600],
+                                                            fontSize: 12.0,
+                                                          ),
+                                                        ),
+                                                        Icon(
+                                                          Icons.public,
+                                                          color:
+                                                              Colors.grey[600],
+                                                          size: 12.0,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(height: 0.0)
+                                            ])),
+                                          ),
                                           Visibility(
                                             visible: !widget.fromComments,
                                             child: Padding(
@@ -464,9 +441,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                       CupertinoActionSheet(
                                                     title: Text(
                                                       widget.post.userId ==
-                                                              firebaseAuth
-                                                                  .currentUser
-                                                                  .uid
+                                                              FIR_UID
                                                           ? "OPTIONS"
                                                           : "REPORT",
                                                       style:
@@ -481,9 +456,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                     ),
                                                     message: Text(
                                                       widget.post.userId ==
-                                                              firebaseAuth
-                                                                  .currentUser
-                                                                  .uid
+                                                              FIR_UID
                                                           ? "What would you like to do?"
                                                           : "What is the issue?",
                                                       style:
@@ -498,9 +471,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                     ),
                                                     actions:
                                                         widget.post.userId ==
-                                                                firebaseAuth
-                                                                    .currentUser
-                                                                    .uid
+                                                                FIR_UID
                                                             ? [
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
@@ -951,8 +922,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         if (widget.post.isVoted) {
                                           return;
                                         }
-                                        if (widget.post.userId !=
-                                            firebaseAuth.currentUser.uid) {
+                                        if (widget.post.userId != FIR_UID) {
                                           sendPushPoll(
                                               token,
                                               "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
@@ -1042,8 +1012,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         if (widget.post.isVoted) {
                                           return;
                                         }
-                                        if (widget.post.userId !=
-                                            firebaseAuth.currentUser.uid) {
+                                        if (widget.post.userId != FIR_UID) {
                                           sendPushPoll(
                                               token,
                                               "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
@@ -1158,7 +1127,7 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ),
               Visibility(
-                visible: widget.post.userId == firebaseAuth.currentUser.uid &&
+                visible: widget.post.userId == FIR_UID &&
                     widget.post.questionOne != null &&
                     widget.post.questionTwo != null &&
                     widget.post.questionOneLikeCount != null &&
@@ -1234,8 +1203,8 @@ class _PostWidgetState extends State<PostWidget> {
                                             width: 20,
                                             height: 20,
                                             child: LoadingIndicator(
-                                              indicatorType:
-                                                  Indicator.circleStrokeSpin,
+                                              indicatorType: Indicator
+                                                  .ballClipRotateMultiple,
                                               color:
                                                   Theme.of(context).accentColor,
                                             )),
@@ -1322,8 +1291,8 @@ class _PostWidgetState extends State<PostWidget> {
                               }
                             } else {
                               var user = await getUser(widget.post.userId);
-                              var token = user.device_token;
-                              if (user.id != firebaseAuth.currentUser.uid) {
+                              var token = user.deviceToken;
+                              if (user.id != FIR_UID) {
                                 if (widget.club == null &&
                                     widget.course == null) {
                                   await sendPush(0, token, widget.post.content,
@@ -1371,8 +1340,8 @@ class _PostWidgetState extends State<PostWidget> {
                             }
                           } else {
                             var user = await getUser(widget.post.userId);
-                            var token = user.device_token;
-                            if (user.id != firebaseAuth.currentUser.uid) {
+                            var token = user.deviceToken;
+                            if (user.id != FIR_UID) {
                               if (widget.club == null &&
                                   widget.course == null) {
                                 await sendPush(0, token, widget.post.content,
@@ -1680,7 +1649,7 @@ class _PostWidgetState extends State<PostWidget> {
       getUserWithUniversity(widget.post.userId, widget.post.university)
           .then((value) {
         imgUrl = value.profileImgUrl;
-        token = value.device_token;
+        token = value.deviceToken;
         _user = value;
         if (this.mounted) {
           setState(() {
@@ -1718,7 +1687,7 @@ class _PostWidgetState extends State<PostWidget> {
     } else {
       getUser(widget.post.userId).then((value) {
         imgUrl = value.profileImgUrl;
-        token = value.device_token;
+        token = value.deviceToken;
         _user = value;
         if (this.mounted) {
           setState(() {

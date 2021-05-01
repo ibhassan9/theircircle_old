@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,19 +10,18 @@ import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:timeago/timeago.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart' as u;
-import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/pages/RoomInfoPage.dart';
 import 'package:unify/widgets/ChatBubbleLeftGroup.dart';
 import 'package:unify/widgets/ChatBubbleRightGroup.dart';
 import 'package:unify/widgets/SayHiWidget.dart';
 import 'package:intl/intl.dart';
+import 'package:unify/pages/DB.dart';
 
 class RoomPage extends StatefulWidget {
   final Room room;
@@ -35,8 +33,6 @@ class RoomPage extends StatefulWidget {
 
 class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
   TextEditingController chatController = TextEditingController();
-  var uniKey = Constants.checkUniversity();
-  var myID = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance.reference().child('rooms');
   int eventCount = 0;
   int removedCount = 0;
@@ -162,7 +158,8 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                 height: 10,
                                 width: 10,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.circleStrokeSpin,
+                                  indicatorType:
+                                      Indicator.ballClipRotateMultiple,
                                   color: Theme.of(context).accentColor,
                                 )),
                           )
@@ -404,7 +401,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                         var date_now = DateTime.now();
                         var formattedNow = DateFormat.yMMMd().format(date_now);
                         if (index == 0) {
-                          if (msg.senderId == myID) {
+                          if (msg.senderId == FIR_UID) {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Column(
@@ -438,14 +435,12 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                       meLastSender: index == 0
                                           ? true
                                           : messages[index - 1].senderId ==
-                                                      firebaseAuth
-                                                          .currentUser.uid ||
+                                                      FIR_UID ||
                                                   (formattedDate !=
                                                           formattedNow &&
                                                       messages[index - 1]
                                                               .senderId ==
-                                                          firebaseAuth
-                                                              .currentUser.uid)
+                                                          FIR_UID)
                                               ? false
                                               : true),
                                 ],
@@ -505,21 +500,19 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                             var _formattedDate =
                                 DateFormat.yMMMd().format(_date);
                             if (_formattedDate == formattedDate) {
-                              if (msg.senderId == myID) {
+                              if (msg.senderId == FIR_UID) {
                                 return ChatBubbleRightGroup(
                                     msg: msg,
                                     scroll: scroll,
                                     meLastSender: index == 0
                                         ? true
                                         : messages[index - 1].senderId ==
-                                                    firebaseAuth
-                                                        .currentUser.uid ||
+                                                    FIR_UID ||
                                                 (formattedDate !=
                                                         formattedNow &&
                                                     messages[index - 1]
                                                             .senderId ==
-                                                        firebaseAuth
-                                                            .currentUser.uid)
+                                                        FIR_UID)
                                             ? false
                                             : true);
                               } else {
@@ -539,7 +532,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                             : true);
                               }
                             } else {
-                              if (msg.senderId == myID) {
+                              if (msg.senderId == FIR_UID) {
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Column(
@@ -573,16 +566,12 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                                           meLastSender: index == 0
                                               ? true
                                               : messages[index - 1].senderId ==
-                                                          firebaseAuth
-                                                              .currentUser
-                                                              .uid ||
+                                                          FIR_UID ||
                                                       (formattedDate !=
                                                               formattedNow &&
                                                           messages[index - 1]
                                                                   .senderId ==
-                                                              firebaseAuth
-                                                                  .currentUser
-                                                                  .uid)
+                                                              FIR_UID)
                                                   ? false
                                                   : true),
                                     ],
@@ -636,20 +625,18 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                               }
                             }
                           } else {
-                            if (msg.senderId == myID) {
+                            if (msg.senderId == FIR_UID) {
                               return ChatBubbleRightGroup(
                                   msg: msg,
                                   scroll: scroll,
                                   meLastSender: index == 0
                                       ? true
                                       : messages[index - 1].senderId ==
-                                                  firebaseAuth
-                                                      .currentUser.uid ||
+                                                  FIR_UID ||
                                               (formattedDate != formattedNow &&
                                                   messages[index - 1]
                                                           .senderId ==
-                                                      firebaseAuth
-                                                          .currentUser.uid)
+                                                      FIR_UID)
                                           ? false
                                           : true);
                             } else {
@@ -689,11 +676,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     var chats = db
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+        .child(Constants.uniString(uniKey))
         .child(widget.room.id)
         .child('chat');
     if (FirebaseAuth.instance.currentUser.uid != widget.room.adminId) {
@@ -714,14 +697,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       }
     }
     myChat = chats.onValue;
-    db
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .onChildRemoved
-        .listen((event) {
+    db.child(Constants.uniString(uniKey)).onChildRemoved.listen((event) {
       removedCount += 1;
       print(event.snapshot.key);
       if (removedCount > 1) {
@@ -763,11 +739,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       }
     });
     db
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+        .child(Constants.uniString(uniKey))
         .child(widget.room.id)
         .child('members')
         .onChildRemoved
@@ -823,7 +795,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
   void sendPush({String text}) {
     List<String> tokens = [];
     for (var user in widget.room.members) {
-      tokens.add(user.device_token);
+      tokens.add(user.deviceToken);
     }
     sendPushRoomChat(tokens, text, widget.room);
   }

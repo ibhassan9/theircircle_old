@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class Room {
   String id;
@@ -33,16 +34,7 @@ class Room {
       this.isRequested});
 
   static Future<bool> isLive({String id}) async {
-    var uniKey = Constants.checkUniversity();
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(id);
+    var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(id);
     DataSnapshot snapshot = await db.once();
     if (snapshot.value != null) {
       return true;
@@ -57,14 +49,7 @@ class Room {
       bool isLocked,
       Image coverImg,
       File imgFile}) async {
-    var uniKey = Constants.checkUniversity();
-    var uid = firebaseAuth.currentUser.uid;
-    var db =
-        FirebaseDatabase.instance.reference().child('rooms').child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU');
+    var db = ROOMS_DB.child(Constants.uniString(uniKey));
     var key = db.push();
 
     String imgUrl = await uploadImageToStorage(imgFile);
@@ -73,7 +58,7 @@ class Room {
       "id": key.key,
       "name": name,
       "description": description,
-      "adminId": uid,
+      "adminId": FIR_UID,
       "locked": isLocked,
       "imageUrl": imgUrl
     };
@@ -88,14 +73,8 @@ class Room {
   }
 
   static Future<List<Room>> fetchAll() async {
-    var uniKey = Constants.checkUniversity();
     List<Room> rooms = [];
-    var db =
-        FirebaseDatabase.instance.reference().child("rooms").child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU');
+    var db = ROOMS_DB.child(Constants.uniString(uniKey));
 
     DataSnapshot s = await db.once();
 
@@ -114,16 +93,7 @@ class Room {
   }
 
   static Future<bool> delete({String id}) async {
-    var uniKey = Constants.checkUniversity();
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child("rooms")
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(id);
+    var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(id);
     await db.remove().catchError((err) {
       return false;
     });
@@ -131,16 +101,7 @@ class Room {
   }
 
   static Future<Room> fetch({String id}) async {
-    var uniKey = Constants.checkUniversity();
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child("rooms")
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(id);
+    var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(id);
 
     DataSnapshot s = await db.once();
 
@@ -150,7 +111,7 @@ class Room {
         id: value['id'],
         name: value['name'],
         description: value['description'],
-        isAdmin: value['adminId'] == firebaseAuth.currentUser.uid,
+        isAdmin: value['adminId'] == FIR_UID,
         isLocked: value['locked'],
         adminId: value['adminId'],
         imageUrl: value['imageUrl']);
@@ -178,26 +139,14 @@ class Room {
 
   static Future<bool> addMembers(
       {String roomId, List<PostUser> members}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+    var db = ROOMS_DB
+        .child(Constants.uniString(uniKey))
         .child(roomId)
         .child('members');
     for (var member in members) {
       await db
           .child(member.id)
-          .set(uniKey == 0
-              ? 'UofT'
-              : uniKey == 1
-                  ? 'YorkU'
-                  : 'WesternU')
+          .set(Constants.uniString(uniKey))
           .catchError((e) {
         return false;
       });
@@ -207,16 +156,8 @@ class Room {
   }
 
   static Future<bool> deleteMember({String roomId, String memberId}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+    var db = ROOMS_DB
+        .child(Constants.uniString(uniKey))
         .child(roomId)
         .child('members')
         .child(memberId);
@@ -227,17 +168,7 @@ class Room {
   }
 
   static Future<bool> deleteRoom({String roomId}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(roomId);
+    var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(roomId);
     await db.remove().catchError((e) {
       return false;
     });
@@ -245,16 +176,8 @@ class Room {
   }
 
   static Future<List<PostUser>> allMembers({Room room}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+    var db = ROOMS_DB
+        .child(Constants.uniString(uniKey))
         .child(room.id)
         .child('members');
     DataSnapshot snap = await db.once();
@@ -266,18 +189,9 @@ class Room {
   }
 
   static Future<bool> sendMessage({String message, String roomId}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(roomId)
-        .child('chat');
+    var myID = FIR_UID;
+    var db =
+        ROOMS_DB.child(Constants.uniString(uniKey)).child(roomId).child('chat');
     var key = db.push();
     final Map<String, dynamic> data = {
       "messageText": message,
@@ -292,16 +206,9 @@ class Room {
   }
 
   static Future<bool> leave({String roomId}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+    var myID = FIR_UID;
+    var db = ROOMS_DB
+        .child(Constants.uniString(uniKey))
         .child(roomId)
         .child('members')
         .child(myID);
@@ -312,26 +219,13 @@ class Room {
   }
 
   static Future<bool> join({String roomId}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+    var myID = FIR_UID;
+    var db = ROOMS_DB
+        .child(Constants.uniString(uniKey))
         .child(roomId)
         .child('members')
         .child(myID);
-    await db
-        .set(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .catchError((e) {
+    await db.set(Constants.uniString(uniKey)).catchError((e) {
       return false;
     });
     return true;
@@ -339,17 +233,7 @@ class Room {
 
   static Future<dynamic> updateInfo(
       {String roomId, String name, String description, File imageFile}) async {
-    var uniKey = Constants.checkUniversity();
-    var myID = firebaseAuth.currentUser.uid;
-    var db = FirebaseDatabase.instance
-        .reference()
-        .child('rooms')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(roomId);
+    var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(roomId);
     String url;
     if (imageFile != null) {
       url = await uploadImageToStorage(imageFile);
@@ -391,12 +275,11 @@ Future<List<PostUser>> getRequests(Map<dynamic, dynamic> requests) async {
 }
 
 bool isInRoom(Room room) {
-  var uid = firebaseAuth.currentUser.uid;
   var memberList = room.members;
   if (memberList == null || memberList.length == 0) {
     return false;
   }
-  if ((memberList.singleWhere((it) => it.id == uid, orElse: () => null)) !=
+  if ((memberList.singleWhere((it) => it.id == FIR_UID, orElse: () => null)) !=
       null) {
     return true;
   } else {
@@ -405,12 +288,12 @@ bool isInRoom(Room room) {
 }
 
 bool requested(Room room) {
-  var uid = firebaseAuth.currentUser.uid;
   var joinRequests = room.requests;
   if (joinRequests == null || joinRequests.length == 0) {
     return false;
   }
-  if ((joinRequests.singleWhere((it) => it.id == uid, orElse: () => null)) !=
+  if ((joinRequests.singleWhere((it) => it.id == FIR_UID,
+          orElse: () => null)) !=
       null) {
     return true;
   } else {
@@ -449,18 +332,6 @@ Future<String> uploadImageToStorage(File file) async {
         urlString = value;
       });
     });
-
-    // StorageReference ref = FirebaseStorage.instance
-    //     .ref()
-    //     .child("files")
-    //     .child(today)
-    //     .child(storageId);
-    // StorageUploadTask uploadTask = ref.putFile(file);
-
-    // var snapShot = await uploadTask.onComplete;
-
-    // var url = await snapShot.ref.getDownloadURL();
-    // var urlString = url.toString();
 
     return urlString;
   } catch (error) {

@@ -37,7 +37,7 @@ class NewsView extends StatelessWidget {
                         width: 15,
                         height: 15,
                         child: LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
+                          indicatorType: Indicator.ballClipRotateMultiple,
                           color: Theme.of(context).accentColor,
                         )),
                   ),

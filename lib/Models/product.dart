@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class Product {
   String id;
@@ -33,15 +34,9 @@ class Product {
   static var theircircle = FirebaseDatabase.instance.reference();
 
   static Future<bool> remove(String id) async {
-    var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db = theircircle.child('listings').child(university).child(id);
-    var mydb = theircircle
-        .child('users')
+    var university = Constants.uniString(uniKey);
+    var db = LISTINGS_DB.child(university).child(id);
+    var mydb = USERS_DB
         .child(university)
         .child(FirebaseAuth.instance.currentUser.uid)
         .child('mylistings')
@@ -57,15 +52,9 @@ class Product {
 
   static Future<bool> createListing(Product prod, List<File> files) async {
     //PostUser user = await getUser(FirebaseAuth.instance.currentUser.uid);
-    var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db = theircircle.child('listings').child(university).push();
-    var mydb = theircircle
-        .child('users')
+    var university = Constants.uniString(uniKey);
+    var db = LISTINGS_DB.child(university).push();
+    var mydb = USERS_DB
         .child(university)
         .child(FirebaseAuth.instance.currentUser.uid)
         .child('mylistings')
@@ -95,14 +84,9 @@ class Product {
 
   static Future<List<Product>> products() async {
     List<Product> prods = [];
-    var uniKey = Constants.checkUniversity();
     var blocks = await getBlocks();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db = theircircle.child('listings').child(university);
+    var university = Constants.uniString(uniKey);
+    var db = LISTINGS_DB.child(university);
     DataSnapshot snap = await db.once();
     Map<dynamic, dynamic> values = snap.value;
     if (snap.value != null) {
@@ -179,14 +163,9 @@ class Product {
   }
 
   static Future<Product> info(String id) async {
-    var uniKey = Constants.checkUniversity();
     //var blocks = await getBlocks();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db = theircircle.child('listings').child(university).child(id);
+    var university = Constants.uniString(uniKey);
+    var db = LISTINGS_DB.child(university).child(id);
     DataSnapshot snap = await db.once();
     Map<dynamic, dynamic> value = snap.value;
     print(value);
@@ -214,15 +193,9 @@ class Product {
 
   static Future<List<Product>> myListings() async {
     List<Product> listings = [];
-    var uniKey = Constants.checkUniversity();
     //var blocks = await getBlocks();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    var db = theircircle
-        .child('users')
+    var university = Constants.uniString(uniKey);
+    var db = USERS_DB
         .child(university)
         .child(FirebaseAuth.instance.currentUser.uid)
         .child('mylistings');

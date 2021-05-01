@@ -74,7 +74,7 @@ class _OHSMembersPageState extends State<OHSMembersPage> {
                             width: 15,
                             height: 15,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.circleStrokeSpin,
+                              indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor,
                             )));
                   else if (snap.hasData)

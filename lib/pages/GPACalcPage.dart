@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/GradeNeededPage.dart';
+import 'package:unify/pages/DB.dart';
 
 class GPACalculator extends StatefulWidget {
   @override
@@ -161,7 +161,6 @@ class _GPACalculatorState extends State<GPACalculator> {
         children: [
           InkWell(
             onTap: () {
-              var uniKey = Constants.checkUniversity();
               var grade = uniKey == 0
                   ? uoft.length - 2
                   : uniKey == 1
@@ -340,7 +339,6 @@ class _GPACalculatorState extends State<GPACalculator> {
   }
 
   List<Widget> generateWeightSheet(int index) {
-    var uniKey = Constants.checkUniversity();
     List<Widget> sheetOptions = [];
     switch (uniKey) {
       case 0:
@@ -363,7 +361,6 @@ class _GPACalculatorState extends State<GPACalculator> {
   }
 
   List<Widget> generateGradeSheet(int index) {
-    var uniKey = Constants.checkUniversity();
     List<Widget> sheetOptions = [];
     switch (uniKey) {
       case 0:
@@ -490,7 +487,6 @@ class _GPACalculatorState extends State<GPACalculator> {
   }
 
   double getGPA(int index, double credit) {
-    var uniKey = Constants.checkUniversity();
     var gpa = uniKey == 0
         ? uoft[index]['gpa']
         : uniKey == 1
@@ -501,7 +497,6 @@ class _GPACalculatorState extends State<GPACalculator> {
 
   String getGrade(int index) {
     String grade = '';
-    var uniKey = Constants.checkUniversity();
     var letter = uniKey == 0
         ? uoft[index]['letter']
         : uniKey == 1

@@ -97,7 +97,7 @@ class _BodyState extends State<Body> {
                             //           title: "Terms and Conditions",
                             //           selectedUrl: Constants.t_and_c)),
                             // );
-                            launch(Constants.t_and_c);
+                            launch(Constants.termsAndConditions);
                           }),
                     TextSpan(text: " and have read our "),
                     TextSpan(
@@ -113,7 +113,7 @@ class _BodyState extends State<Body> {
                             //           title: "Terms and Conditions",
                             //           selectedUrl: Constants.privacy_policy)),
                             // );
-                            launch(Constants.privacy_policy);
+                            launch(Constants.privacyPolicy);
                           }),
                   ],
                 ),

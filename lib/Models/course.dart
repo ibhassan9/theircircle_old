@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class Course {
   String id;
@@ -22,8 +22,6 @@ class Course {
       this.postCount});
 }
 
-FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
 // 0 - University of Toronto | 1 - York University
 
 int checkUniversityWithEmail(String email) {
@@ -37,20 +35,11 @@ int checkUniversityWithEmail(String email) {
 }
 
 Future<Null> requestCourse(String code) async {
-  var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('courserequests')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
+  var db = COURSE_REQUESTS_DB.child(Constants.uniString(uniKey));
   await db.push().set(code);
 }
 
 Future<Null> createCourse(String code, String name) async {
-  var uniKey = Constants.checkUniversity();
   var db =
       FirebaseDatabase.instance.reference().child('courses').child('YorkU');
   var key = db.push();
@@ -65,16 +54,7 @@ Future<Null> createCourse(String code, String name) async {
 }
 
 Future<Course> fetchCourse(String id) async {
-  var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child("courses")
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(id);
+  var db = COURSES_DB.child(Constants.uniString(uniKey)).child(id);
 
   DataSnapshot s = await db.once();
 
@@ -99,14 +79,8 @@ Future<Course> fetchCourse(String id) async {
 }
 
 Future<List<Course>> fetchCourses() async {
-  var uniKey = Constants.checkUniversity();
-  List<Course> c = List<Course>();
-  var db =
-      FirebaseDatabase.instance.reference().child("courses").child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
+  List<Course> c = [];
+  var db = COURSES_DB.child(Constants.uniString(uniKey));
 
   DataSnapshot s = await db.once();
 
@@ -135,46 +109,31 @@ Future<List<Course>> fetchCourses() async {
 }
 
 Future<bool> joinCourse(Course course) async {
-  var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child("courses")
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  var db = COURSES_DB
+      .child(Constants.uniString(uniKey))
       .child(course.id)
       .child('memberList')
-      .child(firebaseAuth.currentUser.uid);
-  await db.set(firebaseAuth.currentUser.uid);
+      .child(FIR_UID);
+  await db.set(FIR_UID);
   return true;
 }
 
 Future<bool> leaveCourse(Course course) async {
-  var uniKey = Constants.checkUniversity();
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child("courses")
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  var db = COURSES_DB
+      .child(Constants.uniString(uniKey))
       .child(course.id)
       .child('memberList')
-      .child(firebaseAuth.currentUser.uid);
+      .child(FIR_UID);
   await db.remove();
   return true;
 }
 
 bool inCourse(Course course) {
-  var uid = firebaseAuth.currentUser.uid;
   var memberList = course.memberList;
   if (memberList == null || memberList.length == 0) {
     return false;
   }
-  if ((memberList.singleWhere((it) => it.id == uid, orElse: () => null)) !=
+  if ((memberList.singleWhere((it) => it.id == FIR_UID, orElse: () => null)) !=
       null) {
     return true;
   } else {
@@ -183,13 +142,7 @@ bool inCourse(Course course) {
 }
 
 Future<List<PostUser>> getMemberList(Map<dynamic, dynamic> members) async {
-  var uniKey = Constants.checkUniversity();
-  var db =
-      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
+  var db = USERS_DB.child(Constants.uniString(uniKey));
   List<PostUser> p = [];
   for (var value in members.values) {
     DataSnapshot s = await db.child(value).once();
@@ -205,31 +158,18 @@ Future<List<PostUser>> getMemberList(Map<dynamic, dynamic> members) async {
 }
 
 Future<List<PostUser>> fetchMemberList(Course course, Club club) async {
-  var uniKey = Constants.checkUniversity();
-  var memberDB = FirebaseDatabase.instance
-      .reference()
-      .child(course != null ? 'courses' : 'clubs')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  var memberDB = (course != null ? COURSES_DB : CLUBS_DB)
+      .child(Constants.uniString(uniKey))
       .child(course != null ? course.id : club.id)
       .child('memberList');
   DataSnapshot snap = await memberDB.once();
   Map<dynamic, dynamic> values = snap.value;
 
-  var db =
-      FirebaseDatabase.instance.reference().child('users').child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU');
+  var db = USERS_DB.child(Constants.uniString(uniKey));
 
   List<PostUser> p = [];
   for (var value in values.values) {
     DataSnapshot s = await db.child(value).once();
-    Map<dynamic, dynamic> v = s.value;
     PostUser user = await getUser(s.key);
     p.add(user);
   }

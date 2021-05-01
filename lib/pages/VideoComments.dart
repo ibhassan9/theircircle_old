@@ -1,18 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Widgets/CommentWidget.dart';
-import 'package:unify/Components/Constants.dart';
-import 'package:unify/Models/club.dart';
 import 'package:unify/Models/comment.dart';
-import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
-import 'package:unify/widgets/CommentPostWidget.dart';
-import 'package:unify/widgets/PostWidget.dart';
+import 'package:unify/pages/DB.dart';
 
 class VideoComments extends StatefulWidget {
   final Video video;
@@ -23,7 +18,6 @@ class VideoComments extends StatefulWidget {
 }
 
 class _VideoCommentsState extends State<VideoComments> {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
 
@@ -83,8 +77,8 @@ class _VideoCommentsState extends State<VideoComments> {
                   if (res) {
                     var user = await getUserWithUniversity(
                         widget.video.userId, widget.video.university);
-                    var token = user.device_token;
-                    if (user.id != firebaseAuth.currentUser.uid) {
+                    var token = user.deviceToken;
+                    if (user.id != FIR_UID) {
                       await sendPushVideo(1, token, comment.content,
                           widget.video.id, widget.video.userId);
                     }

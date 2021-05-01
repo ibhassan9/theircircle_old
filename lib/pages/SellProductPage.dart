@@ -6,7 +6,6 @@ import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/product.dart';
 
@@ -152,7 +151,7 @@ class _SellProductPageState extends State<SellProductPage> {
                     width: 15,
                     height: 15,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.circleStrokeSpin,
+                      indicatorType: Indicator.ballClipRotateMultiple,
                       color: Colors.white,
                     ),
                   )

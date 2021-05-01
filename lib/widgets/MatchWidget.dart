@@ -2,14 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smart_select/smart_select.dart';
-import 'package:toast/toast.dart';
-import 'package:unify/Components/Constants.dart';
-import 'package:unify/Home/hashtag_widget.dart';
+
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/ChatPage.dart';
-import 'package:unify/pages/MultiSelectChip.dart';
-import 'dart:ui' as ui;
 
 import 'package:unify/pages/ProfilePage.dart';
 

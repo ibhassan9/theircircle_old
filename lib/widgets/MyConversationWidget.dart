@@ -1,18 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/match.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'package:unify/pages/UserSearchPage.dart';
 
 class MyConversationWidget extends StatefulWidget {
   final String peerId;

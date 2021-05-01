@@ -1,20 +1,15 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/CameraScreen.dart';
 import 'package:unify/pages/MyLibrary.dart';
 import 'package:unify/pages/UploadVideo.dart';
 import 'package:unify/widgets/VideoWidget.dart';
-import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CustomFadingEffectPainer extends CustomPainter {

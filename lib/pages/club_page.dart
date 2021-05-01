@@ -1,18 +1,12 @@
-import 'dart:io';
-
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/pages/join_requests_list.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/pages/members_list_page.dart';
 import 'package:unify/widgets/PostWidget.dart';
 import 'package:unify/Models/club.dart';
-import 'package:unify/Models/course.dart';
 import 'package:unify/pages/course_calender_page.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -325,8 +319,8 @@ class _ClubPageState extends State<ClubPage> {
                                           width: 15,
                                           height: 15,
                                           child: LoadingIndicator(
-                                            indicatorType:
-                                                Indicator.circleStrokeSpin,
+                                            indicatorType: Indicator
+                                                .ballClipRotateMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

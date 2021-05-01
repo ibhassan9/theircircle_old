@@ -1,20 +1,17 @@
 import 'dart:async';
 
-import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:timeago/timeago.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/user.dart' as u;
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/ChatBubbleLeft.dart';
 import 'package:unify/widgets/ChatBubbleRight.dart';
@@ -35,8 +32,6 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage>
     with AutomaticKeepAliveClientMixin {
   TextEditingController chatController = TextEditingController();
-  var uniKey = Constants.checkUniversity();
-  var myID = firebaseAuth.currentUser.uid;
   var db = FirebaseDatabase.instance.reference().child('chats');
   TextEditingController bioController = TextEditingController();
   TextEditingController snapchatController = TextEditingController();
@@ -223,7 +218,8 @@ class _ChatPageState extends State<ChatPage>
                                 height: 10,
                                 width: 10,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.circleStrokeSpin,
+                                  indicatorType:
+                                      Indicator.ballClipRotateMultiple,
                                   color: Theme.of(context).accentColor,
                                 )),
                           )
@@ -247,7 +243,7 @@ class _ChatPageState extends State<ChatPage>
                                   prod != null ? prod.id : null);
                               if (res) {
                                 await sendPushChat(
-                                    widget.receiver.device_token,
+                                    widget.receiver.deviceToken,
                                     chatController.text,
                                     widget.receiver.id,
                                     widget.chatId,
@@ -422,7 +418,7 @@ class _ChatPageState extends State<ChatPage>
                         var date_now = DateTime.now();
                         var formattedNow = DateFormat.yMMMd().format(date_now);
                         if (index == 0) {
-                          if (msg.senderId == myID) {
+                          if (msg.senderId == FIR_UID) {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Column(
@@ -456,14 +452,12 @@ class _ChatPageState extends State<ChatPage>
                                       meLastSender: index == 0
                                           ? true
                                           : messages[index - 1].senderId ==
-                                                      firebaseAuth
-                                                          .currentUser.uid ||
+                                                      FIR_UID ||
                                                   (formattedDate !=
                                                           formattedNow &&
                                                       messages[index - 1]
                                                               .senderId ==
-                                                          firebaseAuth
-                                                              .currentUser.uid)
+                                                          FIR_UID)
                                               ? false
                                               : true),
                                 ],
@@ -520,21 +514,19 @@ class _ChatPageState extends State<ChatPage>
                             var _formattedDate =
                                 DateFormat.yMMMd().format(_date);
                             if (_formattedDate == formattedDate) {
-                              if (msg.senderId == myID) {
+                              if (msg.senderId == FIR_UID) {
                                 return ChatBubbleRight(
                                     msg: msg,
                                     scroll: scroll,
                                     meLastSender: index == 0
                                         ? true
                                         : messages[index - 1].senderId ==
-                                                    firebaseAuth
-                                                        .currentUser.uid ||
+                                                    FIR_UID ||
                                                 (formattedDate !=
                                                         formattedNow &&
                                                     messages[index - 1]
                                                             .senderId ==
-                                                        firebaseAuth
-                                                            .currentUser.uid)
+                                                        FIR_UID)
                                             ? false
                                             : true);
                               } else {
@@ -555,7 +547,7 @@ class _ChatPageState extends State<ChatPage>
                                             : true);
                               }
                             } else {
-                              if (msg.senderId == myID) {
+                              if (msg.senderId == FIR_UID) {
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Column(
@@ -589,16 +581,12 @@ class _ChatPageState extends State<ChatPage>
                                           meLastSender: index == 0
                                               ? true
                                               : messages[index - 1].senderId ==
-                                                          firebaseAuth
-                                                              .currentUser
-                                                              .uid ||
+                                                          FIR_UID ||
                                                       (formattedDate !=
                                                               formattedNow &&
                                                           messages[index - 1]
                                                                   .senderId ==
-                                                              firebaseAuth
-                                                                  .currentUser
-                                                                  .uid)
+                                                              FIR_UID)
                                                   ? false
                                                   : true),
                                     ],
@@ -653,20 +641,18 @@ class _ChatPageState extends State<ChatPage>
                               }
                             }
                           } else {
-                            if (msg.senderId == myID) {
+                            if (msg.senderId == FIR_UID) {
                               return ChatBubbleRight(
                                   msg: msg,
                                   scroll: scroll,
                                   meLastSender: index == 0
                                       ? true
                                       : messages[index - 1].senderId ==
-                                                  firebaseAuth
-                                                      .currentUser.uid ||
+                                                  FIR_UID ||
                                               (formattedDate != formattedNow &&
                                                   messages[index - 1]
                                                           .senderId ==
-                                                      firebaseAuth
-                                                          .currentUser.uid)
+                                                      FIR_UID)
                                           ? false
                                           : true);
                             } else {
@@ -771,13 +757,7 @@ class _ChatPageState extends State<ChatPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    var chats = db
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(widget.chatId);
+    var chats = db.child(Constants.uniString(uniKey)).child(widget.chatId);
     myChat = chats.onValue;
     // chats.onChildAdded.listen((event) {
     //   print('event received');

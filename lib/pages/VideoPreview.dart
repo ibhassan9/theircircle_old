@@ -1,30 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
-import 'package:unify/Models/assignment.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/VideoComments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:chewie/chewie.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 
 class VideoPreview extends StatefulWidget {
@@ -40,7 +33,6 @@ class VideoPreview extends StatefulWidget {
 
 class _VideoPreviewState extends State<VideoPreview>
     with AutomaticKeepAliveClientMixin {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   VideoPlayerController _controller;
   ChewieController _chewieController;
   String key;
@@ -248,7 +240,7 @@ class _VideoPreviewState extends State<VideoPreview>
                         width: 15,
                         child: Center(
                             child: LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
+                          indicatorType: Indicator.ballClipRotateMultiple,
                           color: Theme.of(context).accentColor,
                         )),
                       );
@@ -333,7 +325,7 @@ class _VideoPreviewState extends State<VideoPreview>
             child: Row(children: [
           InkWell(
             onTap: () {
-              if (widget.video.userId == firebaseAuth.currentUser.uid) {
+              if (widget.video.userId == FIR_UID) {
                 showDelete(context);
               } else {
                 showReport(context);
@@ -407,7 +399,7 @@ class _VideoPreviewState extends State<VideoPreview>
     key = getRandString(10);
     getUser(widget.video.userId).then((value) {
       imgUrl = value.profileImgUrl;
-      token = value.device_token;
+      token = value.deviceToken;
       getAspectRatio().then((value) {
         _controller = VideoPlayerController.network(widget.video.videoUrl)
           ..initialize().then((_) {

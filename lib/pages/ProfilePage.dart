@@ -1,6 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stretchy_header/stretchy_header.dart';
 import 'package:toast/toast.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/OHS.dart';
@@ -20,8 +18,7 @@ import 'package:unify/Models/post.dart' as p;
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:unify/pages/MainPage.dart';
-import 'package:unify/pages/MyMatchesPage.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/OHS%20Pages/OHSPostWidget.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
@@ -232,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 sameUniversity() &&
-                        user.id != p.firebaseAuth.currentUser.uid &&
+                        user.id != FIR_UID &&
                         widget.isFromChat != null &&
                         widget.isFromChat == false
                     ? InkWell(
@@ -512,7 +509,7 @@ class _ProfilePageState extends State<ProfilePage>
                   width: 15,
                   height: 15,
                   child: LoadingIndicator(
-                    indicatorType: Indicator.circleStrokeSpin,
+                    indicatorType: Indicator.ballClipRotateMultiple,
                     color: Theme.of(context).accentColor,
                   )));
         } else if (snap.hasData && snap.data.length > 0) {
@@ -630,7 +627,7 @@ class _ProfilePageState extends State<ProfilePage>
                     width: 15,
                     height: 15,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.circleStrokeSpin,
+                      indicatorType: Indicator.ballClipRotateMultiple,
                       color: Theme.of(context).accentColor,
                     )));
           } else if (snap.hasData && snap.data.length > 0) {
@@ -791,7 +788,7 @@ class _ProfilePageState extends State<ProfilePage>
                               width: 15,
                               height: 15,
                               child: LoadingIndicator(
-                                indicatorType: Indicator.circleStrokeSpin,
+                                indicatorType: Indicator.ballClipRotateMultiple,
                                 color: Colors.white,
                               )),
                         ),
@@ -1074,7 +1071,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   goToChat() {
     var chatId = '';
-    var myID = p.firebaseAuth.currentUser.uid;
+    var myID = FIR_UID;
     var peerId = widget.user.id;
     if (myID.hashCode <= peerId.hashCode) {
       chatId = '$myID-$peerId';

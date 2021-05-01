@@ -2,22 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/VideoComments.dart';
 import 'package:unify/pages/VideosPage.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:chewie/chewie.dart';
@@ -54,7 +52,6 @@ class _VideoWidgetState extends State<VideoWidget>
   double aspectRatio;
 
   final FlareControls flareControls = FlareControls();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
     super.build(context);
@@ -242,8 +239,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      if (widget.video.userId ==
-                                          firebaseAuth.currentUser.uid) {
+                                      if (widget.video.userId == FIR_UID) {
                                         showDelete(context);
                                       } else {
                                         showReport(context);
@@ -452,7 +448,7 @@ class _VideoWidgetState extends State<VideoWidget>
                             width: 20,
                             height: 20,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.circleStrokeSpin,
+                              indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -468,7 +464,7 @@ class _VideoWidgetState extends State<VideoWidget>
               Padding(
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Text(
-                  widget.video.userId == firebaseAuth.currentUser.uid
+                  widget.video.userId == FIR_UID
                       ? 'You'
                       : '@' +
                           widget.video.name.replaceAll(" ", '').toLowerCase(),
@@ -512,7 +508,7 @@ class _VideoWidgetState extends State<VideoWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.video.caption,
-            maxLines: 3,
+            maxLines: 8,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.quicksand(
                 fontSize: 15,
@@ -552,7 +548,7 @@ class _VideoWidgetState extends State<VideoWidget>
             child: Row(children: [
           InkWell(
             onTap: () {
-              if (widget.video.userId == firebaseAuth.currentUser.uid) {
+              if (widget.video.userId == FIR_UID) {
                 showDelete(context);
               } else {
                 showReport(context);
@@ -632,7 +628,7 @@ class _VideoWidgetState extends State<VideoWidget>
     getUserWithUniversity(widget.video.userId, widget.video.university)
         .then((value) {
       imgUrl = value.profileImgUrl;
-      token = value.device_token;
+      token = value.deviceToken;
       getAspectRatio().then((value) {
         _controller = VideoPlayerController.network(widget.video.videoUrl)
           ..initialize().then((_) {
@@ -654,28 +650,6 @@ class _VideoWidgetState extends State<VideoWidget>
       });
     });
   }
-
-  // reindex() {
-  //   getAspectRatio().then((value) {
-  //     _controller = VideoPlayerController.network(widget.video.videoUrl)
-  //       ..initialize().then((_) {
-  //         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-  //         _chewieController = ChewieController(
-  //           videoPlayerController: _controller,
-  //           // aspectRatio: MediaQuery.of(context).size.width /
-  //           //     MediaQuery.of(context).size.height,
-  //           showControls: false,
-  //           autoPlay: true,
-  //           looping: true,
-  //         );
-  //         setState(() {
-  //           initialized = true;
-  //         });
-  //       });
-  //     _controller.setLooping(false);
-  //     _controller.play();
-  //   });
-  // }
 
   String getRandString(int len) {
     var random = Random.secure();

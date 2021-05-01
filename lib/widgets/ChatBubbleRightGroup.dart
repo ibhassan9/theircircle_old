@@ -1,14 +1,11 @@
-import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ProductDetailPage.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ChatBubbleRightGroup extends StatefulWidget {
   final Message msg;

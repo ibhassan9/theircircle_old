@@ -5,9 +5,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/user.dart' as u;
+import 'package:unify/pages/DB.dart';
 
 class CommentWidget extends StatefulWidget {
   final Comment comment;
@@ -37,7 +37,7 @@ class _CommentWidgetState extends State<CommentWidget> {
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       closeOnScroll: true,
-      secondaryActions: widget.comment.userId == firebaseAuth.currentUser.uid
+      secondaryActions: widget.comment.userId == FIR_UID
           ? <Widget>[
               IconSlideAction(
                 caption: '',
@@ -125,7 +125,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                                   width: 10,
                                   height: 10,
                                   child: LoadingIndicator(
-                                    indicatorType: Indicator.circleStrokeSpin,
+                                    indicatorType:
+                                        Indicator.ballClipRotateMultiple,
                                     color: Theme.of(context).accentColor,
                                   )),
                             ),
@@ -166,15 +167,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    widget.comment.userId ==
-                                            firebaseAuth.currentUser.uid
+                                    widget.comment.userId == FIR_UID
                                         ? "You"
                                         : widget.comment.username,
                                     style: GoogleFonts.quicksand(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
-                                        color: widget.comment.userId ==
-                                                firebaseAuth.currentUser.uid
+                                        color: widget.comment.userId == FIR_UID
                                             ? Theme.of(context).accentColor
                                             : Theme.of(context).accentColor),
                                   ),

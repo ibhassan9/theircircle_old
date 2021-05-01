@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:unify/Models/club.dart';
@@ -11,12 +9,7 @@ import 'package:unify/Models/course.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/pages/ChatPage.dart';
-import 'package:unify/pages/Screens/Welcome/components/body.dart';
-import 'package:unify/pages/VideoPreview.dart';
-import 'package:unify/pages/club_page.dart';
-import 'package:unify/pages/course_page.dart';
-import 'package:unify/pages/post_detail_page.dart';
+import 'package:unify/pages/DB.dart';
 
 class Notification {
   String notificationId;
@@ -45,51 +38,11 @@ class Notification {
       this.seen});
 }
 
-FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 String title = "TheirCircle";
-
-List<String> tokens = [
-  "fUyyEAP3zE31kpDbULq5kx:APA91bFn73XC33Aa0m_mXvATmfq4GuUyxfcvRACoya6HBp7g7NhjKauk_LSMHpqUw9xEJRuwSILh-gumx7LRTMAW0URfKXilB44Ui23rcBf0m9q20XjJp0VdcITo5Gq4Ue6vnIsggCDQ",
-  "duaYanAKcUNEohtCKPbRd-:APA91bH_MK1GolQBoLsttTFlZ2cQ86ekyrOcUuwQPusJ57pzXrqo26zKQNpvTIUiSvlOfQu_vbLeDk1AT7CGN4Ten8Sq2L0z1KLuobMKtPrtyATyOh_BEiPdGBSE7DFfT2wRNFfwQIl_",
-  "e4npd5sc20EchE576RArLV:APA91bH0kvu13mrR-CXuItgJ8_qs0S8WHkF13saw4MyWDXjRehr1-B2-69WICM4F7D3jRxCWvy0GV3y5vGlD2-NwEBjoyTeJcLi8Nfm9Tlp9YmYdanssPJmwq4IECtdBhW93CdJ7LROu",
-  "cmCkxsXQ1kRaobVxbvUhyD:APA91bHtMUXUdqgb0bg7VlT12-YW7GpVP8dRTLHlT5YMIVjzuB7p1PCeX-IuNIIhLlxMVhoE65RbtwD0EYBeGQP7OGGhwfiVO5PemsU95BOS8CDdvpotFmW713FukumNEDcEx9-ncT17",
-  "fU2ebFuNO0U7tSpisnMSEx:APA91bFF45HAmD0RLmhuqnpfb79k-LPb8CpSfZy4VGz7PfoDau-d4GRic9cnJivOCoDV7Yjy5g-5SKaoWejbTWWijF6Zrge9DGTm482gn9hS4NtqyyECVpdXC0Qo7q8jy9_KdqI5UKmO",
-  "cx-O-M-OrUZGhdxpVGwyHH:APA91bHmNXCpTfEWQWQo4OoxdSWpa0oRYQWp3HTs7jobYZqp79Wxu1ajVipwL2RpKl4YMR97Mgqt53sRwrMQDJgs1KSnC96CBXXPhykk7InTU-S4ZLmbbxCGcCQHqfmLKNEClR2UvIBK",
-  "dsR6CELexksaoQ1iG1xu_7:APA91bECZNiav7ICXLKkHzBxUpEJt6AkV_c5hH1VM9OATt6XPOpIjyGTyWiFm56lvxkT42ePQeQeO-jqC-m1xqPwc-47uNFnEHMjRcnCtxtylBAYd34UOEzKuumw_3cNb-zTfL0WibpU",
-  "ciFT1DxkLUGoj6OL_b2G7K:APA91bF5JhizUOKnyQEU3L2CDqAh4UwwmY8xR5hyG7kuPlByBRDC6RchV1VKTnNP3KUBEhBLce2AZ2s930PNeujkzWh1ZNSQqcK_CVMa6RT7rGHKMNNUljSBCljeg7wFWVRYU2dpwfd8",
-  "eVIMsxzlSUm0vXNwu5mjet:APA91bH3vwTyn9L539ms0Dbqpw6YglQMSZazXB3PLlAH90PNN1U21tFPBfqmNERmbrlGDOMiUszG0McMJPvZG9Qx2qd7ZtU3v-wCuPB86yHV0c2sZ2xu0RV4hzjz72x3ZsCD6MtXyBp_",
-  "craRXyKiv0p7iJr0IQEGdC:APA91bFIeri2EwDEh0nCw47jKmM093BonDtUIbqyP4N5g1j1LK3HzCrBmOhqYZ-jqqugMwGJxjHVcARHobamJZvI8SHEReD8_1OYtwO_ymsfq5hje7NLlcJ-0owxUaPTI2RfFShflBzv"
-];
-
-Future<Null> sendToAll() async {
-  for (var token in tokens) {
-    await http.post('https://fcm.googleapis.com/fcm/send',
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'key=${Constants.serverToken}',
-        },
-        body: json.encode(
-          <String, dynamic>{
-            'notification': <String, dynamic>{
-              'body':
-                  'A huge thank you to everyone that is a part of TheirCircle! Show your appreciation with a simple post to be featured in our IG page!',
-            },
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'status': 'done',
-              'sound': 'default'
-            },
-            'to': token,
-          },
-        ));
-  }
-}
 
 Future<Null> sendPush(int nID, String token, String text, String postId,
     String receiverId) async {
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
 
   Notification notification = Notification(
       screen: "COMMENT_PAGE",
@@ -138,8 +91,7 @@ Future<Null> sendPush(int nID, String token, String text, String postId,
 
 Future<Null> sendPushVideo(int nID, String token, String text, String videoId,
     String receiverId) async {
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
 
   Notification notification = Notification(
       screen: "VIDEO_COMMENT_PAGE",
@@ -187,8 +139,7 @@ Future<Null> sendPushVideo(int nID, String token, String text, String videoId,
 
 Future<Null> sendPushChat(String token, String text, String userId,
     String chatId, String receiverId) async {
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
 
   await http.post('https://fcm.googleapis.com/fcm/send',
       headers: <String, String>{
@@ -207,7 +158,7 @@ Future<Null> sendPushChat(String token, String text, String userId,
             'status': 'done',
             "sound": "default",
             "screen": "CHAT_PAGE",
-            "extradata": {'type': 'chat', 'id': uid, 'chatId': chatId}
+            "extradata": {'type': 'chat', 'id': FIR_UID, 'chatId': chatId}
           },
           'to': token,
         },
@@ -216,8 +167,7 @@ Future<Null> sendPushChat(String token, String text, String userId,
 
 Future<Null> sendPushRoomChat(
     List<String> tokens, String text, Room room) async {
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
   print('sending');
   for (var token in tokens) {
     print('sending to ' + token);
@@ -253,8 +203,7 @@ Future<Null> sendPushRoomChat(
 
 Future<Null> sendPushPoll(String token, String text, Club club, Course course,
     String postId, String receiverId) async {
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
 
   Notification notification = Notification(
       screen: "COMMENT_PAGE",
@@ -326,7 +275,7 @@ Future<Null> send(String token, String receiverId) async {
             <String, dynamic>{
               'notification': <String, dynamic>{
                 'body':
-                    "Answer our daily question: What skill is definitely worth learning?",
+                    "Answer our daily question: If you could erase one memory from your mind, what would it be and why?",
               },
               'priority': 'high',
               'data': <String, dynamic>{
@@ -515,13 +464,9 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text,
     String postId, String receiverId) async {
   var body = "";
 
-  await Constants.fm.requestNotificationPermissions(
-    const IosNotificationSettings(
-        sound: true, badge: true, alert: true, provisional: false),
-  );
+  await Constants.fm.requestPermission();
 
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
   var t = "${club.name}";
 
   switch (nID) {
@@ -591,13 +536,9 @@ Future<Null> sendPushCourse(Course course, int nID, String token, String text,
     String postId, String receiverId) async {
   var body = "";
 
-  await Constants.fm.requestNotificationPermissions(
-    const IosNotificationSettings(
-        sound: true, badge: true, alert: true, provisional: false),
-  );
+  await Constants.fm.requestPermission();
 
-  var uid = firebaseAuth.currentUser.uid;
-  var me = await getUser(uid);
+  var me = await getUser(FIR_UID);
   var t = "${course.name}";
 
   switch (nID) {
@@ -651,10 +592,7 @@ Future<Null> sendPushCourse(Course course, int nID, String token, String text,
 }
 
 Future<bool> uploadNotification(Notification n, String receiverId) async {
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('notifications')
-      .child(receiverId);
+  var db = NOTIFICATIONS_DB.child(receiverId);
   var key = db.push();
 
   Map<dynamic, dynamic> data = {
@@ -702,9 +640,8 @@ Future<bool> uploadNotification(Notification n, String receiverId) async {
 
 Future<List<Notification>> fetchNotifications() async {
   List<Notification> notifications = [];
-  var uid = firebaseAuth.currentUser.uid;
-  var db =
-      FirebaseDatabase.instance.reference().child('notifications').child(uid);
+
+  var db = NOTIFICATIONS_DB.child(FIR_UID);
 
   DataSnapshot snap = await db.once();
   Map<dynamic, dynamic> values = snap.value;
@@ -742,7 +679,8 @@ Future<List<Notification>> fetchNotifications() async {
   return notifications;
 }
 
-Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
+Future<List<dynamic>> handleNotification(RemoteMessage message) async {
+  var data = message.data;
   var status = data['status'];
   var screen = data['screen'];
   Map<String, dynamic> extradata;
@@ -822,10 +760,7 @@ Future<List<dynamic>> handleNotification(Map<String, dynamic> data) async {
 }
 
 Future<Null> seenAllNotifications() async {
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('notifications')
-      .child(firebaseAuth.currentUser.uid);
+  var db = NOTIFICATIONS_DB.child(FIR_UID);
   List<Notification> notifications = await fetchNotifications();
   for (var notification in notifications) {
     var key = notification.notificationId;
@@ -834,11 +769,6 @@ Future<Null> seenAllNotifications() async {
 }
 
 Future<Null> seenNotification(String id) async {
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('notifications')
-      .child(firebaseAuth.currentUser.uid)
-      .child(id)
-      .child('seen');
+  var db = NOTIFICATIONS_DB.child(FIR_UID).child(id).child('seen');
   await db.set(true);
 }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,17 +7,16 @@ import 'package:unify/Models/club.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class OneHealingSpace {
-  static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
   static bool isRequested(Club club) {
-    var uid = firebaseAuth.currentUser.uid;
     var joinRequests = club.joinRequests;
     if (joinRequests == null || joinRequests.length == 0) {
       return false;
     }
-    if ((joinRequests.singleWhere((it) => it.id == uid, orElse: () => null)) !=
+    if ((joinRequests.singleWhere((it) => it.id == FIR_UID,
+            orElse: () => null)) !=
         null) {
       return true;
     } else {
@@ -27,18 +25,13 @@ class OneHealingSpace {
   }
 
   static Future<bool> request(Club club) async {
-    var uniKey = Constants.checkUniversity();
     var db = FirebaseDatabase.instance
         .reference()
         .child("partners")
         .child("onehealingspace")
         .child('joinRequests')
-        .child(firebaseAuth.currentUser.uid);
-    await db.set(uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU');
+        .child(FIR_UID);
+    await db.set(Constants.uniString(uniKey));
     return true;
   }
 
@@ -48,7 +41,7 @@ class OneHealingSpace {
         .child("partners")
         .child("onehealingspace")
         .child('joinRequests')
-        .child(firebaseAuth.currentUser.uid);
+        .child(FIR_UID);
     await db.remove();
     return true;
   }
@@ -65,16 +58,14 @@ class OneHealingSpace {
   }
 
   static Future<bool> acceptUser(PostUser user) async {
-    var uniKey = Constants.checkUniversity();
     var db = FirebaseDatabase.instance
         .reference()
         .child("partners")
         .child('onehealingspace');
-    await db.child('memberList').child(user.id).set(uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU');
+    await db
+        .child('memberList')
+        .child(user.id)
+        .set(Constants.uniString(uniKey));
     await removeUserFromRequests(user);
     return true;
   }
@@ -97,34 +88,30 @@ class OneHealingSpace {
         .child('onehealingspace')
         .child('memberList')
         .child(user.id);
-    await db.remove().catchError(() {
+    await db.remove().catchError((e) {
       return false;
     });
     return true;
   }
 
   static Future<bool> leave() async {
-    var uid = firebaseAuth.currentUser.uid;
     var db = FirebaseDatabase.instance
         .reference()
         .child("partners")
         .child('onehealingspace');
-    await db.child('memberList').child(uid).remove();
+    await db.child('memberList').child(FIR_UID).remove();
     return true;
   }
 
   static Future<bool> join() async {
-    var uniKey = Constants.checkUniversity();
-    var uid = firebaseAuth.currentUser.uid;
     var db = FirebaseDatabase.instance
         .reference()
         .child("partners")
         .child('onehealingspace');
-    await db.child('memberList').child(uid).set(uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU');
+    await db
+        .child('memberList')
+        .child(FIR_UID)
+        .set(Constants.uniString(uniKey));
     return true;
   }
 
@@ -155,7 +142,7 @@ class OneHealingSpace {
         name: value['name'],
         description: value['description'],
         postCount: value['postCount'],
-        admin: value['adminId'] == firebaseAuth.currentUser.uid,
+        admin: value['adminId'] == FIR_UID,
         privacy: value['privacy'],
         adminId: value['adminId'],
         imgUrl: value['imgUrl']);
@@ -182,12 +169,12 @@ class OneHealingSpace {
   }
 
   static bool inClub(Club club) {
-    var uid = firebaseAuth.currentUser.uid;
     var memberList = club.memberList;
     if (memberList == null || memberList.length == 0) {
       return false;
     }
-    if ((memberList.singleWhere((it) => it.id == uid, orElse: () => null)) !=
+    if ((memberList.singleWhere((it) => it.id == FIR_UID,
+            orElse: () => null)) !=
         null) {
       return true;
     } else {
@@ -279,7 +266,7 @@ class OneHealingSpace {
 
     var i = 0;
 
-    if (post.userId != firebaseAuth.currentUser.uid) {
+    if (post.userId != FIR_UID) {
       if (filters != null) {
         for (var filter in filters) {
           if (post.content.toLowerCase().contains(filter.toLowerCase())) {
@@ -298,7 +285,7 @@ class OneHealingSpace {
   }
 
   static Future<List<Post>> fetchPosts(int sortBy) async {
-    List<Post> p = List<Post>();
+    List<Post> p = [];
     var db = FirebaseDatabase.instance
         .reference()
         .child("partners")
@@ -374,7 +361,7 @@ class OneHealingSpace {
 
       var i = 0;
 
-      if (post.userId != firebaseAuth.currentUser.uid) {
+      if (post.userId != FIR_UID) {
         if (filters != null) {
           for (var filter in filters) {
             if (post.content.toLowerCase().contains(filter.toLowerCase())) {
@@ -394,16 +381,15 @@ class OneHealingSpace {
     if (sortBy == 0) {
       p.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
     } else {
-      p.sort((a, b) => (b.userId == firebaseAuth.currentUser.uid)
+      p.sort((a, b) => (b.userId == FIR_UID)
           .toString()
-          .compareTo((a.userId == firebaseAuth.currentUser.uid).toString()));
+          .compareTo((a.userId == FIR_UID).toString()));
     }
     return p;
   }
 
   static Future<bool> createPost(Post post) async {
-    PostUser user = await getUser(firebaseAuth.currentUser.uid);
-    var uniKey = Constants.checkUniversity();
+    PostUser user = await getUser(FIR_UID);
     var db = FirebaseDatabase.instance
         .reference()
         .child('partners')
@@ -412,16 +398,12 @@ class OneHealingSpace {
     var userDB = FirebaseDatabase.instance
         .reference()
         .child('users')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
+        .child(Constants.uniString(uniKey))
         .child(user.id)
         .child('myposts');
     var key = db.push();
     final Map<String, dynamic> data = {
-      "userId": firebaseAuth.currentUser.uid,
+      "userId": FIR_UID,
       "name": user.name,
       "content": post.content,
       "timeStamp": DateTime.now().millisecondsSinceEpoch,
@@ -429,11 +411,7 @@ class OneHealingSpace {
       "likeCount": 0,
       "commentCount": 0,
       "imgUrl": post.imgUrl,
-      "university": uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU'
+      "university": Constants.uniString(uniKey)
     };
 
     if (post.questionOne != null && post.questionTwo != null) {
@@ -458,16 +436,11 @@ class OneHealingSpace {
   }
 
   static Future<bool> deletePost(String postId) async {
-    var uniKey = Constants.checkUniversity();
     var myDB = FirebaseDatabase.instance
         .reference()
         .child('users')
-        .child(uniKey == 0
-            ? 'UofT'
-            : uniKey == 1
-                ? 'YorkU'
-                : 'WesternU')
-        .child(firebaseAuth.currentUser.uid)
+        .child(Constants.uniString(uniKey))
+        .child(FIR_UID)
         .child('myposts')
         .child(postId);
     var postdb = FirebaseDatabase.instance
@@ -514,7 +487,7 @@ class OneHealingSpace {
   }
 
   static Future<List<Comment>> fetchComments(Post post) async {
-    List<Comment> c = List<Comment>();
+    List<Comment> c = [];
     var db = FirebaseDatabase.instance
         .reference()
         .child('partners')
@@ -541,16 +514,11 @@ class OneHealingSpace {
     return c;
   }
 
-  static Future<bool> deleteComment(Post post) async {}
+  static Future<Null> deleteComment(Post post) async {}
 
   static Future<bool> postComment(Comment comment, Post post) async {
-    var uniKey = Constants.checkUniversity();
-    var university = uniKey == 0
-        ? 'UofT'
-        : uniKey == 1
-            ? 'YorkU'
-            : 'WesternU';
-    PostUser user = await getUser(firebaseAuth.currentUser.uid);
+    var university = Constants.uniString(uniKey);
+    PostUser user = await getUser(FIR_UID);
     var db = FirebaseDatabase.instance
         .reference()
         .child('partners')
@@ -563,7 +531,7 @@ class OneHealingSpace {
     final Map<String, dynamic> data = {
       "content": comment.content,
       "username": user.name,
-      "userId": firebaseAuth.currentUser.uid,
+      "userId": FIR_UID,
       "timeStamp": DateTime.now().millisecondsSinceEpoch,
       "university": university
     };
@@ -583,8 +551,8 @@ class OneHealingSpace {
         .child('posts')
         .child(post.id)
         .child('likes')
-        .child(firebaseAuth.currentUser.uid)
-        .set(firebaseAuth.currentUser.uid)
+        .child(FIR_UID)
+        .set(FIR_UID)
         .catchError((err) {
       return false;
     });
@@ -599,7 +567,7 @@ class OneHealingSpace {
         .child('posts')
         .child(post.id)
         .child('votes')
-        .child(firebaseAuth.currentUser.uid)
+        .child(FIR_UID)
         .set(option)
         .catchError((err) {
       return false;
@@ -615,7 +583,7 @@ class OneHealingSpace {
         .child('posts')
         .child(post.id)
         .child('likes')
-        .child(firebaseAuth.currentUser.uid)
+        .child(FIR_UID)
         .remove()
         .catchError((err) {
       return false;
@@ -624,7 +592,7 @@ class OneHealingSpace {
   }
 
   static Future<bool> createReminder(Assignment assignment, String date) async {
-    PostUser user = await getUser(firebaseAuth.currentUser.uid);
+    PostUser user = await getUser(FIR_UID);
     var key = FirebaseDatabase.instance
         .reference()
         .child('partners')
@@ -637,7 +605,7 @@ class OneHealingSpace {
       "description": assignment.description,
       "createdBy": user.name,
       "timeDue": assignment.timeDue,
-      "userId": firebaseAuth.currentUser.uid,
+      "userId": FIR_UID,
       "timeStamp": DateTime.now().millisecondsSinceEpoch
     };
 
@@ -667,7 +635,7 @@ class OneHealingSpace {
 
   static Future<List<Assignment>> fetchReminders(DateTime _date) async {
     String date = DateFormat('yyyy-MM-dd').format(_date);
-    List<Assignment> a = List<Assignment>();
+    List<Assignment> a = [];
     var db = FirebaseDatabase.instance
         .reference()
         .child("partners")
@@ -723,13 +691,12 @@ class OneHealingSpace {
   }
 
   static Future<Null> pushRedirect() async {
-    var uid = FirebaseAuth.instance.currentUser.uid;
     var db = FirebaseDatabase.instance
         .reference()
         .child('partners')
         .child('onehealingspace')
         .child('redirects')
-        .child(uid);
+        .child(FIR_UID);
     var count = 0;
     DataSnapshot snap = await db.once();
     if (snap.value != null) {

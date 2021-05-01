@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +15,7 @@ import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/ProfilePage.dart';
 import 'package:unify/widgets/PostWidget.dart';
 
@@ -39,7 +39,6 @@ class PostDetailPage extends StatefulWidget {
 }
 
 class _PostDetailPageState extends State<PostDetailPage> {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
   bool isCommenting = false;
@@ -231,7 +230,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                               .where((element) => element.name.trim() == name);
                           newTags[name] = {
                             'id': uid.first.id,
-                            'token': uid.first.device_token
+                            'token': uid.first.deviceToken
                           };
                         }
                       }
@@ -292,8 +291,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
                       if (res) {
                         var user = await getUser(widget.post.userId);
-                        var token = user.device_token;
-                        if (user.id != firebaseAuth.currentUser.uid) {
+                        var token = user.deviceToken;
+                        if (user.id != FIR_UID) {
                           if (newTags.isNotEmpty) {
                             newTags.forEach((key, value) {
                               var id = value['id'];
@@ -725,7 +724,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                   width: 10,
                                   height: 10,
                                   child: LoadingIndicator(
-                                    indicatorType: Indicator.circleStrokeSpin,
+                                    indicatorType:
+                                        Indicator.ballClipRotateMultiple,
                                     color: Theme.of(context).accentColor,
                                   )),
                             ),
@@ -742,7 +742,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
               Row(
                 children: [
                   Text(
-                    widget.post.userId == firebaseAuth.currentUser.uid
+                    widget.post.userId == FIR_UID
                         ? "You"
                         : widget.post.isAnonymous
                             ? "Anon"
@@ -750,14 +750,13 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 ? widget.post.username.trim()
                                 : widget.post.username
                                     .trim()
-                                    .replaceAll(' ', '\n'),
+                                    .replaceFirst(' ', '\n'),
                     style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color:
-                            widget.post.userId == firebaseAuth.currentUser.uid
-                                ? Colors.indigo
-                                : Theme.of(context).accentColor),
+                        color: widget.post.userId == FIR_UID
+                            ? Colors.indigo
+                            : Theme.of(context).accentColor),
                   ),
                   Text(
                     " • ${widget.timeAgo}",

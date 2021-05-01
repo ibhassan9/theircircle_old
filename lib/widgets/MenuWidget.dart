@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Components/Constants.dart';
-import 'package:unify/Models/news.dart';
-import 'package:unify/pages/MatchPage.dart';
-import 'package:unify/pages/MyMatchesPage.dart';
+
 import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/pages/courses_page.dart';
 

@@ -6,14 +6,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/OHS.dart';
+import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/Widgets/ClubWidget.dart';
-import 'package:unify/Widgets/CourseWidget.dart';
 import 'package:unify/Models/club.dart';
-import 'package:unify/Models/course.dart';
 import 'package:unify/pages/OHS%20Pages/MainPage.dart';
-import 'package:unify/pages/club_page.dart';
-import 'package:unify/Components/Constants.dart';
 
 class ClubsPage extends StatefulWidget {
   @override
@@ -124,6 +121,12 @@ class _ClubsPageState extends State<ClubsPage>
           btnOkColor: Colors.deepPurpleAccent,
           btnOkOnPress: () async {
             // create club
+            //
+            if (clubNameController.text.isEmpty ||
+                clubDescriptionController.text.isEmpty) {
+              previewMessage('All fields are required', context);
+              return;
+            }
             var club = Club(
                 name: clubNameController.text,
                 description: clubDescriptionController.text,
@@ -239,11 +242,12 @@ class _ClubsPageState extends State<ClubsPage>
                           if (snap.connectionState == ConnectionState.waiting)
                             return Center(
                                 child: SizedBox(
-                                    width: 15,
-                                    height: 15,
+                                    width: 40,
+                                    height: 40,
                                     child: LoadingIndicator(
-                                      indicatorType: Indicator.circleStrokeSpin,
-                                      color: Theme.of(context).accentColor,
+                                      indicatorType:
+                                          Indicator.ballClipRotateMultiple,
+                                      color: Colors.deepPurpleAccent,
                                     )));
                           else if (snap.hasData)
                             return ListView.builder(
@@ -375,13 +379,7 @@ class _ClubsPageState extends State<ClubsPage>
           backgroundColor: Colors.deepPurpleAccent,
           child: Icon(Entypo.plus, color: Colors.white),
           onPressed: () async {
-            await checkPoints().then((points) {
-              if (points > 100) {
-                addClubDialog();
-              } else {
-                // cannot create club because of points
-              }
-            });
+            addClubDialog();
           },
         ),
       ),

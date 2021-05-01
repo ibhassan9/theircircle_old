@@ -28,7 +28,6 @@ class OHSPostDetail extends StatefulWidget {
 }
 
 class _OHSPostDetailState extends State<OHSPostDetail> {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController commentController = TextEditingController();
   Future<List<Comment>> commentFuture;
   bool isCommenting = false;

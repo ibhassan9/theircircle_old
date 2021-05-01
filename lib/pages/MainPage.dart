@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,54 +11,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:provider/provider.dart' as p;
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Components/theme.dart';
 import 'package:unify/Components/theme_notifier.dart';
+import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/room.dart';
-import 'package:unify/pages/CameraScreen.dart';
-import 'package:unify/pages/CreateRoom.dart';
-import 'package:unify/pages/MatchPage.dart';
-import 'package:unify/pages/MyProfilePage.dart';
-import 'package:unify/pages/MyReferral.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/NotificationsPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
-import 'package:unify/pages/Rooms.dart';
 import 'package:unify/pages/TodaysQuestionPage.dart';
-import 'package:unify/pages/UserSearchPage.dart';
-import 'package:unify/pages/VideosPage.dart';
-import 'package:unify/pages/clubs_page.dart';
 import 'package:unify/Components/Constants.dart';
-import 'package:unify/pages/courses_page.dart';
-import 'package:unify/pages/FilterPage.dart';
-import 'package:unify/widgets/CalendarWidget.dart';
 import 'package:unify/widgets/CompleteProfileWidget.dart';
 import 'package:unify/widgets/CreateRoomButtonMain.dart';
 import 'package:unify/widgets/InviteFriendWidget.dart';
 import 'package:unify/widgets/PostWidget.dart';
-import 'package:unify/Widgets/MenuWidget.dart';
 import 'package:unify/Models/news.dart';
-import 'package:unify/Models/notification.dart' as noti;
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart' as u;
-import 'package:unify/pages/NewsView.dart';
 import 'package:unify/Widgets/NewsWidget.dart';
 import 'package:unify/pages/PostPage.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
-import 'package:unify/pages/UserPage.dart';
-import 'package:unify/Widgets/UserWidget.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:unify/pages/WebPage.dart';
 import 'package:unify/widgets/RoomWidgetMain.dart';
 import 'package:unify/widgets/TodaysQuestionWidget.dart';
 import 'package:unify/widgets/WelcomeWidget.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MainPage extends StatefulWidget {
@@ -75,7 +51,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>
     with AutomaticKeepAliveClientMixin {
   TextEditingController contentController = TextEditingController();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   TextEditingController bioController = TextEditingController();
   TextEditingController snapchatController = TextEditingController();
   TextEditingController linkedinController = TextEditingController();
@@ -86,11 +62,11 @@ class _MainPageState extends State<MainPage>
   var promo;
   u.PostUser user;
   Future<List<News>> _newsFuture;
-  Future<List<Post>> _postFuture;
-  Future<List<u.PostUser>> _userFuture;
+
   Future<String> _questionFuture;
   Future<List<Room>> _roomFuture;
   int sortBy = 0;
+  int sortID = 0;
   String imgUrl;
   bool doneLoading = true;
   String lastPostID = '';
@@ -137,10 +113,10 @@ class _MainPageState extends State<MainPage>
                   ),
                   title: new Text("THEIRCIRCLE",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.quicksand(
                           color: Theme.of(context).accentColor,
                           fontSize: 13,
-                          fontWeight: FontWeight.w700)),
+                          fontWeight: FontWeight.w900)),
                   pinned: false,
                   floating: true,
                   snap: true,
@@ -156,8 +132,9 @@ class _MainPageState extends State<MainPage>
                           radius: 25.0,
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.05),
-                          child: Unicon(UniconData.uniChat,
-                              size: 20.0, color: Colors.blue),
+                          child: Icon(FlutterIcons.message1_ant,
+                              size: 20.0,
+                              color: Colors.lightBlueAccent.shade700),
                         ),
                       ),
                     ),
@@ -173,7 +150,7 @@ class _MainPageState extends State<MainPage>
                   setState(() {
                     loadingMore = true;
                   });
-                  fetchPosts(sortBy,
+                  fetchPosts(sortID,
                           lastPostID: lastPostID,
                           lastPostTimeStamp: lastPostTimeStamp)
                       .then((value) {
@@ -194,85 +171,50 @@ class _MainPageState extends State<MainPage>
                       promoWidget(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 0.0),
-                        child: FadeIn(
-                          from: SlideFrom.TOP,
-                          child: WelcomeWidget(
-                            create: () {
-                              showBarModalBottomSheet(
-                                      context: context,
-                                      expand: true,
-                                      builder: (context) => PostPage())
-                                  .then((refresh) {
-                                if (refresh == false) {
-                                  return;
-                                }
+                        child: WelcomeWidget(
+                          create: () {
+                            showBarModalBottomSheet(
+                                    context: context,
+                                    expand: true,
+                                    builder: (context) => PostPage())
+                                .then((refresh) {
+                              if (refresh == false) {
+                                return;
+                              }
+                              fetchPosts(sortBy).then((value) {
                                 setState(() {
-                                  _postFuture = fetchPosts(sortBy);
+                                  posts = value;
                                 });
                               });
-                            },
-                            answerQuestion: () async {
-                              var question = await _questionFuture;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TodaysQuestionPage(
-                                          question: question))).then((value) {
-                                if (value == false) {
-                                  return;
-                                }
-                                refresh();
-                              });
-                            },
-                            startRoom: () => print("test"),
-                          ),
+                            });
+                          },
+                          answerQuestion: () async {
+                            var question = await _questionFuture;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TodaysQuestionPage(
+                                        question: question))).then((value) {
+                              if (value == false) {
+                                return;
+                              }
+                              refresh();
+                            });
+                          },
+                          startRoom: () => print("test"),
                         ),
                       ),
                       questionWidget(),
-                      FadeIn(
-                        from: SlideFrom.TOP,
-                        fade: true,
-                        child: InkWell(
-                            onTap: () async {
-                              final RenderBox box = context.findRenderObject();
-                              var title = Constants.inviteTitle;
-                              await Share.share(title,
-                                  subject: "TheirCircle",
-                                  sharePositionOrigin:
-                                      box.localToGlobal(Offset.zero) &
-                                          box.size);
-                            },
-                            child: InviteFriendsWidget()),
-                      ),
-
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Text('Rooms', style: GoogleFonts.quicksand(
-                      //fontFamily: 'Helvetica Neue',)),
-                      //       InkWell(
-                      //         onTap: () {
-                      //           Navigator.push(context,
-                      //               MaterialPageRoute(builder: (context) => Rooms()));
-                      //         },
-                      //         child: Row(
-                      //           crossAxisAlignment: CrossAxisAlignment.center,
-                      //           children: [
-                      //             Text('See All',
-                      //                 style: GoogleFonts.quicksand(
-                      //fontFamily: 'Helvetica Neue',
-                      //                     fontSize: 12,
-                      //                     color: Theme.of(context).buttonColor)),
-                      //             Icon(FlutterIcons.arrowright_ant, size: 12.0)
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      //
+                      InkWell(
+                          onTap: () async {
+                            final RenderBox box = context.findRenderObject();
+                            var title = Constants.inviteTitle;
+                            await Share.share(title,
+                                subject: "TheirCircle",
+                                sharePositionOrigin:
+                                    box.localToGlobal(Offset.zero) & box.size);
+                          },
+                          child: InviteFriendsWidget()),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
@@ -283,20 +225,6 @@ class _MainPageState extends State<MainPage>
                                 fontWeight: FontWeight.bold)),
                       ),
                       rooms(),
-
-                      //WelcomeWidget(),
-                      //questionWidget(),
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                      //   child: Text(
-                      //     "Recent University News".toUpperCase(),
-                      //     style: GoogleFonts.quicksand(
-                      //         fontFamily: 'Helvetica Neue',
-                      //         fontSize: 13,
-                      //         fontWeight: FontWeight.w600,
-                      //         color: Theme.of(context).accentColor),
-                      //   ),
-                      // ),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
@@ -313,44 +241,6 @@ class _MainPageState extends State<MainPage>
                           height: 8.0,
                         ),
                       ),
-                      //Divider(),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(15),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Text(
-                      //         "Campus Feed",
-                      //         style: GoogleFonts.quicksand(
-                      //fontFamily: 'Helvetica Neue',
-                      //             fontSize: 13,
-                      //             fontWeight: FontWeight.w500,
-                      //             color: Theme.of(context).accentColor),
-                      //       ),
-                      //       InkWell(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             if (sortBy == 0) {
-                      //               sortBy = 1;
-                      //             } else {
-                      //               sortBy = 0;
-                      //             }
-                      //             _postFuture = fetchPosts(sortBy);
-                      //           });
-                      //         },
-                      //         child: Text(
-                      //           "Sort by: ${sortBy == 0 ? 'Recent' : 'You first'}",
-                      //           style: GoogleFonts.quicksand(
-                      //fontFamily: 'Helvetica Neue',
-                      //               fontSize: 14,
-                      //               fontWeight: FontWeight.w800,
-                      //               color: Colors.grey.shade600),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      //Divider(),
                       Container(
                         color: Theme.of(context).backgroundColor,
                         child: Padding(
@@ -363,18 +253,10 @@ class _MainPageState extends State<MainPage>
                               SizedBox(width: 5.0),
                               InkWell(
                                 onTap: () {
-                                  // setState(() {
-                                  //   if (sortBy == 0) {
-                                  //     sortBy = 1;
-                                  //   } else {
-                                  //     sortBy = 0;
-                                  //   }
-                                  //   _postFuture = fetchPosts(sortBy);
-                                  // });
                                   showSortBy();
                                 },
                                 child: Text(
-                                  "SORTING BY: ${sortBy == 0 ? 'Recent' : sortBy == 1 ? 'You first' : sortBy == 2 ? 'Polls' : 'Daily Questions Answered'}"
+                                  "SORTING BY: ${sortID == 0 ? 'Recent' : sortID == 1 ? 'You first' : sortID == 2 ? 'Polls' : 'Daily Questions Answered'}"
                                       .toUpperCase(),
                                   style: GoogleFonts.quicksand(
                                       fontSize: 11,
@@ -414,7 +296,7 @@ class _MainPageState extends State<MainPage>
         mini: false,
         child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
-          // await noti.sendNewQuestionToAll();
+          //await sendNewQuestionToAll();
           showBarModalBottomSheet(
               context: context,
               expand: true,
@@ -422,8 +304,10 @@ class _MainPageState extends State<MainPage>
             if (refresh == false) {
               return;
             }
-            setState(() {
-              _postFuture = fetchPosts(sortBy);
+            fetchPosts(sortBy).then((value) {
+              setState(() {
+                posts = value;
+              });
             });
           });
         },
@@ -457,12 +341,9 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                fetchPosts(0).then((value) {
-                  setState(() {
-                    sortBy = 0;
-                    posts = value;
-                    rand();
-                  });
+                setState(() {
+                  posts.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+                  sortID = 0;
                 });
                 Navigator.pop(context);
               },
@@ -483,12 +364,11 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                fetchPosts(1).then((value) {
-                  setState(() {
-                    sortBy = 1;
-                    posts = value;
-                    rand();
-                  });
+                setState(() {
+                  posts.sort((a, b) => (b.userId == FIR_UID)
+                      .toString()
+                      .compareTo((a.userId == FIR_UID).toString()));
+                  sortID = 1;
                 });
                 Navigator.pop(context);
               },
@@ -509,12 +389,11 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                fetchPosts(2).then((value) {
-                  setState(() {
-                    sortBy = 2;
-                    posts = value;
-                    rand();
-                  });
+                setState(() {
+                  posts.sort((a, b) => (b.questionOne != null)
+                      .toString()
+                      .compareTo((a.questionOne != null).toString()));
+                  sortID = 2;
                 });
                 Navigator.pop(context);
               },
@@ -535,12 +414,11 @@ class _MainPageState extends State<MainPage>
             ),
             InkWell(
               onTap: () {
-                fetchPosts(3).then((value) {
-                  setState(() {
-                    sortBy = 3;
-                    posts = value;
-                    rand();
-                  });
+                setState(() {
+                  posts.sort((a, b) => (b.tcQuestion != null)
+                      .toString()
+                      .compareTo((a.tcQuestion != null).toString()));
+                  sortID = 3;
                 });
                 Navigator.pop(context);
               },
@@ -576,79 +454,44 @@ class _MainPageState extends State<MainPage>
             builder: (context, snap) {
               if (snap.hasData &&
                   snap.connectionState == ConnectionState.done) {
-                return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: snap.data.length + 1,
-                    itemBuilder: (context, index) {
-                      Function reloadRooms = () {
-                        setState(() {
-                          _roomFuture = Room.fetchAll();
-                        });
-                      };
-                      if (index == 0) {
-                        return CreateRoomButtonMain(reloadRooms: reloadRooms);
-                      } else {
-                        Room room = snap.data[index - 1];
-                        return RoomWidgetMain(room: room, reload: reloadRooms);
-                      }
-                      // return index == 0 ? InkWell(
-                      //   onTap: () {
-                      //     if (index == 0) {
-                      //       Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //               builder: (context) => CreateRoom()));
-                      //     }
-                      //   },
-                      //   child: Stack(
-                      //     children: [
-                      //       Column(
-                      //         children: [
-                      //           Container(
-                      //             margin: const EdgeInsets.only(right: 5.0),
-                      //             width: 60,
-                      //             height: 60,
-                      //             decoration: BoxDecoration(
-                      //                 color: Theme.of(context).dividerColor,
-                      //                 borderRadius: BorderRadius.circular(5.0)),
-                      //             child: index == 0
-                      //                 ? Icon(FlutterIcons.add_mdi,
-                      //                     color: Theme.of(context).accentColor)
-                      //                 : SizedBox(),
-                      //           ),
-                      //           SizedBox(height: 5.0),
-                      //           Container(
-                      //             width: 60,
-                      //             child: Center(
-                      //               child: Text(
-                      //                   index == 0 ? 'Create' : room.name,
-                      //                   textAlign: TextAlign.center,
-                      //                   style:
-                      //                       GoogleFonts.quicksand(
-                      //                fontFamily:
-                      //'Avenir',fontSize: 10.0),
-                      //                   maxLines: 2,
-                      //                   overflow: TextOverflow.ellipsis),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //       Positioned(
-                      //           top: 0.0,
-                      //           right: 3.0,
-                      //           child: CircleAvatar(
-                      //             backgroundColor: Colors.blue,
-                      //             radius: 5.0,
-                      //           )),
-                      //     ],
-                      //   ),
-                      // );
-                    });
+                return AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: snap.data.length + 1,
+                      itemBuilder: (context, index) {
+                        Function reloadRooms = () {
+                          setState(() {
+                            _roomFuture = Room.fetchAll();
+                          });
+                        };
+                        if (index == 0) {
+                          return AnimatedSwitcher(
+                            duration: Duration(seconds: 1),
+                            child:
+                                CreateRoomButtonMain(reloadRooms: reloadRooms),
+                          );
+                        } else {
+                          Room room = snap.data[index - 1];
+                          return AnimatedSwitcher(
+                            duration: Duration(seconds: 1),
+                            child:
+                                RoomWidgetMain(room: room, reload: reloadRooms),
+                          );
+                        }
+                      }),
+                );
               } else {
                 return AnimatedSwitcher(
-                    duration: Duration(seconds: 1), child: Container());
+                    duration: Duration(seconds: 1),
+                    child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: LoadingIndicator(
+                            indicatorType: Indicator.ballClipRotateMultiple,
+                            color: Colors.deepPurpleAccent)));
               }
             },
           )),
@@ -697,7 +540,7 @@ class _MainPageState extends State<MainPage>
                             width: 15,
                             height: 15,
                             child: LoadingIndicator(
-                              indicatorType: Indicator.circleStrokeSpin,
+                              indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor,
                             )),
                       ),
@@ -727,7 +570,7 @@ class _MainPageState extends State<MainPage>
     notificationStream = FirebaseDatabase.instance
         .reference()
         .child('notifications')
-        .child(firebaseAuth.currentUser.uid)
+        .child(FIR_UID)
         .onValue;
     getUserData().then((value) {
       _newsFuture = uni == 1
@@ -741,7 +584,6 @@ class _MainPageState extends State<MainPage>
           rand();
         });
       });
-      _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
       _roomFuture = Room.fetchAll();
       isFirstLaunch();
@@ -761,7 +603,6 @@ class _MainPageState extends State<MainPage>
           rand();
         });
       });
-      _userFuture = u.myCampusUsers();
       _questionFuture = fetchQuestion();
       _roomFuture = Room.fetchAll();
     });
@@ -784,8 +625,10 @@ class _MainPageState extends State<MainPage>
           if (refresh == false) {
             return;
           }
-          setState(() {
-            _postFuture = fetchPosts(sortBy);
+          fetchPosts(sortBy).then((value) {
+            setState(() {
+              posts = value;
+            });
           });
         });
       }
@@ -900,20 +743,15 @@ class _MainPageState extends State<MainPage>
   }
 
   Future<Null> getUserData() async {
-    await Constants.fm.requestNotificationPermissions(
-      const IosNotificationSettings(
-          sound: true, badge: true, alert: true, provisional: false),
-    );
+    await Constants.fm.requestPermission();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.getInt('uni');
     var _name = prefs.getString('name');
     var _uni = prefs.getInt('uni');
-    var id = firebaseAuth.currentUser.uid;
+    var id = FIR_UID;
     var _user = await u.getUser(id);
     var _promo = await getPromoImage();
     print(_promo);
     setState(() {
-      //list.add(liveUser);
       name = _name;
       uni = _uni;
       user = _user;
@@ -997,10 +835,6 @@ class _MainPageState extends State<MainPage>
                     context: context,
                     expand: true,
                     builder: (context) => NotificationsPage());
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => NotificationsPage()));
               },
               child: Unicon(UniconData.uniBell,
                   size: 25, color: Theme.of(context).accentColor),
@@ -1031,10 +865,6 @@ class _MainPageState extends State<MainPage>
                   context: context,
                   expand: true,
                   builder: (context) => NotificationsPage());
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => NotificationsPage()));
             },
             child: Unicon(UniconData.uniBell,
                 size: 25, color: Theme.of(context).accentColor),
@@ -1056,14 +886,6 @@ class _MainPageState extends State<MainPage>
                   heroTag: UniqueKey().toString(),
                   isMyProfile: true,
                 ));
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => ProfilePage(
-        //               user: _u,
-        //               heroTag: user.id + user.id,
-        //               isMyProfile: true,
-        //             )));
       },
       child: imgUrl == null || imgUrl == ''
           ? Container(
@@ -1124,37 +946,7 @@ class _MainPageState extends State<MainPage>
                     width: MediaQuery.of(context).size.width,
                     height: 200,
                     fit: BoxFit.cover,
-                  )
-                  // child: Image.network(
-                  //   promo != null ? promo : '',
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: 300,
-                  //   fit: BoxFit.cover,
-                  //   loadingBuilder: (BuildContext context, Widget child,
-                  //       ImageChunkEvent loadingProgress) {
-                  //     if (loadingProgress == null) return child;
-                  //     return SizedBox(
-                  //       height: 300,
-                  //       width: MediaQuery.of(context).size.width,
-                  //       child: Center(
-                  //         child: SizedBox(
-                  //           width: 20,
-                  //           height: 20,
-                  //           child: CircularProgressIndicator(
-                  //             strokeWidth: 2.0,
-                  //             valueColor: new AlwaysStoppedAnimation<Color>(
-                  //                 Colors.grey.shade600),
-                  //             value: loadingProgress.expectedTotalBytes != null
-                  //                 ? loadingProgress.cumulativeBytesLoaded /
-                  //                     loadingProgress.expectedTotalBytes
-                  //                 : null,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                  ),
+                  )),
             ),
           )
         : Container();
@@ -1168,8 +960,10 @@ class _MainPageState extends State<MainPage>
             return TodaysQuestionWidget(
               question: snap.data,
               refresh: () {
-                setState(() {
-                  _postFuture = fetchPosts(sortBy);
+                fetchPosts(sortBy).then((value) {
+                  setState(() {
+                    posts = value;
+                  });
                 });
               },
             );
@@ -1177,8 +971,10 @@ class _MainPageState extends State<MainPage>
             return TodaysQuestionWidget(
               question: 'Loading Daily Question...',
               refresh: () {
-                setState(() {
-                  _postFuture = fetchPosts(sortBy);
+                fetchPosts(sortBy).then((value) {
+                  setState(() {
+                    posts = value;
+                  });
                 });
               },
             );
@@ -1202,7 +998,7 @@ class _MainPageState extends State<MainPage>
                           width: 0,
                           height: 0,
                           child: LoadingIndicator(
-                            indicatorType: Indicator.circleStrokeSpin,
+                            indicatorType: Indicator.ballClipRotateMultiple,
                             color: Theme.of(context).accentColor,
                           ))),
                 );
@@ -1259,8 +1055,10 @@ class _MainPageState extends State<MainPage>
                       var res = await deletePost(post.id, null, null);
                       Navigator.pop(context);
                       if (res) {
-                        setState(() {
-                          _postFuture = fetchPosts(sortBy);
+                        fetchPosts(sortBy).then((value) {
+                          setState(() {
+                            posts = value;
+                          });
                         });
                         previewMessage("Post Deleted", context);
                       } else {
@@ -1271,8 +1069,10 @@ class _MainPageState extends State<MainPage>
                       var res = await u.block(post.userId, post.userId);
                       Navigator.pop(context);
                       if (res) {
-                        setState(() {
-                          _postFuture = fetchPosts(sortBy);
+                        fetchPosts(sortBy).then((value) {
+                          setState(() {
+                            posts = value;
+                          });
                         });
                         previewMessage("User blocked.", context);
                       }
@@ -1282,8 +1082,10 @@ class _MainPageState extends State<MainPage>
                       var res = await hidePost(post.id);
                       Navigator.pop(context);
                       if (res) {
-                        setState(() {
-                          _postFuture = fetchPosts(sortBy);
+                        fetchPosts(sortBy).then((value) {
+                          setState(() {
+                            posts = value;
+                          });
                         });
                         previewMessage("Post hidden from feed.", context);
                       }
@@ -1291,15 +1093,17 @@ class _MainPageState extends State<MainPage>
                     var timeAgo =
                         new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
                     if (index == r) {
-                      return user.about != null ||
-                              user.about.isEmpty ||
-                              user.instagramHandle != null ||
-                              user.instagramHandle.isEmpty ||
-                              user.snapchatHandle != null ||
-                              user.snapchatHandle.isEmpty ||
-                              user.profileImgUrl != null ||
-                              user.profileImgUrl.isEmpty
-                          ? CompleteProfileWidget()
+                      return user != null
+                          ? user.about == null ||
+                                  user.about.isEmpty ||
+                                  user.instagramHandle == null ||
+                                  user.instagramHandle.isEmpty ||
+                                  user.snapchatHandle == null ||
+                                  user.snapchatHandle.isEmpty ||
+                                  user.profileImgUrl == null ||
+                                  user.profileImgUrl.isEmpty
+                              ? CompleteProfileWidget()
+                              : Container()
                           : Container();
                     } else {
                       return PostWidget(

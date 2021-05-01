@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/pages/ProductDetailPage.dart';
-import 'package:unify/pages/VideosPage.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ProductWidget extends StatefulWidget {
@@ -67,7 +65,8 @@ class _ProductWidgetState extends State<ProductWidget> {
                                 width: 20,
                                 height: 20,
                                 child: LoadingIndicator(
-                                  indicatorType: Indicator.circleStrokeSpin,
+                                  indicatorType:
+                                      Indicator.ballClipRotateMultiple,
                                   color: Theme.of(context).accentColor,
                                 )),
                           ),

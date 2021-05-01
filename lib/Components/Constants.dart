@@ -22,10 +22,10 @@ class Constants {
   static String dummyDescription = "";
   static String serverToken =
       'AAAAJqrwc8E:APA91bH4aq4iUxbsFitrRD4jV_tQcwIFw1PJTiCqgzX1rQ_MtORMEPmG-Q5On0Ip7xoDtp7ceptPNa0avlsHTXZq_0H3lswJU73chkVjw-GDkLkd3jDNGiwWscY4z0fE4j6T0tdCy7x8';
-  static FirebaseMessaging fm = FirebaseMessaging();
-  static String t_and_c =
+  static FirebaseMessaging fm = FirebaseMessaging.instance;
+  static String termsAndConditions =
       "http://www.theircircleapp.com/terms_and_conditions.html";
-  static String privacy_policy =
+  static String privacyPolicy =
       "http://www.theircircleapp.com/privacy_policy.html";
   static String dummyImageUrl =
       'https://www.publicdomainpictures.net/pictures/240000/velka/beautiful-girl-in-the-park-smiling.jpg';
@@ -39,6 +39,14 @@ class Constants {
       "Hey! I have invited you to join TheirCircle - A platform for students. Here is the link! https://www.theircircleapp.com";
 
   static Color mainColor = Colors.teal;
+
+  static String uniString(int uniKey) {
+    return uniKey == 0
+        ? 'UofT'
+        : uniKey == 1
+            ? 'YorkU'
+            : 'WesternU';
+  }
 
   static termsDialog(BuildContext context) {
     AwesomeDialog(

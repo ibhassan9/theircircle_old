@@ -4,7 +4,6 @@ import 'package:unify/Widgets/JoinRequestWidget.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/user.dart';
-import 'package:unify/Components/Constants.dart';
 
 class JoinRequestsListPage extends StatefulWidget {
   final Club club;

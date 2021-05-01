@@ -368,7 +368,7 @@ class _OHSPostPageState extends State<OHSPostPage> {
                     width: 15,
                     height: 15,
                     child: LoadingIndicator(
-                      indicatorType: Indicator.circleStrokeSpin,
+                      indicatorType: Indicator.ballClipRotateMultiple,
                       color: Colors.white,
                     ))
                 : Text(

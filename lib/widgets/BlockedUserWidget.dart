@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 
 class BlockedUserWidget extends StatelessWidget {
@@ -46,7 +45,7 @@ class BlockedUserWidget extends StatelessWidget {
                                       height: 20,
                                       child: LoadingIndicator(
                                         indicatorType:
-                                            Indicator.circleStrokeSpin,
+                                            Indicator.ballClipRotateMultiple,
                                         color: Theme.of(context).accentColor,
                                       )),
                                 ),

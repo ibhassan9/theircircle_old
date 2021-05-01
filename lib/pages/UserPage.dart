@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class UserPage extends StatefulWidget {
   String userId;
@@ -15,7 +15,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController bioController = TextEditingController();
   Image imag;
   File f;
@@ -137,7 +136,7 @@ class _UserPageState extends State<UserPage> {
                     )),
                     SizedBox(height: 5.0),
                     Center(
-                        child: user.id == firebaseAuth.currentUser.uid
+                        child: user.id == FIR_UID
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     left: 10.0, right: 10.0),
@@ -250,7 +249,7 @@ class _UserPageState extends State<UserPage> {
 
   Future<Null> getUserData() async {
     PostUser _user = widget.userId == null
-        ? await getUser(firebaseAuth.currentUser.uid)
+        ? await getUser(FIR_UID)
         : await getUser(widget.userId);
     setState(() {
       user = _user;

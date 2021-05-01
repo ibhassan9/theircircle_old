@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unify/Components/Constants.dart';
-import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class Message {
   String id;
@@ -21,17 +20,7 @@ class Message {
 }
 
 Future<List<Message>> fetchMessages(String chatId) async {
-  var uniKey = Constants.checkUniversity();
-  //var myID = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('chats')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(chatId);
+  var db = CHATS_DB.child(Constants.uniString(uniKey)).child(chatId);
 
   DataSnapshot snap = await db.once();
   List<Message> messages = [];
@@ -54,44 +43,22 @@ Future<List<Message>> fetchMessages(String chatId) async {
 
 Future<bool> sendMessage(
     String messageText, String receiverId, String chatId, String prodId) async {
-  var uniKey = Constants.checkUniversity();
-  var myID = firebaseAuth.currentUser.uid;
-  var db = FirebaseDatabase.instance
-      .reference()
-      .child('chats')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(chatId);
-  var userdb = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(myID)
+  var db = CHATS_DB.child(Constants.uniString(uniKey)).child(chatId);
+  var userdb = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('chats')
       .child(receiverId);
-  var peerdb = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
+  var peerdb = USERS_DB
+      .child(Constants.uniString(uniKey))
       .child(receiverId)
       .child('chats')
-      .child(myID);
+      .child(FIR_UID);
   var key = db.push();
   final Map<String, dynamic> data = {
     "messageText": messageText,
     "receiverId": receiverId,
-    "senderId": myID,
+    "senderId": FIR_UID,
     "timeStamp": DateTime.now().millisecondsSinceEpoch
   };
   if (prodId != null) {
@@ -104,41 +71,32 @@ Future<bool> sendMessage(
   await userdb.set({
     'lastMessage': messageText,
     'timestamp': DateTime.now().millisecondsSinceEpoch,
-    'senderId': myID,
+    'senderId': FIR_UID,
     'seen': true
   });
   await peerdb.set({
     'lastMessage': messageText,
     'timestamp': DateTime.now().millisecondsSinceEpoch,
-    'senderId': myID,
+    'senderId': FIR_UID,
     'seen': false
   });
   return true;
 }
 
 Future<Null> setSeen(String peerId) async {
-  var uniKey = Constants.checkUniversity();
-  var myID = firebaseAuth.currentUser.uid;
-  var userdb = FirebaseDatabase.instance
-      .reference()
-      .child('users')
-      .child(uniKey == 0
-          ? 'UofT'
-          : uniKey == 1
-              ? 'YorkU'
-              : 'WesternU')
-      .child(myID)
+  var userdb = USERS_DB
+      .child(Constants.uniString(uniKey))
+      .child(FIR_UID)
       .child('chats')
       .child(peerId);
   await userdb.child('seen').set(true);
 }
 
-Future<List<Message>> fetchChatMessage(String peerId) async {
-  var myID = firebaseAuth.currentUser.uid;
-  var chatId = '';
-  if (myID.hashCode <= peerId.hashCode) {
-    chatId = '$myID-$peerId';
-  } else {
-    chatId = '$peerId-$myID';
-  }
-}
+// Future<List<Message>> fetchChatMessage(String peerId) async {
+//   var chatId = '';
+//   if (FIR_UID.hashCode <= peerId.hashCode) {
+//     chatId = '$FIR_UID-$peerId';
+//   } else {
+//     chatId = '$peerId-$FIR_UID';
+//   }
+// }

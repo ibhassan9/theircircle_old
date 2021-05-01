@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/widgets/SearchUserWidget.dart';
 
@@ -184,7 +182,7 @@ class _UserSearchPageState extends State<UserSearchPage>
                               width: 10,
                               height: 10,
                               child: LoadingIndicator(
-                                indicatorType: Indicator.circleStrokeSpin,
+                                indicatorType: Indicator.ballClipRotateMultiple,
                                 color: Theme.of(context).accentColor,
                               )),
                         ),

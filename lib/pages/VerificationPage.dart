@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toast/toast.dart';
-import 'package:unify/Models/user.dart';
 
 class VerificationPage extends StatefulWidget {
   final String uid;
@@ -33,6 +31,31 @@ class _VerificationPageState extends State<VerificationPage> {
               color: Theme.of(context).accentColor),
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.deepPurpleAccent,
+                borderRadius: BorderRadius.circular(5)),
+            child: Center(
+              child: Text(
+                "Back to Main Page",
+                style: GoogleFonts.quicksand(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 10.0),
@@ -55,7 +78,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     color: Theme.of(context).buttonColor),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+
               // VerificationCode(
               //   textStyle: GoogleFonts.quicksand(
               //       fontSize: 20,

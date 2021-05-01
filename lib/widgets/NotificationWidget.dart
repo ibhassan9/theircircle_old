@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart';
 import 'package:unify/Models/notification.dart' as noti;
@@ -67,8 +66,8 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                           width: 10,
                                           height: 10,
                                           child: LoadingIndicator(
-                                            indicatorType:
-                                                Indicator.circleStrokeSpin,
+                                            indicatorType: Indicator
+                                                .ballClipRotateMultiple,
                                             color:
                                                 Theme.of(context).accentColor,
                                           )),

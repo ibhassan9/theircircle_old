@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/club.dart';
 import 'package:unify/Models/course.dart' as c;
 import 'package:unify/Models/post.dart';
 import 'package:unify/Models/user.dart';
+import 'package:unify/pages/DB.dart';
 
 class Comment {
   String content;
@@ -23,52 +22,22 @@ class Comment {
       this.tags});
 }
 
-FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-var commentsDB = FirebaseDatabase.instance.reference().child('comments');
-var postDBUofT =
-    FirebaseDatabase.instance.reference().child('posts').child('UofT');
-var postDBYorkU =
-    FirebaseDatabase.instance.reference().child('posts').child('YorkU');
-var coursepostDBUofT =
-    FirebaseDatabase.instance.reference().child('courseposts').child('UofT');
-var coursepostDBYorkU =
-    FirebaseDatabase.instance.reference().child('courseposts').child('YorkU');
-var clubpostDBUofT =
-    FirebaseDatabase.instance.reference().child('clubposts').child('UofT');
-var clubpostDBYorkU =
-    FirebaseDatabase.instance.reference().child('clubposts').child('YorkU');
-
 Future<List<Comment>> fetchComments(
     Post post, c.Course course, Club club, String uni) async {
   List<Comment> c = [];
-  var uniKey = Constants.checkUniversity();
-  var cDB = FirebaseDatabase.instance.reference().child('posts');
-  var courseCDB = FirebaseDatabase.instance.reference().child('courseposts');
-  var clubCDB = FirebaseDatabase.instance.reference().child('clubposts');
   var db = club == null && course == null
-      ? cDB.child(uni).child(post.id).child('comments')
+      ? POSTS_DB.child(uni).child(post.id).child('comments')
       : club != null
-          ? clubCDB
-              .child(uniKey == 0
-                  ? 'UofT'
-                  : uniKey == 1
-                      ? 'YorkU'
-                      : 'WesternU')
+          ? CLUB_POSTS_DB
+              .child(Constants.uniString(uniKey))
               .child(club.id)
               .child(post.id)
               .child('comments')
-          : courseCDB
-              .child(uniKey == 0
-                  ? 'UofT'
-                  : uniKey == 1
-                      ? 'YorkU'
-                      : 'WesternU')
+          : COURSE_POSTS_DB
+              .child(Constants.uniString(uniKey))
               .child(course.id)
               .child(post.id)
               .child('comments');
-
-  // var db =
-  //     FirebaseDatabase.instance.reference().child("comments").child(post.id);
 
   var snapshot = await db.once();
 
@@ -91,40 +60,24 @@ Future<List<Comment>> fetchComments(
   return c;
 }
 
-Future<bool> deleteComment(Post post, c.Course course, Club club) async {}
+Future<Null> deleteComment(Post post, c.Course course, Club club) async {}
 
 Future<bool> postComment(Comment comment, Post post, c.Course course, Club club,
     Map<String, dynamic> tags) async {
-  PostUser user = await getUser(firebaseAuth.currentUser.uid);
-  var uniKey = Constants.checkUniversity();
-  var cDB = FirebaseDatabase.instance.reference().child('posts');
-  var courseCDB = FirebaseDatabase.instance.reference().child('courseposts');
-  var clubCDB = FirebaseDatabase.instance.reference().child('clubposts');
+  PostUser user = await getUser(FIR_UID);
   var db = club == null && course == null
-      ? cDB
-          .child(uniKey == 0
-              ? 'UofT'
-              : uniKey == 1
-                  ? 'YorkU'
-                  : 'WesternU')
+      ? POSTS_DB
+          .child(Constants.uniString(uniKey))
           .child(post.id)
           .child('comments')
       : club != null
-          ? clubCDB
-              .child(uniKey == 0
-                  ? 'UofT'
-                  : uniKey == 1
-                      ? 'YorkU'
-                      : 'WesternU')
+          ? CLUB_POSTS_DB
+              .child(Constants.uniString(uniKey))
               .child(club.id)
               .child(post.id)
               .child('comments')
-          : courseCDB
-              .child(uniKey == 0
-                  ? 'UofT'
-                  : uniKey == 1
-                      ? 'YorkU'
-                      : 'WesternU')
+          : COURSE_POSTS_DB
+              .child(Constants.uniString(uniKey))
               .child(course.id)
               .child(post.id)
               .child('comments');
@@ -132,7 +85,7 @@ Future<bool> postComment(Comment comment, Post post, c.Course course, Club club,
   final Map<String, dynamic> data = {
     "content": comment.content,
     "username": user.name,
-    "userId": firebaseAuth.currentUser.uid,
+    "userId": FIR_UID,
     "timeStamp": DateTime.now().millisecondsSinceEpoch,
   };
 

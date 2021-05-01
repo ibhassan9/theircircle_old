@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/user.dart';
 
 class SayHiWidget extends StatefulWidget {

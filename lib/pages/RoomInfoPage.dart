@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,14 +10,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/notification.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/AddUserPage.dart';
 import 'package:unify/pages/ProfilePage.dart';
-import 'package:unify/pages/Rooms.dart';
 
 class RoomInfoPage extends StatefulWidget {
   final Room room;
@@ -260,7 +257,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                         child: CachedNetworkImage(
                                           imageUrl: user.profileImgUrl != null
                                               ? user.profileImgUrl
-                                              : '',
+                                              : Constants.dummyProfilePicture,
                                           width: 50,
                                           height: 50,
                                           fit: BoxFit.cover,
@@ -324,7 +321,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                           width: 10,
                           height: 10,
                           child: LoadingIndicator(
-                              indicatorType: Indicator.circleStrokeSpin,
+                              indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor)),
                     ),
               SizedBox(
@@ -530,7 +527,8 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                                   height: 15,
                                   width: 15,
                                   child: LoadingIndicator(
-                                      indicatorType: Indicator.circleStrokeSpin,
+                                      indicatorType:
+                                          Indicator.ballClipRotateMultiple,
                                       color: Colors.white))
                               : Text(
                                   'Update',
@@ -635,7 +633,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     roomId: widget.room.id, memberId: user.id);
                 if (res) {
                   pushRemovedFromRoom(
-                      room: widget.room, receiverId: user.device_token);
+                      room: widget.room, receiverId: user.deviceToken);
                   setState(() {
                     widget.room.members
                         .removeWhere((element) => element.id == user.id);

@@ -35,7 +35,7 @@
 
 // class _CommentPostWidgetState extends State<CommentPostWidget> {
 //   bool isLiked = false;
-//   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+//
 //   TextEditingController bioC = TextEditingController();
 //   TextEditingController sC = TextEditingController();
 //   TextEditingController igC = TextEditingController();

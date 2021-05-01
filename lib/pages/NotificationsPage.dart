@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart' as noti;
 import 'package:unify/widgets/NotificationWidget.dart';
 
@@ -13,7 +11,7 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage>
     with AutomaticKeepAliveClientMixin {
   Future<List<noti.Notification>> notificationFuture;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(

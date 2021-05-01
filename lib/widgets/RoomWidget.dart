@@ -1,17 +1,12 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
-import 'package:unify/Models/course.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/pages/RoomPage.dart';
-import 'package:unify/pages/course_page.dart';
 import 'package:unify/Components/Constants.dart';
 
 class RoomWidget extends StatefulWidget {
@@ -216,18 +211,22 @@ class _RoomWidgetState extends State<RoomWidget> {
 
   _buildMembersList() {
     List<Widget> members = [];
-
+    int i = 0;
     for (var member in widget.room.members) {
-      members.add(
-        Text(
-            member.id == FirebaseAuth.instance.currentUser.uid
-                ? 'You'
-                : member.name,
-            style: GoogleFonts.quicksand(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor)),
-      );
+      if (i < 10) {
+        members.add(
+          Text(
+              member.id == FirebaseAuth.instance.currentUser.uid
+                  ? 'You'
+                  : member.name,
+              style: GoogleFonts.quicksand(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).accentColor)),
+        );
+      }
+
+      i += 1;
     }
     return members;
   }

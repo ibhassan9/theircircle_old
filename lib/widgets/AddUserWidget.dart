@@ -1,14 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/Components/Constants.dart';
-import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart';
 import 'package:unify/pages/ChatPage.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/ProfilePage.dart';
 
 class AddUserWidget extends StatefulWidget {
@@ -28,8 +24,6 @@ class AddUserWidget extends StatefulWidget {
 }
 
 class _AddUserWidgetState extends State<AddUserWidget> {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
   bool isSelected = false;
 
   Widget build(BuildContext context) {
@@ -107,7 +101,7 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                 InkWell(
                   onTap: () {
                     var chatId = '';
-                    var myID = firebaseAuth.currentUser.uid;
+                    var myID = FIR_UID;
                     var peerId = widget.peer.id;
                     if (myID.hashCode <= peerId.hashCode) {
                       chatId = '$myID-$peerId';

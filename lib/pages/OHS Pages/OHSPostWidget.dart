@@ -15,6 +15,7 @@ import 'package:unify/Components/Constants.dart';
 import 'package:unify/Components/app_icons.dart';
 import 'package:unify/Models/OHS.dart';
 import 'package:unify/Models/comment.dart';
+import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/MyProfilePage.dart';
 import 'package:unify/pages/OHS%20Pages/OHSComments.dart';
 import 'package:unify/pages/PollResultsPage.dart';
@@ -57,7 +58,7 @@ class OHSPostWidget extends StatefulWidget {
 
 class _OHSPostWidgetState extends State<OHSPostWidget> {
   bool isLiked = false;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   TextEditingController bioC = TextEditingController();
   TextEditingController sC = TextEditingController();
   TextEditingController igC = TextEditingController();
@@ -251,8 +252,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                 children: [
                                                   Text(
                                                     widget.post.userId ==
-                                                            firebaseAuth
-                                                                .currentUser.uid
+                                                            FIR_UID
                                                         ? ("You" +
                                                             (widget.post.feeling !=
                                                                     null
@@ -284,9 +284,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                             FontWeight.w500,
                                                         color: widget.post
                                                                     .userId ==
-                                                                firebaseAuth
-                                                                    .currentUser
-                                                                    .uid
+                                                                FIR_UID
                                                             ? Colors.indigo
                                                             : Theme.of(context)
                                                                 .accentColor),
@@ -377,13 +375,9 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                         onTap: () {
                                           final act = CupertinoActionSheet(
                                             title: Text(
-                                              widget.post.userId ==
-                                                          firebaseAuth
-                                                              .currentUser
-                                                              .uid ||
+                                              widget.post.userId == FIR_UID ||
                                                       widget.club.adminId ==
-                                                          firebaseAuth
-                                                              .currentUser.uid
+                                                          FIR_UID
                                                   ? "OPTIONS"
                                                   : "REPORT",
                                               style: GoogleFonts.quicksand(
@@ -393,13 +387,9 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                       .accentColor),
                                             ),
                                             message: Text(
-                                              widget.post.userId ==
-                                                          firebaseAuth
-                                                              .currentUser
-                                                              .uid ||
+                                              widget.post.userId == FIR_UID ||
                                                       widget.club.adminId ==
-                                                          firebaseAuth
-                                                              .currentUser.uid
+                                                          FIR_UID
                                                   ? "What would you like to do?"
                                                   : "What is the issue?",
                                               style: GoogleFonts.quicksand(
@@ -409,13 +399,9 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                       .accentColor),
                                             ),
                                             actions:
-                                                widget.post.userId ==
-                                                            firebaseAuth
-                                                                .currentUser
-                                                                .uid ||
+                                                widget.post.userId == FIR_UID ||
                                                         widget.club.adminId ==
-                                                            firebaseAuth
-                                                                .currentUser.uid
+                                                            FIR_UID
                                                     ? [
                                                         CupertinoActionSheetAction(
                                                             child: Text(
@@ -465,7 +451,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                         onPressed:
                                                                             () {
                                                                           if (widget.club.adminId ==
-                                                                              firebaseAuth.currentUser.uid) {
+                                                                              FIR_UID) {
                                                                             widget.deleteAsAdmin();
                                                                           } else {
                                                                             widget.deletePost();
@@ -937,8 +923,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                         if (widget.post.isVoted) {
                                           return;
                                         }
-                                        if (widget.post.userId !=
-                                            firebaseAuth.currentUser.uid) {
+                                        if (widget.post.userId != FIR_UID) {
                                           // sendPushPoll(
                                           //     token,
                                           //     "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
@@ -1028,8 +1013,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                         if (widget.post.isVoted) {
                                           return;
                                         }
-                                        if (widget.post.userId !=
-                                            firebaseAuth.currentUser.uid) {
+                                        if (widget.post.userId != FIR_UID) {
                                           // sendPushPoll(
                                           //     token,
                                           //     "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
@@ -1144,7 +1128,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                 ),
               ),
               Visibility(
-                visible: widget.post.userId == firebaseAuth.currentUser.uid &&
+                visible: widget.post.userId == FIR_UID &&
                     widget.post.questionOne != null &&
                     widget.post.questionTwo != null &&
                     widget.post.questionOneLikeCount != null &&
@@ -1219,8 +1203,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                             width: 20,
                                             height: 20,
                                             child: LoadingIndicator(
-                                              indicatorType:
-                                                  Indicator.circleStrokeSpin,
+                                              indicatorType: Indicator
+                                                  .ballClipRotateMultiple,
                                               color:
                                                   Theme.of(context).accentColor,
                                             )),
@@ -1295,8 +1279,8 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         } else {
                           var user = await getUserWithUniversity(
                               widget.post.userId, widget.post.university);
-                          var token = user.device_token;
-                          if (user.id != firebaseAuth.currentUser.uid) {
+                          var token = user.deviceToken;
+                          if (user.id != FIR_UID) {
                             // if (widget.club == null &&
                             //     widget.course == null) {
                             //   await sendPush(0, token, widget.post.content,
@@ -1602,7 +1586,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
     getUserWithUniversity(widget.post.userId, widget.post.university)
         .then((value) {
       imgUrl = value.profileImgUrl;
-      token = value.device_token;
+      token = value.deviceToken;
       _user = value;
       setState(() {
         if (widget.post.isVoted) {

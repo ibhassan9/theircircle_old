@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/pages/CreateRoom.dart';
 import 'package:unify/widgets/RoomWidget.dart';
@@ -109,13 +107,12 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
                               : Container();
                     })
                 : Center(
-                    heightFactor: 3.0,
                     child: SizedBox(
-                        height: 20,
-                        width: 20,
+                        width: 40,
+                        height: 40,
                         child: LoadingIndicator(
-                            indicatorType: Indicator.circleStrokeSpin,
-                            color: Theme.of(context).accentColor)),
+                            indicatorType: Indicator.ballClipRotateMultiple,
+                            color: Colors.deepPurpleAccent)),
                   ),
           ],
         ),
