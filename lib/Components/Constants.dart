@@ -202,7 +202,9 @@ class Constants {
   }
 
   static int checkUniversity() {
-    print('running key');
+    if (fAuth.currentUser == null) {
+      return null;
+    }
     var userEmail = fAuth.currentUser.email;
     if (userEmail.contains('@utoronto.ca') ||
         userEmail.contains('@mail.utoronto.ca')) {
