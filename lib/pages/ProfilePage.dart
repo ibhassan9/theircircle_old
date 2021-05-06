@@ -147,37 +147,31 @@ class _ProfilePageState extends State<ProfilePage>
         ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
-      body: ClipRRect(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0)),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          color: Theme.of(context).backgroundColor,
-          child: ListView(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    body(),
-                    Flexible(
-                      child: PageView(
-                        onPageChanged: (index) {
-                          setState(() {
-                            selectedOption = index;
-                          });
-                        },
-                        controller: _controller,
-                        children: [userPosts(), userVideos(), interests()],
-                      ),
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: ListView(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  body(),
+                  Flexible(
+                    child: PageView(
+                      onPageChanged: (index) {
+                        setState(() {
+                          selectedOption = index;
+                        });
+                      },
+                      controller: _controller,
+                      children: [userPosts(), userVideos(), interests()],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       // body: ListView(
@@ -785,8 +779,8 @@ class _ProfilePageState extends State<ProfilePage>
                         width: 50,
                         child: Center(
                           child: SizedBox(
-                              width: 15,
-                              height: 15,
+                              width: 50,
+                              height: 50,
                               child: LoadingIndicator(
                                 indicatorType: Indicator.ballClipRotateMultiple,
                                 color: Colors.white,
@@ -848,7 +842,7 @@ class _ProfilePageState extends State<ProfilePage>
                     color: Theme.of(context).accentColor),
               ),
               onPressed: () async {
-                await _firebaseAuth.signOut().then((value) async {
+                await FIR_AUTH.signOut().then((value) async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   prefs.remove('uni');
@@ -1122,5 +1116,12 @@ class _ProfilePageState extends State<ProfilePage>
     return uni == widget.user.university;
   }
 
-  bool get wantKeepAlive => true;
+  Future<Null> refresh() async {
+    setState(() {
+      postsFuture = p.fetchUserPost(widget.user);
+      videosFuture = p.VideoApi.fetchUserVideos(user);
+    });
+  }
+
+  bool get wantKeepAlive => false;
 }

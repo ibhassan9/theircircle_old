@@ -29,116 +29,110 @@ class _AddUserWidgetState extends State<AddUserWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 0.0),
-      child: InkWell(
-        onTap: () {},
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    //widget.show();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfilePage(
-                                user: widget.peer, heroTag: widget.peer.id)));
-                  },
-                  child: Container(
-                      child: Row(children: [
-                    Hero(
-                      tag: widget.peer.id,
-                      child: widget.peer.profileImgUrl == null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                color: Colors.grey,
-                                child: Icon(Ionicons.md_person,
-                                    color: Colors.white, size: 30.0),
-                              ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.peer.profileImgUrl,
-                                height: 50.0,
-                                width: 50.0,
-                                fit: BoxFit.cover,
-                                color: Theme.of(context).dividerColor,
-                              )),
-                    ),
-                    SizedBox(width: 15.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.peer.name.trim(),
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).accentColor),
-                        ),
-                        Text(
-                          widget.peer.about != null
-                              ? widget.peer.about.isNotEmpty
-                                  ? widget.peer.about
-                                  : "No bio available."
-                              : "No bio available.",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      ],
-                    ),
-                  ])),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfilePage(
+                            user: widget.peer, heroTag: widget.peer.id)));
+              },
+              child: Container(
+                  child: Row(children: [
+                Hero(
+                  tag: widget.peer.id,
+                  child: widget.peer.profileImgUrl == null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.grey,
+                            child: Icon(Ionicons.md_person,
+                                color: Colors.white, size: 30.0),
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.peer.profileImgUrl,
+                            height: 50.0,
+                            width: 50.0,
+                            fit: BoxFit.cover,
+                          )),
                 ),
-                InkWell(
-                  onTap: () {
-                    var chatId = '';
-                    var myID = FIR_UID;
-                    var peerId = widget.peer.id;
-                    if (myID.hashCode <= peerId.hashCode) {
-                      chatId = '$myID-$peerId';
-                    } else {
-                      chatId = '$peerId-$myID';
-                    }
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChatPage(
-                                  receiver: widget.peer,
-                                  chatId: chatId,
-                                )));
-                  },
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 7.0),
-                      child: IconButton(
-                          onPressed: () {
-                            if (widget.selectedUsers.contains(widget.peer)) {
-                              widget.delete();
-                            } else {
-                              widget.add();
-                            }
-                          },
-                          icon: Icon(
-                              widget.selectedUsers.contains(widget.peer) ==
-                                      false
-                                  ? FlutterIcons.add_circle_mdi
-                                  : FlutterIcons.remove_circle_mdi,
-                              color: widget.selectedUsers.contains(widget.peer)
-                                  ? Colors.red
-                                  : Colors.blue))),
-                )
-              ],
+                SizedBox(width: 15.0),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.peer.name.trim(),
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).accentColor),
+                      ),
+                      Text(
+                        widget.peer.about != null
+                            ? widget.peer.about.isNotEmpty
+                                ? '🗣️ ' + widget.peer.about
+                                : "No bio available."
+                            : "No bio available.",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.quicksand(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
+                      ),
+                    ],
+                  ),
+                ),
+              ])),
             ),
-          ],
-        ),
+          ),
+          InkWell(
+            onTap: () {
+              var chatId = '';
+              var myID = FIR_UID;
+              var peerId = widget.peer.id;
+              if (myID.hashCode <= peerId.hashCode) {
+                chatId = '$myID-$peerId';
+              } else {
+                chatId = '$peerId-$myID';
+              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatPage(
+                            receiver: widget.peer,
+                            chatId: chatId,
+                          )));
+            },
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 7.0),
+                child: IconButton(
+                    onPressed: () {
+                      if (widget.selectedUsers.contains(widget.peer)) {
+                        widget.delete();
+                      } else {
+                        widget.add();
+                      }
+                    },
+                    icon: Icon(
+                        widget.selectedUsers.contains(widget.peer) == false
+                            ? FlutterIcons.add_circle_mdi
+                            : FlutterIcons.remove_circle_mdi,
+                        color: widget.selectedUsers.contains(widget.peer)
+                            ? Colors.red
+                            : Colors.blue))),
+          )
+        ],
       ),
     );
   }

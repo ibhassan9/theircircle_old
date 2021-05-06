@@ -240,7 +240,8 @@ class _ChatPageState extends State<ChatPage>
                                   chatController.text,
                                   widget.receiver.id,
                                   widget.chatId,
-                                  prod != null ? prod.id : null);
+                                  prod != null ? prod.id : null,
+                                  null);
                               if (res) {
                                 await sendPushChat(
                                     widget.receiver.deviceToken,

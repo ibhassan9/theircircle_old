@@ -25,7 +25,7 @@ class _NewsWidgetState extends State<NewsWidget>
       padding: const EdgeInsets.only(left: 10.0, top: 0.0),
       child: imgUrl != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(10.0),
               child: InkWell(
                 onTap: () {
                   showBarModalBottomSheet(
@@ -45,8 +45,7 @@ class _NewsWidgetState extends State<NewsWidget>
                 child: Container(
                   width: MediaQuery.of(context).size.width / 3,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).dividerColor.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(15.0)),
+                      color: color, borderRadius: BorderRadius.circular(15.0)),
                   child: Stack(children: [
                     imgUrl != null || imgUrl != '' || imgUrl.isNotEmpty
                         ? CachedNetworkImage(
@@ -61,20 +60,19 @@ class _NewsWidgetState extends State<NewsWidget>
                       right: 0,
                       left: 0,
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 10.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.black45,
+                            color: Colors.black.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          height: 100,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0),
+                                    left: 10.0, right: 10.0, top: 10.0),
                                 child: Container(
                                   height: 3.0,
                                   width: 20.0,
@@ -83,15 +81,32 @@ class _NewsWidgetState extends State<NewsWidget>
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0, top: 5.0),
+                                    left: 10.0,
+                                    right: 10.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
                                 child: Text(
-                                  widget.news.title,
-                                  maxLines: 4,
+                                  widget.news.title
+                                      .replaceAll('             ', ' '),
+                                  maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.quicksand(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black.withOpacity(0.05),
+                                      ),
+                                      // Shadow(
+                                      //   offset: Offset(5.0, 5.0),
+                                      //   blurRadius: 8.0,
+                                      //   color: Color.fromARGB(125, 0, 0, 255),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -115,7 +130,7 @@ class _NewsWidgetState extends State<NewsWidget>
     imgUrl = widget.news.imgUrl;
     if (Constants.checkUniversity() == 1) {
       grabImgUrl(url: url).then((value) {
-        print(value);
+        print("NEW VALUE: " + value);
         setState(() {
           imgUrl = value;
         });

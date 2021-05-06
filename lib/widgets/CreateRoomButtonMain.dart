@@ -28,11 +28,14 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
         child: Column(
           children: [
             Container(
-                height: 100,
-                width: 100,
+                height: 85,
+                width: 85,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(25.0)),
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Theme.of(context).buttonColor.withOpacity(0.3),
+                    border: Border.all(
+                        color: Theme.of(context).buttonColor.withOpacity(0.1),
+                        width: 2.0)),
                 child: Icon(FlutterIcons.add_mdi,
                     color: Theme.of(context).accentColor)),
             SizedBox(height: 5.0),

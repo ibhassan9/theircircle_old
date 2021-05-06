@@ -520,6 +520,7 @@ class _ClubsPageState extends State<ClubsPage>
   void initState() {
     super.initState();
     _clubFuture = fetchClubs();
+
     OneHealingSpace.object().then((value) {
       setState(() {
         _oneHealingSpace = value;

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,6 +14,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/message.dart';
 import 'package:unify/Models/notification.dart';
+import 'package:unify/Models/post.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart' as u;
@@ -43,6 +45,8 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
   int renders = 0;
   bool listRendered = false;
   Product prod;
+  Image imag;
+  File f;
 
   Widget build(BuildContext context) {
     Padding chatBox = Padding(
@@ -57,145 +61,209 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    // SizedBox(width: 3.0),
-                    // Unicon(UniconData.uniImage,
-                    //     color: Theme.of(context).accentColor),
-                    // SizedBox(width: 5.0),
-                    InkWell(
-                      onTap: () {
-                        if (widget.room.adminId ==
-                            FirebaseAuth.instance.currentUser.uid) {
-                          Room.delete(id: widget.room.id).then((value) {
-                            if (value) {
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                            }
-                          });
-                        } else {
-                          Room.leave(roomId: widget.room.id).then((value) {
-                            if (value) {
-                              setState(() {
-                                widget.room.inRoom = false;
-                                widget.room.members.removeWhere((element) =>
-                                    element.id ==
-                                    FirebaseAuth.instance.currentUser.uid);
-                                Navigator.of(context)
-                                    .popUntil((route) => route.isFirst);
-                              });
-                            }
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    if (widget.room.adminId ==
+                        FirebaseAuth.instance.currentUser.uid) {
+                      Room.delete(id: widget.room.id).then((value) {
+                        if (value) {
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                        }
+                      });
+                    } else {
+                      Room.leave(roomId: widget.room.id).then((value) {
+                        if (value) {
+                          setState(() {
+                            widget.room.inRoom = false;
+                            widget.room.members.removeWhere((element) =>
+                                element.id ==
+                                FirebaseAuth.instance.currentUser.uid);
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
                           });
                         }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurpleAccent,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                          child: Text(
-                            widget.room.adminId ==
-                                    FirebaseAuth.instance.currentUser.uid
-                                ? "End"
-                                : "Leave",
-                            style: GoogleFonts.quicksand(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
+                      });
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurpleAccent,
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                      child: Text(
+                        widget.room.adminId ==
+                                FirebaseAuth.instance.currentUser.uid
+                            ? "End"
+                            : "Leave",
+                        style: GoogleFonts.quicksand(
+                            color: Colors.white, fontWeight: FontWeight.w500),
                       ),
                     ),
-                    SizedBox(width: 5.0),
-                    Flexible(
-                        child: Container(
-                      decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).dividerColor.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(30.0)),
-                      child: TextField(
-                        onTap: () {
-                          Timer(
-                              Duration(milliseconds: 300),
-                              () => _scrollController.animateTo(
-                                  _scrollController.position.maxScrollExtent,
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeIn));
-                        },
-                        textInputAction: TextInputAction.done,
-                        maxLines: null,
-                        controller: chatController,
-                        decoration: new InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: 15, bottom: 5, top: 5, right: 15),
-                          hintText: "Insert message here",
-                          hintStyle: GoogleFonts.quicksand(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).accentColor),
-                        ),
-                        style: GoogleFonts.quicksand(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                      ),
-                    )),
-                    isSending
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                                height: 10,
-                                width: 10,
-                                child: LoadingIndicator(
-                                  indicatorType:
-                                      Indicator.ballClipRotateMultiple,
-                                  color: Theme.of(context).accentColor,
-                                )),
-                          )
-                        : IconButton(
-                            icon: Icon(
-                              FlutterIcons.send_mdi,
-                              color: Theme.of(context).accentColor,
-                            ),
-                            onPressed: () async {
-                              if (chatController.text.isEmpty || isSending) {
-                                return;
-                              }
-                              setState(() {
-                                isSending = true;
-                              });
-                              var res = await Room.sendMessage(
-                                  message: chatController.text,
-                                  roomId: widget.room.id);
-                              if (res) {
-                                sendPush(text: chatController.text);
-                                chatController.clear();
-                                setState(() {
-                                  isSending = false;
-                                  prod = null;
-                                });
-                                _scrollController.animateTo(
-                                  _scrollController.position.maxScrollExtent +
-                                      10,
-                                  curve: Curves.easeOut,
-                                  duration: const Duration(milliseconds: 300),
-                                );
-                              }
-                            },
-                          )
-                  ],
+                  ),
                 ),
+                SizedBox(width: 5.0),
+                Flexible(
+                    child: Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).dividerColor.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(30.0)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (imag != null && f != null)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Stack(
+                            children: [
+                              InkWell(
+                                onTap: () => grabImage(),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Container(
+                                    height: 150,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .buttonColor
+                                            .withOpacity(0.1),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: imag != null && f != null
+                                        ? Image(
+                                            image: imag.image,
+                                            fit: BoxFit.cover)
+                                        : Container(),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: InkWell(
+                                  onTap: () => removeImage(),
+                                  child: CircleAvatar(
+                                    backgroundColor:
+                                        Colors.grey.withOpacity(0.3),
+                                    radius: 15.0,
+                                    child: Icon(FlutterIcons.x_oct,
+                                        color: Colors.black, size: 15.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextField(
+                              onTap: () {
+                                Timer(
+                                    Duration(milliseconds: 300),
+                                    () => _scrollController.animateTo(
+                                        _scrollController
+                                            .position.maxScrollExtent,
+                                        duration: Duration(milliseconds: 300),
+                                        curve: Curves.easeIn));
+                              },
+                              textInputAction: TextInputAction.done,
+                              maxLines: null,
+                              controller: chatController,
+                              decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                contentPadding: EdgeInsets.only(
+                                    left: 15, bottom: 5, top: 5, right: 15),
+                                hintText: "Insert message here",
+                                hintStyle: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              ),
+                              style: GoogleFonts.quicksand(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).accentColor),
+                            ),
+                          ),
+                          SizedBox(width: 3.0),
+                          InkWell(
+                            onTap: () => grabImage(),
+                            child: Unicon(UniconData.uniImage,
+                                color: Theme.of(context).accentColor),
+                          ),
+                          SizedBox(width: 10.0),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+                isSending
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                            height: 10,
+                            width: 10,
+                            child: LoadingIndicator(
+                              indicatorType: Indicator.ballClipRotateMultiple,
+                              color: Theme.of(context).accentColor,
+                            )),
+                      )
+                    : IconButton(
+                        icon: Icon(
+                          FlutterIcons.send_mdi,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        onPressed: () async {
+                          if ((chatController.text.isEmpty &&
+                                  imag == null &&
+                                  f == null) ||
+                              isSending) {
+                            return;
+                          }
+                          setState(() {
+                            isSending = true;
+                          });
+                          String imageUrl;
+                          if (imag != null && f != null) {
+                            await Room.uploadImageToStorage(f).then((value) {
+                              imageUrl = value;
+                            });
+                          }
+                          var res = await Room.sendMessage(
+                            message: chatController.text.trim().isEmpty
+                                ? "Sent an attachment"
+                                : chatController.text,
+                            roomId: widget.room.id,
+                            imageUrl: imageUrl,
+                          );
+                          if (res) {
+                            sendPush(
+                                text: chatController.text.trim().isEmpty
+                                    ? "Sent an attachment"
+                                    : chatController.text);
+                            chatController.clear();
+                            setState(() {
+                              isSending = false;
+                              prod = null;
+                              imag = null;
+                              f = null;
+                            });
+                            _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent + 10,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                          }
+                        },
+                      )
               ],
             ),
           ),
@@ -238,7 +306,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                 ),
                 SizedBox(height: 3.0),
                 Text(
-                  widget.room.members.length.toString() + ' members',
+                  widget.room.memberCount.toString() + ' members',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                       fontSize: 11,
@@ -262,77 +330,6 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
           )
         ],
       ),
-      // appBar: AppBar(
-      //   brightness: Theme.of(context).brightness,
-      //   backgroundColor: Theme.of(context).backgroundColor,
-      //   centerTitle: false,
-      //   iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-      //   leadingWidth: 0,
-      //   leading: Container(),
-      //   toolbarHeight: 100,
-      //   title: Row(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //       ClipRRect(
-      //         borderRadius: BorderRadius.circular(15),
-      //         child: CachedNetworkImage(
-      //           imageUrl: widget.room.imageUrl,
-      //           width: 30,
-      //           height: 30,
-      //           fit: BoxFit.cover,
-      //         ),
-      //       ),
-      //       SizedBox(width: 10.0),
-      //       Flexible(
-      //         child: Column(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           mainAxisAlignment: MainAxisAlignment.start,
-      //           children: [
-      //             Text(
-      //               "The topic of discussion is:",
-      //               maxLines: 1,
-      //               overflow: TextOverflow.ellipsis,
-      //               style: GoogleFonts.quicksand(
-      //                   fontSize: 11,
-      //                   fontWeight: FontWeight.w500,
-      //                   color: Theme.of(context).accentColor),
-      //             ),
-      //             SizedBox(height: 3.0),
-      //             Text(
-      //               widget.room.name,
-      //               maxLines: 2,
-      //               overflow: TextOverflow.ellipsis,
-      //               style: GoogleFonts.quicksand(
-      //                   fontSize: 13,
-      //                   fontWeight: FontWeight.w600,
-      //                   color: Theme.of(context).accentColor),
-      //             ),
-      //             SizedBox(height: 3.0),
-      //             Text(
-      //               widget.room.members.length.toString() + ' member(s)',
-      //               style: GoogleFonts.quicksand(
-      //                   fontSize: 13,
-      //                   fontWeight: FontWeight.w500,
-      //                   color: Theme.of(context).buttonColor),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Unicon(UniconData.uniInfoCircle, color: Colors.blue),
-      //       onPressed: () {
-      //         Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //                 builder: (context) => RoomInfoPage(room: widget.room)));
-      //       },
-      //     )
-      //   ],
-      //   elevation: 0.5,
-      // ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -360,6 +357,9 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
                           timestamp: data[key]['timeStamp']);
                       if (data[key]['prodId'] != null) {
                         msg.productId = data[key]['prodId'];
+                      }
+                      if (data[key]['imageUrl'] != null) {
+                        msg.imageUrl = data[key]['imageUrl'];
                       }
                       messages.add(msg);
                     }
@@ -789,6 +789,25 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
           },
         )..show();
       }
+    });
+  }
+
+  grabImage() async {
+    var res = await getImage();
+    if (res.isNotEmpty) {
+      var image = res[0] as Image;
+      var file = res[1] as File;
+      this.setState(() {
+        imag = image;
+        f = file;
+      });
+    }
+  }
+
+  removeImage() {
+    setState(() {
+      imag = null;
+      f = null;
     });
   }
 

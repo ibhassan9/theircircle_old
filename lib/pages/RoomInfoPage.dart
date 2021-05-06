@@ -104,12 +104,16 @@ class _RoomInfoPageState extends State<RoomInfoPage>
         padding: const EdgeInsets.all(15.0),
         child: RefreshIndicator(
           onRefresh: () async {
-            Room.fetch(id: widget.room.id).then((value) {
+            setState(() {
+              doneLoading = false;
+            });
+            Room.fetch(id: widget.room.id, allMembers: true).then((value) {
               setState(() {
                 widget.room.imageUrl = value.imageUrl;
                 widget.room.name = value.name;
                 widget.room.members = value.members;
                 widget.room.description = value.description;
+                doneLoading = true;
               });
             });
           },
@@ -318,8 +322,8 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                       })
                   : Center(
                       child: SizedBox(
-                          width: 10,
-                          height: 10,
+                          width: 40,
+                          height: 40,
                           child: LoadingIndicator(
                               indicatorType: Indicator.ballClipRotateMultiple,
                               color: Theme.of(context).accentColor)),

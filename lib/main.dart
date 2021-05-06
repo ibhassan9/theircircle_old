@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Home/main_screen.dart';
 import 'package:unify/pages/DB.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
@@ -10,6 +12,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseDatabase.instance.setPersistenceEnabled(false);
+  var uni = Constants.checkUniversity();
+  if (uni != null) {
+    uniKey = uni;
+    FIR_UID = FirebaseAuth.instance.currentUser.uid;
+    FIR_AUTH = FirebaseAuth.instance;
+  }
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]).then((_) {
     // SharedPreferences.getInstance().then((prefs) {
     //   var darkModeOn = prefs.getBool('darkMode') ?? false;
@@ -63,7 +71,9 @@ class MyApp extends StatelessWidget {
           shadowColor: Colors.deepPurpleAccent,
           cardColor: Colors.black12),
       debugShowCheckedModeBanner: false,
-      home: FIR_AUTH.currentUser != null ? MainScreen() : WelcomeScreen(),
+      home: FIR_AUTH.currentUser != null && uniKey != null
+          ? MainScreen()
+          : WelcomeScreen(),
     );
   }
 }

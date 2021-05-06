@@ -9,6 +9,7 @@ class Message {
   String senderId;
   int timestamp;
   String productId;
+  String imageUrl;
 
   Message(
       {this.id,
@@ -16,7 +17,8 @@ class Message {
       this.receiverId,
       this.senderId,
       this.timestamp,
-      this.productId});
+      this.productId,
+      this.imageUrl});
 }
 
 Future<List<Message>> fetchMessages(String chatId) async {
@@ -34,6 +36,10 @@ Future<List<Message>> fetchMessages(String chatId) async {
           receiverId: values[key]['receiverId'],
           senderId: values[key]['senderId'],
           timestamp: values[key]['timeStamp']);
+
+      if (values[key]['imageUrl'] != null) {
+        msg.imageUrl = values[key]['imageUrl'];
+      }
       messages.add(msg);
     }
     messages.sort((a, b) => a.timestamp.compareTo(b.timestamp));
@@ -41,8 +47,8 @@ Future<List<Message>> fetchMessages(String chatId) async {
   return messages;
 }
 
-Future<bool> sendMessage(
-    String messageText, String receiverId, String chatId, String prodId) async {
+Future<bool> sendMessage(String messageText, String receiverId, String chatId,
+    String prodId, String imageUrl) async {
   var db = CHATS_DB.child(Constants.uniString(uniKey)).child(chatId);
   var userdb = USERS_DB
       .child(Constants.uniString(uniKey))
@@ -63,6 +69,10 @@ Future<bool> sendMessage(
   };
   if (prodId != null) {
     data['prodId'] = prodId;
+  }
+
+  if (imageUrl != null) {
+    data['imageUrl'] = imageUrl;
   }
   print('sending');
   await key.set(data).catchError((err) {

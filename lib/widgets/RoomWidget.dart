@@ -75,7 +75,7 @@ class _RoomWidgetState extends State<RoomWidget> {
                               Icon(AntDesign.team,
                                   color: Colors.white, size: 15.0),
                               Text(
-                                widget.room.members.length.toString(),
+                                widget.room.memberCount.toString(),
                                 style: GoogleFonts.quicksand(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
@@ -160,27 +160,12 @@ class _RoomWidgetState extends State<RoomWidget> {
                         children: _buildMembersList(),
                       ),
                       SizedBox(height: 5.0),
-                      Text(
-                          widget.room.members.length.toString() + " student(s)",
+                      Text(widget.room.memberCount.toString() + " student(s)",
                           style: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: color)),
                       SizedBox(height: 5.0),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: <Widget>[
-                      //     Text(
-                      //         widget.room.isAdmin
-                      //             ? 'Created by you'.toUpperCase()
-                      //             : 'View Room'.toUpperCase(),
-                      //         style: GoogleFonts.quicksand(
-                      // fontFamily: Constants.fontFamily,
-                      //             fontSize: 12,
-                      //             fontWeight: FontWeight.w500,
-                      //             color: Colors.lightBlue)),
-                      //   ],
-                      // )
                     ],
                   ),
                 ),
@@ -194,13 +179,6 @@ class _RoomWidgetState extends State<RoomWidget> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                // Container(
-                //   width: 50,
-                //   height: 50,
-                //   decoration: BoxDecoration(
-                //       color: Theme.of(context).dividerColor,
-                //       borderRadius: BorderRadius.circular(5.0)),
-                // )
               ],
             ),
           ),

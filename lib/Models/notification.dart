@@ -274,8 +274,7 @@ Future<Null> send(String token, String receiverId) async {
           body: json.encode(
             <String, dynamic>{
               'notification': <String, dynamic>{
-                'body':
-                    "Answer our daily question: If you could erase one memory from your mind, what would it be and why?",
+                'body': "We have a daily question available for you.",
               },
               'priority': 'high',
               'data': <String, dynamic>{
@@ -287,7 +286,7 @@ Future<Null> send(String token, String receiverId) async {
             },
           ))
       .then((value) {
-    print('Sent to ' + receiverId);
+    print('Sent to ' + token);
   });
 }
 

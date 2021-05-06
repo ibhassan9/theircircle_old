@@ -30,132 +30,129 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: InkWell(
-            onTap: () {},
-            child: InkWell(
-              onTap: () {
-                //widget.show();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfilePage(
-                            user: widget.peer, heroTag: widget.peer.id)));
-              },
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                        child: Flexible(
-                      child: Row(
-                        children: [
-                          widget.peer.profileImgUrl == null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    color: Colors.grey,
-                                    child: Icon(AntDesign.user,
-                                        color: Colors.white, size: 15.0),
-                                  ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.network(
-                                    widget.peer.profileImgUrl,
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: Center(
-                                          child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: LoadingIndicator(
-                                                indicatorType: Indicator
-                                                    .ballClipRotateMultiple,
-                                                color: Theme.of(context)
-                                                    .accentColor,
-                                              )),
-                                        ),
-                                      );
-                                    },
-                                  ),
+            onTap: () {
+              //widget.show();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfilePage(
+                          user: widget.peer, heroTag: widget.peer.id)));
+            },
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      child: Flexible(
+                    child: Row(
+                      children: [
+                        widget.peer.profileImgUrl == null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  color: Colors.grey,
+                                  child: Icon(AntDesign.user,
+                                      color: Colors.white, size: 15.0),
                                 ),
-                          SizedBox(width: 15.0),
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.peer.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).accentColor),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Image.network(
+                                  widget.peer.profileImgUrl,
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Center(
+                                        child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: LoadingIndicator(
+                                              indicatorType: Indicator
+                                                  .ballClipRotateMultiple,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                            )),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                Text(
-                                  widget.peer.about != null
-                                      ? widget.peer.about.isNotEmpty
-                                          ? '🗣️ ' + widget.peer.about
-                                          : "No bio available."
-                                      : "No bio available.",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).buttonColor),
-                                ),
-                              ],
-                            ),
+                              ),
+                        SizedBox(width: 15.0),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.peer.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).accentColor),
+                              ),
+                              Text(
+                                widget.peer.about != null
+                                    ? widget.peer.about.isNotEmpty
+                                        ? '🗣️ ' + widget.peer.about
+                                        : "No bio available."
+                                    : "No bio available.",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).buttonColor),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )),
-                    InkWell(
-                      onTap: () {
-                        var chatId = '';
-                        var myID = FIR_UID;
-                        var peerId = widget.peer.id;
-                        if (myID.hashCode <= peerId.hashCode) {
-                          chatId = '$myID-$peerId';
-                        } else {
-                          chatId = '$peerId-$myID';
-                        }
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatPage(
-                                      receiver: widget.peer,
-                                      chatId: chatId,
-                                    )));
-                      },
-                      child: Container(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                            child: Text(
-                              'Message',
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w800,
-                                  color: Theme.of(context).accentColor),
-                            ),
+                        ),
+                      ],
+                    ),
+                  )),
+                  InkWell(
+                    onTap: () {
+                      var chatId = '';
+                      var myID = FIR_UID;
+                      var peerId = widget.peer.id;
+                      if (myID.hashCode <= peerId.hashCode) {
+                        chatId = '$myID-$peerId';
+                      } else {
+                        chatId = '$peerId-$myID';
+                      }
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                    receiver: widget.peer,
+                                    chatId: chatId,
+                                  )));
+                    },
+                    child: Container(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          child: Text(
+                            'Message',
+                            style: GoogleFonts.quicksand(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w800,
+                                color: Theme.of(context).accentColor),
                           ),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).dividerColor,
-                              borderRadius: BorderRadius.circular(20.0))),
-                    )
-                  ]),
-            ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).dividerColor,
+                            borderRadius: BorderRadius.circular(20.0))),
+                  )
+                ]),
           ),
         ),
       ),

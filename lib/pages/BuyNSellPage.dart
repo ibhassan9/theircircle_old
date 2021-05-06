@@ -40,8 +40,8 @@ class _BuyNSellState extends State<BuyNSell>
         title: Text(
           "Store",
           style: GoogleFonts.quicksand(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
         ),
         leadingWidth: 60.0,

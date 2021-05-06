@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unify/Components/Constants.dart';
 
-int uniKey = Constants.checkUniversity();
-
 // ASSIGNMENT REFERENCES
+int uniKey = Constants.checkUniversity();
 
 // ignore_for_file: non_constant_identifier_names
 final DatabaseReference ASSIGNMENTS_DB =

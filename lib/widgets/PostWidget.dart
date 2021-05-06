@@ -112,6 +112,7 @@ class _PostWidgetState extends State<PostWidget> {
             },
             child: InkWell(
               onTap: () {
+                print(widget.post.id);
                 if (widget.fromComments) {
                   return;
                 }
@@ -1180,7 +1181,7 @@ class _PostWidgetState extends State<PostWidget> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: 200,
-                          color: Colors.grey[300],
+                          color: Theme.of(context).buttonColor.withOpacity(0.1),
                           child: FullScreenWidget(
                             backgroundColor: Colors.brown,
                             child: Center(

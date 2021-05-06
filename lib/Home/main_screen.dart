@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unify/Components/Constants.dart';
@@ -144,6 +145,7 @@ class _MainScreenState extends State<MainScreen>
     super.build(context);
     return Scaffold(
       extendBody: false,
+      backgroundColor: Colors.black,
       body: PageView(
         physics: ClampingScrollPhysics(),
         controller: _mainController,
@@ -177,7 +179,7 @@ class _MainScreenState extends State<MainScreen>
       ),
       bottomNavigationBar: AnimatedBottomNavigationBar(
         height: 35,
-        iconSize: 22,
+        iconSize: 26,
         notchSmoothness: NotchSmoothness.softEdge,
         backgroundColor:
             _pages == 2 ? Colors.black : Theme.of(context).backgroundColor,
@@ -195,11 +197,11 @@ class _MainScreenState extends State<MainScreen>
                         : Colors.orange,
         inactiveColor: Theme.of(context).buttonColor,
         icons: [
-          FlutterIcons.circle_notch_faw5s,
-          Feather.award,
-          Feather.tv,
-          Feather.shopping_bag,
-          Feather.user
+          LineIcons.home,
+          LineIcons.award,
+          LineIcons.play,
+          LineIcons.shoppingBag,
+          LineIcons.user
         ],
         activeIndex: _pages,
         onTap: (index) {
@@ -337,7 +339,7 @@ class _MainScreenState extends State<MainScreen>
   // }
 
   Future<Null> getUserData() async {
-    var id = FIR_UID;
+    var id = FirebaseAuth.instance.currentUser.uid;
     var _user = await getUser(id);
     setState(() {
       user = _user;

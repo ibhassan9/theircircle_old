@@ -155,12 +155,17 @@ class _AddUserPageState extends State<AddUserPage>
               //   ),
               // ),
               loading
-                  ? SizedBox(
-                      width: 15,
-                      height: 15,
-                      child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotateMultiple,
-                          color: Theme.of(context).accentColor))
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: LoadingIndicator(
+                                indicatorType: Indicator.ballClipRotateMultiple,
+                                color: Theme.of(context).accentColor)),
+                      ),
+                    )
                   : ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,

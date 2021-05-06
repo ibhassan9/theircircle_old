@@ -17,6 +17,8 @@ class RoomWidgetMain extends StatefulWidget {
 }
 
 class _RoomWidgetMainState extends State<RoomWidgetMain> {
+  Color color;
+
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
@@ -28,7 +30,8 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
             return;
           }
           if (widget.room.isLocked == false ||
-              widget.room.adminId == FirebaseAuth.instance.currentUser.uid) {
+              widget.room.adminId == FirebaseAuth.instance.currentUser.uid ||
+              widget.room.inRoom) {
             Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -48,7 +51,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
+                    borderRadius: BorderRadius.circular(50.0),
                     boxShadow: [
                       BoxShadow(
                         color: Theme.of(context).dividerColor.withOpacity(0.2),
@@ -58,13 +61,25 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
                       ),
                     ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25.0),
-                    child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        width: 100,
-                        height: 100,
-                        imageUrl: widget.room.imageUrl),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: widget.room.inRoom || widget.room.isAdmin
+                                ? color
+                                : Colors.transparent,
+                            width: 2.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            width: 80,
+                            height: 80,
+                            imageUrl: widget.room.imageUrl),
+                      ),
+                    ),
                   ),
                 ),
                 widget.room.inRoom
@@ -79,7 +94,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
                               width: 30,
                               child: LoadingIndicator(
                                   indicatorType: Indicator.ballScaleMultiple,
-                                  color: Colors.deepOrangeAccent)),
+                                  color: color)),
                         ),
                       )
                     : SizedBox()
@@ -101,5 +116,13 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    color = Constants.color();
+    print(widget.room.inRoom);
   }
 }

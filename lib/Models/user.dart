@@ -78,15 +78,15 @@ class PostUser {
 }
 
 Future signInUser(String email, String password, BuildContext context) async {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  await _firebaseMessaging.setAutoInitEnabled(true);
-  await _firebaseMessaging.deleteToken();
-  var token = await _firebaseMessaging.getToken();
+  await FIR_AUTH.signOut();
   await FIR_AUTH
       .signInWithEmailAndPassword(email: email, password: password)
       .then((result) async {
     print('5');
     var uni = Constants.checkUniversity();
+    uniKey = uni;
+    FIR_UID = FirebaseAuth.instance.currentUser.uid;
+    FIR_AUTH = FirebaseAuth.instance;
     PostUser _user = await getUser(result.user.uid);
     if (_user.status == 1) {
       final snackBar = SnackBar(
@@ -101,8 +101,10 @@ Future signInUser(String email, String password, BuildContext context) async {
       Scaffold.of(context).showSnackBar(snackBar);
       return;
     }
-
-    ;
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    await _firebaseMessaging.setAutoInitEnabled(true);
+    await _firebaseMessaging.deleteToken();
+    var token = await _firebaseMessaging.getToken();
     var db = FirebaseDatabase.instance
         .reference()
         .child('users')
@@ -123,7 +125,12 @@ Future signInUser(String email, String password, BuildContext context) async {
           ));
       Scaffold.of(context).showSnackBar(snackBar);
       await sendVerificationEmail(FIR_AUTH.currentUser);
-      FIR_AUTH.signOut();
+      FIR_AUTH.signOut().then((value) async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.remove('uni');
+        prefs.remove('name');
+        prefs.remove('filters');
+      });
       // var code = await sendVerificationCode(email);
       // if (code == 0) {
       //   return;
@@ -147,7 +154,12 @@ Future signInUser(String email, String password, BuildContext context) async {
         // if (code == 0) {
         //   return;
         // }
-        FIR_AUTH.signOut();
+        FIR_AUTH.signOut().then((value) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.remove('uni');
+          prefs.remove('name');
+          prefs.remove('filters');
+        });
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -156,6 +168,7 @@ Future signInUser(String email, String password, BuildContext context) async {
       }
     }
   }).catchError((err) {
+    print('THIS IS ERROR' + err.toString());
     final snackBar = SnackBar(
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(

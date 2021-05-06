@@ -19,6 +19,7 @@ class Room {
   String imageUrl;
   bool inRoom;
   bool isRequested;
+  int memberCount;
 
   Room(
       {this.id,
@@ -31,7 +32,8 @@ class Room {
       this.isLocked,
       this.imageUrl,
       this.inRoom,
-      this.isRequested});
+      this.isRequested,
+      this.memberCount});
 
   static Future<bool> isLive({String id}) async {
     var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(id);
@@ -81,9 +83,40 @@ class Room {
     Map<dynamic, dynamic> values = s.value;
 
     if (s.value != null) {
-      for (var key in values.keys) {
-        Room room = await fetch(id: key);
-        print(room);
+      for (var value in values.values) {
+        // Room room = await fetch(id: key);
+        // rooms.add(room);
+        var room = Room(
+            id: value['id'],
+            name: value['name'],
+            description: value['description'],
+            isAdmin: value['adminId'] == FIR_UID,
+            isLocked: value['locked'],
+            adminId: value['adminId'],
+            imageUrl: value['imageUrl']);
+
+        PostUser admin = await getUser(value['adminId']);
+
+        var stringMembers;
+
+        if (value['members'] != null) {
+          stringMembers = value['members'];
+          room.members = await getMembers(value['members']);
+          room.members.insert(0, admin);
+          room.memberCount = value['members'].length;
+        } else {
+          room.members = [admin];
+          room.memberCount = 1;
+        }
+
+        if (value['joinRequests'] != null) {
+          room.requests = await getRequests(value['requests']);
+        } else {
+          room.requests = [];
+        }
+
+        room.inRoom = isInRoom(room, stringMembers);
+        room.isRequested = requested(room);
         rooms.add(room);
       }
       rooms.sort((a, b) => b.inRoom.toString().compareTo(a.inRoom.toString()));
@@ -100,7 +133,8 @@ class Room {
     return true;
   }
 
-  static Future<Room> fetch({String id}) async {
+  static Future<Room> fetch({String id, bool allMembers = false}) async {
+    //
     var db = ROOMS_DB.child(Constants.uniString(uniKey)).child(id);
 
     DataSnapshot s = await db.once();
@@ -118,8 +152,13 @@ class Room {
 
     PostUser admin = await getUser(value['adminId']);
 
+    var stringMembers;
+
     if (value['members'] != null) {
-      room.members = await getMembers(value['members']);
+      stringMembers = value['members'];
+      room.members = allMembers
+          ? await getAllMembers(value['members'])
+          : await getMembers(value['members']);
       room.members.insert(0, admin);
     } else {
       room.members = [admin];
@@ -131,7 +170,7 @@ class Room {
       room.requests = [];
     }
 
-    room.inRoom = isInRoom(room);
+    room.inRoom = isInRoom(room, stringMembers);
     room.isRequested = requested(room);
 
     return room;
@@ -182,13 +221,15 @@ class Room {
         .child('members');
     DataSnapshot snap = await db.once();
     Map<dynamic, dynamic> values = snap.value;
-    List<PostUser> m = await getMembers(values);
+    List<PostUser> m = await getAllMembers(values);
     PostUser admin = await getUser(room.adminId);
     m.insert(0, admin);
+
     return m;
   }
 
-  static Future<bool> sendMessage({String message, String roomId}) async {
+  static Future<bool> sendMessage(
+      {String message, String roomId, String imageUrl}) async {
     var myID = FIR_UID;
     var db =
         ROOMS_DB.child(Constants.uniString(uniKey)).child(roomId).child('chat');
@@ -198,7 +239,9 @@ class Room {
       "senderId": myID,
       "timeStamp": DateTime.now().millisecondsSinceEpoch
     };
-    print('sending');
+    if (imageUrl != null) {
+      data['imageUrl'] = imageUrl;
+    }
     await key.set(data).catchError((err) {
       return false;
     });
@@ -229,6 +272,33 @@ class Room {
       return false;
     });
     return true;
+  }
+
+  static Future<String> uploadImageToStorage(File file) async {
+    String urlString;
+    try {
+      final DateTime now = DateTime.now();
+      final int millSeconds = now.millisecondsSinceEpoch;
+      final String month = now.month.toString();
+      final String date = now.day.toString();
+      final String storageId = (millSeconds.toString());
+      final String today = ('$month-$date');
+
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      Reference ref =
+          storage.ref().child('files').child(today).child(storageId);
+      UploadTask uploadTask = ref.putFile(file);
+      await uploadTask.then((res) async {
+        await res.ref.getDownloadURL().then((value) {
+          urlString = value;
+        });
+      });
+
+      return urlString;
+    } catch (error) {
+      return "error";
+    }
   }
 
   static Future<dynamic> updateInfo(
@@ -274,17 +344,11 @@ Future<List<PostUser>> getRequests(Map<dynamic, dynamic> requests) async {
   return users;
 }
 
-bool isInRoom(Room room) {
-  var memberList = room.members;
-  if (memberList == null || memberList.length == 0) {
+bool isInRoom(Room room, dynamic stringMembers) {
+  if (stringMembers == null || stringMembers.length == 0) {
     return false;
   }
-  if ((memberList.singleWhere((it) => it.id == FIR_UID, orElse: () => null)) !=
-      null) {
-    return true;
-  } else {
-    return false;
-  }
+  return stringMembers.containsKey(FIR_UID);
 }
 
 bool requested(Room room) {
@@ -292,16 +356,28 @@ bool requested(Room room) {
   if (joinRequests == null || joinRequests.length == 0) {
     return false;
   }
-  if ((joinRequests.singleWhere((it) => it.id == FIR_UID,
+  return ((joinRequests.singleWhere((it) => it.id == FIR_UID,
           orElse: () => null)) !=
-      null) {
-    return true;
-  } else {
-    return false;
-  }
+      null);
 }
 
 Future<List<PostUser>> getMembers(Map<dynamic, dynamic> members) async {
+  List<PostUser> users = [];
+  int count = 0;
+  if (members != null) {
+    for (var key in members.keys) {
+      if (count < 4) {
+        PostUser user = await getUser(key);
+        users.add(user);
+        count += 1;
+      }
+    }
+  }
+
+  return users;
+}
+
+Future<List<PostUser>> getAllMembers(Map<dynamic, dynamic> members) async {
   List<PostUser> users = [];
   if (members != null) {
     for (var key in members.keys) {
@@ -310,31 +386,9 @@ Future<List<PostUser>> getMembers(Map<dynamic, dynamic> members) async {
     }
   }
 
+  users.sort((a, b) => ((b.profileImgUrl != null)
+      .toString()
+      .compareTo((a.profileImgUrl != null).toString())));
+
   return users;
-}
-
-Future<String> uploadImageToStorage(File file) async {
-  String urlString;
-  try {
-    final DateTime now = DateTime.now();
-    final int millSeconds = now.millisecondsSinceEpoch;
-    final String month = now.month.toString();
-    final String date = now.day.toString();
-    final String storageId = (millSeconds.toString());
-    final String today = ('$month-$date');
-
-    FirebaseStorage storage = FirebaseStorage.instance;
-
-    Reference ref = storage.ref().child('files').child(today).child(storageId);
-    UploadTask uploadTask = ref.putFile(file);
-    await uploadTask.then((res) async {
-      await res.ref.getDownloadURL().then((value) {
-        urlString = value;
-      });
-    });
-
-    return urlString;
-  } catch (error) {
-    return "error";
-  }
 }

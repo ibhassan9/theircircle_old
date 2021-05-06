@@ -300,6 +300,11 @@ Future<bool> deleteClub(Club club) async {
   await assignmentDB.remove().catchError((err) {
     return false;
   });
+  var clubPostsDB =
+      CLUB_POSTS_DB.child(Constants.uniString(uniKey)).child(club.id);
+  await clubPostsDB.remove().catchError((err) {
+    return false;
+  });
   return true;
 }
 

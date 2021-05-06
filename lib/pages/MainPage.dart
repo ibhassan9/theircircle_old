@@ -111,12 +111,12 @@ class _MainPageState extends State<MainPage>
                       child: notifications(),
                     ),
                   ),
-                  title: new Text("THEIRCIRCLE",
+                  title: new Text("TheirCircle",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.quicksand(
                           color: Theme.of(context).accentColor,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900)),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700)),
                   pinned: false,
                   floating: true,
                   snap: true,
@@ -296,7 +296,7 @@ class _MainPageState extends State<MainPage>
         mini: false,
         child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
-          //await sendNewQuestionToAll();
+          // await sendNewQuestionToAll();
           showBarModalBottomSheet(
               context: context,
               expand: true,
@@ -448,7 +448,7 @@ class _MainPageState extends State<MainPage>
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
       child: Container(
-          height: 150,
+          height: 140,
           child: FutureBuilder(
             future: _roomFuture,
             builder: (context, snap) {
@@ -458,7 +458,7 @@ class _MainPageState extends State<MainPage>
                   duration: Duration(seconds: 1),
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
+                      // shrinkWrap: true,
                       physics: AlwaysScrollableScrollPhysics(),
                       itemCount: snap.data.length + 1,
                       itemBuilder: (context, index) {

@@ -312,7 +312,10 @@ Future<Post> fetchCoursePost(String postId, String id) async {
 }
 
 Future<Post> fetchClubPost(String postId, String id) async {
-  var db = CLUB_POSTS_DB.child(Constants.uniString(uniKey));
+  var db = FirebaseDatabase.instance
+      .reference()
+      .child('clubposts')
+      .child(Constants.uniString(uniKey));
   var snapshot = await db.child(id).child(postId).once().catchError((e) {
     return null;
   });
@@ -418,6 +421,7 @@ Future<List<Post>> fetchUserPost(PostUser user) async {
         case 'club':
           Post post = await fetchClubPost(postId, typeId);
           if (post != null) {
+            print('Content: ' + post.content);
             if (post.isAnonymous == false || post.userId == FIR_UID) {
               post.type = 'club';
               post.typeId = typeId;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Components/Constants.dart';
+import 'package:unify/Models/post.dart';
 import 'package:unify/pages/Screens/Login/login_screen.dart';
 import 'package:unify/pages/Screens/Signup/components/background.dart';
 import 'package:unify/pages/Screens/Signup/components/or_divider.dart';
@@ -68,6 +69,12 @@ class _BodyState extends State<Body> {
                           color: Theme.of(context).accentColor),
                     ));
                 Scaffold.of(context).showSnackBar(snackBar);
+                if (nameController.text.isEmpty ||
+                    emailController.text.isEmpty ||
+                    passwordController.text.isEmpty) {
+                  previewMessage('All fields are required', context);
+                  return;
+                }
                 await registerUser(nameController.text, emailController.text,
                     passwordController.text, context);
                 nameController.clear();
