@@ -106,7 +106,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                                   backgroundColor: Colors.brown,
                                                   child: Center(
                                                     child: Image.network(
-                                                      Constants.dummyImageUrl,
+                                                      widget.msg.imageUrl,
                                                       width:
                                                           MediaQuery.of(context)
                                                               .size
