@@ -210,7 +210,8 @@ class Constants {
         userEmail.contains('@mail.utoronto.ca')) {
       return 0;
     } else if (userEmail.contains('@yorku.ca') ||
-        userEmail.contains('@myorku.ca')) {
+        userEmail.contains('@myorku.ca') ||
+        userEmail.contains('@my.yorku.ca')) {
       return 1;
     } else if (userEmail.contains('@uwo.ca')) {
       return 2;
