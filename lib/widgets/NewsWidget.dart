@@ -22,10 +22,10 @@ class _NewsWidgetState extends State<NewsWidget>
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, top: 0.0),
+      padding: const EdgeInsets.only(left: 3.0, top: 0.0),
       child: imgUrl != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(0.0),
               child: InkWell(
                 onTap: () {
                   showBarModalBottomSheet(
@@ -45,7 +45,7 @@ class _NewsWidgetState extends State<NewsWidget>
                 child: Container(
                   width: MediaQuery.of(context).size.width / 3,
                   decoration: BoxDecoration(
-                      color: color, borderRadius: BorderRadius.circular(15.0)),
+                      color: color, borderRadius: BorderRadius.circular(0.0)),
                   child: Stack(children: [
                     imgUrl != null || imgUrl != '' || imgUrl.isNotEmpty
                         ? CachedNetworkImage(
@@ -64,7 +64,7 @@ class _NewsWidgetState extends State<NewsWidget>
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(0.0),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,8 +90,8 @@ class _NewsWidgetState extends State<NewsWidget>
                                       .replaceAll('             ', ' '),
                                   maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 12,
+                                  style: GoogleFonts.darkerGrotesque(
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                     shadows: <Shadow>[

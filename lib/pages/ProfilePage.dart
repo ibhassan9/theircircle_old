@@ -903,7 +903,7 @@ class _ProfilePageState extends State<ProfilePage>
         //       // Text(
         //       //   "I'm interested in",
         //       //   style: GoogleFonts.lexendDeca(
-        //       //     GoogleFonts.inter: GoogleFonts.quicksand(
+        //       //     GoogleFonts.inter: GoogleFonts. inter(
         //    fontFamily: Constants.fontFamily,
         //       //         fontSize: 15,
         //       //         fontWeight: FontWeight.w500,

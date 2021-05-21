@@ -220,6 +220,17 @@ class Constants {
     }
   }
 
+  static showMsg({String content, BuildContext context}) {
+    final snackBar = SnackBar(
+        backgroundColor: Colors.pink,
+        content: Text(
+          content,
+          style: GoogleFonts.darkerGrotesque(
+              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
+        ));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   static Map<String, String> feelings = {
     "Ashamed": "😳",
     "Withdrawn": "🥴",

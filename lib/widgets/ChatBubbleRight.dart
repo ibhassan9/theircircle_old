@@ -222,7 +222,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                                         // Text(
                                                                         //   r'$ ' + prod.price,
                                                                         //   style: GoogleFonts.lexendDeca(
-                                                                        //     textStyle: GoogleFonts.quicksand(
+                                                                        //     textStyle: GoogleFonts. inter(
                                                                         //         fontSize: 13,
                                                                         //         fontWeight: FontWeight.w500,
                                                                         //         color: Colors.black),
@@ -273,7 +273,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                   //                   .timestamp),
                                                   //           locale: 'en_short'),
                                                   //   style:
-                                                  //       GoogleFonts.quicksand(
+                                                  //       GoogleFonts. inter(
                                                   //           fontSize: 10,
                                                   //           fontWeight:
                                                   //               FontWeight.w500,
@@ -310,7 +310,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                               //                   widget.msg
                                               //                       .timestamp),
                                               //           locale: 'en_short'),
-                                              //   style: GoogleFonts.quicksand(
+                                              //   style: GoogleFonts. inter(
                                               //       fontSize: 10,
                                               //       fontWeight: FontWeight.w500,
                                               //       color: Theme.of(context)

@@ -452,7 +452,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
         leadingWidth: 30.0,
         // title: Text(
         //   "Comments",
-        //   style: GoogleFonts.quicksand(
+        //   style: GoogleFonts. inter(
         //fontFamily: Constants.fontFamily,
         //       fontSize: 20,
         //       fontWeight: FontWeight.w500,
@@ -774,7 +774,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
               //         top: 3.0, bottom: 3.0),
               //     child: Text(
               //       'answered a question!',
-              //       style: GoogleFonts.quicksand(
+              //       style: GoogleFonts. inter(
               //  fontFamily: Constants.fontFamily,
               //           fontSize: 12,
               //           fontWeight: FontWeight.w500,
@@ -788,7 +788,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
               //     _user.about != null
               //         ? _user.about
               //         : 'No bio available',
-              //     style: GoogleFonts.quicksand(
+              //     style: GoogleFonts. inter(
               //    fontFamily: Constants.fontFamily,
               //         fontSize: 12,
               //         fontWeight: FontWeight.w600,

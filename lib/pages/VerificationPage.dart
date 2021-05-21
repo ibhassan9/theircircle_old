@@ -17,113 +17,64 @@ class _VerificationPageState extends State<VerificationPage> {
   bool _onEditing = true;
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
-        iconTheme: IconThemeData(color: Colors.black),
-        elevation: 0.0,
-        centerTitle: true,
-        title: Text(
-          "CODE VERIFICATION",
-          style: GoogleFonts.quicksand(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: Theme.of(context).accentColor),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          brightness: Theme.of(context).brightness,
+          leading: Container(),
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.close, color: Theme.of(context).accentColor))
+          ],
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-                color: Colors.deepPurpleAccent,
-                borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: Text(
-                "Back to Main Page",
-                style: GoogleFonts.quicksand(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-                textAlign: TextAlign.center,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(40.0, 0.0, 40.0, 70.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Theme.of(context).accentColor),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                child: Text(
+                  "I have verified! Sign in.",
+                  style: GoogleFonts.darkerGrotesque(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
         ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 10.0),
-          child: Column(
-            children: <Widget>[
+        body: Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 100),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                "We have sent an email to verify your university email address.",
-                style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
+                'Almost There!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.darkerGrotesque(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
                     color: Theme.of(context).accentColor),
-                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
               Text(
-                "Sent to ${widget.email}",
-                style: GoogleFonts.quicksand(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
+                'We have sent an email to ${widget.email}. Please verify it to finish creating your account!',
+                textAlign: TextAlign.left,
+                style: GoogleFonts.darkerGrotesque(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
                     color: Theme.of(context).buttonColor),
-                textAlign: TextAlign.center,
               ),
-
-              // VerificationCode(
-              //   textStyle: GoogleFonts.quicksand(
-              //       fontSize: 20,
-              //       fontWeight: FontWeight.w500,
-              //       color: Theme.of(context).accentColor),
-              //   keyboardType: TextInputType.number,
-              //   // in case underline color is null it will use primaryColor: Colors.red from Theme
-              //   underlineColor: Colors.amber,
-              //   length: 4,
-              //   // clearAll is NOT required, you can delete it
-              //   // takes any widget, so you can implement your design
-              //   clearAll: Padding(
-              //     padding: const EdgeInsets.all(20.0),
-              //     child: Text(
-              //       "Clear",
-              //       style: GoogleFonts.quicksand(
-              //           fontSize: 17,
-              //           fontWeight: FontWeight.w500,
-              //           color: Colors.blue),
-              //     ),
-              //   ),
-              //   onCompleted: (String value) async {
-              //     if (value == widget.code.toString()) {
-              //       // do something
-              //       showCorrect();
-              //       var result = await updateVerification(widget.uid);
-              //       if (result) {
-              //         await signInUser(widget.email, widget.password, context);
-              //       }
-              //     } else {
-              //       showWrong();
-              //     }
-              //   },
-              //   onEditing: (bool value) {
-              //     setState(() {
-              //       _onEditing = value;
-              //     });
-              //     if (!_onEditing) FocusScope.of(context).unfocus();
-              //   },
-              // ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ])));
   }
 
   showCorrect() {
@@ -134,7 +85,7 @@ class _VerificationPageState extends State<VerificationPage> {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
     //         style: GoogleFonts.lexendDeca(
-    //           textStyle: GoogleFonts.quicksand(
+    //           textStyle: GoogleFonts. inter(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,
     //               color: Colors.white),

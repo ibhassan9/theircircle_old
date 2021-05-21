@@ -12,6 +12,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,40 +104,39 @@ class _MainPageState extends State<MainPage>
               return <Widget>[
                 new SliverAppBar(
                   backgroundColor: Theme.of(context).backgroundColor,
-                  leading: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: CircleAvatar(
-                      radius: 25.0,
-                      backgroundColor:
-                          Theme.of(context).accentColor.withOpacity(0.05),
-                      child: notifications(),
-                    ),
-                  ),
-                  title: new Text("TheirCircle",
+                  // leading: Padding(
+                  //   padding: const EdgeInsets.only(left: 10.0),
+                  //   child: CircleAvatar(
+                  //     radius: 25.0,
+                  //     backgroundColor:
+                  //         Theme.of(context).accentColor.withOpacity(0.05),
+                  //     child: notifications(),
+                  //   ),
+                  // ),
+                  title: new Text("Your Feed",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.darkerGrotesque(
                           color: Theme.of(context).accentColor,
-                          fontSize: 20,
+                          fontSize: 30,
                           fontWeight: FontWeight.w700)),
                   pinned: false,
                   floating: true,
                   snap: true,
+                  centerTitle: false,
                   forceElevated: innerBoxIsScrolled,
                   actions: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: notifications(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
                       child: InkWell(
                         onTap: () {
                           widget.goToChat();
                         },
-                        child: CircleAvatar(
-                          radius: 25.0,
-                          backgroundColor:
-                              Theme.of(context).accentColor.withOpacity(0.05),
-                          child: Icon(FlutterIcons.message1_ant,
-                              size: 20.0,
-                              color: Colors.lightBlueAccent.shade700),
-                        ),
+                        child: Icon(LineIcons.commentAlt,
+                            size: 25.0, color: Theme.of(context).accentColor),
                       ),
                     ),
                   ],
@@ -170,71 +171,147 @@ class _MainPageState extends State<MainPage>
                     children: <Widget>[
                       promoWidget(),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 0.0),
-                        child: WelcomeWidget(
-                          create: () {
-                            showBarModalBottomSheet(
-                                    context: context,
-                                    expand: true,
-                                    builder: (context) => PostPage())
-                                .then((refresh) {
-                              if (refresh == false) {
-                                return;
-                              }
-                              fetchPosts(sortBy).then((value) {
-                                setState(() {
-                                  posts = value;
-                                });
-                              });
-                            });
-                          },
-                          answerQuestion: () async {
-                            var question = await _questionFuture;
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TodaysQuestionPage(
-                                        question: question))).then((value) {
-                              if (value == false) {
-                                return;
-                              }
-                              refresh();
-                            });
-                          },
-                          startRoom: () => print("test"),
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    border: Border.all(
+                                        width: 1.0,
+                                        color: Theme.of(context)
+                                            .buttonColor
+                                            .withOpacity(0.5))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Icon(LineIcons.campground, size: 15.0),
+                                )),
+                            SizedBox(width: 8.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Live Rooms',
+                                    style: GoogleFonts.darkerGrotesque(
+                                        height: 0.5,
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w600)),
+                                SizedBox(height: 2.0),
+                                Text('Tap in to conversate!',
+                                    style: GoogleFonts.darkerGrotesque(
+                                        height: 1,
+                                        color: Theme.of(context).buttonColor,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      questionWidget(),
-                      InkWell(
-                          onTap: () async {
-                            final RenderBox box = context.findRenderObject();
-                            var title = Constants.inviteTitle;
-                            await Share.share(title,
-                                subject: "TheirCircle",
-                                sharePositionOrigin:
-                                    box.localToGlobal(Offset.zero) & box.size);
-                          },
-                          child: InviteFriendsWidget()),
+                      rooms(),
+
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
-                        child: Text('Live Rooms',
-                            style: GoogleFonts.quicksand(
-                                color: Theme.of(context).accentColor,
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      rooms(),
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
-                        child: Text('Latest Articles',
-                            style: GoogleFonts.quicksand(
-                                color: Theme.of(context).accentColor,
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    border: Border.all(
+                                        width: 1.0,
+                                        color: Theme.of(context)
+                                            .buttonColor
+                                            .withOpacity(0.5))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Icon(LineIcons.newspaper, size: 15.0),
+                                )),
+                            SizedBox(width: 8.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Latest Articles',
+                                    style: GoogleFonts.darkerGrotesque(
+                                        height: 0.5,
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w600)),
+                                SizedBox(height: 2.0),
+                                Text('Stay up-to date with current events',
+                                    style: GoogleFonts.darkerGrotesque(
+                                        height: 1,
+                                        color: Theme.of(context).buttonColor,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       newsListWidget(),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.only(bottom: 0.0),
+                      //   child: WelcomeWidget(
+                      //     create: () {
+                      //       showBarModalBottomSheet(
+                      //               context: context,
+                      //               expand: true,
+                      //               builder: (context) => PostPage())
+                      //           .then((refresh) {
+                      //         if (refresh == false) {
+                      //           return;
+                      //         }
+                      //         fetchPosts(sortBy).then((value) {
+                      //           setState(() {
+                      //             posts = value;
+                      //           });
+                      //         });
+                      //       });
+                      //     },
+                      //     answerQuestion: () async {
+                      //       var question = await _questionFuture;
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => TodaysQuestionPage(
+                      //                   question: question))).then((value) {
+                      //         if (value == false) {
+                      //           return;
+                      //         }
+                      //         refresh();
+                      //       });
+                      //     },
+                      //     startRoom: () => print("test"),
+                      //   ),
+                      // ),
+                      // questionWidget(),
+                      // InkWell(
+                      //     onTap: () async {
+                      //       final RenderBox box = context.findRenderObject();
+                      //       var title = Constants.inviteTitle;
+                      //       await Share.share(title,
+                      //           subject: "TheirCircle",
+                      //           sharePositionOrigin:
+                      //               box.localToGlobal(Offset.zero) & box.size);
+                      //     },
+                      //     child: InviteFriendsWidget()),
+
+                      // Padding(
+                      //   padding:
+                      //       const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
+                      //   child: Text('Latest Articles',
+                      //       style: GoogleFonts.quicksand(
+                      //           color: Theme.of(context).accentColor,
+                      //           fontSize: 17.0,
+                      //           fontWeight: FontWeight.bold)),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Container(
@@ -296,7 +373,7 @@ class _MainPageState extends State<MainPage>
         mini: false,
         child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
-          // await sendNewQuestionToAll();
+          //await sendNewQuestionToAll();
           showBarModalBottomSheet(
               context: context,
               expand: true,
@@ -836,7 +913,7 @@ class _MainPageState extends State<MainPage>
                     expand: true,
                     builder: (context) => NotificationsPage());
               },
-              child: Unicon(UniconData.uniBell,
+              child: Icon(LineIcons.bell,
                   size: 25, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
@@ -866,7 +943,7 @@ class _MainPageState extends State<MainPage>
                   expand: true,
                   builder: (context) => NotificationsPage());
             },
-            child: Unicon(UniconData.uniBell,
+            child: Icon(LineIcons.bell,
                 size: 25, color: Theme.of(context).accentColor),
           );
         }
@@ -1014,8 +1091,12 @@ class _MainPageState extends State<MainPage>
                       News news = snap.data[index];
                       return AnimatedSwitcher(
                         duration: Duration(seconds: 1),
-                        child: NewsWidget(
-                          news: news,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(left: index == 0 ? 7.0 : 0.0),
+                          child: NewsWidget(
+                            news: news,
+                          ),
                         ),
                       );
                     },

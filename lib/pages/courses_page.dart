@@ -100,7 +100,7 @@ class _CoursesPageState extends State<CoursesPage>
       //     //   child: Text(
       //     //     "Request a course",
       //     //     style: GoogleFonts.lexendDeca(
-      //     //       GoogleFonts.overpass: GoogleFonts.quicksand(
+      //     //       GoogleFonts.overpass: GoogleFonts. inter(
       //fontFamily: Constants.fontFamily,
       //     //           fontSize: 15,
       //     //           fontWeight: FontWeight.w500,
@@ -113,7 +113,7 @@ class _CoursesPageState extends State<CoursesPage>
       //   title: Text(
       //     "Courses",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.overpass: GoogleFonts.quicksand(
+      //       GoogleFonts.overpass: GoogleFonts. inter(
       //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,
@@ -142,15 +142,19 @@ class _CoursesPageState extends State<CoursesPage>
                       height: 50.0,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
-                          borderRadius: BorderRadius.circular(25.0)),
+                          color: Colors.transparent,
+                          border: Border.all(
+                              color: Theme.of(context)
+                                  .buttonColor
+                                  .withOpacity(0.5)),
+                          borderRadius: BorderRadius.circular(0.0)),
                       child: Center(
                           child: Text(
                         "GPA Calculator",
-                        style: GoogleFonts.quicksand(
-                            fontSize: 13,
+                        style: GoogleFonts.darkerGrotesque(
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white),
+                            color: Theme.of(context).accentColor),
                       )),
                     ),
                   ),

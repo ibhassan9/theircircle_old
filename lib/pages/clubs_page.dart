@@ -157,7 +157,7 @@ class _ClubsPageState extends State<ClubsPage>
       //   title: Text(
       //     "Communities",
       //     style: GoogleFonts.pacifico(
-      //       GoogleFonts.overpass: GoogleFonts.quicksand(
+      //       GoogleFonts.overpass: GoogleFonts. inter(
       //fontFamily: Constants.fontFamily,
       //           fontSize: 25,
       //           fontWeight: FontWeight.w500,

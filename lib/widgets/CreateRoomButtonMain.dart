@@ -27,25 +27,43 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
         },
         child: Column(
           children: [
-            Container(
-                height: 85,
-                width: 85,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Theme.of(context).buttonColor.withOpacity(0.3),
-                    border: Border.all(
-                        color: Theme.of(context).buttonColor.withOpacity(0.1),
-                        width: 2.0)),
-                child: Icon(FlutterIcons.add_mdi,
-                    color: Theme.of(context).accentColor)),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Container(
+                      height: 100,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(0.0),
+                        color: Theme.of(context).buttonColor.withOpacity(0.15),
+                        // border: Border.all(
+                        //     color:
+                        //         Theme.of(context).buttonColor.withOpacity(0.1),
+                        //     width: 2.0)
+                      ),
+                      child: Icon(FlutterIcons.add_mdi,
+                          color: Theme.of(context).accentColor)),
+                ),
+                Positioned(
+                  top: 0.0,
+                  right: 0,
+                  child: CircleAvatar(
+                    radius: 7.0,
+                    backgroundColor: Colors.transparent,
+                    child: SizedBox(height: 30, width: 30, child: Container()),
+                  ),
+                )
+              ],
+            ),
             SizedBox(height: 5.0),
             Container(
               width: 60,
               child: Center(
                 child: Text('Create',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 12.0, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.darkerGrotesque(
+                        fontSize: 14.0, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),
               ),

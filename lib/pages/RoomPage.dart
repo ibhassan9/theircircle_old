@@ -18,6 +18,7 @@ import 'package:unify/Models/post.dart';
 import 'package:unify/Models/product.dart';
 import 'package:unify/Models/room.dart';
 import 'package:unify/Models/user.dart' as u;
+import 'package:unify/pages/ConferencePage.dart';
 import 'package:unify/pages/RoomInfoPage.dart';
 import 'package:unify/widgets/ChatBubbleLeftGroup.dart';
 import 'package:unify/widgets/ChatBubbleRightGroup.dart';
@@ -318,6 +319,7 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
           ],
         ),
         actions: <Widget>[
+          IconButton(onPressed: () => _joinChannel(), icon: Icon(Icons.call)),
           IconButton(
             icon: Unicon(UniconData.uniInfoCircle,
                 color: Theme.of(context).accentColor),
@@ -669,6 +671,14 @@ class _RoomPageState extends State<RoomPage> with WidgetsBindingObserver {
       bottomNavigationBar: Padding(
           padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0), child: chatBox),
     );
+  }
+
+  _joinChannel() async {
+    // joining channel code here
+    // then we navigate
+    showBarModalBottomSheet(
+        context: context,
+        builder: (context) => ConferencePage(room: widget.room));
   }
 
   @override

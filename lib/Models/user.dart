@@ -77,7 +77,11 @@ class PostUser {
       this.points});
 }
 
-Future signInUser(String email, String password, BuildContext context) async {
+Future signInUser(
+    {String email,
+    String password,
+    BuildContext context,
+    Function onError}) async {
   await FIR_AUTH.signOut();
   await FIR_AUTH
       .signInWithEmailAndPassword(email: email, password: password)
@@ -90,15 +94,13 @@ Future signInUser(String email, String password, BuildContext context) async {
     PostUser _user = await getUser(result.user.uid);
     if (_user.status == 1) {
       final snackBar = SnackBar(
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Colors.pink,
           content: Text(
             'This account is temporarily banned.',
             style: GoogleFonts.quicksand(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
+                fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
           ));
-      Scaffold.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -114,16 +116,6 @@ Future signInUser(String email, String password, BuildContext context) async {
         .set(token);
     await db;
     if (_user.verified == 0 && FIR_AUTH.currentUser.emailVerified != true) {
-      final snackBar = SnackBar(
-          backgroundColor: Theme.of(context).backgroundColor,
-          content: Text(
-            'Please wait...',
-            style: GoogleFonts.quicksand(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).accentColor),
-          ));
-      Scaffold.of(context).showSnackBar(snackBar);
       await sendVerificationEmail(FIR_AUTH.currentUser);
       FIR_AUTH.signOut().then((value) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -135,6 +127,7 @@ Future signInUser(String email, String password, BuildContext context) async {
       // if (code == 0) {
       //   return;
       // }
+      onError();
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -160,6 +153,8 @@ Future signInUser(String email, String password, BuildContext context) async {
           prefs.remove('name');
           prefs.remove('filters');
         });
+
+        onError();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -168,17 +163,18 @@ Future signInUser(String email, String password, BuildContext context) async {
       }
     }
   }).catchError((err) {
-    print('THIS IS ERROR' + err.toString());
+    var errList = err.toString().split(' ');
+    errList.removeAt(0);
+    var errString = errList.join(' ');
     final snackBar = SnackBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.pink,
         content: Text(
-          'Problem logging in. Please try again.',
+          errString,
           style: GoogleFonts.quicksand(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
+              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
         ));
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    onError();
   });
 }
 
@@ -194,23 +190,25 @@ Future<Null> updateUserToken() async {
 }
 
 Future registerUser(
-    String name, String email, String password, BuildContext context) async {
+    {String name,
+    String email,
+    String password,
+    BuildContext context,
+    Function onError}) async {
   if (email.contains(new RegExp(r'yorku', caseSensitive: false)) == false &&
       email.contains(new RegExp(r'utoronto', caseSensitive: false)) == false &&
       email.contains(new RegExp(r'uwo', caseSensitive: false)) == false) {
     final snackBar = SnackBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.pink,
         content: Text(
           'Please use your university email to sign up.',
           style: GoogleFonts.quicksand(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
+              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
         ));
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
     return;
   }
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   var uniKey = checkUniversityWithEmail(email);
   if (uniKey == null) {
     return;
@@ -239,16 +237,18 @@ Future registerUser(
       );
     });
   }).catchError((err) {
+    var errList = err.toString().split(' ');
+    errList.removeAt(0);
+    var errString = errList.join(' ');
     final snackBar = SnackBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.pink,
         content: Text(
-          'Sorry, could not create account.',
+          errString,
           style: GoogleFonts.quicksand(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).accentColor),
+              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
         ));
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    onError();
   });
 }
 

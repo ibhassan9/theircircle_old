@@ -193,8 +193,8 @@ class _UserPageState extends State<UserPage> {
                     //         child: Center(
                     //           child: Text(
                     //             "Update Profile",
-                    //             style: GoogleFonts.quicksand(
-                    //               GoogleFonts.overpass: GoogleFonts.quicksand(
+                    //             style: GoogleFonts. inter(
+                    //               GoogleFonts.overpass: GoogleFonts. inter(
                     //fontFamily: Constants.fontFamily,
                     //                   fontSize: 15,
                     //                   fontWeight: FontWeight.w500,

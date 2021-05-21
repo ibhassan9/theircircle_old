@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_unicons/unicons.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:share/share.dart';
@@ -244,7 +245,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             .username
                                                                             .substring(0,
                                                                                 1),
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.darkerGrotesque(
                                                                             fontWeight:
                                                                                 FontWeight.w500,
                                                                             color: Theme.of(context).accentColor)),
@@ -326,12 +327,12 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           : ""))
                                                               : widget.post
                                                                   .username,
-                                                      style: GoogleFonts.quicksand(
+                                                      style: GoogleFonts.darkerGrotesque(
                                                           fontSize: widget.post
                                                                       .feeling !=
                                                                   null
-                                                              ? 14.0
-                                                              : 14.0,
+                                                              ? 16.0
+                                                              : 16.0,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color: widget.post
@@ -363,7 +364,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           5
                                                                       ? '🎈 Recently Joined'
                                                                       : '',
-                                                                  style: GoogleFonts.quicksand(
+                                                                  style: GoogleFonts.darkerGrotesque(
                                                                       fontSize:
                                                                           10,
                                                                       fontWeight:
@@ -393,7 +394,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
-                                                                  style: GoogleFonts.quicksand(
+                                                                  style: GoogleFonts.darkerGrotesque(
                                                                       fontSize:
                                                                           10,
                                                                       fontWeight:
@@ -409,7 +410,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                         Text(
                                                           '${widget.timeAgo.replaceAll('~', '')} • ',
                                                           style: GoogleFonts
-                                                              .quicksand(
+                                                              .darkerGrotesque(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             color: Colors
@@ -445,8 +446,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                               FIR_UID
                                                           ? "OPTIONS"
                                                           : "REPORT",
-                                                      style:
-                                                          GoogleFonts.quicksand(
+                                                      style: GoogleFonts
+                                                          .darkerGrotesque(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -460,8 +461,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                               FIR_UID
                                                           ? "What would you like to do?"
                                                           : "What is the issue?",
-                                                      style:
-                                                          GoogleFonts.quicksand(
+                                                      style: GoogleFonts
+                                                          .darkerGrotesque(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -477,7 +478,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Delete Post",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -490,14 +491,14 @@ class _PostWidgetState extends State<PostWidget> {
                                                                       final act = CupertinoActionSheet(
                                                                           title: Text(
                                                                             'Delete Post',
-                                                                            style: GoogleFonts.quicksand(
+                                                                            style: GoogleFonts.darkerGrotesque(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Theme.of(context).accentColor),
                                                                           ),
                                                                           message: Text(
                                                                             'Are you sure you want to delete this post?',
-                                                                            style: GoogleFonts.quicksand(
+                                                                            style: GoogleFonts.darkerGrotesque(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Theme.of(context).accentColor),
@@ -506,7 +507,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             CupertinoActionSheetAction(
                                                                                 child: Text(
                                                                                   "YES",
-                                                                                  style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                  style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                                 ),
                                                                                 onPressed: () {
                                                                                   widget.deletePost();
@@ -515,7 +516,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             CupertinoActionSheetAction(
                                                                                 child: Text(
                                                                                   "Cancel",
-                                                                                  style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                  style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                                 ),
                                                                                 onPressed: () {
                                                                                   Navigator.pop(context);
@@ -530,7 +531,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -548,7 +549,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's suspicious or spam",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -565,7 +566,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's abusive or harmful",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -582,7 +583,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It expresses intentions of self-harm or suicide",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -599,7 +600,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It promotes sexual/inappropriate content",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -616,7 +617,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Hide this post.",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -633,7 +634,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: GoogleFonts.quicksand(
+                                                                          style: GoogleFonts.darkerGrotesque(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -641,7 +642,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to hide this post?",
-                                                                          style: GoogleFonts.quicksand(
+                                                                          style: GoogleFonts.darkerGrotesque(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -650,7 +651,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "YES",
-                                                                                style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                               ),
                                                                               onPressed: () async {
                                                                                 await widget.hide();
@@ -658,7 +659,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -674,7 +675,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Block this user",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -691,7 +692,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: GoogleFonts.quicksand(
+                                                                          style: GoogleFonts.darkerGrotesque(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -699,7 +700,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to block this user?",
-                                                                          style: GoogleFonts.quicksand(
+                                                                          style: GoogleFonts.darkerGrotesque(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -708,7 +709,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "YES",
-                                                                                style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                               ),
                                                                               onPressed: () async {
                                                                                 await widget.block();
@@ -716,7 +717,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -732,7 +733,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: GoogleFonts.quicksand(
+                                                                      style: GoogleFonts.darkerGrotesque(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -814,8 +815,8 @@ class _PostWidgetState extends State<PostWidget> {
                                 ),
                                 child: Text(
                                   widget.post.tcQuestion,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 15,
+                                  style: GoogleFonts.darkerGrotesque(
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                   ),
@@ -831,7 +832,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   right: 10.0),
                               child: Text(
                                 widget.post.title,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.darkerGrotesque(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -847,7 +848,7 @@ class _PostWidgetState extends State<PostWidget> {
                               padding: const EdgeInsets.only(
                                   bottom: 0.0, left: 10.0, right: 10.0),
                               child: Text(widget.post.content.trimRight(),
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.darkerGrotesque(
                                       fontSize: widget.fromComments ? 15 : 15,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor))
@@ -861,13 +862,13 @@ class _PostWidgetState extends State<PostWidget> {
                               //                 selectedUrl: link.url)));
                               //   },
                               //   text: widget.post.content.trimRight(),
-                              //   style:  GoogleFonts.quicksand(
+                              //   style:  GoogleFonts. lato(
                               //
                               //       fontSize: widget.fromComments ? 15.5 : 15.5,
                               //       fontWeight: FontWeight.w500,
                               //       color: Theme.of(context).accentColor),
                               //   linkStyle:
-                              //        GoogleFonts.quicksand(
+                              //        GoogleFonts. lato(
                               // color: Colors.indigo),
                               // ),
                               ),
@@ -898,7 +899,7 @@ class _PostWidgetState extends State<PostWidget> {
                                           8.0, 3.0, 8.0, 3.0),
                                       child: Text(
                                         "Admin",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.darkerGrotesque(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white),
@@ -997,11 +998,13 @@ class _PostWidgetState extends State<PostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionOne,
-                                              style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
+                                              style:
+                                                  GoogleFonts.darkerGrotesque(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Theme.of(context)
+                                                          .accentColor),
                                             ),
                                           ),
                                         ],
@@ -1087,11 +1090,13 @@ class _PostWidgetState extends State<PostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionTwo,
-                                              style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .accentColor),
+                                              style:
+                                                  GoogleFonts.darkerGrotesque(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Theme.of(context)
+                                                          .accentColor),
                                             ),
                                           ),
                                         ],
@@ -1118,7 +1123,7 @@ class _PostWidgetState extends State<PostWidget> {
                         widget.post.whichOption == 1
                             ? 'You voted: ${widget.post.questionOne}'
                             : 'You voted: ${widget.post.questionTwo}',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.darkerGrotesque(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).buttonColor),
@@ -1162,7 +1167,7 @@ class _PostWidgetState extends State<PostWidget> {
                               : 'View Poll Results (' +
                                   pollCount().toString() +
                                   ' votes)',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.darkerGrotesque(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -1241,7 +1246,7 @@ class _PostWidgetState extends State<PostWidget> {
                     Expanded(
                       child: Text(
                         '${widget.post.likeCount}',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.darkerGrotesque(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
                         ),
@@ -1252,7 +1257,7 @@ class _PostWidgetState extends State<PostWidget> {
                           (widget.post.commentCount.toString() == '1'
                               ? "Comment"
                               : "Comments"),
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.darkerGrotesque(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).buttonColor,
                       ),
@@ -1389,7 +1394,13 @@ class _PostWidgetState extends State<PostWidget> {
                             size: 20.0,
                           ),
                           SizedBox(width: 5.0),
-                          Text('Like')
+                          Text(
+                            'Like',
+                            style: GoogleFonts.darkerGrotesque(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
                         ],
                       ),
                     ),
@@ -1514,8 +1525,8 @@ class _PostWidgetState extends State<PostWidget> {
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
                             'Comment',
-                            style: GoogleFonts.quicksand(
-                                fontSize: 14,
+                            style: GoogleFonts.darkerGrotesque(
+                                fontSize: 15,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).buttonColor),
                           ),
@@ -1538,16 +1549,15 @@ class _PostWidgetState extends State<PostWidget> {
                       },
                       child: Row(
                         children: <Widget>[
-                          Icon(FlutterIcons.share_alt_faw5s,
-                              color: Color(0xFF1777F2), size: 15),
+                          Icon(LineIcons.share, color: Colors.pink, size: 15),
                           SizedBox(width: 5.0),
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text("Share",
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 13,
+                                style: GoogleFonts.darkerGrotesque(
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF1777F2))),
+                                    color: Colors.pink)),
                           )
                         ],
                       ),
@@ -1559,10 +1569,10 @@ class _PostWidgetState extends State<PostWidget> {
                     //             : widget.post.university == 'YorkU'
                     //                 ? 'York University'
                     //                 : 'Western University',
-                    //         style:  GoogleFonts.quicksand(
+                    //         style:  GoogleFonts. lato(
                     //
                     //             fontSize: 13,
-                    //             fontWeight: FontWeight.w600,
+                    //             fontWeight: FontWeight.w500,
                     //             color: widget.post.university == 'UofT'
                     //                 ? Color(0xFF1777F2)
                     //                 : widget.post.university == 'YorkU'
@@ -1580,7 +1590,7 @@ class _PostWidgetState extends State<PostWidget> {
               //           comment.userId == firebaseAuth.currentUser.uid
               //               ? "You"
               //               : comment.username,
-              //           style:  GoogleFonts.quicksand(
+              //           style:  GoogleFonts. lato(
               //
               //               fontSize: 13,
               //               fontWeight: FontWeight.w500,
@@ -1599,7 +1609,7 @@ class _PostWidgetState extends State<PostWidget> {
               //                 child: Text(comment.content,
               //                     maxLines: null,
               //                     overflow: TextOverflow.ellipsis,
-              //                     style:  GoogleFonts.quicksand(
+              //                     style:  GoogleFonts. lato(
               //
               //                         fontSize: 13,
               //                         fontWeight: FontWeight.w500,
@@ -1633,7 +1643,7 @@ class _PostWidgetState extends State<PostWidget> {
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.darkerGrotesque(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

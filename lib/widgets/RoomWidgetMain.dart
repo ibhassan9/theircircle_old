@@ -21,7 +21,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
 
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
+      padding: const EdgeInsets.only(left: 3.0),
       child: InkWell(
         onTap: () async {
           bool live = await Room.isLive(id: widget.room.id);
@@ -51,7 +51,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
+                    borderRadius: BorderRadius.circular(0.0),
                     boxShadow: [
                       BoxShadow(
                         color: Theme.of(context).dividerColor.withOpacity(0.2),
@@ -63,38 +63,45 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
                   ),
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0),
-                        border: Border.all(
-                            color: widget.room.inRoom || widget.room.isAdmin
-                                ? color
-                                : Colors.transparent,
-                            width: 2.0)),
+                      borderRadius: BorderRadius.circular(0.0),
+                      // border: Border.all(
+                      //     color: widget.room.inRoom || widget.room.isAdmin
+                      //         ? Colors.transparent
+                      //         : Colors.transparent,
+                      //     width: 2.0)
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(1.5),
+                      padding: const EdgeInsets.all(0),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(0.0),
                         child: CachedNetworkImage(
                             fit: BoxFit.cover,
                             width: 80,
-                            height: 80,
+                            height: 100,
                             imageUrl: widget.room.imageUrl),
                       ),
                     ),
                   ),
                 ),
-                widget.room.inRoom
+                widget.room.inRoom || widget.room.isAdmin
                     ? Positioned(
-                        top: 0.0,
-                        right: 0,
-                        child: CircleAvatar(
-                          radius: 7.0,
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          child: SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: LoadingIndicator(
-                                  indicatorType: Indicator.ballScaleMultiple,
-                                  color: color)),
+                        bottom: 0.0,
+                        left: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5)),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 3.0),
+                            child: Text('IN ROOM',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.darkerGrotesque(
+                                    color: Colors.white,
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w700),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis),
+                          ),
                         ),
                       )
                     : SizedBox()
@@ -102,13 +109,13 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
             ),
             SizedBox(height: 5.0),
             Container(
-              width: 60,
+              width: 70,
               child: Center(
                 child: Text(widget.room.name,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 12.0, fontWeight: FontWeight.w600),
-                    maxLines: 2,
+                    style: GoogleFonts.darkerGrotesque(
+                        fontSize: 14.0, fontWeight: FontWeight.w600),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis),
               ),
             ),

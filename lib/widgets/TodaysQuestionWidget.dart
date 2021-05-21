@@ -61,7 +61,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
           height: 50.0,
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Colors.deepOrangeAccent, Colors.deepPurpleAccent]),
+                  colors: [Colors.blue, Colors.deepPurpleAccent]),
               borderRadius: BorderRadius.circular(5.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +73,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
               SizedBox(width: 15.0),
               Text(
                 "We've got a question for you!",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.darkerGrotesque(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),

@@ -338,8 +338,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //               ),
                   //               SizedBox(width: 10),
                   //               Text("You haven't started any conversations yet :(",
-                  //                   style: GoogleFonts.quicksand(
-                  //                     GoogleFonts.overpass: GoogleFonts.quicksand(
+                  //                   style: GoogleFonts. inter(
+                  //                     GoogleFonts.overpass: GoogleFonts. inter(
                   // fontFamily: Constants.fontFamily,
                   //                         fontSize: 14,
                   //                         fontWeight: FontWeight.w500,
@@ -362,8 +362,8 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                   //                 ),
                   //                 SizedBox(width: 10),
                   //                 Text("You haven't started any conversations yet :(",
-                  //                     style: GoogleFonts.quicksand(
-                  //                       GoogleFonts.overpass: GoogleFonts.quicksand(
+                  //                     style: GoogleFonts. inter(
+                  //                       GoogleFonts.overpass: GoogleFonts. inter(
                   //   fontFamily: Constants.fontFamily,
                   //                           fontSize: 14,
                   //                           fontWeight: FontWeight.w500,

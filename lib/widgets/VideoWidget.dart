@@ -364,7 +364,7 @@ class _VideoWidgetState extends State<VideoWidget>
                         //                     "Original audio • ${widget.video.name}",
                         //                     maxLines: 2,
                         //                     overflow: TextOverflow.ellipsis,
-                        //                     style: GoogleFonts.quicksand(
+                        //                     style: GoogleFonts. inter(
                         //     fontFamily: Constants.fontFamily,
                         //                         fontSize: 13,
                         //                         fontWeight: FontWeight.w500,
@@ -489,7 +489,7 @@ class _VideoWidgetState extends State<VideoWidget>
               //   padding: const EdgeInsets.only(top: 3.0),
               //   child: Text(
               //     widget.timeAgo,
-              //     style: GoogleFonts.quicksand(
+              //     style: GoogleFonts. inter(
               //   fontFamily: Constants.fontFamily,
               //         fontSize: 10,
               //         fontWeight: FontWeight.w500,
@@ -780,7 +780,7 @@ class _VideoWidgetState extends State<VideoWidget>
         // CupertinoActionSheetAction(
         //     child: Text(
         //       "Hide this video.",
-        //       style: GoogleFonts.quicksand(
+        //       style: GoogleFonts. inter(
         //    fontFamily: Constants.fontFamily,
         //           fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
         //     ),
@@ -789,7 +789,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //       final act = CupertinoActionSheet(
         //         title: Text(
         //           "PROCEED?",
-        //           style: GoogleFonts.quicksand(
+        //           style: GoogleFonts. inter(
         // fontFamily: Constants.fontFamily,
         //               fontSize: 13,
         //               fontWeight: FontWeight.w500,
@@ -797,7 +797,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //         ),
         //         message: Text(
         //           "Are you sure you want to hide this video?",
-        //           style: GoogleFonts.quicksand(
+        //           style: GoogleFonts. inter(
         //  fontFamily: Constants.fontFamily,
         //               fontSize: 13,
         //               fontWeight: FontWeight.w500,
@@ -807,7 +807,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //           CupertinoActionSheetAction(
         //               child: Text(
         //                 "YES",
-        //                 style: GoogleFonts.quicksand(
+        //                 style: GoogleFonts. inter(
         //   fontFamily: Constants.fontFamily,
         //                     fontSize: 13,
         //                     fontWeight: FontWeight.w500,
@@ -817,7 +817,7 @@ class _VideoWidgetState extends State<VideoWidget>
         //           CupertinoActionSheetAction(
         //               child: Text(
         //                 "Cancel",
-        //                 style: GoogleFonts.quicksand(
+        //                 style: GoogleFonts. inter(
         // fontFamily: Constants.fontFamily,
         //                     fontSize: 13,
         //                     fontWeight: FontWeight.w500,

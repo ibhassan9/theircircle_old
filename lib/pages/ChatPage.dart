@@ -123,7 +123,7 @@ class _ChatPageState extends State<ChatPage>
                                         // Text(
                                         //   r'$ ' + prod.price,
                                         //   style: GoogleFonts.lexendDeca(
-                                        //     GoogleFonts.overpass: GoogleFonts.quicksand(
+                                        //     GoogleFonts.overpass: GoogleFonts. inter(
                                         //  fontFamily: Constants.fontFamily,
                                         //         fontSize: 13,
                                         //         fontWeight: FontWeight.w700,

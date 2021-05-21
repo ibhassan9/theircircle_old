@@ -285,7 +285,7 @@ class _VideoPreviewState extends State<VideoPreview>
         //     Text("DIET_ • Denzel Curry, Kenny Beats",
         //         maxLines: 2,
         //         overflow: TextOverflow.ellipsis,
-        //         style: GoogleFonts.quicksand(
+        //         style: GoogleFonts. inter(
         // fontFamily: Constants.fontFamily,
         //             fontSize: 13,
         //             fontWeight: FontWeight.w500,

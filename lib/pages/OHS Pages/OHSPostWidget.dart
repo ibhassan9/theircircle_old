@@ -861,13 +861,13 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               //                 selectedUrl: link.url)));
                               //   },
                               //   text: widget.post.content.trimRight(),
-                              //   style:  GoogleFonts.quicksand(
+                              //   style:  GoogleFonts. inter(
                               //
                               //       fontSize: widget.fromComments ? 15.5 : 15.5,
                               //       fontWeight: FontWeight.w500,
                               //       color: Theme.of(context).accentColor),
                               //   linkStyle:
-                              //        GoogleFonts.quicksand(
+                              //        GoogleFonts. inter(
                               // color: Colors.indigo),
                               // ),
                               ),
@@ -1496,7 +1496,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                     //             : widget.post.university == 'YorkU'
                     //                 ? 'York University'
                     //                 : 'Western University',
-                    //         style:  GoogleFonts.quicksand(
+                    //         style:  GoogleFonts. inter(
                     //
                     //             fontSize: 13,
                     //             fontWeight: FontWeight.w600,
@@ -1517,7 +1517,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //           comment.userId == firebaseAuth.currentUser.uid
               //               ? "You"
               //               : comment.username,
-              //           style:  GoogleFonts.quicksand(
+              //           style:  GoogleFonts. inter(
               //
               //               fontSize: 13,
               //               fontWeight: FontWeight.w500,
@@ -1536,7 +1536,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
               //                 child: Text(comment.content,
               //                     maxLines: null,
               //                     overflow: TextOverflow.ellipsis,
-              //                     style:  GoogleFonts.quicksand(
+              //                     style:  GoogleFonts. inter(
               //
               //                         fontSize: 13,
               //                         fontWeight: FontWeight.w500,

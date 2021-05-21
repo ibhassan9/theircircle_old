@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           primaryColor: Colors.black,
           brightness: Brightness.dark,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.grey.shade900,
           accentColor: Colors.white,
           accentIconTheme: IconThemeData(color: Colors.black),
           dividerColor: Colors.black12,

@@ -18,7 +18,7 @@ class _CoursenClubState extends State<CoursenClub> {
       appBar: AppBar(
         elevation: 0.0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             InkWell(
               onTap: () {
@@ -33,23 +33,30 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Courses",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                    style: GoogleFonts.darkerGrotesque(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                         color: selected == 0
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 3.0,
-                    backgroundColor: selected == 0
-                        ? Colors.purple
-                        : Theme.of(context).backgroundColor,
-                  )
+                  Container(
+                      height: 3.0,
+                      width: 20.0,
+                      color: selected == 0
+                          ? Colors.purple
+                          : Theme.of(context).backgroundColor)
+                  // CircleAvatar(
+                  //   radius: 3.0,
+                  //   backgroundColor: selected == 0
+                  //       ? Colors.purple
+                  //       : Theme.of(context).backgroundColor,
+                  // )
                 ],
               ),
             ),
+            SizedBox(width: 10.0),
             InkWell(
               onTap: () {
                 controller.animateToPage(1,
@@ -63,23 +70,30 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Communities",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                    style: GoogleFonts.darkerGrotesque(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                         color: selected == 1
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 3.0,
-                    backgroundColor: selected == 1
-                        ? Colors.purple
-                        : Theme.of(context).backgroundColor,
-                  )
+                  // CircleAvatar(
+                  //   radius: 3.0,
+                  //   backgroundColor: selected == 1
+                  //       ? Colors.purple
+                  //       : Theme.of(context).backgroundColor,
+                  // )
+                  Container(
+                      height: 3.0,
+                      width: 20.0,
+                      color: selected == 1
+                          ? Colors.purple
+                          : Theme.of(context).backgroundColor)
                 ],
               ),
             ),
+            SizedBox(width: 10.0),
             InkWell(
               onTap: () {
                 controller.animateToPage(2,
@@ -93,20 +107,26 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Rooms",
-                    style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                    style: GoogleFonts.darkerGrotesque(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                         color: selected == 2
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 3.0,
-                    backgroundColor: selected == 2
-                        ? Colors.purple
-                        : Theme.of(context).backgroundColor,
-                  )
+                  // CircleAvatar(
+                  //   radius: 3.0,
+                  //   backgroundColor: selected == 2
+                  //       ? Colors.purple
+                  //       : Theme.of(context).backgroundColor,
+                  // )
+                  Container(
+                      height: 3.0,
+                      width: 20.0,
+                      color: selected == 2
+                          ? Colors.purple
+                          : Theme.of(context).backgroundColor)
                 ],
               ),
             ),

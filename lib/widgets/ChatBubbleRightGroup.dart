@@ -50,7 +50,7 @@ class _ChatBubbleRightGroupState extends State<ChatBubbleRightGroup> {
                               height: 50,
                               fit: BoxFit.cover),
                         )
-                      : Container(height: 1, width: 30),
+                      : Container(height: 1, width: 50),
                   SizedBox(width: 5.0),
                   Flexible(
                     child: Column(

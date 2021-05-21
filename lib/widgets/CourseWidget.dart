@@ -51,7 +51,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                         Icon(AntDesign.team, color: Colors.white, size: 15.0),
                         Text(
                           "${widget.course.memberCount}",
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.darkerGrotesque(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Colors.white),
@@ -74,15 +74,15 @@ class _CourseWidgetState extends State<CourseWidget> {
                         children: <Widget>[
                           Text(
                             widget.course.code,
-                            style: GoogleFonts.quicksand(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                            style: GoogleFonts.darkerGrotesque(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
                                 color: Theme.of(context).accentColor),
                           ),
                           Text(
                             widget.course.name,
-                            style: GoogleFonts.quicksand(
-                                fontSize: 13,
+                            style: GoogleFonts.darkerGrotesque(
+                                fontSize: 15,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
                             overflow: TextOverflow.ellipsis,
@@ -114,7 +114,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                             },
                             child: Text(
                               status(),
-                              style: GoogleFonts.quicksand(
+                              style: GoogleFonts.darkerGrotesque(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.lightBlue),

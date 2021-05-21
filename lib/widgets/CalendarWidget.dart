@@ -8,20 +8,17 @@ class CalendarWidget extends StatefulWidget {
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
-  CalendarController _calendarController = CalendarController();
   DateTime dateTimeSelected = DateTime.now();
 
   Widget build(BuildContext context) {
     TableCalendar tCalendar = TableCalendar(
       availableCalendarFormats: {CalendarFormat.week: 'Week'},
-      initialCalendarFormat: CalendarFormat.week,
       onDaySelected: (dt, lst) async {
         setState(() {
           dateTimeSelected = dt;
         });
         //var assignments = await fetchAllMyAssignments(dt);
       },
-      calendarController: _calendarController,
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
@@ -35,23 +32,19 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.quicksand(
+        defaultTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        weekendStyle: GoogleFonts.quicksand(
+        weekendTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        holidayStyle: GoogleFonts.quicksand(
+        holidayTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        outsideHolidayStyle: GoogleFonts.quicksand(
+        outsideTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        selectedStyle: GoogleFonts.quicksand(
+        selectedTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        todayStyle: GoogleFonts.quicksand(
+        todayTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        outsideStyle: GoogleFonts.quicksand(
-            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        outsideWeekendStyle: GoogleFonts.quicksand(
-            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        unavailableStyle: GoogleFonts.quicksand(
+        disabledTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );

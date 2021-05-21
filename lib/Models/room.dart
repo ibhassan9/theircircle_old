@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,13 @@ class Room {
         room.isRequested = requested(room);
         rooms.add(room);
       }
-      rooms.sort((a, b) => b.inRoom.toString().compareTo(a.inRoom.toString()));
+      rooms.sort((a, b) {
+        int first = b.isAdmin.toString().compareTo(a.isAdmin.toString());
+        if (first != 0) return first;
+        return b.inRoom.toString().compareTo(a.inRoom.toString());
+      });
+      // rooms
+      //     .sort((a, b) => b.isAdmin.toString().compareTo(a.isAdmin.toString()));
     }
 
     return rooms;

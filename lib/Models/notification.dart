@@ -62,7 +62,7 @@ Future<Null> sendPush(int nID, String token, String text, String postId,
 
   await uploadNotification(notification, receiverId);
 
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -109,7 +109,7 @@ Future<Null> sendPushVideo(int nID, String token, String text, String videoId,
 
   await uploadNotification(notification, receiverId);
 
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -141,7 +141,7 @@ Future<Null> sendPushChat(String token, String text, String userId,
     String chatId, String receiverId) async {
   var me = await getUser(FIR_UID);
 
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -172,7 +172,7 @@ Future<Null> sendPushRoomChat(
   for (var token in tokens) {
     print('sending to ' + token);
     await http
-        .post('https://fcm.googleapis.com/fcm/send',
+        .post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
             headers: <String, String>{
               'Content-Type': 'application/json',
               'Authorization': 'key=${Constants.serverToken}',
@@ -228,7 +228,7 @@ Future<Null> sendPushPoll(String token, String text, Club club, Course course,
 
   await uploadNotification(notification, receiverId);
 
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -266,7 +266,7 @@ Future<Null> sendPushPoll(String token, String text, Club club, Course course,
 
 Future<Null> send(String token, String receiverId) async {
   await http
-      .post('https://fcm.googleapis.com/fcm/send',
+      .post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': 'key=${Constants.serverToken}',
@@ -274,7 +274,9 @@ Future<Null> send(String token, String receiverId) async {
           body: json.encode(
             <String, dynamic>{
               'notification': <String, dynamic>{
-                'body': "We have a daily question available for you.",
+                'title': "📝 Challenge!",
+                'body':
+                    "📷 Share with other students one of your most recent photos! (You can choose to stay anonymous).",
               },
               'priority': 'high',
               'data': <String, dynamic>{
@@ -324,7 +326,7 @@ Future<Null> sendRoomNotification(String body) async {
 
   for (var token in tokenIds) {
     await http
-        .post('https://fcm.googleapis.com/fcm/send',
+        .post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
             headers: <String, String>{
               'Content-Type': 'application/json',
               'Authorization': 'key=${Constants.serverToken}',
@@ -350,7 +352,7 @@ Future<Null> sendRoomNotification(String body) async {
 }
 
 Future<Null> pushAddedToRoom({Room room, String receiverId}) async {
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -377,7 +379,7 @@ Future<Null> pushAddedToRoom({Room room, String receiverId}) async {
 }
 
 Future<Null> pushRemovedFromRoom({Room room, String receiverId}) async {
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -400,7 +402,7 @@ Future<Null> pushRemovedFromRoom({Room room, String receiverId}) async {
 
 Future<Null> sendWelcome(
     String token, String username, String receiverId) async {
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -510,7 +512,7 @@ Future<Null> sendPushClub(Club club, int nID, String token, String text,
 
   await uploadNotification(notification, receiverId);
 
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',
@@ -569,7 +571,7 @@ Future<Null> sendPushCourse(Course course, int nID, String token, String text,
       body: body);
   await uploadNotification(notification, receiverId);
 
-  await http.post('https://fcm.googleapis.com/fcm/send',
+  await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key=${Constants.serverToken}',

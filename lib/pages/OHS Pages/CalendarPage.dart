@@ -24,7 +24,6 @@ class OHSCalendarPage extends StatefulWidget {
 }
 
 class _OHSCalendarPage extends State<OHSCalendarPage> {
-  CalendarController _calendarController;
   DateTime dateTimeSelected;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -34,13 +33,11 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _calendarController = CalendarController();
     dateTimeSelected = DateTime.now();
   }
 
   @override
   void dispose() {
-    _calendarController.dispose();
     titleController.dispose();
     descriptionController.dispose();
     timeDueController.dispose();
@@ -60,7 +57,11 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
       //     dateTimeSelected = dt;
       //   });
       // },
-      calendarController: _calendarController,
+
+      firstDay: DateTime.utc(2010, 10, 16),
+      lastDay: DateTime.utc(2030, 3, 14),
+
+      focusedDay: dateTimeSelected,
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
@@ -78,33 +79,29 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
             color: Theme.of(context).accentColor),
       ),
       calendarStyle: CalendarStyle(
-        weekdayStyle: GoogleFonts.quicksand(
+        defaultTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        weekendStyle: GoogleFonts.quicksand(
+        weekendTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        holidayStyle: GoogleFonts.quicksand(
+        holidayTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        outsideHolidayStyle: GoogleFonts.quicksand(
+        outsideTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        selectedStyle: GoogleFonts.quicksand(
+        selectedTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        todayStyle: GoogleFonts.quicksand(
+        todayTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        outsideStyle: GoogleFonts.quicksand(
-            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        outsideWeekendStyle: GoogleFonts.quicksand(
-            fontSize: 17, fontWeight: FontWeight.w500, color: Colors.red),
-        unavailableStyle: GoogleFonts.quicksand(
+        disabledTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );

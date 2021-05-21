@@ -238,7 +238,7 @@ class _UploadVideoState extends State<UploadVideo> {
     //           3.0)), //             <--- BoxDecoration here
     //   child: Text('@ Friends',
     //       style: GoogleFonts.lexendDeca(
-    //         GoogleFonts.overpass: GoogleFonts.quicksand(
+    //         GoogleFonts.overpass: GoogleFonts. inter(
     //fontFamily: Constants.fontFamily,
     //             fontSize: 11,
     //             fontWeight: FontWeight.w400,

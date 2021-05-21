@@ -137,7 +137,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               //             "Don't miss out! Join this room.",
               //             textAlign: TextAlign.center,
               //             maxLines: null,
-              //             style: GoogleFonts.quicksand(
+              //             style: GoogleFonts. inter(
               //fontFamily: Constants.fontFamily,
               //                 fontWeight: FontWeight.w500, color: Colors.white),
               //           ),
@@ -147,7 +147,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               //   ),
               // ),
               // Text('INFO',
-              //     style: GoogleFonts.quicksand(
+              //     style: GoogleFonts. inter(
               //         fontWeight: FontWeight.w500,
               //         fontSize: 16.0,
               //         color: Theme.of(context).accentColor)),
@@ -371,7 +371,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
               //                   ? 'Leave Room'
               //                   : ''
               //               : '',
-              //       style: GoogleFonts.quicksand(
+              //       style: GoogleFonts. inter(
               //  fontFamily: Constants.fontFamily,
               //           fontSize: 13.0,
               //           fontWeight: FontWeight.bold,
@@ -448,7 +448,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     decoration: new InputDecoration(
                         // suffix: Text(
                         //   clength.toString(),
-                        //   style: GoogleFonts.quicksand(
+                        //   style: GoogleFonts. inter(
                         //fontFamily: Constants.fontFamily,color: clength < 0 ? Colors.red : Colors.grey),
                         // ),
                         border: InputBorder.none,
@@ -479,7 +479,7 @@ class _RoomInfoPageState extends State<RoomInfoPage>
                     decoration: new InputDecoration(
                         // suffix: Text(
                         //   clength.toString(),
-                        //   style: GoogleFonts.quicksand(
+                        //   style: GoogleFonts. inter(
                         //fontFamily: Constants.fontFamily,color: clength < 0 ? Colors.red : Colors.grey),
                         // ),
                         border: InputBorder.none,

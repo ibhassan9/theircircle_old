@@ -23,7 +23,7 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
       //   elevation: 0.0,
       //   title: Text(
       //     'Rooms',
-      //     style: GoogleFonts.quicksand(
+      //     style: GoogleFonts. inter(
       //fontFamily: Constants.fontFamily,
       //         fontSize: 25.0,
       //         color: Theme.of(context).accentColor,

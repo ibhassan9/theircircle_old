@@ -197,7 +197,7 @@ class _MainScreenState extends State<MainScreen>
                         : Colors.orange,
         inactiveColor: Theme.of(context).buttonColor,
         icons: [
-          LineIcons.home,
+          LineIcons.warehouse,
           LineIcons.award,
           LineIcons.play,
           LineIcons.shoppingBag,
@@ -319,14 +319,14 @@ class _MainScreenState extends State<MainScreen>
   //         child: FlashBar(
   //           title: Text(
   //             notification['aps']['alert']['title'].toString(),
-  //             style: GoogleFonts.quicksand(
+  //             style: GoogleFonts. inter(
   //                 fontSize: 16,
   //                 fontWeight: FontWeight.w700,
   //                 color: Theme.of(context).accentColor),
   //           ),
   //           message: Text(
   //             notification['aps']['alert']['body'].toString(),
-  //             style: GoogleFonts.quicksand(
+  //             style: GoogleFonts. inter(
   //                 fontSize: 14,
   //                 fontWeight: FontWeight.w600,
   //                 color: Theme.of(context).accentColor),
