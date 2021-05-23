@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage>
         centerTitle: true,
         title: Text(
           '',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 25,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage>
                         child: Center(
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage>
                         child: Center(
                           child: Text(
                             isBlocked ? "Unblock" : "Block",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor),
@@ -191,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage>
           SizedBox(height: 10.0),
           Text(
             user.name,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -209,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage>
                     : widget.user.university == "YorkU"
                         ? "York University"
                         : "Western University",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),
@@ -241,7 +241,7 @@ class _ProfilePageState extends State<ProfilePage>
                                   10.0, 0.0, 10.0, 0.0),
                               child: Text(
                                 'Message',
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                     color: Theme.of(context).buttonColor),
@@ -276,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage>
                                       10.0, 0.0, 10.0, 0.0),
                                   child: Text(
                                     'Edit Profile',
-                                    style: GoogleFonts.quicksand(
+                                    style: GoogleFonts.kulimPark(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).accentColor),
@@ -371,7 +371,7 @@ class _ProfilePageState extends State<ProfilePage>
                   children: [
                     Text(
                       "POSTS",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: selectedOption == 0
@@ -412,7 +412,7 @@ class _ProfilePageState extends State<ProfilePage>
                   children: [
                     Text(
                       "VIDEOS",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: selectedOption == 1
@@ -453,7 +453,7 @@ class _ProfilePageState extends State<ProfilePage>
                   children: [
                     Text(
                       "INTERESTS",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: selectedOption == 2
@@ -576,7 +576,7 @@ class _ProfilePageState extends State<ProfilePage>
                 SizedBox(width: 10),
                 Text(
                   "Cannot find any videos :(",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -598,7 +598,7 @@ class _ProfilePageState extends State<ProfilePage>
                 SizedBox(width: 10),
                 Text(
                   "Cannot find any videos :(",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -720,7 +720,7 @@ class _ProfilePageState extends State<ProfilePage>
                     sameUniversity()
                         ? "Cannot find any posts :("
                         : "You cannot view posts from a different institution",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -744,7 +744,7 @@ class _ProfilePageState extends State<ProfilePage>
                     sameUniversity()
                         ? "Cannot find any posts :("
                         : "You cannot view posts from a different institution",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -766,28 +766,11 @@ class _ProfilePageState extends State<ProfilePage>
                   color: Colors.grey,
                   height: 100,
                   width: 100,
-                  child: Image.network(
-                    user.profileImgUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: user.profileImgUrl,
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: Center(
-                          child: SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: LoadingIndicator(
-                                indicatorType: Indicator.ballClipRotateMultiple,
-                                color: Colors.white,
-                              )),
-                        ),
-                      );
-                    },
                   ),
                 ),
               ),
@@ -807,7 +790,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Text(
             widget.user.about,
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -820,14 +803,14 @@ class _ProfilePageState extends State<ProfilePage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -836,7 +819,7 @@ class _ProfilePageState extends State<ProfilePage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -856,7 +839,7 @@ class _ProfilePageState extends State<ProfilePage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -883,7 +866,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Text(
             result,
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).accentColor),
@@ -1006,7 +989,7 @@ class _ProfilePageState extends State<ProfilePage>
           selectedColor: Colors.pink,
           label: Text(
             interest,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
@@ -1025,7 +1008,7 @@ class _ProfilePageState extends State<ProfilePage>
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Places i've been to",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -1049,7 +1032,7 @@ class _ProfilePageState extends State<ProfilePage>
           avatar: Text('🇸🇩'),
           label: Text(
             'Sudan',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 10, fontWeight: FontWeight.w500, color: Colors.white),
           ),
           onSelected: (selected) {
@@ -1089,7 +1072,7 @@ class _ProfilePageState extends State<ProfilePage>
       body: Center(
         child: Text(
           text,
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

@@ -18,7 +18,7 @@ class _CoursenClubState extends State<CoursenClub> {
       appBar: AppBar(
         elevation: 0.0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
               onTap: () {
@@ -32,10 +32,10 @@ class _CoursenClubState extends State<CoursenClub> {
               child: Column(
                 children: [
                   Text(
-                    "Courses",
-                    style: GoogleFonts.darkerGrotesque(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    "Rooms",
+                    style: GoogleFonts.kulimPark(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: selected == 0
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
@@ -43,7 +43,7 @@ class _CoursenClubState extends State<CoursenClub> {
                   SizedBox(height: 5.0),
                   Container(
                       height: 3.0,
-                      width: 20.0,
+                      width: 10.0,
                       color: selected == 0
                           ? Colors.purple
                           : Theme.of(context).backgroundColor)
@@ -70,9 +70,9 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Communities",
-                    style: GoogleFonts.darkerGrotesque(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    style: GoogleFonts.kulimPark(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: selected == 1
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
@@ -86,7 +86,7 @@ class _CoursenClubState extends State<CoursenClub> {
                   // )
                   Container(
                       height: 3.0,
-                      width: 20.0,
+                      width: 10.0,
                       color: selected == 1
                           ? Colors.purple
                           : Theme.of(context).backgroundColor)
@@ -106,10 +106,10 @@ class _CoursenClubState extends State<CoursenClub> {
               child: Column(
                 children: [
                   Text(
-                    "Rooms",
-                    style: GoogleFonts.darkerGrotesque(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    "Courses",
+                    style: GoogleFonts.kulimPark(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: selected == 2
                             ? Theme.of(context).accentColor
                             : Theme.of(context).accentColor.withOpacity(0.4)),
@@ -123,7 +123,7 @@ class _CoursenClubState extends State<CoursenClub> {
                   // )
                   Container(
                       height: 3.0,
-                      width: 20.0,
+                      width: 10.0,
                       color: selected == 2
                           ? Colors.purple
                           : Theme.of(context).backgroundColor)
@@ -135,22 +135,17 @@ class _CoursenClubState extends State<CoursenClub> {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
       ),
-      body: ClipRRect(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0)),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          color: Theme.of(context).backgroundColor,
-          child: PageView(
-            onPageChanged: (index) {
-              setState(() {
-                selected = index;
-              });
-            },
-            controller: controller,
-            children: <Widget>[CoursesPage(), ClubsPage(), Rooms()],
-          ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        color: Theme.of(context).backgroundColor,
+        child: PageView(
+          onPageChanged: (index) {
+            setState(() {
+              selected = index;
+            });
+          },
+          controller: controller,
+          children: <Widget>[Rooms(), ClubsPage(), CoursesPage()],
         ),
       ),
     );

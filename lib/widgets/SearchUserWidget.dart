@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +29,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
           child: InkWell(
             onTap: () {
               //widget.show();
@@ -47,42 +48,22 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                       children: [
                         widget.peer.profileImgUrl == null
                             ? ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
+                                borderRadius: BorderRadius.circular(30),
                                 child: Container(
-                                  width: 40,
-                                  height: 40,
+                                  width: 60,
+                                  height: 60,
                                   color: Colors.grey,
                                   child: Icon(AntDesign.user,
                                       color: Colors.white, size: 15.0),
                                 ),
                               )
                             : ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Image.network(
-                                  widget.peer.profileImgUrl,
-                                  width: 40,
-                                  height: 40,
+                                borderRadius: BorderRadius.circular(30),
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.peer.profileImgUrl,
+                                  width: 60,
+                                  height: 60,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: Center(
-                                        child: SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: LoadingIndicator(
-                                              indicatorType: Indicator
-                                                  .ballClipRotateMultiple,
-                                              color:
-                                                  Theme.of(context).accentColor,
-                                            )),
-                                      ),
-                                    );
-                                  },
                                 ),
                               ),
                         SizedBox(width: 15.0),
@@ -94,7 +75,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 widget.peer.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -107,7 +88,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                     : "No bio available.",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).buttonColor),
@@ -115,6 +96,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                             ],
                           ),
                         ),
+                        SizedBox(width: 5.0)
                       ],
                     ),
                   )),
@@ -139,18 +121,18 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                     child: Container(
                         child: Padding(
                           padding:
-                              const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                              const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
                           child: Text(
-                            'Message',
-                            style: GoogleFonts.quicksand(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w800,
+                            '👋 Send message',
+                            style: GoogleFonts.kulimPark(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
                                 color: Theme.of(context).accentColor),
                           ),
                         ),
                         decoration: BoxDecoration(
-                            color: Theme.of(context).dividerColor,
-                            borderRadius: BorderRadius.circular(20.0))),
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(1.0))),
                   )
                 ]),
           ),

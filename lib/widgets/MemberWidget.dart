@@ -86,7 +86,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                         backgroundColor: Colors.grey[400],
                                         child: Text(
                                             widget.user.name.substring(0, 1),
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.kulimPark(
                                                 color: Colors.black)))
                                     : Hero(
                                         tag: widget.user.id,
@@ -134,7 +134,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                         _fAuth.currentUser.uid == widget.user.id
                                             ? 'You'
                                             : widget.user.name,
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -145,7 +145,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                                 widget.user.about.isNotEmpty
                                             ? widget.user.about
                                             : 'No bio available',
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -166,7 +166,7 @@ class _MemberWidgetState extends State<MemberWidget>
                                           10.0, 7.0, 10.0, 7.0),
                                       child: Text(
                                         'Admin',
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white),

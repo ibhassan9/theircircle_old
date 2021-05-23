@@ -49,7 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Text(
                       'Theircircle',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.darkerGrotesque(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 50,
                           fontWeight: FontWeight.w900,
                           color: Colors.white),
@@ -58,7 +58,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Text(
                       'Platform for students.',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.darkerGrotesque(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -80,19 +80,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: GoogleFonts.darkerGrotesque(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 13, color: Colors.white),
                           children: <TextSpan>[
                             TextSpan(
                               text: "By signing up you agree to our ",
-                              style: GoogleFonts.darkerGrotesque(
+                              style: GoogleFonts.kulimPark(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13,
                                   color: Colors.white),
                             ),
                             TextSpan(
                                 text: "Terms and Conditions",
-                                style: GoogleFonts.darkerGrotesque(
+                                style: GoogleFonts.kulimPark(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 13,
                                     color: Colors.white),
@@ -102,14 +102,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   }),
                             TextSpan(
                               text: " and have read our ",
-                              style: GoogleFonts.darkerGrotesque(
+                              style: GoogleFonts.kulimPark(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13,
                                   color: Colors.white),
                             ),
                             TextSpan(
                                 text: "Privacy Policy",
-                                style: GoogleFonts.darkerGrotesque(
+                                style: GoogleFonts.kulimPark(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 13,
                                     color: Colors.white),
@@ -137,7 +137,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             child: Text(
                               'Create account',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.darkerGrotesque(
+                              style: GoogleFonts.kulimPark(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white),
@@ -158,7 +158,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       child: Text(
                         'Sign in',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.darkerGrotesque(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: Colors.white),

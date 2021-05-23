@@ -31,11 +31,11 @@ class InviteFriendsWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Invite Your Friends",
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontWeight: FontWeight.w500,
                               color: Colors.white)),
                       Text("Let's build the community together!",
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontWeight: FontWeight.w500, color: Colors.white))
                     ],
                   ),
@@ -52,7 +52,7 @@ class InviteFriendsWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text("Send Invites",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontWeight: FontWeight.w500, color: Colors.black)),
                   ),
                 ),

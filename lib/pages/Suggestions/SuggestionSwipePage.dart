@@ -32,7 +32,7 @@
 //         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
 //         title: Text(
 //           widget.type == 0 ? 'Movie Session' : 'Tv Show Session',
-//           style: GoogleFonts.quicksand(
+//           style: GoogleFonts.kulimPark(
 //               fontSize: 15,
 //               fontWeight: FontWeight.w500,
 //               color: Theme.of(context).accentColor),
@@ -148,7 +148,7 @@
 //                     padding: const EdgeInsets.all(10.0),
 //                     child: Text(
 //                         started ? 'End Live Session' : 'Start Live Session',
-//                         style: GoogleFonts.quicksand(
+//                         style: GoogleFonts.kulimPark(
 //                           fontSize: 12,
 //                           color:
 //                               started ? Colors.deepPurpleAccent : Colors.green,
@@ -210,7 +210,7 @@
 //               ),
 //               SizedBox(height: 5.0),
 //               Text(widget.title,
-//                   style: GoogleFonts.quicksand(
+//                   style: GoogleFonts.kulimPark(
 //                     fontSize: 17,
 //                     color: Colors.white,
 //                   )),
@@ -219,19 +219,19 @@
 //                 child: Text(widget.description,
 //                     overflow: TextOverflow.ellipsis,
 //                     maxLines: 2,
-//                     style: GoogleFonts.quicksand(
+//                     style: GoogleFonts.kulimPark(
 //                       fontSize: 13,
 //                       color: Colors.white,
 //                     )),
 //               ),
 //               SizedBox(height: 5.0),
 //               Text(widget.votes.toString() + ' Total Votes',
-//                   style: GoogleFonts.quicksand(
+//                   style: GoogleFonts.kulimPark(
 //                     fontSize: 12,
 //                     color: Colors.white,
 //                   )),
 //               Text('Popularity: ' + widget.popularity.toString(),
-//                   style: GoogleFonts.quicksand(
+//                   style: GoogleFonts.kulimPark(
 //                     fontSize: 12,
 //                     color: Colors.white,
 //                   )),

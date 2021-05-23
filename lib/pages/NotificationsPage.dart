@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unify/Models/notification.dart' as noti;
 import 'package:unify/widgets/NotificationWidget.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationsPage extends StatefulWidget {
   @override
@@ -35,10 +36,39 @@ class _NotificationsPageState extends State<NotificationsPage>
                         if (notification.seen == false) {
                           noti.seenNotification(notification.notificationId);
                         }
-                        return NotificationWidget(
-                          key: ValueKey(notification.notificationId),
-                          notification: notification,
-                        );
+                        var timeText = timeago.format(
+                            new DateTime.fromMillisecondsSinceEpoch(
+                                notification.timestamp));
+                        if (index == 0) {
+                          if (timeText.contains('day') ||
+                              timeText.contains('second') ||
+                              timeText.contains('minute')) {
+                            return notificationWithBar(
+                                'Recently', notification);
+                          } else {
+                            return notificationWithBar(
+                                'Previous', notification);
+                          }
+                        } else {
+                          noti.Notification notification2 =
+                              snapshot.data[index - 1];
+                          var timeText2 = timeago.format(
+                              new DateTime.fromMillisecondsSinceEpoch(
+                                  notification2.timestamp));
+                          if ((timeText2.contains('day') ||
+                                  timeText2.contains('second') ||
+                                  timeText2.contains('minute')) &&
+                              (timeText.contains('month') ||
+                                  timeText.contains('year'))) {
+                            return notificationWithBar(
+                                'Previous', notification);
+                          } else {
+                            return NotificationWidget(
+                              key: ValueKey(notification.notificationId),
+                              notification: notification,
+                            );
+                          }
+                        }
                       },
                     );
                   } else {
@@ -53,6 +83,30 @@ class _NotificationsPageState extends State<NotificationsPage>
     );
   }
 
+  Widget notificationWithBar(String title, noti.Notification notification) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),
+          child: Text(
+            title,
+            maxLines: null,
+            style: GoogleFonts.kulimPark(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).buttonColor.withOpacity(0.7)),
+          ),
+        ),
+        NotificationWidget(
+          key: ValueKey(notification.notificationId),
+          notification: notification,
+        ),
+      ],
+    );
+  }
+
   AppBar appBar() {
     return AppBar(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -60,7 +114,7 @@ class _NotificationsPageState extends State<NotificationsPage>
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text(
         "Activity",
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 15,
             fontWeight: FontWeight.w700,
             color: Theme.of(context).accentColor),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:unify/Models/room.dart';
@@ -46,31 +47,47 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
         child: ListView(
           physics: AlwaysScrollableScrollPhysics(),
           children: [
-            Container(
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    filter = value;
-                  });
-                },
-                decoration: new InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.only(left: 20, bottom: 11, top: 11, right: 15),
-                  hintText: "Search Rooms...",
-                  hintStyle: GoogleFonts.quicksand(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).accentColor),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(40)),
+                child: Row(
+                  children: [
+                    SizedBox(width: 10.0),
+                    Icon(FlutterIcons.search_fea,
+                        size: 20.0, color: Theme.of(context).accentColor),
+                    Flexible(
+                      child: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            filter = value;
+                          });
+                        },
+                        decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: 10, bottom: 11, top: 11, right: 15),
+                          hintText: "Search Rooms...",
+                          hintStyle: GoogleFonts.kulimPark(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).accentColor),
+                        ),
+                        style: GoogleFonts.kulimPark(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
+                      ),
+                    ),
+                  ],
                 ),
-                style: GoogleFonts.quicksand(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).accentColor),
               ),
             ),
             loaded
@@ -122,7 +139,7 @@ class _RoomsState extends State<Rooms> with AutomaticKeepAliveClientMixin {
         elevation: 1.5,
         backgroundColor: Colors.teal,
         label: Text("Start a room",
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)),

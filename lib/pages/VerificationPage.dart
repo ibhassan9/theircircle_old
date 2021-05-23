@@ -44,7 +44,7 @@ class _VerificationPageState extends State<VerificationPage> {
               child: Center(
                 child: Text(
                   "I have verified! Sign in.",
-                  style: GoogleFonts.darkerGrotesque(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
@@ -61,7 +61,7 @@ class _VerificationPageState extends State<VerificationPage> {
               Text(
                 'Almost There!',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.darkerGrotesque(
+                style: GoogleFonts.kulimPark(
                     fontSize: 40,
                     fontWeight: FontWeight.w900,
                     color: Theme.of(context).accentColor),
@@ -69,7 +69,7 @@ class _VerificationPageState extends State<VerificationPage> {
               Text(
                 'We have sent an email to ${widget.email}. Please verify it to finish creating your account!',
                 textAlign: TextAlign.left,
-                style: GoogleFonts.darkerGrotesque(
+                style: GoogleFonts.kulimPark(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).buttonColor),

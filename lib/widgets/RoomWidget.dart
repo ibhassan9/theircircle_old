@@ -45,143 +45,284 @@ class _RoomWidgetState extends State<RoomWidget> {
           Toast.show('You need to be part of this room to enter', context);
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Flexible(
-                  flex: 0,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: color,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(AntDesign.team,
-                                  color: Colors.white, size: 15.0),
-                              Text(
-                                widget.room.memberCount.toString(),
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 5.0),
-                      Visibility(
-                        visible: widget.room.inRoom || widget.room.isAdmin,
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: LoadingIndicator(
-                              indicatorType: Indicator.ballScale, color: color),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 15.0,
-                ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              // widget.room.isLocked
-                              //     ? Unicon(UniconData.uniLock,
-                              //         color: Theme.of(context).accentColor,
-                              //         size: 15.0)
-                              //     : Container(),
-                              // widget.room.isLocked
-                              //     ? SizedBox(width: 5.0)
-                              //     : Container(),
-                              Flexible(
-                                child: Text(
-                                  widget.room.isLocked
-                                      ? '🔒 • ${widget.room.name}'
-                                      : widget.room.name,
-                                  maxLines: 2,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context).accentColor),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "🗣️ " + widget.room.description,
-                            style: GoogleFonts.quicksand(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).accentColor),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                          )
-                        ],
-                      )),
-                      SizedBox(height: 5.0),
-                      Text(
-                        "Current Members:",
-                        style: GoogleFonts.quicksand(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: _buildMembersList(),
-                      ),
-                      SizedBox(height: 5.0),
-                      Text(widget.room.memberCount.toString() + " student(s)",
-                          style: GoogleFonts.quicksand(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: color)),
-                      SizedBox(height: 5.0),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 3.0),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.room.imageUrl,
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
+      child: _renderBody(),
+      // child: Padding(
+      //   padding: const EdgeInsets.all(10.0),
+      //   child: Container(
+      //     decoration: BoxDecoration(
+      //       color: Theme.of(context).cardColor,
+      //       borderRadius: BorderRadius.circular(10.0),
+      //     ),
+      //     child: Padding(
+      //       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
+      //       child: Row(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: <Widget>[
+      //           Flexible(
+      //             flex: 0,
+      //             child: Column(
+      //               children: [
+      //                 Container(
+      //                   decoration: BoxDecoration(
+      //                     color: color,
+      //                     borderRadius: BorderRadius.circular(5.0),
+      //                   ),
+      //                   child: Padding(
+      //                     padding:
+      //                         const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+      //                     child: Row(
+      //                       mainAxisAlignment: MainAxisAlignment.center,
+      //                       children: <Widget>[
+      //                         Icon(AntDesign.team,
+      //                             color: Colors.white, size: 15.0),
+      //                         Text(
+      //                           widget.room.memberCount.toString(),
+      //                           style: GoogleFonts.kulimPark(
+      //                               fontSize: 13,
+      //                               fontWeight: FontWeight.w500,
+      //                               color: Colors.white),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 SizedBox(height: 5.0),
+      //                 Visibility(
+      //                   visible: widget.room.inRoom || widget.room.isAdmin,
+      //                   child: SizedBox(
+      //                     height: 20,
+      //                     width: 20,
+      //                     child: LoadingIndicator(
+      //                         indicatorType: Indicator.ballScale, color: color),
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //           SizedBox(
+      //             width: 15.0,
+      //           ),
+      //           Flexible(
+      //             child: Column(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //               children: <Widget>[
+      //                 Container(
+      //                     child: Column(
+      //                   crossAxisAlignment: CrossAxisAlignment.start,
+      //                   children: <Widget>[
+      //                     Row(
+      //                       children: [
+      //                         // widget.room.isLocked
+      //                         //     ? Unicon(UniconData.uniLock,
+      //                         //         color: Theme.of(context).accentColor,
+      //                         //         size: 15.0)
+      //                         //     : Container(),
+      //                         // widget.room.isLocked
+      //                         //     ? SizedBox(width: 5.0)
+      //                         //     : Container(),
+      //                         Flexible(
+      //                           child: Text(
+      //                             widget.room.isLocked
+      //                                 ? '🔒 • ${widget.room.name}'
+      //                                 : widget.room.name,
+      //                             maxLines: 2,
+      //                             style: GoogleFonts.kulimPark(
+      //                                 fontSize: 16,
+      //                                 fontWeight: FontWeight.w700,
+      //                                 color: Theme.of(context).accentColor),
+      //                           ),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                     Text(
+      //                       "🗣️ " + widget.room.description,
+      //                       style: GoogleFonts.kulimPark(
+      //                           fontSize: 14,
+      //                           fontWeight: FontWeight.w500,
+      //                           color: Theme.of(context).accentColor),
+      //                       overflow: TextOverflow.ellipsis,
+      //                       maxLines: 3,
+      //                     )
+      //                   ],
+      //                 )),
+      //                 SizedBox(height: 5.0),
+      //                 Text(
+      //                   "Current Members:",
+      //                   style: GoogleFonts.kulimPark(
+      //                       fontSize: 14,
+      //                       fontWeight: FontWeight.w500,
+      //                       color: Theme.of(context).accentColor),
+      //                   overflow: TextOverflow.ellipsis,
+      //                   maxLines: 3,
+      //                 ),
+      //                 Column(
+      //                   crossAxisAlignment: CrossAxisAlignment.start,
+      //                   children: _buildMembersList(),
+      //                 ),
+      //                 SizedBox(height: 5.0),
+      //                 Text(widget.room.memberCount.toString() + " student(s)",
+      //                     style: GoogleFonts.kulimPark(
+      //                         fontSize: 14,
+      //                         fontWeight: FontWeight.w500,
+      //                         color: color)),
+      //                 SizedBox(height: 5.0),
+      //               ],
+      //             ),
+      //           ),
+      //           SizedBox(width: 3.0),
+      //           ClipRRect(
+      //             borderRadius: BorderRadius.circular(25),
+      //             child: CachedNetworkImage(
+      //               imageUrl: widget.room.imageUrl,
+      //               width: 50,
+      //               height: 50,
+      //               fit: BoxFit.cover,
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
+    );
+  }
+
+  Widget _renderBody() {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [_renderRoomInfo()],
+      ),
+    );
+  }
+
+  Widget _renderRoomInfo() {
+    return Row(
+      children: [
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: CachedNetworkImage(
+                imageUrl: widget.room.imageUrl,
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
             ),
+            widget.room.inRoom || widget.room.isAdmin
+                ? Positioned(
+                    bottom: 0.0,
+                    left: 0,
+                    child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.black.withOpacity(0.5)),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 3.0),
+                        child: Text('IN ROOM',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.darkerGrotesque(
+                                color: Colors.white,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w700),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                  )
+                : SizedBox()
+          ],
+        ),
+        SizedBox(width: 10.0),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.room.isLocked
+                        ? '🔒 • ${widget.room.name}'
+                        : widget.room.name,
+                    maxLines: 1,
+                    style: GoogleFonts.kulimPark(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).accentColor),
+                  ),
+                  Text(
+                    widget.room.description,
+                    style: GoogleFonts.kulimPark(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).accentColor),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+              _renderMembers(),
+            ],
           ),
+        )
+      ],
+    );
+  }
+
+  Widget _renderMembers() {
+    List<Widget> members = [];
+    for (var i = 0; i < widget.room.members.length; i++) {
+      Positioned member = Positioned(
+          left: (i * 20).toDouble(),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.0),
+                border: Border.all(
+                    color: Theme.of(context).backgroundColor, width: 2.0)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: CachedNetworkImage(
+                imageUrl: widget.room.members[i].profileImgUrl != null
+                    ? widget.room.members[i].profileImgUrl
+                    : Constants.dummyProfilePicture,
+                height: 30,
+                width: 30,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ));
+      members.add(member);
+    }
+
+    members.add(
+      Positioned(
+        left: (widget.room.members.length * 24).toDouble(),
+        child: Text(
+          widget.room.memberCount > 5
+              ? '+ ' +
+                  (widget.room.memberCount - 5).toString() +
+                  ' other students'
+              : '',
+          style: GoogleFonts.kulimPark(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).buttonColor.withOpacity(0.9)),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        height: 35,
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: members,
         ),
       ),
     );
@@ -197,7 +338,7 @@ class _RoomWidgetState extends State<RoomWidget> {
               member.id == FirebaseAuth.instance.currentUser.uid
                   ? 'You'
                   : member.name,
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor)),

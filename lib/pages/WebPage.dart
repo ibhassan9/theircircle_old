@@ -45,7 +45,7 @@ class _WebPageState extends State<WebPage> {
                 isLoading
                     ? "Loading Newspage..."
                     : widget.title.replaceAll("     ", ""),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -53,7 +53,7 @@ class _WebPageState extends State<WebPage> {
               SizedBox(height: 3.0),
               Text(
                 widget.selectedUrl,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor.withOpacity(0.7)),

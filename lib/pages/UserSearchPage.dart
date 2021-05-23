@@ -48,10 +48,9 @@ class _UserSearchPageState extends State<UserSearchPage>
           leading: Container(),
           leadingWidth: 0,
           title: Container(
-            height: 40,
             decoration: BoxDecoration(
-                color: Theme.of(context).dividerColor,
-                borderRadius: BorderRadius.circular(20)),
+                color: Theme.of(context).dividerColor.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(5)),
             child: Row(
               children: [
                 SizedBox(width: 10.0),
@@ -75,9 +74,9 @@ class _UserSearchPageState extends State<UserSearchPage>
                         contentPadding: EdgeInsets.only(
                             left: 10, bottom: 11.5, top: 11, right: 15),
                         hintText: "Search"),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 17,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
                   ),
                 ),
@@ -94,7 +93,7 @@ class _UserSearchPageState extends State<UserSearchPage>
                   },
                   child: Text(
                     "Cancel",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).accentColor.withOpacity(0.7)),

@@ -37,7 +37,7 @@ class _CoursesPageState extends State<CoursesPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Don't see your course? Request it!",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -59,7 +59,7 @@ class _CoursesPageState extends State<CoursesPage>
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Eg. CSC437H1"),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -142,48 +142,60 @@ class _CoursesPageState extends State<CoursesPage>
                       height: 50.0,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(
-                              color: Theme.of(context)
-                                  .buttonColor
-                                  .withOpacity(0.5)),
-                          borderRadius: BorderRadius.circular(0.0)),
+                          color: Colors.deepPurple,
+                          borderRadius: BorderRadius.circular(5.0)),
                       child: Center(
                           child: Text(
                         "GPA Calculator",
-                        style: GoogleFonts.darkerGrotesque(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).accentColor),
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
                       )),
                     ),
                   ),
                 ),
-                Container(
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        filter = value;
-                      });
-                    },
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          left: 20, bottom: 11, top: 11, right: 15),
-                      hintText: "Search Courses...",
-                      hintStyle: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0, right: 10.0, bottom: 5.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).dividerColor.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10.0),
+                        Icon(FlutterIcons.search_fea,
+                            size: 20.0, color: Theme.of(context).accentColor),
+                        Flexible(
+                          child: TextField(
+                            onChanged: (value) {
+                              setState(() {
+                                filter = value;
+                              });
+                            },
+                            decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: 10, bottom: 11, top: 11, right: 15),
+                              hintText: "Search Courses...",
+                              hintStyle: GoogleFonts.kulimPark(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).accentColor),
+                            ),
+                            style: GoogleFonts.kulimPark(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                        ),
+                      ],
                     ),
-                    style: GoogleFonts.quicksand(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 didload == true
@@ -247,7 +259,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "Cannot find any courses :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -271,7 +283,7 @@ class _CoursesPageState extends State<CoursesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no courses :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),

@@ -47,65 +47,69 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
         },
         child: Column(
           children: [
-            Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).dividerColor.withOpacity(0.2),
-                        blurRadius: 4,
-                        spreadRadius: 4,
-                        offset: Offset(0, 0), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: Container(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: Stack(
+                children: [
+                  Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0.0),
-                      // border: Border.all(
-                      //     color: widget.room.inRoom || widget.room.isAdmin
-                      //         ? Colors.transparent
-                      //         : Colors.transparent,
-                      //     width: 2.0)
+                      borderRadius: BorderRadius.circular(5.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Theme.of(context).dividerColor.withOpacity(0.2),
+                          blurRadius: 4,
+                          spreadRadius: 4,
+                          offset: Offset(0, 0), // Shadow position
+                        ),
+                      ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(0.0),
-                        child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 100,
-                            imageUrl: widget.room.imageUrl),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        // border: Border.all(
+                        //     color: widget.room.inRoom || widget.room.isAdmin
+                        //         ? Colors.transparent
+                        //         : Colors.transparent,
+                        //     width: 2.0)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.0),
+                          child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 100,
+                              imageUrl: widget.room.imageUrl),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                widget.room.inRoom || widget.room.isAdmin
-                    ? Positioned(
-                        bottom: 0.0,
-                        left: 0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5)),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 3.0),
-                            child: Text('IN ROOM',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.darkerGrotesque(
-                                    color: Colors.white,
-                                    fontSize: 11.0,
-                                    fontWeight: FontWeight.w700),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
+                  widget.room.inRoom || widget.room.isAdmin
+                      ? Positioned(
+                          bottom: 0.0,
+                          left: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 3.0),
+                              child: Text('IN ROOM',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.kulimPark(
+                                      color: Colors.white,
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w700),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
                           ),
-                        ),
-                      )
-                    : SizedBox()
-              ],
+                        )
+                      : SizedBox()
+                ],
+              ),
             ),
             SizedBox(height: 5.0),
             Container(
@@ -113,7 +117,7 @@ class _RoomWidgetMainState extends State<RoomWidgetMain> {
               child: Center(
                 child: Text(widget.room.name,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.darkerGrotesque(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 14.0, fontWeight: FontWeight.w600),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis),

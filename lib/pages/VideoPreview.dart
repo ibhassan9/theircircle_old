@@ -227,36 +227,23 @@ class _VideoPreviewState extends State<VideoPreview>
                 tag: widget.video.id,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
-                  child: Image.network(
-                    imgUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imgUrl,
                     width: 30,
                     height: 30,
                     fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return SizedBox(
-                        height: 15,
-                        width: 15,
-                        child: Center(
-                            child: LoadingIndicator(
-                          indicatorType: Indicator.ballClipRotateMultiple,
-                          color: Theme.of(context).accentColor,
-                        )),
-                      );
-                    },
                   ),
                 ),
               ),
         SizedBox(width: 10.0),
         Text(
           widget.video.name.toUpperCase(),
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
         ),
         Text(
           ' • ' + widget.timeAgo,
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Colors.grey[300]),
@@ -272,7 +259,7 @@ class _VideoPreviewState extends State<VideoPreview>
         Text(widget.video.caption,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: Colors.white)),
@@ -307,7 +294,7 @@ class _VideoPreviewState extends State<VideoPreview>
             Icon(AntDesign.heart, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.likeCount.toString(),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white)),
@@ -315,7 +302,7 @@ class _VideoPreviewState extends State<VideoPreview>
             Icon(AntDesign.message1, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.commentCount.toString(),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white))
@@ -432,14 +419,14 @@ class _VideoPreviewState extends State<VideoPreview>
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to delete this video?',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -448,7 +435,7 @@ class _VideoPreviewState extends State<VideoPreview>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -461,7 +448,7 @@ class _VideoPreviewState extends State<VideoPreview>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -478,14 +465,14 @@ class _VideoPreviewState extends State<VideoPreview>
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "What is the issue?",
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -494,7 +481,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It's suspicious or spam",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -506,7 +493,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It's abusive or harmful",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -518,7 +505,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It expresses intentions of self-harm or suicide",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -530,7 +517,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "It promotes sexual/inappropriate content",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -542,7 +529,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "Hide this video.",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -550,14 +537,14 @@ class _VideoPreviewState extends State<VideoPreview>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to hide this video?",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -566,7 +553,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -575,7 +562,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -591,7 +578,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "Block this user",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -599,14 +586,14 @@ class _VideoPreviewState extends State<VideoPreview>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to block this user?",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -615,7 +602,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -624,7 +611,7 @@ class _VideoPreviewState extends State<VideoPreview>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -640,7 +627,7 @@ class _VideoPreviewState extends State<VideoPreview>
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -657,7 +644,7 @@ class _VideoPreviewState extends State<VideoPreview>
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

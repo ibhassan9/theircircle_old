@@ -60,7 +60,7 @@ class Constants {
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -68,7 +68,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -76,7 +76,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -84,7 +84,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -92,7 +92,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -100,7 +100,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -108,7 +108,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -116,7 +116,7 @@ class Constants {
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -126,7 +126,7 @@ class Constants {
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -159,7 +159,7 @@ class Constants {
               Text(
                 'This room is not available anymore.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w500),
               ),
@@ -180,7 +180,7 @@ class Constants {
           Text(
             'This room is not available anymore.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w500),
           ),
@@ -188,7 +188,7 @@ class Constants {
           Text(
             'Create your own room!',
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w500),
           ),
@@ -225,7 +225,7 @@ class Constants {
         backgroundColor: Colors.pink,
         content: Text(
           content,
-          style: GoogleFonts.darkerGrotesque(
+          style: GoogleFonts.kulimPark(
               fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
         ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

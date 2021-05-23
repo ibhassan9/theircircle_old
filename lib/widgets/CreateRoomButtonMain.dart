@@ -35,7 +35,7 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
                       height: 100,
                       width: 80,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(0.0),
+                        borderRadius: BorderRadius.circular(5.0),
                         color: Theme.of(context).buttonColor.withOpacity(0.15),
                         // border: Border.all(
                         //     color:
@@ -62,7 +62,7 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
               child: Center(
                 child: Text('Create',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.darkerGrotesque(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 14.0, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),

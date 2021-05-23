@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +182,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                   .post.username
                                                                   .substring(
                                                                       0, 1),
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
@@ -194,37 +195,11 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             20),
-                                                    child: Image.network(
-                                                      imgUrl,
-                                                      width: 40,
-                                                      height: 40,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: imgUrl,
+                                                      width: 50,
+                                                      height: 50,
                                                       fit: BoxFit.cover,
-                                                      loadingBuilder: (BuildContext
-                                                              context,
-                                                          Widget child,
-                                                          ImageChunkEvent
-                                                              loadingProgress) {
-                                                        if (loadingProgress ==
-                                                            null) return child;
-                                                        return SizedBox(
-                                                          height: 40,
-                                                          width: 40,
-                                                          child: Center(
-                                                            child: SizedBox(
-                                                                width: 10,
-                                                                height: 10,
-                                                                child:
-                                                                    LoadingIndicator(
-                                                                  indicatorType:
-                                                                      Indicator
-                                                                          .circleStrokeSpin,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .accentColor,
-                                                                )),
-                                                          ),
-                                                        );
-                                                      },
                                                     ),
                                                   ),
                                       ),
@@ -274,7 +249,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                         : ""))
                                                             : widget
                                                                 .post.username,
-                                                    style: GoogleFonts.quicksand(
+                                                    style: GoogleFonts.kulimPark(
                                                         fontSize: widget.post
                                                                     .feeling !=
                                                                 null
@@ -294,7 +269,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                       Text(
                                                         '${widget.timeAgo.replaceAll('~', '')} • ',
                                                         style: GoogleFonts
-                                                            .quicksand(
+                                                            .kulimPark(
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color:
@@ -330,7 +305,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                               ? 'Recently Joined'
                                                               : '',
                                                           style: GoogleFonts
-                                                              .quicksand(
+                                                              .kulimPark(
                                                                   fontSize: 14,
                                                                   fontWeight:
                                                                       FontWeight
@@ -351,7 +326,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                 ? _user.about
                                                                 : 'No bio available',
                                                             maxLines: 1,
-                                                            style: GoogleFonts.quicksand(
+                                                            style: GoogleFonts.kulimPark(
                                                                 fontSize: 10,
                                                                 fontWeight:
                                                                     FontWeight
@@ -380,7 +355,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                           FIR_UID
                                                   ? "OPTIONS"
                                                   : "REPORT",
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.kulimPark(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -392,7 +367,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                           FIR_UID
                                                   ? "What would you like to do?"
                                                   : "What is the issue?",
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.kulimPark(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -406,7 +381,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "Delete Post",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -421,7 +396,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                       title:
                                                                           Text(
                                                                         'Delete Post',
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -431,7 +406,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                       message:
                                                                           Text(
                                                                         'Are you sure you want to delete this post?',
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -443,7 +418,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                         child:
                                                                             Text(
                                                                           "YES",
-                                                                          style: GoogleFonts.quicksand(
+                                                                          style: GoogleFonts.kulimPark(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -463,7 +438,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                         child:
                                                                             Text(
                                                                           "Cancel",
-                                                                          style: GoogleFonts.quicksand(
+                                                                          style: GoogleFonts.kulimPark(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Colors.red),
@@ -485,7 +460,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "Cancel",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -502,7 +477,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "It's suspicious or spam",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -519,7 +494,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "It's abusive or harmful",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -536,7 +511,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "It expresses intentions of self-harm or suicide",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -553,7 +528,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "It promotes sexual/inappropriate content",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -570,7 +545,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "Hide this post.",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -585,7 +560,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                   CupertinoActionSheet(
                                                                 title: Text(
                                                                   "PROCEED?",
-                                                                  style: GoogleFonts.quicksand(
+                                                                  style: GoogleFonts.kulimPark(
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -597,7 +572,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                 ),
                                                                 message: Text(
                                                                   "Are you sure you want to hide this post?",
-                                                                  style: GoogleFonts.quicksand(
+                                                                  style: GoogleFonts.kulimPark(
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -612,7 +587,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                       child:
                                                                           Text(
                                                                         "YES",
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -628,7 +603,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                       child:
                                                                           Text(
                                                                         "Cancel",
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -653,7 +628,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "Block this user",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -668,7 +643,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                   CupertinoActionSheet(
                                                                 title: Text(
                                                                   "PROCEED?",
-                                                                  style: GoogleFonts.quicksand(
+                                                                  style: GoogleFonts.kulimPark(
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -680,7 +655,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                 ),
                                                                 message: Text(
                                                                   "Are you sure you want to block this user?",
-                                                                  style: GoogleFonts.quicksand(
+                                                                  style: GoogleFonts.kulimPark(
                                                                       fontSize:
                                                                           13,
                                                                       fontWeight:
@@ -695,7 +670,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                       child:
                                                                           Text(
                                                                         "YES",
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -711,7 +686,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                                       child:
                                                                           Text(
                                                                         "Cancel",
-                                                                        style: GoogleFonts.quicksand(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -736,7 +711,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                         CupertinoActionSheetAction(
                                                             child: Text(
                                                               "Cancel",
-                                                              style: GoogleFonts.quicksand(
+                                                              style: GoogleFonts.kulimPark(
                                                                   fontSize: 13,
                                                                   fontWeight:
                                                                       FontWeight
@@ -813,7 +788,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                 ),
                                 child: Text(
                                   widget.post.tcQuestion,
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -830,7 +805,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                   right: 10.0),
                               child: Text(
                                 widget.post.title,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -846,7 +821,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               padding: const EdgeInsets.only(
                                   bottom: 0.0, left: 10.0, right: 10.0),
                               child: Text(widget.post.content.trimRight(),
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize:
                                           widget.fromComments ? 15.5 : 15.5,
                                       fontWeight: FontWeight.w500,
@@ -898,7 +873,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                           8.0, 3.0, 8.0, 3.0),
                                       child: Text(
                                         "Admin",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white),
@@ -997,7 +972,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionOne,
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.kulimPark(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -1087,7 +1062,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionTwo,
-                                              style: GoogleFonts.quicksand(
+                                              style: GoogleFonts.kulimPark(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -1118,7 +1093,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                         widget.post.whichOption == 1
                             ? 'You voted: ${widget.post.questionOne}'
                             : 'You voted: ${widget.post.questionTwo}',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).buttonColor),
@@ -1162,7 +1137,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                               : 'View Poll Results (' +
                                   pollCount().toString() +
                                   ' votes)',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -1240,7 +1215,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                     Expanded(
                       child: Text(
                         '${widget.post.likeCount}',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
                         ),
@@ -1251,7 +1226,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                           (widget.post.commentCount.toString() == '1'
                               ? "Comment"
                               : "Comments"),
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).buttonColor,
                       ),
@@ -1451,7 +1426,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
                             'Comment',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).buttonColor),
@@ -1481,7 +1456,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text("Share",
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF1777F2))),
@@ -1571,7 +1546,7 @@ class _OHSPostWidgetState extends State<OHSPostWidget> {
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -35,7 +36,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
               await handleNotification();
             },
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15.0, 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -49,31 +50,11 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             )
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(30),
-                              child: Image.network(
-                                imgUrl,
+                              child: CachedNetworkImage(
+                                imageUrl: imgUrl,
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.cover,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: Center(
-                                      child: SizedBox(
-                                          width: 10,
-                                          height: 10,
-                                          child: LoadingIndicator(
-                                            indicatorType: Indicator
-                                                .ballClipRotateMultiple,
-                                            color:
-                                                Theme.of(context).accentColor,
-                                          )),
-                                    ),
-                                  );
-                                },
                               ),
                             ),
                       SizedBox(width: 10.0),
@@ -87,25 +68,29 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   name,
                                   maxLines: null,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 12,
+                                  style: GoogleFonts.kulimPark(
+                                      fontSize: 13,
                                       fontWeight: FontWeight.w700,
                                       color: Theme.of(context).accentColor),
                                 ),
                                 Text(
                                   ' • ',
                                   maxLines: 1,
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
                                 ),
                                 Text(
-                                  timeago.format(
-                                      new DateTime.fromMillisecondsSinceEpoch(
-                                          widget.notification.timestamp)),
+                                  timeago
+                                      .format(
+                                          new DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                              widget.notification.timestamp),
+                                          locale: 'en_short')
+                                      .replaceAll('~', ''),
                                   maxLines: null,
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
@@ -114,18 +99,38 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             ),
                             SizedBox(height: 3.0),
                             Text(body,
-                                maxLines: null,
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.kulimPark(
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).buttonColor)),
                           ],
                         ),
                       ),
+                      if (widget.notification.body
+                          .contains('commented on your'))
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Container(
+                            decoration: BoxDecoration(color: Colors.pink),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0,
+                                  right: 15.0,
+                                  top: 5.0,
+                                  bottom: 5.0),
+                              child: Text('Respond',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.kulimPark(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
+                            ),
+                          ),
+                        )
                     ],
-                  ),
-                  Divider(
-                    thickness: 1.5,
                   ),
                 ],
               ),
@@ -175,30 +180,30 @@ class _NotificationWidgetState extends State<NotificationWidget>
             Post post = await fetchCoursePost(postId, id);
             var timeAgo =
                 new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-            showBarModalBottomSheet(
-                context: context,
-                expand: true,
-                builder: (context) => PostDetailPage(
-                    post: post,
-                    course: course,
-                    timeAgo: timeago.format(timeAgo)));
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => PostDetailPage(
-            //             post: post,
-            //             course: course,
-            //             timeAgo: timeago.format(timeAgo))));
+            // showBarModalBottomSheet(
+            //     context: context,
+            //     expand: true,
+            //     builder: (context) => PostDetailPage(
+            //         post: post,
+            //         course: course,
+            //         timeAgo: timeago.format(timeAgo)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PostDetailPage(
+                        post: post,
+                        course: course,
+                        timeAgo: timeago.format(timeAgo))));
             break;
           case "COURSE_PAGE":
-            showBarModalBottomSheet(
-                context: context,
-                expand: true,
-                builder: (context) => CoursePage(course: course));
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => CoursePage(course: course)));
+            // showBarModalBottomSheet(
+            //     context: context,
+            //     expand: true,
+            //     builder: (context) => CoursePage(course: course));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CoursePage(course: course)));
         }
         break;
       case "club":
@@ -208,55 +213,55 @@ class _NotificationWidgetState extends State<NotificationWidget>
             Post post = await fetchClubPost(postId, id);
             var timeAgo =
                 new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-            showBarModalBottomSheet(
-                context: context,
-                expand: true,
-                builder: (context) => PostDetailPage(
-                    post: post, club: club, timeAgo: timeago.format(timeAgo)));
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => PostDetailPage(
-            //             post: post,
-            //             club: club,
-            //             timeAgo: timeago.format(timeAgo))));
+            // showBarModalBottomSheet(
+            //     context: context,
+            //     expand: true,
+            //     builder: (context) => PostDetailPage(
+            //         post: post, club: club, timeAgo: timeago.format(timeAgo)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PostDetailPage(
+                        post: post,
+                        club: club,
+                        timeAgo: timeago.format(timeAgo))));
             break;
           case "CLUB_PAGE":
-            showBarModalBottomSheet(
-                context: context,
-                expand: true,
-                builder: (context) => ClubPage(club: club));
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => ClubPage(club: club)));
+            // showBarModalBottomSheet(
+            //     context: context,
+            //     expand: true,
+            //     builder: (context) => ClubPage(club: club));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ClubPage(club: club)));
         }
         break;
       case "post":
         Post post = await fetchPost(postId);
         var timeAgo = new DateTime.fromMillisecondsSinceEpoch(post.timeStamp);
-        showBarModalBottomSheet(
-            context: context,
-            expand: true,
-            builder: (context) =>
-                PostDetailPage(post: post, timeAgo: timeago.format(timeAgo)));
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => PostDetailPage(
-        //               post: post,
-        //               timeAgo: timeago.format(timeAgo),
-        //             )));
+        // showBarModalBottomSheet(
+        //     context: context,
+        //     expand: true,
+        //     builder: (context) =>
+        //         PostDetailPage(post: post, timeAgo: timeago.format(timeAgo)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PostDetailPage(
+                      post: post,
+                      timeAgo: timeago.format(timeAgo),
+                    )));
         break;
       case "chat":
         PostUser receiver = await getUser(id);
-        showBarModalBottomSheet(
-            context: context,
-            expand: true,
-            builder: (context) => ChatPage(receiver: receiver, chatId: chatId));
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             ChatPage(receiver: receiver, chatId: chatId)));
+        // showBarModalBottomSheet(
+        //     context: context,
+        //     expand: true,
+        //     builder: (context) => ChatPage(receiver: receiver, chatId: chatId));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ChatPage(receiver: receiver, chatId: chatId)));
         break;
       case "video":
         Video video = await VideoApi.fetchVideo(id);

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -119,48 +120,23 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                               backgroundColor: Colors.grey[300],
                                               child: Text(
                                                   s.name.substring(0, 1),
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.kulimPark(
                                                       fontSize: 13,
                                                       color: Colors.black)))
                                           : ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(30),
-                                              child: Image.network(
-                                                s.profileImgUrl,
+                                              child: CachedNetworkImage(
+                                                imageUrl: s.profileImgUrl,
                                                 width: 30,
                                                 height: 30,
                                                 fit: BoxFit.cover,
-                                                loadingBuilder:
-                                                    (BuildContext context,
-                                                        Widget child,
-                                                        ImageChunkEvent
-                                                            loadingProgress) {
-                                                  if (loadingProgress == null)
-                                                    return child;
-                                                  return SizedBox(
-                                                    height: 30,
-                                                    width: 30,
-                                                    child: Center(
-                                                      child: SizedBox(
-                                                          width: 15,
-                                                          height: 15,
-                                                          child:
-                                                              LoadingIndicator(
-                                                            indicatorType: Indicator
-                                                                .ballScaleMultiple,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor,
-                                                          )),
-                                                    ),
-                                                  );
-                                                },
                                               ),
                                             ),
                                       SizedBox(width: 5.0),
                                       Text(
                                         s.name,
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -210,7 +186,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         contentPadding: EdgeInsets.only(
                             left: 15, bottom: 11, top: 11, right: 15),
                         hintText: "Comment Here"),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -598,7 +574,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 SizedBox(width: 10),
                                 Text(
                                   "There are no comments :(",
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor),
@@ -624,7 +600,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   child: Text(
                     "Commenting is disabled for different universities",
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -708,29 +684,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     )
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(25),
-                      child: Image.network(
-                        imgUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: imgUrl,
                         width: 40,
                         height: 40,
                         fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: Center(
-                              child: SizedBox(
-                                  width: 10,
-                                  height: 10,
-                                  child: LoadingIndicator(
-                                    indicatorType:
-                                        Indicator.ballClipRotateMultiple,
-                                    color: Theme.of(context).accentColor,
-                                  )),
-                            ),
-                          );
-                        },
                       ),
                     ),
         ),
@@ -751,7 +709,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 : widget.post.username
                                     .trim()
                                     .replaceFirst(' ', '\n'),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: widget.post.userId == FIR_UID
@@ -760,7 +718,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ),
                   Text(
                     " • ${widget.timeAgo}",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).buttonColor),
@@ -800,7 +758,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ? Text(
                       'is feeling ${widget.post.feeling.toLowerCase()} ' +
                           Constants.feelings[widget.post.feeling],
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: color,

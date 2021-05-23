@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -58,31 +59,11 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                             )
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(70),
-                              child: Image.network(
-                                widget.peer.profileImgUrl,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.peer.profileImgUrl,
                                 width: 40,
                                 height: 40,
                                 fit: BoxFit.cover,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child: Center(
-                                      child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: LoadingIndicator(
-                                            indicatorType: Indicator
-                                                .ballClipRotateMultiple,
-                                            color:
-                                                Theme.of(context).accentColor,
-                                          )),
-                                    ),
-                                  );
-                                },
                               ),
                             ),
                     ),
@@ -92,7 +73,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                       children: [
                         Text(
                           widget.peer.name,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -102,7 +83,7 @@ class _PollResultWidgetState extends State<PollResultWidget> {
                           'Voted: ' + widget.question,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),

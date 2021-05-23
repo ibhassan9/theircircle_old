@@ -86,7 +86,7 @@ class _SpeakerIconState extends State<SpeakerIcon> {
                                   child: Text("MOD",
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                         fontSize: 7,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.white,
@@ -117,7 +117,7 @@ class _SpeakerIconState extends State<SpeakerIcon> {
                   Text(user.name,
                       textAlign: TextAlign.center,
                       maxLines: 1,
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).accentColor,

@@ -30,7 +30,7 @@ class _PreviewPageState extends State<PreviewPage> {
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'CREATE',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15, fontWeight: FontWeight.w700, color: Colors.black),
         ),
       ),

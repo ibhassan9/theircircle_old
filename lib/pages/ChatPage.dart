@@ -115,7 +115,7 @@ class _ChatPageState extends State<ChatPage>
                                               ' • ' +
                                               r'$' +
                                               prod.price,
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.kulimPark(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.black),
@@ -134,7 +134,7 @@ class _ChatPageState extends State<ChatPage>
                                           prod.description,
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.kulimPark(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.black),
@@ -200,12 +200,12 @@ class _ChatPageState extends State<ChatPage>
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
                           hintText: "Insert message here",
-                          hintStyle: GoogleFonts.quicksand(
+                          hintStyle: GoogleFonts.kulimPark(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -302,7 +302,7 @@ class _ChatPageState extends State<ChatPage>
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).accentColor),
@@ -316,7 +316,7 @@ class _ChatPageState extends State<ChatPage>
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).buttonColor.withOpacity(0.5)),
@@ -438,7 +438,7 @@ class _ChatPageState extends State<ChatPage>
                                         formattedDate == formattedNow
                                             ? "Today"
                                             : formattedDate,
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Theme.of(context)
@@ -483,7 +483,7 @@ class _ChatPageState extends State<ChatPage>
                                         formattedDate == formattedNow
                                             ? "Today"
                                             : formattedDate,
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Theme.of(context)
@@ -567,7 +567,7 @@ class _ChatPageState extends State<ChatPage>
                                             formattedDate == formattedNow
                                                 ? "Today"
                                                 : formattedDate,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.kulimPark(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -612,7 +612,7 @@ class _ChatPageState extends State<ChatPage>
                                             formattedDate == formattedNow
                                                 ? "Today"
                                                 : formattedDate,
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.kulimPark(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -710,21 +710,11 @@ class _ChatPageState extends State<ChatPage>
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.network(
-                  widget.receiver.profileImgUrl,
+                child: CachedNetworkImage(
+                  imageUrl: widget.receiver.profileImgUrl,
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: Container(
-                          width: 40,
-                          height: 40,
-                          color: Theme.of(context).dividerColor),
-                    );
-                  },
                 ),
               ),
         SizedBox(width: 5.0),
@@ -733,7 +723,7 @@ class _ChatPageState extends State<ChatPage>
           children: [
             Text(
               widget.receiver.name.split(' ').first,
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).accentColor),
@@ -742,7 +732,7 @@ class _ChatPageState extends State<ChatPage>
                 ? Text(
                     widget.receiver.about,
                     maxLines: 1,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),

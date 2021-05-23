@@ -25,7 +25,7 @@ class _NewsWidgetState extends State<NewsWidget>
       padding: const EdgeInsets.only(left: 3.0, top: 0.0),
       child: imgUrl != null
           ? ClipRRect(
-              borderRadius: BorderRadius.circular(0.0),
+              borderRadius: BorderRadius.circular(5.0),
               child: InkWell(
                 onTap: () {
                   showBarModalBottomSheet(
@@ -45,7 +45,8 @@ class _NewsWidgetState extends State<NewsWidget>
                 child: Container(
                   width: MediaQuery.of(context).size.width / 3,
                   decoration: BoxDecoration(
-                      color: color, borderRadius: BorderRadius.circular(0.0)),
+                      color: Theme.of(context).buttonColor.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(0.0)),
                   child: Stack(children: [
                     imgUrl != null || imgUrl != '' || imgUrl.isNotEmpty
                         ? CachedNetworkImage(
@@ -90,7 +91,7 @@ class _NewsWidgetState extends State<NewsWidget>
                                       .replaceAll('             ', ' '),
                                   maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.darkerGrotesque(
+                                  style: GoogleFonts.kulimPark(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,

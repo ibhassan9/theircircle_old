@@ -47,31 +47,13 @@ class _ProductWidgetState extends State<ProductWidget> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      widget.prod.seller.profileImgUrl != null
+                    child: CachedNetworkImage(
+                      imageUrl: widget.prod.seller.profileImgUrl != null
                           ? widget.prod.seller.profileImgUrl
                           : '',
                       width: 20,
                       height: 20,
                       fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: Center(
-                            child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: LoadingIndicator(
-                                  indicatorType:
-                                      Indicator.ballClipRotateMultiple,
-                                  color: Theme.of(context).accentColor,
-                                )),
-                          ),
-                        );
-                      },
                     ),
                   ),
                   SizedBox(width: 5.0),
@@ -88,7 +70,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                               locale: 'en_short'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -118,7 +100,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             widget.prod.title + r' • $' + widget.prod.price,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
@@ -127,7 +109,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             widget.prod.description,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor.withOpacity(0.5)),

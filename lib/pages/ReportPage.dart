@@ -21,7 +21,7 @@ class _ReportPageState extends State<ReportPage> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Report an issue or a complaint",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -43,7 +43,7 @@ class _ReportPageState extends State<ReportPage> {
             decoration: new InputDecoration(
                 suffix: Text(
                   clength.toString(),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       color: clength < 0 ? Colors.red : Colors.grey),
                 ),
                 border: InputBorder.none,
@@ -54,7 +54,7 @@ class _ReportPageState extends State<ReportPage> {
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "What's the issue / complaint?"),
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),

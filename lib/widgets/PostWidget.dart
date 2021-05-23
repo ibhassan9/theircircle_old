@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -245,7 +246,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             .username
                                                                             .substring(0,
                                                                                 1),
-                                                                        style: GoogleFonts.darkerGrotesque(
+                                                                        style: GoogleFonts.kulimPark(
                                                                             fontWeight:
                                                                                 FontWeight.w500,
                                                                             color: Theme.of(context).accentColor)),
@@ -257,38 +258,13 @@ class _PostWidgetState extends State<PostWidget> {
                                                                       .circular(
                                                                           20),
                                                               child:
-                                                                  Image.network(
-                                                                imgUrl,
+                                                                  CachedNetworkImage(
+                                                                imageUrl:
+                                                                    imgUrl,
                                                                 width: 40,
                                                                 height: 40,
                                                                 fit: BoxFit
                                                                     .cover,
-                                                                loadingBuilder: (BuildContext
-                                                                        context,
-                                                                    Widget
-                                                                        child,
-                                                                    ImageChunkEvent
-                                                                        loadingProgress) {
-                                                                  if (loadingProgress ==
-                                                                      null)
-                                                                    return child;
-                                                                  return SizedBox(
-                                                                    height: 40,
-                                                                    width: 40,
-                                                                    child:
-                                                                        Center(
-                                                                      child: SizedBox(
-                                                                          width: 10,
-                                                                          height: 10,
-                                                                          child: LoadingIndicator(
-                                                                            indicatorType:
-                                                                                Indicator.ballClipRotateMultiple,
-                                                                            color:
-                                                                                Theme.of(context).accentColor,
-                                                                          )),
-                                                                    ),
-                                                                  );
-                                                                },
                                                               ),
                                                             ),
                                                 ),
@@ -327,12 +303,12 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           : ""))
                                                               : widget.post
                                                                   .username,
-                                                      style: GoogleFonts.darkerGrotesque(
+                                                      style: GoogleFonts.kulimPark(
                                                           fontSize: widget.post
                                                                       .feeling !=
                                                                   null
-                                                              ? 16.0
-                                                              : 16.0,
+                                                              ? 15.0
+                                                              : 15.0,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color: widget.post
@@ -364,7 +340,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           5
                                                                       ? '🎈 Recently Joined'
                                                                       : '',
-                                                                  style: GoogleFonts.darkerGrotesque(
+                                                                  style: GoogleFonts.kulimPark(
                                                                       fontSize:
                                                                           10,
                                                                       fontWeight:
@@ -394,7 +370,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
-                                                                  style: GoogleFonts.darkerGrotesque(
+                                                                  style: GoogleFonts.kulimPark(
                                                                       fontSize:
                                                                           10,
                                                                       fontWeight:
@@ -410,7 +386,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                         Text(
                                                           '${widget.timeAgo.replaceAll('~', '')} • ',
                                                           style: GoogleFonts
-                                                              .darkerGrotesque(
+                                                              .kulimPark(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             color: Colors
@@ -446,8 +422,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                               FIR_UID
                                                           ? "OPTIONS"
                                                           : "REPORT",
-                                                      style: GoogleFonts
-                                                          .darkerGrotesque(
+                                                      style:
+                                                          GoogleFonts.kulimPark(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -461,8 +437,8 @@ class _PostWidgetState extends State<PostWidget> {
                                                               FIR_UID
                                                           ? "What would you like to do?"
                                                           : "What is the issue?",
-                                                      style: GoogleFonts
-                                                          .darkerGrotesque(
+                                                      style:
+                                                          GoogleFonts.kulimPark(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -478,7 +454,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Delete Post",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -491,14 +467,14 @@ class _PostWidgetState extends State<PostWidget> {
                                                                       final act = CupertinoActionSheet(
                                                                           title: Text(
                                                                             'Delete Post',
-                                                                            style: GoogleFonts.darkerGrotesque(
+                                                                            style: GoogleFonts.kulimPark(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Theme.of(context).accentColor),
                                                                           ),
                                                                           message: Text(
                                                                             'Are you sure you want to delete this post?',
-                                                                            style: GoogleFonts.darkerGrotesque(
+                                                                            style: GoogleFonts.kulimPark(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Theme.of(context).accentColor),
@@ -507,7 +483,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             CupertinoActionSheetAction(
                                                                                 child: Text(
                                                                                   "YES",
-                                                                                  style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                  style: GoogleFonts.kulimPark(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                                 ),
                                                                                 onPressed: () {
                                                                                   widget.deletePost();
@@ -516,7 +492,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                             CupertinoActionSheetAction(
                                                                                 child: Text(
                                                                                   "Cancel",
-                                                                                  style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                  style: GoogleFonts.kulimPark(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                                 ),
                                                                                 onPressed: () {
                                                                                   Navigator.pop(context);
@@ -531,7 +507,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -549,7 +525,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's suspicious or spam",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -566,7 +542,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It's abusive or harmful",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -583,7 +559,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It expresses intentions of self-harm or suicide",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -600,7 +576,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "It promotes sexual/inappropriate content",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -617,7 +593,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Hide this post.",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -634,7 +610,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: GoogleFonts.darkerGrotesque(
+                                                                          style: GoogleFonts.kulimPark(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -642,7 +618,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to hide this post?",
-                                                                          style: GoogleFonts.darkerGrotesque(
+                                                                          style: GoogleFonts.kulimPark(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -651,7 +627,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "YES",
-                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                style: GoogleFonts.kulimPark(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                               ),
                                                                               onPressed: () async {
                                                                                 await widget.hide();
@@ -659,7 +635,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.kulimPark(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -675,7 +651,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Block this user",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -692,7 +668,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         title:
                                                                             Text(
                                                                           "PROCEED?",
-                                                                          style: GoogleFonts.darkerGrotesque(
+                                                                          style: GoogleFonts.kulimPark(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -700,7 +676,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                         message:
                                                                             Text(
                                                                           "Are you sure you want to block this user?",
-                                                                          style: GoogleFonts.darkerGrotesque(
+                                                                          style: GoogleFonts.kulimPark(
                                                                               fontSize: 13,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Theme.of(context).accentColor),
@@ -709,7 +685,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "YES",
-                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
+                                                                                style: GoogleFonts.kulimPark(fontSize: 13, fontWeight: FontWeight.w500, color: Theme.of(context).accentColor),
                                                                               ),
                                                                               onPressed: () async {
                                                                                 await widget.block();
@@ -717,7 +693,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                           CupertinoActionSheetAction(
                                                                               child: Text(
                                                                                 "Cancel",
-                                                                                style: GoogleFonts.darkerGrotesque(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
+                                                                                style: GoogleFonts.kulimPark(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
                                                                               ),
                                                                               onPressed: () {
                                                                                 Navigator.pop(context);
@@ -733,7 +709,7 @@ class _PostWidgetState extends State<PostWidget> {
                                                                 CupertinoActionSheetAction(
                                                                     child: Text(
                                                                       "Cancel",
-                                                                      style: GoogleFonts.darkerGrotesque(
+                                                                      style: GoogleFonts.kulimPark(
                                                                           fontSize:
                                                                               13,
                                                                           fontWeight: FontWeight
@@ -808,14 +784,17 @@ class _PostWidgetState extends State<PostWidget> {
                               padding: const EdgeInsets.only(
                                   bottom: 4.0, left: 10.0, right: 10.0),
                               child: ShaderMask(
-                                shaderCallback: (bounds) =>
-                                    gradient.createShader(
+                                shaderCallback: (bounds) => LinearGradient(
+                                    colors: [
+                                      Colors.deepOrangeAccent,
+                                      Colors.deepPurpleAccent
+                                    ]).createShader(
                                   Rect.fromLTWH(
                                       0, 0, bounds.width, bounds.height),
                                 ),
                                 child: Text(
                                   widget.post.tcQuestion,
-                                  style: GoogleFonts.darkerGrotesque(
+                                  style: GoogleFonts.kulimPark(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -832,7 +811,7 @@ class _PostWidgetState extends State<PostWidget> {
                                   right: 10.0),
                               child: Text(
                                 widget.post.title,
-                                style: GoogleFonts.darkerGrotesque(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -848,7 +827,7 @@ class _PostWidgetState extends State<PostWidget> {
                               padding: const EdgeInsets.only(
                                   bottom: 0.0, left: 10.0, right: 10.0),
                               child: Text(widget.post.content.trimRight(),
-                                  style: GoogleFonts.darkerGrotesque(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: widget.fromComments ? 15 : 15,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor))
@@ -899,7 +878,7 @@ class _PostWidgetState extends State<PostWidget> {
                                           8.0, 3.0, 8.0, 3.0),
                                       child: Text(
                                         "Admin",
-                                        style: GoogleFonts.darkerGrotesque(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white),
@@ -998,13 +977,11 @@ class _PostWidgetState extends State<PostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionOne,
-                                              style:
-                                                  GoogleFonts.darkerGrotesque(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .accentColor),
+                                              style: GoogleFonts.kulimPark(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             ),
                                           ),
                                         ],
@@ -1090,13 +1067,11 @@ class _PostWidgetState extends State<PostWidget> {
                                                           .toString() +
                                                       "%)"
                                                   : widget.post.questionTwo,
-                                              style:
-                                                  GoogleFonts.darkerGrotesque(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .accentColor),
+                                              style: GoogleFonts.kulimPark(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .accentColor),
                                             ),
                                           ),
                                         ],
@@ -1123,7 +1098,7 @@ class _PostWidgetState extends State<PostWidget> {
                         widget.post.whichOption == 1
                             ? 'You voted: ${widget.post.questionOne}'
                             : 'You voted: ${widget.post.questionTwo}',
-                        style: GoogleFonts.darkerGrotesque(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).buttonColor),
@@ -1167,7 +1142,7 @@ class _PostWidgetState extends State<PostWidget> {
                               : 'View Poll Results (' +
                                   pollCount().toString() +
                                   ' votes)',
-                          style: GoogleFonts.darkerGrotesque(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -1192,31 +1167,10 @@ class _PostWidgetState extends State<PostWidget> {
                             child: Center(
                               child: Hero(
                                 tag: widget.post.imgUrl,
-                                child: Image.network(
-                                  widget.post.imgUrl,
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.post.imgUrl,
                                   width: MediaQuery.of(context).size.width,
-                                  // height:
-                                  //     MediaQuery.of(context).size.height / 2,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Center(
-                                        child: SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: LoadingIndicator(
-                                              indicatorType: Indicator
-                                                  .ballClipRotateMultiple,
-                                              color:
-                                                  Theme.of(context).accentColor,
-                                            )),
-                                      ),
-                                    );
-                                  },
                                 ),
                               ),
                             ),
@@ -1233,7 +1187,7 @@ class _PostWidgetState extends State<PostWidget> {
                     Container(
                       padding: const EdgeInsets.all(4.0),
                       decoration: BoxDecoration(
-                        color: Color(0xFF1777F2),
+                        color: Colors.deepOrangeAccent,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -1245,11 +1199,16 @@ class _PostWidgetState extends State<PostWidget> {
                     const SizedBox(width: 4.0),
                     Expanded(
                       child: Text(
-                        '${widget.post.likeCount}',
-                        style: GoogleFonts.darkerGrotesque(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey[600],
-                        ),
+                        widget.post.isLiked
+                            ? widget.post.likeCount == 1
+                                ? 'You like this'
+                                : 'You and ' +
+                                    (widget.post.likeCount - 1).toString() +
+                                    ' others like this'
+                            : '${widget.post.likeCount}',
+                        style: GoogleFonts.kulimPark(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).accentColor),
                       ),
                     ),
                     Text(
@@ -1257,7 +1216,7 @@ class _PostWidgetState extends State<PostWidget> {
                           (widget.post.commentCount.toString() == '1'
                               ? "Comment"
                               : "Comments"),
-                      style: GoogleFonts.darkerGrotesque(
+                      style: GoogleFonts.kulimPark(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).buttonColor,
                       ),
@@ -1396,10 +1355,10 @@ class _PostWidgetState extends State<PostWidget> {
                           SizedBox(width: 5.0),
                           Text(
                             'Like',
-                            style: GoogleFonts.darkerGrotesque(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white),
+                                color: Theme.of(context).accentColor),
                           )
                         ],
                       ),
@@ -1525,10 +1484,10 @@ class _PostWidgetState extends State<PostWidget> {
                           margin: EdgeInsets.only(left: 3.0),
                           child: Text(
                             'Comment',
-                            style: GoogleFonts.darkerGrotesque(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context).buttonColor),
+                                color: Theme.of(context).accentColor),
                           ),
                         )
                       ],
@@ -1554,7 +1513,7 @@ class _PostWidgetState extends State<PostWidget> {
                           Container(
                             margin: EdgeInsets.only(left: 3.0),
                             child: Text("Share",
-                                style: GoogleFonts.darkerGrotesque(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.pink)),
@@ -1643,7 +1602,7 @@ class _PostWidgetState extends State<PostWidget> {
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.darkerGrotesque(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

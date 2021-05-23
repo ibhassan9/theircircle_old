@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -58,14 +59,14 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
             final act = CupertinoActionSheet(
               title: Text(
                 "PROCEED?",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
               message: Text(
                 "Are you sure you want to delete this chat? This will not clear the conversation.",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -74,7 +75,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "YES",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -86,7 +87,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "Cancel",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.red),
@@ -149,32 +150,11 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                     )
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
-                                      child: Image.network(
-                                        widget.peer.profileImgUrl,
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget.peer.profileImgUrl,
                                         width: 40,
                                         height: 40,
                                         fit: BoxFit.cover,
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent loadingProgress) {
-                                          if (loadingProgress == null)
-                                            return child;
-                                          return SizedBox(
-                                            height: 40,
-                                            width: 40,
-                                            child: Center(
-                                              child: SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                  child: LoadingIndicator(
-                                                    indicatorType: Indicator
-                                                        .ballClipRotate,
-                                                    color: Theme.of(context)
-                                                        .accentColor,
-                                                  )),
-                                            ),
-                                          );
-                                        },
                                       ),
                                     )
                               : SizedBox(),
@@ -199,7 +179,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                             children: [
                                               Text(
                                                 widget.peer.name,
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.kulimPark(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w700,
                                                     color: Theme.of(context)
@@ -207,7 +187,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               ),
                                               Text(
                                                 widget.timeAgo.toUpperCase(),
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.kulimPark(
                                                     fontSize: 11,
                                                     fontWeight: FontWeight.w700,
                                                     color: Theme.of(context)
@@ -240,7 +220,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                             right: 5.0),
                                                     child: Text(
                                                       'You:',
-                                                      style: GoogleFonts.quicksand(
+                                                      style: GoogleFonts.kulimPark(
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -260,7 +240,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.kulimPark(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: widget.seen

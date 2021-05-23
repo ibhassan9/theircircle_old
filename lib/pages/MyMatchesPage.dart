@@ -93,7 +93,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
             "Chat",
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
@@ -169,7 +169,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                 SizedBox(height: 10),
                                 Text(
                                   "Your chat list is empty",
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey),
@@ -287,7 +287,7 @@ class _MyMatchesPageState extends State<MyMatchesPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "Your chat list is empty :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),

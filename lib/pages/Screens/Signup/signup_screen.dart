@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Text(
               'Hello There!',
               textAlign: TextAlign.center,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 40,
                   fontWeight: FontWeight.w900,
                   color: Theme.of(context).accentColor),
@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Text(
               'Join us by filling in the details below.',
               textAlign: TextAlign.center,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Text(
               'Full Name',
               textAlign: TextAlign.center,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -67,13 +67,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               autofocus: true,
               textInputAction: TextInputAction.next,
               controller: nameController,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
               decoration: InputDecoration(
                 hintText: 'John Appleseed',
-                hintStyle: GoogleFonts.darkerGrotesque(
+                hintStyle: GoogleFonts.kulimPark(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),
@@ -84,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Text(
               'Email Address',
               textAlign: TextAlign.center,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -92,13 +92,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextField(
               controller: emailController,
               textInputAction: TextInputAction.next,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
               decoration: InputDecoration(
                 hintText: 'example@institute.ca',
-                hintStyle: GoogleFonts.darkerGrotesque(
+                hintStyle: GoogleFonts.kulimPark(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),
@@ -109,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Text(
               'Password',
               textAlign: TextAlign.center,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -117,13 +117,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextField(
               controller: passwordcontroller,
               obscureText: true,
-              style: GoogleFonts.darkerGrotesque(
+              style: GoogleFonts.kulimPark(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
               decoration: InputDecoration(
                 hintText: '• • • • • • • • •',
-                hintStyle: GoogleFonts.darkerGrotesque(
+                hintStyle: GoogleFonts.kulimPark(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),

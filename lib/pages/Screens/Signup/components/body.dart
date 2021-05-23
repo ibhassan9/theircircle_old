@@ -35,7 +35,7 @@
 //           children: <Widget>[
 //             Text(
 //               "SIGNUP",
-//               style: GoogleFonts.quicksand(
+//               style: GoogleFonts.kulimPark(
 //                   fontSize: 16,
 //                   fontWeight: FontWeight.w500,
 //                   color: Theme.of(context).accentColor),
@@ -63,7 +63,7 @@
 //                     backgroundColor: Theme.of(context).backgroundColor,
 //                     content: Text(
 //                       'Creating your account. Please wait.',
-//                       style: GoogleFonts.quicksand(
+//                       style: GoogleFonts.kulimPark(
 //                           fontSize: 15,
 //                           fontWeight: FontWeight.w500,
 //                           color: Theme.of(context).accentColor),
@@ -87,13 +87,13 @@
 //               padding: const EdgeInsets.only(left: 40, right: 40),
 //               child: RichText(
 //                 text: TextSpan(
-//                   style: GoogleFonts.quicksand(
+//                   style: GoogleFonts.kulimPark(
 //                       fontSize: 10, color: Theme.of(context).accentColor),
 //                   children: <TextSpan>[
 //                     TextSpan(text: "By signing up you agree to our "),
 //                     TextSpan(
 //                         text: "Terms and Conditions",
-//                         style: GoogleFonts.quicksand(
+//                         style: GoogleFonts.kulimPark(
 //                             fontSize: 10, color: Colors.blue),
 //                         recognizer: TapGestureRecognizer()
 //                           ..onTap = () {
@@ -109,7 +109,7 @@
 //                     TextSpan(text: " and have read our "),
 //                     TextSpan(
 //                         text: "Privacy Policy",
-//                         style: GoogleFonts.quicksand(
+//                         style: GoogleFonts.kulimPark(
 //                             fontSize: 10, color: Colors.blue),
 //                         recognizer: TapGestureRecognizer()
 //                           ..onTap = () {

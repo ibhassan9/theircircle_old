@@ -16,7 +16,7 @@ class _MyReferralState extends State<MyReferral> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         title: Text('Referral',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w600)),
         centerTitle: true,
@@ -37,13 +37,13 @@ class _MyReferralState extends State<MyReferral> {
                 size: 50.0, color: Theme.of(context).accentColor),
             SizedBox(height: 30.0),
             Text('10',
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 40.0)),
             SizedBox(height: 0.0),
             Text('credits earned',
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 15.0)),
@@ -54,7 +54,7 @@ class _MyReferralState extends State<MyReferral> {
             ),
             SizedBox(height: 10.0),
             Text('YOUR CODE',
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600)),
             SizedBox(height: 10.0),
@@ -68,7 +68,7 @@ class _MyReferralState extends State<MyReferral> {
                     left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
                 child: Text(
                     clean(content: FirebaseAuth.instance.currentUser.uid),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         color: Theme.of(context).accentColor,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600)),
@@ -79,14 +79,14 @@ class _MyReferralState extends State<MyReferral> {
                 'Share this code with a student from your institute. When they use it to sign up you both earn 10 credits. To learn more about credits click below.',
                 maxLines: null,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600)),
             SizedBox(height: 10.0),
             Text('* Earn credits by being an active member of the community.',
                 maxLines: null,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600)),
             SizedBox(height: 30.0),
@@ -98,7 +98,7 @@ class _MyReferralState extends State<MyReferral> {
                 padding: const EdgeInsets.only(
                     left: 20.0, right: 20 + .0, top: 10.0, bottom: 10.0),
                 child: Text('View Rewards',
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         color: Theme.of(context).backgroundColor,
                         fontSize: 15.0,
                         fontWeight: FontWeight.w700)),

@@ -51,7 +51,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   final act = CupertinoActionSheet(
                     title: Text(
                       "What's wrong with this listing?",
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).accentColor),
@@ -60,7 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It's suspicious or spam",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -72,7 +72,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It's abusive or harmful",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -84,7 +84,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It expresses intentions of self-harm or suicide",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -96,7 +96,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It promotes sexual/inappropriate content",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -122,7 +122,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ],
         title: Text(
           '',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -173,31 +173,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      widget.prod.seller.profileImgUrl != null
+                    child: CachedNetworkImage(
+                      imageUrl: widget.prod.seller.profileImgUrl != null
                           ? widget.prod.seller.profileImgUrl
                           : '',
                       width: 20,
                       height: 20,
                       fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: Center(
-                            child: SizedBox(
-                                width: 15,
-                                height: 15,
-                                child: LoadingIndicator(
-                                  indicatorType:
-                                      Indicator.ballClipRotateMultiple,
-                                  color: Theme.of(context).accentColor,
-                                )),
-                          ),
-                        );
-                      },
                     ),
                   ),
                   SizedBox(width: 5.0),
@@ -206,7 +188,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             FirebaseAuth.instance.currentUser.uid
                         ? 'Listed by you'
                         : 'Listed by ' + widget.prod.sellerName,
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -222,7 +204,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         new DateTime.fromMillisecondsSinceEpoch(
                             widget.prod.timeStamp),
                         locale: 'en_short'),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -237,7 +219,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Text(
             widget.prod.title,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -247,7 +229,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 15.0),
           child: Text(
             r'$' + widget.prod.price,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -321,7 +303,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               FirebaseAuth.instance.currentUser.uid
                           ? 'Remove Listing'
                           : 'Contact Seller',
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -340,7 +322,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
           child: Text(
             'Description',
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -350,7 +332,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Text(
             widget.prod.description,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),

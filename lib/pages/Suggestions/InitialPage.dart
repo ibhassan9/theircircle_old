@@ -26,7 +26,7 @@ class _InitialSuggestionsPageState extends State<InitialSuggestionsPage> {
               child: Text(
                 'What are you looking for?',
                 style:
-                    GoogleFonts.quicksand(color: Theme.of(context).accentColor),
+                    GoogleFonts.kulimPark(color: Theme.of(context).accentColor),
               ),
             ),
             SizedBox(height: 10.0),
@@ -81,7 +81,7 @@ class _InitialSuggestionsPageState extends State<InitialSuggestionsPage> {
                             : type == 2
                                 ? 'Food'
                                 : 'Activities/Games',
-                    style: GoogleFonts.quicksand(color: Colors.white),
+                    style: GoogleFonts.kulimPark(color: Colors.white),
                   ),
                 ],
               ),

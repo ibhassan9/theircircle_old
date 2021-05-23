@@ -29,7 +29,7 @@ class _UserPageState extends State<UserPage> {
           title: Text(
             "Profile",
             textAlign: TextAlign.center,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),
           elevation: 0.0,
@@ -129,7 +129,7 @@ class _UserPageState extends State<UserPage> {
                     Center(
                         child: Text(
                       user.name,
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.kulimPark(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
@@ -153,13 +153,13 @@ class _UserPageState extends State<UserPage> {
                                         user.bio == null || user.bio.isEmpty
                                             ? Constants.dummyDescription
                                             : user.bio,
-                                    hintStyle: GoogleFonts.quicksand(
+                                    hintStyle: GoogleFonts.kulimPark(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.grey.shade700),
                                   ),
                                   maxLines: null,
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey.shade700),
@@ -168,7 +168,7 @@ class _UserPageState extends State<UserPage> {
                             : Text(
                                 user.bio,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black),

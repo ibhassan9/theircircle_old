@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -116,43 +117,18 @@ class _VideoWidgetState extends State<VideoWidget>
                                         color: Colors.black54,
                                         child: Hero(
                                           tag: widget.video.id,
-                                          child: Image.network(
-                                              widget.video.thumbnailUrl,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: MediaQuery.of(context)
-                                                  .size
-                                                  .height,
-                                              fit: aspectRatio < 0.6
-                                                  ? BoxFit.cover
-                                                  : BoxFit.contain,
-                                              loadingBuilder:
-                                                  (BuildContext context,
-                                                      Widget child,
-                                                      ImageChunkEvent
-                                                          loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
-                                            return SizedBox(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: Center(
-                                                  child: SizedBox(
-                                                      width: 20,
-                                                      height: 20,
-                                                      child: LoadingIndicator(
-                                                        indicatorType: Indicator
-                                                            .ballScaleMultiple,
-                                                        color: Theme.of(context)
-                                                            .accentColor,
-                                                      )),
-                                                ));
-                                          }),
+                                          child: CachedNetworkImage(
+                                            imageUrl: widget.video.thumbnailUrl,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            fit: aspectRatio < 0.6
+                                                ? BoxFit.cover
+                                                : BoxFit.contain,
+                                          ),
                                         ),
                                       ))
                                   : Container(),
@@ -290,7 +266,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                   Text(
                                     widget.video.likeCount.toString(),
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.quicksand(
+                                    style: GoogleFonts.kulimPark(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white.withOpacity(0.7)),
@@ -320,7 +296,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                   Text(
                                     widget.video.commentCount.toString(),
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.quicksand(
+                                    style: GoogleFonts.kulimPark(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white.withOpacity(0.7),
@@ -415,7 +391,7 @@ class _VideoWidgetState extends State<VideoWidget>
         padding: const EdgeInsets.all(5.0),
         child: Text(
           university,
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
@@ -432,28 +408,11 @@ class _VideoWidgetState extends State<VideoWidget>
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  imgUrl,
+                child: CachedNetworkImage(
+                  imageUrl: imgUrl,
                   width: 20,
                   height: 20,
                   fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: Center(
-                        child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: LoadingIndicator(
-                              indicatorType: Indicator.ballClipRotateMultiple,
-                              color: Theme.of(context).accentColor,
-                            )),
-                      ),
-                    );
-                  },
                 ),
               ),
         SizedBox(width: 10.0),
@@ -468,7 +427,7 @@ class _VideoWidgetState extends State<VideoWidget>
                       ? 'You'
                       : '@' +
                           widget.video.name.replaceAll(" ", '').toLowerCase(),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
@@ -480,7 +439,7 @@ class _VideoWidgetState extends State<VideoWidget>
                     : widget.video.university == "YorkU"
                         ? "York University"
                         : "Western University",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
                     color: Colors.white),
@@ -510,7 +469,7 @@ class _VideoWidgetState extends State<VideoWidget>
         Text(widget.video.caption,
             maxLines: 8,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.quicksand(
+            style: GoogleFonts.kulimPark(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)),
@@ -530,7 +489,7 @@ class _VideoWidgetState extends State<VideoWidget>
                 size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.likeCount.toString(),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white)),
@@ -538,7 +497,7 @@ class _VideoWidgetState extends State<VideoWidget>
             Icon(AntDesign.message1, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.commentCount.toString(),
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white))
@@ -671,14 +630,14 @@ class _VideoWidgetState extends State<VideoWidget>
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to delete this video?',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -687,7 +646,7 @@ class _VideoWidgetState extends State<VideoWidget>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -699,7 +658,7 @@ class _VideoWidgetState extends State<VideoWidget>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.quicksand(
+                style: GoogleFonts.kulimPark(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -716,14 +675,14 @@ class _VideoWidgetState extends State<VideoWidget>
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "What is the issue?",
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -732,7 +691,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It's suspicious or spam",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -744,7 +703,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It's abusive or harmful",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -756,7 +715,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It expresses intentions of self-harm or suicide",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -768,7 +727,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It promotes sexual/inappropriate content",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -834,7 +793,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "Block this user",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -842,14 +801,14 @@ class _VideoWidgetState extends State<VideoWidget>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to block this user?",
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -858,7 +817,7 @@ class _VideoWidgetState extends State<VideoWidget>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -870,7 +829,7 @@ class _VideoWidgetState extends State<VideoWidget>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -886,7 +845,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -903,7 +862,7 @@ class _VideoWidgetState extends State<VideoWidget>
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

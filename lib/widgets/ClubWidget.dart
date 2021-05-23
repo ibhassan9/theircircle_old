@@ -59,7 +59,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                           Icon(AntDesign.team, color: Colors.white, size: 15.0),
                           Text(
                             "${widget.club.memberCount}",
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
@@ -90,8 +90,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                       widget.club.name.trim().isNotEmpty
                                           ? widget.club.name
                                           : 'No name available',
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 13,
+                                      style: GoogleFonts.kulimPark(
+                                          fontSize: 15,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
                                       overflow: TextOverflow.ellipsis,
@@ -106,7 +106,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                             final act = CupertinoActionSheet(
                                               title: Text(
                                                 "PROCEED?",
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.kulimPark(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -114,7 +114,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                               ),
                                               message: Text(
                                                 "Are you sure you want to delete this club?",
-                                                style: GoogleFonts.quicksand(
+                                                style: GoogleFonts.kulimPark(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -125,7 +125,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                     child: Text(
                                                       "YES",
                                                       style:
-                                                          GoogleFonts.quicksand(
+                                                          GoogleFonts.kulimPark(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -141,7 +141,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                                     child: Text(
                                                       "Cancel",
                                                       style:
-                                                          GoogleFonts.quicksand(
+                                                          GoogleFonts.kulimPark(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
@@ -168,8 +168,8 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 widget.club.description.isNotEmpty
                                     ? widget.club.description
                                     : "No description available",
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 13,
+                                style: GoogleFonts.kulimPark(
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context)
                                         .accentColor
@@ -225,7 +225,7 @@ class _ClubWidgetState extends State<ClubWidget> {
                                 },
                                 child: Text(
                                   status(),
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.lightBlue),

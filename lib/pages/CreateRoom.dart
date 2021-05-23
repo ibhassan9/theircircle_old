@@ -44,7 +44,7 @@ class _CreateRoomState extends State<CreateRoom> {
         centerTitle: false,
         title: Text(
           "",
-          style: GoogleFonts.quicksand(
+          style: GoogleFonts.kulimPark(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -124,13 +124,13 @@ class _CreateRoomState extends State<CreateRoom> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Public',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor)),
                         Text(
                           'Anyone can join this room',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -179,13 +179,13 @@ class _CreateRoomState extends State<CreateRoom> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Private',
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).accentColor)),
                         Text(
                           'Only invited users can join',
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).buttonColor),
@@ -303,7 +303,7 @@ class _CreateRoomState extends State<CreateRoom> {
                       )
                     : Text(
                         'Start Room',
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: Theme.of(context).backgroundColor),
@@ -435,7 +435,7 @@ class _CreateRoomState extends State<CreateRoom> {
         decoration: new InputDecoration(
             suffix: Text(
               clength.toString(),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   color: clength < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
@@ -446,7 +446,7 @@ class _CreateRoomState extends State<CreateRoom> {
             contentPadding:
                 EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
             hintText: title),
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -472,7 +472,7 @@ class _CreateRoomState extends State<CreateRoom> {
         decoration: new InputDecoration(
             suffix: Text(
               dlength.toString(),
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   color: dlength < 0 ? Colors.red : Colors.grey),
             ),
             border: InputBorder.none,
@@ -483,7 +483,7 @@ class _CreateRoomState extends State<CreateRoom> {
             contentPadding:
                 EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
             hintText: description),
-        style: GoogleFonts.quicksand(
+        style: GoogleFonts.kulimPark(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),

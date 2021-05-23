@@ -72,7 +72,7 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                     children: [
                       Text(
                         widget.peer.name.trim(),
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: Theme.of(context).accentColor),
@@ -85,7 +85,7 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                             : "No bio available.",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.quicksand(
+                        style: GoogleFonts.kulimPark(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),

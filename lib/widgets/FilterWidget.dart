@@ -23,7 +23,7 @@ class _FilterWidgetState extends State<FilterWidget> {
           children: [
             Text(
               widget.text,
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.kulimPark(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),

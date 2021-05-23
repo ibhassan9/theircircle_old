@@ -49,7 +49,7 @@ class _ClubsPageState extends State<ClubsPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Create a Virtual Community",
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -70,7 +70,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -87,7 +87,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your community here..."),
-                  style: GoogleFonts.quicksand(
+                  style: GoogleFonts.kulimPark(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -101,7 +101,7 @@ class _ClubsPageState extends State<ClubsPage>
                         Text(
                             "Privacy " +
                                 (switchVal == true ? "(Private)" : "(Public)"),
-                            style: GoogleFonts.quicksand(
+                            style: GoogleFonts.kulimPark(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor)),
@@ -181,32 +181,47 @@ class _ClubsPageState extends State<ClubsPage>
               shrinkWrap: true,
               physics: AlwaysScrollableScrollPhysics(),
               children: <Widget>[
-                Container(
-                  child: TextField(
-                    controller: searchingController,
-                    onChanged: (value) {
-                      setState(() {
-                        filter = value;
-                      });
-                    },
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          left: 20, bottom: 11, top: 11, right: 15),
-                      hintText: "Search Communities...",
-                      hintStyle: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).accentColor),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0, right: 10.0, bottom: 5.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).dividerColor.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10.0),
+                        Icon(FlutterIcons.search_fea,
+                            size: 20.0, color: Theme.of(context).accentColor),
+                        Flexible(
+                          child: TextField(
+                            onChanged: (value) {
+                              setState(() {
+                                filter = value;
+                              });
+                            },
+                            decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: 10, bottom: 11, top: 11, right: 15),
+                              hintText: "Search Clubs...",
+                              hintStyle: GoogleFonts.kulimPark(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).accentColor),
+                            ),
+                            style: GoogleFonts.kulimPark(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).accentColor),
+                          ),
+                        ),
+                      ],
                     ),
-                    style: GoogleFonts.quicksand(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).accentColor),
                   ),
                 ),
                 searchedClubs.isNotEmpty
@@ -330,7 +345,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       SizedBox(width: 10),
                                       Text(
                                         "Cannot find any clubs :(",
-                                        style: GoogleFonts.quicksand(
+                                        style: GoogleFonts.kulimPark(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -356,7 +371,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no clubs :(",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -437,7 +452,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     SizedBox(width: 10.0),
                                     Text(
                                       'Featured Club',
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white),
@@ -495,7 +510,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       : _oneHealingSpace.inClub
                                           ? 'Leave Community'
                                           : 'Join Community',
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white),

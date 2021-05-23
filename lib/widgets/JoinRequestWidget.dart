@@ -58,7 +58,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                   ? CircleAvatar(
                                       backgroundColor: Colors.grey[400],
                                       child: Text(user.name.substring(0, 1),
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.kulimPark(
                                               color: Theme.of(context)
                                                   .backgroundColor)))
                                   : Hero(
@@ -98,7 +98,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                               SizedBox(width: 10.0),
                               Text(
                                 user.name,
-                                style: GoogleFonts.quicksand(
+                                style: GoogleFonts.kulimPark(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -121,7 +121,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                           },
                                           child: Text(
                                             "ACCEPT",
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.kulimPark(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.blue),
@@ -140,7 +140,7 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                           },
                                           child: Text(
                                             "DENY",
-                                            style: GoogleFonts.quicksand(
+                                            style: GoogleFonts.kulimPark(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.red),
@@ -150,14 +150,14 @@ class _JoinRequestWidgetState extends State<JoinRequestWidget> {
                                     )
                                   : Text(
                                       "ACCEPTED",
-                                      style: GoogleFonts.quicksand(
+                                      style: GoogleFonts.kulimPark(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.blue),
                                     )
                               : Text(
                                   "DENIED",
-                                  style: GoogleFonts.quicksand(
+                                  style: GoogleFonts.kulimPark(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.red),

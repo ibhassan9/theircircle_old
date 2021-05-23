@@ -85,14 +85,14 @@ class _ConferencePageState extends State<ConferencePage>
                       children: [
                         Text(
                           widget.room.name + "'s Conference",
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
                         ),
                         Text(
                           '🗣️ ' + widget.room.description,
-                          style: GoogleFonts.quicksand(
+                          style: GoogleFonts.kulimPark(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context)
@@ -109,7 +109,7 @@ class _ConferencePageState extends State<ConferencePage>
                 padding:
                     const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
                 child: Text('Listeners Area',
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.kulimPark(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor.withOpacity(0.5),
