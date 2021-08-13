@@ -24,6 +24,7 @@ import 'package:unify/pages/OHS%20Pages/OHSPostWidget.dart';
 import 'package:unify/pages/Screens/Welcome/welcome_screen.dart';
 import 'package:unify/pages/VideoPreview.dart';
 import 'package:unify/widgets/PostWidget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   final PostUser user;
@@ -287,10 +288,11 @@ class _ProfilePageState extends State<ProfilePage>
                         : Container(),
                 sameUniversity() ? SizedBox(width: 5.0) : Container(),
                 InkWell(
-                    onTap: () {
+                    onTap: () async {
                       if (user.instagramHandle != null &&
                           user.instagramHandle.isNotEmpty) {
-                        showHandle(text: user.instagramHandle);
+                        await launch(
+                            'https://www.instagram.com/${user.instagramHandle}');
                       } else {
                         Toast.show('Instagram not available', context);
                       }
@@ -308,10 +310,11 @@ class _ProfilePageState extends State<ProfilePage>
                   width: 5.0,
                 ),
                 InkWell(
-                    onTap: () {
+                    onTap: () async {
                       if (user.linkedinHandle != null &&
                           user.linkedinHandle.isNotEmpty) {
-                        showHandle(text: user.linkedinHandle);
+                        await launch(
+                            'https://www.linkedin.com/in/${user.instagramHandle}');
                       } else {
                         Toast.show('LinkedIn not available', context);
                       }
@@ -329,10 +332,11 @@ class _ProfilePageState extends State<ProfilePage>
                   width: 5.0,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (user.snapchatHandle != null &&
                         user.snapchatHandle.isNotEmpty) {
-                      showHandle(text: user.snapchatHandle);
+                      await launch(
+                          'https://www.snapchat.com/add/${user.snapchatHandle}');
                     } else {
                       Toast.show('Snapchat not available', context);
                     }
@@ -1100,9 +1104,10 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Future<Null> refresh() async {
-    setState(() {
-      postsFuture = p.fetchUserPost(widget.user);
+    setState(() async {
+      postsFuture = p.fetchUserPost(user);
       videosFuture = p.VideoApi.fetchUserVideos(user);
+      user = await getUser(user.id);
     });
   }
 

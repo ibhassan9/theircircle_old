@@ -121,61 +121,61 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  fonts:
-    - family: AppIcons
-      fonts:
-        - asset: lib/Components/fonts/AppIcons.ttf
-    - family: PingFang
-      fonts:
-        - asset: assets/fonts/PingFang-ExtraLight.ttf
-          weight: 300
-        - asset: assets/fonts/PingFang-Light.ttf
-          weight: 400
-        - asset: assets/fonts/PingFang-Regular.ttf
-          weight: 500
-        - asset: assets/fonts/PingFang-Medium.ttf
-          weight: 600
-        - asset: assets/fonts/PingFang-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/PingFang-Heavy.ttf
-          weight: 800
+  # fonts:
+  #   - family: AppIcons
+  #     fonts:
+  #       - asset: lib/Components/fonts/AppIcons.ttf
+  #   - family: PingFang
+  #     fonts:
+  #       - asset: assets/fonts/PingFang-ExtraLight.ttf
+  #         weight: 300
+  #       - asset: assets/fonts/PingFang-Light.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/PingFang-Regular.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/PingFang-Medium.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/PingFang-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/PingFang-Heavy.ttf
+  #         weight: 800
 
-    - family: H
-      fonts:
-        - asset: assets/fonts/Light.ttf
-          weight: 500
-        - asset: assets/fonts/Medium.ttf
-          weight: 600
-        - asset: assets/fonts/Bold.ttf
-          weight: 700
-    - family: Futura
-      fonts:
-        - asset: assets/fonts/Futura-Maxi-CG-Bold-Regular.ttf
-          weight: 700
-    - family: Futura1
-      fonts:
-        - asset: assets/fonts/Futura-Maxi-CG-Demi-Regular.ttf
-          weight: 700
-    - family: Futura2
-      fonts:
-        - asset: assets/fonts/Futura-Maxi-CG-Light-Regular.ttf
-          weight: 700
-    - family: Futura3
-      fonts:
-        - asset: assets/fonts/Futura-Maxi-CG-Book-Regular.ttf
-          weight: 700
-    - family: Book
-      fonts:
-        - asset: assets/fonts/Futura-Book.ttf
-          weight: 700
-    - family: Bold
-      fonts:
-        - asset: assets/fonts/Futura-Bold.ttf
-          weight: 700
-    - family: Medium
-      fonts:
-        - asset: assets/fonts/Futura-Medium.ttf
-          weight: 700
+  #   - family: H
+  #     fonts:
+  #       - asset: assets/fonts/Light.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Medium.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Bold.ttf
+  #         weight: 700
+  #   - family: Futura
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Maxi-CG-Bold-Regular.ttf
+  #         weight: 700
+  #   - family: Futura1
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Maxi-CG-Demi-Regular.ttf
+  #         weight: 700
+  #   - family: Futura2
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Maxi-CG-Light-Regular.ttf
+  #         weight: 700
+  #   - family: Futura3
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Maxi-CG-Book-Regular.ttf
+  #         weight: 700
+  #   - family: Book
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Book.ttf
+  #         weight: 700
+  #   - family: Bold
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Bold.ttf
+  #         weight: 700
+  #   - family: Medium
+  #     fonts:
+  #       - asset: assets/fonts/Futura-Medium.ttf
+  #         weight: 700
 
   assets:
     - assets/images/

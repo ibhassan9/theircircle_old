@@ -22,7 +22,7 @@ class _CoursenClubState extends State<CoursenClub> {
           children: [
             InkWell(
               onTap: () {
-                controller.animateToPage(0,
+                controller.animateToPage(2,
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeIn);
                 setState(() {
@@ -32,7 +32,7 @@ class _CoursenClubState extends State<CoursenClub> {
               child: Column(
                 children: [
                   Text(
-                    "Rooms",
+                    "Courses",
                     style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -41,18 +41,18 @@ class _CoursenClubState extends State<CoursenClub> {
                             : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
+                  // CircleAvatar(
+                  //   radius: 3.0,
+                  //   backgroundColor: selected == 2
+                  //       ? Colors.purple
+                  //       : Theme.of(context).backgroundColor,
+                  // )
                   Container(
                       height: 3.0,
                       width: 10.0,
                       color: selected == 0
                           ? Colors.purple
                           : Theme.of(context).backgroundColor)
-                  // CircleAvatar(
-                  //   radius: 3.0,
-                  //   backgroundColor: selected == 0
-                  //       ? Colors.purple
-                  //       : Theme.of(context).backgroundColor,
-                  // )
                 ],
               ),
             ),
@@ -96,7 +96,7 @@ class _CoursenClubState extends State<CoursenClub> {
             SizedBox(width: 10.0),
             InkWell(
               onTap: () {
-                controller.animateToPage(2,
+                controller.animateToPage(0,
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeIn);
                 setState(() {
@@ -106,7 +106,7 @@ class _CoursenClubState extends State<CoursenClub> {
               child: Column(
                 children: [
                   Text(
-                    "Courses",
+                    "Rooms",
                     style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -115,18 +115,18 @@ class _CoursenClubState extends State<CoursenClub> {
                             : Theme.of(context).accentColor.withOpacity(0.4)),
                   ),
                   SizedBox(height: 5.0),
-                  // CircleAvatar(
-                  //   radius: 3.0,
-                  //   backgroundColor: selected == 2
-                  //       ? Colors.purple
-                  //       : Theme.of(context).backgroundColor,
-                  // )
                   Container(
                       height: 3.0,
                       width: 10.0,
                       color: selected == 2
                           ? Colors.purple
                           : Theme.of(context).backgroundColor)
+                  // CircleAvatar(
+                  //   radius: 3.0,
+                  //   backgroundColor: selected == 0
+                  //       ? Colors.purple
+                  //       : Theme.of(context).backgroundColor,
+                  // )
                 ],
               ),
             ),
@@ -145,7 +145,7 @@ class _CoursenClubState extends State<CoursenClub> {
             });
           },
           controller: controller,
-          children: <Widget>[Rooms(), ClubsPage(), CoursesPage()],
+          children: <Widget>[CoursesPage(), ClubsPage(), Rooms()],
         ),
       ),
     );

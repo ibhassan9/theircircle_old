@@ -179,7 +179,18 @@ class _MainPageState extends State<MainPage>
                   child: ListView(
                     padding: const EdgeInsets.all(0),
                     children: <Widget>[
-                      // promoWidget(),
+                      promoWidget(),
+                      questionWidget(),
+                      InkWell(
+                          onTap: () async {
+                            final RenderBox box = context.findRenderObject();
+                            var title = Constants.inviteTitle;
+                            await Share.share(title,
+                                sharePositionOrigin:
+                                    box.localToGlobal(Offset.zero) & box.size);
+                          },
+                          child: InviteFriendsWidget()),
+                      SizedBox(height: 5.0),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
@@ -301,17 +312,6 @@ class _MainPageState extends State<MainPage>
                       //     startRoom: () => print("test"),
                       //   ),
                       // ),
-                      // questionWidget(),
-                      // InkWell(
-                      //     onTap: () async {
-                      //       final RenderBox box = context.findRenderObject();
-                      //       var title = Constants.inviteTitle;
-                      //       await Share.share(title,
-                      //           subject: "TheirCircle",
-                      //           sharePositionOrigin:
-                      //               box.localToGlobal(Offset.zero) & box.size);
-                      //     },
-                      //     child: InviteFriendsWidget()),
 
                       // Padding(
                       //   padding:
