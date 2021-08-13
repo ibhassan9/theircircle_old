@@ -266,7 +266,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                   Text(
                                     widget.video.likeCount.toString(),
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.kulimPark(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white.withOpacity(0.7)),
@@ -296,7 +296,7 @@ class _VideoWidgetState extends State<VideoWidget>
                                   Text(
                                     widget.video.commentCount.toString(),
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.kulimPark(
+                                    style: GoogleFonts.quicksand(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white.withOpacity(0.7),
@@ -391,7 +391,7 @@ class _VideoWidgetState extends State<VideoWidget>
         padding: const EdgeInsets.all(5.0),
         child: Text(
           university,
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
@@ -427,7 +427,7 @@ class _VideoWidgetState extends State<VideoWidget>
                       ? 'You'
                       : '@' +
                           widget.video.name.replaceAll(" ", '').toLowerCase(),
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
@@ -439,7 +439,7 @@ class _VideoWidgetState extends State<VideoWidget>
                     : widget.video.university == "YorkU"
                         ? "York University"
                         : "Western University",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
                     color: Colors.white),
@@ -469,7 +469,7 @@ class _VideoWidgetState extends State<VideoWidget>
         Text(widget.video.caption,
             maxLines: 8,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)),
@@ -489,7 +489,7 @@ class _VideoWidgetState extends State<VideoWidget>
                 size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.likeCount.toString(),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white)),
@@ -497,7 +497,7 @@ class _VideoWidgetState extends State<VideoWidget>
             Icon(AntDesign.message1, color: Colors.white, size: 15.0),
             SizedBox(width: 10.0),
             Text(widget.video.commentCount.toString(),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white))
@@ -630,14 +630,14 @@ class _VideoWidgetState extends State<VideoWidget>
     final act = CupertinoActionSheet(
         title: Text(
           'Delete',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to delete this video?',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -646,7 +646,7 @@ class _VideoWidgetState extends State<VideoWidget>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -658,7 +658,7 @@ class _VideoWidgetState extends State<VideoWidget>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -675,14 +675,14 @@ class _VideoWidgetState extends State<VideoWidget>
     final act = CupertinoActionSheet(
       title: Text(
         "REPORT",
-        style: GoogleFonts.kulimPark(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       message: Text(
         "What is the issue?",
-        style: GoogleFonts.kulimPark(
+        style: GoogleFonts.quicksand(
             fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
@@ -691,7 +691,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It's suspicious or spam",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -703,7 +703,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It's abusive or harmful",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -715,7 +715,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It expresses intentions of self-harm or suicide",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -727,7 +727,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "It promotes sexual/inappropriate content",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -793,7 +793,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "Block this user",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -801,14 +801,14 @@ class _VideoWidgetState extends State<VideoWidget>
               final act = CupertinoActionSheet(
                 title: Text(
                   "PROCEED?",
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
                 ),
                 message: Text(
                   "Are you sure you want to block this user?",
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -817,7 +817,7 @@ class _VideoWidgetState extends State<VideoWidget>
                   CupertinoActionSheetAction(
                       child: Text(
                         "YES",
-                        style: GoogleFonts.kulimPark(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
@@ -829,7 +829,7 @@ class _VideoWidgetState extends State<VideoWidget>
                   CupertinoActionSheetAction(
                       child: Text(
                         "Cancel",
-                        style: GoogleFonts.kulimPark(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.red),
@@ -845,7 +845,7 @@ class _VideoWidgetState extends State<VideoWidget>
         CupertinoActionSheetAction(
             child: Text(
               "Cancel",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13, fontWeight: FontWeight.w500, color: Colors.red),
             ),
             onPressed: () {
@@ -862,7 +862,7 @@ class _VideoWidgetState extends State<VideoWidget>
         backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
           'Your report has been received.',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),

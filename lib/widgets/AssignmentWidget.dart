@@ -96,7 +96,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                           widget.assignment.userId
                                       ? 'You'
                                       : widget.assignment.createdBy),
-                              style: GoogleFonts.kulimPark(
+                              style: GoogleFonts.quicksand(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).accentColor),
@@ -123,7 +123,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                   final act = CupertinoActionSheet(
                                       title: Text(
                                         'Delete',
-                                        style: GoogleFonts.kulimPark(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -131,7 +131,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                       ),
                                       message: Text(
                                         'Are you sure you want to delete this?',
-                                        style: GoogleFonts.kulimPark(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -141,7 +141,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                         CupertinoActionSheetAction(
                                             child: Text(
                                               "YES",
-                                              style: GoogleFonts.kulimPark(
+                                              style: GoogleFonts.quicksand(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
@@ -154,7 +154,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                                         CupertinoActionSheetAction(
                                             child: Text(
                                               "Cancel",
-                                              style: GoogleFonts.kulimPark(
+                                              style: GoogleFonts.quicksand(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.red),
@@ -175,7 +175,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                         Divider(),
                         Text(
                           widget.assignment.title,
-                          style: GoogleFonts.kulimPark(
+                          style: GoogleFonts.quicksand(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -183,7 +183,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                         Divider(),
                         Text(
                           widget.assignment.description,
-                          style: GoogleFonts.kulimPark(
+                          style: GoogleFonts.quicksand(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).accentColor),
@@ -198,7 +198,7 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
                         children: <Widget>[
                           Text(
                             "Due: " + widget.assignment.timeDue,
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),

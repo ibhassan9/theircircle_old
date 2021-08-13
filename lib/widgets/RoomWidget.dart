@@ -77,7 +77,7 @@ class _RoomWidgetState extends State<RoomWidget> {
       //                             color: Colors.white, size: 15.0),
       //                         Text(
       //                           widget.room.memberCount.toString(),
-      //                           style: GoogleFonts.kulimPark(
+      //                           style: GoogleFonts.quicksand(
       //                               fontSize: 13,
       //                               fontWeight: FontWeight.w500,
       //                               color: Colors.white),
@@ -127,7 +127,7 @@ class _RoomWidgetState extends State<RoomWidget> {
       //                                 ? '🔒 • ${widget.room.name}'
       //                                 : widget.room.name,
       //                             maxLines: 2,
-      //                             style: GoogleFonts.kulimPark(
+      //                             style: GoogleFonts.quicksand(
       //                                 fontSize: 16,
       //                                 fontWeight: FontWeight.w700,
       //                                 color: Theme.of(context).accentColor),
@@ -137,7 +137,7 @@ class _RoomWidgetState extends State<RoomWidget> {
       //                     ),
       //                     Text(
       //                       "🗣️ " + widget.room.description,
-      //                       style: GoogleFonts.kulimPark(
+      //                       style: GoogleFonts.quicksand(
       //                           fontSize: 14,
       //                           fontWeight: FontWeight.w500,
       //                           color: Theme.of(context).accentColor),
@@ -149,7 +149,7 @@ class _RoomWidgetState extends State<RoomWidget> {
       //                 SizedBox(height: 5.0),
       //                 Text(
       //                   "Current Members:",
-      //                   style: GoogleFonts.kulimPark(
+      //                   style: GoogleFonts.quicksand(
       //                       fontSize: 14,
       //                       fontWeight: FontWeight.w500,
       //                       color: Theme.of(context).accentColor),
@@ -162,7 +162,7 @@ class _RoomWidgetState extends State<RoomWidget> {
       //                 ),
       //                 SizedBox(height: 5.0),
       //                 Text(widget.room.memberCount.toString() + " student(s)",
-      //                     style: GoogleFonts.kulimPark(
+      //                     style: GoogleFonts.quicksand(
       //                         fontSize: 14,
       //                         fontWeight: FontWeight.w500,
       //                         color: color)),
@@ -248,14 +248,14 @@ class _RoomWidgetState extends State<RoomWidget> {
                         ? '🔒 • ${widget.room.name}'
                         : widget.room.name,
                     maxLines: 1,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).accentColor),
                   ),
                   Text(
                     widget.room.description,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -306,7 +306,7 @@ class _RoomWidgetState extends State<RoomWidget> {
                   (widget.room.memberCount - 5).toString() +
                   ' other students'
               : '',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Theme.of(context).buttonColor.withOpacity(0.9)),
@@ -338,7 +338,7 @@ class _RoomWidgetState extends State<RoomWidget> {
               member.id == FirebaseAuth.instance.currentUser.uid
                   ? 'You'
                   : member.name,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor)),

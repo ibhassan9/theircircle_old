@@ -36,14 +36,14 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                 ? "Hello $name,"
                                 : "Hello,"
                             : "Hello,",
-                        style: GoogleFonts.kulimPark(
+                        style: GoogleFonts.quicksand(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),
                       ),
                       Text(
                         "Here is your university digest",
-                        style: GoogleFonts.kulimPark(
+                        style: GoogleFonts.quicksand(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).accentColor),

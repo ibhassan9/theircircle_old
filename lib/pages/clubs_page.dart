@@ -49,7 +49,7 @@ class _ClubsPageState extends State<ClubsPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Create a Virtual Community",
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -70,7 +70,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Ex. Football Society"),
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -87,7 +87,7 @@ class _ClubsPageState extends State<ClubsPage>
                       contentPadding: EdgeInsets.only(
                           left: 10, bottom: 11, top: 11, right: 15),
                       hintText: "Describe your community here..."),
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -101,7 +101,7 @@ class _ClubsPageState extends State<ClubsPage>
                         Text(
                             "Privacy " +
                                 (switchVal == true ? "(Private)" : "(Public)"),
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor)),
@@ -209,12 +209,12 @@ class _ClubsPageState extends State<ClubsPage>
                               contentPadding: EdgeInsets.only(
                                   left: 10, bottom: 11, top: 11, right: 15),
                               hintText: "Search Clubs...",
-                              hintStyle: GoogleFonts.kulimPark(
+                              hintStyle: GoogleFonts.quicksand(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).accentColor),
                             ),
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -345,7 +345,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       SizedBox(width: 10),
                                       Text(
                                         "Cannot find any clubs :(",
-                                        style: GoogleFonts.kulimPark(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -371,7 +371,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     SizedBox(width: 10),
                                     Text(
                                       "There are no clubs :(",
-                                      style: GoogleFonts.kulimPark(
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Theme.of(context).accentColor),
@@ -452,7 +452,7 @@ class _ClubsPageState extends State<ClubsPage>
                                     SizedBox(width: 10.0),
                                     Text(
                                       'Featured Club',
-                                      style: GoogleFonts.kulimPark(
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white),
@@ -510,7 +510,7 @@ class _ClubsPageState extends State<ClubsPage>
                                       : _oneHealingSpace.inClub
                                           ? 'Leave Community'
                                           : 'Join Community',
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white),

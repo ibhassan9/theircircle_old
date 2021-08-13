@@ -62,45 +62,45 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2030, 3, 14),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.kulimPark(
+        weekdayStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
-        weekendStyle: GoogleFonts.kulimPark(
+        weekendStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.kulimPark(
+        titleTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        formatButtonTextStyle: GoogleFonts.kulimPark(
+        formatButtonTextStyle: GoogleFonts.quicksand(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       calendarStyle: CalendarStyle(
-        defaultTextStyle: GoogleFonts.kulimPark(
+        defaultTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        weekendTextStyle: GoogleFonts.kulimPark(
+        weekendTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        holidayTextStyle: GoogleFonts.kulimPark(
+        holidayTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        outsideTextStyle: GoogleFonts.kulimPark(
+        outsideTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        selectedTextStyle: GoogleFonts.kulimPark(
+        selectedTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        todayTextStyle: GoogleFonts.kulimPark(
+        todayTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        disabledTextStyle: GoogleFonts.kulimPark(
+        disabledTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );
@@ -116,7 +116,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "${widget.course != null ? 'Date:' : 'Date:'} ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -135,7 +135,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     hintText: widget.course != null
                         ? "Title. Eg: Study session"
                         : "Title. Eg: Lunch meeting"),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -153,7 +153,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                     hintText: widget.course != null
                         ? "Description..."
                         : "Description..."),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -170,7 +170,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText:
                         widget.course != null ? "When is it?" : "When is it?"),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -231,7 +231,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
           widget.course != null
               ? "${widget.course.code} Calendar"
               : "${widget.club.name} Calendar",
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -265,7 +265,7 @@ class _CourseCalendarPage extends State<CourseCalendarPage> {
                               ? "Create note for ${widget.course.code}"
                               : "Create note for ${widget.club.name}",
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.kulimPark(
+                          style: GoogleFonts.quicksand(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                               color: Colors.white),

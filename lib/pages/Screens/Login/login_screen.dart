@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(
               'Welcome Back!',
               textAlign: TextAlign.center,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 40,
                   fontWeight: FontWeight.w900,
                   color: Theme.of(context).accentColor),
@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(
               'Please sign in below.',
               textAlign: TextAlign.center,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(
               'Email Address',
               textAlign: TextAlign.center,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -67,13 +67,13 @@ class _LoginScreenState extends State<LoginScreen> {
               autofocus: true,
               controller: emailController,
               textInputAction: TextInputAction.next,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
               decoration: InputDecoration(
                 hintText: 'example@institute.ca',
-                hintStyle: GoogleFonts.kulimPark(
+                hintStyle: GoogleFonts.quicksand(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),
@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(
               'Password',
               textAlign: TextAlign.center,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).buttonColor),
@@ -92,13 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: passwordcontroller,
               obscureText: true,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
               decoration: InputDecoration(
                 hintText: '• • • • • • • • •',
-                hintStyle: GoogleFonts.kulimPark(
+                hintStyle: GoogleFonts.quicksand(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).buttonColor),

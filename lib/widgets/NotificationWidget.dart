@@ -68,7 +68,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   name,
                                   maxLines: null,
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w700,
                                       color: Theme.of(context).accentColor),
@@ -76,7 +76,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   ' • ',
                                   maxLines: 1,
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
@@ -90,7 +90,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                           locale: 'en_short')
                                       .replaceAll('~', ''),
                                   maxLines: null,
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).buttonColor),
@@ -101,7 +101,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                             Text(body,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.kulimPark(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).buttonColor)),
@@ -123,7 +123,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                               child: Text('Respond',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white)),

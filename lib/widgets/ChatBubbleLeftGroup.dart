@@ -74,7 +74,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                 const EdgeInsets.only(top: 5.0, bottom: 3.0),
                             child: Text(
                               user.name.split(' ').first,
-                              style: GoogleFonts.kulimPark(
+                              style: GoogleFonts.quicksand(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: color),
@@ -154,7 +154,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                             children: [
                                               Text(
                                                 widget.msg.messageText,
-                                                style: GoogleFonts.kulimPark(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)
@@ -173,7 +173,7 @@ class _ChatBubbleLeftGroupState extends State<ChatBubbleLeftGroup> {
                                           children: [
                                             Text(
                                               widget.msg.messageText,
-                                              style: GoogleFonts.kulimPark(
+                                              style: GoogleFonts.quicksand(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)

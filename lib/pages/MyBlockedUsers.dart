@@ -18,7 +18,7 @@ class _MyBlockedUsersState extends State<MyBlockedUsers> {
             elevation: 0.5,
             title: Text(
               'Blocked Users',
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),

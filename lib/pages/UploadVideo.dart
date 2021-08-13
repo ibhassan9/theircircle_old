@@ -49,7 +49,7 @@ class _UploadVideoState extends State<UploadVideo> {
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           'Create',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -77,7 +77,7 @@ class _UploadVideoState extends State<UploadVideo> {
             SizedBox(width: 10.0),
             Text(
               'Allow comments',
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -198,7 +198,7 @@ class _UploadVideoState extends State<UploadVideo> {
                     ))
                 : Text(
                     'PUBLISH',
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
@@ -263,7 +263,7 @@ class _UploadVideoState extends State<UploadVideo> {
             contentPadding:
                 EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 15),
             hintText: 'Describe your video'),
-        style: GoogleFonts.kulimPark(
+        style: GoogleFonts.quicksand(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),

@@ -73,7 +73,7 @@ class _TodaysQuestionWidgetState extends State<TodaysQuestionWidget> {
               SizedBox(width: 15.0),
               Text(
                 "We've got a question for you!",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),

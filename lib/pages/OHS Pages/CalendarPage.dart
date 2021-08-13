@@ -63,45 +63,45 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
 
       focusedDay: dateTimeSelected,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.kulimPark(
+        weekdayStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
-        weekendStyle: GoogleFonts.kulimPark(
+        weekendStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.kulimPark(
+        titleTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        formatButtonTextStyle: GoogleFonts.kulimPark(
+        formatButtonTextStyle: GoogleFonts.quicksand(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
       ),
       calendarStyle: CalendarStyle(
-        defaultTextStyle: GoogleFonts.kulimPark(
+        defaultTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        weekendTextStyle: GoogleFonts.kulimPark(
+        weekendTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        holidayTextStyle: GoogleFonts.kulimPark(
+        holidayTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        outsideTextStyle: GoogleFonts.kulimPark(
+        outsideTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        selectedTextStyle: GoogleFonts.kulimPark(
+        selectedTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        todayTextStyle: GoogleFonts.kulimPark(
+        todayTextStyle: GoogleFonts.quicksand(
             fontSize: 17,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).accentColor),
-        disabledTextStyle: GoogleFonts.kulimPark(
+        disabledTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );
@@ -117,7 +117,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Date: ${dateTimeSelected.year} ${dateTimeSelected.month} ${dateTimeSelected.day}",
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).accentColor),
@@ -134,7 +134,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Title. Eg: Weekly seminar"),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -150,7 +150,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "Description..."),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -166,7 +166,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: "When is it?"),
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -223,7 +223,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
         brightness: Theme.of(context).brightness,
         title: Text(
           "${widget.club.name} Calendar",
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -257,7 +257,7 @@ class _OHSCalendarPage extends State<OHSCalendarPage> {
                           Text(
                             "Create reminder for ${widget.club.name}",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),

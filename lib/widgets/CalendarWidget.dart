@@ -12,6 +12,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   Widget build(BuildContext context) {
     TableCalendar tCalendar = TableCalendar(
+      focusedDay: dateTimeSelected,
+      firstDay: DateTime.utc(2010, 10, 16),
+      lastDay: DateTime.utc(2030, 3, 14),
       availableCalendarFormats: {CalendarFormat.week: 'Week'},
       onDaySelected: (dt, lst) async {
         setState(() {
@@ -20,31 +23,31 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         //var assignments = await fetchAllMyAssignments(dt);
       },
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: GoogleFonts.kulimPark(
+        weekdayStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.lightBlue),
-        weekendStyle: GoogleFonts.kulimPark(
+        weekendStyle: GoogleFonts.quicksand(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.red),
       ),
       headerStyle: HeaderStyle(
-        titleTextStyle: GoogleFonts.kulimPark(
+        titleTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        formatButtonTextStyle: GoogleFonts.kulimPark(
+        formatButtonTextStyle: GoogleFonts.quicksand(
             fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
       ),
       calendarStyle: CalendarStyle(
-        defaultTextStyle: GoogleFonts.kulimPark(
+        defaultTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        weekendTextStyle: GoogleFonts.kulimPark(
+        weekendTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        holidayTextStyle: GoogleFonts.kulimPark(
+        holidayTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        outsideTextStyle: GoogleFonts.kulimPark(
+        outsideTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        selectedTextStyle: GoogleFonts.kulimPark(
+        selectedTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
-        todayTextStyle: GoogleFonts.kulimPark(
+        todayTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.black),
-        disabledTextStyle: GoogleFonts.kulimPark(
+        disabledTextStyle: GoogleFonts.quicksand(
             fontSize: 17, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
     );
@@ -57,7 +60,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           tCalendar,
           SizedBox(height: 10.0),
           Text("Nothing to show here...",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.black)),

@@ -54,7 +54,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                               const EdgeInsets.only(top: 10.0, bottom: 3.0),
                           child: Text(
                             'You',
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: color),
@@ -128,7 +128,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                                       .all(8.0),
                                                               child: Text(
                                                                 'Listing not available',
-                                                                style: GoogleFonts.kulimPark(
+                                                                style: GoogleFonts.quicksand(
                                                                     fontSize:
                                                                         13,
                                                                     fontWeight:
@@ -214,7 +214,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                                               1,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.kulimPark(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 15,
                                                                               fontWeight: FontWeight.w700,
                                                                               color: Colors.black),
@@ -222,7 +222,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                                         // Text(
                                                                         //   r'$ ' + prod.price,
                                                                         //   style: GoogleFonts.lexendDeca(
-                                                                        //     textStyle: GoogleFonts. inter(
+                                                                        //     TextStyle: GoogleFonts. inter(
                                                                         //         fontSize: 13,
                                                                         //         fontWeight: FontWeight.w500,
                                                                         //         color: Colors.black),
@@ -234,7 +234,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                                               2,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.kulimPark(
+                                                                          style: GoogleFonts.quicksand(
                                                                               fontSize: 12,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Colors.black),
@@ -256,7 +256,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                                   Text(
                                                     widget.msg.messageText,
                                                     style:
-                                                        GoogleFonts.kulimPark(
+                                                        GoogleFonts.quicksand(
                                                             fontSize: 15,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -295,7 +295,7 @@ class _ChatBubbleRightState extends State<ChatBubbleRight> {
                                             children: [
                                               Text(
                                                 widget.msg.messageText,
-                                                style: GoogleFonts.kulimPark(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Theme.of(context)

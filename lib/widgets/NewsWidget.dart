@@ -22,7 +22,7 @@ class _NewsWidgetState extends State<NewsWidget>
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: const EdgeInsets.only(left: 3.0, top: 0.0),
+      padding: const EdgeInsets.only(left: 0.0, top: 0.0, right: 0.0),
       child: imgUrl != null
           ? ClipRRect(
               borderRadius: BorderRadius.circular(5.0),
@@ -56,6 +56,11 @@ class _NewsWidgetState extends State<NewsWidget>
                             fit: BoxFit.cover,
                           )
                         : Container(),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      color: Colors.black.withOpacity(0.2),
+                    ),
                     Positioned(
                       bottom: 0,
                       right: 0,
@@ -89,9 +94,9 @@ class _NewsWidgetState extends State<NewsWidget>
                                 child: Text(
                                   widget.news.title
                                       .replaceAll('             ', ' '),
-                                  maxLines: 5,
+                                  maxLines: 6,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,

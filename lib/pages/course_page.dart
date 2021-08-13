@@ -42,14 +42,14 @@ class _CoursePageState extends State<CoursePage> {
             children: [
               Text(
                 widget.course.code,
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
               Text(
                 widget.course.name,
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
@@ -103,7 +103,7 @@ class _CoursePageState extends State<CoursePage> {
                       Icon(Feather.users, color: Colors.white, size: 20.0),
                       SizedBox(width: 5.0),
                       Text(widget.course.memberCount.toString(),
-                          style: GoogleFonts.kulimPark(
+                          style: GoogleFonts.quicksand(
                               color: Colors.white, fontWeight: FontWeight.bold))
                     ],
                   ),
@@ -161,7 +161,7 @@ class _CoursePageState extends State<CoursePage> {
                                   color: Colors.white, size: 20.0),
                               SizedBox(width: 5.0),
                               Text('View Shared Calendar',
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500))
                             ],
@@ -205,7 +205,7 @@ class _CoursePageState extends State<CoursePage> {
                                       child: Text(
                                         "Showing: ${sortBy == 0 ? 'Recent' : 'You first'}"
                                             .toUpperCase(),
-                                        style: GoogleFonts.kulimPark(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w800,
                                             color: Colors.grey.shade600),
@@ -339,7 +339,7 @@ class _CoursePageState extends State<CoursePage> {
                                                 SizedBox(width: 10),
                                                 Text(
                                                   "There are no posts :(",
-                                                  style: GoogleFonts.kulimPark(
+                                                  style: GoogleFonts.quicksand(
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.w500,

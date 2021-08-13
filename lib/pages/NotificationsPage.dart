@@ -93,7 +93,7 @@ class _NotificationsPageState extends State<NotificationsPage>
           child: Text(
             title,
             maxLines: null,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).buttonColor.withOpacity(0.7)),
@@ -114,7 +114,7 @@ class _NotificationsPageState extends State<NotificationsPage>
       iconTheme: IconThemeData(color: Theme.of(context).accentColor),
       title: Text(
         "Activity",
-        style: GoogleFonts.kulimPark(
+        style: GoogleFonts.quicksand(
             fontSize: 15,
             fontWeight: FontWeight.w700,
             color: Theme.of(context).accentColor),

@@ -44,7 +44,7 @@ class _VerificationPageState extends State<VerificationPage> {
               child: Center(
                 child: Text(
                   "I have verified! Sign in.",
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
@@ -61,7 +61,7 @@ class _VerificationPageState extends State<VerificationPage> {
               Text(
                 'Almost There!',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 40,
                     fontWeight: FontWeight.w900,
                     color: Theme.of(context).accentColor),
@@ -69,7 +69,7 @@ class _VerificationPageState extends State<VerificationPage> {
               Text(
                 'We have sent an email to ${widget.email}. Please verify it to finish creating your account!',
                 textAlign: TextAlign.left,
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).buttonColor),
@@ -85,7 +85,7 @@ class _VerificationPageState extends State<VerificationPage> {
     // final snackBar = SnackBar(
     //     content: Text('Sorry! The code is wrong please try again.',
     //         style: GoogleFonts.lexendDeca(
-    //           textStyle: GoogleFonts. inter(
+    //           TextStyle: GoogleFonts. inter(
     //               fontSize: 15,
     //               fontWeight: FontWeight.w500,
     //               color: Colors.white),

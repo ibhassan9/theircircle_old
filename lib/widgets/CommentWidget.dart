@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:unify/Components/Constants.dart';
 import 'package:unify/Models/comment.dart';
 import 'package:unify/Models/user.dart' as u;
 import 'package:unify/pages/DB.dart';
@@ -32,6 +33,7 @@ class CommentWidget extends StatefulWidget {
 
 class _CommentWidgetState extends State<CommentWidget> {
   String imgUrl;
+  Color color1, color2;
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -49,14 +51,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                   final act = CupertinoActionSheet(
                     title: Text(
                       "PROCEED?",
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
                     ),
                     message: Text(
                       "Are you sure you want to delete this comment?",
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -65,7 +67,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "YES",
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -76,7 +78,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "Cancel",
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.red),
@@ -100,14 +102,27 @@ class _CommentWidgetState extends State<CommentWidget> {
             Align(
               alignment: Alignment.centerLeft,
               child: imgUrl == null || imgUrl == ''
-                  ? CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.grey[300],
-                      child: Text(widget.comment.username.substring(0, 1),
-                          style: GoogleFonts.kulimPark(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black)))
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                color1,
+                                color2,
+                              ])),
+                          child: Center(
+                            child: Text(widget.comment.username.substring(0, 1),
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white)),
+                          )),
+                    )
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: CachedNetworkImage(
@@ -153,9 +168,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                                     widget.comment.userId == FIR_UID
                                         ? "You"
                                         : widget.comment.username,
-                                    style: GoogleFonts.kulimPark(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 12,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w700,
                                         color: widget.comment.userId == FIR_UID
                                             ? Theme.of(context).accentColor
                                             : Theme.of(context).accentColor),
@@ -169,7 +184,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                               child: Text(
                                 widget.comment.content,
                                 maxLines: null,
-                                style: GoogleFonts.kulimPark(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -185,7 +200,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         children: [
                           Text(
                             widget.timeAgo,
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context)
@@ -196,7 +211,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                             visible: widget.isVideo == false,
                             child: Text(
                               ' • ',
-                              style: GoogleFonts.kulimPark(
+                              style: GoogleFonts.quicksand(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context)
@@ -212,7 +227,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                               },
                               child: Text(
                                 'Reply',
-                                style: GoogleFonts.kulimPark(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context)
@@ -239,7 +254,8 @@ class _CommentWidgetState extends State<CommentWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('this is uni');
+    color1 = Constants.color();
+    color2 = Constants.color();
     if (widget.comment.university != null) {
       u
           .getUserWithUniversity(

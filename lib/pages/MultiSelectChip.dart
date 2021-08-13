@@ -29,7 +29,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
             backgroundColor: Colors.grey[300],
             label: Text(
               key,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: selectedChoices.contains(key)
@@ -67,7 +67,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
               backgroundColor: Colors.grey[300],
               label: Text(
                 key,
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                     color: selectedChoices.contains(key)
@@ -117,7 +117,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
         ),
         title: Text(
           title,
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -142,12 +142,12 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
                 contentPadding:
                     EdgeInsets.only(left: 0, bottom: 11, top: 11, right: 0),
                 hintText: "Search overpassests",
-                hintStyle: GoogleFonts.kulimPark(
+                hintStyle: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),

@@ -23,7 +23,7 @@ class BlockedUserWidget extends StatelessWidget {
                     ? CircleAvatar(
                         backgroundColor: Colors.blue,
                         child: Text(user.name.substring(0, 1),
-                            style: GoogleFonts.kulimPark(color: Colors.white)))
+                            style: GoogleFonts.quicksand(color: Colors.white)))
                     : Hero(
                         tag: user.id,
                         child: ClipRRect(
@@ -57,7 +57,7 @@ class BlockedUserWidget extends StatelessWidget {
                 SizedBox(width: 5.0),
                 Text(
                   user.name,
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: Theme.of(context).accentColor),
@@ -77,7 +77,7 @@ class BlockedUserWidget extends StatelessWidget {
                   child: Center(
                       child: Text(
                     'Unblock',
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: Colors.white),

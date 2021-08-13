@@ -97,7 +97,7 @@ Future signInUser(
           backgroundColor: Colors.pink,
           content: Text(
             'This account is temporarily banned.',
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
           ));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -170,7 +170,7 @@ Future signInUser(
         backgroundColor: Colors.pink,
         content: Text(
           errString,
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
         ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -202,7 +202,7 @@ Future registerUser(
         backgroundColor: Colors.pink,
         content: Text(
           'Please use your university email to sign up.',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
         ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -244,7 +244,7 @@ Future registerUser(
         backgroundColor: Colors.pink,
         content: Text(
           errString,
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
         ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

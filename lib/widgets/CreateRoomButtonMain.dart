@@ -15,7 +15,7 @@ class CreateRoomButtonMain extends StatefulWidget {
 class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
+      padding: const EdgeInsets.only(left: 0.0),
       child: InkWell(
         onTap: () async {
           Navigator.push(context,
@@ -27,42 +27,29 @@ class _CreateRoomButtonMainState extends State<CreateRoomButtonMain> {
         },
         child: Column(
           children: [
-            Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                      height: 100,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: Theme.of(context).buttonColor.withOpacity(0.15),
-                        // border: Border.all(
-                        //     color:
-                        //         Theme.of(context).buttonColor.withOpacity(0.1),
-                        //     width: 2.0)
-                      ),
-                      child: Icon(FlutterIcons.add_mdi,
-                          color: Theme.of(context).accentColor)),
-                ),
-                Positioned(
-                  top: 0.0,
-                  right: 0,
-                  child: CircleAvatar(
-                    radius: 7.0,
-                    backgroundColor: Colors.transparent,
-                    child: SizedBox(height: 30, width: 30, child: Container()),
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Container(
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).buttonColor.withOpacity(0.15),
+                    // border: Border.all(
+                    //     color:
+                    //         Theme.of(context).buttonColor.withOpacity(0.1),
+                    //     width: 2.0)
                   ),
-                )
-              ],
+                  child: Icon(FlutterIcons.add_mdi,
+                      color: Theme.of(context).accentColor)),
             ),
             SizedBox(height: 5.0),
             Container(
-              width: 60,
+              width: 70,
               child: Center(
                 child: Text('Create',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14.0, fontWeight: FontWeight.w600),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis),

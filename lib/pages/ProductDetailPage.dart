@@ -51,7 +51,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   final act = CupertinoActionSheet(
                     title: Text(
                       "What's wrong with this listing?",
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).accentColor),
@@ -60,7 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It's suspicious or spam",
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -72,7 +72,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It's abusive or harmful",
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -84,7 +84,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It expresses intentions of self-harm or suicide",
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -96,7 +96,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       CupertinoActionSheetAction(
                           child: Text(
                             "It promotes sexual/inappropriate content",
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -122,7 +122,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ],
         title: Text(
           '',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -188,7 +188,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             FirebaseAuth.instance.currentUser.uid
                         ? 'Listed by you'
                         : 'Listed by ' + widget.prod.sellerName,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -204,7 +204,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         new DateTime.fromMillisecondsSinceEpoch(
                             widget.prod.timeStamp),
                         locale: 'en_short'),
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -219,7 +219,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Text(
             widget.prod.title,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -229,7 +229,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 15.0),
           child: Text(
             r'$' + widget.prod.price,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),
@@ -303,7 +303,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               FirebaseAuth.instance.currentUser.uid
                           ? 'Remove Listing'
                           : 'Contact Seller',
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -322,7 +322,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
           child: Text(
             'Description',
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).accentColor),
@@ -332,7 +332,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Text(
             widget.prod.description,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor),

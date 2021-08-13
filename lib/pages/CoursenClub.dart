@@ -33,7 +33,7 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Rooms",
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: selected == 0
@@ -70,7 +70,7 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Communities",
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: selected == 1
@@ -107,7 +107,7 @@ class _CoursenClubState extends State<CoursenClub> {
                 children: [
                   Text(
                     "Courses",
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: selected == 2

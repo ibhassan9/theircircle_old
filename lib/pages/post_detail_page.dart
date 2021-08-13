@@ -120,7 +120,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                               backgroundColor: Colors.grey[300],
                                               child: Text(
                                                   s.name.substring(0, 1),
-                                                  style: GoogleFonts.kulimPark(
+                                                  style: GoogleFonts.quicksand(
                                                       fontSize: 13,
                                                       color: Colors.black)))
                                           : ClipRRect(
@@ -136,7 +136,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                       SizedBox(width: 5.0),
                                       Text(
                                         s.name,
-                                        style: GoogleFonts.kulimPark(
+                                        style: GoogleFonts.quicksand(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color:
@@ -186,7 +186,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         contentPadding: EdgeInsets.only(
                             left: 15, bottom: 11, top: 11, right: 15),
                         hintText: "Comment Here"),
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -422,8 +422,15 @@ class _PostDetailPageState extends State<PostDetailPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        centerTitle: false,
-        title: userBar(),
+        centerTitle: true,
+        title: Text(
+          'Comments',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.quicksand(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).accentColor),
+        ),
         titleSpacing: 0.0,
         leadingWidth: 30.0,
         // title: Text(
@@ -574,7 +581,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 SizedBox(width: 10),
                                 Text(
                                   "There are no comments :(",
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor),
@@ -600,7 +607,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   child: Text(
                     "Commenting is disabled for different universities",
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).accentColor),
@@ -709,7 +716,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 : widget.post.username
                                     .trim()
                                     .replaceFirst(' ', '\n'),
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: widget.post.userId == FIR_UID
@@ -718,7 +725,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ),
                   Text(
                     " • ${widget.timeAgo}",
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).buttonColor),
@@ -758,7 +765,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ? Text(
                       'is feeling ${widget.post.feeling.toLowerCase()} ' +
                           Constants.feelings[widget.post.feeling],
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: color,

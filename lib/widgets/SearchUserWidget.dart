@@ -75,7 +75,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                 widget.peer.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.kulimPark(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor),
@@ -88,7 +88,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                     : "No bio available.",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.kulimPark(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).buttonColor),
@@ -124,7 +124,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                               const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
                           child: Text(
                             '👋 Send message',
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Theme.of(context).accentColor),

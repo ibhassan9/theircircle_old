@@ -38,14 +38,14 @@ class _MatchPageState extends State<MatchPage>
           children: [
             Text(
               "Network",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
             ),
             Text(
               "Expand your horizon",
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).accentColor),
@@ -181,7 +181,7 @@ class _MatchPageState extends State<MatchPage>
                                 SizedBox(height: 10.0),
                                 Text(
                                   'The feed is empty now! Come back later.',
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor),
@@ -198,7 +198,7 @@ class _MatchPageState extends State<MatchPage>
                                 SizedBox(height: 10.0),
                                 Text(
                                   'The feed is empty now! Come back later.',
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor),

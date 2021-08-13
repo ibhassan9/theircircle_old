@@ -56,7 +56,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       'Note: This will be a public post',
                       textAlign: TextAlign.center,
                       maxLines: null,
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -70,7 +70,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       widget.question,
                       textAlign: TextAlign.center,
                       maxLines: null,
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
@@ -90,7 +90,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                       decoration: new InputDecoration(
                           suffix: Text(
                             clength.toString(),
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 color: clength < 0 ? Colors.red : Colors.white),
                           ),
                           border: InputBorder.none,
@@ -100,12 +100,12 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           disabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
                               left: 15, bottom: 11, top: 11, right: 15),
-                          hintStyle: GoogleFonts.kulimPark(
+                          hintStyle: GoogleFonts.quicksand(
                               fontSize: 17,
                               fontWeight: FontWeight.w400,
                               color: Colors.white),
                           hintText: title),
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: Colors.white),
@@ -127,7 +127,7 @@ class _TodaysQuestionPageState extends State<TodaysQuestionPage> {
                           Text(
                             'Post Anonymously',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white),

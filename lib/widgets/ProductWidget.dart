@@ -70,7 +70,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                               locale: 'en_short'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -100,7 +100,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             widget.prod.title + r' • $' + widget.prod.price,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).accentColor),
@@ -109,7 +109,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             widget.prod.description,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.kulimPark(
+            style: GoogleFonts.quicksand(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).accentColor.withOpacity(0.5)),

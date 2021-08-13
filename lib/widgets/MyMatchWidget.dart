@@ -64,7 +64,7 @@ class _MyMatchWidgetState extends State<MyMatchWidget> {
             SizedBox(height: 5.0),
             Text(
               widget.user.name.split(' ')[0],
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: Colors.black),

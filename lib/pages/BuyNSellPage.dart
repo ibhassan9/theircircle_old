@@ -39,7 +39,7 @@ class _BuyNSellState extends State<BuyNSell>
         iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         title: Text(
           "Store",
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).accentColor),
@@ -159,11 +159,11 @@ class _BuyNSellState extends State<BuyNSell>
                                 contentPadding: EdgeInsets.only(
                                     left: 0, bottom: 0, top: 0, right: 15),
                                 hintText: "Search Products...",
-                                hintStyle: GoogleFonts.kulimPark(
+                                hintStyle: GoogleFonts.quicksand(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).accentColor)),
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).accentColor),
@@ -186,7 +186,7 @@ class _BuyNSellState extends State<BuyNSell>
                           child: Text(
                             "Sell or drive with Theircart",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.kulimPark(
+                            style: GoogleFonts.quicksand(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
@@ -243,7 +243,7 @@ class _BuyNSellState extends State<BuyNSell>
                                 )
                               : Center(
                                   child: Text('Nothing to see here :(',
-                                      style: GoogleFonts.kulimPark(
+                                      style: GoogleFonts.quicksand(
                                           color: Theme.of(context).accentColor,
                                           fontWeight: FontWeight.w500)))
                           : Center(

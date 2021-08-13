@@ -59,14 +59,14 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
             final act = CupertinoActionSheet(
               title: Text(
                 "PROCEED?",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
               ),
               message: Text(
                 "Are you sure you want to delete this chat? This will not clear the conversation.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -75,7 +75,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "YES",
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).accentColor),
@@ -87,7 +87,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                 CupertinoActionSheetAction(
                     child: Text(
                       "Cancel",
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.red),
@@ -179,7 +179,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                             children: [
                                               Text(
                                                 widget.peer.name,
-                                                style: GoogleFonts.kulimPark(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w700,
                                                     color: Theme.of(context)
@@ -187,7 +187,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                               ),
                                               Text(
                                                 widget.timeAgo.toUpperCase(),
-                                                style: GoogleFonts.kulimPark(
+                                                style: GoogleFonts.quicksand(
                                                     fontSize: 11,
                                                     fontWeight: FontWeight.w700,
                                                     color: Theme.of(context)
@@ -220,7 +220,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                             right: 5.0),
                                                     child: Text(
                                                       'You:',
-                                                      style: GoogleFonts.kulimPark(
+                                                      style: GoogleFonts.quicksand(
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -240,7 +240,7 @@ class _MyConversationWidgetState extends State<MyConversationWidget>
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: GoogleFonts.kulimPark(
+                                                  style: GoogleFonts.quicksand(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w500,
                                                     color: widget.seen

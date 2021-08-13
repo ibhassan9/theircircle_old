@@ -113,18 +113,28 @@ class _MainPageState extends State<MainPage>
                   //     child: notifications(),
                   //   ),
                   // ),
+                  titleSpacing: 10,
                   title: new Text("Your Feed",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.kulimPark(
+                      style: GoogleFonts.quicksand(
                           color: Theme.of(context).accentColor,
-                          fontSize: 30,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700)),
-                  pinned: false,
+                  pinned: true,
                   floating: true,
                   snap: true,
                   centerTitle: false,
-                  forceElevated: innerBoxIsScrolled,
+                  forceElevated: false,
+                  elevation: 0.5,
                   actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: InkWell(
+                          onTap: () {},
+                          child: Icon(AntDesign.addusergroup,
+                              size: 25.0,
+                              color: Theme.of(context).accentColor)),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: notifications(),
@@ -132,12 +142,12 @@ class _MainPageState extends State<MainPage>
                     Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: InkWell(
-                        onTap: () {
-                          widget.goToChat();
-                        },
-                        child: Icon(LineIcons.commentAlt,
-                            size: 25.0, color: Theme.of(context).accentColor),
-                      ),
+                          onTap: () {
+                            widget.goToChat();
+                          },
+                          child: Icon(FlutterIcons.chat_bubble_outline_mdi,
+                              size: 25.0,
+                              color: Theme.of(context).accentColor)),
                     ),
                   ],
                 ),
@@ -169,42 +179,42 @@ class _MainPageState extends State<MainPage>
                   child: ListView(
                     padding: const EdgeInsets.all(0),
                     children: <Widget>[
-                      promoWidget(),
+                      // promoWidget(),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 8.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color: Theme.of(context)
-                                            .buttonColor
-                                            .withOpacity(0.5))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Icon(LineIcons.campground, size: 15.0),
-                                )),
-                            SizedBox(width: 8.0),
+                            // Container(
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(20.0),
+                            //         border: Border.all(
+                            //             width: 1.0,
+                            //             color: Theme.of(context)
+                            //                 .accentColor
+                            //                 .withOpacity(0.5))),
+                            //     child: Padding(
+                            //       padding: const EdgeInsets.all(6.0),
+                            //       child: Icon(LineIcons.campground, size: 15.0),
+                            //     )),
+                            // SizedBox(width: 8.0),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Live Rooms',
-                                    style: GoogleFonts.kulimPark(
+                                Text('Rooms',
+                                    style: GoogleFonts.quicksand(
                                         height: 0.5,
                                         color: Theme.of(context).accentColor,
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w600)),
                                 SizedBox(height: 5.0),
                                 Text('Tap in to conversate!',
-                                    style: GoogleFonts.kulimPark(
+                                    style: GoogleFonts.quicksand(
                                         height: 1,
-                                        color: Theme.of(context).buttonColor,
-                                        fontSize: 14.0,
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 12.0,
                                         fontWeight: FontWeight.w500)),
                               ],
                             ),
@@ -219,35 +229,35 @@ class _MainPageState extends State<MainPage>
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color: Theme.of(context)
-                                            .buttonColor
-                                            .withOpacity(0.5))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Icon(LineIcons.newspaper, size: 15.0),
-                                )),
-                            SizedBox(width: 8.0),
+                            // Container(
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(20.0),
+                            //         border: Border.all(
+                            //             width: 1.0,
+                            //             color: Theme.of(context)
+                            //                 .accentColor
+                            //                 .withOpacity(0.5))),
+                            //     child: Padding(
+                            //       padding: const EdgeInsets.all(6.0),
+                            //       child: Icon(LineIcons.newspaper, size: 15.0),
+                            //     )),
+                            // SizedBox(width: 8.0),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Latest Articles',
-                                    style: GoogleFonts.kulimPark(
+                                Text('Articles',
+                                    style: GoogleFonts.quicksand(
                                         height: 0.5,
                                         color: Theme.of(context).accentColor,
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w600)),
                                 SizedBox(height: 5.0),
                                 Text('Stay up-to date with current events',
-                                    style: GoogleFonts.kulimPark(
+                                    style: GoogleFonts.quicksand(
                                         height: 1,
-                                        color: Theme.of(context).buttonColor,
-                                        fontSize: 14.0,
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 12.0,
                                         fontWeight: FontWeight.w500)),
                               ],
                             ),
@@ -307,7 +317,7 @@ class _MainPageState extends State<MainPage>
                       //   padding:
                       //       const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 8.0),
                       //   child: Text('Latest Articles',
-                      //       style: GoogleFonts.kulimPark(
+                      //       style: GoogleFonts.quicksand(
                       //           color: Theme.of(context).accentColor,
                       //           fontSize: 17.0,
                       //           fontWeight: FontWeight.bold)),
@@ -335,7 +345,7 @@ class _MainPageState extends State<MainPage>
                                 child: Text(
                                   "SORTING BY: ${sortID == 0 ? 'Recent' : sortID == 1 ? 'You first' : sortID == 2 ? 'Polls' : 'Daily Questions Answered'}"
                                       .toUpperCase(),
-                                  style: GoogleFonts.kulimPark(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w800,
                                       color: Colors.grey.shade600),
@@ -411,7 +421,7 @@ class _MainPageState extends State<MainPage>
             Text(
               'Filter By',
               textAlign: TextAlign.center,
-              style: GoogleFonts.kulimPark(
+              style: GoogleFonts.quicksand(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),
@@ -431,7 +441,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Recents',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -456,7 +466,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Your Posts',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -481,7 +491,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Polls',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -506,7 +516,7 @@ class _MainPageState extends State<MainPage>
                   Text(
                     'Daily Questions Answered',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.kulimPark(
+                    style: GoogleFonts.quicksand(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -525,7 +535,7 @@ class _MainPageState extends State<MainPage>
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
       child: Container(
-          height: 140,
+          height: 95,
           child: FutureBuilder(
             future: _roomFuture,
             builder: (context, snap) {
@@ -596,7 +606,7 @@ class _MainPageState extends State<MainPage>
               radius: 5.0,
               backgroundColor: Colors.deepPurpleAccent,
               child: Text(this.user.name.substring(0, 1),
-                  style: GoogleFonts.kulimPark(color: Colors.white)))
+                  style: GoogleFonts.quicksand(color: Colors.white)))
           : Hero(
               tag: UniqueKey().toString(),
               child: ClipRRect(
@@ -725,7 +735,7 @@ class _MainPageState extends State<MainPage>
             children: <Widget>[
               Text(
                 "Welcome to TheirCircle",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -733,7 +743,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "You must agree to these terms before posting.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -741,7 +751,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "1. Any type of bullying will not be tolerated.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -749,7 +759,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "2. Zero tolerance policy on exposing people's personal information.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -757,7 +767,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "3. Do not clutter people's feed with useless or offensive information.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -765,7 +775,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "4. If your posts are being reported consistently you will be banned.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -773,7 +783,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "5. Posting explicit photos under any circumstances will not be tolerated.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -781,7 +791,7 @@ class _MainPageState extends State<MainPage>
               SizedBox(height: 10.0),
               Text(
                 "Keep a clean and friendly environment. Violation of these terms will result in a permanent ban on your account.",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -791,7 +801,7 @@ class _MainPageState extends State<MainPage>
                 color: Colors.blue,
                 child: Text(
                   "I agree to these terms.",
-                  style: GoogleFonts.kulimPark(
+                  style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
@@ -842,14 +852,14 @@ class _MainPageState extends State<MainPage>
     final act = CupertinoActionSheet(
         title: Text(
           'Log Out',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
         ),
         message: Text(
           'Are you sure you want to logout?',
-          style: GoogleFonts.kulimPark(
+          style: GoogleFonts.quicksand(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).accentColor),
@@ -858,7 +868,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "YES",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).accentColor),
@@ -878,7 +888,7 @@ class _MainPageState extends State<MainPage>
           CupertinoActionSheetAction(
               child: Text(
                 "Cancel",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: Colors.red),
@@ -917,7 +927,7 @@ class _MainPageState extends State<MainPage>
                 //     expand: true,
                 //     builder: (context) => NotificationsPage());
               },
-              child: Icon(LineIcons.bell,
+              child: Icon(FlutterIcons.notifications_none_mdi,
                   size: 25, color: Theme.of(context).accentColor),
             ),
             notiCount > 0
@@ -931,7 +941,7 @@ class _MainPageState extends State<MainPage>
                       backgroundColor: Colors.red,
                       child: Text(
                         '',
-                        style: GoogleFonts.kulimPark(
+                        style: GoogleFonts.quicksand(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: Colors.white),
@@ -949,7 +959,7 @@ class _MainPageState extends State<MainPage>
               //     expand: true,
               //     builder: (context) => NotificationsPage());
             },
-            child: Icon(LineIcons.bell,
+            child: Icon(FlutterIcons.notifications_none_mdi,
                 size: 25, color: Theme.of(context).accentColor),
           );
         }
@@ -1099,7 +1109,7 @@ class _MainPageState extends State<MainPage>
                         duration: Duration(seconds: 1),
                         child: Padding(
                           padding:
-                              EdgeInsets.only(left: index == 0 ? 7.0 : 0.0),
+                              EdgeInsets.only(left: index == 0 ? 7.0 : 3.0),
                           child: NewsWidget(
                             news: news,
                           ),

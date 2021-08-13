@@ -92,7 +92,7 @@ class _VideosPageState extends State<VideosPage> {
               refresh();
             },
             child: Text("Explore",
-                style: GoogleFonts.kulimPark(
+                style: GoogleFonts.quicksand(
                     fontSize: 17,
                     fontWeight: FontWeight.w900,
                     color: Colors.white)),
