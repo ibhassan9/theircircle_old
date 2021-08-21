@@ -898,7 +898,7 @@ class _PostWidgetState extends State<PostWidget> {
                               child: Text(widget.post.content.trimRight(),
                                   style: GoogleFonts.quicksand(
                                       fontSize: widget.fromComments ? 15 : 15,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w500,
                                       color: Theme.of(context).accentColor))
                               // child: SelectableLinkify(
                               //   onOpen: (link) async {

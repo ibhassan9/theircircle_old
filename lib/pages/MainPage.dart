@@ -127,14 +127,14 @@ class _MainPageState extends State<MainPage>
                   forceElevated: false,
                   elevation: 0.5,
                   actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: InkWell(
-                          onTap: () {},
-                          child: Icon(AntDesign.addusergroup,
-                              size: 25.0,
-                              color: Theme.of(context).accentColor)),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 20.0),
+                    //   child: InkWell(
+                    //       onTap: () {},
+                    //       child: Icon(AntDesign.addusergroup,
+                    //           size: 25.0,
+                    //           color: Theme.of(context).accentColor)),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: notifications(),
@@ -180,6 +180,7 @@ class _MainPageState extends State<MainPage>
                     padding: const EdgeInsets.all(0),
                     children: <Widget>[
                       promoWidget(),
+                      WelcomeWidget(),
                       questionWidget(),
                       InkWell(
                           onTap: () async {
@@ -383,7 +384,9 @@ class _MainPageState extends State<MainPage>
         mini: false,
         child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
-          //await sendNewQuestionToAll();
+          // await sendNewQuestionToAll(
+          //     title: "We got a question for you!",
+          //     body: "What do you like the most about returning to school?");
           showBarModalBottomSheet(
               context: context,
               expand: true,

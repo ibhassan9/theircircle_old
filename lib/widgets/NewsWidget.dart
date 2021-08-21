@@ -136,7 +136,6 @@ class _NewsWidgetState extends State<NewsWidget>
     imgUrl = widget.news.imgUrl;
     if (Constants.checkUniversity() == 1) {
       grabImgUrl(url: url).then((value) {
-        print("NEW VALUE: " + value);
         setState(() {
           imgUrl = value;
         });

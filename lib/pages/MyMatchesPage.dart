@@ -48,58 +48,58 @@ class _MyMatchesPageState extends State<MyMatchesPage>
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).backgroundColor,
-        // appBar: AppBar(
-        //   actions: [
-        //     Padding(
-        //       padding: const EdgeInsets.only(right: 15.0),
-        //       child: InkWell(
-        //           onTap: () {
-        //             Navigator.push(
-        //                 context,
-        //                 PageTransition(
-        //                     type: PageTransitionType.fade,
-        //                     child: UserSearchPage()));
-        //             // Navigator.push(
-        //             //         context,
-        //             //         MaterialPageRoute(
-        //             //             builder: (context) => UserSearchPage()))
-        //             //     .then((value) {});
-        //           },
-        //           child: CircleAvatar(
-        //               backgroundColor:
-        //                   Theme.of(context).buttonColor.withOpacity(0.05),
-        //               radius: 17.5,
-        //               child: Icon(FlutterIcons.search1_ant,
-        //                   size: 20.0, color: Theme.of(context).accentColor))),
-        //     ),
-        //   ],
-        //   brightness: Theme.of(context).brightness,
-        //   backgroundColor: Theme.of(context).backgroundColor,
-        //   elevation: 0.5,
-        //   centerTitle: true,
-        //   leading: Padding(
-        //     padding: const EdgeInsets.only(left: 15.0),
-        //     child: InkWell(
-        //         onTap: () {
-        //           widget.backFromChat();
-        //         },
-        //         child: CircleAvatar(
-        //             backgroundColor:
-        //                 Theme.of(context).buttonColor.withOpacity(0.05),
-        //             radius: 25.0,
-        //             child: Icon(Feather.home,
-        //                 size: 20.0, color: Theme.of(context).accentColor))),
-        //   ),
-        //   leadingWidth: 50.0,
-        //   iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-        //   title: Text(
-        //     "Chat",
-        //     style: GoogleFonts.quicksand(
-        //         fontSize: 16,
-        //         fontWeight: FontWeight.w600,
-        //         color: Theme.of(context).accentColor),
-        //   ),
-        // ),
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            child: UserSearchPage()));
+                    // Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => UserSearchPage()))
+                    //     .then((value) {});
+                  },
+                  child: CircleAvatar(
+                      backgroundColor:
+                          Theme.of(context).buttonColor.withOpacity(0.05),
+                      radius: 17.5,
+                      child: Icon(FlutterIcons.search1_ant,
+                          size: 20.0, color: Theme.of(context).accentColor))),
+            ),
+          ],
+          brightness: Theme.of(context).brightness,
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0.5,
+          centerTitle: true,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: InkWell(
+                onTap: () {
+                  widget.backFromChat();
+                },
+                child: CircleAvatar(
+                    backgroundColor:
+                        Theme.of(context).buttonColor.withOpacity(0.05),
+                    radius: 25.0,
+                    child: Icon(Feather.home,
+                        size: 20.0, color: Theme.of(context).accentColor))),
+          ),
+          leadingWidth: 50.0,
+          iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+          title: Text(
+            "Chat",
+            style: GoogleFonts.quicksand(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).accentColor),
+          ),
+        ),
         body: StreamBuilder(
           stream: myStream,
           builder: (context, snap) {

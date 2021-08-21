@@ -264,7 +264,7 @@ Future<Null> sendPushPoll(String token, String text, Club club, Course course,
       ));
 }
 
-Future<Null> send(String token, String receiverId) async {
+Future<Null> send(String token, String title, String body) async {
   await http
       .post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: <String, String>{
@@ -274,9 +274,8 @@ Future<Null> send(String token, String receiverId) async {
           body: json.encode(
             <String, dynamic>{
               'notification': <String, dynamic>{
-                'title': "📝 Challenge!",
-                'body':
-                    "📷 Share with other students one of your most recent photos! (You can choose to stay anonymous).",
+                'title': title,
+                'body': body,
               },
               'priority': 'high',
               'data': <String, dynamic>{
@@ -424,7 +423,7 @@ Future<Null> sendWelcome(
       ));
 }
 
-Future<Null> sendNewQuestionToAll() async {
+Future<Null> sendNewQuestionToAll({String title, String body}) async {
   List<String> tokenIds = [];
   var user1db =
       FirebaseDatabase.instance.reference().child('users').child('UofT');
@@ -457,7 +456,7 @@ Future<Null> sendNewQuestionToAll() async {
   }
 
   for (var token in tokenIds) {
-    await send(token, '');
+    await send(token, title, body);
   }
 }
 
