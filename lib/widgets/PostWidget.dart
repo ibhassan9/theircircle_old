@@ -975,7 +975,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         if (widget.post.userId != FIR_UID) {
                                           sendPushPoll(
                                               token,
-                                              "Voted: ${widget.post.questionOne} on your question: ${widget.post.content}",
+                                              "Voted: ${widget.post.questionOne} on your question.",
                                               widget.club,
                                               widget.course,
                                               widget.post.id,
@@ -1062,7 +1062,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         if (widget.post.userId != FIR_UID) {
                                           sendPushPoll(
                                               token,
-                                              "Voted: ${widget.post.questionTwo} on your question: ${widget.post.content}",
+                                              "Voted: ${widget.post.questionTwo} on your question.",
                                               widget.club,
                                               widget.course,
                                               widget.post.id,

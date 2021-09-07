@@ -22,7 +22,7 @@ class _CoursenClubState extends State<CoursenClub> {
           children: [
             InkWell(
               onTap: () {
-                controller.animateToPage(2,
+                controller.animateToPage(0,
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeIn);
                 setState(() {
@@ -96,7 +96,7 @@ class _CoursenClubState extends State<CoursenClub> {
             SizedBox(width: 10.0),
             InkWell(
               onTap: () {
-                controller.animateToPage(0,
+                controller.animateToPage(2,
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeIn);
                 setState(() {

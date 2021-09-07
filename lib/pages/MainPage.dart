@@ -385,8 +385,9 @@ class _MainPageState extends State<MainPage>
         child: Unicon(UniconData.uniPlus, color: Colors.white),
         onPressed: () async {
           // await sendNewQuestionToAll(
-          //     title: "We got a question for you!",
-          //     body: "What do you like the most about returning to school?");
+          //     title: "Don't miss out! 🛍️",
+          //     body:
+          //         "Join our merch giveaway on Instagram before September 7th!");
           showBarModalBottomSheet(
               context: context,
               expand: true,
